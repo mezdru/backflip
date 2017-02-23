@@ -2,18 +2,26 @@
   "name": "backflip",
   "version": "0.1.0",
   "description": "Basic Backend IO Proof of Concept for lenom.io ",
-  "main": "index.js",
+  "author": "Clément Dietschy <clement@lenom.io>",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lenomio/backflip.git"
   },
-  "author": "Clément Dietschy <clement@lenom.io>",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/lenomio/backflip/issues"
   },
-  "homepage": "https://github.com/lenomio/backflip#readme"
+  "homepage": "https://github.com/lenomio/backflip#readme",
+  "dependencies": {
+    "body-parser": "~1.16.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "express": "~4.14.1",
+    "hbs": "~4.0.1",
+    "morgan": "~1.7.0",
+    "serve-favicon": "~2.3.2"
+  }
 }
