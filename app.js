@@ -9,13 +9,19 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+var profile;
 
 // passport setup
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    if (username != 'bedhed') return done(null, false, {message: 'Bad user'});
-    if (password != 'plop') return done(null, false, {message: 'Bad password'});
+passport.use(new GoogleStrategy({
+    clientID:  '949146759338-o4tftho2pfr60edduj270rrhnq4h0vqh.apps.googleusercontent.com' ,
+    clientSecret:  '7Q-9VVgjUlfs6oy7Kmyt7wV5',
+    callbackURL: "http://localhost:3000/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+
     return done(null, {username: 'bedhed'});
   }
 ));
@@ -29,6 +35,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 var app = express();
+
+//require('express-debug')(app, {});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,12 +54,14 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/',
-  passport.authenticate('local', { failureRedirect: '/' }),
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/welcome');
-  }
-);
+  });
 
 // routers setup
 app.use('/', index);
