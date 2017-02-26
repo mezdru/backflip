@@ -31,3 +31,6 @@ npm-debug.log
 
 # Private Google API Keys
 /routes/secrets.json
+
+# Sessions
+/sessions/

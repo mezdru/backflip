@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
@@ -26,12 +27,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret: 'double backflip', resave: true, saveUninitialized: false}));
+app.use(session({store: new FileStore({}),secret: 'double backflip', resave: true, saveUninitialized: false, cookie: { maxAge: 3600000 }}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routers setup
+app.use( function(req, res, next) {
+  if (! req.session.views) req.session.views = 1;
+  req.session.views += 1;
+  console.log('views = ' + req.session.views);
+  next();
+});
+
 app.use('/', index);
-app.use('/google', google)
+app.use('/google', google);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
