@@ -1,20 +1,44 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
+var mongoose = require('mongoose');
 
-var dbUrl = 'mongodb://localhost:27017/myproject';
+var dbUrl = 'mongodb://localhost:27017/db';
+
+mongoose.connect(dbUrl);
+
+var db = mongoose.connection;
+
+var coworkerSchema = mongoose.Schema({
+  name: String,
+  age: Number,
+  aliases: [{name: String}],
+});
+
+coworkerSchema.methods.introduce = function() {
+  console.log('My name is ' + this.name);
+};
+
+var Coworker = mongoose.model('Coworker', coworkerSchema);
+
+var arthur = new Coworker({name: 'Francois', age:'25'});
+
+arthur.save(function (err, arthur) {
+  if (err) return console.error(err);
+  console.log('Saved !');
+  arthur.introduce();
+});
+
+db.on('error', console.error.bind(console));
+db.once('open', function() {
+  console.log('Connected !');
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  MongoClient.connect(dbUrl, function (err, db) {
-    if (err) {
-      return next(err);
-    }
-    console.log("Connceted to MongoDB");
-    db.close();
-    res.render('index', { title: 'Lenom' });
-  });
+    Coworker.find({}, function (err, coworkers) {
+      if (err) return next(err);
+      res.render('index', { title: 'Lenom Bis', coworkers: coworkers});
+    });
 });
 
 module.exports = router;
