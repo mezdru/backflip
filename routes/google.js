@@ -33,12 +33,11 @@ router.get('/', function(req, res, next) {
     title = 'Logged In';
     me = 'No personal information yet';
     getme(req.session);
-    getThem(req.session);
+    listUsers(oauth2client, req.session);
   } else {
     title = 'Not logged in';
   }
-  console.log('session.me = ' +  req.session.me);
-  res.render('google', { title: title, avatar_url: req.session.me.image.url, me: JSON.stringify(req.session.me, null, 4), them: them });
+  res.render('google', { title: title, avatar_url: req.session.me.image.url, me: JSON.stringify(req.session.me, null, 4), them: req.session.them });
 });
 
 function getme(session) {
@@ -53,6 +52,34 @@ function getme(session) {
     session.save();
     });
 }
+
+function listUsers(auth, session) {
+  var service = google.admin('directory_v1');
+  service.users.list({
+    auth: auth,
+    customer: 'my_customer',
+    maxResults: 30,
+    orderBy: 'email'
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    var users = response.users;
+    if (users.length === 0) {
+      console.log('No users in the domain.');
+    } else {
+      session.them = users;
+      session.save();
+      console.log('Users:' + users.length);
+      /*for (var i = 0; i < users.length; i++) {
+        var user = users[i];
+        console.log(user);
+      }*/
+    }
+  });
+}
+
 
 function getThem(session) {
   directory.users.list({

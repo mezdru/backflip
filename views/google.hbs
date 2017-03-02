@@ -3,4 +3,6 @@
 <img src="{{avatar_url}}">
 <pre>{{me}}</pre>
 <h2>Them</h2>
-<p>{{them}}</p>
+{{#each them}}
+<p><img src="{{thumbnailPhotoUrl}}"> {{primaryEmail}} ({{name.fullName}})</p>
+{{/each}}
