@@ -4,18 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var FileStore = require('session-file-store')(session);
+var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var google = require('./routes/google');
 
-
-// passport setup
+//connect DB
+var mongoose = require('mongoose');
+var dbUrl = 'mongodb://localhost:27017/db';
+mongoose.connect(dbUrl);
 
 var app = express();
-
-//require('express-debug')(app, {});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +27,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({store: new FileStore({}),secret: 'double backflip', resave: true, saveUninitialized: false, cookie: { maxAge: 3600000 }}));
+app.use(session({
+    secret: 'doublebackflip',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection})
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routers setup

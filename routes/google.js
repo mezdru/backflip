@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 
 var google = require('googleapis');
 var secrets = require('../google/secrets.json');
@@ -11,7 +12,6 @@ var oauth2client = new google.auth.OAuth2(
 var scopes = require('../google/scopes.json');
 
 router.get('/', function(req, res, next) {
-  console.log(helloWorld);
   var tokens = req.session.tokens;
   oauth2client.setCredentials(tokens);
   console.log(oauth2client);
@@ -39,6 +39,9 @@ router.get('/login', function(req, res, next) {
 
 router.get('/login/callback', function(req, res, next) {
   oauth2client.getToken(req.query.code, function(err, tokens) {
+    //@todo use session to store user_id only.
+    //@todo move tokens, emails, anything we get from google in user collection
+    //@todo use session to pull user from DB and do stuff
     if (err) return next(err);
     req.session.tokens = tokens;
     res.redirect('/google');

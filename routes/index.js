@@ -2,10 +2,6 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var dbUrl = 'mongodb://localhost:27017/db';
-
-mongoose.connect(dbUrl);
-
 var db = mongoose.connection;
 
 var coworkerSchema = mongoose.Schema({
