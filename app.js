@@ -31,13 +31,6 @@ app.use(session({store: new FileStore({}),secret: 'double backflip', resave: tru
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routers setup
-app.use( function(req, res, next) {
-  if (! req.session.views) req.session.views = 1;
-  req.session.views += 1;
-  console.log('views = ' + req.session.views);
-  next();
-});
-
 app.use('/', index);
 app.use('/google', google);
 

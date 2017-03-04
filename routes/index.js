@@ -22,11 +22,11 @@ var Coworker = mongoose.model('Coworker', coworkerSchema);
 
 var arthur = new Coworker({name: 'Francois', age:'25'});
 
-arthur.save(function (err, arthur) {
+/*arthur.save(function (err, arthur) {
   if (err) return console.error(err);
   console.log('Saved !');
   arthur.introduce();
-});
+});*/
 
 db.on('error', console.error.bind(console));
 db.once('open', function() {
