@@ -24,11 +24,6 @@ var arthur = new Coworker({name: 'Francois', age:'25'});
   arthur.introduce();
 });*/
 
-db.on('error', console.error.bind(console));
-db.once('open', function() {
-  console.log('Connected !');
-});
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
     Coworker.find({}, function (err, coworkers) {

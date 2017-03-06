@@ -7,13 +7,20 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var google = require('./routes/google');
-
 //connect DB
 var mongoose = require('mongoose');
 var dbUrl = 'mongodb://localhost:27017/db';
 mongoose.connect(dbUrl);
+db = mongoose.connection;
+
+
+db.on('error', console.error.bind(console));
+db.once('open', function() {
+  console.log('Connected !');
+});
+
+var index = require('./routes/index');
+var google = require('./routes/google');
 
 var app = express();
 
@@ -31,7 +38,8 @@ app.use(session({
     secret: 'doublebackflip',
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection})
+    store: new MongoStore({ mongooseConnection: mongoose.connection}),
+    cookie: {maxAge: 2419200000}
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
