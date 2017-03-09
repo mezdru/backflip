@@ -24,4 +24,10 @@ var userSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
+User.getByGoogleId = function(googleId, cal) {
+  User.findOne({'google.id': googleId}, function(err, user) {
+    return cal(err, user);
+  });
+};
+
 module.exports = User;

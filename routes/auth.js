@@ -39,14 +39,13 @@ router.get('/google/login', function(req, res, next) {
 router.get('/google/login/callback', function(req, res, next) {
   req.oauth2client.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
-    req.oauth2client.setCredentials(tokens);
     //@todo get out of the pyramid of death.
     //@todo readuserid from Token JWT instead of querying userinfo.
     //@todo find out what "userinfoplus" is about and where to find those.
     google.oauth2("v2").userinfo.v2.me.get({access_token: tokens.access_token}, function(err, ans) {
       if (err) return next(err);
       //we have the google_id, now let's find our user_id
-      User.findOne({'google.id': ans.id}, function(err, user) {
+      User.getByGoogleId( ans.id, function(err, user) {
         if (err) return next(err);
         //if no user is returned, create a new user
         //@todo add domain information, image, etc...
@@ -64,7 +63,6 @@ router.get('/google/login/callback', function(req, res, next) {
           user.save(function(err) {
             if (err) return next(err);
             //once saved let's go back as a registered user
-            //@todo build & redirect to nice welcome page (with TOS validation)
             req.session.user = {
               id: user.id,
               email: user.email,
@@ -72,6 +70,7 @@ router.get('/google/login/callback', function(req, res, next) {
                 tokens: tokens
               }
             };
+            //@todo build nice welcome page (with TOS validation)
             res.redirect('/welcome');
           });
         } else {
