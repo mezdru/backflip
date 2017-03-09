@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var User = require('../models/user.js');
 
 var google = require('googleapis');
+var plus = google.plus('v1');
 var secrets = require('../google/secrets.json');
 var oauth2client = new google.auth.OAuth2(
     secrets.web.client_id,
@@ -14,16 +15,23 @@ var scopes = require('../google/scopes.json');
 
 router.get('/', function(req, res, next) {
   //@todo that's the login middleware, move it there
-  if (!req.session.user_id) return res.render('google', { title: 'Not Logged In', me: 'Nothing'});
+  if (!req.session.user_id) return res.render('google', { title: 'Not Logged In', me: 'Nothing', auth: JSON.stringify(oauth2client)});
   //we probably can avoid making 2 requests (1 for the session, 1 for the user) by putting the google tokens in the session.
   User.findById( req.session.user_id, function(err, user) {
     if (err) return next(err);
     if (!user) return next(new Error('No user matching session. This should not happen'));
     //@todo check whats up with the access & refresh tokens. We store only the first access token, but should store the last.
-    oauth2client.setCredentials(user.google.tokens);
-    google.oauth2("v2").userinfo.v2.me.get({access_token: user.google.tokens.access_token}, function(err, ans) {
+    //oauth2client.setCredentials(user.google.tokens);
+    google.options({
+      auth: oauth2client
+    });
+    /*google.oauth2("v2").userinfo.v2.me.get({}, function(err, ans) {
       if (err) return next(err);
       res.render('google', { title: "Hello Connected World", me: JSON.stringify(ans)});
+    });*/
+    plus.people.get({userId: 'me'}, function (err, ans) {
+      if (err) return next(err);
+      res.render('google', { title: "Hello Connected World", me: JSON.stringify(ans), auth: JSON.stringify(oauth2client)});
     });
   });
 });
@@ -48,18 +56,22 @@ router.get('/logout', function(req, res, next) {
 router.get('/login/callback', function(req, res, next) {
   oauth2client.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
+    console.log("THE TOKENS THE CALL BACK GIVES US:");
+    console.log(tokens);
+    oauth2client.setCredentials(tokens);
     //@todo get out of the pyramid of death.
     //@todo readuserid from Token JWT instead of querying userinfo.
     //@todo find out what "userinfoplus" is about and where to find those.
     google.oauth2("v2").userinfo.v2.me.get({access_token: tokens.access_token}, function(err, ans) {
       if (err) return next(err);
       //we have the google_id, now let's find our user_id
+      console.log("THE ID THE USERINFO GIVES US:");
       console.log(ans.id);
       User.findOne({'google.id': ans.id}, function(err, user) {
         if (err) return next(err);
         //if no user is returned, create a new user
         //@todo add domain information, image, etc...
-        console.log(user);
+        //@todo the access_token is useless.
         if (!user) {
           user = new User({
             google: {
