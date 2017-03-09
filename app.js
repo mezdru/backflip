@@ -1,51 +1,60 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var bodyParser = require('body-parser');
 
-//connect DB
+// App
+var app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Database
 var mongoose = require('mongoose');
-var dbUrl = 'mongodb://localhost:27017/db';
-mongoose.connect(dbUrl);
-db = mongoose.connection;
-
+mongoose.connect('mongodb://localhost:27017/db');
+var db = mongoose.connection;
 
 db.on('error', console.error.bind(console));
 db.once('open', function() {
   console.log('Connected !');
 });
 
-var index = require('./routes/index');
-var google = require('./routes/google');
-
-var app = express();
-
-// view engine setup
+// Views
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// app setup
+// Generic
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+
 app.use(favicon(path.join(__dirname, 'public', 'lenom.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Sessions & Auth
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+
 app.use(cookieParser());
+var secrets = require('./secrets.json');
 app.use(session({
-    secret: 'doublebackflip',
+    //Hide Secret in secrets !
+    secret: secrets.session.secret,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection}),
+    store: new MongoStore({ mongooseConnection: db}),
     cookie: {maxAge: 2419200000}
 }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-// routers setup
+var auth = require('./routes/auth.js');
+app.use('/', auth);
+
+
+// Routes
+var index = require('./routes/index');
 app.use('/', index);
-app.use('/google', google);
+
+//var google = require('./routes/google');
+//app.use('/google', google);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -54,7 +63,17 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
+// 401 error handler
+app.use(function(err, req, res, next) {
+  if (err.status == 401) {
+    res.locals.loginUrl = 'google/login';
+    res.status(401);
+    return res.render('please_login');
+  }
+  next(err);
+});
+
+// generic error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;

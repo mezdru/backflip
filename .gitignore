@@ -30,7 +30,4 @@ node_modules
 npm-debug.log
 
 # Private Google API Keys
-/google/secrets.json
-
-# Sessions
-/sessions/
+/secrets.json
