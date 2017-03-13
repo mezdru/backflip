@@ -45,6 +45,11 @@ app.use(session({
     cookie: {maxAge: 2419200000}
 }));
 
+// Taking care of Google Auth
+var googleAuth = require('./routes/google/google_auth.js');
+app.use('/google', googleAuth);
+
+// Taking care of general Auth
 var auth = require('./routes/auth.js');
 app.use('/', auth);
 

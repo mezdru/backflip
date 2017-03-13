@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Hello World', message: JSON.stringify(req.session)});
 });
 
-router.get('/app', function(req, res, next) {
+router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.oauth2client}, function (err, ans) {
     if (err) return next(err);
     return res.render('index', { title: 'The app', message: JSON.stringify(ans)});
@@ -22,7 +22,7 @@ router.get('/welcome', function(req, res, next) {
 });
 
 router.get('/bye', function(req, res, next) {
-  res.render('index', { title: 'Bye', message: "nothing"});
+  res.render('index', { title: 'Bye', message: JSON.stringify(req.session)});
 });
 
 module.exports = router;
