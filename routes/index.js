@@ -11,8 +11,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/app', function(req, res, next) {
-  console.log(req.session.user.google.tokens);
-  User.getByGoogleTokens(req.session.user.google.tokens);
   plus.people.get({userId: 'me', auth: req.oauth2client}, function (err, ans) {
     if (err) return next(err);
     return res.render('index', { title: 'The app', message: JSON.stringify(ans)});

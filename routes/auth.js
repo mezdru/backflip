@@ -5,6 +5,7 @@ var google = require('googleapis');
 var secrets = require('../secrets.json');
 var scopes = require('../scopes.json');
 
+var Organisation = require('../models/organisation.js');
 var User = require('../models/user.js');
 
 // Create Google OAuth2 Client for everyone
@@ -39,26 +40,22 @@ router.get('/google/login', function(req, res, next) {
 router.get('/google/login/callback', function(req, res, next) {
   req.oauth2client.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
-    //@todo get out of the pyramid of death.
-    //@todo readuserid from Token JWT instead of querying userinfo.
-    //@todo find out what "userinfoplus" is about and where to find those.
-    google.oauth2("v2").userinfo.v2.me.get({access_token: tokens.access_token}, function(err, ans) {
-      if (err) return next(err);
-      //we have the google_id, now let's find our user_id
-      User.getByGoogleId( ans.id, function(err, user) {
+    tokenPayload = decodeGoogleIdToken(tokens.id_token);
+    //we have the google_id, now let's find our user_id
+    User.findOne({google:  {id: tokenPayload.sub } }, function(err, user) {
         if (err) return next(err);
         //if no user is returned, create a new user
-        //@todo add domain information, image, etc...
-        //@todo the access_token is useless.
         if (!user) {
           user = new User({
             google: {
-              id: ans.id,
-              email: ans.email,
-              tokens: tokens
+              id: tokenPayload.sub,
+              email: tokenPayload.email,
+              hd: tokenPayload.hd,
+              tokens: {
+                id_token: tokens.id_token,
+                refresh_token: tokens.refresh_token
+              },
             },
-            created: Date.now(),
-            touched: Date.now(),
           });
           user.save(function(err) {
             if (err) return next(err);
@@ -71,10 +68,10 @@ router.get('/google/login/callback', function(req, res, next) {
               }
             };
             //@todo build nice welcome page (with TOS validation)
-            res.redirect('/welcome');
+            return res.redirect('/welcome');
           });
         } else {
-          //@todo update profile with the information we got from userinfo
+          tokens.refresh_token = user.google.tokens.refresh_token;
           req.session.user = {
             id: user.id,
             email: user.email,
@@ -85,7 +82,6 @@ router.get('/google/login/callback', function(req, res, next) {
           res.redirect(req.session.redirect_after_login || '/app');
         }
       });
-    });
   });
 });
 
@@ -100,5 +96,12 @@ router.use(function(req, res, next) {
   req.oauth2client.setCredentials(req.session.user.google.tokens);
   return next();
 });
+
+// A function taking the id_token from Google OAuth and returning the payload as an array
+function decodeGoogleIdToken(id_token) {
+    var payload = id_token.split('.')[1];
+    var buffer = new Buffer(payload, 'base64');
+    return JSON.parse(buffer.toString('utf8'));
+}
 
 module.exports = router;
