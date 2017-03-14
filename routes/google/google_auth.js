@@ -19,7 +19,7 @@ router.use(function(req, res, next) {
     secrets.google.redirect_uri
   );
   if (undefsafe(req.session, 'user.google.tokens')) {
-      req.googleOAuth.setCredentials(req.session.user.google.tokens);
+    req.googleOAuth.setCredentials(req.session.user.google.tokens);
   }
   return next();
 });
@@ -35,52 +35,21 @@ router.get('/login', function(req, res, next) {
 });
 
 // Login redirection from Google login
-// No Auth for that
 router.get('/login/callback', function(req, res, next) {
   req.googleOAuth.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
     idPayload = decodeGoogleIdToken(tokens.id_token);
     //we have the google_id, now let's find our user_id
     GoogleUser.getFromIdPayload(idPayload, req.googleOAuth, function(err, user) {
-        if (err) return next(err);
-        //if no user is returned, create a new user
-        if (!user) {
-          user = new User({
-            google: {
-              id: idPayload.sub,
-              email: idPayload.email,
-              hd: idPayload.hd,
-              tokens: {
-                id_token: tokens.id_token,
-                refresh_token: tokens.refresh_token
-              },
-            },
-          });
-          user.save(function(err) {
-            if (err) return next(err);
-            //once saved let's go back as a registered user
-            req.session.user = {
-              id: user.id,
-              email: user.email,
-              google: {
-                tokens: tokens
-              }
-            };
-            //@todo build nice welcome page (with TOS validation)
-            return res.redirect('/welcome');
-          });
-        } else {
-          tokens.refresh_token = user.google.tokens.refresh_token;
-          req.session.user = {
-            id: user.id,
-            email: user.email,
-            google: {
-              tokens: tokens
-            }
-          };
-          res.redirect(req.session.redirect_after_login || '/app');
-        }
-      });
+      if (err) return next(err);
+      // we want the old refresh token and the new access & id tokens
+      Object.assign(user.google.tokens, tokens);
+      // update session with user credentials
+      req.session.user = user;
+      user.touchLogin();
+      if (user.needsWelcoming()) return res.redirect('/welcome');
+      else return res.redirect(req.session.redirect_after_login || '/google/app');
+    });
   });
 });
 

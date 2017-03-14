@@ -2,17 +2,20 @@ var User = require('../user.js');
 
 var GoogleUser = {};
 
-GoogleUser.getFromIdPayload = function (IdPayload, oAuth, callback) {
-  User.findOne({'google.id': IdPayload.sub}, function(err, user) {
+GoogleUser.getFromIdPayload = function (idPayload, oAuth, callback) {
+  User.findOne({'google.id': idPayload.sub}, function(err, user) {
     if (err) return callback(err);
-    if (!user) {
-    }
+    //if no user is returned, create a new user
+    if (!user) return GoogleUser.newFromIdPayload(idPayload, oAuth, callback);
+    //else return the found user
     return callback(null, user);
   });
 };
 
 GoogleUser.newFromIdPayload = function(IdPayload, oAuth, callback) {
-  /*var user = new User({
+  //@todo populate all fields
+  //@todo fetch from google+ or userinfo...
+  var user = new User({
     google: {
       id: tokenPayload.sub,
       email: tokenPayload.email,
@@ -23,17 +26,7 @@ GoogleUser.newFromIdPayload = function(IdPayload, oAuth, callback) {
       },
     },
   });
-  user.save(function(err) {
-    if (err) return next(err);
-    //once saved let's go back as a registered user
-    req.session.user = {
-      id: user.id,
-      email: user.email,
-      google: {
-        tokens: tokens
-      }
-    };
-  });*/
+  user.save(callback);
 };
 
 module.exports = GoogleUser;
