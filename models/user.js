@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({
   given_name: String,
   picture: String,
+  _organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation'},
+  locale: {type: String, default: 'en' },
   google: {
     id: {type: String, index: true, unique: true},
     email: String,
@@ -12,11 +14,9 @@ var userSchema = mongoose.Schema({
       refresh_token: String
     },
   },
-  locale: {type: String, default: 'en' },
-  //organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation'},
-  first_login: { type: Date, default: Date.now },
-  last_login: { type: Date, default: Date.now },
-  last_update: { type: Date, default: Date.now },
+  last_login: { type: Date },
+  created: { type: Date, default: Date.now },
+  updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false }
 });
 

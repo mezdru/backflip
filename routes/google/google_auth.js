@@ -38,9 +38,7 @@ router.get('/login', function(req, res, next) {
 router.get('/login/callback', function(req, res, next) {
   req.googleOAuth.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
-    idPayload = decodeGoogleIdToken(tokens.id_token);
-    //we have the google_id, now let's find our user_id
-    GoogleUser.getFromIdPayload(idPayload, req.googleOAuth, function(err, user) {
+    GoogleUser.getByTokens(tokens, req.googleOAuth, function(err, user) {
       if (err) return next(err);
       // we want the old refresh token and the new access & id tokens
       Object.assign(user.google.tokens, tokens);
@@ -52,13 +50,5 @@ router.get('/login/callback', function(req, res, next) {
     });
   });
 });
-
-// A function taking the id_token from Google OAuth and returning the payload as an array
-function decodeGoogleIdToken(idToken) {
-    var encodedPayload = idToken.split('.')[1];
-    var buffer = new Buffer(encodedPayload, 'base64');
-    var decodedPayload = JSON.parse(buffer.toString('utf8'));
-    return decodedPayload;
-}
 
 module.exports = router;
