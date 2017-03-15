@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({
   given_name: String,
   picture: String,
-  _organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation'},
+  _organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
   locale: {type: String, default: 'en' },
   google: {
     id: {type: String, index: true, unique: true},

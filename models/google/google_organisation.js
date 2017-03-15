@@ -19,7 +19,7 @@ GoogleOrganisation.newByDomain = function (domain, oAuth, callback) {
       hd: domain,
     },
   });
-  organisation.save(callback);
+  return organisation.save(callback);
 };
 
 module.exports = GoogleOrganisation;

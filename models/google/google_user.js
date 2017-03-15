@@ -33,10 +33,15 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
       },
     },
   });
+
+  // if there is no domain, we cannot find or create an organisation
+  if (!user.google.hd) return user.save(callback);
+
+  // if there is a domain, we find the user's organisation
   GoogleOrganisation.getByDomain(user.google.hd, oAuth, function(err, organisation) {
     if (err) return callback(err);
     user._organisation = organisation._id;
-    user.save(callback);
+    return user.save(callback);
   });
 };
 
