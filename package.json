@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/lenomio/backflip#readme",
   "dependencies": {
+    "algoliasearch": "^3.22.1",
     "body-parser": "~1.16.0",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "~1.4.3",

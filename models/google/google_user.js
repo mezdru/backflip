@@ -1,3 +1,13 @@
+/**
+* @Author: Clément Dietschy <bedhed>
+* @Date:   15-03-2017
+* @Email:  clement@lenom.io
+* @Project: Lenom - Backflip
+* @Last modified by:   bedhed
+* @Last modified time: 15-03-2017
+* @Copyright: Clément Dietschy 2017
+*/
+
 var User = require('../user.js');
 var GoogleOrganisation = require('./google_organisation.js');
 
