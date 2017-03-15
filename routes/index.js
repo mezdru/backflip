@@ -12,6 +12,7 @@ var express = require('express');
 var router = express.Router();
 
 var google = require('googleapis');
+var AlgoliaApiKey = require('../models/algolia/algolia_api_key.js');
 var plus = google.plus('v1');
 var User = require('../models/user.js');
 
@@ -24,6 +25,20 @@ router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {
     if (err) return next(err);
     return res.render('index', { title: 'The app', message: JSON.stringify(ans)});
+  });
+});
+
+router.get('/algolia/renew', function(req, res, next) {
+  AlgoliaApiKey.renewPublicKey( '58c909db06dd0e24af5522bf', function (err, content) {
+    if (err) return next(err);
+    return res.render('index', { title: 'Algolia', message: JSON.stringify(content)});
+  });
+});
+
+router.get('/algolia', function(req, res, next) {
+  AlgoliaApiKey.test(req.query.query, function (err, content) {
+    if (err) return next(err);
+    return res.render('index', { title: 'Algolia', message: JSON.stringify(content, null, 4)});
   });
 });
 

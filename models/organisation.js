@@ -16,6 +16,12 @@ var organisationSchema = mongoose.Schema({
   google: {
     hd: String,
   },
+  algolia: {
+    public_key: {
+      value: String,
+      valid_until: Date
+    }
+  },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false }
