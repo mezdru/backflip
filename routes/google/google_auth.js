@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 15-03-2017
+* @Last modified time: 16-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -54,7 +54,9 @@ router.get('/login/callback', function(req, res, next) {
       Object.assign(user.google.tokens, tokens);
       // update session with user credentials
       req.session.user = user;
-      user.touchLogin();
+      user.touchLogin(function(err) {
+        if (err) return console.error(err);
+      });
       if (user.needsWelcoming()) return res.redirect('/welcome');
       else return res.redirect(req.session.redirect_after_login || '/google/app');
     });

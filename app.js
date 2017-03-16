@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 15-03-2017
+* @Last modified time: 16-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -27,7 +27,12 @@ db.once('open', function() {
 
 // Views
 app.set('views', path.join(__dirname, 'views'));
+var hbs = require('hbs');
+hbs.registerHelper('raw', function(options) {
+  return options.fn();
+});
 app.set('view engine', 'hbs');
+
 
 // Generic
 var favicon = require('serve-favicon');
@@ -63,10 +68,16 @@ app.use('/google', googleAuth);
 var auth = require('./routes/auth.js');
 app.use('/', auth);
 
+// Getting the algolia pulbic key
+var algoliaAuth = require('./routes/algolia/algolia_auth.js');
+app.use('/', algoliaAuth);
 
 // Routes
-var index = require('./routes/index');
+var index = require('./routes/index.js');
 app.use('/', index);
+
+var directory = require('./routes/directory.js');
+app.use('/directory/', directory);
 
 //var google = require('./routes/google');
 //app.use('/google', google);
@@ -83,7 +94,17 @@ app.use(function(err, req, res, next) {
   if (err.status == 401) {
     res.locals.loginUrl = 'google/login';
     res.status(401);
-    return res.render('please_login');
+    return res.render('401');
+  }
+  next(err);
+});
+
+// 418 error handler
+app.use(function(err, req, res, next) {
+  if (err.status == 418) {
+    res.locals.loginUrl = 'google/login';
+    res.status(418);
+    return res.render('418');
   }
   next(err);
 });

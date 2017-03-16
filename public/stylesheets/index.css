@@ -1,0 +1,397 @@
+/*
+/ Lenom MVP CSS
+/ Extending Pure CSS (http://purecss.io)
+/ @todo Export Pure CSS with minimum modules & 5 column grid.
+/ @todo Integrate this to the above
+/ @todo Do the <64rem mobile version
+/ @todo Express all distances in rem
+/ @todo Rewrite search field
+/ Copyright Clément Dietschy 2016
+*/
+
+/* basic styling */
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+    font-family: 'Open Sans', sans-serif;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+body {
+  color: #404050;
+}
+
+a {
+	color: #101020;
+	text-decoration: none;
+}
+
+a.team {
+	padding: 0.1em 0.3em;
+	background-color: #f0f0f0;
+	color: #101020;
+	border-radius: 0.2em;
+}
+
+a.team.highlight {
+	background: #fff0f0;
+	color: #e04020;
+}
+
+a:hover, .pure-menu-link:hover {
+	color: #e04020;
+}
+
+
+/* header */
+
+header {
+	height: 64px;
+	background-color: #101020;
+}
+
+header a,
+header .pure-menu-link {
+  color: #ffffff;
+}
+
+.logo img {
+  padding-top: 10px;
+  height: 44px;
+}
+
+.logo-small {
+    float: right;
+    margin-top: -2px;
+}
+
+.logo-small img {
+  height: 44px;
+  width: 44px;
+}
+
+#search-box {
+	padding-top: 13px;
+}
+
+.search-input {
+  width: 70%;
+  font: 400 18px 'Quicksand';
+  margin: 0;
+  padding: 7px 14px;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  background-color: #101020;
+  color: #ffffff;
+}
+
+.search-input:focus {
+  background: #ffffff;
+  color: #101020;
+}
+
+.search-input::-webkit-input-placeholder { color: #ffffff; }
+.search-input:-ms-input-placeholder { color: #ffffff; }
+.search-input::-moz-placeholder { color: #ffffff; opacity: 1; }
+.search-input:-moz-placeholder { color: #ffffff; }
+
+.menu {
+	padding-top: 19px;
+	text-transform: uppercase;
+	font-weight: lighter;
+	font-size: 12px;
+}
+
+/* Algolia logo */
+.menu a img {
+	height: 14px;
+  margin-bottom: -2px;
+}
+
+.menu a:hover,
+.menu a:active,
+.menu a:focus {
+	background: none;
+}
+
+
+/* Item */
+
+.thumb {
+  height: 18vw;
+  width: 18vw;
+  max-height: 198px;
+  max-width: 198px;
+  overflow: hidden;
+}
+
+.person .thumb {
+	border-radius: 50%;
+}
+
+.thumb img {
+  width: 18vw;
+  max-width: 198px;
+}
+
+.person .thumb img {
+  margin-top: -3vw;
+}
+
+.person.invisible .thumb {
+  border-radius: 0;
+}
+
+.person.invisible .thumb img {
+  margin-top: 0
+}
+
+.item h2 {
+	margin: 0;
+	padding: 0;
+  font: 300 1.5em 'Quicksand';
+}
+
+.noone h2 {
+	text-align: center;
+  font: 300 1.5em 'Quicksand';
+	color: #b5b7aa;
+}
+
+.noone .reward {
+  text-align: center;
+  font-size: 8em;
+  line-height: 0.5em;
+  color: #e04020;
+}
+
+p.description {
+	line-height: 1.6em;
+  margin: 0.3em;
+  font-size: 0.8em;
+}
+
+p.description::after {
+    content: "...";
+}
+
+.links .pure-menu-link {
+  font-size: 1.5em;
+  padding: 0.15em 0.3em;
+  min-width: 1em;
+}
+
+#search-results em {
+	font-style: normal;
+	color: #e04020;
+}
+
+/** social */
+
+.links pure-menu-link {
+  color: #101020;
+	text-decoration: none;
+  opacity: 0.5;
+}
+
+ .fa {
+   width: 1.2em;
+   text-align: center;
+ }
+
+.links .pure-menu-link,
+.links .pure-menu-link:hover .fa {
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+.links .pure-menu-link:hover .fa {
+ 	-webkit-transform: scale(1.5);
+	-moz-transform: scale(1.5);
+	-ms-transform: scale(1.5);
+	-o-transform: scale(1.5);
+	transform: scale(1.5);
+}
+
+.links .pure-menu-link:hover,
+.links .pure-menu-link:focus {
+	backgroun1d: none;
+  color: #101020;
+  opacity: 1;
+}
+
+.fa-bitbucket,.fa-bitbucket-square{color:#003366;}
+.fa-dribbble{color:#F46899;}
+.fa-dropbox{color:#018BD3;}
+.fa-facebook,.fa-facebook-square{color:#3C599F;}
+.fa-flickr{color:#FF0084;}
+.fa-foursquare{color:#0086BE;}
+.fa-github,.fa-github-alt,.fa-github-square{color:#070709;}
+.fa-google-plus,.fa-google-plus-square{color:#CF3D2E;}
+.fa-instagram{color:#A1755C;}
+.fa-linkedin,.fa-linkedin-square{color:#0085AE;}
+.fa-pinterest,.fa-pinterest-square{color:#CC2127;}
+.fa-renren{color:#025DAC;}
+.fa-skype{color:#01AEF2;}
+.fa-stack-exchange{color:#245590;}
+.fa-stack-overflow{color:#FF7300;}
+.fa-trello{color:#265A7F;}
+.fa-tumblr,.fa-tumblr-square{color:#314E6C;}
+.fa-twitter,.fa-twitter-square{color:#32CCFE;}
+.fa-vimeo-square{color:#229ACC;}
+.fa-vk{color:#375474;}
+.fa-weibo{color:#D72B2B;}
+.fa-xing,.fa-xing-square{color:#00555C;}
+.fa-youtube,.fa-youtube-play,.fa-youtube-square{color:#C52F30;}
+.fa-whatsapp{color:#25D366;}
+.fa-slack{color:#5C3A58;}
+.fa-google{color:#FBBC05;}
+.fa-envelope-o, .fa-envelope{color:#dd4b39;}
+.fa-phone{color:#007F3F;}
+.fa-map-marker{color:#DC4A3E;}
+
+
+/* footer */
+ul.ais-pagination {
+  padding: 0;
+  margin: 1em;
+  text-align: center;
+}
+
+.ais-pagination--item__active a {
+	color: #0f0307;
+  font-weight: bold;
+}
+
+/* extension of the grid */
+
+.pure-g {
+	padding: 0 1em;
+  overflow: hidden;
+}
+
+.item .pure-g {
+  padding: 1em 1em;
+}
+
+.person .pure-g {
+	border-bottom: 2px solid #f0f0f0;
+}
+
+.team {
+  background-color: #f0f0f0;
+  	border-bottom: 2px solid #ffffff;
+}
+
+.box {
+  padding: 0 1em;
+  position:relative;
+}
+
+.link-text,
+.logo,
+.menu,
+.desc-long {
+  display: none;
+}
+
+/* 568px and above */
+@media screen and (min-width: 35.5em) {
+  .search-input {
+    width: 80%;
+  }
+
+  p.description {
+    font-size: 1em;
+  }
+
+  .item h2 {
+    font-size: 2.2em;
+  }
+
+  .links .pure-menu-link {
+    font-size: 2.2em;
+    padding: 0.22em 0.44em;
+  }
+}
+
+/* 768px and above */
+@media screen and (min-width: 48em) {
+
+  .logo-small {
+      display: none;
+  }
+
+  .search-input {
+    width: 90%;
+  }
+
+  .desc-long {
+    display: inline;
+  }
+
+  p.description::after {
+      content: "";
+  }
+
+  .item h2 {
+    font-size: 2.6em;
+  }
+
+  .logo,
+  .menu {
+  	display: block;
+  }
+
+  .box {
+    padding: 0 27% 0 1em;
+    position:relative;
+  }
+
+  .links {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25%;
+    white-space: normal;
+  }
+
+  .links .pure-menu-link {
+    font-size: 2em;
+    padding: 0.2em 0.4em;
+  }
+
+}
+
+/* 1024px and above */
+@media screen and (min-width: 64em) {
+
+  .pure-g {
+    margin: 0 auto;
+    max-width: 62rem;
+  }
+
+  .link-text {
+    display: inline;
+  }
+
+  .item h2 {
+    font-size: 3em;
+  }
+
+  .pure-menu-horizontal.links .pure-menu-item {
+    display: block;
+  }
+
+  .links .pure-menu-link {
+    font-size: 1.2em;
+    padding: 0.15em 0.3em;
+  }
+
+}

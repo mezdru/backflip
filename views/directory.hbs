@@ -1,0 +1,75 @@
+<!--
+@Author: Clément Dietschy <bedhed>
+@Date:   16-03-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   bedhed
+@Last modified time: 16-03-2017
+@Copyright: Clément Dietschy 2017
+-->
+
+<header>
+  <div class="pure-g">
+    <a class="logo pure-u-md-1-5" href="index.html">
+      <img src="images/lenom-full88.png">
+    </a>
+    <div id="search-box" class="pure-u-1-1 pure-u-md-3-5">
+      <a class="logo-small" href="index.html"><img class="" src="images/lenom88.png"></a>
+    </div>
+    <div class="menu pure-u-md-1-5">
+      <div class="pure-menu pure-menu-horizontal">
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item"><a href="https://www.algolia.com/" class="pure-menu-link"><img src="images/Algolia_logo_bg-dark.svg"></a></li>
+          <li class="pure-menu-item"><a href="https://github.com/lenomio/pim-pam-poc" class="pure-menu-link">about</a></li>
+          <li class="pure-menu-item"><a href="#" onclick="alert('A Proof of concept (POC) is a realization of a certain method or idea in order to demonstrate its feasibility, or a demonstration in principle with the aim of verifying that some concept or theory has practical potential.\nA proof of concept is usually small and may or may not be complete.');" class="pure-menu-link">logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+<div id="search-results">
+</div>
+<div id="pagination-container">
+</div>
+<script type="text/html" id="noone-template">
+  <div class="item noone">
+    <div class="pure-g">
+      <div class="pure-u-1">
+          <h2><i class="fa fa-meh-o" aria-hidden="true"></i> No one here, except a red motorcycle.</h2>
+          <div class="reward">
+            <i class="fa fa-motorcycle" aria-hidden="true"></i>
+          </div>
+      </div>
+    </div>
+  </div>
+</script>
+<script type="text/html" id="hit-template">
+  {{{{raw}}}}
+  {{#hits}}
+  <div class="item {{type}}">
+    <div class="pure-g">
+      <div class="pure-u-1-5">
+        <div class="thumb">
+             <img src="{{image_path}}">
+        </div>
+      </div>
+      <div class="pure-u-4-5 central">
+        <div class="box">
+          <h2><a href="index.html?q={{name}}">{{{_highlightResult.name.value}}}</a></h2>
+          <p class="description">{{{_highlightResult.description.value}}}</p>
+          <div class="links pure-menu pure-menu-horizontal">
+            <ul class="pure-menu-list">
+              {{#links}}
+              <li class="pure-menu-item"><a href="https://{{link}}" class="pure-menu-link"><i class="fa fa-{{type}}" aria-hidden="true"></i><span class="link-text"> {{display}}</span></a></li>
+              {{/links}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/hits}}
+  {{{{/raw}}}}
+</script>
+<script src="javascripts/description.js"></script>
+<script src="javascripts/index.js"></script>

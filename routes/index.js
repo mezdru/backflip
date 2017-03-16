@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {
     if (err) return next(err);
-    return res.render('index', { title: 'The app', message: JSON.stringify(ans)});
+    return res.render('index', { title: 'The app', message: JSON.stringify(ans, null, 4)});
   });
 });
 

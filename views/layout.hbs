@@ -4,16 +4,33 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   bedhed
-@Last modified time: 15-03-2017
+@Last modified time: 16-03-2017
 @Copyright: Clément Dietschy 2017
 -->
 
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title>{{title}}</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <link rel="icon" type="image/png" href="/lenom.png">
+
+    <link rel="icon" type="image/png" href="/lenom.png"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.0/build/pure-min.css"/>    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/stylesheets/grid-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="/stylesheets/grid.css"/>
+    <!--<![endif]-->
+    <link rel="stylesheet" href="/stylesheets/index.css"/>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css"/>
+  	<script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:300,400"/>
+    <script src="https://use.fontawesome.com/06b23bf764.js"></script>
   </head>
   <body>
     {{{body}}}
