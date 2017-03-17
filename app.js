@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified time: 17-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -30,6 +30,9 @@ app.set('views', path.join(__dirname, 'views'));
 var hbs = require('hbs');
 hbs.registerHelper('raw', function(options) {
   return options.fn();
+});
+hbs.registerHelper('json', function(context) {
+    return JSON.stringify(context);
 });
 app.set('view engine', 'hbs');
 

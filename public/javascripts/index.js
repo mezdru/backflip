@@ -3,20 +3,20 @@
 * @Date:   16-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified by:   clement
+* @Last modified time: 17-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
 /*
-/ Lenom MVP JS
-/ Copyright Clément Dietschy 2016
 / @todo infinit scroll https://www.algolia.com/doc/guides/search/infinite-scroll
 */
 
+console.log(algoliaPublicKey);
+
 var search = instantsearch({
 	appId: 'RSXBUBL0PB',
-	apiKey: '81dd855e265e9afa99ca2688e4689ed2',
+	apiKey: algoliaPublicKey.value,
 	indexName: 'world',
 	urlSync: true
 });
@@ -43,7 +43,7 @@ function transformImagePath(item) {
 	} else if (item.type == 'person') {
 		item.image_path = "https://image.tmdb.org/t/p/w185" + item.image_path;
 	} else if (item.type == 'team') {
-		item.image_path = "assets/thumbs" + item.image_path;
+		item.image_path = "images" + item.image_path;
 	}
 }
 

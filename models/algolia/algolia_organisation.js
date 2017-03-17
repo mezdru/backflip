@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified by:   clement
+* @Last modified time: 17-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,7 +23,7 @@ AlgoliaOrganisation.makePublicKey = function(organisationId) {
   public_key.value = client.generateSecuredApiKey(
     secrets.algolia.read_only_api_key,
     {
-      filters: '_organisation:world OR _organisation:'+organisationId,
+      filters: '_organisation:all OR _organisation:'+organisationId,
       validUntil: Math.floor(public_key.valid_until / 1000)
     }
   );

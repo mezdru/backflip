@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified time: 17-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -15,7 +15,7 @@ var AlgoliaOrganisation = require('../../models/algolia/algolia_organisation.js'
 
 // Populate res with Algolia Public Key
 router.use(function(req, res, next) {
-  res.locals.alogoliaPublicKey = AlgoliaOrganisation.makePublicKey(req.session.user._organisation._id);
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(req.session.user._organisation._id);
   return next();
 });
 
