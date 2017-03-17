@@ -3,40 +3,40 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 17-03-2017
+* @Last modified by:   bedhed
+* @Last modified time: 17-03-2017 06:32
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
+var undefsafe = require('undefsafe');
 
 // Simple easy logout
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if (err) return next(err);
-    return res.redirect('/bye');
+    return res.redirect('/');
   });
 });
 
-// Auth check
+// Setup User depending on Auth
 router.use(function(req, res, next) {
-  if (!req.session.user) {
+  if (req.session.user) {
+    res.locals.user = true;
+  } else {
+    res.locals.user = false;
     req.session.redirect_after_login = req.originalUrl;
-    var err = new Error('Not Authenticated');
-    err.status = 401;
-    return next(err);
   }
-  res.locals.user = true;
   return next();
 });
 
-// Organisation check
+// Setup Organisation depending on Auth
 router.use(function(req, res, next) {
-  if (!req.session.user._organisation) {
-    var err = new Error('No Organisation');
-    err.status = 418;
-    return next(err);
+  if (undefsafe(req.session, '.user._organisation')) {
+    res.locals.organisation = true;
+  } else {
+    res.locals.organisation = false;
   }
   return next();
 });

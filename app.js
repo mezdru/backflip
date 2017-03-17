@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 17-03-2017 02:59
+* @Last modified time: 17-03-2017 06:41
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -65,20 +65,37 @@ app.use('/google', googleAuth);
 // Taking care of general Auth
 var auth = require('./routes/auth.js');
 app.use('/', auth);
+app.locals.loginUrl = '/google/login';
+app.locals.logoutUrl = '/logout';
 
-// Getting the algolia pulbic key
-var algoliaAuth = require('./routes/algolia/algolia_auth.js');
-app.use('/', algoliaAuth);
+// public pages
+var publicPages = require('./routes/public.js');
+app.get('/', publicPages);
 
-// Routes
-var index = require('./routes/index.js');
-app.use('/', index);
+// Render the demo directory
+var demo = require('./routes/demo.js');
+app.use('/demo', demo);
 
+
+/*
+* Restricted routes
+*/
+
+// restricting
+var restrict = require('./routes/restrict.js');
+app.use('/', restrict);
+
+// private pages
+var privatePages = require('./routes/private.js');
+app.use('/', privatePages);
+
+// Render the directory
 var directory = require('./routes/directory.js');
-app.use('/directory/', directory);
+app.use('/directory', directory);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log("Aladin");
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -87,7 +104,6 @@ app.use(function(req, res, next) {
 // generic error setter
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  err.message = (err.message || 'It broke...');
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   next(err);
 });
@@ -95,10 +111,17 @@ app.use(function(err, req, res, next) {
 // 401 error handler
 app.use(function(err, req, res, next) {
   if (err.status == 401) {
-    res.locals.loginUrl = 'google/login';
     res.status(401);
-    res.locals.error = err;
     return res.render('401');
+  }
+  next(err);
+});
+
+// 404 error handler
+app.use(function(err, req, res, next) {
+  if (err.status == 404) {
+    res.status(404);
+    return res.render('404');
   }
   next(err);
 });
@@ -106,7 +129,6 @@ app.use(function(err, req, res, next) {
 // 418 error handler
 app.use(function(err, req, res, next) {
   if (err.status == 418) {
-    res.locals.loginUrl = 'google/login';
     res.status(418);
     return res.render('418');
   }
