@@ -1,3 +1,13 @@
+/**
+* @Author: Clément Dietschy <clement>
+* @Date:   16-03-2017
+* @Email:  clement@lenom.io
+* @Project: Lenom - Backflip
+* @Last modified by:   clement
+* @Last modified time: 17-03-2017
+* @Copyright: Clément Dietschy 2017
+*/
+
 /*
 / lenom MVP JS
 / Copyright Clément Dietschy 2016
@@ -37,7 +47,7 @@ function makeReplacement(key, item) {
 		if (item._highlightResult.within[key].short_name.fullyHighlighted == true) {
 			cssClass += " highlight";
 		}
-		return `<a href="index.html?q=@${item.within[key].short_name}" class="${cssClass}">${item._highlightResult.within[key].name.value}</a>`;
+		return `<a href="directory?q=@${item.within[key].short_name}" class="${cssClass}">${item._highlightResult.within[key].name.value}</a>`;
 }
 
 function replacer(match) {

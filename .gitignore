@@ -29,5 +29,9 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
+# Atom & Package configs
+.htmlhintrc
+.jshintrc
+
 # Private Google API Keys
 /secrets.json

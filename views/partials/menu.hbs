@@ -1,0 +1,21 @@
+<!--
+@Author: Clément Dietschy <clement>
+@Date:   17-03-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 17-03-2017
+@Copyright: Clément Dietschy 2017
+-->
+
+<div class="menu pure-u-md-1-5">
+  <div class="pure-menu pure-menu-horizontal">
+    <ul class="pure-menu-list">
+      {{#if user}}
+      <li class="pure-menu-item"><a href="/logout" class="pure-menu-link">Logout</a></li>
+      {{else}}
+      <li class="pure-menu-item"><a href="/google/login" class="pure-menu-link"><i class="fa fa-google" aria-hidden="true"></i> Login</a></li>
+      {{/if}}
+    </ul>
+  </div>
+</div>

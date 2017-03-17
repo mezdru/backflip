@@ -3,14 +3,15 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified by:   clement
+* @Last modified time: 17-03-2017
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 
+// Simple easy logout
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if (err) return next(err);
@@ -26,6 +27,7 @@ router.use(function(req, res, next) {
     err.status = 401;
     return next(err);
   }
+  res.locals.user = true;
   return next();
 });
 

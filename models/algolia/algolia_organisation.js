@@ -18,8 +18,8 @@ var AlgoliaOrganisation = {};
 
 AlgoliaOrganisation.makePublicKey = function(organisationId) {
   var public_key = {};
-  // tokens lives 1 week
-  public_key.valid_until = Date.now() + 3600 * 24 * 7 * 1000;
+  // tokens lives 1 day
+  public_key.valid_until = Date.now() + 3600 * 24 * 1000;
   public_key.value = client.generateSecuredApiKey(
     secrets.algolia.read_only_api_key,
     {

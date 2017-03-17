@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 17-03-2017
+* @Last modified time: 17-03-2017 02:59
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,6 +13,7 @@ var path = require('path');
 
 // App
 var app = express();
+app.locals.title = 'Lenom';
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database
@@ -27,13 +28,7 @@ db.once('open', function() {
 
 // Views
 app.set('views', path.join(__dirname, 'views'));
-var hbs = require('hbs');
-hbs.registerHelper('raw', function(options) {
-  return options.fn();
-});
-hbs.registerHelper('json', function(context) {
-    return JSON.stringify(context);
-});
+var hbs = require('./views/hbs.js');
 app.set('view engine', 'hbs');
 
 
@@ -82,13 +77,18 @@ app.use('/', index);
 var directory = require('./routes/directory.js');
 app.use('/directory/', directory);
 
-//var google = require('./routes/google');
-//app.use('/google', google);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  next(err);
+});
+
+// generic error setter
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  err.message = (err.message || 'It broke...');
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
   next(err);
 });
 
@@ -97,6 +97,7 @@ app.use(function(err, req, res, next) {
   if (err.status == 401) {
     res.locals.loginUrl = 'google/login';
     res.status(401);
+    res.locals.error = err;
     return res.render('401');
   }
   next(err);
@@ -114,13 +115,8 @@ app.use(function(err, req, res, next) {
 
 // generic error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  return res.render('error');
 });
 
 module.exports = app;

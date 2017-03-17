@@ -1,4 +1,5 @@
 {
   "verbose": false,
-  "ignore": ["sessions/*"]
+  "ignore": ["sessions/*"],
+  "ext": "js,hbs"
 }

@@ -1,6 +1,6 @@
 /**
 * @Author: Clément Dietschy <bedhed>
-* @Date:   16-03-2017
+* @Date:   10-12-2016
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
@@ -11,8 +11,6 @@
 /*
 / @todo infinit scroll https://www.algolia.com/doc/guides/search/infinite-scroll
 */
-
-console.log(algoliaPublicKey);
 
 var search = instantsearch({
 	appId: 'RSXBUBL0PB',
@@ -52,7 +50,7 @@ search.addWidget(
 		container: '#search-box',
 		placeholder: 'Search',
 		wrapInput: false,
-		autofocus:false,
+		autofocus: false,
 		cssClasses: {
 			input: 'search-input'
 		}
@@ -88,4 +86,11 @@ function getTemplate(templateName) {
   return document.getElementById(templateName + '-template').innerHTML;
 }
 
+function refresh() {
+  window.location.reload(true);
+}
+
 search.start();
+
+// We force refresh every 6 hours to get new api key & get updates
+window.setTimeout(refresh , 21600000);

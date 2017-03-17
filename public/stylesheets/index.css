@@ -1,12 +1,21 @@
-/*
+/**
 / Lenom MVP CSS
 / Extending Pure CSS (http://purecss.io)
+* @Author: Clément Dietschy <clement>
+* @Date:   16-03-2017
+* @Email:  clement@lenom.io
+* @Project: Lenom - Backflip
+* @Last modified by:   bedhed
+* @Last modified time: 17-03-2017 01:59
+* @Copyright: Clément Dietschy 2017
+*/
+
+/*
 / @todo Export Pure CSS with minimum modules & 5 column grid.
 / @todo Integrate this to the above
 / @todo Do the <64rem mobile version
 / @todo Express all distances in rem
 / @todo Rewrite search field
-/ Copyright Clément Dietschy 2016
 */
 
 /* basic styling */
@@ -41,7 +50,9 @@ a.team.highlight {
 	color: #e04020;
 }
 
-a:hover, .pure-menu-link:hover {
+a:hover,
+.pure-menu-link:hover,
+.pure-menu-link:hover .fa {
 	color: #e04020;
 }
 
@@ -53,10 +64,19 @@ header {
 	background-color: #101020;
 }
 
+header .pure-g {
+  padding: 0 1em;
+}
+
 header a,
 header .pure-menu-link {
   color: #ffffff;
+  margin-right: 0;
+  padding-right: 0;
 }
+
+header .fa { color:#ffffff; }
+
 
 .logo img {
   padding-top: 10px;
@@ -99,16 +119,13 @@ header .pure-menu-link {
 .search-input:-moz-placeholder { color: #ffffff; }
 
 .menu {
-	padding-top: 19px;
+	padding-top: 14px;
 	text-transform: uppercase;
 	font-weight: lighter;
-	font-size: 12px;
 }
 
-/* Algolia logo */
-.menu a img {
-	height: 14px;
-  margin-bottom: -2px;
+.menu .pure-menu-horizontal {
+  text-align: right;
 }
 
 .menu a:hover,
@@ -149,23 +166,34 @@ header .pure-menu-link {
   margin-top: 0
 }
 
-.item h2 {
+h2 {
 	margin: 0;
 	padding: 0;
   font: 300 1.5em 'Quicksand';
 }
 
-.noone h2 {
-	text-align: center;
-  font: 300 1.5em 'Quicksand';
-	color: #b5b7aa;
+h3 {
+  margin-bottom: 0;
 }
 
-.noone .reward {
+.reward {
+  margin: 0;
+  font-size: 3em;
+  line-height: 1em;
   text-align: center;
-  font-size: 8em;
-  line-height: 0.5em;
   color: #e04020;
+}
+
+.reward .fa {
+  width: auto;
+}
+
+.error-code {
+  color: #f0f0f0;
+}
+
+.reference {
+  margin: 0;
 }
 
 p.description {
@@ -191,6 +219,11 @@ p.description::after {
 
 /** social */
 
+.links .pure-menu-list {
+  width: 100%;
+  overflow: hidden;
+}
+
 .links pure-menu-link {
   color: #101020;
 	text-decoration: none;
@@ -202,8 +235,8 @@ p.description::after {
    text-align: center;
  }
 
-.links .pure-menu-link,
-.links .pure-menu-link:hover .fa {
+.pure-menu-link,
+.pure-menu-link:hover .fa {
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
 	-ms-transition: all 0.3s ease-in-out;
@@ -221,7 +254,7 @@ p.description::after {
 
 .links .pure-menu-link:hover,
 .links .pure-menu-link:focus {
-	backgroun1d: none;
+	background: none;
   color: #101020;
   opacity: 1;
 }
@@ -257,7 +290,7 @@ p.description::after {
 .fa-map-marker{color:#DC4A3E;}
 
 
-/* footer */
+/* pagination */
 ul.ais-pagination {
   padding: 0;
   margin: 1em;
@@ -269,15 +302,25 @@ ul.ais-pagination {
   font-weight: bold;
 }
 
+/* footer */
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ffffff;
+}
+
+/* utils */
+
+.align-right {
+  text-align: right;
+}
+
 /* extension of the grid */
 
 .pure-g {
-	padding: 0 1em;
-  overflow: hidden;
-}
-
-.item .pure-g {
-  padding: 1em 1em;
+	padding: 1em 1em;
 }
 
 .person .pure-g {
@@ -294,11 +337,16 @@ ul.ais-pagination {
   position:relative;
 }
 
+footer,
 .link-text,
 .logo,
 .menu,
 .desc-long {
   display: none;
+}
+
+body {
+  padding-bottom: 3em;
 }
 
 /* 568px and above */
@@ -311,13 +359,17 @@ ul.ais-pagination {
     font-size: 1em;
   }
 
-  .item h2 {
+  h2 {
     font-size: 2.2em;
   }
 
   .links .pure-menu-link {
     font-size: 2.2em;
     padding: 0.22em 0.44em;
+  }
+
+  .reward {
+    font-size: 6em;
   }
 }
 
@@ -329,7 +381,7 @@ ul.ais-pagination {
   }
 
   .search-input {
-    width: 90%;
+    width: 95%;
   }
 
   .desc-long {
@@ -340,13 +392,18 @@ ul.ais-pagination {
       content: "";
   }
 
-  .item h2 {
+  h2 {
     font-size: 2.6em;
   }
 
+  footer,
   .logo,
   .menu {
   	display: block;
+  }
+
+  .reward {
+    font-size: 8em;
   }
 
   .box {
@@ -381,8 +438,12 @@ ul.ais-pagination {
     display: inline;
   }
 
-  .item h2 {
+  h2 {
     font-size: 3em;
+  }
+
+  .reward {
+    font-size: 10em;
   }
 
   .pure-menu-horizontal.links .pure-menu-item {
