@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 17-03-2017 06:41
+* @Last modified time: 18-03-2017 12:02
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -48,10 +48,8 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 app.use(cookieParser());
-var secrets = require('./secrets.json');
 app.use(session({
-    //Hide Secret in secrets !
-    secret: secrets.session.secret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: db}),

@@ -33,5 +33,5 @@ npm-debug.log
 .htmlhintrc
 .jshintrc
 
-# Private Google API Keys
-/secrets.json
+# Local environment variables
+.env

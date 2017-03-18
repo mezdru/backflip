@@ -3,14 +3,13 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 17-03-2017
+* @Last modified by:   bedhed
+* @Last modified time: 18-03-2017 12:07
 * @Copyright: Clément Dietschy 2017
 */
 
-var secrets = require('../../secrets.json');
 var algoliasearch = require('algoliasearch');
-var client = algoliasearch('RSXBUBL0PB', secrets.algolia.write_api_key);
+var client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_WRITE_KEY);
 
 var Organisation = require('../organisation.js');
 
@@ -21,7 +20,7 @@ AlgoliaOrganisation.makePublicKey = function(organisationId) {
   // tokens lives 1 day
   public_key.valid_until = Date.now() + 3600 * 24 * 1000;
   public_key.value = client.generateSecuredApiKey(
-    secrets.algolia.read_only_api_key,
+    process.env.ALGOLIA_READ_KEY,
     {
       filters: '_organisation:all OR _organisation:'+organisationId,
       validUntil: Math.floor(public_key.valid_until / 1000)

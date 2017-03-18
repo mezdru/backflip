@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified time: 18-03-2017 12:10
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,7 +13,6 @@ var router = express.Router();
 var undefsafe = require('undefsafe');
 
 var google = require('googleapis');
-var secrets = require('../../secrets.json');
 var scopes = require('./scopes.json');
 
 var User = require('../../models/user.js');
@@ -24,9 +23,9 @@ var Organisation = require('../../models/google/google_organisation.js');
 // Populate with tokens if available
 router.use(function(req, res, next) {
   req.googleOAuth = new google.auth.OAuth2(
-    secrets.google.client_id,
-    secrets.google.client_secret,
-    secrets.google.redirect_uri
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.GOOGLE_REDIRECT_URI
   );
   if (undefsafe(req.session, 'user.google.tokens')) {
     req.googleOAuth.setCredentials(req.session.user.google.tokens);
