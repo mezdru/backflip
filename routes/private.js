@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 17-03-2017 07:05
+* @Last modified time: 18-03-2017 12:31
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -29,7 +29,7 @@ router.get('/google/app', function(req, res, next) {
 });
 
 router.get('/welcome', function(req, res, next) {
-  res.render('index', { title: 'Welcome', message: "Thank you for joining Lenom. We are building your directory. We will let your know when we are ready."});
+  res.render('welcome');
 });
 
 module.exports = router;

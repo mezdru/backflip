@@ -4,10 +4,11 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 18-03-2017 12:02
+* @Last modified time: 18-03-2017 12:22
 * @Copyright: Clément Dietschy 2017
 */
 
+require('dotenv').config()
 var express = require('express');
 var path = require('path');
 

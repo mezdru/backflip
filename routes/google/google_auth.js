@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 18-03-2017 12:10
+* @Last modified time: 18-03-2017 12:50
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -18,6 +18,7 @@ var scopes = require('./scopes.json');
 var User = require('../../models/user.js');
 var GoogleUser = require('../../models/google/google_user.js');
 var Organisation = require('../../models/google/google_organisation.js');
+
 
 // Create Google OAuth2 Client for everyone
 // Populate with tokens if available
