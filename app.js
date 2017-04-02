@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 02-04-2017 10:53
+* @Last modified time: 02-04-2017 12:45
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -15,6 +15,7 @@ var path = require('path');
 // App
 var app = express();
 app.locals.title = 'Lenom';
+app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database
@@ -35,7 +36,7 @@ app.set('view engine', 'hbs');
 // Redirect non https only in production
 if (app.get('env') === 'production') {
   app.use(function(req, res, next) {
-      if(req.headers['x-forwarded-proto']!=='https') return res.redirect(301, "https://" + req.headers.host + req.url);
+      if(req.protocol !== 'https') return res.redirect(301, "https://" + req.headers.host + req.url);
       else return next();
   });
 }
