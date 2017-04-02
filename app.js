@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 18-03-2017 01:17
+* @Last modified time: 02-04-2017 10:53
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -32,6 +32,13 @@ app.set('views', path.join(__dirname, 'views'));
 var hbs = require('./views/hbs.js');
 app.set('view engine', 'hbs');
 
+// Redirect non https only in production
+if (app.get('env') === 'production') {
+  app.use(function(req, res, next) {
+      if(req.headers['x-forwarded-proto']!=='https') return res.redirect(301, "https://" + req.headers.host + req.url);
+      else return next();
+  });
+}
 
 // Generic
 var favicon = require('serve-favicon');
@@ -48,6 +55,8 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
+//@todo share cookies between subdomains
+//@todo make sure we're not popping hundreds of sessions for robots, unauth users, etc...
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SESSION_SECRET,
