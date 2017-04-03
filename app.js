@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 03-04-2017 11:58
+* @Last modified time: 04-04-2017 01:58
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -64,7 +64,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: db}),
-    cookie: {maxAge: 2419200000}
+    cookie: {domain: 'lenom.io', maxAge: 2419200000}
 }));
 
 // Taking care of Google Auth

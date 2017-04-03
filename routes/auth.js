@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 01:00
+* @Last modified time: 04-04-2017 01:24
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -27,8 +27,8 @@ router.use(function(req, res, next) {
     res.locals.user = req.session.user;
   } else {
     res.locals.user = false;
-    //@todo redirect to the whole URI, subdomains included
-    //req.session.redirect_after_login = req.headers.host + req.originalUrlurl;
+    //@todo make sure the redirect works
+    req.session.redirect_after_login = req.headers.host + req.originalUrlurl;
   }
   return next();
 });
