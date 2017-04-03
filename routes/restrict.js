@@ -4,28 +4,38 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 17-03-2017 06:33
+* @Last modified time: 04-04-2017 12:09
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 
-// Setup User depending on Auth
+// Check if there is an user
 router.use(function(req, res, next) {
-  if (!req.session.user) {
-    err = new Error('Not Allowed');
+  if (!res.locals.user) {
+    err = new Error('Not Authenticated');
     err.status = 401;
     return next(err);
   }
   return next();
 });
 
-// Setup Organisation depending on Auth
+// Check if there is an organisation for the user
 router.use(function(req, res, next) {
-  if (!res.locals.organisation) {
+  if (!res.locals.user._organisation) {
     err = new Error('No Organisation');
     err.status = 418;
+    return next(err);
+  }
+  return next();
+});
+
+// Check if the user can access the organisation
+router.use(function(req, res, next) {
+  if (res.locals.organisation && res.locals.user._organisation._id != res.locals.organisation._id) {
+    err = new Error('Forbidden Organisation');
+    err.status = 403;
     return next(err);
   }
   return next();

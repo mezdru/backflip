@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 18-03-2017 12:31
+* @Last modified time: 04-04-2017 12:16
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -15,11 +15,6 @@ var google = require('googleapis');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var plus = google.plus('v1');
 var User = require('../models/user.js');
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Hello World', message: JSON.stringify(req.session)});
-});
 
 router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {

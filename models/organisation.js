@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 16-03-2017
+* @Last modified time: 03-04-2017 09:16
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var organisationSchema = mongoose.Schema({
   name: String,
   picture: String,
+  tag: {type: String, index: true, unique: true},
   google: {
     hd: String,
   },
@@ -21,10 +22,11 @@ var organisationSchema = mongoose.Schema({
   welcomed: { type: Boolean, default: false }
 });
 
-var Organisation = mongoose.model('Organisation', organisationSchema);
-
 organisationSchema.methods.needsWelcoming = function () {
   return !this.welcomed;
 };
+
+var Organisation = mongoose.model('Organisation', organisationSchema);
+
 
 module.exports = Organisation;

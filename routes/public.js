@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 18-03-2017 12:56
+* @Last modified time: 04-04-2017 12:15
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -14,7 +14,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('homepage');
+  if (res.locals.organisation) {
+    res.render('organisation_homepage');
+  } else {
+    res.render('homepage');
+  }
 });
 
 module.exports = router;

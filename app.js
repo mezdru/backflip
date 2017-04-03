@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 02-04-2017 12:45
+* @Last modified time: 03-04-2017 11:58
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -104,7 +104,6 @@ app.use('/directory', directory);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  console.log("Aladin");
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -126,10 +125,19 @@ app.use(function(err, req, res, next) {
   next(err);
 });
 
+// 403 error handler
+app.use(function(err, req, res, next) {
+  if (err.status == 403) {
+    res.status(403);
+    return res.render('403');
+  }
+  next(err);
+});
+
 // 404 error handler
 app.use(function(err, req, res, next) {
-  if (err.status == 404) {
-    res.status(404);
+  if (err.status == 404 || err.status == 400) {
+    res.status(err.status);
     return res.render('404');
   }
   next(err);
