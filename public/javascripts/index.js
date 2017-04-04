@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 12:22
+* @Last modified time: 04-04-2017 04:33
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -18,7 +18,7 @@ var descriptionSnippetLength = 8;
 if (window.matchMedia('(min-width: 64em)').matches) {
 		descriptionSnippetLength = 48;
 } else if (window.matchMedia('(min-width: 48em)').matches) {
-		descriptionSnippetLength = 24;
+		descriptionSnippetLength = 20;
 }
 
 var search = instantsearch({
@@ -43,7 +43,7 @@ transformAllItems = function(result) {
 transformItem = function (item) {
 	item.anniversary = new Date(item.anniversary).toLocaleDateString();
 	transformImagePath(item);
-	transformDescription(item);
+	transformDescriptions(item);
 
 	return item;
 };

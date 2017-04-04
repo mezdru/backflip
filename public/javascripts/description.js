@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 12:25
+* @Last modified time: 04-04-2017 04:34
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,37 +13,15 @@
 / Copyright Clément Dietschy 2016
 */
 
-function transformDescription(item) {
-
-	// Building an equivalence table
-	// substr = @tag to replace
-	// replaceBy = the html to replace with
-	item.equivalence = [];
-	for (let key in item.within) {
-		item.equivalence.push({'substr': '@'+item.within[key].short_name, 'replaceBy': makeReplacement(key, item)});
-	}
-
-	description = item._highlightResult.description.value;
-
-	//Cleaning the highlights <em> <\em>
-	description = description.replace(new RegExp(/@[\w<>\/]*/gi), replacer);
-
-	// Going through the equivalence table and replacing all occurences in the Highlighted description
-	for (let key in item.equivalence) {
-		description = description.replace(item.equivalence[key].substr, item.equivalence[key].replaceBy);
-	}
-
-	item._highlightResult.description.value = description;
+function transformDescriptions(item) {
+	item._snippetResult.description.value = transformString(item._snippetResult.description.value);
+	item._highlightResult.description.value = transformString(item._highlightResult.description.value);
 }
 
-function makeReplacement(key, item) {
-		let cssClass = "team";
-		if (item._highlightResult.within[key].short_name.fullyHighlighted === true) {
-			cssClass += " highlight";
-		}
-		return `<a href="directory?q=@${item.within[key].short_name}" class="${cssClass}">${item._highlightResult.within[key].name.value}</a>`;
-}
-
-function replacer(match) {
-	return match.replace(new RegExp(/<\/?em>/gi), '');
+function transformString(input) {
+		var regex = /([@#][\w-<>\/]+)/g;
+		return input.replace(regex, function(match, offset, string) {
+			var cleanMatch = match.replace(/<\/?em>/g, '');
+			return `<a href="/?q=${cleanMatch}">${match}</a>`;
+		});
 }
