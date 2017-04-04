@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 01:58
+* @Last modified time: 04-04-2017 09:24
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -56,7 +56,6 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-//@todo share cookies between subdomains
 //@todo make sure we're not popping hundreds of sessions for robots, unauth users, etc...
 app.use(cookieParser());
 app.use(session({
