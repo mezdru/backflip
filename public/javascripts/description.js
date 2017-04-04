@@ -3,8 +3,8 @@
 * @Date:   16-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 17-03-2017
+* @Last modified by:   bedhed
+* @Last modified time: 04-04-2017 12:25
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,16 +23,10 @@ function transformDescription(item) {
 		item.equivalence.push({'substr': '@'+item.within[key].short_name, 'replaceBy': makeReplacement(key, item)});
 	}
 
-	description = item._highlightResult.description.value
+	description = item._highlightResult.description.value;
 
 	//Cleaning the highlights <em> <\em>
 	description = description.replace(new RegExp(/@[\w<>\/]*/gi), replacer);
-
-	//Wrapping the long version with span
-	let lastChar = description.length-1;
-	let position = Math.min(lastChar, 50);
-	position = description.indexOf(' ', position);
-	description = [description.slice(0, position), '<span class="desc-long">', description.slice(position), '</span>'].join('');
 
 	// Going through the equivalence table and replacing all occurences in the Highlighted description
 	for (let key in item.equivalence) {
@@ -44,7 +38,7 @@ function transformDescription(item) {
 
 function makeReplacement(key, item) {
 		let cssClass = "team";
-		if (item._highlightResult.within[key].short_name.fullyHighlighted == true) {
+		if (item._highlightResult.within[key].short_name.fullyHighlighted === true) {
 			cssClass += " highlight";
 		}
 		return `<a href="directory?q=@${item.within[key].short_name}" class="${cssClass}">${item._highlightResult.within[key].name.value}</a>`;

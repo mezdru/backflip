@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 17-03-2017 07:00
+* @Last modified time: 04-04-2017 12:24
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -221,10 +221,6 @@ p.description {
   font-size: 0.8em;
 }
 
-p.description::after {
-    content: "...";
-}
-
 .links .pure-menu-link {
   font-size: 1.5em;
   padding: 0.15em 0.3em;
@@ -367,8 +363,7 @@ footer {
 footer,
 .link-text,
 .logo,
-.menu,
-.desc-long {
+.menu {
   display: none;
 }
 
@@ -413,10 +408,6 @@ body {
 
   .search-input {
     width: 95%;
-  }
-
-  .desc-long {
-    display: inline;
   }
 
   p.description::after {

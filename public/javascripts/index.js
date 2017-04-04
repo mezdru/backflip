@@ -3,8 +3,8 @@
 * @Date:   10-12-2016
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 17-03-2017
+* @Last modified by:   bedhed
+* @Last modified time: 04-04-2017 12:22
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -12,11 +12,25 @@
 / @todo infinit scroll https://www.algolia.com/doc/guides/search/infinite-scroll
 */
 
+// The length of the Description Snippet depends on the screen width.
+// @todo make it responsive dynamically (or not?)
+var descriptionSnippetLength = 8;
+if (window.matchMedia('(min-width: 64em)').matches) {
+		descriptionSnippetLength = 48;
+} else if (window.matchMedia('(min-width: 48em)').matches) {
+		descriptionSnippetLength = 24;
+}
+
 var search = instantsearch({
 	appId: 'RSXBUBL0PB',
 	apiKey: algoliaPublicKey.value,
 	indexName: 'world',
-	urlSync: true
+	urlSync: true,
+	searchParameters: {
+		attributesToSnippet: [
+    	"description:"+descriptionSnippetLength
+  	]
+	}
 });
 
 transformAllItems = function(result) {
