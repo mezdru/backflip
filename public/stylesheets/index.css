@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 02:44
+* @Last modified time: 05-04-2017 01:17
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -37,24 +37,6 @@ body {
 a {
 	color: #101020;
 	text-decoration: none;
-}
-
-a.team {
-	padding: 0.1em 0.3em;
-	background-color: #f0f0f0;
-	color: #101020;
-	border-radius: 0.2em;
-}
-
-a.team.highlight {
-	background: #fff0f0;
-	color: #e04020;
-}
-
-a:hover,
-.pure-menu-link:hover,
-.pure-menu-link:hover .fa {
-	color: #e04020;
 }
 
 h2 {
@@ -96,12 +78,16 @@ header {
 }
 
 header .pure-g {
-  padding: 0 1em;
+  padding: 0 16px;
 }
 
 header a,
 header .pure-menu-link {
   color: #ffffff;
+}
+
+header a:hover {
+  color: #e04020;
 }
 
 header .fa { color:#ffffff; }
@@ -221,10 +207,14 @@ p.description {
   font-size: 0.8em;
 }
 
-.links .pure-menu-link {
-  font-size: 1.5em;
-  padding: 0.15em 0.3em;
-  min-width: 1em;
+p.description a:hover {
+	color: #e04020;
+}
+
+.item p.full {
+  display:none;
+  max-height: 10em;
+  overflow: auto;
 }
 
 #search-results em {
@@ -235,43 +225,40 @@ p.description {
 /** social */
 
 .links .pure-menu-list {
-  width: 100%;
-  overflow: hidden;
+  display: block;
 }
 
-.links pure-menu-link {
+.links .pure-menu-link {
+  font-size: 1.5em;
+  padding: 0.15em 0.3em;
   color: #101020;
-	text-decoration: none;
   opacity: 0.5;
+	text-decoration: none;
 }
 
- .fa {
-   width: 1.2em;
-   text-align: center;
- }
+.link-text {
+  display: none;
+}
 
-a,
+.fa {
+  width: 1.2em;
+  text-align: center;
+}
+
+.links .pure-menu-link,
 a:hover .fa {
-	-webkit-transition: all 0.3s ease-in-out;
-	-moz-transition: all 0.3s ease-in-out;
-	-ms-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
 }
 
 .links .pure-menu-link:hover .fa {
- 	-webkit-transform: scale(1.5);
-	-moz-transform: scale(1.5);
-	-ms-transform: scale(1.5);
-	-o-transform: scale(1.5);
 	transform: scale(1.5);
+  transition-duration: 0.3s;
 }
 
 .links .pure-menu-link:hover,
 .links .pure-menu-link:focus {
 	background: none;
-  color: #101020;
   opacity: 1;
+  overflow:visible;
 }
 
 .fa-bitbucket,.fa-bitbucket-square{color:#003366;}
@@ -304,11 +291,57 @@ a:hover .fa {
 .fa-phone{color:#007F3F;}
 .fa-map-marker{color:#DC4A3E;}
 
+/* expander */
+.expander {
+  cursor: pointer;
+}
+
+.item.expanded .pure-menu-item.expander {
+  display: none;
+}
+
+/* collapser */
+.pure-menu-item.collapser {
+  display: none;
+  cursor: pointer;
+  text-align: right;
+}
+
+.item.expanded .collapser {
+  display: inline;
+}
+
+.pure-menu-item.expander {
+  float: right;
+}
+
+
+/* expanded */
+.item.expanded p.full {
+  display:block;
+}
+
+.item.expanded p.snippet {
+  display:none;
+}
+
+.item.expanded .pure-menu-item {
+  display: inline;
+}
+
+.item.expanded .link-text {
+  display: inline;
+}
+
+.item.expanded .links .pure-menu-link {
+  font-size: 1em;
+  padding: 0.1em 0.2em;
+}
 
 /* pagination */
 ul.ais-pagination {
   padding: 0;
-  margin: 1em;
+  margin: 16px;
   text-align: center;
 }
 
@@ -339,29 +372,25 @@ footer {
 /* extension of the grid */
 
 .pure-g {
-	padding: 1em 1em;
+	padding: 16px;
 }
 
 .person .pure-g {
-	border-bottom: 2px solid #f0f0f0;
+	border-bottom: 4px solid #f0f0f0;
 }
 
 .team {
   background-color: #f0f0f0;
-  	border-bottom: 2px solid #ffffff;
+  border-bottom: 4px solid #ffffff;
 }
 
-.box {
-  padding: 0 1em;
-  position:relative;
-}
-
-.grid-box {
-  padding: 1em;
+.central > h2,
+.central > p,
+.central > div {
+  padding-left: 16px;
 }
 
 footer,
-.link-text,
 .logo,
 .menu {
   display: none;
@@ -390,8 +419,13 @@ body {
   }
 
   .links .pure-menu-link {
-    font-size: 2.2em;
-    padding: 0.22em 0.44em;
+    font-size: 1.9em;
+    padding: 0.19em 0.38em;
+  }
+
+  .item.expanded .links .pure-menu-link {
+    font-size: 1.2em;
+    padding: 0.12em 0.24em;
   }
 
   .reward {
@@ -408,10 +442,6 @@ body {
 
   .search-input {
     width: 95%;
-  }
-
-  p.description::after {
-      content: "";
   }
 
   h2 {
@@ -440,22 +470,14 @@ body {
     font-size: 8em;
   }
 
-  .box {
-    padding: 0 27% 0 1em;
-    position:relative;
-  }
-
-  .links {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 25%;
-    white-space: normal;
-  }
-
   .links .pure-menu-link {
-    font-size: 2em;
-    padding: 0.2em 0.4em;
+    font-size: 2.2em;
+    padding: 0.22em 0.44em;
+  }
+
+  .item.expanded .links .pure-menu-link {
+    font-size: 1.3em;
+    padding: 0.13em 0.26em;
   }
 
 }
@@ -466,10 +488,6 @@ body {
   .pure-g {
     margin: 0 auto;
     max-width: 62rem;
-  }
-
-  .link-text {
-    display: inline;
   }
 
   h2 {
@@ -484,12 +502,13 @@ body {
     font-size: 10em;
   }
 
-  .pure-menu-horizontal.links .pure-menu-item {
-    display: block;
+  .links .pure-menu-link {
+    font-size: 2.5em;
+    padding: 0.25em 0.5em;
   }
 
-  .links .pure-menu-link {
-    font-size: 1.2em;
+  .item.expanded .links .pure-menu-link {
+    font-size: 1.5em;
     padding: 0.15em 0.3em;
   }
 
