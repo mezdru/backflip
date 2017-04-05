@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-04-2017 08:20
+* @Last modified time: 05-04-2017 09:35
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -151,6 +151,65 @@ header .fa { color:#ffffff; }
 .menu a:active,
 .menu a:focus {
 	background: none;
+}
+
+/* left panel */
+#left-panel {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  bottom: 0;
+  background-color: #474B54;
+  color: #E6E8EC;
+  font-size: 0.8em;
+  width: 0;
+  z-index: 900;
+  overflow-x: hidden;
+}
+
+.ais-header {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 1em 1em 0.5em 1em;
+}
+
+.ais-body {
+  margin-bottom: 1em;
+}
+
+.ais-refinement-list--checkbox {
+  display: none;
+}
+
+.ais-refinement-list--count {
+  float: right;
+  color: #ABB0BB;
+}
+
+.ais-refinement-list--item {
+  padding: 0.2em 1em;
+  margin-bottom: 1px;
+}
+
+.ais-refinement-list--item:hover {
+  cursor: pointer;
+  background: #33374C;
+}
+
+.ais-refinement-list--item__active {
+  background: #2ECC71;
+  color: #ffffff;
+}
+
+.ais-refinement-list--item__active .ais-refinement-list--count {
+  color: #E6E8EC;
+}
+
+.ais-clear-all--link {
+  text-align: center;
+  color: #F1C40F;
+  text-transform: uppercase;
+  font-size: 0.8em;
 }
 
 /* search-results */
@@ -398,7 +457,7 @@ footer {
   width: 100%;
   bottom: 0;
   background-color: #f0f0f0;
-  border-top: 4px solid #ffffff;
+  z-index: 950
 }
 
 /* utils */
@@ -568,6 +627,10 @@ footer,
   .item.expanded .links .collapser .pure-menu-link {
     font-size: 2.5em;
     padding: 0em 0.5em;
+  }
+
+  #left-panel {
+    width: 16em;
   }
 
 }

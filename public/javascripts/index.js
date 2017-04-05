@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-04-2017 07:51
+* @Last modified time: 05-04-2017 09:47
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -52,8 +52,8 @@ function transformImagePath(item) {
 }
 
 function transformDescriptions(item) {
-	item._snippetResult.description.value = transformString(item._snippetResult.description.value);
-	item._highlightResult.description.value = transformString(item._highlightResult.description.value);
+	if (item._snippetResult) item._snippetResult.description.value = transformString(item._snippetResult.description.value);
+	if (item._highlightResult) item._highlightResult.description.value = transformString(item._highlightResult.description.value);
 }
 
 function transformString(input) {
@@ -87,6 +87,53 @@ search.addWidget(
     transformData: transformItem
   })
 );
+
+search.addWidget(
+  instantsearch.widgets.refinementList({
+    container: '#types',
+    attributeName: 'type',
+    operator: 'or',
+    limit: 10,
+		templates: {
+      header: 'Looking for...'
+    }
+  })
+);
+
+search.addWidget(
+  instantsearch.widgets.refinementList({
+    container: '#teams',
+    attributeName: 'teams.tag',
+    operator: 'and',
+    limit: 10,
+		templates: {
+      header: 'In teams...'
+    }
+  })
+);
+
+search.addWidget(
+  instantsearch.widgets.refinementList({
+    container: '#hashtags',
+    attributeName: 'hashtags.tag',
+    operator: 'and',
+    limit: 10,
+		templates: {
+      header: 'With hashtags...'
+    }
+  })
+);
+
+search.addWidget(
+  instantsearch.widgets.clearAll({
+    container: '#clear-all',
+    templates: {
+      link: 'Reset Search'
+    }
+  })
+);
+
+
 
 function findAncestor(child, classSearched) {
     while ((child = child.parentElement) && !child.classList.contains(classSearched));
