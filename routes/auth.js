@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 11:00
+* @Last modified time: 05-04-2017 11:07
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,8 +23,6 @@ router.get('/logout', function(req, res, next) {
 
 // Setup User depending on Auth
 router.use(function(req, res, next) {
-  console.log('AUTH:');
-  console.log(req.session.user);
   if (req.session.user) {
     res.locals.user = req.session.user;
   } else {

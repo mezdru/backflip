@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 11:04
+* @Last modified time: 05-04-2017 11:26
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -94,11 +94,8 @@ app.use('/', restrict);
 
 // private pages
 var privatePages = require('./routes/private.js');
-app.use('/', privatePages);
+app.get('/', privatePages);
 
-// Render the directory
-var directory = require('./routes/directory.js');
-app.use('/directory', directory);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -111,13 +108,14 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // but the error status is not private
+  res.locals.status = err.status;
   next(err);
 });
 
 // 401 error handler
 app.use(function(err, req, res, next) {
   if (err.status == 401) {
-    console.log(req.session);
     res.status(401);
     return res.render('401');
   }
