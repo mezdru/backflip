@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 03-04-2017 09:16
+* @Last modified time: 05-04-2017 10:26
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -19,7 +19,8 @@ var organisationSchema = mongoose.Schema({
   },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  welcomed: { type: Boolean, default: false }
+  welcomed: { type: Boolean, default: false },
+  public: { type: Boolean, default: false }
 });
 
 organisationSchema.methods.needsWelcoming = function () {

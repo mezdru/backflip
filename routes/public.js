@@ -4,20 +4,28 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 12:15
+* @Last modified time: 05-04-2017 10:49
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 
+var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if (res.locals.organisation) {
-    res.render('organisation_homepage');
+    if (res.locals.organisation.public === true) {
+      res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+      res.render('directory');
+    } else if (!res.locals.user) {
+      return res.render('organisation_homepage');
+    } else {
+      return next();
+    }
   } else {
-    res.render('homepage');
+    return res.render('homepage');
   }
 });
 

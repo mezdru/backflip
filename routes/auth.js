@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 10:24
+* @Last modified time: 05-04-2017 11:00
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,6 +23,8 @@ router.get('/logout', function(req, res, next) {
 
 // Setup User depending on Auth
 router.use(function(req, res, next) {
+  console.log('AUTH:');
+  console.log(req.session.user);
   if (req.session.user) {
     res.locals.user = req.session.user;
   } else {
@@ -64,16 +66,5 @@ router.use(function(req, res, next) {
     });
   }
 });
-
-
-/* Setup Organisation depending on Auth
-router.use(function(req, res, next) {
-  if (undefsafe(req.session, '.user._organisation')) {
-    res.locals.organisation = true;
-  } else {
-    res.locals.organisation = false;
-  }
-  return next();
-});*/
 
 module.exports = router;

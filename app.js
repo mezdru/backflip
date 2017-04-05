@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 09:24
+* @Last modified time: 05-04-2017 11:04
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -63,7 +63,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: db}),
-    cookie: {domain: 'lenom.io', maxAge: 2419200000}
+    cookie: {
+      domain: (app.get('env') === 'development') ? null : 'lenom.io',
+      maxAge: 2419200000
+    }
 }));
 
 // Taking care of Google Auth
@@ -79,10 +82,6 @@ app.locals.logoutUrl = '/logout';
 // public pages
 var publicPages = require('./routes/public.js');
 app.get('/', publicPages);
-
-// Render the demo directory
-var demo = require('./routes/demo.js');
-app.use('/demo', demo);
 
 
 /*
@@ -118,6 +117,7 @@ app.use(function(err, req, res, next) {
 // 401 error handler
 app.use(function(err, req, res, next) {
   if (err.status == 401) {
+    console.log(req.session);
     res.status(401);
     return res.render('401');
   }

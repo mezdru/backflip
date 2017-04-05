@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 12:16
+* @Last modified time: 05-04-2017 10:45
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -25,6 +25,11 @@ router.get('/google/app', function(req, res, next) {
 
 router.get('/welcome', function(req, res, next) {
   res.render('welcome');
+});
+
+router.get('/', function(req, res, next) {
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(req.session.user._organisation._id);
+  res.render('directory');
 });
 
 module.exports = router;
