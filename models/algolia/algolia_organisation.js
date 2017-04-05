@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   bedhed
-* @Last modified time: 18-03-2017 12:07
+* @Last modified time: 05-04-2017 04:30
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -22,7 +22,7 @@ AlgoliaOrganisation.makePublicKey = function(organisationId) {
   public_key.value = client.generateSecuredApiKey(
     process.env.ALGOLIA_READ_KEY,
     {
-      filters: '_organisation:all OR _organisation:'+organisationId,
+      filters: 'organisation:all OR organisation:'+organisationId,
       validUntil: Math.floor(public_key.valid_until / 1000)
     }
   );

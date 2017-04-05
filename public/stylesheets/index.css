@@ -5,8 +5,8 @@
 * @Date:   16-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 10:15
+* @Last modified by:   clement
+* @Last modified time: 05-04-2017 08:20
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -74,6 +74,10 @@ h3 {
 
 header {
 	height: 64px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
 	background-color: #101020;
 }
 
@@ -149,6 +153,11 @@ header .fa { color:#ffffff; }
 	background: none;
 }
 
+/* search-results */
+
+#search-results {
+  margin-top: 64px;
+}
 
 /* Item */
 
@@ -179,6 +188,17 @@ header .fa { color:#ffffff; }
 
 .person.invisible .thumb img {
   margin-top: 0
+}
+
+.tag {
+  text-align: center;
+  margin: 2px;
+  font-size: 0.8em;
+    opacity: 0.5;
+}
+
+.tag:hover {
+  opacity: 1;
 }
 
 .reward {
@@ -279,7 +299,7 @@ a:hover .fa {
 .fa-trello{color:#265A7F;}
 .fa-tumblr,.fa-tumblr-square{color:#314E6C;}
 .fa-twitter,.fa-twitter-square{color:#32CCFE;}
-.fa-vimeo-square{color:#229ACC;}
+.fa-vimeo{color:#229ACC;}
 .fa-vk{color:#375474;}
 .fa-weibo{color:#D72B2B;}
 .fa-xing,.fa-xing-square{color:#00555C;}
@@ -291,10 +311,11 @@ a:hover .fa {
 .fa-phone{color:#007F3F;}
 .fa-map-marker{color:#DC4A3E;}
 
-/* expander */
-.expander {
+.searcher, .expander, .collapser, a {
   cursor: pointer;
 }
+
+/* expander */
 
 .item.expanded .pure-menu-item.expander {
   display: none;
@@ -303,7 +324,6 @@ a:hover .fa {
 /* collapser */
 .pure-menu-item.collapser {
   display: none;
-  cursor: pointer;
   text-align: right;
 }
 
@@ -343,16 +363,33 @@ a:hover .fa {
   padding: 0em 0.3em;
 }
 
-/* pagination */
-ul.ais-pagination {
-  padding: 0;
-  margin: 16px;
+/* Show more */
+.ais-infinite-hits--showmore {
+  margin-bottom: 5em;
   text-align: center;
 }
 
-.ais-pagination--item__active a {
-	color: #0f0307;
-  font-weight: bold;
+.ais-infinite-hits--showmore button {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      padding: .2em 1em .5em 1em;
+      text-transform: uppercase;
+      font-size: 1.5em;
+      border: transparent;
+      background-color: #f0f0f0;
+      text-decoration: none;
+      border-radius: 0 0 20px 20px ;
+}
+
+.ais-infinite-hits--showmore button:hover {
+  padding-top: 0.8em;
+  transition-duration: 0.3s;
+  color: #e04020;
+}
+
+.ais-infinite-hits--showmore button:disabled {
+  display: none;
 }
 
 /* footer */
@@ -361,7 +398,7 @@ footer {
   width: 100%;
   bottom: 0;
   background-color: #f0f0f0;
-  border-top: 1px solid #ffffff;
+  border-top: 4px solid #ffffff;
 }
 
 /* utils */
@@ -385,7 +422,12 @@ footer {
 }
 
 .team {
-  background-color: #f0f0f0;
+  background-color: #f0f0ff;
+  border-bottom: 4px solid #ffffff;
+}
+
+.hashtag {
+  background-color: #fff0f0;
   border-bottom: 4px solid #ffffff;
 }
 
@@ -399,10 +441,6 @@ footer,
 .logo,
 .menu {
   display: none;
-}
-
-body {
-  padding-bottom: 3em;
 }
 
 /* 568px and above */

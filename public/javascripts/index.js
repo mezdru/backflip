@@ -3,8 +3,8 @@
 * @Date:   10-12-2016
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 04-04-2017 10:18
+* @Last modified by:   clement
+* @Last modified time: 05-04-2017 07:51
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -33,15 +33,7 @@ var search = instantsearch({
 	}
 });
 
-transformAllItems = function(result) {
-	for (let key in result.hits) {
-		transformItem(result.hits[key]);
-	}
-	return result;
-};
-
 transformItem = function (item) {
-	item.anniversary = new Date(item.anniversary).toLocaleDateString();
 	transformImagePath(item);
 	transformDescriptions(item);
 
@@ -49,14 +41,27 @@ transformItem = function (item) {
 };
 
 function transformImagePath(item) {
-	if (!item.image_path) {
-		item.image_path = "assets/placeholder.png";
+	if (!item.picture) {
+		item.picture = {
+			uri: "/images/placeholder.png"
+		};
 		item.type += " invisible";
-	} else if (item.type == 'person') {
-		item.image_path = "https://image.tmdb.org/t/p/w185" + item.image_path;
-	} else if (item.type == 'team') {
-		item.image_path = "images" + item.image_path;
+	} else if (item.picture.path) {
+		item.picture.uri = "/images" + item.picture.path;
 	}
+}
+
+function transformDescriptions(item) {
+	item._snippetResult.description.value = transformString(item._snippetResult.description.value);
+	item._highlightResult.description.value = transformString(item._highlightResult.description.value);
+}
+
+function transformString(input) {
+		var regex = /([@#][\w-<>\/]+)/g;
+		return input.replace(regex, function(match, offset, string) {
+			var cleanMatch = match.replace(/<\/?em>/g, '');
+			return `<a onclick="setSearch('${cleanMatch}')">${match}</a>`;
+		});
 }
 
 search.addWidget(
@@ -72,25 +77,14 @@ search.addWidget(
 );
 
 search.addWidget(
-  instantsearch.widgets.hits({
+  instantsearch.widgets.infiniteHits({
     container: '#search-results',
-    hitsPerPage: 16,
+    hitsPerPage: 50,
     templates: {
-      allItems: getTemplate('hit'),
+      item: getTemplate('hit'),
       empty: getTemplate('noone')
     },
-    transformData: {
-          allItems: transformAllItems
-		}
-  })
-);
-
-search.addWidget(
-  instantsearch.widgets.pagination({
-    container: '#pagination-container',
-    maxPages: 20,
-    // default is to scroll to 'body', here we disable this behavior
-		showFirstLast: false,
+    transformData: transformItem
   })
 );
 
@@ -101,6 +95,10 @@ function findAncestor(child, classSearched) {
 
 function toggleItem(child) {
 	findAncestor(child, 'item').classList.toggle('expanded');
+}
+
+function setSearch(query) {
+	search.helper.setQuery(query).search();
 }
 
 function getTemplate(templateName) {
