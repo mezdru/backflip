@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 06-04-2017 01:17
+* @Last modified time: 06-04-2017 01:23
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -537,6 +537,10 @@ p.description a:hover {
 .item.expanded .links .collapser .pure-menu-link {
   font-size: 1.5em;
   padding: 0em 0.3em;
+}
+
+.item.expanded .links {
+  margin-top: 0.3em;
 }
 
 /* Show more */

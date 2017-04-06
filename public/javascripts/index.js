@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 06-04-2017 12:54
+* @Last modified time: 06-04-2017 01:48
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -153,6 +153,7 @@ function togglePanel() {
 
 function setSearch(query) {
 	search.helper.setQuery(query).search();
+	window.scrollTo(0,0);
 }
 
 function getTemplate(templateName) {
