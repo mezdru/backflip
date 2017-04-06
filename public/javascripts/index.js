@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 06-04-2017 03:02
+* @Last modified time: 06-04-2017 12:54
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -15,10 +15,16 @@
 // The length of the Description Snippet depends on the screen width.
 // @todo make it responsive dynamically (or not?)
 var descriptionSnippetLength = 8;
+var extraLinkLimit = 4;
 if (window.matchMedia('(min-width: 64em)').matches) {
 		descriptionSnippetLength = 48;
+		extraLinkLimit = 7;
 } else if (window.matchMedia('(min-width: 48em)').matches) {
 		descriptionSnippetLength = 20;
+		extraLinkLimit = 6;
+} else if (window.matchMedia('(min-width: 35.5em)').matches) {
+		descriptionSnippetLength = 14;
+		extraLinkLimit = 5;
 }
 
 var search = instantsearch({
@@ -66,14 +72,14 @@ function transformString(input) {
 
 function transformLinks(item) {
 	item.links.forEach(function (link, index, array) {
-		if (index > 4) link.class = 'extraLink';
+		if (index > extraLinkLimit-1) link.class = 'extraLink';
 	});
 }
 
 search.addWidget(
 	instantsearch.widgets.searchBox({
 		container: '#search-box',
-		placeholder: 'Search',
+		placeholder: '#Friendly Coworker Search',
 		wrapInput: false,
 		autofocus: false,
 		cssClasses: {
