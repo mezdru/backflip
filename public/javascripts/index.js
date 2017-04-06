@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-04-2017 09:47
+* @Last modified time: 06-04-2017 03:02
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -36,7 +36,7 @@ var search = instantsearch({
 transformItem = function (item) {
 	transformImagePath(item);
 	transformDescriptions(item);
-
+	transformLinks(item);
 	return item;
 };
 
@@ -62,6 +62,12 @@ function transformString(input) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
 			return `<a onclick="setSearch('${cleanMatch}')">${match}</a>`;
 		});
+}
+
+function transformLinks(item) {
+	item.links.forEach(function (link, index, array) {
+		if (index > 4) link.class = 'extraLink';
+	});
 }
 
 search.addWidget(
@@ -90,36 +96,27 @@ search.addWidget(
 
 search.addWidget(
   instantsearch.widgets.refinementList({
+    container: '#within',
+    attributeName: 'within.tag',
+    operator: 'and',
+    limit: 10,
+		searchForFacetValues: {
+			placeholder: 'Search',
+		},
+		templates: {
+      header: 'Teams & Hashtags'
+    }
+  })
+);
+
+search.addWidget(
+  instantsearch.widgets.refinementList({
     container: '#types',
     attributeName: 'type',
     operator: 'or',
     limit: 10,
 		templates: {
-      header: 'Looking for...'
-    }
-  })
-);
-
-search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#teams',
-    attributeName: 'teams.tag',
-    operator: 'and',
-    limit: 10,
-		templates: {
-      header: 'In teams...'
-    }
-  })
-);
-
-search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#hashtags',
-    attributeName: 'hashtags.tag',
-    operator: 'and',
-    limit: 10,
-		templates: {
-      header: 'With hashtags...'
+      header: 'Showing'
     }
   })
 );
@@ -142,6 +139,10 @@ function findAncestor(child, classSearched) {
 
 function toggleItem(child) {
 	findAncestor(child, 'item').classList.toggle('expanded');
+}
+
+function togglePanel() {
+	document.getElementById('left-panel').classList.toggle('open');
 }
 
 function setSearch(query) {
