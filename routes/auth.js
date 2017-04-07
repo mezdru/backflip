@@ -3,14 +3,15 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 11:07
+* @Last modified by:   clement
+* @Last modified time: 07-04-2017 10:54
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');
+var User = require('../models/user.js');
 var Organisation = require('../models/organisation.js');
 
 // Simple easy logout
@@ -24,7 +25,7 @@ router.get('/logout', function(req, res, next) {
 // Setup User depending on Auth
 router.use(function(req, res, next) {
   if (req.session.user) {
-    res.locals.user = req.session.user;
+    res.locals.user = new User(req.session.user);
   } else {
     res.locals.user = false;
     req.session.redirect_after_login = 'https://' + req.headers.host + req.originalUrl;

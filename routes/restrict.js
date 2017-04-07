@@ -3,8 +3,8 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 10:31
+* @Last modified by:   clement
+* @Last modified time: 07-04-2017 11:24
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,7 +23,8 @@ router.use(function(req, res, next) {
 
 // Check if there is an organisation for the user
 router.use(function(req, res, next) {
-  if (!res.locals.user._organisation) {
+  console.log(res.locals.user);
+  if (!res.locals.user.hasOrganisation()) {
     err = new Error('No Organisation');
     err.status = 418;
     return next(err);
@@ -34,8 +35,7 @@ router.use(function(req, res, next) {
 // Check if the user can access the organisation
 router.use(function(req, res, next) {
   if (res.locals.organisation &&
-    res.locals.organisation.public !== true &&
-    res.locals.user._organisation._id != res.locals.organisation._id ) {
+    res.locals.user.belongsToOrganisation(res.locals.organisation._id) ) {
     err = new Error('Forbidden Organisation');
     err.status = 403;
     return next(err);

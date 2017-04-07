@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 10:45
+* @Last modified by:   clement
+* @Last modified time: 07-04-2017 10:49
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -28,7 +28,7 @@ router.get('/welcome', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(req.session.user._organisation._id);
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.render('directory');
 });
 

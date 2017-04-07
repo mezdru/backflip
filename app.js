@@ -3,8 +3,8 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 11:26
+* @Last modified by:   clement
+* @Last modified time: 07-04-2017 11:05
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -81,7 +81,7 @@ app.locals.logoutUrl = '/logout';
 
 // public pages
 var publicPages = require('./routes/public.js');
-app.get('/', publicPages);
+app.use('/', publicPages);
 
 
 /*
@@ -94,7 +94,7 @@ app.use('/', restrict);
 
 // private pages
 var privatePages = require('./routes/private.js');
-app.get('/', privatePages);
+app.use('/', privatePages);
 
 
 // catch 404 and forward to error handler

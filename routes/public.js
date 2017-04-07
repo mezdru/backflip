@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 10:49
+* @Last modified by:   clement
+* @Last modified time: 07-04-2017 11:00
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,7 +13,7 @@ var router = express.Router();
 
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 
-/* GET home page. */
+/* GET homepage depending on context */
 router.get('/', function(req, res, next) {
   if (res.locals.organisation) {
     if (res.locals.organisation.public === true) {
@@ -28,5 +28,6 @@ router.get('/', function(req, res, next) {
     return res.render('homepage');
   }
 });
+
 
 module.exports = router;
