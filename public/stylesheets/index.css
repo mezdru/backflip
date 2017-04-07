@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 07-04-2017 01:25
+* @Last modified time: 07-04-2017 05:14
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -68,7 +68,13 @@ h3 {
   color: #2ECC71;
 }
 
-.playstop:hover .fa {
+.demo .fa {
+  color: #FF2600;
+}
+
+.demo:hover .fa,
+.playstop:hover .fa,
+.twitter:hover .fa {
   	transform: scale(1.5);
     transition-duration: 0.3s;
 }
@@ -385,8 +391,20 @@ input:-moz-placeholder { color: #FFFFFF; }
   color: #FF2600;
 }
 
+.triptic .reward {
+  color: #CCD0D8;
+}
+
 .reward .fa {
   width: auto;
+}
+
+.mobile-screenshot {
+  text-align: center;
+}
+
+.mobile-screenshot img {
+  max-width: 100%;
 }
 
 .error-code {
@@ -616,6 +634,10 @@ footer {
 .logo,
 .menu {
   display: none;
+}
+
+.grid-box {
+  padding: 1em;
 }
 
 /* 568px and above */
