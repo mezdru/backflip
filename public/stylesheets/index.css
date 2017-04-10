@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 07-04-2017 05:14
+* @Last modified time: 10-04-2017 01:42
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -50,6 +50,41 @@ h2 {
 
 h3 {
   margin-bottom: 0;
+}
+
+/* extension of the grid */
+
+.pure-g {
+	padding: 16px;
+}
+
+.person .pure-g {
+	border-bottom: 3px solid #F5F7FA;
+}
+
+.team {
+  background-color: #f0f0ff;
+  border-bottom: 3px solid #F5F7FA;
+}
+
+.hashtag {
+  background-color: #fff0f0;
+  border-bottom: 3px solid #F5F7FA;
+}
+
+.central > h2,
+.central > p,
+.central > div {
+  padding-left: 16px;
+}
+
+.logo,
+.menu {
+  display: none;
+}
+
+.grid-box {
+  padding: 1em;
 }
 
 /* homepage */
@@ -359,7 +394,7 @@ input:-moz-placeholder { color: #FFFFFF; }
   max-width: 198px;
 }
 
-.person .thumb img {
+.org-demo .person .thumb img {
   margin-top: -3vw;
 }
 
@@ -605,39 +640,28 @@ footer {
   z-index: 950
 }
 
-/* extension of the grid */
-
-.pure-g {
-	padding: 16px;
+/* Compose page */
+.compose .tagline {
+  color: #2ECC71;
 }
 
-.person .pure-g {
-	border-bottom: 3px solid #F5F7FA;
+.compose .person .pure-g {
+  border-top: 3px solid #F5F7FA;
 }
 
-.team {
-  background-color: #f0f0ff;
-  border-bottom: 3px solid #F5F7FA;
+.compose p.validate {
+  text-align: center;
 }
 
-.hashtag {
-  background-color: #fff0f0;
-  border-bottom: 3px solid #F5F7FA;
+.compose button {
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 1.5em;
 }
 
-.central > h2,
-.central > p,
-.central > div {
-  padding-left: 16px;
-}
-
-.logo,
-.menu {
-  display: none;
-}
-
-.grid-box {
-  padding: 1em;
+.compose .button-success {
+  background-color: #2ECC71;
 }
 
 /* 568px and above */

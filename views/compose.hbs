@@ -1,0 +1,42 @@
+{{!
+@Author: Clément Dietschy <bedhed>
+@Date:   10-4-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 10-04-2017 01:43
+@Copyright: Clément Dietschy 2017
+}}
+<div class="main compose">
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <h1 class="tagline">Compose your Story</h1>
+    </div>
+  </div>
+  <div class="item person expanded">
+    <div class="pure-g">
+      <div class="pure-u-1-5">
+        <div class="thumb">
+             <img src="{{record.picture.uri}}">
+        </div>
+        <p class="tag">{{record.tag}}</p>
+      </div>
+      <div class="pure-u-4-5 central">
+        <h2>{{record.name}}</h2>
+        <p class="description full">{{record.description}}</p>
+        <div class="links pure-menu pure-menu-horizontal">
+          <ul class="pure-menu-list">
+            {{#record.links}}
+            <li class="pure-menu-item {{class}}"><a href="{{uri}}" class="pure-menu-link"><i class="fa fa-{{type}}" aria-hidden="true"></i><span class="link-text"> {{display}}</span></a></li>
+            {{/record.links}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <p class="validate"><button class="pure-button button-success"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</button></p>
+    </div>
+  </div>
+</div>

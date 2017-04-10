@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 11:19
+* @Last modified time: 10-04-2017 11:37
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -33,7 +33,8 @@ router.get('/me/edit', function(req, res, next) {
 
   Record.findById(res.locals.user.getRecordIdByOrgId(res.locals.organisation._id), function(err, record) {
     if (err) return next(err);
-    res.render('index', {title: 'record', message: JSON.stringify(record, null, 4)});
+    console.log(record);
+    res.render('compose', {title: 'record', record: record});
   });
 });
 

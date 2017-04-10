@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 08-04-2017 10:14
+* @Last modified time: 10-04-2017 12:13
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -18,12 +18,13 @@ var recordSchema = mongoose.Schema({
     uri: String,
     path: String
   },
+  description: String,
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null}
   ],
   links: [
     {
-      type: String,
+      type: {type: String},
       uri: String,
       display: String
     }
