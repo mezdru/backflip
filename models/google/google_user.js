@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 07-04-2017 11:38
+* @Last modified time: 08-04-2017 09:41
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -48,7 +48,7 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
   // if there is a domain, we find the user's organisation
   GoogleOrganisation.getByDomain(user.google.hd, oAuth, function(err, organisation) {
     if (err) return callback(err);
-    user._organisations = [organisation._id];
+    user.orgsAndRecords = [{organisation: organisation._id}];
     return user.save(callback);
   });
 };

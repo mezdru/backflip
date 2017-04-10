@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 10:26
+* @Last modified by:   clement
+* @Last modified time: 08-04-2017 09:44
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -12,7 +12,10 @@ var mongoose = require('mongoose');
 
 var organisationSchema = mongoose.Schema({
   name: String,
-  picture: String,
+  picture: {
+    uri: String,
+    path: String
+  },
   tag: {type: String, index: true, unique: true},
   google: {
     hd: String,
