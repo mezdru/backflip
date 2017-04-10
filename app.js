@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 07-04-2017 11:05
+* @Last modified time: 10-04-2017 04:31
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -45,11 +45,13 @@ if (app.get('env') === 'production') {
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
 
 app.use(favicon(path.join(__dirname, 'public', 'lenom.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 
 // Sessions & Auth
 var cookieParser = require('cookie-parser');
@@ -95,6 +97,10 @@ app.use('/', restrict);
 // private pages
 var privatePages = require('./routes/private.js');
 app.use('/', privatePages);
+
+// compose
+var compose = require('./routes/compose.js');
+app.use('/compose', compose);
 
 
 // catch 404 and forward to error handler

@@ -1,0 +1,95 @@
+/**
+* @Author: Clément Dietschy <bedhed>
+* @Date:   10-04-2017
+* @Email:  clement@lenom.io
+* @Project: Lenom - Backflip
+* @Last modified by:   clement
+* @Last modified time: 10-04-2017 06:13
+* @Copyright: Clément Dietschy 2017
+*/
+
+var express = require('express');
+var router = express.Router();
+
+var User = require('../models/user.js');
+var Record = require('../models/record.js');
+
+// First we check there is an organisation.
+// There is no record without organisation
+router.use(function(req, res, next) {
+  if (!res.locals.organisation) {
+    err = new Error('Subdomain required');
+    err.status = 400;
+    return next(err);
+  }
+  return next();
+});
+
+// Setup the record for the current user/organisation
+router.use(function(req, res, next) {
+  Record.findById(res.locals.user.getRecordIdByOrgId(res.locals.organisation._id), function(err, record) {
+    if (err) return next(err);
+    if (!record) {
+      err = new Error('No record found');
+      err.status = 400;
+      return next(err);
+    }
+    res.locals.record = record;
+    return next();
+  });
+});
+
+// On post we always expect an _id field matching the record for the current user/organisation
+router.post('*', function(req, res, next) {
+  if (req.body._id != res.locals.record._id) {
+    err = new Error('Record Mismatch');
+    err.status = 500;
+    return next(err);
+  }
+  return next();
+});
+
+// Here we provide the action url to the view.
+// Needs some logic because of subdomain handling in development
+// @todo find a way to not do this check at each call
+router.use(function(req, res, next) {
+  res.locals.formAction = '/compose/me';
+  if (req.app.get('env') === 'development') res.locals.formAction = '/compose/me?subdomains=' + req.query.subdomains;
+  next();
+});
+
+router.get('/me', function(req, res, next) {
+  res.render('compose', {title: 'Compose'});
+});
+
+// We save the record after checking everything is alriqht.
+router.post('/me', function(req, res, next) {
+  req.checkBody(Record.validationSchema);
+  /* @todo ESCAPING & TRIMMING at the moment we don't cause it's escaping quotes...
+  req.sanitizeBody('name').trim();
+  req.sanitizeBody('name').escape();
+  req.sanitizeBody('description').trim();
+  req.sanitizeBody('description').escape();
+  */
+  var errors = req.validationErrors();
+  var successes = [];
+
+  res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description});
+
+  if (!errors) {
+    res.locals.record.save (function (err) {
+      if (err) return next(err);
+      console.log('been there');
+      successes.push({msg: "Your story has been saved."});
+      res.render('compose', {title: 'Compose', successes: successes});
+    });
+  } else {
+      res.render('compose', {title: 'Compose', errors: errors});
+  }
+
+
+
+
+});
+
+module.exports = router;

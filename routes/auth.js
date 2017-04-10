@@ -4,13 +4,12 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 07-04-2017 10:54
+* @Last modified time: 10-04-2017 04:55
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
-var undefsafe = require('undefsafe');
 var User = require('../models/user.js');
 var Organisation = require('../models/organisation.js');
 
@@ -25,12 +24,16 @@ router.get('/logout', function(req, res, next) {
 // Setup User depending on Auth
 router.use(function(req, res, next) {
   if (req.session.user) {
-    res.locals.user = new User(req.session.user);
+    User.findById(req.session.user._id, function(err, user) {
+      if (err) return next(err);
+      res.locals.user = user;
+      return next();
+    });
   } else {
     res.locals.user = false;
     req.session.redirect_after_login = 'https://' + req.headers.host + req.originalUrl;
+    return next();
   }
-  return next();
 });
 
 // Setup Organisation depending on Subdomains

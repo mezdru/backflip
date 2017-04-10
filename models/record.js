@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 12:13
+* @Last modified time: 10-04-2017 05:33
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -35,6 +35,27 @@ var recordSchema = mongoose.Schema({
 });
 
 var Record = mongoose.model('Record', recordSchema);
+
+Record.validationSchema = {
+  name: {
+    notEmpty: {
+      errorMessage: 'Name should not be empty'
+    },
+    isLength: {
+      options: [{ min: 4, max: 64 }],
+      errorMessage: 'Name should be between 4 and 64 chars long' // Error message for the validator, takes precedent over parameter message
+    }
+  },
+  description: {
+    notEmpty: {
+      errorMessage: 'Story should not be empty'
+    },
+    isLength: {
+      options: [{ min: 16, max: 2048 }],
+      errorMessage: 'Description should be between 16 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
+    }
+  }
+};
 
 
 

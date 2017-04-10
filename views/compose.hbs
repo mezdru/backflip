@@ -4,39 +4,54 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 10-04-2017 01:43
+@Last modified time: 10-04-2017 06:02
 @Copyright: Clément Dietschy 2017
 }}
 <div class="main compose">
   <div class="pure-g">
     <div class="pure-u-1-1">
       <h1 class="tagline">Compose your Story</h1>
+      <ul class="errors">
+        {{#errors}}
+          <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
+        {{/errors}}
+      </ul>
+      <ul class="successes">
+        {{#successes}}
+          <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{msg}}</li>
+        {{/successes}}
+      </ul>
     </div>
   </div>
-  <div class="item person expanded">
+  <form action="{{formAction}}" method="post" class="pure-form">
+    <input type="hidden" name="_id" value="{{record._id}}" />
+    <div class="item person expanded">
+      <div class="pure-g">
+        <div class="pure-u-1-5">
+          <div class="thumb">
+               <img src="{{record.picture.uri}}">
+          </div>
+          <p class="tag">{{record.tag}}</p>
+        </div>
+        <div class="pure-u-4-5 central">
+          <fieldset class="pure-group">
+            <input name="name" type="text" class="pure-input-1 name-input" placeholder="Your name" value="{{record.name}}">
+            <textarea name="description" class="pure-input-1 description-input" rows="6" placeholder="Your story">{{record.description}}</textarea>
+          </fieldset>
+          <div class="links pure-menu pure-menu-horizontal">
+            <ul class="pure-menu-list">
+              {{#record.links}}
+              <li class="pure-menu-item {{class}}"><a href="{{uri}}" class="pure-menu-link"><i class="fa fa-{{type}}" aria-hidden="true"></i><span class="link-text"> {{display}}</span></a></li>
+              {{/record.links}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="pure-g">
-      <div class="pure-u-1-5">
-        <div class="thumb">
-             <img src="{{record.picture.uri}}">
-        </div>
-        <p class="tag">{{record.tag}}</p>
-      </div>
-      <div class="pure-u-4-5 central">
-        <h2>{{record.name}}</h2>
-        <p class="description full">{{record.description}}</p>
-        <div class="links pure-menu pure-menu-horizontal">
-          <ul class="pure-menu-list">
-            {{#record.links}}
-            <li class="pure-menu-item {{class}}"><a href="{{uri}}" class="pure-menu-link"><i class="fa fa-{{type}}" aria-hidden="true"></i><span class="link-text"> {{display}}</span></a></li>
-            {{/record.links}}
-          </ul>
-        </div>
+      <div class="pure-u-1-1">
+        <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></p>
       </div>
     </div>
-  </div>
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <p class="validate"><button class="pure-button button-success"><i class="fa fa-paper-plane" aria-hidden="true"></i> Save</button></p>
-    </div>
-  </div>
+  </form>
 </div>

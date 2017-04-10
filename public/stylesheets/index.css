@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 01:42
+* @Last modified time: 10-04-2017 05:58
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -43,6 +43,9 @@ h2 {
 	margin: 0;
 	padding: 0;
   line-height: 1em;
+}
+
+h2, .name-input {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   font-size: 1.4em;
@@ -74,7 +77,8 @@ h3 {
 
 .central > h2,
 .central > p,
-.central > div {
+.central > div,
+.central > fieldset {
   padding-left: 16px;
 }
 
@@ -186,10 +190,10 @@ header .fa { color: #FFFFFF }
   color: #33374C;
 }
 
-input::-webkit-input-placeholder { color: #FFFFFF; }
-input:-ms-input-placeholder { color: #FFFFFF; }
-input::-moz-placeholder { color: #FFFFFF; opacity: 1; }
-input:-moz-placeholder { color: #FFFFFF; }
+.search-input::-webkit-input-placeholder { color: #FFFFFF; }
+.search-input:-ms-input-placeholder { color: #FFFFFF; }
+.search-input::-moz-placeholder { color: #FFFFFF; opacity: 1; }
+.search-input:-moz-placeholder { color: #FFFFFF; }
 
 .menu {
 	padding-top: 14px;
@@ -450,14 +454,18 @@ input:-moz-placeholder { color: #FFFFFF; }
   margin: 0;
 }
 
-p.description {
-	line-height: 1.5em;
+.description {
   margin: 0;
   margin-top: 0.3em;
-  font-size: 0.8em;
 }
 
-p.description a:hover {
+.description,
+.description-input {
+  	line-height: 1.5em;
+    font-size: 0.8em;
+}
+
+.description a:hover {
 	color: #FF2600;
 }
 
@@ -646,22 +654,36 @@ footer {
 }
 
 .compose .person .pure-g {
-  border-top: 3px solid #F5F7FA;
+  border-bottom: none;
 }
 
 .compose p.validate {
   text-align: center;
 }
 
-.compose button {
+.save-input {
   color: #ffffff;
+  background-color: #2ECC71;
   text-transform: uppercase;
   font-weight: 300;
   font-size: 1.5em;
 }
 
-.compose .button-success {
-  background-color: #2ECC71;
+.errors,
+.successes {
+  color: #F39C12;
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+.successes {
+  color: #2ECC71;
+}
+
+.errors li {
+  display: inline-block;
+  padding-right: 2em;
 }
 
 /* 568px and above */
@@ -670,11 +692,12 @@ footer {
     width: 80%;
   }
 
-  p.description {
+  .description,
+  .description-input {
     font-size: 1em;
   }
 
-  h2 {
+  h2, .name-input {
     font-size: 1.8em;
   }
 
@@ -718,7 +741,7 @@ footer {
     width: 95%;
   }
 
-  h2 {
+  h2, .name-input {
     font-size: 2.2em;
   }
 
@@ -768,7 +791,7 @@ footer {
     max-width: 62rem;
   }
 
-  h2 {
+  h2, .name-input {
     font-size: 2.6em;
   }
 
