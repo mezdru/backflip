@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 10:41
+* @Last modified time: 10-04-2017 11:19
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -60,12 +60,14 @@ userSchema.methods.belongsToOrganisation = function(organisationID) {
 };
 
 userSchema.methods.getRecordIdByOrgId = function(organisationID) {
-  this.orgsAndRecords.foreach(function(orgAndRecord) {
+  var recordId = false;
+  this.orgsAndRecords.forEach(function(orgAndRecord) {
       // I have no clue why we need the .toString() function to evaluate this equality...
       if (organisationID.toString() === getId(orgAndRecord.organisation).toString()) {
-        return orgAndRecord.record;
+        recordId = orgAndRecord.record;
       }
   });
+  return recordId;
 };
 
 /*

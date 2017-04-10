@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 08-04-2017 10:28
+* @Last modified time: 10-04-2017 11:19
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -25,7 +25,13 @@ router.get('/google/app', function(req, res, next) {
 });
 
 router.get('/me/edit', function(req, res, next) {
-  Record.findById(res.locals.user.getRecordIdFromOrgId(res.locals.organisation._id), function(err, record) {
+  if (!res.locals.organisation) {
+    err = new Error('Subdomain required');
+    err.status = 400;
+    return next(err);
+  }
+
+  Record.findById(res.locals.user.getRecordIdByOrgId(res.locals.organisation._id), function(err, record) {
     if (err) return next(err);
     res.render('index', {title: 'record', message: JSON.stringify(record, null, 4)});
   });
