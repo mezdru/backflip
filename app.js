@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 04:31
+* @Last modified time: 11-04-2017 02:28
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -158,6 +158,7 @@ app.use(function(err, req, res, next) {
 // generic error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
+  console.error(err);
   return res.render('error');
 });
 
