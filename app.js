@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 11-04-2017 02:28
+* @Last modified time: 11-04-2017 02:53
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -112,6 +112,9 @@ app.use(function(req, res, next) {
 
 // generic error setter
 app.use(function(err, req, res, next) {
+  // During early Beta log verbose errors to Heroku console
+  // @todo remove
+  console.error(err);
   // set locals, only providing error in development
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // but the error status is not private
@@ -158,7 +161,6 @@ app.use(function(err, req, res, next) {
 // generic error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  console.error(err);
   return res.render('error');
 });
 
