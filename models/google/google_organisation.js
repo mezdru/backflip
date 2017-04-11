@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 15-03-2017
+* @Last modified by:   clement
+* @Last modified time: 11-04-2017 02:35
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -25,11 +25,17 @@ GoogleOrganisation.newByDomain = function (domain, oAuth, callback) {
   //@todo fetch from googleadmin ...
   var organisation = new Organisation({
     name: domain,
+    tag: this.tagFromDomain(domain),
     google: {
       hd: domain,
     },
   });
   return organisation.save(callback);
+};
+
+GoogleOrganisation.tagFromDomain = function (domain) {
+  var elements = domain.split('.');
+  return elements[0];
 };
 
 module.exports = GoogleOrganisation;
