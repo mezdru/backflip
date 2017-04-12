@@ -102,6 +102,14 @@ app.use('/', privatePages);
 var compose = require('./routes/compose.js');
 app.use('/compose', compose);
 
+// admin
+var admin = require('./routes/admin.js');
+app.use('/admin', admin);
+
+// Lenom admin
+var lenomAdmin = require('./routes/lenom_admin.js');
+app.use('/lenom_admin', lenomAdmin);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

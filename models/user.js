@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   name: String,
+  email: String,
   picture: {
     uri: String,
     path: String
@@ -22,7 +23,8 @@ var userSchema = mongoose.Schema({
       // Can be populated or not, use getId to get Id.
       organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
       // Can be populated or not, use getId to get Id.
-      record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null}
+      record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null},
+      admin: Boolean
     }
   ],
   locale: {type: String, default: 'en' },
@@ -39,7 +41,8 @@ var userSchema = mongoose.Schema({
   last_action: {type: Date},
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  welcomed: { type: Boolean, default: false }
+  welcomed: { type: Boolean, default: false },
+  lenom_admin: Boolean
 });
 
 userSchema.methods.touchLogin = function (callback) {

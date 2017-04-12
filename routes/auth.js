@@ -36,6 +36,14 @@ router.use(function(req, res, next) {
   }
 });
 
+// Setup impersonator if there is one
+router.use(function(req, res, next) {
+  if (req.session.impersonator) {
+    res.locals.impersonator = req.session.impersonator;
+  }
+  return next();
+});
+
 // Setup Organisation depending on Subdomains
 router.use(function(req, res, next) {
   var subdomains = req.subdomains;
