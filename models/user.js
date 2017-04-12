@@ -36,6 +36,7 @@ var userSchema = mongoose.Schema({
     },
   },
   last_login: { type: Date },
+  last_action: {type: Date},
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false }

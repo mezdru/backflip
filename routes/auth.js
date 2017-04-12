@@ -24,7 +24,7 @@ router.get('/logout', function(req, res, next) {
 // Setup User depending on Auth
 router.use(function(req, res, next) {
   if (req.session.user) {
-    User.findById(req.session.user._id, function(err, user) {
+    User.findByIdAndUpdate(req.session.user._id, {last_action: Date.now()},function(err, user) {
       if (err) return next(err);
       res.locals.user = user;
       return next();
