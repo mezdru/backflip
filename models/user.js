@@ -63,6 +63,11 @@ userSchema.methods.belongsToOrganisation = function(organisationID) {
   return this.orgsAndRecords.some(orgAndRecord => organisationID.toString() === getId(orgAndRecord.organisation).toString());
 };
 
+userSchema.methods.isAdminToOrganisation = function(organisationID) {
+    // I have no clue why we need the .toString() function to evaluate this equality...
+  return this.orgsAndRecords.some(orgAndRecord => organisationID.toString() === getId(orgAndRecord.organisation).toString() && orgAndRecord.admin === true);
+};
+
 userSchema.methods.getRecordIdByOrgId = function(organisationID) {
   var recordId = false;
   this.orgsAndRecords.forEach(function(orgAndRecord) {

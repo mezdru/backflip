@@ -15,7 +15,7 @@ hbs.registerHelper('raw', function(options) {
 });
 
 hbs.registerHelper('json', function(context) {
-    return JSON.stringify(context);
+    return JSON.stringify(context, null, 4);
 });
 
 hbs.registerPartials(__dirname + '/partials');

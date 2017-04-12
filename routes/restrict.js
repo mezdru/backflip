@@ -17,18 +17,16 @@ router.use(function(req, res, next) {
     err = new Error('Not Authenticated');
     err.status = 401;
     return next(err);
-  }
-  return next();
+  } else return next();
 });
 
 // Check if there is an organisation for the user
 router.use(function(req, res, next) {
   if (!res.locals.user.hasOrganisation()) {
-    err = new Error('No Organisation');
+    err = new Error('No Organisation for user');
     err.status = 418;
     return next(err);
-  }
-  return next();
+  } else return next();
 });
 
 // Check if the user can access the organisation
@@ -38,8 +36,7 @@ router.use(function(req, res, next) {
     err = new Error('Forbidden Organisation');
     err.status = 403;
     return next(err);
-  }
-  return next();
+  } else return next();
 });
 
 module.exports = router;

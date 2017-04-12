@@ -30,6 +30,9 @@ router.use(function(req, res, next) {
   );
   if (undefsafe(req.session, 'user.google.tokens')) {
     req.googleOAuth.setCredentials(req.session.user.google.tokens);
+    google.options({
+      auth: req.googleOAuth
+    });
   }
   return next();
 });
