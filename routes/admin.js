@@ -15,6 +15,7 @@ var google = require('googleapis');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
+var GoogleRecord = require('../models/google/google_record.js');
 
 // Maybe all this logic should be under /google/ as it's only google related at the moment...
 
@@ -51,11 +52,12 @@ router.use(function(req, res, next) {
 router.get('/google/update', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
+    records = GoogleRecord.buildRecords(ans.users, res.locals.organisation._id);
     res.render('index',
     {
       title: 'directory.users.list',
-      details: 'Calling the Admin Directory API to get the users list',
-      content: ans
+      details: `Calling the Admin Directory API to get the users list. Got ${records.length}/${ans.users.length} results`,
+      content: records
     });
   });
 });

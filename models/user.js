@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   name: String,
+  // Careful not to use 1 email as identifier... better use arrays.
   email: String,
   picture: {
     uri: String,

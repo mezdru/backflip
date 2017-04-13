@@ -12,27 +12,33 @@ var mongoose = require('mongoose');
 
 var recordSchema = mongoose.Schema({
   name: String,
-  tag: {type: String, index: true},
-  organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
+  tag: String,
+  type: {type: String, enum: ['person', 'team', 'hashtag']},
+  organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true},
   picture: {
     uri: String,
     path: String
   },
   description: String,
   within: [
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null}
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
   links: [
     {
       type: {type: String},
+      identifier: Boolean,
+      value: String,
+      target: {type: String, enum: ['organisation','private','system']},
       uri: String,
       display: String
     }
   ],
-  type: String,
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
 });
+
+recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
+recordSchema.index({'links.type': 1, 'links.value': 1}, { partialFilterExpression: {identifier: true} });
 
 var Record = mongoose.model('Record', recordSchema);
 
