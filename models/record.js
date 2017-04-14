@@ -9,6 +9,7 @@
 */
 
 var mongoose = require('mongoose');
+var linkSchema = require('./link.js');
 
 var recordSchema = mongoose.Schema({
   name: String,
@@ -23,22 +24,13 @@ var recordSchema = mongoose.Schema({
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
-  links: [
-    {
-      type: {type: String},
-      identifier: Boolean,
-      value: String,
-      target: {type: String, enum: ['organisation','private','system']},
-      uri: String,
-      display: String
-    }
-  ],
+  links: [linkSchema],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
 });
 
 recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
-recordSchema.index({'links.type': 1, 'links.value': 1}, { partialFilterExpression: {identifier: true} });
+recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1}, { partialFilterExpression: {identifier: true} });
 
 var Record = mongoose.model('Record', recordSchema);
 

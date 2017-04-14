@@ -49,17 +49,20 @@ router.use(function(req, res, next) {
   return next();
 });
 
+//@todo paginate & handle more than 500 (500 is the max maxResults)
 router.get('/google/update', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
-    records = GoogleRecord.buildRecords(ans.users, res.locals.organisation._id);
-    res.render('index',
-    {
-      title: 'directory.users.list',
-      details: `Calling the Admin Directory API to get the users list. Got ${records.length}/${ans.users.length} results`,
-      content: records
+    //records = GoogleRecord.buildRecords(ans.users, res.locals.organisation._id);
+    var whatswhat = GoogleRecord.whatswhat(ans.users, res.locals.organisation._id);
+
+      res.render('index',
+      {
+        title: `${ans.users.length} Google Users`,
+        details: `Found ${whatswhat.found.length} Records, got ${whatswhat.new.length} new Persons. Careful: this logic cannot handle more than 500 users.`,
+        content: whatswhat
+      });
     });
-  });
 });
 
 module.exports = router;

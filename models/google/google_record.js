@@ -15,12 +15,48 @@ var Record = require('../record.js');
 
 var GoogleRecord = {};
 
+//@todo handle suspended & deleted users, save them but do not display them
+//@todo handle active users becoming suspend or deleted
 GoogleRecord.filterActive = function(googleUsers) {
   return googleUsers.filter(this.isActive);
 };
 
 GoogleRecord.isActive = function(googleUser) {
   return !googleUser.suspended;
+};
+
+
+// Separate new records from old ones
+// Separate those old ones who needs update from the others
+GoogleRecord.whatswhat = function(googleUsers, organisationID) {
+  var whatswhat = {
+    found: [],
+    new: []
+  };
+  googleUsers = this.filterActive(googleUsers);
+  googleUsers.forEach(function (googleUser) {
+    Record.findOne({
+      organisation: organisationID,
+      links: {
+        $elemMatch: {
+          type: 'googleId',
+          value: googleUser.id
+        }
+      }
+    }, function(err, record) {
+      if (err) return console.error(err);
+      if (record) whatswhat.found.push({
+        record: record,
+        googleUser: googleUser
+      });
+      else whatswhat.new.push({
+        record: null,
+        googleUser: googleUser
+      });
+    });
+  });
+  console.log(`${whatswhat.found.length} found + ${whatswhat.new.length} new`);
+  return whatswhat;
 };
 
 GoogleRecord.buildRecords = function(googleUsers, organisationID) {
@@ -105,6 +141,10 @@ GoogleRecord.makeLinks = function(googleUser) {
           });
         });
   return links;
+};
+
+GoogleRecord.saveMany = function(records, callback) {
+  Record.insertMany(records, callback);
 };
 
 module.exports = GoogleRecord;
