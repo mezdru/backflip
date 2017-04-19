@@ -10,6 +10,7 @@
 
 var User = require('../user.js');
 var GoogleOrganisation = require('./google_organisation.js');
+var GoogleRecord = require('./google_record.js');
 
 var GoogleUser = {};
 
@@ -24,6 +25,7 @@ GoogleUser.getByTokens = function (tokens, oAuth, callback) {
     else return callback(null, user);
   });
 };
+
 
 GoogleUser.newByTokens = function(tokens, oAuth, callback) {
   //we probably decoded the id_token just before, but in case we didn't
@@ -45,11 +47,19 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
   // if there is no domain, we cannot find or create an organisation
   if (!user.google.hd) return user.save(callback);
 
-  // if there is a domain, we find the user's organisation
+  // if there is a domain, we find the user's organisation and the user Record
+  //@todo inherit admin from Google
+  //@todo fetch record not only on user creation (imagine this is the first user)
   GoogleOrganisation.getByDomain(user.google.hd, oAuth, function(err, organisation) {
     if (err) return callback(err);
-    user.orgsAndRecords = [{organisation: organisation._id}];
-    return user.save(callback);
+    GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
+      if (err) return callback(err);
+      if (record)
+        user.orgsAndRecords = [{organisation: organisation._id, record: record._id}];
+      else
+        user.orgsAndRecords  = [{organisation: organisation._id}];
+      return user.save(callback);
+    });
   });
 };
 

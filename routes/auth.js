@@ -26,7 +26,8 @@ router.use(function(req, res, next) {
   if (req.session.user) {
     User.findByIdAndUpdate(req.session.user._id, {last_action: Date.now()},function(err, user) {
       if (err) return next(err);
-      res.locals.user = user;
+      req.session.user = user;
+      res.locals.user = req.session.user;
       return next();
     });
   } else {

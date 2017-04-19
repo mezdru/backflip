@@ -12,6 +12,7 @@ var Organisation = require('../organisation.js');
 
 var GoogleOrganisation = {};
 
+//@todo handle multi domain per organisation
 GoogleOrganisation.getByDomain = function (domain, oAuth, callback) {
   Organisation.findOne({'google.hd': domain}, function(err, organisation) {
     if (err) return callback(err);

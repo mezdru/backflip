@@ -26,7 +26,7 @@ router.use(function(req, res, next) {
     err.status = 403;
     return next(err);
   } else if (!res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
-    err = new Error('Forbidden');
+    err = new Error('Must be Admin');
     err.status = 403;
     return next(err);
   } else return next();
@@ -59,8 +59,32 @@ router.use(function(req, res, next) {
   return next();
 });
 
+router.get('/google/users/list', function(req, res, next) {
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Google Users within your organisation',
+        details: `Google Admin Directory API returns ${ans.users.length} users`,
+        content: ans
+      });
+    });
+});
+
+router.get('/google/users/get/:googleId', function (req, res, next) {
+  google.admin('directory_v1').users.get( {userKey: req.params.googleId},function (err, ans) {
+    if (err) return next(err);res.render('index',
+    {
+      title: 'Google User Details',
+      details: 'Google Admin Directory API returns these info about the user',
+      content: ans
+    });
+  });
+});
+
+
 //@todo paginate & handle more than 500 (500 is the max maxResults)
-router.get('/google/update_users', function(req, res, next) {
+router.get('/google/users/update', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
     var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);
@@ -78,6 +102,18 @@ router.get('/google/update_users', function(req, res, next) {
         delete: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'delete'),
         create: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'create'),
         keep: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'keep')
+      });
+    });
+});
+
+router.get('/google/domains', function(req, res, next) {
+  google.admin('directory_v1').domains.list({customer: 'my_customer'}, function (err, ans) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Google Domains within your organisation',
+        details: `Google Admin Directory API returns ${ans.domains.length} domains`,
+        content: ans
       });
     });
 });

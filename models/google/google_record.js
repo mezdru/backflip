@@ -16,6 +16,18 @@ var Record = require('../record.js');
 
 var GoogleRecord = {};
 
+GoogleRecord.getByGoogleId = function(googleId, organisationId, callback) {
+  return Record.findOne({
+    organisation: organisationId,
+    links: {
+      $elemMatch: {
+        type: 'googleId',
+        value: googleId,
+      }
+    }
+  }, callback);
+};
+
 // Takes an array of Google users, try to find them by google ID in our DB, and returns [{record, goolgeUser}]
 GoogleRecord.matchRecordsAndGoogleUsers = function(records, googleUsers) {
   var recordsAndGoogleUsers = [];
@@ -144,6 +156,7 @@ GoogleRecord.makeLinks = function(googleUser) {
       target: 'organisation'
     });
   });
+/*@todo check whether aliases & nonEditableAliases are useful or not
   if (googleUser.aliases)
     googleUser.aliases.forEach(function(alias) {
       links.push({
@@ -161,7 +174,7 @@ GoogleRecord.makeLinks = function(googleUser) {
         value: alias,
         target: 'system'
       });
-    });
+    });*/
     if (googleUser.addresses)
       googleUser.addresses.forEach(function(addressObject) {
         links.push({
