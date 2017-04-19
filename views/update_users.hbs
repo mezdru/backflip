@@ -1,0 +1,81 @@
+{{!
+@Author: Clément Dietschy <bedhed>
+@Date:   09-03-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 06-04-2017 03:13
+@Copyright: Clément Dietschy 2017
+}}
+
+<div class="main">
+  <div class="pure-g">
+    <div class="pure-u-1-1">
+      <h1 class="tagline">Directory Update</h1>
+    </div>
+  </div>
+  {{#if create}}
+  <div class="pure-g">
+    <div class="pure-u-1-5">
+      <h1 class="reward"><i class="fa fa-plus-circle" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-4-5">
+      <h2>Create</h2>
+      <p>The Following {{create.length}} persons have been added to your Lenom directory.</p>
+      <p>
+        {{#each create}}
+          {{record.name}},
+        {{/each}}
+      </p>
+    </div>
+  </div>
+  {{/if}}
+  {{#if update}}
+  <div class="pure-g">
+    <div class="pure-u-1-5">
+      <h1 class="reward"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-4-5">
+      <h2>Update</h2>
+      <p>The Following {{update.length}} persons have been updated in your Lenom Directory.</p>
+      <p>
+        {{#each update}}
+          {{record.name}},
+        {{/each}}
+      </p>
+    </div>
+  </div>
+  {{/if}}
+  {{#if delete}}
+  <div class="pure-g">
+    <div class="pure-u-1-5">
+      <h1 class="reward"><i class="fa fa-minus-circle" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-4-5">
+      <h2>Delete</h2>
+      <p>The Following {{delete.length}} persons have been removed from your Lenom Directory.</p>
+      <p>
+        {{#each delete}}
+          {{record.name}},
+        {{/each}}
+      </p>
+    </div>
+  </div>
+  {{/if}}
+  {{#if keep}}
+  <div class="pure-g">
+    <div class="pure-u-1-5">
+      <h1 class="reward"><i class="fa fa-circle" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-4-5">
+      <h2>Keep</h2>
+      <p>The Following {{keep.length}} persons have not changed.</p>
+      <p>
+        {{#each keep}}
+          {{record.name}},
+        {{/each}}
+      </p>
+    </div>
+  </div>
+  {{/if}}
+</div>

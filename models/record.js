@@ -9,7 +9,8 @@
 */
 
 var mongoose = require('mongoose');
-var linkSchema = require('./link.js');
+var mongooseDelete = require('mongoose-delete');
+var linkSchema = require('./link_schema.js');
 
 var recordSchema = mongoose.Schema({
   name: String,
@@ -26,11 +27,26 @@ var recordSchema = mongoose.Schema({
   ],
   links: [linkSchema],
   created: { type: Date, default: Date.now },
-  updated: { type: Date, default: Date.now },
+  updated: { type: Date, default: Date.now }
 });
 
-recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
+//@todo restore the unique; true condition on organisation/tag
+//There's some UI needed here. Or make a different tag if needed.
+recordSchema.index({'organisation': 1, 'tag': 1}/*, {unique: true}*/);
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1}, { partialFilterExpression: {identifier: true} });
+
+recordSchema.methods.getGoogleId = function() {
+  var googleIdLink = this.links.find(function(link) {
+    return link.type === 'googleId';
+  });
+  return (googleIdLink) ? googleIdLink.value : false;
+};
+
+recordSchema.methods.isPerson = function() {
+  return this.type === 'person';
+};
+
+recordSchema.plugin(mongooseDelete, {deletedAt : true, overrideMethods: 'all', validateBeforeDelete: false, indexFields: 'all' });
 
 var Record = mongoose.model('Record', recordSchema);
 

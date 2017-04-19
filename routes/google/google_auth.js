@@ -22,6 +22,7 @@ var Organisation = require('../../models/google/google_organisation.js');
 
 // Create Google OAuth2 Client for everyone
 // Populate with tokens if available
+// @todo deduplicate this code (also in admin.js)
 router.use(function(req, res, next) {
   req.googleOAuth = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,

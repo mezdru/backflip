@@ -32,6 +32,16 @@ router.use(function(req, res, next) {
   } else return next();
 });
 
+// Load the whole organisation records, we'll need those for further use
+// @todo avoid this by asyncrhonously request exactly what we need later
+router.use(function(req, res, next) {
+  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
+    if (err) return next(err);
+    res.locals.organisation.records = records;
+    return next();
+  });
+});
+
 // Create Google OAuth2 Client for everyone
 // Populate with tokens if available
 // @todo deduplicate this code (also in google_auth.js)
@@ -50,17 +60,24 @@ router.use(function(req, res, next) {
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
-router.get('/google/update', function(req, res, next) {
+router.get('/google/update_users', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
-    //records = GoogleRecord.buildRecords(ans.users, res.locals.organisation._id);
-    var whatswhat = GoogleRecord.whatswhat(ans.users, res.locals.organisation._id);
-
-      res.render('index',
+    var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);
+    GoogleRecord.deleteRecords(recordsAndGoogleUsers, function(err, result) {
+      if (err) return next(err);
+      console.log(`Deleted ${result.n} records in ${res.locals.organisation.tag}`);
+    });
+    GoogleRecord.createRecords(recordsAndGoogleUsers, res.locals.organisation._id, function(err, result) {
+      if (err) return next(err);
+      console.log(`Created ${result.length} records in ${res.locals.organisation.tag}`);
+    });
+    res.render('update_users',
       {
-        title: `${ans.users.length} Google Users`,
-        details: `Found ${whatswhat.found.length} Records, got ${whatswhat.new.length} new Persons. Careful: this logic cannot handle more than 500 users.`,
-        content: whatswhat
+        googleUsers: ans.users,
+        delete: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'delete'),
+        create: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'create'),
+        keep: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'keep')
       });
     });
 });

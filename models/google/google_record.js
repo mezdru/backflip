@@ -12,62 +12,102 @@ var Record = require('../record.js');
 
 // This is more an helper than a model.
 // @todo move somewhere else.
+// @todo redesign this mess
 
 var GoogleRecord = {};
 
-//@todo handle suspended & deleted users, save them but do not display them
-//@todo handle active users becoming suspend or deleted
-GoogleRecord.filterActive = function(googleUsers) {
-  return googleUsers.filter(this.isActive);
-};
-
-GoogleRecord.isActive = function(googleUser) {
-  return !googleUser.suspended;
-};
-
-
-// Separate new records from old ones
-// Separate those old ones who needs update from the others
-GoogleRecord.whatswhat = function(googleUsers, organisationID) {
-  var whatswhat = {
-    found: [],
-    new: []
-  };
-  googleUsers = this.filterActive(googleUsers);
-  googleUsers.forEach(function (googleUser) {
-    Record.findOne({
-      organisation: organisationID,
-      links: {
-        $elemMatch: {
-          type: 'googleId',
-          value: googleUser.id
-        }
-      }
-    }, function(err, record) {
-      if (err) return console.error(err);
-      if (record) whatswhat.found.push({
-        record: record,
-        googleUser: googleUser
-      });
-      else whatswhat.new.push({
-        record: null,
-        googleUser: googleUser
-      });
-    });
+// Takes an array of Google users, try to find them by google ID in our DB, and returns [{record, goolgeUser}]
+GoogleRecord.matchRecordsAndGoogleUsers = function(records, googleUsers) {
+  var recordsAndGoogleUsers = [];
+  records.forEach(function(record) {
+    if (record.isPerson()) {
+      let recordAndGoogleUser = {
+        record: record
+      };
+      recordAndGoogleUser.googleUser = GoogleRecord.spliceGoogleUsers(record, googleUsers);
+      recordsAndGoogleUsers.push(recordAndGoogleUser);
+    }
   });
-  console.log(`${whatswhat.found.length} found + ${whatswhat.new.length} new`);
-  return whatswhat;
-};
-
-GoogleRecord.buildRecords = function(googleUsers, organisationID) {
-  var records = [];
-  this.filterActive(googleUsers).forEach(function (googleUser) {
-    records.push(GoogleRecord.buildRecord(googleUser, organisationID));
+  // Now that we found all the Google Users we had on Record, add the ones we don't have (inactive or new).
+  googleUsers.forEach(function(googleUser) {
+    let recordAndGoogleUser = {
+      record: false,
+      googleUser: googleUser
+    };
+    recordsAndGoogleUsers.push(recordAndGoogleUser);
   });
-  return records;
+  return this.tagActions(recordsAndGoogleUsers);
 };
 
-GoogleRecord.buildRecord = function(googleUser, organisationID) {
+// Return the Google User corresponding to the record and remove the Google User from the input array
+GoogleRecord.spliceGoogleUsers = function(record, googleUsers) {
+  let googleId = record.getGoogleId();
+  if (!googleId) return undefined;
+  let googleUser = googleUsers.find(function(googleUser, index, googleUsers) {
+    if (googleUser.id === googleId) {
+      googleUsers.splice(index, 1);
+      return true;
+    }
+  });
+  return googleUser || false;
+};
+
+
+//@todo handle the update action
+GoogleRecord.tagActions = function(recordsAndGoogleUsers) {
+  recordsAndGoogleUsers.forEach(function (recordAndGoogleUser) {
+    // Delete
+    if (recordAndGoogleUser.record &&
+      (recordAndGoogleUser.googleUser === false ||
+      recordAndGoogleUser.googleUser.suspended === true)) {
+        recordAndGoogleUser.action = 'delete';
+    // create
+    } else if  (!recordAndGoogleUser.record &&
+      recordAndGoogleUser.googleUser &&
+      recordAndGoogleUser.googleUser.suspended === false) {
+        recordAndGoogleUser.action = 'create';
+    // keep
+    } else if (recordAndGoogleUser.record &&
+      recordAndGoogleUser.googleUser) {
+        recordAndGoogleUser.action = 'keep';
+    }
+  });
+  return recordsAndGoogleUsers;
+};
+
+GoogleRecord.getRecordsAndGoogleUser = function(recordsAndGoogleUsers, action) {
+  if (!action) return recordsAndGoogleUsers;
+  return recordsAndGoogleUsers.filter(function(recordAndGoogleUser) {
+    return recordAndGoogleUser.action === action;
+  });
+};
+
+GoogleRecord.deleteRecords = function(recordsAndGoogleUsers, callback) {
+  recordsToDelete = [];
+  recordsAndGoogleUsers.forEach(function(recordAndGoogleUser) {
+    if (recordAndGoogleUser.action === 'delete') {
+      recordsToDelete.push(recordAndGoogleUser.record._id);
+    }
+  });
+  return Record.delete({_id:{$in: recordsToDelete}}, callback);
+};
+
+GoogleRecord.createRecords = function(recordsAndGoogleUsers, organisationID, callback) {
+  recordsToSave = [];
+  recordsAndGoogleUsers.forEach(function (recordAndGoogleUser) {
+    if (recordAndGoogleUser.action === 'create') {
+      recordAndGoogleUser.record = GoogleRecord.createRecord(recordAndGoogleUser.googleUser, organisationID);
+      recordsToSave.push(recordAndGoogleUser.record);
+    }
+  });
+  if (recordsToSave.length === 0) {
+    return callback(null, []);
+  } else {
+    return this.saveMany(recordsToSave, callback);
+  }
+};
+
+GoogleRecord.createRecord = function(googleUser, organisationID) {
   return new Record({
       name: googleUser.name.fullName,
       tag: this.makeTag(googleUser),
