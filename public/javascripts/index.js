@@ -49,11 +49,14 @@ transformItem = function (item) {
 function transformImagePath(item) {
 	if (!item.picture) {
 		item.picture = {
-			uri: "/images/placeholder.png"
+			url: "/images/placeholder.png"
 		};
 		item.type += " invisible";
 	} else if (item.picture.path) {
-		item.picture.uri = "/images" + item.picture.path;
+		item.picture.url = "/images" + item.picture.path;
+		//@todo remove this last if once the refacto URI > URL is done
+	} else if (item.picture.uri) {
+		item.picture.url = item.picture.uri;
 	}
 }
 
@@ -72,8 +75,44 @@ function transformString(input) {
 
 function transformLinks(item) {
 	item.links.forEach(function (link, index, array) {
+		makeLinkIcon(link);
+		makeLinkDisplay(link);
 		if (index > extraLinkLimit-1) link.class = 'extraLink';
 	});
+}
+
+function makeLinkIcon(link) {
+	switch (link.type) {
+		case 'email':
+			link.icon = 'envelope-o';
+			break;
+		case 'address':
+			link.icon = 'map-marker';
+			break;
+		default:
+			link.icon = link.type;
+			break;
+	}
+}
+
+function makeLinkDisplay(link) {
+	link.display = link.display || link.value;
+}
+
+function makeLinkUrl(link) {
+	if (!link.url) {
+		switch (link.type) {
+			case 'email':
+				link.url = 'mailto:'+link.value;
+				break;
+			case 'address':
+				link.url = 'http://maps.google.com/?q='+encodeURIComponent(link.value);
+				break;
+			default:
+				link.url = link.uri;
+				break;
+		}
+	}
 }
 
 search.addWidget(
