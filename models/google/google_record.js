@@ -19,12 +19,7 @@ var GoogleRecord = {};
 GoogleRecord.getByGoogleId = function(googleId, organisationId, callback) {
   return Record.findOne({
     organisation: organisationId,
-    links: {
-      $elemMatch: {
-        type: 'googleId',
-        value: googleId,
-      }
-    }
+    'google.id': googleId
   }, callback);
 };
 
@@ -98,10 +93,16 @@ GoogleRecord.deleteRecords = function(recordsAndGoogleUsers, callback) {
   recordsToDelete = [];
   recordsAndGoogleUsers.forEach(function(recordAndGoogleUser) {
     if (recordAndGoogleUser.action === 'delete') {
-      recordsToDelete.push(recordAndGoogleUser.record._id);
+      recordsToDelete.push(recordAndGoogleUser.record);
     }
   });
-  return Record.delete({_id:{$in: recordsToDelete}}, callback);
+  return this.deleteMany(recordsToDelete, callback);
+};
+
+GoogleRecord.deleteMany = function(records, callback) {
+  records.forEach(function(record) {
+    record.delete(callback);
+  });
 };
 
 GoogleRecord.createRecords = function(recordsAndGoogleUsers, organisationID, callback) {
@@ -112,42 +113,45 @@ GoogleRecord.createRecords = function(recordsAndGoogleUsers, organisationID, cal
       recordsToSave.push(recordAndGoogleUser.record);
     }
   });
-  if (recordsToSave.length === 0) {
-    return callback(null, []);
-  } else {
-    return this.saveMany(recordsToSave, callback);
-  }
+  return this.saveMany(recordsToSave, callback);
 };
 
 GoogleRecord.createRecord = function(googleUser, organisationID) {
   return new Record({
       name: googleUser.name.fullName,
-      tag: this.makeTag(googleUser),
+      tag: this.createTag(googleUser),
       type: 'person',
       organisation: organisationID,
       picture: {
-        uri: googleUser.thumbnailPhotoUrl
+        url: googleUser.thumbnailPhotoUrl
       },
-      links: GoogleRecord.makeLinks(googleUser),
+      google: {
+        id: googleUser.id,
+        etag: googleUser.etag,
+        primaryEmail: googleUser.primaryEmail,
+        isAdmin: googleUser.isAdmin,
+        lastLoginTime: googleUser.lastLoginTime,
+        creationTime: googleUser.creationTime,
+        suspended: googleUser.suspended,
+        customerId: googleUser.customerId,
+        orgUnitPath: googleUser.orgUnitPath,
+      },
+      links: GoogleRecord.createLinks(googleUser),
   });
 };
 
-GoogleRecord.makeTag = function(googleUser) {
-  return googleUser.primaryEmail.split('@')[0];
+//@todo get rid of the prefix @, #, ... in the code & db.
+GoogleRecord.createTag = function(googleUser) {
+  return '@'+googleUser.primaryEmail.split('@')[0];
 };
 
 
 // This is some very important logic: understanding the structure & content of a GoogleUser
 // And converting this into our own Record.
 // This could be several little workers taking care of 1 type of field each.
-GoogleRecord.makeLinks = function(googleUser) {
+// @todo check whether aliases & nonEditableAliases are useful or not
+GoogleRecord.createLinks = function(googleUser) {
   var links = [];
-  links.push({
-    type: 'googleId',
-    identifier: true,
-    value: googleUser.id,
-    target: 'system'
-  });
   googleUser.emails.forEach(function(emailObject) {
     links.push({
       type: 'email',
@@ -156,48 +160,33 @@ GoogleRecord.makeLinks = function(googleUser) {
       target: 'organisation'
     });
   });
-/*@todo check whether aliases & nonEditableAliases are useful or not
-  if (googleUser.aliases)
-    googleUser.aliases.forEach(function(alias) {
+  if (googleUser.addresses) {
+    googleUser.addresses.forEach(function(addressObject) {
       links.push({
-        type: 'email',
-        identifier: true,
-        value: alias,
-        target: 'private'
+        type: 'address',
+        value: addressObject.formatted,
+        target: (addressObject.type == 'work') ? 'organisation' : 'private'
       });
     });
-  if (googleUser.nonEditableAliases)
-    googleUser.nonEditableAliases.forEach(function(alias) {
+  }
+  if (googleUser.phones) {
+    googleUser.phones.forEach(function(phoneObject) {
       links.push({
-        type: 'email',
-        identifier: true,
-        value: alias,
-        target: 'system'
+        type: 'phone',
+        value: phoneObject.value,
+        target: (phoneObject.type == 'work') ? 'organisation' : 'private'
       });
-    });*/
-    if (googleUser.addresses)
-      googleUser.addresses.forEach(function(addressObject) {
-        links.push({
-          type: 'address',
-          identifier: false,
-          value: addressObject.formatted,
-          target: (addressObject.type == 'work') ? 'organisation' : 'private'
-        });
-      });
-      if (googleUser.phones)
-        googleUser.phones.forEach(function(phoneObject) {
-          links.push({
-            type: 'phone',
-            identifier: false,
-            value: phoneObject.value,
-            target: (phoneObject.type == 'work') ? 'organisation' : 'private'
-          });
-        });
+    });
+  }
   return links;
 };
 
 GoogleRecord.saveMany = function(records, callback) {
-  Record.insertMany(records, callback);
+  records.forEach(function (record) {
+    record.save(callback);
+  });
+  //@todo use batch save (does not work with mongoose-algolia yet)
+  //Record.insertMany(records, callback);
 };
 
 module.exports = GoogleRecord;

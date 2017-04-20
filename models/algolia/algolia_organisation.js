@@ -29,4 +29,9 @@ AlgoliaOrganisation.makePublicKey = function(organisationId) {
   return public_key;
 };
 
+AlgoliaOrganisation.clear = function(organisationId, callback) {
+  var world = client.initIndex('world');
+  world.deleteByQuery({filters: 'organisation:'+organisationId}, callback);
+};
+
 module.exports = AlgoliaOrganisation;

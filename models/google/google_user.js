@@ -54,10 +54,14 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
     if (err) return callback(err);
     GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
       if (err) return callback(err);
-      if (record)
-        user.orgsAndRecords = [{organisation: organisation._id, record: record._id}];
-      else
-        user.orgsAndRecords  = [{organisation: organisation._id}];
+      let orgAndRecord  = {organisation: organisation._id};
+      if (record) {
+        orgAndRecord.record = record._id;
+        if (record.google.isAdmin) {
+          orgAndRecord.admin = true;
+        }
+      }
+      user.orgsAndRecords.push(orgAndRecord);
       return user.save(callback);
     });
   });

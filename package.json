@@ -30,6 +30,7 @@
     "hbs": "~4.0.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",
+    "mongoose-algolia": "git+ssh://git@github.com/lenomio/mongoose-algolia.git",
     "mongoose-delete": "^0.3.4",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.2",

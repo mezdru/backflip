@@ -12,9 +12,7 @@ var mongoose = require('mongoose');
 
 var linkSchema = mongoose.Schema({
   type: {type: String},
-  identifier: Boolean,
   value: String,
-  target: {type: String, enum: ['organisation','private','system']},
   uri: String,
   display: String
 });

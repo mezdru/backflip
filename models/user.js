@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({
   name: String,
   // Careful not to use 1 email as identifier... better use arrays.
+  //@todo remove this email field
   email: String,
   picture: {
     uri: String,
@@ -31,6 +32,7 @@ var userSchema = mongoose.Schema({
   locale: {type: String, default: 'en' },
   google: {
     id: {type: String, index: true, unique: true},
+    //@todo rename to primaryEmail
     email: String,
     hd: String,
     tokens: {
