@@ -25,6 +25,10 @@ router.use(function(req, res, next) {
   return next();
 });
 
+router.use('/me', function(req, res, next) {
+  req.params.record = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
+});
+
 // Setup the record for the current user/organisation
 router.use(function(req, res, next) {
   Record.findById(res.locals.user.getRecordIdByOrgId(res.locals.organisation._id), function(err, record) {

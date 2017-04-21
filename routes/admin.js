@@ -150,6 +150,22 @@ router.get('/google/users/test', function(req, res, next) {
     });
 });
 
+router.get('/users/get/:userId', function(req, res, next) {
+  Record.findById(req.params.userId).populate('within', 'name tag type').exec(function(err, record) {
+    record.makeWithinRecordsArray(function(err, record) {
+      record.save(function(err, record) {
+        res.render('index',
+          {
+            title: 'Found one Record',
+            details: `Here is ${record.name}`,
+            content: record
+          });
+        });
+    });
+  });
+});
+
+// Remove when google/users/test is removed
 function randInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
