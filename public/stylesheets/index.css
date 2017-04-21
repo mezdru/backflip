@@ -711,6 +711,10 @@ footer {
   text-transform: uppercase;
 }
 
+.create-link {
+  text-transform: uppercase;
+}
+
 .link.deleted span.link-text {
   text-decoration: line-through;
 }

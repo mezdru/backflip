@@ -183,9 +183,6 @@ function setSearch(query) {
 	window.scrollTo(0,0);
 }
 
-function getTemplate(templateName) {
-  return document.getElementById(templateName + '-template').innerHTML;
-}
 function refresh() {
   window.location.reload(true);
 }

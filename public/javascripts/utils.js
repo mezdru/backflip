@@ -27,3 +27,7 @@ function toggleLink(child) {
 function togglePanel() {
 	document.getElementById('left-panel').classList.toggle('open');
 }
+
+function getTemplate(templateName) {
+  return document.getElementById(templateName + '-template').innerHTML;
+}

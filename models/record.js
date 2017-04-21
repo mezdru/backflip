@@ -66,6 +66,7 @@ recordSchema.methods.isPerson = function() {
 
 
 //@todo there's a pattern break here, the links array should have been parsed by the router first
+//@todo do not iterate through all links & all formLinks to search for a non-existant deleted link
 recordSchema.methods.updateLinks = function(formLinks) {
   this.links.forEach(function (link, index, links) {
     if (formLinks.some(function(formLink) {
@@ -77,12 +78,6 @@ recordSchema.methods.updateLinks = function(formLinks) {
       this.hidden_links.push(hiddenLink);
     }
   }, this);
-};
-
-recordSchema.methods.getLinkById = function(linkId) {
-  return this.links.find(function (link) {
-    return link._id.equals(linkId);
-  });
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
