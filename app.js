@@ -50,7 +50,7 @@ var expressValidator = require('express-validator');
 app.use(favicon(path.join(__dirname, 'public', 'lenom.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
 // Sessions & Auth

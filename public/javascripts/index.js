@@ -10,6 +10,8 @@
 
 /*
 / @todo infinit scroll https://www.algolia.com/doc/guides/search/infinite-scroll
+/ @todo rename and split file
+/ @todo rename item into record
 */
 
 // The length of the Description Snippet depends on the screen width.
@@ -175,21 +177,6 @@ search.addWidget(
     }
   })
 );
-
-
-
-function findAncestor(child, classSearched) {
-    while ((child = child.parentElement) && !child.classList.contains(classSearched));
-		return child;
-}
-
-function toggleItem(child) {
-	findAncestor(child, 'item').classList.toggle('expanded');
-}
-
-function togglePanel() {
-	document.getElementById('left-panel').classList.toggle('open');
-}
 
 function setSearch(query) {
 	search.helper.setQuery(query).search();

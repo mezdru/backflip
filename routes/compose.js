@@ -83,7 +83,7 @@ router.get('/:recordId', function(req, res, next) {
 // We save the record after checking everything is alriqht.
 router.post('/:recordId', function(req, res, next) {
   req.checkBody(Record.validationSchema);
-  /* @todo ESCAPING & TRIMMING at the moment we don't cause it's escaping simple quote...
+  /* @todo ESCAPING & TRIMMING, at the moment we don't because it escapes simple quote...
   req.sanitizeBody('name').trim();
   req.sanitizeBody('name').escape();
   req.sanitizeBody('description').trim();
@@ -95,7 +95,8 @@ router.post('/:recordId', function(req, res, next) {
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description});
 
   if (!errors) {
-    res.locals.record.makeWithinRecordsArray(function (err, record) {
+    res.locals.record.updateLinks(req.body.links);
+    res.locals.record.updateWithin(function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) return next(err);

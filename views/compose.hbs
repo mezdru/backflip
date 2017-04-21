@@ -42,7 +42,14 @@
           <div class="links pure-menu pure-menu-horizontal">
             <ul class="pure-menu-list">
               {{#record.links}}
-              <li class="pure-menu-item {{class}}"><a href="{{url}}" class="pure-menu-link"><i class="fa fa-{{icon}}" aria-hidden="true"></i><span class="link-text"> {{display}}</span></a></li>
+              <li class="pure-menu-item link {{class}}">
+                <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
+                <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
+                <span class="pure-menu-link">
+                  <a onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i> Delete</a>
+                  <i class="fa fa-{{icon}}" aria-hidden="true"></i> <span class="link-text">{{display}}</span>
+                </span>
+              </li>
               {{/record.links}}
             </ul>
           </div>

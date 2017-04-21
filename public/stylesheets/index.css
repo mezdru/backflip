@@ -705,6 +705,16 @@ footer {
   padding-right: 2em;
 }
 
+/* compose links */
+.delete-link {
+  float: right;
+  text-transform: uppercase;
+}
+
+.link.deleted span.link-text {
+  text-decoration: line-through;
+}
+
 /* 568px and above */
 @media screen and (min-width: 35.5em) {
   .search-input {

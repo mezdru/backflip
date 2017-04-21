@@ -29,6 +29,7 @@ var recordSchema = mongoose.Schema({
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
   links: [linkSchema],
+  hidden_links: [linkSchema],
   google: {
     id: {type: String, index: true},
     etag: String,
@@ -63,10 +64,31 @@ recordSchema.methods.isPerson = function() {
   return this.type === 'person';
 };
 
+
+//@todo there's a pattern break here, the links array should have been parsed by the router first
+recordSchema.methods.updateLinks = function(formLinks) {
+  this.links.forEach(function (link, index, links) {
+    if (formLinks.some(function(formLink) {
+      return link._id.equals(formLink._id) && formLink.deleted == 'true';
+    })) {
+      hiddenLink = this.links.splice(index, 1)[0];
+      //@todo see if we can keep the same id (to infer original creation time later)
+      delete hiddenLink._id;
+      this.hidden_links.push(hiddenLink);
+    }
+  }, this);
+};
+
+recordSchema.methods.getLinkById = function(linkId) {
+  return this.links.find(function (link) {
+    return link._id.equals(linkId);
+  });
+};
+
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
 // @todo check performance of this expensive logic, if bulked there's better to do, like loading all teams & hashtags at once.
 // @todo I don't want to make this a pre middleware because of performance, but maybe it should be.
-recordSchema.methods.makeWithinRecordsArray = function(callback) {
+recordSchema.methods.updateWithin = function(callback) {
 	var regex = /([@#][\w-<>\/]+)/g;
   var tags = this.description.match(regex);
   this.newWithin = [];
@@ -127,7 +149,7 @@ recordSchema.plugin(mongooseAlgolia, {
   appId: process.env.ALGOLIA_APPLICATION_ID,
   apiKey: process.env.ALGOLIA_WRITE_KEY,
   indexName: 'world',
-  selector: '-_id -created -updated -google',
+  selector: '-_id -created -updated -google -hidden_links',
   populate: {
     path: 'within',
     select: 'name tag type'

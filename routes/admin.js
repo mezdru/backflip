@@ -152,7 +152,7 @@ router.get('/google/users/test', function(req, res, next) {
 
 router.get('/users/get/:userId', function(req, res, next) {
   Record.findById(req.params.userId).populate('within', 'name tag type').exec(function(err, record) {
-    record.makeWithinRecordsArray(function(err, record) {
+    record.updateWithin(function(err, record) {
       record.save(function(err, record) {
         res.render('index',
           {
