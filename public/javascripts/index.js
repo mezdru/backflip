@@ -73,6 +73,7 @@ function transformString(input) {
 		});
 }
 
+//@todo Deduplicate this code (public/js/index.js + views/compose.js)
 function transformLinks(item) {
 	item.links.forEach(function (link, index, array) {
 		makeLinkIcon(link);

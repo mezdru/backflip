@@ -62,24 +62,26 @@ userSchema.methods.hasOrganisation = function() {
 };
 
 userSchema.methods.belongsToOrganisation = function(organisationID) {
-    // I have no clue why we need the .toString() function to evaluate this equality...
-  return this.orgsAndRecords.some(orgAndRecord => organisationID.toString() === getId(orgAndRecord.organisation).toString());
+  return this.orgsAndRecords.some(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)));
 };
 
 userSchema.methods.isAdminToOrganisation = function(organisationID) {
-    // I have no clue why we need the .toString() function to evaluate this equality...
-  return this.orgsAndRecords.some(orgAndRecord => organisationID.toString() === getId(orgAndRecord.organisation).toString() && orgAndRecord.admin === true);
+  return this.orgsAndRecords.some(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)) && orgAndRecord.admin === true);
 };
 
 userSchema.methods.getRecordIdByOrgId = function(organisationID) {
   var recordId = false;
   this.orgsAndRecords.forEach(function(orgAndRecord) {
       // I have no clue why we need the .toString() function to evaluate this equality...
-      if (organisationID.toString() === getId(orgAndRecord.organisation).toString()) {
+      if (organisationID.equals(getId(orgAndRecord.organisation))) {
         recordId = orgAndRecord.record;
       }
   });
   return recordId;
+};
+
+userSchema.methods.ownsRecord = function(recordId) {
+  return this.orgsAndRecords.some(orgAndRecord => recordId.equals(getId(orgAndRecord.record)));
 };
 
 /*
