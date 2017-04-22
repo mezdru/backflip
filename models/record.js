@@ -13,6 +13,7 @@ var mongooseDelete = require('mongoose-delete');
 var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
+var validator = require('validator');
 
 
 var recordSchema = mongoose.Schema({
@@ -72,12 +73,27 @@ recordSchema.methods.updateLinks = function(formLinks) {
     if (formLinks.some(function(formLink) {
       return link._id.equals(formLink._id) && formLink.deleted == 'true';
     })) {
-      hiddenLink = this.links.splice(index, 1)[0];
+      let hiddenLink = this.links.splice(index, 1)[0];
       //@todo see if we can keep the same id (to infer original creation time later)
       delete hiddenLink._id;
       this.hidden_links.push(hiddenLink);
     }
   }, this);
+};
+
+//@todo there's a pattern break here, the links array should have been parsed by the router first
+recordSchema.methods.createLinks = function(formNewLinks) {
+  console.log(formNewLinks);
+  formNewLinks.forEach(function(newLink) {
+    if (validator.isEmail(newLink.value)) this.links.push(this.model('Record').makeEmail(newLink.value));
+  }, this);
+};
+
+recordSchema.statics.makeEmail = function (email) {
+  return {
+    type: 'email',
+    value: email
+  };
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.

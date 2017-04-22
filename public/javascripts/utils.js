@@ -28,6 +28,19 @@ function togglePanel() {
 	document.getElementById('left-panel').classList.toggle('open');
 }
 
+
+var inputIndex = 0;
+function addLinkInput(button) {
+	var fieldset = findAncestor(button, 'pure-group');
+  var input = document.createElement('input');
+  input.name = `newLinks[${inputIndex}][value]`;
+  inputIndex++;
+  input.className = "pure-input-1 link-input";
+  input.type = "text";
+  input.placeholder = "Address, url, email, phone...";
+  fieldset.insertBefore(input, button);
+}
+
 function getTemplate(templateName) {
   return document.getElementById(templateName + '-template').innerHTML;
 }

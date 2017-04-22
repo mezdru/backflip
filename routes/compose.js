@@ -50,13 +50,6 @@ router.use('/:recordId',function(req, res, next) {
   });
 });
 
-// Do the transformation to links for display purpose
-// @todo this is very ugly, find somewhere to put & deduplicate the transformLinks logic.
-router.use(function(req, res, next) {
-  transformLinks(res.locals.record);
-  return next();
-});
-
 // On post we always expect an _id field matching the record for the current user/organisation
 router.post('*', function(req, res, next) {
   if (req.body._id != res.locals.record._id) {
@@ -96,21 +89,28 @@ router.post('/:recordId', function(req, res, next) {
 
   if (!errors) {
     res.locals.record.updateLinks(req.body.links);
+    if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
     res.locals.record.updateWithin(function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) return next(err);
         successes.push({msg: "Your story has been saved."});
+        // @todo move this to the view into a nice helper.
+        // @todo this is very ugly, find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/compose.js) logic.
+        transformLinks(res.locals.record);
         res.render('compose', {title: 'Compose', successes: successes});
       });
     });
   } else {
+      // @todo move this to the view into a nice helper.
+      // @todo this is very ugly, find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/compose.js) logic.
+      transformLinks(res.locals.record);
       res.render('compose', {title: 'Compose', errors: errors});
   }
 });
 
-
-//@todo Deduplicate this code (public/js/index.js + views/compose.js)
+// Warning this is a view logic !!!
+// @todo this is very ugly, find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/compose.js) logic.
 function transformLinks(item) {
 	item.links.forEach(function (link, index, array) {
 		makeLinkIcon(link);
@@ -133,6 +133,7 @@ function makeLinkIcon(link) {
 }
 
 function makeLinkDisplay(link) {
+  console.log(link);
 	link.display = link.display || link.value;
 }
 

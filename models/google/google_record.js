@@ -155,9 +155,8 @@ GoogleRecord.createLinks = function(googleUser) {
   googleUser.emails.forEach(function(emailObject) {
     links.push({
       type: 'email',
-      identifier: true,
       value: emailObject.address,
-      target: 'organisation'
+      //target: 'organisation'
     });
   });
   if (googleUser.addresses) {
@@ -165,7 +164,7 @@ GoogleRecord.createLinks = function(googleUser) {
       links.push({
         type: 'address',
         value: addressObject.formatted,
-        target: (addressObject.type == 'work') ? 'organisation' : 'private'
+        //target: (addressObject.type == 'work') ? 'organisation' : 'private'
       });
     });
   }
@@ -174,7 +173,7 @@ GoogleRecord.createLinks = function(googleUser) {
       links.push({
         type: 'phone',
         value: phoneObject.value,
-        target: (phoneObject.type == 'work') ? 'organisation' : 'private'
+        //target: (phoneObject.type == 'work') ? 'organisation' : 'private'
       });
     });
   }
