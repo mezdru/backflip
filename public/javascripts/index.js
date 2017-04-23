@@ -75,7 +75,7 @@ function transformString(input) {
 		});
 }
 
-//@todo Deduplicate this code (public/js/index.js + views/compose.js)
+// @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
 function transformLinks(item) {
 	item.links.forEach(function (link, index, array) {
 		makeLinkIcon(link);
@@ -92,6 +92,9 @@ function makeLinkIcon(link) {
 		case 'address':
 			link.icon = 'map-marker';
 			break;
+		case 'hyperlink':
+			link.icon = 'link';
+			break;
 		default:
 			link.icon = link.type;
 			break;
@@ -107,6 +110,9 @@ function makeLinkUrl(link) {
 		switch (link.type) {
 			case 'email':
 				link.url = 'mailto:'+link.value;
+				break;
+			case 'phone':
+				link.url = 'tel:'+link.value;
 				break;
 			case 'address':
 				link.url = 'http://maps.google.com/?q='+encodeURIComponent(link.value);

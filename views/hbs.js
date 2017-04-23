@@ -18,6 +18,41 @@ hbs.registerHelper('json', function(context) {
     return JSON.stringify(context, null, 4);
 });
 
+// @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
+hbs.registerHelper('linkDisplay', function(link) {
+  return link.display || link.value;
+});
+
+// @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
+hbs.registerHelper('linkIcon', function(link) {
+  switch (link.type) {
+		case 'email':
+			return 'fa-envelope-o';
+		case 'address':
+			return 'fa-map-marker';
+    case 'hyperlink':
+      return 'fa-link';
+		default:
+			return 'fa-'+link.type;
+	}
+});
+
+// @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
+hbs.registerHelper('linkUrl', function(link) {
+  if (link.url) return link.url;
+  if (link.uri) return link.uri;
+	switch (link.type) {
+		case 'email':
+			return 'mailto:'+link.value;
+    case 'phone':
+      return 'tel'+link.value;
+		case 'address':
+			return 'http://maps.google.com/?q='+encodeURIComponent(link.value);
+		default:
+			return link.value;
+	}
+});
+
 hbs.registerPartials(__dirname + '/partials');
 
 module.exports = hbs;

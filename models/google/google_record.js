@@ -153,11 +153,7 @@ GoogleRecord.createTag = function(googleUser) {
 GoogleRecord.createLinks = function(googleUser) {
   var links = [];
   googleUser.emails.forEach(function(emailObject) {
-    links.push({
-      type: 'email',
-      value: emailObject.address,
-      //target: 'organisation'
-    });
+    links.push(Record.makeEmail(emailObject.address));
   });
   if (googleUser.addresses) {
     googleUser.addresses.forEach(function(addressObject) {

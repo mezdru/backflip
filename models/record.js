@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 05:33
+* @Last modified time: 23-04-2017 04:21
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -14,6 +14,9 @@ var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
 var validator = require('validator');
+var PNF = require('google-libphonenumber').PhoneNumberFormat;
+var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+var LinkHelper = require('../helpers/lin_helper.js');
 
 
 var recordSchema = mongoose.Schema({
@@ -67,32 +70,71 @@ recordSchema.methods.isPerson = function() {
 
 
 //@todo there's a pattern break here, the links array should have been parsed by the router first
-//@todo do not iterate through all links & all formLinks to search for a non-existant deleted link
 recordSchema.methods.updateLinks = function(formLinks) {
-  this.links.forEach(function (link, index, links) {
-    if (formLinks.some(function(formLink) {
-      return link._id.equals(formLink._id) && formLink.deleted == 'true';
-    })) {
-      let hiddenLink = this.links.splice(index, 1)[0];
+  formLinks = formLinks || [];
+  formLinks.forEach(function (formLink, index, links) {
+    if (formLink.deleted == 'true') {
+      let linkIndex = null;
+      let hidden_link = this.links.find(function(link, index) {
+        if (link._id.equals(formLink._id)) {
+          linkIndex = index;
+          return true;
+        }
+      });
+      this.links.splice(linkIndex, 1);
       //@todo see if we can keep the same id (to infer original creation time later)
-      delete hiddenLink._id;
-      this.hidden_links.push(hiddenLink);
+      delete hidden_link._id;
+      this.hidden_links.push(hidden_link);
     }
   }, this);
 };
 
 //@todo there's a pattern break here, the links array should have been parsed by the router first
+//@todo move the links parsing & creating logic into link_schema, or anywhere else, this file is too big.
+//@todo on creating a new link, check if not in "hidden_links" and move it from there instead of creating a new one.
 recordSchema.methods.createLinks = function(formNewLinks) {
   console.log(formNewLinks);
   formNewLinks.forEach(function(newLink) {
     if (validator.isEmail(newLink.value)) this.links.push(this.model('Record').makeEmail(newLink.value));
+    //@todo so this try..catch is here to silence phoneUtil.parser errors... now THAT'S ugly.
+    try {
+      if (phoneUtil.isPossibleNumber(phoneUtil.parse(newLink.value, 'FR'))) this.links.push(this.model('Record').makePhone(newLink.value));
+    } catch (e) {}
+    if (validator.isURL(newLink.value)) this.links.push(this.model('Record').makeUrl(newLink.value));
   }, this);
 };
 
 recordSchema.statics.makeEmail = function (email) {
   return {
     type: 'email',
-    value: email
+    value: validator.normalizeEmail(email)
+  };
+};
+
+//@todo handle parsing depending on user country instead of default France
+// (in createLinks() too)
+recordSchema.statics.makePhone = function (phone, country) {
+  country = country || 'FR';
+  phone = phoneUtil.parse(phone, country);
+  return {
+    type: 'phone',
+    value: phoneUtil.format(phone, PNF.E164),
+    display: phoneUtil.format(phone, PNF.INTERNATIONAL)
+  };
+};
+
+recordSchema.statics.makeUrl = function (url) {
+  type = 'hyperlink';
+  return {
+    type: type,
+    value: url,
+  };
+};
+
+recordSchema.statics.makeAddress = function (address) {
+  return {
+    type: 'address',
+    value: address,
   };
 };
 
@@ -186,7 +228,7 @@ Record.validationSchema = {
     },
     isLength: {
       options: [{ min: 16, max: 2048 }],
-      errorMessage: 'Description should be between 16 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
+      errorMessage: 'Description should be between 6 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
     }
   }
 };

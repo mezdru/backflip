@@ -26,6 +26,7 @@
     "express": "~4.14.1",
     "express-session": "^1.15.1",
     "express-validator": "^3.1.3",
+    "google-libphonenumber": "^2.0.15",
     "googleapis": "^17.1.0",
     "hbs": "~4.0.1",
     "mongodb": "^2.2.24",

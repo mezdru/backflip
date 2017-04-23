@@ -85,6 +85,8 @@ router.post('/:recordId', function(req, res, next) {
   var errors = req.validationErrors();
   var successes = [];
 
+  console.log(req.body);
+
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description});
 
   if (!errors) {
@@ -95,62 +97,12 @@ router.post('/:recordId', function(req, res, next) {
       res.locals.record.save (function (err) {
         if (err) return next(err);
         successes.push({msg: "Your story has been saved."});
-        // @todo move this to the view into a nice helper.
-        // @todo this is very ugly, find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/compose.js) logic.
-        transformLinks(res.locals.record);
         res.render('compose', {title: 'Compose', successes: successes});
       });
     });
   } else {
-      // @todo move this to the view into a nice helper.
-      // @todo this is very ugly, find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/compose.js) logic.
-      transformLinks(res.locals.record);
       res.render('compose', {title: 'Compose', errors: errors});
   }
 });
-
-// Warning this is a view logic !!!
-// @todo this is very ugly, find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/compose.js) logic.
-function transformLinks(item) {
-	item.links.forEach(function (link, index, array) {
-		makeLinkIcon(link);
-		makeLinkDisplay(link);
-	});
-}
-
-function makeLinkIcon(link) {
-	switch (link.type) {
-		case 'email':
-			link.icon = 'envelope-o';
-			break;
-		case 'address':
-			link.icon = 'map-marker';
-			break;
-		default:
-			link.icon = link.type;
-			break;
-	}
-}
-
-function makeLinkDisplay(link) {
-  console.log(link);
-	link.display = link.display || link.value;
-}
-
-function makeLinkUrl(link) {
-	if (!link.url) {
-		switch (link.type) {
-			case 'email':
-				link.url = 'mailto:'+link.value;
-				break;
-			case 'address':
-				link.url = 'http://maps.google.com/?q='+encodeURIComponent(link.value);
-				break;
-			default:
-				link.url = link.uri;
-				break;
-		}
-	}
-}
 
 module.exports = router;
