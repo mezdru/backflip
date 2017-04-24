@@ -155,21 +155,6 @@ router.get('/google/users/test', function(req, res, next) {
     });
 });
 
-router.get('/users/get/:userId', function(req, res, next) {
-  Record.findById(req.params.userId).populate('within', 'name tag type').exec(function(err, record) {
-    record.updateWithin(function(err, record) {
-      record.save(function(err, record) {
-        res.render('index',
-          {
-            title: 'Found one Record',
-            details: `Here is ${record.name}`,
-            content: record
-          });
-        });
-    });
-  });
-});
-
 router.get('/records/csv', function(req, res, next) {
   Record.find({organisation: res.locals.organisation._id}, function(err, records) {
     if (err) return next(err);
@@ -196,18 +181,21 @@ router.get('/records/csv/upload', function(req, res, next) {
 });
 
 router.post('/records/csv/upload', upload.single('file'), function(req, res, next) {
+  var records = [];
   csvtojson()
     .fromString(req.file.buffer.toString())
-    .on('csv', function(csvRow) {
-      console.log(csvRow);
+    .on('json', function(csvLineAsJson) {
+      Record.importeRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, function(err, record) {
+        if (err) return next(err);
+        records.push(record);
+      });
     })
     .on('done', function(err) {
       if (err) next(err);
-      res.render('index',
+      console.log(records);
+      res.render('update_csv',
         {
-          title: 'Uploaded',
-          details: `You Uploaded the following file`,
-          content: '',
+          update: records,
         });
     });
 });

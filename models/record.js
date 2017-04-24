@@ -100,9 +100,64 @@ recordSchema.statics.exportRecords4Csv = function(records) {
   return records4csv;
 };
 
+recordSchema.statics.importeRecordFromCsvLineAsJson = function(csvLineAsJson, organisationID, callback) {
+  var csvRecord = this.readCsvLineAsJson(csvLineAsJson, organisationID);
+  if (csvRecord._id) {
+    this.findById(csvRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
+      if (err) return callback(err);
+      return oldRecord.overwriteFromCsv(csvRecord, callback);
+    });
+  } else {
+    this.model('Record').createFromCsv(csvRecord, callback);
+  }
+};
+
+recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationID) {
+  csvLineAsJson.organisation = organisationID;
+  csvLineAsJson.picture = {
+    url: csvLineAsJson.picture_url
+  };
+  delete csvLineAsJson.picture;
+  csvLineAsJson.links = [];
+  for (var i=0; i<16; i++) {
+    if (csvLineAsJson[`link${i}`]) {
+      csvLineAsJson.links.push({value: csvLineAsJson[`link${i}`]});
+    }
+    delete csvLineAsJson[`link${i}`];
+  }
+  return csvLineAsJson;
+};
+
+recordSchema.statics.createFromCsv = function(csvRecord, callback) {
+  delete csvRecord._id;
+  newRecord = new this(csvRecord);
+  newRecord.links.forEach(function(link) {
+    link = new LinkHelper(link.value).link;
+  });
+  newRecord.updateWithin(function(err) {
+    if (err) return console.error(err);
+    this.save(callback);
+  }.bind(newRecord));
+};
+
+recordSchema.methods.overwriteFromCsv = function (csvRecord, callback) {
+    this.name = csvRecord.name;
+    this.tag = csvRecord.tag;
+    this.type = csvRecord.type;
+    this.picture = csvRecord.picture;
+    this.description = csvRecord.description;
+    this.links = csvRecord.links.map(function(link) {
+      return new LinkHelper(link.value).link;
+    });
+    this.updateWithin(function(err) {
+      if (err) return console.error(err);
+      this.save(callback);
+    }.bind(this));
+};
+
 
 //@todo there's a pattern break here, the links array should have been parsed by the router first
-recordSchema.methods.updateLinks = function(formLinks) {
+recordSchema.methods.deleteLinks = function(formLinks) {
   formLinks = formLinks || [];
   formLinks.forEach(function (formLink, index, links) {
     if (formLink.deleted == 'true') {
@@ -136,6 +191,10 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 recordSchema.methods.updateWithin = function(callback) {
 	var regex = /([@#][\w-<>\/]+)/g;
   var tags = this.description.match(regex);
+  if (!tags || tags.length === 0) {
+    this.description += '#notags';
+    tags = ['#notags'];
+  }
   this.newWithin = [];
   tags.forEach(function(tag) {
     this.getWithinRecordByTag(tag, function(err, record) {

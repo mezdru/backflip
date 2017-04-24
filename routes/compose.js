@@ -88,7 +88,7 @@ router.post('/:recordId', function(req, res, next) {
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description});
 
   if (!errors) {
-    res.locals.record.updateLinks(req.body.links);
+    res.locals.record.deleteLinks(req.body.links);
     if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
     res.locals.record.updateWithin(function (err, record) {
       if (err) return next(err);
