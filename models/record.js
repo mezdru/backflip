@@ -65,22 +65,6 @@ recordSchema.methods.isPerson = function() {
   return this.type === 'person';
 };
 
-
-recordSchema.methods.export4csv = function () {
-  var record4csv = {
-      _id: this._id,
-      name: this.name,
-      tag: this.tag,
-      type: this.type,
-      picture_url: this.picture.url,
-      description: this.description,
-  };
-  this.links.forEach(function (link, index) {
-    record4csv[`link${index}`] = link.value;
-  });
-  return record4csv;
-};
-
 recordSchema.statics.exportRecords4Csv = function(records) {
   var header = {
       _id: '_id',
@@ -98,6 +82,25 @@ recordSchema.statics.exportRecords4Csv = function(records) {
     records4csv.push(record.export4csv());
   });
   return records4csv;
+};
+
+recordSchema.methods.export4csv = function () {
+  var record4csv = {
+      _id: this._id,
+      name: this.name,
+      tag: this.tag,
+      type: this.type,
+      picture_url: this.picture.url,
+      description: this.description,
+  };
+  this.links.forEach(function (link, index) {
+    if (link.type == 'phone') {
+      record4csv[`link${index}`] = link.display;
+    } else {
+      record4csv[`link${index}`] = link.value;
+    }
+  });
+  return record4csv;
 };
 
 recordSchema.statics.importeRecordFromCsvLineAsJson = function(csvLineAsJson, organisationID, callback) {
@@ -131,8 +134,8 @@ recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationID)
 recordSchema.statics.createFromCsv = function(csvRecord, callback) {
   delete csvRecord._id;
   newRecord = new this(csvRecord);
-  newRecord.links.forEach(function(link) {
-    link = new LinkHelper(link.value).link;
+  newRecord.links = csvRecord.links.map(function(link) {
+    return new LinkHelper(link.value).link;
   });
   newRecord.updateWithin(function(err) {
     if (err) return console.error(err);
@@ -258,6 +261,7 @@ recordSchema.plugin(mongooseAlgolia, {
     path: 'within',
     select: 'name tag type'
   },
+  softdelete: true,
   debug: true
 });
 
