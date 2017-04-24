@@ -32,8 +32,7 @@ router.use(function(req, res, next) {
 // Check if the user can access the organisation
 router.use(function(req, res, next) {
   if (res.locals.organisation &&
-    (!res.locals.user.belongsToOrganisation(res.locals.organisation._id) ||
-    !res.locals.user.superadmin)) {
+    !res.locals.user.belongsToOrganisation(res.locals.organisation._id)) {
     err = new Error('Forbidden Organisation');
     err.status = 403;
     return next(err);
@@ -41,7 +40,8 @@ router.use(function(req, res, next) {
 });
 
 router.use(function(req, res, next) {
-  if (reS.locals.organisation.needsWelcoming()) return res.redirect('/welcome');
+  if (res.locals.organisation && res.locals.organisation.needsWelcoming() && !res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) return res.redirect('/welcome');
+  else return next();
 });
 
 module.exports = router;
