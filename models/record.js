@@ -13,10 +13,7 @@ var mongooseDelete = require('mongoose-delete');
 var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
-var validator = require('validator');
-var PNF = require('google-libphonenumber').PhoneNumberFormat;
-var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-var LinkHelper = require('../helpers/lin_helper.js');
+var LinkHelper = require('../helpers/link_helper.js');
 
 
 var recordSchema = mongoose.Schema({
@@ -93,49 +90,9 @@ recordSchema.methods.updateLinks = function(formLinks) {
 //@todo move the links parsing & creating logic into link_schema, or anywhere else, this file is too big.
 //@todo on creating a new link, check if not in "hidden_links" and move it from there instead of creating a new one.
 recordSchema.methods.createLinks = function(formNewLinks) {
-  console.log(formNewLinks);
   formNewLinks.forEach(function(newLink) {
-    if (validator.isEmail(newLink.value)) this.links.push(this.model('Record').makeEmail(newLink.value));
-    //@todo so this try..catch is here to silence phoneUtil.parser errors... now THAT'S ugly.
-    try {
-      if (phoneUtil.isPossibleNumber(phoneUtil.parse(newLink.value, 'FR'))) this.links.push(this.model('Record').makePhone(newLink.value));
-    } catch (e) {}
-    if (validator.isURL(newLink.value)) this.links.push(this.model('Record').makeUrl(newLink.value));
+    this.links.push(new LinkHelper(newLink.value).link);
   }, this);
-};
-
-recordSchema.statics.makeEmail = function (email) {
-  return {
-    type: 'email',
-    value: validator.normalizeEmail(email)
-  };
-};
-
-//@todo handle parsing depending on user country instead of default France
-// (in createLinks() too)
-recordSchema.statics.makePhone = function (phone, country) {
-  country = country || 'FR';
-  phone = phoneUtil.parse(phone, country);
-  return {
-    type: 'phone',
-    value: phoneUtil.format(phone, PNF.E164),
-    display: phoneUtil.format(phone, PNF.INTERNATIONAL)
-  };
-};
-
-recordSchema.statics.makeUrl = function (url) {
-  type = 'hyperlink';
-  return {
-    type: type,
-    value: url,
-  };
-};
-
-recordSchema.statics.makeAddress = function (address) {
-  return {
-    type: 'address',
-    value: address,
-  };
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.

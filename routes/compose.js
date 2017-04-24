@@ -85,8 +85,6 @@ router.post('/:recordId', function(req, res, next) {
   var errors = req.validationErrors();
   var successes = [];
 
-  console.log(req.body);
-
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description});
 
   if (!errors) {
