@@ -9,6 +9,7 @@
 */
 
 var Record = require('../record.js');
+var LinkHelper = require('../../helpers/link_helper.js');
 
 // This is more an helper than a model.
 // @todo move somewhere else.
@@ -153,24 +154,16 @@ GoogleRecord.createTag = function(googleUser) {
 GoogleRecord.createLinks = function(googleUser) {
   var links = [];
   googleUser.emails.forEach(function(emailObject) {
-    links.push(Record.makeEmail(emailObject.address));
+    links.push(new LinkHelper(emailObject.address).link);
   });
   if (googleUser.addresses) {
     googleUser.addresses.forEach(function(addressObject) {
-      links.push({
-        type: 'address',
-        value: addressObject.formatted,
-        //target: (addressObject.type == 'work') ? 'organisation' : 'private'
-      });
+      links.push(new LinkHelper(addressObject.formatted).link);
     });
   }
   if (googleUser.phones) {
     googleUser.phones.forEach(function(phoneObject) {
-      links.push({
-        type: 'phone',
-        value: phoneObject.value,
-        //target: (phoneObject.type == 'work') ? 'organisation' : 'private'
-      });
+      links.push(new LinkHelper(phoneObject.value).link);
     });
   }
   return links;

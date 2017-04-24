@@ -107,8 +107,8 @@ var admin = require('./routes/admin.js');
 app.use('/admin', admin);
 
 // Lenom admin
-var lenomAdmin = require('./routes/lenom_admin.js');
-app.use('/lenom_admin', lenomAdmin);
+var superadmin = require('./routes/superadmin.js');
+app.use('/superadmin', superadmin);
 
 
 // catch 404 and forward to error handler

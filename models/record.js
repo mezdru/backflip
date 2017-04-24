@@ -66,6 +66,41 @@ recordSchema.methods.isPerson = function() {
 };
 
 
+recordSchema.methods.export4csv = function () {
+  var record4csv = {
+      _id: this._id,
+      name: this.name,
+      tag: this.tag,
+      type: this.type,
+      picture_url: this.picture.url,
+      description: this.description,
+  };
+  this.links.forEach(function (link, index) {
+    record4csv[`link${index}`] = link.value;
+  });
+  return record4csv;
+};
+
+recordSchema.statics.exportRecords4Csv = function(records) {
+  var header = {
+      _id: '_id',
+      name: 'name',
+      tag: 'tag',
+      type: 'type',
+      picture_url: 'picture_url',
+      description: 'description',
+  };
+  for (var i=0; i<16; i++) {
+    header[`link${i}`] = `link${i}`;
+  }
+  var records4csv = [header];
+  records.forEach(function (record) {
+    records4csv.push(record.export4csv());
+  });
+  return records4csv;
+};
+
+
 //@todo there's a pattern break here, the links array should have been parsed by the router first
 recordSchema.methods.updateLinks = function(formLinks) {
   formLinks = formLinks || [];

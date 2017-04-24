@@ -45,7 +45,7 @@ var userSchema = mongoose.Schema({
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false },
-  lenom_admin: Boolean
+  superadmin: Boolean
 });
 
 userSchema.methods.touchLogin = function (callback) {

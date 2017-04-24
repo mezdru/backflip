@@ -30,7 +30,7 @@ router.get('/depersonate', function(req, res, next) {
 });
 
 router.use( function(req, res, next) {
-  if (res.locals.user.lenom_admin === true) {
+  if (res.locals.user.superadmin === true) {
     return next();
   }
   else {
@@ -40,8 +40,8 @@ router.use( function(req, res, next) {
   }
 });
 
-router.get('/impersonate', function(req, res, next) {
-  User.findOne({'google.email': req.query.email}, function(err, user) {
+router.get('/impersonate/:googleEmail', function(req, res, next) {
+  User.findOne({'google.email': req.params.googleEmail}, function(err, user) {
     if (err) return next(err);
     if (!user) {
       err = new Error('No user found');
@@ -55,7 +55,7 @@ router.get('/impersonate', function(req, res, next) {
     return res.render('index',
       {
         title: 'Impersonate',
-        message: 'You are now impersonating ' + res.locals.user.email
+        details: 'You are now impersonating ' + res.locals.user.email
       });
   });
 });

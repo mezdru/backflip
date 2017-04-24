@@ -1,0 +1,43 @@
+{{!
+@Author: Clément Dietschy <bedhed>
+@Date:   10-4-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 10-04-2017 06:02
+@Copyright: Clément Dietschy 2017
+@todo deduplicate wiew code with partials/hit_template.hbs
+}}
+<form action="{{formAction}}" enctype="multipart/form-data" method="post" class="pure-form">
+  <div class="main compose">
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <ul class="errors">
+          {{#errors}}
+          <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
+          {{/errors}}
+        </ul>
+        <ul class="successes">
+          {{#successes}}
+          <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{msg}}</li>
+          {{/successes}}
+        </ul>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1-5 pure-u-md-1-5">
+        <h1 class="reward"><i class="fa fa-cloud-upload" aria-hidden="true"></i></h1>
+      </div>
+      <div class="pure-u-4-5 central">
+        <h2>{{title}}</h2>
+        <p>{{{details}}}</p>
+        <p><input type="file" name="file"></p>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></p>
+      </div>
+    </div>
+  </div>
+</form>

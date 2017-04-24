@@ -16,6 +16,11 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var GoogleRecord = require('../models/google/google_record.js');
+var csv = require('csv-express');
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({storage: storage});
+var csvtojson = require('csvtojson');
 
 // Maybe all this logic should be under /google/ as it's only google related at the moment...
 
@@ -64,7 +69,7 @@ router.get('/algolia/clear', function(req, res, next) {
     if (err) return next(err);
     res.render('index',
       {
-        title: 'Algolia Index has bean cleanred'
+        title: 'Algolia Index has bean cleared'
       }
     );
   });
@@ -163,6 +168,48 @@ router.get('/users/get/:userId', function(req, res, next) {
         });
     });
   });
+});
+
+router.get('/records/csv', function(req, res, next) {
+  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
+    if (err) return next(err);
+    res.setHeader('Content-disposition', `attachment; filename=${res.locals.organisation.tag}.csv`);
+    res.csv(Record.exportRecords4Csv(records));
+  });
+});
+
+// Here we provide the action url to the view.
+// Needs some logic because of subdomain handling in development
+// @todo find a way to not do this check at each call
+router.use('/records/csv/upload', function(req, res, next) {
+  res.locals.formAction = '/admin/records/csv/upload';
+  if (req.app.get('env') === 'development') res.locals.formAction = '/admin/records/csv/upload/?subdomains=' + req.query.subdomains;
+  return next();
+});
+
+router.get('/records/csv/upload', function(req, res, next) {
+  res.render('upload',
+    {
+      title: `Update ${res.locals.organisation.tag} by CSV`,
+      details: `Upload a CSV file to <strong>overwrite</strong> all records from ${res.locals.organisation.tag}`,
+    });
+});
+
+router.post('/records/csv/upload', upload.single('file'), function(req, res, next) {
+  csvtojson()
+    .fromString(req.file.buffer.toString())
+    .on('csv', function(csvRow) {
+      console.log(csvRow);
+    })
+    .on('done', function(err) {
+      if (err) next(err);
+      res.render('index',
+        {
+          title: 'Uploaded',
+          details: `You Uploaded the following file`,
+          content: '',
+        });
+    });
 });
 
 // Remove when google/users/test is removed

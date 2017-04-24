@@ -56,7 +56,6 @@ var LinkHelper = class LinkHelper {
   }
 
   isEmail () {
-    console.log('VALIDATOR: '+validator.isEmail(this.value));
     return validator.isEmail(this.value);
   }
 
