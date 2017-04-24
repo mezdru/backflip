@@ -77,6 +77,7 @@ function transformString(input) {
 
 // @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
 function transformLinks(item) {
+	item.links = item.links || [];
 	item.links.forEach(function (link, index, array) {
 		makeLinkIcon(link);
 		makeLinkDisplay(link);
