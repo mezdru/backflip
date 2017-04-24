@@ -32,7 +32,8 @@ router.use(function(req, res, next) {
 // Check if the user can access the organisation
 router.use(function(req, res, next) {
   if (res.locals.organisation &&
-    !res.locals.user.belongsToOrganisation(res.locals.organisation._id) ) {
+    !res.locals.user.belongsToOrganisation(res.locals.organisation._id) ||
+    !res.locals.user.superadmin) {
     err = new Error('Forbidden Organisation');
     err.status = 403;
     return next(err);
