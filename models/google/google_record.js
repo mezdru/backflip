@@ -24,7 +24,7 @@ GoogleRecord.getByGoogleId = function(googleId, organisationId, callback) {
   }, callback);
 };
 
-// Takes an array of Google users, try to find them by google ID in our DB, and returns [{record, goolgeUser}]
+// Takes all records within organisation and an array of Google users, try to find them by google ID in our DB, and returns [{record, goolgeUser}]
 GoogleRecord.matchRecordsAndGoogleUsers = function(records, googleUsers) {
   var recordsAndGoogleUsers = [];
   records.forEach(function(record) {

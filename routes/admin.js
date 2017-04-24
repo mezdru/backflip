@@ -65,11 +65,26 @@ router.use(function(req, res, next) {
 });
 
 router.get('/algolia/clear', function(req, res, next) {
-  AlgoliaOrganisation.clear(res.locals.organisation._id, function(err) {
+  AlgoliaOrganisation.clear(res.locals.organisation._id, function(err, result) {
     if (err) return next(err);
     res.render('index',
       {
-        title: 'Algolia Index has bean cleared'
+        title: 'Algolia Index has bean cleared',
+        details: 'This function does not clear Records. Use admin/records/clear to clear Records.',
+        content: result,
+      }
+    );
+  });
+});
+
+router.get('/records/clear', function(req, res, next) {
+  Record.delete({organisation: res.locals.organisation._id}, function(err, result) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Records have been cleared',
+        details: 'This function does not remove from algolia. Use admin/algolia/clear to clear Algolia.',
+        content: result
       }
     );
   });
@@ -181,21 +196,24 @@ router.get('/records/csv/upload', function(req, res, next) {
 });
 
 router.post('/records/csv/upload', upload.single('file'), function(req, res, next) {
-  var records = [];
+  var csvLinesAsJson = [];
   csvtojson()
     .fromString(req.file.buffer.toString())
     .on('json', function(csvLineAsJson) {
-      Record.importeRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, function(err, record) {
+      csvLinesAsJson.push(csvLineAsJson);
+      Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, function(err, record) {
         if (err) return next(err);
-        records.push(record);
       });
     })
+    //@todo this is very wrong, we provide fake output before waiting for the crod result
     .on('done', function(err) {
       if (err) next(err);
-      console.log(records);
       res.render('update_csv',
         {
-          update: records,
+          delete: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'delete';}),
+          create: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'create';}),
+          overwrite: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'overwrite';}),
+          keep: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'delete';}),
         });
     });
 });

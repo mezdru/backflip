@@ -67,6 +67,7 @@ recordSchema.methods.isPerson = function() {
 
 recordSchema.statics.exportRecords4Csv = function(records) {
   var header = {
+      action: 'action',
       _id: '_id',
       name: 'name',
       tag: 'tag',
@@ -86,6 +87,7 @@ recordSchema.statics.exportRecords4Csv = function(records) {
 
 recordSchema.methods.export4csv = function () {
   var record4csv = {
+      action: 'keep',
       _id: this._id,
       name: this.name,
       tag: this.tag,
@@ -103,59 +105,70 @@ recordSchema.methods.export4csv = function () {
   return record4csv;
 };
 
-recordSchema.statics.importeRecordFromCsvLineAsJson = function(csvLineAsJson, organisationID, callback) {
-  var csvRecord = this.readCsvLineAsJson(csvLineAsJson, organisationID);
-  if (csvRecord._id) {
-    this.findById(csvRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
+recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationID, callback) {
+  var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationID);
+  if (csvLineAsRecord.action == 'create') {
+      return this.model('Record').createFromCsv(csvLineAsRecord, callback);
+  } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
+    this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
       if (err) return callback(err);
-      return oldRecord.overwriteFromCsv(csvRecord, callback);
+      if (!oldRecord.organisation.equals(organisationID)) {
+        return callback(new Error('Record out of Organisation'));
+      }
+      if (csvLineAsRecord.action == 'overwrite') {
+        return oldRecord.overwriteFromCsv(csvLineAsRecord, callback);
+      } else if (csvLineAsRecord.action == 'delete')
+        return oldRecord.delete(callback);
     });
-  } else {
-    this.model('Record').createFromCsv(csvRecord, callback);
   }
 };
 
 recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationID) {
-  csvLineAsJson.organisation = organisationID;
-  csvLineAsJson.picture = {
+  var csvLineAsRecord = csvLineAsJson;
+  csvLineAsRecord.organisation = organisationID;
+  csvLineAsRecord.picture = {
     url: csvLineAsJson.picture_url
   };
-  delete csvLineAsJson.picture;
-  csvLineAsJson.links = [];
+  delete csvLineAsRecord.picture;
+  csvLineAsRecord.links = [];
   for (var i=0; i<16; i++) {
-    if (csvLineAsJson[`link${i}`]) {
-      csvLineAsJson.links.push({value: csvLineAsJson[`link${i}`]});
+    if (csvLineAsRecord[`link${i}`]) {
+      csvLineAsRecord.links.push({value: csvLineAsJson[`link${i}`]});
     }
-    delete csvLineAsJson[`link${i}`];
+    delete csvLineAsRecord[`link${i}`];
   }
-  return csvLineAsJson;
+  return csvLineAsRecord;
 };
 
-recordSchema.statics.createFromCsv = function(csvRecord, callback) {
-  delete csvRecord._id;
-  newRecord = new this(csvRecord);
-  newRecord.links = csvRecord.links.map(function(link) {
-    return new LinkHelper(link.value).link;
-  });
-  newRecord.updateWithin(function(err) {
-    if (err) return console.error(err);
-    this.save(callback);
-  }.bind(newRecord));
+recordSchema.statics.createFromCsv = function(csvLineAsRecord, callback) {
+  if (csvLineAsRecord.action == 'create') {
+    delete csvLineAsRecord._id;
+    newRecord = new this(csvLineAsRecord);
+    newRecord.links = csvLineAsRecord.links.map(function(link) {
+      return new LinkHelper(link.value).link;
+    });
+    newRecord.updateWithin(function(err) {
+      if (err) return console.error(err);
+      this.save(callback);
+    }.bind(newRecord));
+  }
 };
 
-recordSchema.methods.overwriteFromCsv = function (csvRecord, callback) {
-    this.name = csvRecord.name;
-    this.tag = csvRecord.tag;
-    this.type = csvRecord.type;
-    this.picture = csvRecord.picture;
-    this.description = csvRecord.description;
-    this.links = csvRecord.links.map(function(link) {
+recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, callback) {
+  if (csvLineAsRecord.action == 'overwrite') {
+    this.name = csvLineAsRecord.name;
+    this.tag = csvLineAsRecord.tag;
+    this.type = csvLineAsRecord.type;
+    this.picture = csvLineAsRecord.picture;
+    this.description = csvLineAsRecord.description;
+    this.links = csvLineAsRecord.links.map(function(link) {
       return new LinkHelper(link.value).link;
     });
     this.updateWithin(function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(this));
+  }
 };
 
 

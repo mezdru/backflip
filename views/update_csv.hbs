@@ -21,10 +21,26 @@
     </div>
     <div class="pure-u-4-5">
       <h2>Create</h2>
-      <p>The Following {{create.length}} items have been added to your Lenom directory.</p>
+      <p>The Following {{create.length}} items have been added to your directory.</p>
       <p>
         {{#each create}}
-          {{record.name}},
+          {{name}},
+        {{/each}}
+      </p>
+    </div>
+  </div>
+  {{/if}}
+  {{#if overwrite}}
+  <div class="pure-g">
+    <div class="pure-u-1-5">
+      <h1 class="reward"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-4-5">
+      <h2>Overwrite</h2>
+      <p>The Following {{overwrite.length}} items have been overwritten in your directory.</p>
+      <p>
+        {{#each overwrite}}
+          {{name}},
         {{/each}}
       </p>
     </div>
@@ -37,10 +53,10 @@
     </div>
     <div class="pure-u-4-5">
       <h2>Update</h2>
-      <p>The Following {{update.length}} items have been updated in your Lenom Directory.</p>
+      <p>The Following {{update.length}} items have been updated in your directory.</p>
       <p>
         {{#each update}}
-          {{record.name}},
+          {{name}},
         {{/each}}
       </p>
     </div>
@@ -53,10 +69,10 @@
     </div>
     <div class="pure-u-4-5">
       <h2>Delete</h2>
-      <p>The Following {{delete.length}} items have been removed from your Lenom Directory.</p>
+      <p>The Following {{delete.length}} items have been removed from your directory.</p>
       <p>
         {{#each delete}}
-          {{record.name}},
+          {{name}},
         {{/each}}
       </p>
     </div>
@@ -72,7 +88,7 @@
       <p>The Following {{keep.length}} items have not changed.</p>
       <p>
         {{#each keep}}
-          {{record.name}},
+          {{name}},
         {{/each}}
       </p>
     </div>
