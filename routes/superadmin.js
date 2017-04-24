@@ -55,7 +55,7 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
     return res.render('index',
       {
         title: 'Impersonate',
-        details: 'You are now impersonating ' + res.locals.user.email
+        details: 'You are now impersonating ' + res.locals.user.google.email
       });
   });
 });
