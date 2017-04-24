@@ -61,8 +61,7 @@ router.get('/login/callback', function(req, res, next) {
       user.touchLogin(function(err) {
         if (err) return console.error(err);
       });
-      if (user.needsWelcoming()) return res.redirect('/welcome');
-      else return res.redirect(req.session.redirect_after_login || '/');
+      return res.redirect(req.session.redirect_after_login || '/');
     });
   });
 });

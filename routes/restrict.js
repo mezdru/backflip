@@ -40,4 +40,8 @@ router.use(function(req, res, next) {
   } else return next();
 });
 
+router.use(function(req, res, next) {
+  if (reS.locals.organisation.needsWelcoming()) return res.redirect('/welcome');
+});
+
 module.exports = router;
