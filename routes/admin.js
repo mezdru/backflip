@@ -93,6 +93,11 @@ router.get('/records/clear', function(req, res, next) {
 router.get('/records/delete/:recordId', function(req, res, next) {
   Record.findOneWithDeleted({_id:req.params.recordId}, function(err, record) {
     if (err) return next(err);
+    if (!record) {
+      err = new Error('No record to delete');
+      err.status = 500;
+      return next(err);
+    }
     record.delete(function(err) {
       if (err) return next(err);
       res.render('index',

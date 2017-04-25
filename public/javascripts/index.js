@@ -83,6 +83,7 @@ function transformLinks(item) {
 	item.links.forEach(function (link, index, array) {
 		makeLinkIcon(link);
 		makeLinkDisplay(link);
+		makeLinkUrl(link);
 		if (index > extraLinkLimit-1) link.class = 'extraLink';
 	});
 }
