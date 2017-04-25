@@ -29,7 +29,7 @@
       <div class="pure-g">
         <div class="pure-u-1-5">
           <div class="thumb">
-               <img src="{{pictureUrl record.picture}}">
+               <img onload="resizeImg(this)" src="{{pictureUrl record.picture}}">
           </div>
           <p><input name="picture[url]" type="text" class="pure-input-1 picture-url-input" placeholder="Picture url" value="{{record.picture.url}}"></p>
           <p class="tag">{{record.tag}}</p>

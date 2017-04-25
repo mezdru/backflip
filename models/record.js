@@ -106,12 +106,14 @@ recordSchema.methods.export4csv = function () {
 };
 
 recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationID, callback) {
+  if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'delete') return callback(null, null);
   var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationID);
   if (csvLineAsRecord.action == 'create') {
       return this.model('Record').createFromCsv(csvLineAsRecord, callback);
   } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
     this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
       if (err) return callback(err);
+      if (!oldRecord) return callback(null, null);
       if (!oldRecord.organisation.equals(organisationID)) {
         return callback(new Error('Record out of Organisation'));
       }
@@ -129,7 +131,7 @@ recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationID)
   csvLineAsRecord.picture = {
     url: csvLineAsJson.picture_url
   };
-  delete csvLineAsRecord.picture;
+  delete csvLineAsRecord.picture_url;
   csvLineAsRecord.links = [];
   for (var i=0; i<16; i++) {
     if (csvLineAsRecord[`link${i}`]) {
@@ -295,7 +297,7 @@ Record.validationSchema = {
       errorMessage: 'Story should not be empty'
     },
     isLength: {
-      options: [{ min: 16, max: 2048 }],
+      options: [{ min: 6, max: 2048 }],
       errorMessage: 'Description should be between 6 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
     }
   }

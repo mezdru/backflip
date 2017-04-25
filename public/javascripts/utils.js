@@ -28,6 +28,15 @@ function togglePanel() {
 	document.getElementById('left-panel').classList.toggle('open');
 }
 
+function resizeImg(img) {
+  let width = img.naturalWidth;
+  let height = img.naturalHeight;
+  if (height/width < 1) {
+    img.setAttribute("style", "width:auto; max-width:none; height:18vw; max-height:198px;");
+    let marginLeft = Math.round((img.height-img.width)/2);
+    img.style.marginLeft = marginLeft+"px";
+  }
+}
 
 var inputIndex = 0;
 function addLinkInput(button) {

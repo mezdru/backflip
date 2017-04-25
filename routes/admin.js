@@ -229,7 +229,7 @@ router.post('/records/csv/upload', upload.single('file'), function(req, res, nex
           delete: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'delete';}),
           create: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'create';}),
           overwrite: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'overwrite';}),
-          keep: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'delete';}),
+          keep: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'keep';}),
         });
     });
 });
