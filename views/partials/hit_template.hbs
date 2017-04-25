@@ -15,10 +15,18 @@
         <div class="thumb">
              <img src="{{picture.url}}">
         </div>
-        <p class="tag searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</p>
+        <p class="tag">
+          <a class="searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</a>
+          {{#canEdit}}
+          <a href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+          {{/canEdit}}
+          {{#canDelete}}
+          <a href="/admin/records/delete/{{objectID}}"><i class="fa fa-times" aria-hidden="true"></i></a>
+          {{/canDelete}}
+        </p>
       </div>
       <div class="pure-u-4-5 central">
-        <h2 class="searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.name.value}}}</h2>
+        <h2 class="searcher" onclick="toggleItem(this)">{{{_highlightResult.name.value}}}</h2>
         <p class="description snippet">{{{_snippetResult.description.value}}}</p>
         <p class="description full">{{{_highlightResult.description.value}}}</p>
         <div class="links pure-menu pure-menu-horizontal">

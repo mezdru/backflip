@@ -45,6 +45,8 @@ transformItem = function (item) {
 	transformImagePath(item);
 	transformDescriptions(item);
 	transformLinks(item);
+	addCanEdit(item);
+	addCanDelete(item);
 	return item;
 };
 
@@ -122,6 +124,18 @@ function makeLinkUrl(link) {
 				link.url = link.uri;
 				break;
 		}
+	}
+}
+
+function addCanEdit(item) {
+	if (isAdmin || myRecordId == item.objectID) {
+		item.canEdit = true;
+	}
+}
+
+function addCanDelete(item) {
+	if (isAdmin) {
+		item.canDelete = true;
 	}
 }
 

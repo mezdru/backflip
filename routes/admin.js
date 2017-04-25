@@ -90,6 +90,22 @@ router.get('/records/clear', function(req, res, next) {
   });
 });
 
+router.get('/records/delete/:recordId', function(req, res, next) {
+  Record.findById(req.params.recordId, function(err, record) {
+    if (err) return next(err);
+    record.delete(function(err) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Record has been deleted',
+          details: `You deleted the record ${record._id}`,
+          content: record
+        }
+      );
+    });
+  });
+});
+
 router.get('/google/users/list', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
