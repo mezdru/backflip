@@ -91,7 +91,7 @@ router.get('/records/clear', function(req, res, next) {
 });
 
 router.get('/records/delete/:recordId', function(req, res, next) {
-  Record.findById(req.params.recordId, function(err, record) {
+  Record.findOneWithDeleted({_id:req.params.recordId}, function(err, record) {
     if (err) return next(err);
     record.delete(function(err) {
       if (err) return next(err);
