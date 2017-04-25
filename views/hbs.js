@@ -53,6 +53,19 @@ hbs.registerHelper('linkUrl', function(link) {
 	}
 });
 
+hbs.registerHelper('pictureUrl', function(picture) {
+  if (!picture) {
+		return "/images/placeholder.png";
+	} else if (picture.path) {
+		return "/images" + picture.path;
+		//@todo remove this last if once the refacto URI > URL is done
+	} else if (picture.url) {
+		return picture.url;
+	} else {
+		return "/images/placeholder.png";
+  }
+});
+
 hbs.registerPartials(__dirname + '/partials');
 
 module.exports = hbs;

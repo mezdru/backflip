@@ -197,7 +197,7 @@ recordSchema.methods.deleteLinks = function(formLinks) {
 //@todo on creating a new link, check if not in "hidden_links" and move it from there instead of creating a new one.
 recordSchema.methods.createLinks = function(formNewLinks) {
   formNewLinks.forEach(function(newLink) {
-    this.links.push(new LinkHelper(newLink.value).link);
+    if(newLink.value) this.links.push(new LinkHelper(newLink.value).link);
   }, this);
 };
 

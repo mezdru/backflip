@@ -85,7 +85,8 @@ router.post('/:recordId', function(req, res, next) {
   var errors = req.validationErrors();
   var successes = [];
 
-  res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description});
+  //@todo ESCAPE PICTURE URL !
+  res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description, picture: req.body.picture});
 
   if (!errors) {
     res.locals.record.deleteLinks(req.body.links);

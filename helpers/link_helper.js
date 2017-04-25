@@ -11,6 +11,7 @@
 var validator = require('validator');
 var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 var PNF = require('google-libphonenumber').PhoneNumberFormat;
+var parseDomain = require('parse-domain');
 
 var LinkHelper = class LinkHelper {
 
@@ -83,10 +84,37 @@ var LinkHelper = class LinkHelper {
   }
 
   makeHyperlink () {
+    var domain = parseDomain(this.value);
+    switch (domain.domain) {
+        case 'slack': this.type = 'slack'; this.display = 'Slack'; break;
+        case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; break;
+        case 'dribbble': this.type = 'dribbble'; this.display = 'Dribbble'; break;
+        case 'dropbox': this.type = 'dropbox'; this.display = 'Dropbox'; break;
+        case 'facebook': this.type = 'facebook'; this.display = 'Facebook'; break;
+        case 'flickr': this.type = 'flickr'; this.display = 'Flickr'; break;
+        case 'foursquare': this.type = 'foursquare'; this.display = 'Foursquare'; break;
+        case 'github': this.type = 'github'; this.display = 'Github'; break;
+        case 'google': this.type = 'google'; this.display = 'Google'; break;
+        case 'instagram': this.type = 'instagram'; this.display = 'Instagram'; break;
+        case 'linkedin': this.type = 'linkedin'; this.display = 'LinkedIn'; break;
+        case 'pinterest': this.type = 'pinterest'; this.display = 'Pinterest'; break;
+        case 'renren': this.type = 'renren'; this.display = 'Renren'; break;
+        case 'skype': this.type = 'skype'; this.display = 'Skype'; break;
+        case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; break;
+        case 'trello': this.type = 'trello'; this.display = 'Trello'; break;
+        case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; break;
+        case 'twitter': this.type = 'twitter'; this.display = 'Twitter'; break;
+        case 'vimeo': this.type = 'vimeo'; this.display = 'Vimeo'; break;
+        case 'vk': this.type = 'vk'; this.display = 'VK'; break;
+        case 'weibo': this.type = 'weibo'; this.display = 'Weibo'; break;
+        case 'xing': this.type = 'xing'; this.display = 'Xing'; break;
+        case 'youtube': this.type = 'youtube'; this.display = 'Youtube'; break;
+        case 'whatsapp': this.type = 'whatsapp'; this.display = 'WhatsApp'; break;
+        default:  this.display = domain.subdomain + '.' + domain.domain + '.' + domain.tld;
+    }
   }
 
   makeAddress () {
-
   }
 
 

@@ -11,7 +11,6 @@
 <div class="main compose">
   <div class="pure-g">
     <div class="pure-u-1-1">
-      <h1 class="tagline">Compose your Story</h1>
       <ul class="errors">
         {{#errors}}
           <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
@@ -30,8 +29,9 @@
       <div class="pure-g">
         <div class="pure-u-1-5">
           <div class="thumb">
-               <img src="{{record.picture.url}}">
+               <img src="{{pictureUrl record.picture}}">
           </div>
+          <p><input name="picture[url]" type="text" class="pure-input-1 picture-url-input" placeholder="Picture url" value="{{record.picture.url}}"></p>
           <p class="tag">{{record.tag}}</p>
         </div>
         <div class="pure-u-4-5 central">
@@ -53,8 +53,10 @@
               {{/record.links}}
             </ul>
           </div>
-          <fieldset class="pure-group">
-            <a onclick="addLinkInput(this)" class="create-link"><i class="fa fa-plus-circle" aria-hidden="true"></i> <span class="link-text">Create Link</span></a>
+          <fieldset class="pure-group links">
+            <span class="pure-menu-link">
+              <a onclick="addLinkInput(this)" class="create-link"><i class="fa fa-plus-circle" aria-hidden="true"></i> <span class="link-text">Create Link</span></a>
+            </span>
           </fieldset>
         </div>
       </div>
