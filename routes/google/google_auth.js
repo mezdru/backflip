@@ -48,6 +48,15 @@ router.get('/login', function(req, res, next) {
   res.redirect(url);
 });
 
+// Login redirection to Google login for Admins (larger oatuh scopes)
+router.get('/admin_login', function(req, res, next) {
+  url = req.googleOAuth.generateAuthUrl({
+    access_type: 'offline',
+    scope: admin_scopes
+  });
+  res.redirect(url);
+});
+
 // Login redirection from Google login
 router.get('/login/callback', function(req, res, next) {
   req.googleOAuth.getToken(req.query.code, function(err, tokens) {

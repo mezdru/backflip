@@ -1,0 +1,14 @@
+[
+    "email",
+    "profile",
+    "https://www.googleapis.com/auth/plus.me",
+    "https://www.googleapis.com/auth/admin.directory.user.readonly",
+    "https://www.googleapis.com/auth/admin.directory.user.alias.readonly",
+    "https://www.googleapis.com/auth/admin.directory.userschema.readonly",
+    "https://www.googleapis.com/auth/admin.directory.domain.readonly",
+    "https://www.googleapis.com/auth/admin.directory.group.readonly",
+    "https://www.googleapis.com/auth/admin.directory.group.member.readonly",
+    "https://www.googleapis.com/auth/admin.directory.orgunit.readonly",
+    "https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly",
+    "https://www.googleapis.com/auth/admin.directory.rolemanagement.readonly"
+]
