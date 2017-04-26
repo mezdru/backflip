@@ -61,6 +61,11 @@ function transformImagePath(item) {
 		//@todo remove this last if once the refacto URI > URL is done
 	} else if (item.picture.uri) {
 		item.picture.url = item.picture.uri;
+	} else if (!item.picture.url) {
+		item.picture = {
+			url: "/images/placeholder.png"
+		};
+		item.type += " invisible";
 	}
 }
 

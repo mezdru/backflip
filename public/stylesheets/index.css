@@ -421,11 +421,11 @@ header .fa { color: #FFFFFF }
   margin-top: -3vw;
 }
 
-.person.invisible .thumb {
+.invisible .thumb {
   border-radius: 0;
 }
 
-.person.invisible .thumb img {
+.invisible .thumb img {
   margin-top: 0
 }
 
