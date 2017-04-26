@@ -12,6 +12,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user.js');
 var Organisation = require('../models/organisation.js');
+var undefsafe = require('undefsafe');
 
 // Simple easy logout
 router.get('/logout', function(req, res, next) {
@@ -41,6 +42,14 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next) {
   if (req.session.impersonator) {
     res.locals.impersonator = req.session.impersonator;
+  }
+  return next();
+});
+
+// Activate tracking when interested
+router.use(function(req, res, next) {
+  if (req.app.get('env') === 'production' && !undefsafe(res.locals, 'user.superadmin')) {
+    res.locals.track = true;
   }
   return next();
 });
