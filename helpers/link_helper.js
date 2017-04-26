@@ -99,7 +99,7 @@ var LinkHelper = class LinkHelper {
           this.type = 'folder';
           this.display = 'Google Drive';
         } else if (domain.subdomain == 'docs') {
-          type.type = 'file';
+          this.type = 'file';
           this.display = 'Google Docs';
         } else if (domain.subdomain == 'plus') {
           type.type = 'google-plus';
@@ -124,7 +124,7 @@ var LinkHelper = class LinkHelper {
       case 'xing': this.type = 'xing'; this.display = 'Xing'; break;
       case 'youtube': this.type = 'youtube'; this.display = 'Youtube'; break;
       case 'whatsapp': this.type = 'whatsapp'; this.display = 'WhatsApp'; break;
-      default:  this.display = domain.subdomain + '.' + domain.domain + '.' + domain.tld; break;
+      default:  this.display = (domain.subdomain ? domain.subdomain + '.' : '') + domain.domain + '.' + domain.tld; break;
     }
   }
 
@@ -134,7 +134,12 @@ var LinkHelper = class LinkHelper {
       case 'roadmap': this.type = 'road'; this.display = 'Roadmap'; break;
       case 'asana': this.type = 'map'; this.display = 'Asana'; break;
       case 'forum': this.type = 'comment'; this.display = 'Forum'; break;
-      default: this.type = 'question'; break;
+      case 'home':
+        if(this.isPhone()) {
+          this.makePhone();
+          this.type = 'home';
+        }
+        break;
     }
   }
 

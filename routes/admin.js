@@ -111,6 +111,19 @@ router.get('/records/delete/:recordId', function(req, res, next) {
   });
 });
 
+router.get('/google/groups/list', function(req, res, next) {
+  google.admin('directory_v1').groups.list({customer: 'my_customer', maxResults: 200, pageToken:"AHmOf6YS-4S9DsWxW3fiy1k3A_c1OUWW4koqb5ENE6v6i5oBJyDfrgIIgLqhhdiLe1RUnz7iFkArla-qYyefSnFxldXMkaR5Oq4rhHUItd6QpYvy0Wi7000PkP1lJnuO4IdcZtzSpq-bprMAaCzUSwaeLu4uTA7yRQ"}, function (err, ans) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Google Groups within your organisation',
+        details: `Google Admin Directory API returns ${ans.groups.length} groups`,
+        content: ans
+      }
+    );
+  });
+});
+
 router.get('/google/users/list', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);

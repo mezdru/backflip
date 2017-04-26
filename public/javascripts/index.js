@@ -119,6 +119,9 @@ function makeLinkUrl(link) {
 			case 'phone':
 				link.url = 'tel:'+link.value;
 				break;
+			case 'home':
+				link.url = 'tel:'+link.value;
+				break;
 			case 'address':
 				link.url = 'http://maps.google.com/?q='+encodeURIComponent(link.value);
 				break;

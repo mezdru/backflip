@@ -78,6 +78,7 @@ recordSchema.statics.exportRecords4Csv = function(records) {
   for (var i=1; i<16; i++) {
     header[`link_${i}`] = `link_${i}`;
   }
+  header[`link_home`] = 'link_home';
   var records4csv = [header];
   records.forEach(function (record) {
     records4csv.push(record.export4csv());
@@ -96,7 +97,9 @@ recordSchema.methods.export4csv = function () {
       description: this.description,
   };
   this.links.forEach(function (link, index) {
-    if (link.type == 'phone') {
+    if (link.type == 'home') {
+      record4csv[`link_home`] = link.display;
+    } else if (link.type == 'phone') {
       record4csv[`link_${index+1}`] = link.display;
     } else {
       record4csv[`link_${index+1}`] = link.value;
@@ -293,21 +296,15 @@ var Record = mongoose.model('Record', recordSchema);
 
 Record.validationSchema = {
   name: {
-    notEmpty: {
-      errorMessage: 'Name should not be empty'
-    },
     isLength: {
-      options: [{ min: 4, max: 64 }],
+      options: [{ min: 1, max: 64 }],
       errorMessage: 'Name should be between 4 and 64 chars long' // Error message for the validator, takes precedent over parameter message
     }
   },
   description: {
-    notEmpty: {
-      errorMessage: 'Story should not be empty'
-    },
     isLength: {
-      options: [{ min: 6, max: 2048 }],
-      errorMessage: 'Description should be between 6 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
+      options: [{ min: 2, max: 2048 }],
+      errorMessage: 'Description should be between 2 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
     }
   }
 };
