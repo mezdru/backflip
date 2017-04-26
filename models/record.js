@@ -76,7 +76,7 @@ recordSchema.statics.exportRecords4Csv = function(records) {
       description: 'description',
   };
   for (var i=1; i<16; i++) {
-    header[`link_${i}`] = `link${i}`;
+    header[`link_${i}`] = `link_${i}`;
   }
   var records4csv = [header];
   records.forEach(function (record) {
@@ -97,9 +97,9 @@ recordSchema.methods.export4csv = function () {
   };
   this.links.forEach(function (link, index) {
     if (link.type == 'phone') {
-      record4csv[`link${index}`] = link.display;
+      record4csv[`link_${index+1}`] = link.display;
     } else {
-      record4csv[`link${index}`] = link.value;
+      record4csv[`link_${index+1}`] = link.value;
     }
   });
   return record4csv;
@@ -135,7 +135,7 @@ recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationId)
   for (var prop in csvLineAsJson) {
     let header = prop.split('_');
     if (csvLineAsRecord[prop] && header[0] == 'link') {
-      let link = {value: csvLineAsRecord[prop]};
+      let link = { value: csvLineAsRecord[prop] };
       if (header[1] && !parseInt(header[1], 10)) link.type = header[1];
       csvLineAsRecord.links.push(link);
     }
