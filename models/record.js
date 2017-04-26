@@ -109,11 +109,11 @@ recordSchema.methods.export4csv = function () {
 };
 
 recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, userId, callback) {
-  if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'delete') return callback(null, null);
+  if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'update' && csvLineAsJson.action != 'delete') return callback(null, null);
   var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationId);
   if (csvLineAsRecord.action == 'create') {
       return this.model('Record').createFromCsv(csvLineAsRecord, callback);
-  } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
+  } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'update' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
     this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
       if (err) return callback(err);
       if (!oldRecord) return callback(null, null);
@@ -122,8 +122,11 @@ recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, org
       }
       if (csvLineAsRecord.action == 'overwrite') {
         return oldRecord.overwriteFromCsv(csvLineAsRecord, callback);
-      } else if (csvLineAsRecord.action == 'delete')
+      } else if (csvLineAsRecord.action == 'update') {
+        return oldRecord.updateFromCsv(csvLineAsRecord, callback);
+      } else if (csvLineAsRecord.action == 'delete') {
         return oldRecord.delete(userId, callback);
+      }
     });
   }
 };
@@ -170,6 +173,20 @@ recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, callback) {
     this.links = csvLineAsRecord.links.map(function(link) {
       return new LinkHelper(link.value, link.type).link;
     });
+    this.updateWithin(function(err) {
+      if (err) return console.error(err);
+      this.save(callback);
+    }.bind(this));
+  }
+};
+
+recordSchema.methods.updateFromCsv = function (csvLineAsRecord, callback) {
+  if (csvLineAsRecord.action == 'update') {
+    this.name = csvLineAsRecord.name;
+    this.tag = csvLineAsRecord.tag;
+    this.type = csvLineAsRecord.type;
+    this.picture = csvLineAsRecord.picture;
+    this.description = csvLineAsRecord.description;
     this.updateWithin(function(err) {
       if (err) return console.error(err);
       this.save(callback);
