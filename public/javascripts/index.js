@@ -209,6 +209,15 @@ search.addWidget(
   })
 );
 
+search.addWidget(
+  instantsearch.widgets.analytics({
+    pushFunction: function(formattedParameters, state, results) {
+      window.ga('set', 'page', '/search/query/?query=' + state.query + '&' + formattedParameters + '&numberOfHits=' + results.nbHits);
+      window.ga('send', 'pageView');
+		}
+	})
+);
+
 function setSearch(query) {
 	search.helper.setQuery(query).search();
 	window.scrollTo(0,0);
