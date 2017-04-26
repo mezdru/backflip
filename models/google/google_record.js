@@ -90,19 +90,19 @@ GoogleRecord.getRecordsAndGoogleUser = function(recordsAndGoogleUsers, action) {
   });
 };
 
-GoogleRecord.deleteRecords = function(recordsAndGoogleUsers, callback) {
+GoogleRecord.deleteRecords = function(recordsAndGoogleUsers, userId, callback) {
   recordsToDelete = [];
   recordsAndGoogleUsers.forEach(function(recordAndGoogleUser) {
     if (recordAndGoogleUser.action === 'delete') {
       recordsToDelete.push(recordAndGoogleUser.record);
     }
   });
-  return this.deleteMany(recordsToDelete, callback);
+  return this.deleteMany(recordsToDelete, userId, callback);
 };
 
-GoogleRecord.deleteMany = function(records, callback) {
+GoogleRecord.deleteMany = function(records, userId, callback) {
   records.forEach(function(record) {
-    record.delete(callback);
+    record.delete(userId, callback);
   });
 };
 

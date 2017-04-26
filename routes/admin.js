@@ -78,7 +78,7 @@ router.get('/algolia/clear', function(req, res, next) {
 });
 
 router.get('/records/clear', function(req, res, next) {
-  Record.delete({organisation: res.locals.organisation._id}, function(err, result) {
+  Record.delete({organisation: res.locals.organisation._id}, res.locals.user._id, function(err, result) {
     if (err) return next(err);
     res.render('index',
       {
@@ -98,7 +98,7 @@ router.get('/records/delete/:recordId', function(req, res, next) {
       err.status = 500;
       return next(err);
     }
-    record.delete(function(err) {
+    record.delete(res.locals.user._id, function(err) {
       if (err) return next(err);
       res.render('index',
         {
@@ -142,7 +142,7 @@ router.get('/google/users/update', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
     var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);
-    GoogleRecord.deleteRecords(recordsAndGoogleUsers, function(err, result) {
+    GoogleRecord.deleteRecords(recordsAndGoogleUsers, res.locals.user._id, function(err, result) {
       if (err) return next(err);
     });
     GoogleRecord.createRecords(recordsAndGoogleUsers, res.locals.organisation._id, function(err, result) {
@@ -175,7 +175,7 @@ router.get('/google/users/test', function(req, res, next) {
         console.log(record);
       })
     });*/
-    GoogleRecord.deleteRecords(recordsAndGoogleUsers, function(err, result) {
+    GoogleRecord.deleteRecords(recordsAndGoogleUsers, res.locals.user._id, function(err, result) {
       if (err) return next(err);
     });
     GoogleRecord.createRecords(recordsAndGoogleUsers, res.locals.organisation._id, function(err, result) {
@@ -222,7 +222,7 @@ router.post('/records/csv/upload', upload.single('file'), function(req, res, nex
     .fromString(req.file.buffer.toString())
     .on('json', function(csvLineAsJson) {
       csvLinesAsJson.push(csvLineAsJson);
-      Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, function(err, record) {
+      Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, res.locals.user._id, function(err, record) {
         if (err) return next(err);
       });
     })

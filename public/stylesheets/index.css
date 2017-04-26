@@ -672,6 +672,10 @@ footer {
 }
 
 /* Compose page */
+.pure-form fieldset {
+  padding-top: 0;
+}
+
 .compose .tagline {
   color: #2ECC71;
 }

@@ -40,7 +40,7 @@ router.use('/:recordId',function(req, res, next) {
       err.status = 403;
       return next(err);
     }
-    if (!res.locals.user.isAdminToOrganisation(res.locals.organisation._id) && !res.locals.user.ownsRecord(record._id)) {
+    if (record.type == 'person' && !res.locals.user.isAdminToOrganisation(res.locals.organisation._id) && !res.locals.user.ownsRecord(record._id)) {
       err = new Error('Record not yours');
       err.status = 403;
       return next(err);
@@ -96,6 +96,7 @@ router.post('/:recordId', function(req, res, next) {
       res.locals.record.save (function (err) {
         if (err) return next(err);
         successes.push({msg: "Your story has been saved."});
+        console.log(`COMPOSE ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}`);
         res.render('compose', {title: 'Compose', successes: successes});
       });
     });

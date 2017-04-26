@@ -81,8 +81,8 @@ function transformString(input) {
 function transformLinks(item) {
 	item.links = item.links || [];
 	item.links.forEach(function (link, index, array) {
-		makeLinkIcon(link);
 		makeLinkDisplay(link);
+		makeLinkIcon(link);
 		makeLinkUrl(link);
 		if (index > extraLinkLimit-1) link.class = 'extraLink';
 	});
@@ -110,6 +110,7 @@ function makeLinkDisplay(link) {
 }
 
 function makeLinkUrl(link) {
+	link.url = link.url || link.uri;
 	if (!link.url) {
 		switch (link.type) {
 			case 'email':
@@ -122,14 +123,14 @@ function makeLinkUrl(link) {
 				link.url = 'http://maps.google.com/?q='+encodeURIComponent(link.value);
 				break;
 			default:
-				link.url = link.uri;
+				link.url = link.value;
 				break;
 		}
 	}
 }
 
 function addCanEdit(item) {
-	if (isAdmin || myRecordId == item.objectID) {
+	if (item.type != 'person' || isAdmin || myRecordId == item.objectID) {
 		item.canEdit = true;
 	}
 }

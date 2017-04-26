@@ -105,29 +105,29 @@ recordSchema.methods.export4csv = function () {
   return record4csv;
 };
 
-recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationID, callback) {
+recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, userId, callback) {
   if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'delete') return callback(null, null);
-  var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationID);
+  var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationId);
   if (csvLineAsRecord.action == 'create') {
       return this.model('Record').createFromCsv(csvLineAsRecord, callback);
   } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
     this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
       if (err) return callback(err);
       if (!oldRecord) return callback(null, null);
-      if (!oldRecord.organisation.equals(organisationID)) {
+      if (!oldRecord.organisation.equals(organisationId)) {
         return callback(new Error('Record out of Organisation'));
       }
       if (csvLineAsRecord.action == 'overwrite') {
         return oldRecord.overwriteFromCsv(csvLineAsRecord, callback);
       } else if (csvLineAsRecord.action == 'delete')
-        return oldRecord.delete(callback);
+        return oldRecord.delete(userId, callback);
     });
   }
 };
 
-recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationID) {
+recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationId) {
   var csvLineAsRecord = csvLineAsJson;
-  csvLineAsRecord.organisation = organisationID;
+  csvLineAsRecord.organisation = organisationId;
   csvLineAsRecord.picture = {
     url: csvLineAsJson.picture_url
   };
@@ -207,6 +207,7 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
 // @todo check performance of this expensive logic, if bulked there's better to do, like loading all teams & hashtags at once.
 // @todo I don't want to make this a pre middleware because of performance, but maybe it should be.
+// @todo teams tags are capitalized as a pre filter, but the tag is not updated in the desciption yet
 recordSchema.methods.updateWithin = function(callback) {
 	var regex = /([@#][\w-<>\/]+)/g;
   var tags = this.description.match(regex);
@@ -244,25 +245,32 @@ recordSchema.methods.getWithinRecordByTag = function(tag, callback) {
   }
 };
 
-recordSchema.statics.findByTag = function(tag, organisationID, callback) {
-  this.findOne({organisation: organisationID, tag: tag}, callback);
+recordSchema.statics.findByTag = function(tag, organisationId, callback) {
+  this.findOne({organisation: organisationId, tag: tag}, callback);
 };
 
-//@todo capitalize the first letter of a team's tag
-recordSchema.statics.createByTag = function(tag, organisationID, callback) {
-  name = tag.substr(1);
+recordSchema.statics.createByTag = function(tag, organisationId, callback) {
+  name = tag.slice(1);
   type = tag.substr(0,1) === '@' ? 'team' : 'hashtag';
   record = new this({
     name: name,
     tag: tag,
     type: type,
-    organisation: organisationID
+    organisation: organisationId
   });
   record.save(callback);
 };
 
+recordSchema.pre('save', function(next) {
+  if (this.type == 'team') {
+    this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);
+  }
+  next();
+});
+
 recordSchema.plugin(mongooseDelete, {
   deletedAt : true,
+  deletedBy : true,
   overrideMethods: 'all',
   validateBeforeDelete: false,
   indexFields: 'all'
@@ -303,7 +311,5 @@ Record.validationSchema = {
     }
   }
 };
-
-
 
 module.exports = Record;
