@@ -568,6 +568,10 @@ header .fa { color: #FFFFFF }
 .fa-envelope-o, .fa-envelope{color:#dd4b39;}
 .fa-phone{color:#007F3F;}
 .fa-map-marker{color:#DC4A3E;}
+.fa-road{color:#FBCF06;}
+.fa-map{color:#FC646F;}
+.fa-comment{color:#056E7D;}
+.fa-folder, .fa-file{color:#4285F4;}
 
 .searcher, .expander, .collapser, a {
   cursor: pointer;

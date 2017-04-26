@@ -75,8 +75,8 @@ recordSchema.statics.exportRecords4Csv = function(records) {
       picture_url: 'picture_url',
       description: 'description',
   };
-  for (var i=0; i<16; i++) {
-    header[`link${i}`] = `link${i}`;
+  for (var i=1; i<16; i++) {
+    header[`link_${i}`] = `link${i}`;
   }
   var records4csv = [header];
   records.forEach(function (record) {
@@ -131,13 +131,14 @@ recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationID)
   csvLineAsRecord.picture = {
     url: csvLineAsJson.picture_url
   };
-  delete csvLineAsRecord.picture_url;
   csvLineAsRecord.links = [];
-  for (var i=0; i<16; i++) {
-    if (csvLineAsRecord[`link${i}`]) {
-      csvLineAsRecord.links.push({value: csvLineAsJson[`link${i}`]});
+  for (var prop in csvLineAsJson) {
+    let header = prop.split('_');
+    if (csvLineAsRecord[prop] && header[0] == 'link') {
+      let link = {value: csvLineAsRecord[prop]};
+      if (header[1] && !parseInt(header[1], 10)) link.type = header[1];
+      csvLineAsRecord.links.push(link);
     }
-    delete csvLineAsRecord[`link${i}`];
   }
   return csvLineAsRecord;
 };
@@ -147,7 +148,7 @@ recordSchema.statics.createFromCsv = function(csvLineAsRecord, callback) {
     delete csvLineAsRecord._id;
     newRecord = new this(csvLineAsRecord);
     newRecord.links = csvLineAsRecord.links.map(function(link) {
-      return new LinkHelper(link.value).link;
+      return new LinkHelper(link.value, link.type).link;
     });
     newRecord.updateWithin(function(err) {
       if (err) return console.error(err);
@@ -164,7 +165,7 @@ recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, callback) {
     this.picture = csvLineAsRecord.picture;
     this.description = csvLineAsRecord.description;
     this.links = csvLineAsRecord.links.map(function(link) {
-      return new LinkHelper(link.value).link;
+      return new LinkHelper(link.value, link.type).link;
     });
     this.updateWithin(function(err) {
       if (err) return console.error(err);

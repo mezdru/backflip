@@ -9,23 +9,9 @@
 @todo deduplicate wiew code with partials/hit_template.hbs
 }}
 <div class="main compose">
-  <div class="pure-g">
-    <div class="pure-u-1-1">
-      <ul class="errors">
-        {{#errors}}
-          <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
-        {{/errors}}
-      </ul>
-      <ul class="successes">
-        {{#successes}}
-          <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{msg}}</li>
-        {{/successes}}
-      </ul>
-    </div>
-  </div>
   <form action="{{formAction}}" method="post" class="pure-form">
     <input type="hidden" name="_id" value="{{record._id}}" />
-    <div class="item person expanded">
+    <div class="item {{record.type}} expanded">
       <div class="pure-g">
         <div class="pure-u-1-5">
           <div class="thumb">
@@ -60,10 +46,20 @@
           </fieldset>
         </div>
       </div>
-    </div>
-    <div class="pure-g">
-      <div class="pure-u-1-1">
-        <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></p>
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <ul class="errors">
+            {{#errors}}
+              <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
+            {{/errors}}
+          </ul>
+          <ul class="successes">
+            {{#successes}}
+              <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{msg}}</li>
+            {{/successes}}
+          </ul>
+          <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></p>
+        </div>
       </div>
     </div>
   </form>
