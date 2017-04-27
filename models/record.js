@@ -14,6 +14,7 @@ var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
 var LinkHelper = require('../helpers/link_helper.js');
+var HierarchyHelper = require('../helpers/hierarchy_helper.js');
 
 
 var recordSchema = mongoose.Schema({
@@ -30,6 +31,7 @@ var recordSchema = mongoose.Schema({
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
+  hierarchy: {},
   links: [linkSchema],
   hidden_links: [linkSchema],
   google: {
@@ -157,7 +159,7 @@ recordSchema.statics.createFromCsv = function(csvLineAsRecord, callback) {
     newRecord.links = csvLineAsRecord.links.map(function(link) {
       return new LinkHelper(link.value, link.type).link;
     });
-    newRecord.updateWithin(function(err) {
+    newRecord.updateWithin(null, function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(newRecord));
@@ -174,7 +176,7 @@ recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, callback) {
     this.links = csvLineAsRecord.links.map(function(link) {
       return new LinkHelper(link.value, link.type).link;
     });
-    this.updateWithin(function(err) {
+    this.updateWithin(null, function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(this));
@@ -188,7 +190,7 @@ recordSchema.methods.updateFromCsv = function (csvLineAsRecord, callback) {
     this.type = csvLineAsRecord.type;
     this.picture = csvLineAsRecord.picture;
     this.description = csvLineAsRecord.description;
-    this.updateWithin(function(err) {
+    this.updateWithin(null, function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(this));
@@ -229,7 +231,7 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 // @todo check performance of this expensive logic, if bulked there's better to do, like loading all teams & hashtags at once.
 // @todo I don't want to make this a pre middleware because of performance, but maybe it should be.
 // @todo teams tags are capitalized as a pre filter, but the tag is not updated in the desciption yet
-recordSchema.methods.updateWithin = function(callback) {
+recordSchema.methods.updateWithin = function(tree, callback) {
 	var regex = /([@#][\w-<>\/]+)/g;
   var tags = this.description.match(regex);
   if (!tags || tags.length === 0) {
@@ -244,10 +246,17 @@ recordSchema.methods.updateWithin = function(callback) {
       //@todo fix this ugly way to syncrhonize a foreach
       if (tags.length === this.newWithin.length) {
         this.within = this.newWithin;
+        if (tree) this.updateHierarchy(tree);
         return callback(null, this);
       }
     }.bind(this));
   }, this);
+};
+
+recordSchema.methods.updateHierarchy = function(tree) {
+    hierarchyHelper = new HierarchyHelper(this.within, tree);
+    hierarchyHelper.build();
+    this.hierarchy = hierarchyHelper.hierarchy;
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?

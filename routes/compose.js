@@ -91,13 +91,31 @@ router.post('/:recordId', function(req, res, next) {
   var errors = req.validationErrors();
   var successes = [];
 
+  /* this is for WIP hierarchy
+  var tree = [
+    ['@OPS'],
+    ['@OPS', '@Thriving'],
+    ['@OPS', '@Thriving', '@Lille'],
+    ['@OPS', '@Thriving', '@Paris'],
+    ['@OPS', '@Thriving', '@Brussels'],
+    ['@OPS', '@Thriving', '@Lyon'],
+    ['@OPS', '@Thriving', '@Toulouse'],
+    ['@OPS', '@Thriving', '@Nantes'],
+    ['@OPS', '@BizDev'],
+    ['@OPS', '@NetDev'],
+    ['@OPS', '@NetSupport'],
+    ['@OPS', '@LM'],
+    ['@OPS', '@OPSMama'],
+    ['@HQ', '@OPSMama']
+  ];*/
+
   //@todo ESCAPE PICTURE URL !
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description, picture: req.body.picture});
 
   if (!errors) {
     res.locals.record.deleteLinks(req.body.links);
     if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
-    res.locals.record.updateWithin(function (err, record) {
+    res.locals.record.updateWithin(tree, function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) return next(err);
