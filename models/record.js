@@ -21,6 +21,7 @@ var recordSchema = mongoose.Schema({
   tag: String,
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
+  ranking: {type: Number, default: 0},
   picture: {
     url: String,
     path: String
@@ -281,10 +282,28 @@ recordSchema.statics.createByTag = function(tag, organisationId, callback) {
   record.save(callback);
 };
 
+
+
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
     this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);
   }
+  next();
+});
+
+/*recordSchema.pre('save', function(next) {
+  if (!this.ranking) {
+    switch (this.type) {
+      case 'person' : this.ranking = 1000; break;
+      case 'hashtag' : this.ranking = 2000; break;
+      case 'team' : this.ranking = 3000; break;
+    }
+  }
+  next();
+});*/
+
+recordSchema.pre('save', function(next) {
+  this.updated = Date.now();
   next();
 });
 

@@ -90,6 +90,30 @@ router.get('/records/clear', function(req, res, next) {
   });
 });
 
+router.get('/records/resync', function(req, res, next) {
+  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
+    if (err) return next(err);
+    var countdown = records.length;
+    var countup = 0;
+    records.forEach(function (record) {
+      record.save(function(err, record, numAffected) {
+        countup += numAffected;
+        countdown--;
+        if (err) next(err);
+        if (countdown === 0) {
+          res.render('index',
+            {
+              title: 'Records have been resynced',
+              details: `${countup} of ${records.length} Records have been retrieved & resaved`,
+              content: records
+            }
+          );
+        }
+      });
+    });
+  });
+});
+
 router.get('/records/delete/:recordId', function(req, res, next) {
   Record.findOneWithDeleted({_id:req.params.recordId}, function(err, record) {
     if (err) return next(err);
