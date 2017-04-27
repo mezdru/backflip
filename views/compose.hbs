@@ -23,7 +23,7 @@
         <div class="pure-u-4-5 central">
           <fieldset class="pure-group">
             <input name="name" type="text" class="pure-input-1 name-input" placeholder="Your name" value="{{record.name}}">
-            <textarea name="description" class="pure-input-1 description-input" rows="6" placeholder="Your story">{{record.description}}</textarea>
+            <textarea name="description" id="description" class="pure-input-1 description-input" rows="4" placeholder="Your story">{{record.description}}</textarea>
           </fieldset>
           <div class="links pure-menu pure-menu-horizontal">
             <ul class="pure-menu-list">
@@ -64,3 +64,10 @@
     </div>
   </form>
 </div>
+<script>
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+</script>
+<script src="/javascripts/jquery-3.2.1.slim.min.js"></script>
+<script src="/javascripts/jquery.textcomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="/javascripts/compose.js"></script>

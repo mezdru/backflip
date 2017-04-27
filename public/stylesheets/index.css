@@ -499,7 +499,7 @@ header .fa { color: #FFFFFF }
   overflow: auto;
 }
 
-#search-results em {
+em {
 	font-style: normal;
   font-weight: bold;
 }
@@ -731,6 +731,47 @@ footer {
 .link.deleted span.link-text {
   text-decoration: line-through;
 }
+
+/* compose description autocomplete */
+#description a {
+  text-decoration: none;
+  font-weight: normal;
+  color: #181818;
+}
+
+.dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 8px 8px 8px;
+  background-color: #F5F7FA;
+}
+
+.dropdown-menu .textcomplete-item a {
+  display: block;
+  cursor: pointer;
+  color: #474B54;
+  position: relative;
+  padding: 3px 10px;
+}
+
+.dropdown-menu .textcomplete-item a .record-tag {
+  color: #ABB0BB;
+  font-size: 0.8em;
+}
+
+.dropdown-menu .textcomplete-item:first-child a {
+  border-radius: 0 8px 0 0;
+}
+
+.dropdown-menu .textcomplete-item:last-child a {
+  border-radius: 0 0 8px 8px;
+}
+
+.dropdown-menu .textcomplete-item.active a {
+  background: #CCD0D8;
+}
+
 
 /* 568px and above */
 @media screen and (min-width: 35.5em) {

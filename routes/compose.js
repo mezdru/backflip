@@ -13,6 +13,7 @@ var router = express.Router();
 
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
+var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 
 // First we check there is an organisation.
 // There is no record without organisation
@@ -67,6 +68,11 @@ router.use('/:recordId', function(req, res, next) {
   res.locals.formAction = '/compose/' + req.params.recordId;
   if (req.app.get('env') === 'development') res.locals.formAction = '/compose/' + req.params.recordId + '?subdomains=' + req.query.subdomains;
   return next();
+});
+
+router.use('/:recordId', function(req, res, next) {
+    res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+    return next();
 });
 
 router.get('/:recordId', function(req, res, next) {
