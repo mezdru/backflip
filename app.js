@@ -43,12 +43,16 @@ if (app.get('env') === 'production') {
 
 // Generic
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
+morgan.token('fullurl', function getFullUrl(req) {
+  return req.hostname + req.originalUrl;
+});
+
 app.use(favicon(path.join(__dirname, 'public', 'lenom.png')));
-app.use(logger('dev'));
+app.use(morgan(':method :fullurl :status :res[content-length] - :response-time ms'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
