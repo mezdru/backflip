@@ -42,17 +42,18 @@ if (app.get('env') === 'production') {
 }
 
 // Generic
-var favicon = require('serve-favicon');
 var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
-
 morgan.token('fullurl', function getFullUrl(req) {
   return req.hostname + req.originalUrl;
 });
+app.use(morgan(':method :fullurl :status :res[content-length] - :response-time ms'));
+
+var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
+
 
 app.use(favicon(path.join(__dirname, 'public', 'lenom.png')));
-app.use(morgan(':method :fullurl :status :res[content-length] - :response-time ms'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());

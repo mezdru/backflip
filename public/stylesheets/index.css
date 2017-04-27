@@ -107,6 +107,11 @@ h3 {
   color: #2ECC71;
 }
 
+.playstop .pure-button {
+  background-color: #2ECC71;
+  color: #ffffff;
+}
+
 .demo .fa {
   color: #FF2600;
 }
