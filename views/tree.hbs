@@ -1,0 +1,37 @@
+{{!
+@Author: Clément Dietschy <bedhed>
+@Date:   09-03-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 06-04-2017 03:13
+@Copyright: Clément Dietschy 2017
+}}
+
+<div class="main">
+  <form action="{{formAction}}" method="post" class="pure-form">
+    <input type="hidden" name="_id" value="{{organisation._id}}" />
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h2>Updating Organisation Tree</h2>
+        <p>Edit the tree below to update {{organisation.name}} teams hierarchy structure.</p>
+        <textarea name="tree" id="tree" class="pure-input-1 tree-input" rows="20" placeholder="The Tree as JSON array of arrays">{{#if textfield}}{{textfield}}{{else}}{{textfieldJson organisation.tree}}{{/if}}</textarea>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <ul class="errors">
+          {{#errors}}
+            <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{message}}</li>
+          {{/errors}}
+        </ul>
+        <ul class="successes">
+          {{#successes}}
+            <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{message}}</li>
+          {{/successes}}
+        </ul>
+        <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></p>
+      </div>
+    </div>
+  </form>
+</div>

@@ -259,11 +259,11 @@ router.post('/records/csv/upload', upload.single('file'), function(req, res, nex
     .fromString(req.file.buffer.toString())
     .on('json', function(csvLineAsJson) {
       csvLinesAsJson.push(csvLineAsJson);
-      Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, res.locals.user._id, function(err, record) {
+      Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, res.locals.organisation.tree, res.locals.user._id, function(err, record) {
         if (err) return next(err);
       });
     })
-    //@todo this is very wrong, we provide fake output before waiting for the crod result
+    //@todo this is very wrong, we provide fake output instead of waiting for the real result
     .on('done', function(err) {
       if (err) next(err);
       res.render('update_csv',
@@ -275,6 +275,40 @@ router.post('/records/csv/upload', upload.single('file'), function(req, res, nex
           keep: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'keep';}),
         });
     });
+});
+
+// Here we provide the action url to the view.
+// Needs some logic because of subdomain handling in development
+// @todo find a way to not do this check at each call
+router.use('/organisation/tree', function(req, res, next) {
+  res.locals.formAction = '/admin/organisation/tree';
+  if (req.app.get('env') === 'development') res.locals.formAction = '/admin/organisation/tree/?subdomains=' + req.query.subdomains;
+  return next();
+});
+
+router.get('/organisation/tree', function(req, res, next) {
+  res.render('tree');
+});
+
+router.post('/organisation/tree', function(req, res, next) {
+  errors = [];
+  successes = [];
+  try {
+    res.locals.organisation.tree = JSON.parse(req.body.tree);
+  } catch (e) {
+     if (e instanceof SyntaxError) {
+       errors.push(e);
+     }
+  }
+  if (errors.length > 0) {
+    res.render('tree', {textfield: req.body.tree, errors: errors});
+  } else {
+    res.locals.organisation.save(function(err, organisation) {
+      if(err) return next(err);
+      successes.push({message: "Your story has been saved."});
+      res.render('tree', {successes: successes});
+    });
+  }
 });
 
 // Remove when google/users/test is removed

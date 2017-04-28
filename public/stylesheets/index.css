@@ -689,7 +689,7 @@ footer {
   border-bottom: none;
 }
 
-.compose p.validate {
+p.validate {
   text-align: center;
 }
 
@@ -773,6 +773,10 @@ footer {
   background: #CCD0D8;
 }
 
+/* admin/organisation/tree */
+.tree-input {
+  font-family: mono;
+}
 
 /* 568px and above */
 @media screen and (min-width: 35.5em) {

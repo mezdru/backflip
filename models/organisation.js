@@ -20,6 +20,7 @@ var organisationSchema = mongoose.Schema({
   google: {
     hd: String,
   },
+  tree: [[String]],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false },

@@ -111,11 +111,11 @@ recordSchema.methods.export4csv = function () {
   return record4csv;
 };
 
-recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, userId, callback) {
+recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, organisationTree, userId, callback) {
   if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'update' && csvLineAsJson.action != 'delete') return callback(null, null);
   var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationId);
   if (csvLineAsRecord.action == 'create') {
-      return this.model('Record').createFromCsv(csvLineAsRecord, callback);
+      return this.model('Record').createFromCsv(csvLineAsRecord, organisationTree, callback);
   } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'update' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
     this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
       if (err) return callback(err);
@@ -124,9 +124,9 @@ recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, org
         return callback(new Error('Record out of Organisation'));
       }
       if (csvLineAsRecord.action == 'overwrite') {
-        return oldRecord.overwriteFromCsv(csvLineAsRecord, callback);
+        return oldRecord.overwriteFromCsv(csvLineAsRecord, organisationTree, callback);
       } else if (csvLineAsRecord.action == 'update') {
-        return oldRecord.updateFromCsv(csvLineAsRecord, callback);
+        return oldRecord.updateFromCsv(csvLineAsRecord, organisationTree, callback);
       } else if (csvLineAsRecord.action == 'delete') {
         return oldRecord.delete(userId, callback);
       }
@@ -152,21 +152,21 @@ recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationId)
   return csvLineAsRecord;
 };
 
-recordSchema.statics.createFromCsv = function(csvLineAsRecord, callback) {
+recordSchema.statics.createFromCsv = function(csvLineAsRecord, tree, callback) {
   if (csvLineAsRecord.action == 'create') {
     delete csvLineAsRecord._id;
     newRecord = new this(csvLineAsRecord);
     newRecord.links = csvLineAsRecord.links.map(function(link) {
       return new LinkHelper(link.value, link.type).link;
     });
-    newRecord.updateWithin(null, function(err) {
+    newRecord.updateWithin(tree, function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(newRecord));
   }
 };
 
-recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, callback) {
+recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, tree, callback) {
   if (csvLineAsRecord.action == 'overwrite') {
     this.name = csvLineAsRecord.name;
     this.tag = csvLineAsRecord.tag;
@@ -176,21 +176,21 @@ recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, callback) {
     this.links = csvLineAsRecord.links.map(function(link) {
       return new LinkHelper(link.value, link.type).link;
     });
-    this.updateWithin(null, function(err) {
+    this.updateWithin(tree, function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(this));
   }
 };
 
-recordSchema.methods.updateFromCsv = function (csvLineAsRecord, callback) {
+recordSchema.methods.updateFromCsv = function (csvLineAsRecord, tree, callback) {
   if (csvLineAsRecord.action == 'update') {
     this.name = csvLineAsRecord.name;
     this.tag = csvLineAsRecord.tag;
     this.type = csvLineAsRecord.type;
     this.picture = csvLineAsRecord.picture;
     this.description = csvLineAsRecord.description;
-    this.updateWithin(null, function(err) {
+    this.updateWithin(tree, function(err) {
       if (err) return console.error(err);
       this.save(callback);
     }.bind(this));
@@ -253,6 +253,7 @@ recordSchema.methods.updateWithin = function(tree, callback) {
   }, this);
 };
 
+// @todo what if Record.within is not populated ? You're screwed aren't you ?
 recordSchema.methods.updateHierarchy = function(tree) {
     hierarchyHelper = new HierarchyHelper(this.within, tree);
     hierarchyHelper.build();

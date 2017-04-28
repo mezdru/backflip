@@ -18,6 +18,13 @@ hbs.registerHelper('json', function(context) {
     return JSON.stringify(context, null, 4);
 });
 
+hbs.registerHelper('textfieldJson', function(context) {
+  text = '[\n';
+  context.forEach(branch => text += JSON.stringify(branch) + ',\n');
+  text += ']';
+  return text;
+});
+
 // @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
 hbs.registerHelper('linkDisplay', function(link) {
   return link.display || link.value;
