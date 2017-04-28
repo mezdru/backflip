@@ -96,19 +96,22 @@ router.get('/records/resync', function(req, res, next) {
     var countdown = records.length;
     var countup = 0;
     records.forEach(function (record) {
-      record.save(function(err, record, numAffected) {
-        countup += numAffected;
-        countdown--;
-        if (err) next(err);
-        if (countdown === 0) {
-          res.render('index',
-            {
-              title: 'Records have been resynced',
-              details: `${countup} of ${records.length} Records have been retrieved & resaved`,
-              content: records
-            }
-          );
-        }
+      record.updateWithin(res.locals.organisation.tree, function(err, record) {
+        if(err) return next(err);
+        record.save(function(err, record, numAffected) {
+          countup += numAffected;
+          countdown--;
+          if (err) next(err);
+          if (countdown === 0) {
+            res.render('index',
+              {
+                title: 'Records have been resynced',
+                details: `${countup} of ${records.length} Records have been retrieved & resaved`,
+                content: records
+              }
+            );
+          }
+        });
       });
     });
   });

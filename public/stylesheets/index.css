@@ -303,7 +303,7 @@ header .fa { color: #FFFFFF }
   margin-left: 0;
 }
 
-#within {
+#structure {
   margin-top: 2em;
 }
 
@@ -314,11 +314,61 @@ header .fa { color: #FFFFFF }
   padding: 2em 1em 0.5em 1em;
 }
 
+/* structure menu */
+
+.ais-hierarchical-menu a {
+  color:  #7F8C8D;
+}
+
+.ais-hierarchical-menu--count {
+  float: right;
+  font-size: 0.8em;
+  color: #ABB0BB;
+}
+
+.ais-hierarchical-menu--item > div:first-child {
+  padding: 0.2em 1em;
+  margin-bottom: 1px;
+}
+
+.ais-hierarchical-menu--list__lvl1,
+.ais-hierarchical-menu--list__lvl2,
+.ais-hierarchical-menu--list__lvl3,
+.ais-hierarchical-menu--list__lvl4,
+.ais-hierarchical-menu--list__lvl5 {
+  margin-left: 1.4em;
+  border-left: 2px solid #2ECC71;
+}
+
+.ais-hierarchical-menu--item > div:first-child:hover {
+  cursor: pointer;
+  background: #2ECC71;
+}
+
+.ais-hierarchical-menu--item > div:first-child:hover a {
+  color: #ffffff;
+}
+
+.ais-hierarchical-menu--item > div:first-child:hover .ais-hierarchical-menu--count {
+  color: #E6E8EC;
+}
+
+.ais-hierarchical-menu--item__active > div:first-child a {
+  font-weight: bold;
+  color: #2ECC71;
+}
+
+.ais-hierarchical-menu--item__active > div:first-child:hover {
+  background-color: #F1C40F;
+}
+
+/* filter menu */
+
 .ais-refinement-list--checkbox {
   display: none;
 }
 
-.ais-refinement-list--count {
+.ais-refinement-list--count{
   float: right;
   font-size: 0.8em;
   color: #ABB0BB;
@@ -331,20 +381,25 @@ header .fa { color: #FFFFFF }
 
 .ais-refinement-list--item:hover {
   cursor: pointer;
-  background: #CCD0D8;
+  color: #ffffff;
+  background: #2ECC71;
+}
+
+.ais-refinement-list--label:hover {
+  cursor: pointer;
+}
+
+.ais-refinement-list--item:hover .ais-refinement-list--count {
+  color: #E6E8EC;
 }
 
 .ais-refinement-list--item__active {
-  background: #2ECC71;
-  color: #F5F7FA;
+  font-weight: bold;
+  color: #2ECC71;
 }
 
 .ais-refinement-list--item__active:hover {
   background-color: #F1C40F;
-}
-
-.ais-refinement-list--item__active .ais-refinement-list--count {
-  color: #E6E8EC;
 }
 
 #clear-all {

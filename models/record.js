@@ -14,7 +14,7 @@ var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
 var LinkHelper = require('../helpers/link_helper.js');
-var HierarchyHelper = require('../helpers/hierarchy_helper.js');
+var StructureHelper = require('../helpers/structure_helper.js');
 
 
 var recordSchema = mongoose.Schema({
@@ -31,7 +31,7 @@ var recordSchema = mongoose.Schema({
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
-  hierarchy: {},
+  structure: {},
   links: [linkSchema],
   hidden_links: [linkSchema],
   google: {
@@ -246,7 +246,7 @@ recordSchema.methods.updateWithin = function(tree, callback) {
       //@todo fix this ugly way to syncrhonize a foreach
       if (tags.length === this.newWithin.length) {
         this.within = this.newWithin;
-        if (tree) this.updateHierarchy(tree);
+        if (tree) this.updateStructure(tree);
         return callback(null, this);
       }
     }.bind(this));
@@ -254,10 +254,10 @@ recordSchema.methods.updateWithin = function(tree, callback) {
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
-recordSchema.methods.updateHierarchy = function(tree) {
-    hierarchyHelper = new HierarchyHelper(this.within, tree);
-    hierarchyHelper.build();
-    this.hierarchy = hierarchyHelper.hierarchy;
+recordSchema.methods.updateStructure = function(tree) {
+    structureHelper = new StructureHelper(this.within, tree);
+    structureHelper.build();
+    this.structure = structureHelper.structure;
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?

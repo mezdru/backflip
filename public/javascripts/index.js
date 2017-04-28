@@ -174,16 +174,28 @@ search.addWidget(
 );
 
 search.addWidget(
+  instantsearch.widgets.hierarchicalMenu({
+    container: '#structure',
+    attributes: ['structure.0', 'structure.1', 'structure.2'],
+		sortBy: ['count', 'name:asc'],
+    templates: {
+      header: 'Teams'
+    }
+  })
+);
+
+search.addWidget(
   instantsearch.widgets.refinementList({
     container: '#within',
     attributeName: 'within.tag',
     operator: 'and',
-    limit: 10,
+    limit: 5,
+		collapsible: {collapsed: true},
 		searchForFacetValues: {
 			placeholder: 'Search',
 		},
 		templates: {
-      header: 'Teams & Hashtags'
+      header: 'Filters'
     }
   })
 );
