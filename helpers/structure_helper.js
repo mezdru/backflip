@@ -15,6 +15,7 @@ var StructureHelper = class StructureHelper {
   constructor(within, tree) {
     this.within = within;
     this.tree = tree;
+    this.ranking = 0;
     this.structure = {};
   }
 

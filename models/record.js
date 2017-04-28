@@ -238,6 +238,8 @@ recordSchema.methods.updateWithin = function(tree, callback) {
     this.description += '#notags';
     tags = ['#notags'];
   }
+  // A team or a hashtag is within itself so it shows when filtering.
+  if (this.type != 'person') tags.unshift(this.tag);
   this.newWithin = [];
   tags.forEach(function(tag) {
     this.getWithinRecordByTag(tag, function(err, record) {
@@ -246,6 +248,7 @@ recordSchema.methods.updateWithin = function(tree, callback) {
       //@todo fix this ugly way to syncrhonize a foreach
       if (tags.length === this.newWithin.length) {
         this.within = this.newWithin;
+        this.updateRanking(tree);
         if (tree) this.updateStructure(tree);
         return callback(null, this);
       }
@@ -258,6 +261,23 @@ recordSchema.methods.updateStructure = function(tree) {
     structureHelper = new StructureHelper(this.within, tree);
     structureHelper.build();
     this.structure = structureHelper.structure;
+};
+
+recordSchema.methods.updateRanking = function(tree) {
+  switch (this.type) {
+    case 'person' : this.ranking = 1000; break;
+    case 'hashtag' : this.ranking = 2000; break;
+    case 'team' : this.ranking = 3000; break;
+  }
+  if (tree) this.ranking += this.getStructureRanking(tree);
+};
+
+recordSchema.methods.getStructureRanking = function(tree) {
+  let branches = tree.filter(function (branch) {
+    return branch[branch.length-1] == this.tag;
+  }, this);
+  var shortestBranchLength = branches.reduce((acc, cur) => Math.min(acc, cur.length), 9);
+  return 1000 - shortestBranchLength*100;
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
@@ -300,17 +320,6 @@ recordSchema.pre('save', function(next) {
   }
   next();
 });
-
-/*recordSchema.pre('save', function(next) {
-  if (!this.ranking) {
-    switch (this.type) {
-      case 'person' : this.ranking = 1000; break;
-      case 'hashtag' : this.ranking = 2000; break;
-      case 'team' : this.ranking = 3000; break;
-    }
-  }
-  next();
-});*/
 
 recordSchema.pre('save', function(next) {
   this.updated = Date.now();

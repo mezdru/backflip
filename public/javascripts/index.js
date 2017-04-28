@@ -51,20 +51,19 @@ transformItem = function (item) {
 };
 
 function transformImagePath(item) {
-	if (!item.picture) {
-		item.picture = {
-			url: "/images/placeholder.png"
-		};
-		item.type += " invisible";
-	} else if (item.picture.path) {
+	if (item.picture && item.picture.url) {
+			item.picture.url = item.picture.url;
+	} else if (item.picture && item.picture.path) {
 		item.picture.url = "/images" + item.picture.path;
 		//@todo remove this last if once the refacto URI > URL is done
-	} else if (item.picture.uri) {
+	} else if (item.picture && item.picture.uri) {
 		item.picture.url = item.picture.uri;
-	} else if (!item.picture.url) {
-		item.picture = {
-			url: "/images/placeholder.png"
-		};
+	} else {
+		switch (item.type) {
+			case 'team' : item.picture = { url: "/images/placeholder_team.png"}; break;
+			case 'hashtag' : item.picture = { url: "/images/placeholder_hashtag.png"}; break;
+			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
+		}
 		item.type += " invisible";
 	}
 }
@@ -149,6 +148,11 @@ function addCanDelete(item) {
 	}
 }
 
+transformStructureItem = function (item) {
+	item.count --;
+	return item;
+};
+
 search.addWidget(
 	instantsearch.widgets.searchBox({
 		container: '#search-box',
@@ -177,10 +181,11 @@ search.addWidget(
   instantsearch.widgets.hierarchicalMenu({
     container: '#structure',
     attributes: ['structure.0', 'structure.1', 'structure.2'],
-		sortBy: ['count', 'name:asc'],
+		//sortBy: ['count', 'name:asc'],
     templates: {
       header: 'Teams'
-    }
+    },
+		transformData: transformStructureItem
   })
 );
 

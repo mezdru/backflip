@@ -61,18 +61,8 @@ h3 {
 	padding: 16px;
 }
 
-.person .pure-g {
+.item .pure-g {
 	border-bottom: 3px solid #F5F7FA;
-}
-
-.team {
-  background-color: #f0f0ff;
-  border-bottom: 3px solid #F5F7FA;
-}
-
-.hashtag {
-  background-color: #fff0f0;
-  border-bottom: 3px solid #F5F7FA;
 }
 
 .central > h2,
