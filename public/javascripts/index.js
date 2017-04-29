@@ -155,8 +155,8 @@ transformStructureItem = function (item) {
 
 search.addWidget(
 	instantsearch.widgets.searchBox({
-		container: '#search-box',
-		placeholder: '#Friendly Coworker Search',
+		container: '#search',
+		placeholder: 'Search Coworker, @Team, #project...',
 		wrapInput: false,
 		autofocus: false,
 		cssClasses: {
