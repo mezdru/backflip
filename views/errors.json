@@ -1,5 +1,14 @@
 [
   {
+    "status": 204,
+    "icon": "fa-diamond",
+    "name": "Work in progress.",
+    "description": "Thank you for joining Lenom, we now need some time to build a friendly directory for you and your coworkers. We will let you know by email when we are ready.",
+    "quote": "We dig dig dig dig dig dig dig dig.",
+    "reference": "The 7 dwarves",
+    "url": "https://youtu.be/HI0x0KYChq4?t=7s"
+  },
+  {
     "status": 400,
     "icon": "fa-cube",
     "name": "Pardon?",

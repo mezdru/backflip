@@ -104,6 +104,19 @@ em {
   color: #F5F7FA;
 }
 
+/* CUSTOM FORM */
+
+p.validate {
+  text-align: center;
+}
+
+.save-input {
+  color: #ffffff;
+  background-color: #2ECC71;
+  text-transform: uppercase;
+}
+
+
 /* GRID */
 
 .pure-g {
@@ -210,7 +223,6 @@ header a {
 /* HOMEPAGE */
 
 .tagline {
-  text-transform: uppercase;
   font-weight: 300;
   text-align: center;
   color: #33374C;
@@ -493,8 +505,6 @@ footer {
 	border-bottom: 2px solid #F5F7FA;
 }
 
-/* RECORD */
-
 /* Picture */
 
 .picture {
@@ -581,15 +591,20 @@ footer {
   display: block;
 }
 
-.links a {
+.links a,
+.links .link {
   display: block;
   padding: 4px 8px;
   color: #474B54;
   opacity: 0.4;
 }
 
+.links .link {
+  opacity: 1;
+}
+
 .link-text {
-  padding-left: 4px;
+  padding-left: 8px;
   display: none;
 }
 
@@ -680,17 +695,17 @@ footer {
 }
 
 .ais-infinite-hits--showmore button {
-      display: inline-block;
-      vertical-align: middle;
-      text-align: center;
-      padding: .2em 1em .5em 1em;
-      text-transform: uppercase;
-      font-size: 1.5em;
-      border: transparent;
-      color: #7F8C8D;
-      background-color: #F5F7FA;
-      text-decoration: none;
-      border-radius: 0 0 20px 20px ;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  padding: .2em 1em .5em 1em;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  border: transparent;
+  color: #7F8C8D;
+  background-color: #F5F7FA;
+  text-decoration: none;
+  border-radius: 0 0 20px 20px ;
 }
 
 .ais-infinite-hits--showmore button:hover {
@@ -706,27 +721,12 @@ footer {
 
 /* Compose page */
 .pure-form fieldset {
-  padding-top: 0;
+  padding: 0;
+  clear: both;
 }
 
-.compose .tagline {
-  color: #2ECC71;
-}
-
-.compose .person .pure-g {
+.compose .record {
   border-bottom: none;
-}
-
-p.validate {
-  text-align: center;
-}
-
-.save-input {
-  color: #ffffff;
-  background-color: #2ECC71;
-  text-transform: uppercase;
-  font-weight: 300;
-  font-size: 1.5em;
 }
 
 .errors,
@@ -746,23 +746,37 @@ p.validate {
   padding-right: 2em;
 }
 
-
-
 /* compose links */
-.delete-link {
+.links .delete-link {
   float: right;
-  text-transform: uppercase;
+  padding-right: 0;
 }
 
-.create-link {
-  text-transform: uppercase;
+.links .undelete-link {
+  float: right;
+  display: none;
+  padding-right: 0;
 }
 
-.link.deleted span.link-text {
+.links .link.deleted {
+  opacity: 0.3;
+}
+
+.links .link.deleted .undelete-link {
+  display: block;
+}
+
+.links .link.deleted .delete-link {
+  display: none;
+}
+
+.links .link:hover .link-text {
   text-decoration: line-through;
 }
 
-/* compose description autocomplete */
+
+/* Compose description autocomplete */
+
 #description a {
   text-decoration: none;
   font-weight: normal;
@@ -777,33 +791,38 @@ p.validate {
   background-color: #F5F7FA;
 }
 
-.dropdown-menu .textcomplete-record a {
+.dropdown-menu .textcomplete-item a {
   display: block;
   cursor: pointer;
-  color: #474B54;
+  color: #7F8C8D;
   position: relative;
   padding: 3px 10px;
 }
 
-.dropdown-menu .textcomplete-record a .record-tag {
+.dropdown-menu .textcomplete-item a .record-tag {
   color: #ABB0BB;
   font-size: 0.8em;
 }
 
-.dropdown-menu .textcomplete-record:first-child a {
+.dropdown-menu .textcomplete-item:first-child a {
   border-top-right-radius: 8px;
 }
 
-.dropdown-menu .textcomplete-record:last-child a {
+.dropdown-menu .textcomplete-item:last-child a {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 
-.dropdown-menu .textcomplete-record.active a {
-  background: #CCD0D8;
+.dropdown-menu .textcomplete-item.active a {
+  color: #ffffff;
+  background: #2ECC71;
 }
 
-/* admin/organisation/tree */
+.dropdown-menu .textcomplete-item.active a  .record-tag {
+  color: #E6E8EC;
+}
+
+/* Admin Tree input */
 .tree-input {
   font-family: mono;
 }

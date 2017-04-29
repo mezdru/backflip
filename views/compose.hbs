@@ -11,55 +11,60 @@
 <div class="main compose">
   <form action="{{formAction}}" method="post" class="pure-form">
     <input type="hidden" name="_id" value="{{record._id}}" />
-    <div class="item {{record.type}} expanded">
-      <div class="pure-g">
-        <div class="pure-u-1-5">
-          <div class="thumb">
-               <img onload="resizeImg(this)" src="{{pictureUrl record.picture}}">
-          </div>
-          <p><input name="picture[url]" type="text" class="pure-input-1 picture-url-input" placeholder="Picture url" value="{{record.picture.url}}"></p>
-          <p class="tag">{{record.tag}}</p>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h1 class="tagline"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Compose <span class="tag">{{record.tag}}</span></h1>
+        <ul class="errors">
+          {{#errors}}
+          <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
+          {{/errors}}
+        </ul>
+        <ul class="successes">
+          {{#successes}}
+          <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{msg}}</li>
+          {{/successes}}
+        </ul>
+      </div>
+    </div>
+    <div class="record pure-g {{record.type}} expanded">
+      <div class="pure-u-1-6">
+        <div class="picture">
+          <img onload="resizeImg(this)" src="{{pictureUrl record.picture}}">
         </div>
-        <div class="pure-u-4-5 central">
+        <p><input name="picture[url]" type="text" class="pure-input-1 picture-url-input" placeholder="Picture url" value="{{record.picture.url}}"></p>
+      </div>
+      <div class="pure-u-5-6">
+        <div class="central">
           <fieldset class="pure-group">
             <input name="name" type="text" class="pure-input-1 name-input" placeholder="Your name" value="{{record.name}}">
             <textarea name="description" id="description" class="pure-input-1 description-input" rows="4" placeholder="Your story">{{record.description}}</textarea>
           </fieldset>
-          <div class="links pure-menu pure-menu-horizontal">
-            <ul class="pure-menu-list">
+          <div class="links">
+            <ul>
               {{#record.links}}
-              <li class="pure-menu-item link {{class}}">
+              <li class="{{class}}">
                 <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
                 <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
-                <span class="pure-menu-link">
-                  <a onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i> Delete</a>
-                  <i class="fa {{linkIcon this}}" aria-hidden="true"></i> <span class="link-text">{{linkDisplay this}}</span>
+                <span class="link">
+                  <a onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                  <a onclick="toggleLink(this)" class="undelete-link"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                  <i class="fa {{linkIcon this}}" aria-hidden="true"></i><span class="link-text">{{linkDisplay this}}</span>
                 </span>
               </li>
               {{/record.links}}
             </ul>
           </div>
-          <fieldset class="pure-group links">
-            <span class="pure-menu-link">
+          <fieldset class="links pure-group">
+            <span class="links-li">
               <a onclick="addLinkInput(this)" class="create-link"><i class="fa fa-plus-circle" aria-hidden="true"></i> <span class="link-text">Create Link</span></a>
             </span>
           </fieldset>
         </div>
       </div>
-      <div class="pure-g">
-        <div class="pure-u-1-1">
-          <ul class="errors">
-            {{#errors}}
-              <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
-            {{/errors}}
-          </ul>
-          <ul class="successes">
-            {{#successes}}
-              <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{msg}}</li>
-            {{/successes}}
-          </ul>
-          <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></p>
-        </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <p class="validate"><input type=submit class="pure-button button-success save-input" value="Save"></input></p>
       </div>
     </div>
   </form>

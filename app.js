@@ -18,12 +18,6 @@ app.locals.title = 'Lenom';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
-  err = new Error();
-  err.status = 869;
-  return next(err);
-});
-
 // Database
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);

@@ -41,7 +41,7 @@ function resizeImg(img) {
 var inputIndex = 0;
 function addLinkInput(button) {
 	var fieldset = findAncestor(button, 'pure-group');
-  var span = findAncestor(button, 'pure-menu-link');
+  var span = findAncestor(button, 'links-li');
   var input = document.createElement('input');
   input.name = `newLinks[${inputIndex}][value]`;
   inputIndex++;
