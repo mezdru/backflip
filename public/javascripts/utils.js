@@ -14,7 +14,7 @@ function findAncestor(child, classSearched) {
 }
 
 function toggleItem(child) {
-	findAncestor(child, 'item').classList.toggle('expanded');
+	findAncestor(child, 'record').classList.toggle('expanded');
 }
 
 function toggleLink(child) {
@@ -32,7 +32,7 @@ function resizeImg(img) {
   let width = img.naturalWidth;
   let height = img.naturalHeight;
   if (height/width < 1) {
-    img.setAttribute("style", "width:auto; max-width:none; height:18vw; max-height:198px;");
+    img.classList.add('horizontal');
     let marginLeft = Math.round((img.height-img.width)/2);
     img.style.marginLeft = marginLeft+"px";
   }

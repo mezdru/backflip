@@ -17,16 +17,10 @@
 // The length of the Description Snippet depends on the screen width.
 // @todo make it responsive dynamically (or not?)
 var descriptionSnippetLength = 8;
-var extraLinkLimit = 4;
-if (window.matchMedia('(min-width: 64em)').matches) {
-		descriptionSnippetLength = 48;
-		extraLinkLimit = 7;
-} else if (window.matchMedia('(min-width: 48em)').matches) {
-		descriptionSnippetLength = 20;
-		extraLinkLimit = 6;
-} else if (window.matchMedia('(min-width: 35.5em)').matches) {
-		descriptionSnippetLength = 14;
-		extraLinkLimit = 5;
+var extraLinkLimit = 6;
+if (window.matchMedia('(min-width: 720px)').matches) {
+		descriptionSnippetLength = 24;
+		extraLinkLimit = 10;
 }
 
 var search = instantsearch({
@@ -64,7 +58,6 @@ function transformImagePath(item) {
 			case 'hashtag' : item.picture = { url: "/images/placeholder_hashtag.png"}; break;
 			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
 		}
-		item.type += " invisible";
 	}
 }
 

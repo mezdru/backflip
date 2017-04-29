@@ -9,9 +9,8 @@
 }}
 <div>
   {{#if user}}
-  <a href="/compose/me" class="pure-menu-link">Me</a>
-  <a href="/logout" class="pure-menu-link">Logout</a>
+  <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
   {{else}}
-  <a href="/google/login" class="pure-menu-link"><i class="fa fa-google" aria-hidden="true"></i> Login</a>
+  <a href="/google/login"><i class="fa fa-google" aria-hidden="true"></i> Login</a>
   {{/if}}
 </div>
