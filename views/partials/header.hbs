@@ -7,18 +7,36 @@
 @Last modified time: 06-04-2017 01:52
 @Copyright: Clément Dietschy 2017
 }}
+
 <header>
-  <div class="pure-g">
-    <a class="pure-u-md-1-6" href="/">
-      <div class="logo">
-        <img class="pure-img" src="/lenom.svg">
-      </div>
-    </a>
-    <div class="pure-u-1 pure-u-md-4-6">
-      <div id="search">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </div>
+{{#if search}}
+<div class="pure-g search-on">
+  <a class="pure-u-logo pure-u-md-1-6" href="/">
+    <div>
+      <img class="pure-img" src="/lenom.svg">
     </div>
+  </a>
+  <div class="pure-u-search pure-u-1 pure-u-md-4-6">
+    <div id="search">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </div>
+  </div>
+  <div class="pure-u-menu pure-u-md-1-6">
     {{> menu}}
   </div>
+</div>
+{{else}}
+<div class="pure-g">
+  <a class="pure-u-logo pure-u-1-2 pure-u-md-1-6" href="/">
+    <div class="logo">
+      <img class="pure-img" src="/lenom.svg">
+    </div>
+  </a>
+  <div class="pure-u-search pure-u-md-4-6">
+  </div>
+  <div class="pure-u-menu pure-u-1-2 pure-u-md-1-6">
+    {{> menu}}
+  </div>
+</div>
+{{/if}}
 </header>

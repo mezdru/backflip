@@ -7,13 +7,11 @@
 @Last modified time: 02-04-2017 11:19
 @Copyright: Clément Dietschy 2017
 }}
-<div class="pure-u-md-1-6">
-  <div class="menu">
-    {{#if user}}
-    <a href="/compose/me" class="pure-menu-link">Me</a>
-    <a href="/logout" class="pure-menu-link">Logout</a>
-    {{else}}
-    <a href="/google/login" class="pure-menu-link"><i class="fa fa-google" aria-hidden="true"></i> Login</a>
-    {{/if}}
-  </div>
+<div>
+  {{#if user}}
+  <a href="/compose/me" class="pure-menu-link">Me</a>
+  <a href="/logout" class="pure-menu-link">Logout</a>
+  {{else}}
+  <a href="/google/login" class="pure-menu-link"><i class="fa fa-google" aria-hidden="true"></i> Login</a>
+  {{/if}}
 </div>

@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
       res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
       res.locals.isAdmin = false;
       res.locals.myRecordId = false;
-      res.render('directory');
+      res.render('directory', {search: true});
     } else if (!res.locals.user) {
       return res.render('organisation_homepage');
     } else {
