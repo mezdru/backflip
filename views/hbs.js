@@ -9,6 +9,7 @@
 */
 
 var hbs = require('hbs');
+var errors = require('./errors.json');
 
 hbs.registerHelper('raw', function(options) {
   return options.fn();
@@ -71,6 +72,11 @@ hbs.registerHelper('pictureUrl', function(picture) {
 	} else {
 		return "/images/placeholder.png";
   }
+});
+
+hbs.registerHelper('error', function(status, elem) {
+  error = errors.find(error => error.status == status || error.status == 500);
+  return error[elem];
 });
 
 hbs.registerPartials(__dirname + '/partials');

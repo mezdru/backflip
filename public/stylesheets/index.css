@@ -63,6 +63,14 @@ h2, .name-input {
   font-weight: 400;
 }
 
+h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 1em;
+  color: #7F8C8D;
+}
+
 em {
 	font-style: normal;
   font-weight: bolder;;
@@ -79,6 +87,21 @@ em {
 
 .reward .fa {
   width: auto;
+}
+
+.quote {
+  display: block;
+  padding-top: 8px;
+}
+
+.quote span {
+  display: block;
+  text-align: right;
+}
+
+.error-code {
+  text-align: center;
+  color: #F5F7FA;
 }
 
 /* GRID */
@@ -171,7 +194,6 @@ header a {
   position: fixed;
   bottom: 0;
   width: 100%;
-  opacity: 0.7;
   z-index: 2000;
   text-transform: uppercase;
   font-size: 0.6em;
@@ -452,6 +474,17 @@ header a {
   color: #F1C40F;
   text-transform: uppercase;
   font-size: 0.8em;
+}
+
+/* footer */
+footer {
+  text-align: center;
+  position: absolute;
+  padding-bottom: 1em;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.7em;
+  z-index: 950
 }
 
 /* SEARCH RESULTS */
@@ -803,20 +836,13 @@ p.validate {
     width: 88%;
   }
 
+  .error-code {
+    text-align: right;
+
 }
 
 /* ORG SPECIFIC */
 
 .org-demo .person .picture img {
   margin-top: -2vw;
-}
-
-/* LATER */
-
-/* error page */
-.error-code {
-  color: #F5F7FA;
-}
-.reference {
-  margin: 0;
 }

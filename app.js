@@ -18,6 +18,12 @@ app.locals.title = 'Lenom';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+  err = new Error();
+  err.status = 869;
+  return next(err);
+});
+
 // Database
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
@@ -132,42 +138,6 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // but the error status is not private
   res.locals.status = err.status;
-  next(err);
-});
-
-// 401 error handler
-app.use(function(err, req, res, next) {
-  if (err.status == 401) {
-    res.status(401);
-    return res.render('401');
-  }
-  next(err);
-});
-
-// 403 error handler
-app.use(function(err, req, res, next) {
-  if (err.status == 403) {
-    res.status(403);
-    return res.render('403');
-  }
-  next(err);
-});
-
-// 404 error handler
-app.use(function(err, req, res, next) {
-  if (err.status == 404 || err.status == 400) {
-    res.status(err.status);
-    return res.render('404');
-  }
-  next(err);
-});
-
-// 418 error handler
-app.use(function(err, req, res, next) {
-  if (err.status == 418) {
-    res.status(418);
-    return res.render('418');
-  }
   next(err);
 });
 
