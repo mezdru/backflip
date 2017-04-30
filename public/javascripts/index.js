@@ -17,9 +17,9 @@
 // The length of the Description Snippet depends on the screen width.
 // @todo make it responsive dynamically (or not?)
 var descriptionSnippetLength = 8;
-var extraLinkLimit = 6;
+var extraLinkLimit = 5;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		descriptionSnippetLength = 24;
+		descriptionSnippetLength = 28;
 		extraLinkLimit = 10;
 }
 
@@ -137,7 +137,7 @@ function makeLinkUrl(link) {
 }
 
 function addCanEdit(item) {
-	if (item.type != 'person' || isAdmin || myRecordId == item.objectID) {
+	if (isMyOrg && (item.type != 'person' || isAdmin || myRecordId == item.objectID)) {
 		item.canEdit = true;
 	}
 }
@@ -153,10 +153,20 @@ transformStructureItem = function (item) {
 	return item;
 };
 
+transformTypeItem = function(item) {
+	let icon = 'fa-at';
+	switch (item.name) {
+		case 'person': icon = 'fa-user-circle-o'; break;
+		case 'hashtag': icon = 'fa-hashtag'; break;
+	}
+	item.highlighted = `<i class="fa ${icon}" aria-hidden="true"></i><span class="toggle-text">${item.highlighted}s</span>`;
+	return item;
+};
+
 search.addWidget(
 	instantsearch.widgets.searchBox({
 		container: '#search',
-		placeholder: 'Search Coworker, @Team, #project...',
+		placeholder: 'Search for Persons, @Teams, #hashtags...',
 		wrapInput: false,
 		autofocus: false,
 		cssClasses: {
@@ -199,8 +209,11 @@ search.addWidget(
 			placeholder: 'Search',
 		},
 		templates: {
-      header: 'Filters'
-    }
+      header: '<i class="fa fa-chevron-down" aria-hidden="true"></i> More filters'
+    },
+		collapsible: {
+			collapsed: true
+		}
   })
 );
 
@@ -209,10 +222,8 @@ search.addWidget(
     container: '#types',
     attributeName: 'type',
     operator: 'or',
-    limit: 10,
-		templates: {
-      header: 'Showing'
-    }
+    limit: 4,
+		transformData: transformTypeItem
   })
 );
 

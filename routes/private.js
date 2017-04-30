@@ -28,6 +28,7 @@ router.get('/', function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
   res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
+  res.locals.isMyOrg = true;
   res.render('directory', {search: true});
 });
 

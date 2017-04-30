@@ -7,6 +7,7 @@
 @Last modified time: 10-04-2017 11:57
 @Copyright: Clément Dietschy 2017
 }}
+{{> subheader}}
 {{> left_panel}}
 <div class="main org-{{organisation.tag}}" id="search-results">
 </div>
@@ -16,5 +17,6 @@
   var algoliaPublicKey = {{{json algoliaPublicKey}}};
   var isAdmin = {{{json isAdmin}}};
   var myRecordId = {{{json myRecordId}}};
+  var isMyOrg = {{{json isMyOrg}}};
 </script>
 <script src="/javascripts/index.js"></script>
