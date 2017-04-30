@@ -9,7 +9,7 @@
 }}
 <script type="text/html" id="hit-template">
   {{{{raw}}}}
-  <div class="record pure-g {{type}} regular">
+  <div class="record pure-g {{type}}">
     <div class="pure-u-1-6">
       <div class="picture">
         <img onload="resizeImg(this)" src="{{picture.url}}">
@@ -35,7 +35,7 @@
           <ul>
             <li class="expander"><a onclick="toggleRecord(this)"><i class="fa fa-chevron-down" aria-hidden="true"></i></a></li>
             {{#links}}
-            <li class="{{class}}"><a href="{{url}}" target="_blank"><i class="fa fa-{{icon}}" aria-hidden="true"></i><span class="link-text">{{display}}</span></a></li>
+            <li class="{{class}}"><a href="{{url}}" title="{{display}}" target="_blank"><i class="fa fa-{{icon}}" aria-hidden="true"></i><span class="link-text">{{display}}</span></a></li>
             {{/links}}
             <li class="collapser"><a onclick="toggleRecord(this)"><i class="fa fa-chevron-up" aria-hidden="true"></i></a></li>
           </ul>

@@ -14,7 +14,6 @@ function findAncestor(child, classSearched) {
 }
 
 function toggleRecord(child) {
-  findAncestor(child, 'record').classList.toggle('regular');
 	findAncestor(child, 'record').classList.toggle('expanded');
 }
 

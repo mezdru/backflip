@@ -600,44 +600,17 @@ footer {
   opacity: 1;
 }
 
-.regular .link-text {
-  visibility: hidden;
-  position: absolute;
-  top: 46px;
-  left: 0;
-  white-space: nowrap;
-  background-color: #F5F7FA;
-  color: #7F8C8D;
-  border-radius: 0 0 8px 8px;
-  text-align: center;
-  padding: 8px 16px;
-  opacity: 0;
-}
-
-.regular .link-text::after {
-  content: " ";
-  position: absolute;
-  bottom: 100%;  /* At the top of the tooltip */
-  left: 22px;
-  margin-left: -8px;
-  border-width: 8px;
-  border-style: solid;
-  border-color: transparent transparent #F5F7FA transparent;
-}
-
-.regular .links a:hover .link-text {
-  visibility: visible;
-  opacity: 1;
-  transition-duration: 0.3s;
-}
-
 .expanded .links li {
   display: block;
 }
 
-.expanded .link-text {
+.link-text {
   padding-left: 8px;
+  display: none;
+}
 
+.expanded .link-text {
+  display: inline;
 }
 
 .links .fa {
