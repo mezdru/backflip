@@ -20,14 +20,14 @@
         <div class="central-header">
           <p class="actions">
             {{#canEdit}}
-            <a href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            <a title="Compose" href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             {{/canEdit}}
             {{#canDelete}}
-            <a href="/admin/records/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+            <a title="Delete" href="/admin/records/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
             {{/canDelete}}
           </p>
           <h2 class="name expander" onclick="toggleRecord(this)">{{{_highlightResult.name.value}}}</h2>
-          <a class="tag searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</a>
+          <a title="{{name}}" class="tag searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</a>
         </div>
         <p class="description snippet">{{{_snippetResult.description.value}}}</p>
         <p class="description full">{{{_highlightResult.description.value}}}</p>

@@ -12,7 +12,6 @@
 
 /*
 / @todo Integrate this to the above
-/ @todo Do the <64rem mobile version
 / @todo Express all distances in rem
 / @todo Rewrite search field
 */
@@ -31,6 +30,7 @@ textarea:focus, input:focus{
 
 body {
   color: #474B54;
+  font-size: 14px;
 }
 
 p {
@@ -44,12 +44,12 @@ ul {
 }
 
 a {
-	color: #ABB0BB;
+	color: #7F8C8D;
 	text-decoration: none;
 }
 
 a:hover {
-  color: #FF2600;
+  text-decoration: underline;
 }
 
 h2 {
@@ -58,8 +58,8 @@ h2 {
 }
 
 h2, .name-input {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.25em;
+  color: #33374C;
+  font-size: 1.5em;
   font-weight: 400;
 }
 
@@ -165,6 +165,12 @@ header a {
   text-align: right;
 }
 
+.pure-u-menu a:hover {
+  color: #2ECC71;
+  text-decoration: none;
+  transition-duration: 0.3s;
+}
+
 #search {
   width: 100%;
   position: relative;
@@ -209,7 +215,7 @@ header a {
   width: 100%;
   z-index: 2000;
   text-transform: uppercase;
-  font-size: 0.6em;
+  font-size: 0.8em;
   padding: 5px;
   background-color: #F39C12;
   color: #ffffff;
@@ -228,6 +234,7 @@ header a {
   color: #33374C;
   letter-spacing: 0.15em;
   margin: 0;
+  text-transform: uppercase;
 }
 
 .home-triptic .fa {
@@ -256,7 +263,7 @@ header a {
 
 .home-triptic h2,
 .home-bottom h2 {
-  font-size: 1.6em;
+  font-size: 2em;
 }
 
 .home-triptic p,
@@ -324,8 +331,8 @@ header a {
   border-right: 2px solid #ffffff;
   color: #7F8C8D;
   font-size: 1em;
-  width: 16em;
-  margin-left: -16.3em;
+  width: 280px;
+  margin-left: -280px;
   z-index: 900;
   overflow-x: hidden;
   transition: margin 1s;
@@ -350,6 +357,10 @@ header a {
 
 .ais-hierarchical-menu a {
   color:  #7F8C8D;
+}
+
+.ais-hierarchical-menu a:hover {
+  text-decoration: none;
 }
 
 .ais-hierarchical-menu--count {
@@ -391,7 +402,7 @@ header a {
 }
 
 .ais-hierarchical-menu--item__active > div:first-child:hover {
-  background-color: #F1C40F;
+  background-color: #7F8C8D;
 }
 
 /* filter widget */
@@ -548,10 +559,22 @@ footer {
   display: inline-block;
 }
 
+.description {
+  min-height: 38px;
+}
+
+.actions a .fa {
+  opacity: 0.4;
+}
+
+.actions a:hover .fa {
+  transform: scale(1.5);
+  transition-duration: 0.3s;
+  opacity: 1;
+}
+
 .tag, .actions {
-  color: #ABB0BB;
-  font-weight: 300;
-  padding-left: 4px;
+  padding-left: 8px;
 }
 
 .actions {
@@ -587,17 +610,15 @@ footer {
   display: none;
 }
 
-.links a,
-.links .link {
+.links a {
   position: relative;
   display: block;
   padding: 4px 8px;
-  color: #474B54;
-  opacity: 0.4;
+  color: #7F8C8D;
 }
 
-.links .link {
-  opacity: 1;
+.links a .fa {
+  opacity: 0.4;
 }
 
 .expanded .links li {
@@ -622,12 +643,7 @@ footer {
 .links a:hover .fa {
 	transform: scale(1.5);
   transition-duration: 0.3s;
-}
-
-.links a:hover,
-.links a:focus {
   opacity: 1;
-  overflow: visible;
 }
 
 .fa-bitbucket,.fa-bitbucket-square{color:#003366;}
@@ -748,18 +764,18 @@ footer {
 }
 
 /* compose links */
-.links .delete-link {
+.links .delete-link,
+.links .undelete-link {
   float: right;
   padding-right: 0;
+  z-index: 500;
 }
 
 .links .undelete-link {
-  float: right;
   display: none;
-  padding-right: 0;
 }
 
-.links .deleted .link{
+.links .deleted {
   opacity: 0.3;
 }
 
@@ -793,6 +809,7 @@ footer {
   cursor: pointer;
   color: #7F8C8D;
   position: relative;
+  text-decoration: none;
   padding: 3px 10px;
 }
 

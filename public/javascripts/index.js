@@ -62,16 +62,23 @@ function transformImagePath(item) {
 }
 
 function transformDescriptions(item) {
-	if (item._snippetResult) item._snippetResult.description.value = transformString(item._snippetResult.description.value);
-	if (item._highlightResult) item._highlightResult.description.value = transformString(item._highlightResult.description.value);
+	if (item._snippetResult) item._snippetResult.description.value = transformString(item._snippetResult.description.value, item.within);
+	if (item._highlightResult) item._highlightResult.description.value = transformString(item._highlightResult.description.value, item.within);
 }
 
-function transformString(input) {
+function transformString(input, within) {
 		var regex = /([@#][\w-<>\/]+)/g;
 		return input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
-			return `<a onclick="setSearch('${cleanMatch}')">${match}</a>`;
+			return `<a title="${getTitle(cleanMatch, within)}" onclick="setSearch('${cleanMatch}')">${match}</a>`;
 		});
+}
+
+function getTitle(tag, within) {
+		if (!within) return tag;
+		record = within.find(record => record.tag == tag);
+		if (!record) return tag;
+		return record.name;
 }
 
 // @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
@@ -188,7 +195,6 @@ search.addWidget(
     attributeName: 'within.tag',
     operator: 'and',
     limit: 5,
-		collapsible: {collapsed: true},
 		searchForFacetValues: {
 			placeholder: 'Search',
 		},

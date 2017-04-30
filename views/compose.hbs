@@ -13,7 +13,7 @@
     <input type="hidden" name="_id" value="{{record._id}}" />
     <div class="pure-g">
       <div class="pure-u-1">
-        <h1 class="tagline"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Compose <span class="tag">{{record.tag}}</span></h1>
+        <h1 class="tagline">Compose <span class="tag">{{record.tag}}</span></h1>
         <ul class="errors">
           {{#errors}}
           <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
@@ -45,18 +45,16 @@
               <li class="linkLi {{class}}">
                 <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
                 <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
-                <span class="link">
-                  <a onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-                  <a onclick="toggleLink(this)" class="undelete-link"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
-                  <i class="fa {{linkIcon this}}" aria-hidden="true"></i><span class="link-text">{{linkDisplay this}}</span>
-                </span>
+                <a title="Delete" onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                <a title="Restore" onclick="toggleLink(this)" class="undelete-link"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                <a href="{{linkUrl this}}" title="{{value}}" target="_blank"><i class="fa {{linkIcon this}}" aria-hidden="true"></i><span class="link-text">{{linkDisplay this}}</span></a>
               </li>
               {{/record.links}}
             </ul>
           </div>
           <fieldset class="links pure-group">
             <span class="links-li">
-              <a onclick="addLinkInput(this)" class="create-link"><i class="fa fa-plus-circle" aria-hidden="true"></i> <span class="link-text">Create Link</span></a>
+              <a onclick="addLinkInput(this)" class="create-link"><i class="fa fa-plus-circle" aria-hidden="true"></i><span class="link-text">Create Link</span></a>
             </span>
           </fieldset>
         </div>

@@ -131,7 +131,7 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // but the error status is not private
-  res.locals.status = err.status;
+  res.locals.status = (err.status || 500);
   next(err);
 });
 
