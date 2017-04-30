@@ -558,7 +558,7 @@ footer {
   float: right;
 }
 
- .full {
+.full {
   display:none;
   max-height: 10em;
   overflow: auto;
@@ -587,12 +587,9 @@ footer {
   display: none;
 }
 
-.expanded .links li {
-  display: block;
-}
-
 .links a,
 .links .link {
+  position: relative;
   display: block;
   padding: 4px 8px;
   color: #474B54;
@@ -603,13 +600,44 @@ footer {
   opacity: 1;
 }
 
-.link-text {
-  padding-left: 8px;
-  display: none;
+.regular .link-text {
+  visibility: hidden;
+  position: absolute;
+  top: 46px;
+  left: 0;
+  white-space: nowrap;
+  background-color: #F5F7FA;
+  color: #7F8C8D;
+  border-radius: 0 0 8px 8px;
+  text-align: center;
+  padding: 8px 16px;
+  opacity: 0;
+}
+
+.regular .link-text::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 22px;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent #F5F7FA transparent;
+}
+
+.regular .links a:hover .link-text {
+  visibility: visible;
+  opacity: 1;
+  transition-duration: 0.3s;
+}
+
+.expanded .links li {
+  display: block;
 }
 
 .expanded .link-text {
-  display: inline;
+  padding-left: 8px;
+
 }
 
 .links .fa {
@@ -626,7 +654,7 @@ footer {
 .links a:hover,
 .links a:focus {
   opacity: 1;
-  overflow:visible;
+  overflow: visible;
 }
 
 .fa-bitbucket,.fa-bitbucket-square{color:#003366;}
@@ -758,15 +786,15 @@ footer {
   padding-right: 0;
 }
 
-.links .link.deleted {
+.links .deleted .link{
   opacity: 0.3;
 }
 
-.links .link.deleted .undelete-link {
+.links .deleted .undelete-link {
   display: block;
 }
 
-.links .link.deleted .delete-link {
+.links .deleted .delete-link {
   display: none;
 }
 

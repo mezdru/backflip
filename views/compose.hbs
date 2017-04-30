@@ -42,7 +42,7 @@
           <div class="links">
             <ul>
               {{#record.links}}
-              <li class="{{class}}">
+              <li class="linkLi {{class}}">
                 <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
                 <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
                 <span class="link">

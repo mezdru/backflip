@@ -13,12 +13,13 @@ function findAncestor(child, classSearched) {
 		return child;
 }
 
-function toggleItem(child) {
+function toggleRecord(child) {
+  findAncestor(child, 'record').classList.toggle('regular');
 	findAncestor(child, 'record').classList.toggle('expanded');
 }
 
 function toggleLink(child) {
-	var linkLi = findAncestor(child, 'link');
+	var linkLi = findAncestor(child, 'linkLi');
 	linkLi.classList.toggle('deleted');
 	var linkDeleted = linkLi.getElementsByClassName('deleted-input')[0];
 	linkDeleted.value = linkDeleted.value == 'true' ? 'false' : 'true';
