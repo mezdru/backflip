@@ -771,10 +771,6 @@ footer {
   display: none;
 }
 
-.links .link:hover .link-text {
-  text-decoration: line-through;
-}
-
 
 /* Compose description autocomplete */
 
