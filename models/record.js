@@ -239,6 +239,7 @@ recordSchema.methods.updateWithin = function(tree, callback) {
     tags = ['#notags'];
   }
   // A team or a hashtag is within itself so it shows when filtering.
+  // @todo this creates the tag 2 times !!!
   if (this.type != 'person') tags.unshift(this.tag);
   this.newWithin = [];
   tags.forEach(function(tag) {

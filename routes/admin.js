@@ -271,7 +271,7 @@ router.post('/records/csv/upload', upload.single('file'), function(req, res, nex
     .on('json', function(csvLineAsJson) {
       csvLinesAsJson.push(csvLineAsJson);
       Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, res.locals.organisation.tree, res.locals.user._id, function(err, record) {
-        if (err) return next(err);
+        if (err) console.error(err);
       });
     })
     //@todo this is very wrong, we provide fake output instead of waiting for the real result
