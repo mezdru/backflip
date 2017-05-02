@@ -102,7 +102,7 @@ var LinkHelper = class LinkHelper {
           this.type = 'file';
           this.display = 'Google Docs';
         } else if (domain.subdomain == 'plus') {
-          type.type = 'google-plus';
+          this.type = 'google-plus';
           this.display = 'Google Plus';
         } else {
           this.type = 'google';

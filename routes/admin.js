@@ -64,6 +64,14 @@ router.use(function(req, res, next) {
   return next();
 });
 
+router.get('/algolia/csv', function(req, res, next) {
+  AlgoliaOrganisation.browse(res.locals.organisation._id, function(err, records) {
+    if (err) return next(err);
+    res.setHeader('Content-disposition', `attachment; filename=algolia_${res.locals.organisation.tag}.csv`);
+    res.csv(AlgoliaOrganisation.exportHits4Csv(records.hits));
+  });
+});
+
 router.get('/algolia/clear', function(req, res, next) {
   AlgoliaOrganisation.clear(res.locals.organisation._id, function(err, result) {
     if (err) return next(err);
@@ -308,7 +316,7 @@ router.post('/organisation/tree', function(req, res, next) {
   } else {
     res.locals.organisation.save(function(err, organisation) {
       if(err) return next(err);
-      successes.push({message: "Your story has been saved."});
+      successes.push({message: "Your tree has been saved."});
       res.render('tree', {successes: successes});
     });
   }

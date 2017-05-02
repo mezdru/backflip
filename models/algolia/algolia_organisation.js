@@ -34,4 +34,52 @@ AlgoliaOrganisation.clear = function(organisationId, callback) {
   world.deleteByQuery({filters: 'organisation:'+organisationId}, callback);
 };
 
+AlgoliaOrganisation.browse = function(organisationId, callback) {
+  var world = client.initIndex('world');
+  world.browse({filters: 'organisation:'+organisationId}, callback);
+};
+
+AlgoliaOrganisation.exportHits4Csv = function(hits) {
+  var header = {
+      action: 'action',
+      _id: '_id',
+      name: 'name',
+      tag: 'tag',
+      type: 'type',
+      picture_url: 'picture_url',
+      description: 'description',
+  };
+  for (var i=1; i<16; i++) {
+    header[`link_${i}`] = `link_${i}`;
+  }
+  header[`link_home`] = 'link_home';
+  var hits4csv = [header];
+  hits.forEach(function (hit) {
+    hits4csv.push(this.export4csv(hit));
+  }, this);
+  return hits4csv;
+};
+
+AlgoliaOrganisation.export4csv = function (hit) {
+  var record4csv = {
+      action: 'keep',
+      _id: hit.objectID,
+      name: hit.name,
+      tag: hit.tag,
+      type: hit.type,
+      picture_url: hit.picture.url || hit.picture.uri || "/images" + hit.picture.path,
+      description: hit.description,
+  };
+  hit.links.forEach(function (link, index) {
+    if (link.type == 'home') {
+      record4csv[`link_home`] = link.display;
+    } else if (link.type == 'phone') {
+      record4csv[`link_${index+1}`] = link.display;
+    } else {
+      record4csv[`link_${index+1}`] = link.value || link.uri;
+    }
+  });
+  return record4csv;
+};
+
 module.exports = AlgoliaOrganisation;
