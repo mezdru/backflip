@@ -193,7 +193,7 @@ search.addWidget(
     attributes: ['structure.0', 'structure.1', 'structure.2'],
 		//sortBy: ['count', 'name:asc'],
     templates: {
-      header: 'Teams'
+      header: '<i class="fa fa-tree" aria-hidden="true"></i> Organisation Tree'
     },
 		transformData: transformStructureItem
   })
