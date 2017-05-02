@@ -60,4 +60,17 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
   });
 });
 
+router.get('/records/clear_deleted', function(req, res, next) {
+  Record.deleteMany({deleted: true}, function(err, result) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Soft Deleted Records have been cleared',
+        details: `${result.length} records have been permanently cleared.`,
+        content: result
+      }
+    );
+  });
+});
+
 module.exports = router;
