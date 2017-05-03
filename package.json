@@ -6,7 +6,7 @@
   "license": "CC-BY-NC-SA-4.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www"
   },
   "repository": {
     "type": "git",

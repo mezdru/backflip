@@ -288,6 +288,24 @@ router.post('/records/csv/upload', upload.single('file'), function(req, res, nex
     });
 });
 
+
+router.get('/records', function(req, res, next) {
+  logMemory();
+  Record.find({}, function (err, records) {
+    logMemory();
+    records1 = records.slice();
+    records2 = records.slice();
+    if (err) return next(err);
+    res.render('index', {
+      title: 'Memory test',
+      details: `Loaded ${records.length} records. See console for memory usage`,
+      content: records
+    });
+    records = null;
+    logMemory();
+  });
+});
+
 // Here we provide the action url to the view.
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
@@ -327,6 +345,15 @@ function randInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function logMemory() {
+  mem = process.memoryUsage();
+  console.log(`RSS ${bToMB(mem.rss)}MB, HEAP ${Math.round(100*mem.heapUsed/mem.heapTotal)}% of ${bToMB(mem.heapTotal)}MB, EXT ${bToMB(mem.external)}MB`);
+}
+
+function bToMB(b) {
+  return Math.round(b/1024/1024, -2);
 }
 
 router.get('/google/domains', function(req, res, next) {
