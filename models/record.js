@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 23-04-2017 04:21
+* @Last modified time: 03-05-2017 03:16
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -66,49 +66,6 @@ recordSchema.methods.getGoogleId = function() {
 
 recordSchema.methods.isPerson = function() {
   return this.type === 'person';
-};
-
-recordSchema.statics.exportRecords4Csv = function(records) {
-  var header = {
-      action: 'action',
-      _id: '_id',
-      name: 'name',
-      tag: 'tag',
-      type: 'type',
-      picture_url: 'picture_url',
-      description: 'description',
-  };
-  for (var i=1; i<16; i++) {
-    header[`link_${i}`] = `link_${i}`;
-  }
-  header[`link_home`] = 'link_home';
-  var records4csv = [header];
-  records.forEach(function (record) {
-    records4csv.push(record.export4csv());
-  });
-  return records4csv;
-};
-
-recordSchema.methods.export4csv = function () {
-  var record4csv = {
-      action: 'keep',
-      _id: this._id,
-      name: this.name,
-      tag: this.tag,
-      type: this.type,
-      picture_url: this.picture.url,
-      description: this.description,
-  };
-  this.links.forEach(function (link, index) {
-    if (link.type == 'home') {
-      record4csv[`link_home`] = link.display;
-    } else if (link.type == 'phone') {
-      record4csv[`link_${index+1}`] = link.display;
-    } else {
-      record4csv[`link_${index+1}`] = link.value;
-    }
-  });
-  return record4csv;
 };
 
 recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, organisationTree, userId, callback) {

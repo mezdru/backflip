@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 10-04-2017 06:02
+@Last modified time: 03-05-2017 02:14
 @Copyright: Clément Dietschy 2017
 @todo deduplicate wiew code with partials/hit_template.hbs
 }}
@@ -28,10 +28,12 @@
       <div class="pure-u-1-6 pure-u-md-1-6">
         <h1 class="reward"><i class="fa fa-cloud-upload" aria-hidden="true"></i></h1>
       </div>
-      <div class="pure-u-5-6 central">
-        <h2>{{title}}</h2>
-        <p>{{{details}}}</p>
-        <p><input type="file" name="file"></p>
+      <div class="pure-u-5-6">
+        <div class="central">
+          <h2>{{title}}</h2>
+          <p>{{{details}}}</p>
+          <p><input type="file" name="file"></p>
+        </div>
       </div>
     </div>
     <div class="pure-g">

@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   bedhed
-* @Last modified time: 05-04-2017 04:30
+* @Last modified by:   clement
+* @Last modified time: 03-05-2017 03:39
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -12,6 +12,8 @@ var algoliasearch = require('algoliasearch');
 var client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_WRITE_KEY);
 
 var Organisation = require('../organisation.js');
+
+var RecordObjectCSVHelper = require('../../helpers/record_csv_helper.js');
 
 var AlgoliaOrganisation = {};
 
@@ -40,24 +42,7 @@ AlgoliaOrganisation.browse = function(organisationId, callback) {
 };
 
 AlgoliaOrganisation.exportHits4Csv = function(hits) {
-  var header = {
-      action: 'action',
-      _id: '_id',
-      name: 'name',
-      tag: 'tag',
-      type: 'type',
-      picture_url: 'picture_url',
-      description: 'description',
-  };
-  for (var i=1; i<16; i++) {
-    header[`link_${i}`] = `link_${i}`;
-  }
-  header[`link_home`] = 'link_home';
-  var hits4csv = [header];
-  hits.forEach(function (hit) {
-    hits4csv.push(this.export4csv(hit));
-  }, this);
-  return hits4csv;
+  return RecordObjectCSVHelper.getCSVfromRecords(hits);
 };
 
 AlgoliaOrganisation.export4csv = function (hit) {
