@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 03:39
+* @Last modified time: 03-05-2017 05:33
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,7 +13,7 @@ var client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOL
 
 var Organisation = require('../organisation.js');
 
-var RecordObjectCSVHelper = require('../../helpers/record_csv_helper.js');
+var RecordObjectCSVHelper = require('../../helpers/record_object_csv_helper.js');
 
 var AlgoliaOrganisation = {};
 

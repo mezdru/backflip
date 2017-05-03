@@ -4,13 +4,28 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 03:41
+* @Last modified time: 03-05-2017 06:58
 * @Copyright: Clément Dietschy 2017
 */
 
 var undefsafe = require('undefsafe');
+var LinkHelper = require('./link_helper.js');
 
 var RecordObjectCSVHelper = class RecordObjectCSVHelper {
+
+  static makeCSVsfromRecords(records) {
+    let csv = records.map(function (record) {
+      let helper = new RecordObjectCSVHelper(record);
+      return helper.getCSV();
+    });
+    csv.unshift(RecordObjectCSVHelper.makeCSVHeader());
+    return csv;
+  }
+
+  static makeRecordObjectfromCSV(csv, organisationId) {
+    let helper = new RecordObjectCSVHelper(null, csv);
+    return helper.getObject(organisationId);
+  }
 
   constructor(record, csv) {
     this.record = record || {};
@@ -22,17 +37,18 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
     return this.csv;
   }
 
-  getObject() {
-    this.makeObject();
+  getObject(organisationId) {
+    this.makeObject(organisationId);
     return this.record;
   }
 
   static makeCSVHeader() {
     let csvHeader = {
       action: 'action',
+      type: 'type',
       _id: '_id',
-      name: 'name',
       tag: 'tag',
+      name: 'name',
       picture_url: 'picture_url',
       description: 'description',
     };
@@ -45,6 +61,7 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
 
   makeCSV() {
     this.csv.action = this.record.action || 'keep';
+    this.csv.type = this.record.type;
     this.csv._id = this.record._id;
     this.csv.name = this.record.name;
     this.csv.tag = this.record.tag;
@@ -55,7 +72,8 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
 
   makeObject(organisationId) {
     this.record.action = this.csv.action || keep;
-    this.record.id = this.csv._id;
+    this.record.type = this.csv.type;
+    this.record._id = this.csv._id;
     this.record.organisation = organisationId;
     this.record.name = this.csv.name;
     this.record.tag = this.csv.tag;
@@ -80,23 +98,11 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
     let objectLinks = [];
     for (var prop in this.csv) {
       let header = prop.split('_');
-      if (header[0] == 'link' && header[2] == 'type') {
-        csvLinks.push({
-          type: this.csv[`link_${header[1]}_type`],
-          value: this.csv[`link_${header[1]}_value`]
-        });
+      if (this.csv[prop] && header[0] == 'link' && header[2] == 'value') {
+        objectLinks.push(LinkHelper.makeLink(this.csv[`link_${header[1]}_value`], this.csv[`link_${header[1]}_type`]));
       }
     }
     return objectLinks;
-  }
-
-  static getCSVfromRecords(records) {
-    let csv = records.map(function (record) {
-      let helper = new RecordObjectCSVHelper(record);
-      return helper.getCSV();
-    });
-    csv.unshift(RecordObjectCSVHelper.makeCSVHeader());
-    return csv;
   }
 
 };

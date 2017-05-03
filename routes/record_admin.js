@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 03:56
+* @Last modified time: 03-05-2017 06:54
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -14,7 +14,7 @@ var router = express.Router();
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var RecordCollection = require('../helpers/record_collection.js');
-var RecordObjectCSVHelper = require('../helpers/record_csv_helper.js');
+var RecordObjectCSVHelper = require('../helpers/record_object_csv_helper.js');
 var csv = require('csv-express');
 var multer = require('multer');
 var storage = multer.memoryStorage();
@@ -95,7 +95,7 @@ router.get('/csv', function(req, res, next) {
   Record.find({organisation: res.locals.organisation._id}, function(err, records) {
     if (err) return next(err);
     res.setHeader('Content-disposition', `attachment; filename=${res.locals.organisation.tag}.csv`);
-    res.csv(RecordObjectCSVHelper.getCSVfromRecords(records));
+    res.csv(RecordObjectCSVHelper.makeCSVsfromRecords(records));
   });
 });
 
@@ -103,8 +103,8 @@ router.get('/csv', function(req, res, next) {
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
 router.use('/upload', function(req, res, next) {
-  res.locals.formAction = '/admin/records/csv/upload';
-  if (req.app.get('env') === 'development') res.locals.formAction = '/admin/records/csv/upload/?subdomains=' + req.query.subdomains;
+  res.locals.formAction = '/admin/record/upload';
+  if (req.app.get('env') === 'development') res.locals.formAction = '/admin/record/upload/?subdomains=' + req.query.subdomains;
   return next();
 });
 
@@ -112,33 +112,26 @@ router.get('/upload', function(req, res, next) {
   res.render('upload',
     {
       title: `Update ${res.locals.organisation.tag} by CSV`,
-      details: `Upload a CSV file to <strong>overwrite</strong> all records from ${res.locals.organisation.tag}`,
+      details: `Upload a CSV file to update all records from ${res.locals.organisation.tag}`,
     });
 });
 
 router.post('/upload', upload.single('file'), function(req, res, next) {
-  var csvLinesAsJson = [];
-  var collection = new RecordCollection(res.locals.organisation);
+  var collection = new RecordCollection(res.locals.organisation, res.locals.user);
   csvtojson()
     .fromString(req.file.buffer.toString())
     .on('json', function(csvLineAsJson) {
-      csvLinesAsJson.push(csvLineAsJson);
-      collection.add(csvLineAsJson);
-      /*Record.importRecordFromCsvLineAsJson(csvLineAsJson, res.locals.organisation._id, res.locals.organisation.tree, res.locals.user._id, function(err, record) {
-        if (err) console.error(err);
-      });*/
+      collection.addRecordObject(RecordObjectCSVHelper.makeRecordObjectfromCSV(csvLineAsJson, res.locals.organisation._id));
     })
     //@todo this is very wrong, we provide fake output instead of waiting for the real result
     .on('done', function(err) {
-      console.log(collection.records);
       if (err) next(err);
-      res.render('update_csv',
+      collection.makeRecords(res.locals.organisation.records);
+      res.render('index',
         {
-          delete: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'delete';}),
-          create: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'create';}),
-          overwrite: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'overwrite';}),
-          update: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'update';}),
-          keep: csvLinesAsJson.filter(csvLineAsJson => {return csvLineAsJson.action == 'keep';}),
+          title: `Update ${res.locals.organisation.tag} by CSV`,
+          details: 'The CSV file you updated lead to the following results',
+          content: collection.records,
         });
     });
 });

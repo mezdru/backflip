@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 02:09
+* @Last modified time: 03-05-2017 07:09
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -15,15 +15,24 @@ var RecordCollection = class RecordCollection {
   constructor(organisation, user, records) {
     this.organisation = organisation;
     this.user = user;
-    this.records = records || [];
+    this.recordDocs = [];
+    this.recordObjects = [];
   }
 
-  addFromTag(tag) {
-
+  get records() {
+    return this.recordDocs;
   }
 
-  add(record) {
-    this.records.push(record);
+  addRecordObject(recordObject) {
+    this.recordObjects.push(recordObject);
+  }
+
+  makeRecords(allRecords) {
+    this.recordDocs = this.recordObjects.map(
+      function(recordObject) {
+        return Record.extractOrMakeFromRecordObject(recordObject, allRecords);
+      }
+    );
   }
 
 };

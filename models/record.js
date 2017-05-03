@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 03:16
+* @Last modified time: 03-05-2017 07:11
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -19,7 +19,7 @@ var StructureHelper = require('../helpers/structure_helper.js');
 
 var recordSchema = mongoose.Schema({
   name: String,
-  tag: String,
+  tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
   ranking: {type: Number, default: 0},
@@ -59,6 +59,25 @@ recordSchema.virtual('ObjectID').get(function () {
 //There's some UI needed here. Or make a different tag if needed.
 recordSchema.index({'organisation': 1, 'tag': 1}/*, {unique: true}*/);
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
+
+recordSchema.statics.extractOrMakeFromRecordObject = function(recordObject, allRecords) {
+  return allRecords.find(record => record._id.equals(recordObject._id)) || this.makeFromRecordObject(recordObject);
+};
+
+recordSchema.statics.makeFromRecordObject = function(recordObject) {
+  if (recordObject.type != 'person' && recordObject.type != 'team') recordObject.type = 'hashtag';
+  recordObject.tag = this.makeTag(recordObject.tag, recordObject.name, recordObject.type);
+  recordObject.name = recordObject.name || recordObject.tag.slice(1);
+  return new this(recordObject);
+};
+
+recordSchema.statics.makeTag = function(tag, name, type) {
+  if (tag && (tag.charAt(0) == '@' || tag.charAt(0) == '#')) tag = tag.slice(1);
+  prefix = (type == 'hashtag') ? '#' : '@';
+  if (tag) return prefix + tag;
+  if (name) return prefix + name.replace(/\W/g, '_');
+  return prefix + 'notag' + Math.floor(Math.random() * 1000);
+};
 
 recordSchema.methods.getGoogleId = function() {
   return undefsafe(this, 'google.id');
