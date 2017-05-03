@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 06:54
+* @Last modified time: 03-05-2017 11:29
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,7 +13,7 @@ var router = express.Router();
 
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
-var RecordCollection = require('../helpers/record_collection.js');
+var RecordFactory = require('../helpers/record_factory.js');
 var RecordObjectCSVHelper = require('../helpers/record_object_csv_helper.js');
 var csv = require('csv-express');
 var multer = require('multer');
@@ -117,21 +117,21 @@ router.get('/upload', function(req, res, next) {
 });
 
 router.post('/upload', upload.single('file'), function(req, res, next) {
-  var collection = new RecordCollection(res.locals.organisation, res.locals.user);
+  var factory = new RecordFactory(res.locals.organisation, res.locals.user);
   csvtojson()
     .fromString(req.file.buffer.toString())
     .on('json', function(csvLineAsJson) {
-      collection.addRecordObject(RecordObjectCSVHelper.makeRecordObjectfromCSV(csvLineAsJson, res.locals.organisation._id));
+      factory.inputObject(RecordObjectCSVHelper.makeRecordObjectfromCSV(csvLineAsJson, res.locals.organisation._id));
     })
     //@todo this is very wrong, we provide fake output instead of waiting for the real result
     .on('done', function(err) {
       if (err) next(err);
-      collection.makeRecords(res.locals.organisation.records);
+      factory.makeOutput();
       res.render('index',
         {
           title: `Update ${res.locals.organisation.tag} by CSV`,
           details: 'The CSV file you updated lead to the following results',
-          content: collection.records,
+          content: factory.output,
         });
     });
 });

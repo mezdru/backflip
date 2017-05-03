@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 07:11
+* @Last modified time: 03-05-2017 11:51
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -60,15 +60,11 @@ recordSchema.virtual('ObjectID').get(function () {
 recordSchema.index({'organisation': 1, 'tag': 1}/*, {unique: true}*/);
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
 
-recordSchema.statics.extractOrMakeFromRecordObject = function(recordObject, allRecords) {
-  return allRecords.find(record => record._id.equals(recordObject._id)) || this.makeFromRecordObject(recordObject);
-};
-
-recordSchema.statics.makeFromRecordObject = function(recordObject) {
-  if (recordObject.type != 'person' && recordObject.type != 'team') recordObject.type = 'hashtag';
-  recordObject.tag = this.makeTag(recordObject.tag, recordObject.name, recordObject.type);
-  recordObject.name = recordObject.name || recordObject.tag.slice(1);
-  return new this(recordObject);
+recordSchema.statics.makeFromInputObject = function(inputObject) {
+  if (inputObject.type != 'person' && inputObject.type != 'team') inputObject.type = 'hashtag';
+  inputObject.tag = this.makeTag(inputObject.tag, inputObject.name, inputObject.type);
+  inputObject.name = inputObject.name || inputObject.tag.slice(1);
+  return new this(inputObject);
 };
 
 recordSchema.statics.makeTag = function(tag, name, type) {
@@ -77,6 +73,16 @@ recordSchema.statics.makeTag = function(tag, name, type) {
   if (tag) return prefix + tag;
   if (name) return prefix + name.replace(/\W/g, '_');
   return prefix + 'notag' + Math.floor(Math.random() * 1000);
+};
+
+recordSchema.methods.merge = function(inputObject) {
+  this.name = inputObject.name || this.name;
+  this.picture.url = inputObject.picture.url || this.picture.url;
+  this.description = inputObject.description || this.description;
+  //@todo clever mergeLinks();
+  this.links = inputObject.links || this.links;
+  this.action = 'merge';
+  return this;
 };
 
 recordSchema.methods.getGoogleId = function() {
@@ -289,7 +295,15 @@ recordSchema.statics.createByTag = function(tag, organisationId, callback) {
   record.save(callback);
 };
 
-
+recordSchema.statics.makeFromTag = function(tag, organisationId) {
+  inputObject = {
+    type: tag.substr(0,1) === '@' ? 'team' : 'hashtag',
+    tag: type === 'team' ? '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2) : '#' + this.tag.slice(1),
+    name: tag.slice(1),
+    organisation: organisationId
+  };
+  return this.makeFromInputObject(inputObject);
+};
 
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
