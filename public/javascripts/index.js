@@ -245,6 +245,27 @@ search.addWidget(
 	})
 );
 
+var customClearAllWidget = {
+    init: function(args) {
+        var helper = args.helper;
+        document.getElementById('clear-search').addEventListener('click', function() {
+            helper.setQuery('').clearRefinements().search();
+						window.scrollTo(0,0);
+        });
+    },
+    render:function(args){
+        var helper = args.helper;
+        var state = helper.getState();
+        //Check refined facets and query. If we dont't have any, hide widget.
+        if(state.getRefinedDisjunctiveFacets()=='' && state.getQueryParameter('query')==''){
+            document.getElementById('clear-search').style.display = 'none';
+            return false;
+        }
+        document.getElementById('clear-search').style.display = '';
+    }
+};
+search.addWidget(customClearAllWidget);
+
 function setSearch(query) {
 	search.helper.setQuery(query).search();
 	window.scrollTo(0,0);

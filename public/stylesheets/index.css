@@ -104,6 +104,8 @@ em {
   color: #F5F7FA;
 }
 
+
+/*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
 #left-panel-closer:hover .fa,
 header a:hover .fa,
 header a.fa:hover,
@@ -207,14 +209,14 @@ a.logout:hover {
   color: #7F8C8D;
 }
 
-#search .clear-search {
+#clear-search {
   position: absolute;
   font-size: 20px;
   top: 18px;
   right: 20px;
 }
 
-#search .clear-search:hover {
+#clear-search:hover {
   color: #F1C40F;
 }
 
@@ -224,7 +226,7 @@ a.logout:hover {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   margin: 0;
-  padding: 7px 14px 7px 40px;
+  padding: 7px 40px 7px 40px;
   border: 2px solid #7F8C8D;
   border-radius: 20px;
   background-color: transparent;
