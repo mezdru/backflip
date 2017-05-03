@@ -105,7 +105,8 @@ em {
 }
 
 #left-panel-closer:hover .fa,
-.pure-u-menu a:hover .fa,
+header a:hover .fa,
+header a.fa:hover,
 .pure-u-toggle-panel a:hover .fa,
 .actions a:hover .fa,
 .links a:hover .fa,
@@ -170,6 +171,12 @@ header a {
   color: #7F8C8D;
 }
 
+header a:hover {
+  color: #2ECC71;
+  text-decoration: none;
+  transition-duration: 0.3s;
+}
+
 .pure-u-logo > div {
   padding: 16px 8px;
   max-width: 104px;
@@ -182,10 +189,8 @@ header a {
   text-align: right;
 }
 
-.pure-u-menu a:hover {
-  color: #2ECC71;
-  text-decoration: none;
-  transition-duration: 0.3s;
+a.logout:hover {
+  color: #F1C40F;
 }
 
 #search {
@@ -194,7 +199,7 @@ header a {
 	padding: 9px 8px;
 }
 
-#search .fa {
+#search .fa-search {
   position: absolute;
   font-size: 20px;
   top: 18px;
@@ -202,8 +207,20 @@ header a {
   color: #7F8C8D;
 }
 
+#search .clear-search {
+  position: absolute;
+  font-size: 20px;
+  top: 18px;
+  right: 20px;
+}
+
+#search .clear-search:hover {
+  color: #F1C40F;
+}
+
 .search-input {
-  width: 80%;
+  box-sizing: border-box;
+  width: 100%;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   margin: 0;
@@ -255,6 +272,11 @@ header a {
 
 .ais-refinement-list--item__active {
   font-weight: bold;
+  color: #2ECC71;
+}
+
+.ais-refinement-list--item__active .ais-refinement-list--count {
+  font-weight: normal;
   color: #2ECC71;
 }
 
@@ -311,6 +333,7 @@ header a {
   font-weight: bold;
   font-size: 0.8em;
   padding-right: 8px;
+  padding-left: 8px;
 }
 
 #types {
@@ -460,7 +483,7 @@ header a {
 /* Clear all widget */
 
 #clear-all {
-  margin-top: 2em;
+  margin-top: 32px;
 }
 
 .ais-clear-all--link {
@@ -473,8 +496,7 @@ header a {
 /* footer */
 footer {
   text-align: center;
-  position: absolute;
-  padding-bottom: 1em;
+  padding: 32px 8px 8px 8px;
   bottom: 0;
   width: 100%;
   font-size: 0.7em;
@@ -880,10 +902,6 @@ footer {
   .search-on .pure-u-menu,
   .pure-u-search  {
     display: inherit;
-  }
-
-  .search-input {
-    width: 88%;
   }
 
   .error-code {

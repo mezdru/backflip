@@ -61,17 +61,21 @@ hbs.registerHelper('linkUrl', function(link) {
 	}
 });
 
-hbs.registerHelper('pictureUrl', function(picture) {
-  if (!picture) {
-		return "/images/placeholder.png";
-	} else if (picture.path) {
+hbs.registerHelper('pictureUrl', function(picture, type) {
+  if (picture && picture.url) {
+			return picture.url;
+	} else if (picture && picture.path) {
 		return "/images" + picture.path;
 		//@todo remove this last if once the refacto URI > URL is done
-	} else if (picture.url) {
-		return picture.url;
+	} else if (picture && picture.uri) {
+		return picture.uri;
 	} else {
-		return "/images/placeholder.png";
-  }
+		switch (type) {
+			case 'team' : return "/images/placeholder_team.png";
+			case 'hashtag' : return "/images/placeholder_hashtag.png";
+			default: case 'person' : return "/images/placeholder_person.png";
+		}
+	}
 });
 
 hbs.registerHelper('error', function(status, elem) {
