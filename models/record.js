@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 06:20
+* @Last modified time: 04-05-2017 07:14
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -92,94 +92,8 @@ recordSchema.methods.isPerson = function() {
   return this.type === 'person';
 };
 
-recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, organisationTree, userId, callback) {
-  if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'update' && csvLineAsJson.action != 'delete') return callback(null, null);
-  var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationId);
-  if (csvLineAsRecord.action == 'create') {
-      return this.model('Record').createFromCsv(csvLineAsRecord, organisationTree, callback);
-  } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'update' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
-    this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
-      if (err) return callback(err);
-      if (!oldRecord) return callback(null, null);
-      if (!oldRecord.organisation.equals(organisationId)) {
-        return callback(new Error('Record out of Organisation'));
-      }
-      if (csvLineAsRecord.action == 'overwrite') {
-        return oldRecord.overwriteFromCsv(csvLineAsRecord, organisationTree, callback);
-      } else if (csvLineAsRecord.action == 'update') {
-        return oldRecord.updateFromCsv(csvLineAsRecord, organisationTree, callback);
-      } else if (csvLineAsRecord.action == 'delete') {
-        return oldRecord.delete(userId, callback);
-      }
-    });
-  }
-};
-
-recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationId) {
-  var csvLineAsRecord = csvLineAsJson;
-  csvLineAsRecord.organisation = organisationId;
-  csvLineAsRecord.picture = {
-    url: csvLineAsJson.picture_url
-  };
-  csvLineAsRecord.links = [];
-  for (var prop in csvLineAsJson) {
-    let header = prop.split('_');
-    if (csvLineAsRecord[prop] && header[0] == 'link') {
-      let link = { value: csvLineAsRecord[prop] };
-      if (header[1] && !parseInt(header[1], 10)) link.type = header[1];
-      csvLineAsRecord.links.push(link);
-    }
-  }
-  return csvLineAsRecord;
-};
-
-recordSchema.statics.createFromCsv = function(csvLineAsRecord, tree, callback) {
-  if (csvLineAsRecord.action == 'create') {
-    delete csvLineAsRecord._id;
-    newRecord = new this(csvLineAsRecord);
-    newRecord.links = csvLineAsRecord.links.map(function(link) {
-      return new LinkHelper(link.value, link.type).link;
-    });
-    newRecord.updateWithin(tree, function(err) {
-      if (err) return console.error(err);
-      this.save(callback);
-    }.bind(newRecord));
-  }
-};
-
-recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, tree, callback) {
-  if (csvLineAsRecord.action == 'overwrite') {
-    this.name = csvLineAsRecord.name;
-    this.tag = csvLineAsRecord.tag;
-    this.type = csvLineAsRecord.type;
-    this.picture = csvLineAsRecord.picture;
-    this.description = csvLineAsRecord.description;
-    this.links = csvLineAsRecord.links.map(function(link) {
-      return new LinkHelper(link.value, link.type).link;
-    });
-    this.updateWithin(tree, function(err) {
-      if (err) return console.error(err);
-      this.save(callback);
-    }.bind(this));
-  }
-};
-
-recordSchema.methods.updateFromCsv = function (csvLineAsRecord, tree, callback) {
-  if (csvLineAsRecord.action == 'update') {
-    this.name = csvLineAsRecord.name;
-    this.tag = csvLineAsRecord.tag;
-    this.type = csvLineAsRecord.type;
-    this.picture = csvLineAsRecord.picture;
-    this.description = csvLineAsRecord.description;
-    this.updateWithin(tree, function(err) {
-      if (err) return console.error(err);
-      this.save(callback);
-    }.bind(this));
-  }
-};
-
-
-//@todo there's a pattern break here, the links array should have been parsed by the router first
+//@todo there's a pattern break here, the links array be parsed by the router first
+//We do not delete links, we move them to hidden_links
 recordSchema.methods.deleteLinks = function(formLinks) {
   formLinks = formLinks || [];
   formLinks.forEach(function (formLink, index, links) {
@@ -208,10 +122,7 @@ recordSchema.methods.createLinks = function(formNewLinks) {
   }, this);
 };
 
-// We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
-// @todo check performance of this expensive logic, if bulked there's better to do, like loading all teams & hashtags at once.
-// @todo I don't want to make this a pre middleware because of performance, but maybe it should be.
-// @todo teams tags are capitalized as a pre filter, but the tag is not updated in the desciption yet
+// @todo delete in favor of makeWithin
 recordSchema.methods.updateWithin = function(tree, callback) {
   var tags = this.getWithinTags();
   this.newWithin = [];
@@ -230,6 +141,8 @@ recordSchema.methods.updateWithin = function(tree, callback) {
   }, this);
 };
 
+// We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
+// @todo this works only if organisation.records are loaded, otherwise creates duplicates be.
 recordSchema.methods.makeWithin = function(organisation) {
   var tags = this.getWithinTags();
   var newRecords = [];
