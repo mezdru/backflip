@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 11:27
+* @Last modified time: 04-05-2017 12:38
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -71,9 +71,8 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
   }
 
   makeObject(organisationId) {
-    this.record.action = this.csv.action || keep;
+    this.record.action = this.csv.action || 'keep';
     this.record.type = this.csv.type;
-    this.record._id = this.csv._id;
     this.record.organisation = organisationId;
     this.record.name = this.csv.name;
     this.record.tag = this.csv.tag;

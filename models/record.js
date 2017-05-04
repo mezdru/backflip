@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 11:51
+* @Last modified time: 04-05-2017 02:56
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -55,8 +55,8 @@ recordSchema.virtual('ObjectID').get(function () {
   return this._id;
 });
 
-//@todo restore the unique; true condition on organisation/tag
-//There's some UI needed here. Or make a different tag if needed.
+//@todo restore the unique: true condition on organisation/tag
+//There's some UI needed here. Or make a different tag if needed..
 recordSchema.index({'organisation': 1, 'tag': 1}/*, {unique: true}*/);
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
 
@@ -75,13 +75,12 @@ recordSchema.statics.makeTag = function(tag, name, type) {
   return prefix + 'notag' + Math.floor(Math.random() * 1000);
 };
 
-recordSchema.methods.merge = function(inputObject) {
+recordSchema.methods.dumbMerge = function(inputObject) {
   this.name = inputObject.name || this.name;
   this.picture.url = inputObject.picture.url || this.picture.url;
   this.description = inputObject.description || this.description;
   //@todo clever mergeLinks();
   this.links = inputObject.links || this.links;
-  this.action = 'merge';
   return this;
 };
 
@@ -214,15 +213,7 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 // @todo I don't want to make this a pre middleware because of performance, but maybe it should be.
 // @todo teams tags are capitalized as a pre filter, but the tag is not updated in the desciption yet
 recordSchema.methods.updateWithin = function(tree, callback) {
-	var regex = /([@#][\w-<>\/]+)/g;
-  var tags = this.description.match(regex);
-  if (!tags || tags.length === 0) {
-    this.description += '#notags';
-    tags = ['#notags'];
-  }
-  // A team or a hashtag is within itself so it shows when filtering.
-  // @todo this creates the tag 2 times !!!
-  if (this.type != 'person') tags.unshift(this.tag);
+  var tags = this.getWithinTags();
   this.newWithin = [];
   tags.forEach(function(tag) {
     this.getWithinRecordByTag(tag, function(err, record) {
@@ -239,28 +230,38 @@ recordSchema.methods.updateWithin = function(tree, callback) {
   }, this);
 };
 
-// @todo what if Record.within is not populated ? You're screwed aren't you ?
-recordSchema.methods.updateStructure = function(tree) {
-    structureHelper = new StructureHelper(this.within, tree);
-    structureHelper.build();
-    this.structure = structureHelper.structure;
+recordSchema.methods.makeWithin = function(organisation) {
+  var tags = this.getWithinTags();
+  var newRecords = [];
+  this.within = tags.map(
+    function(tag) {
+      var outputRecord;
+      var localRecord = organisation.records.find(record => record.tag === tag);
+      if (localRecord) {
+        outputRecord = localRecord;
+      } else {
+        outputRecord = this.model('Record').makeFromTag(tag);
+        organisation.records.push(outputRecord);
+        newRecords.push(outputRecord);
+      }
+      var shallowRecord = Object.assign(outputRecord);
+      delete shallowRecord.within;
+      return shallowRecord;
+    }, this
+  );
+  return newRecords;
 };
 
-recordSchema.methods.updateRanking = function(tree) {
-  switch (this.type) {
-    case 'person' : this.ranking = 1000; break;
-    case 'hashtag' : this.ranking = 2000; break;
-    case 'team' : this.ranking = 3000; break;
+recordSchema.methods.getWithinTags = function() {
+  var regex = /([@#][\w-<>\/]+)/g;
+  var tags = this.description.match(regex);
+  if (!tags || tags.length === 0) {
+    this.description += '#notags';
+    tags = ['#notags'];
   }
-  if (tree) this.ranking += this.getStructureRanking(tree);
-};
-
-recordSchema.methods.getStructureRanking = function(tree) {
-  let branches = tree.filter(function (branch) {
-    return branch[branch.length-1] == this.tag;
-  }, this);
-  var shortestBranchLength = branches.reduce((acc, cur) => Math.min(acc, cur.length), 9);
-  return 1000 - shortestBranchLength*100;
+  // A team or a hashtag is within itself so it shows when filtering.
+  //if (this.type != 'person') tags.unshift(this.tag);
+  return tags;
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
@@ -296,13 +297,55 @@ recordSchema.statics.createByTag = function(tag, organisationId, callback) {
 };
 
 recordSchema.statics.makeFromTag = function(tag, organisationId) {
+  let type = tag.substr(0,1) === '@' ? 'team' : 'hashtag';
+  tag = (type === 'team') ? '@' + tag.charAt(1).toUpperCase() + tag.slice(2) : '#' + tag.slice(1);
+  let name = tag.slice(1);
   inputObject = {
-    type: tag.substr(0,1) === '@' ? 'team' : 'hashtag',
-    tag: type === 'team' ? '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2) : '#' + this.tag.slice(1),
-    name: tag.slice(1),
+    type: type,
+    tag: tag,
+    name: name,
     organisation: organisationId
   };
   return this.makeFromInputObject(inputObject);
+};
+
+// @todo what if Record.within is not populated ? You're screwed aren't you ?
+recordSchema.methods.updateStructure = function(tree) {
+    structureHelper = new StructureHelper(this.within, tree);
+    structureHelper.build();
+    this.structure = structureHelper.structure;
+};
+
+recordSchema.methods.makeStructure = function(organisation) {
+  structureHelper = new StructureHelper(this.within, organisation.tree);
+  structureHelper.build();
+  this.structure = structureHelper.structure;
+};
+
+recordSchema.methods.updateRanking = function(tree) {
+  switch (this.type) {
+    case 'person' : this.ranking = 1000; break;
+    case 'hashtag' : this.ranking = 2000; break;
+    case 'team' : this.ranking = 3000; break;
+  }
+  if (tree) this.ranking += this.getStructureRanking(tree);
+};
+
+recordSchema.methods.makeRanking = function(organisation) {
+  switch (this.type) {
+    case 'person' : this.ranking = 1000; break;
+    case 'hashtag' : this.ranking = 2000; break;
+    case 'team' : this.ranking = 3000; break;
+  }
+  if (organisation.tree) this.ranking += this.getStructureRanking(organisation.tree);
+};
+
+recordSchema.methods.getStructureRanking = function(tree) {
+  let branches = tree.filter(function (branch) {
+    return branch[branch.length-1] == this.tag;
+  }, this);
+  var shortestBranchLength = branches.reduce((acc, cur) => Math.min(acc, cur.length), 10);
+  return 1000 - shortestBranchLength*100;
 };
 
 recordSchema.pre('save', function(next) {
@@ -344,7 +387,7 @@ Record.validationSchema = {
   name: {
     isLength: {
       options: [{ min: 1, max: 64 }],
-      errorMessage: 'Name should be between 4 and 64 chars long' // Error message for the validator, takes precedent over parameter message
+      errorMessage: 'Name should be between 1 and 64 chars long' // Error message for the validator, takes precedent over parameter message
     }
   },
   description: {

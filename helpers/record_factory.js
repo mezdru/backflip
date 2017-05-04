@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 11:35
+* @Last modified time: 04-05-2017 02:52
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -26,16 +26,39 @@ var RecordFactory = class RecordFactory {
   }
 
   makeOutput() {
-    this.output = this.input.map(
+    this.makeOutputFromInput();
+    this.makeOutputFromOutputTags();
+  }
+
+  // First we take all the Objects in the input and convert them to Records
+  makeOutputFromInput() {
+    this.input.forEach(
       function(inputObject) {
+        // To avoid calls to DB, we loaded all records locally to findLocally()
         var localRecord = this.findLocally(inputObject);
         var outputRecord = null;
-        if (localRecord) outputRecord = localRecord.merge(inputObject);
+        // We found a record, we merge the old Record with the new Object
+        if (localRecord) outputRecord = localRecord.dumbMerge(inputObject);
+        // We did not find a Record
         else {
+          // Creating One
           outputRecord = Record.makeFromInputObject(inputObject);
+          // Adding it to the local records so it can be found by findLocally()
           this.organisation.records.push(outputRecord);
         }
-        return outputRecord;
+        this.output.push(outputRecord);
+      }, this
+    );
+  }
+
+  // Second we parse the description to create the Within Array
+  // And convert it to record too.
+  makeOutputFromOutputTags() {
+    this.output.forEach(
+      function(record) {
+        this.output = this.output.concat(record.makeWithin(this.organisation));
+        record.makeStructure(this.organisation);
+        record.makeRanking(this.organisation);
       }, this
     );
   }
