@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 02:52
+* @Last modified time: 04-05-2017 06:45
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -20,6 +20,7 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({storage: storage});
 var csvtojson = require('csvtojson');
+
 
 // Load the whole organisation records, we'll need those for further use
 router.use(function(req, res, next) {
@@ -127,13 +128,17 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
     .on('done', function(err) {
       if (err) next(err);
       factory.makeOutput();
-      res.render('index',
-        {
-          title: `Update ${res.locals.organisation.tag} by CSV`,
-          details: 'The CSV file you updated lead to the following results',
-          content: factory.output,
+      factory.saveOutput(function(err, result) {
+        if (err) return next(err);
+        res.render('update_csv',
+          {
+            created: result.created,
+            updated: result.updated,
+            deleted: result.deleted,
+            errors: result.errors
+          });
         });
-    });
+      });
 });
 
 function logMemory() {

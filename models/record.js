@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 02:56
+* @Last modified time: 04-05-2017 06:20
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -240,16 +240,23 @@ recordSchema.methods.makeWithin = function(organisation) {
       if (localRecord) {
         outputRecord = localRecord;
       } else {
-        outputRecord = this.model('Record').makeFromTag(tag);
+        outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
         organisation.records.push(outputRecord);
         newRecords.push(outputRecord);
       }
-      var shallowRecord = Object.assign(outputRecord);
-      delete shallowRecord.within;
-      return shallowRecord;
+      return this.model('Record').shallowCopy(outputRecord);
     }, this
   );
   return newRecords;
+};
+
+recordSchema.statics.shallowCopy = function(record) {
+  return this({
+    _id: record.id,
+    name: record.name,
+    tag: record.tag,
+    type: record.type
+  });
 };
 
 recordSchema.methods.getWithinTags = function() {
@@ -260,7 +267,7 @@ recordSchema.methods.getWithinTags = function() {
     tags = ['#notags'];
   }
   // A team or a hashtag is within itself so it shows when filtering.
-  //if (this.type != 'person') tags.unshift(this.tag);
+  if (this.type != 'person') tags.unshift(this.tag);
   return tags;
 };
 

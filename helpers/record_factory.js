@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 02:52
+* @Last modified time: 04-05-2017 06:47
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -28,6 +28,27 @@ var RecordFactory = class RecordFactory {
   makeOutput() {
     this.makeOutputFromInput();
     this.makeOutputFromOutputTags();
+  }
+
+  saveOutput(callback) {
+    var result = {
+      err: [],
+      created: [],
+      updated: []
+    };
+    this.output.forEach(
+      function(record, index, output) {
+        record.save(function(err, record) {
+          console.log(record);
+          if (err) result.err.push(err);
+          else if (record.__v === 0) result.created.push(record.tag);
+          else result.updated.push(record.tag);
+          //@todo learn code and stop doing uggly shit like this
+          if (result.err.length + result.created.length + result.updated.length == output.length)
+          return callback(null, result);
+        });
+      }
+    );
   }
 
   // First we take all the Objects in the input and convert them to Records
