@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 07:14
+* @Last modified time: 05-05-2017 04:34
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -18,21 +18,21 @@ var StructureHelper = require('../helpers/structure_helper.js');
 
 
 var recordSchema = mongoose.Schema({
-  name: String,
+  organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
   tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
-  organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
-  ranking: {type: Number, default: 0},
+  name: String,
+  description: {type: String, default: '#empty'},
   picture: {
     url: String,
     path: String
   },
-  description: {type: String, default: '#empty'},
+  links: [linkSchema],
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
   structure: {},
-  links: [linkSchema],
+  ranking: {type: Number, default: 0},
   hidden_links: [linkSchema],
   google: {
     id: {type: String, index: true},
@@ -57,14 +57,26 @@ recordSchema.virtual('ObjectID').get(function () {
 
 //@todo restore the unique: true condition on organisation/tag
 //There's some UI needed here. Or make a different tag if needed..
-recordSchema.index({'organisation': 1, 'tag': 1}/*, {unique: true}*/);
+recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
 
+
+// This pseudo constructor takes an object that is build by RecordObjectCSVHelper
+// @todo make RecordObjectCSVHelper return a Record !
 recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type != 'person' && inputObject.type != 'team') inputObject.type = 'hashtag';
   inputObject.tag = this.makeTag(inputObject.tag, inputObject.name, inputObject.type);
   inputObject.name = inputObject.name || inputObject.tag.slice(1);
   return new this(inputObject);
+};
+
+recordSchema.statics.getTypeFromTag = function(tag) {
+  prefix = tag.charAt(0);
+  if (prefix === '@') {
+    firstLetter = tag.charAt(1);
+    if (firstLetter === firstLetter.toUpperCase())return 'team';
+    else return 'person';
+  } else return 'hashtag';
 };
 
 recordSchema.statics.makeTag = function(tag, name, type) {

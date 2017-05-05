@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 05:20
+* @Last modified time: 05-05-2017 04:29
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -78,7 +78,7 @@ var LinkHelper = class LinkHelper {
   }
 
   makePhone () {
-    if (!this.phone) this.phone = phoneUtil.parse(this.value, this.country);
+    if (!this.phone) this.isPhone();
     this.value = phoneUtil.format(this.phone, PNF.E164);
     this.display = phoneUtil.format(this.phone, PNF.INTERNATIONAL);
   }

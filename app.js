@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 03:51
+* @Last modified time: 05-05-2017 04:16
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -107,27 +107,27 @@ app.use('/', privatePages);
 var compose = require('./routes/compose.js');
 app.use('/compose', compose);
 
+
+// Super admin
+var superadmin = require('./routes/superadmin.js');
+app.use('/superadmin', superadmin);
+
 // restricting admin access
 var restrictAdmin = require('./routes/restrict_admin.js');
 app.use('/', restrictAdmin);
 
-// google admin
 var googleAdmin = require('./routes/google/google_admin.js');
 app.use('/admin/google', googleAdmin);
-// algolia admin
+
 var algoliaAdmin = require('./routes/algolia/algolia_admin.js');
 app.use('/admin/algolia', algoliaAdmin);
 
-// admin
 var organisationAdmin = require('./routes/organisation_admin.js');
 app.use('/admin/organisation', organisationAdmin);// admin
 
 var recordAdmin = require('./routes/record_admin.js');
 app.use('/admin/record', recordAdmin);
 
-// Lenom admin
-var superadmin = require('./routes/superadmin.js');
-app.use('/superadmin', superadmin);
 
 
 // catch 404 and forward to error handler

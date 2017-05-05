@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 06:45
+* @Last modified time: 05-05-2017 03:51
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,7 +23,9 @@ var csvtojson = require('csvtojson');
 
 
 // Load the whole organisation records, we'll need those for further use
+// Duplicate in google_admin
 router.use(function(req, res, next) {
+  if (res.locals.organisation.records) return next();
   Record.find({organisation: res.locals.organisation._id}, function(err, records) {
     if (err) return next(err);
     res.locals.organisation.records = records;

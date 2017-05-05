@@ -4,12 +4,13 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 12:38
+* @Last modified time: 05-05-2017 03:16
 * @Copyright: Clément Dietschy 2017
 */
 
 var undefsafe = require('undefsafe');
 var LinkHelper = require('./link_helper.js');
+var Record = require('../models/record.js');
 
 var RecordObjectCSVHelper = class RecordObjectCSVHelper {
 
@@ -45,12 +46,11 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
   static makeCSVHeader() {
     let csvHeader = {
       action: 'action',
-      type: 'type',
-      _id: '_id',
       tag: 'tag',
+      type: 'type',
       name: 'name',
-      picture_url: 'picture_url',
       description: 'description',
+      picture_url: 'picture_url',
     };
     for (let i=0; i<16; i++) {
       csvHeader[`link_${i}_type`] = `link_${i}_type`;
@@ -60,16 +60,16 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
   }
 
   makeCSV() {
-    this.csv.action = this.record.action || 'keep';
-    this.csv.type = this.record.type;
-    this.csv._id = this.record._id;
-    this.csv.name = this.record.name;
+    this.csv.action = '';
     this.csv.tag = this.record.tag;
-    this.csv.picture_url = undefsafe(this.record, 'picture.url');
+    this.csv.type = this.record.type;
+    this.csv.name = this.record.name;
     this.csv.description = this.record.description;
+    this.csv.picture_url = undefsafe(this.record, 'picture.url');
     Object.assign(this.csv, this.getLinksForCSV());
   }
 
+  //@todo make this return a record, why this pseudo-object nonsense ? (the action?)
   makeObject(organisationId) {
     this.record.action = this.csv.action || 'keep';
     this.record.type = this.csv.type;

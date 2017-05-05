@@ -4,13 +4,14 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 03:32
+* @Last modified time: 05-05-2017 04:25
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 var google = require('googleapis');
+var Record = require('../../models/record.js')
 var GoogleRecord = require('../../models/google/google_record.js');
 
 // Create Google OAuth2 Client for everyone
@@ -78,6 +79,17 @@ router.get('/domains', function(req, res, next) {
         content: ans
       });
     });
+});
+
+// Load the whole organisation records, we'll need those for further use
+// Duplicate in record_admin
+router.use(function(req, res, next) {
+  if (res.locals.organisation.records) return next();
+  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
+    if (err) return next(err);
+    res.locals.organisation.records = records;
+    return next();
+  });
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 03-05-2017 04:31
+* @Last modified time: 05-05-2017 05:08
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -142,6 +142,7 @@ GoogleRecord.createRecord = function(googleUser, organisationID) {
 };
 
 //@todo get rid of the prefix @, #, ... in the code & db.
+//@todo We've got a unique Tag issue here !
 GoogleRecord.createTag = function(googleUser) {
   return '@'+googleUser.primaryEmail.split('@')[0];
 };
@@ -163,15 +164,19 @@ GoogleRecord.createLinks = function(googleUser) {
   }
   if (googleUser.phones) {
     googleUser.phones.forEach(function(phoneObject) {
-      links.push(LinkHelper.makeLink(addressObject.formatted, 'phone'));
+      links.push(LinkHelper.makeLink(phoneObject.value, 'phone'));
     });
   }
   return links;
 };
 
+// We've got a unique Tag issue here !
 GoogleRecord.saveMany = function(records, callback) {
   records.forEach(function (record) {
-    record.save(callback);
+    record.save(function(err, record) {
+      if (err.code === 11000) console.error(err);
+      else return callback(err,record);
+    });
   });
   //@todo use batch save (does not work with mongoose-algolia yet)
   //Record.insertMany(records, callback);

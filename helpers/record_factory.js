@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 06:47
+* @Last modified time: 05-05-2017 03:53
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -30,31 +30,11 @@ var RecordFactory = class RecordFactory {
     this.makeOutputFromOutputTags();
   }
 
-  saveOutput(callback) {
-    var result = {
-      err: [],
-      created: [],
-      updated: []
-    };
-    this.output.forEach(
-      function(record, index, output) {
-        record.save(function(err, record) {
-          console.log(record);
-          if (err) result.err.push(err);
-          else if (record.__v === 0) result.created.push(record.tag);
-          else result.updated.push(record.tag);
-          //@todo learn code and stop doing uggly shit like this
-          if (result.err.length + result.created.length + result.updated.length == output.length)
-          return callback(null, result);
-        });
-      }
-    );
-  }
-
   // First we take all the Objects in the input and convert them to Records
   makeOutputFromInput() {
     this.input.forEach(
       function(inputObject) {
+        if (inputObject.action !== 'write') return;
         // To avoid calls to DB, we loaded all records locally to findLocally()
         var localRecord = this.findLocally(inputObject);
         var outputRecord = null;
@@ -81,6 +61,27 @@ var RecordFactory = class RecordFactory {
         record.makeStructure(this.organisation);
         record.makeRanking(this.organisation);
       }, this
+    );
+  }
+
+  saveOutput(callback) {
+    var result = {
+      err: [],
+      created: [],
+      updated: []
+    };
+    if (this.output.length === 0) return callback(null, result);
+    this.output.forEach(
+      function(record, index, output) {
+        record.save(function(err, record) {
+          if (err) result.err.push(err);
+          else if (record.__v === 0) result.created.push(record.tag);
+          else result.updated.push(record.tag);
+          //@todo learn code and stop doing uggly shit like this
+          if (result.err.length + result.created.length + result.updated.length == output.length)
+          return callback(null, result);
+        });
+      }
     );
   }
 
