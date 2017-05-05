@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 03:56
+* @Last modified time: 05-05-2017 04:01
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -30,7 +30,7 @@ router.get('/depersonate', function(req, res, next) {
 });
 
 router.use( function(req, res, next) {
-  if (res.locals.user.superadmin === true) {
+  if (res.locals.user.isSuperAdmin()) {
     return next();
   }
   else {
@@ -60,7 +60,7 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
   });
 });
 
-router.get('/records/clear_deleted', function(req, res, next) {
+router.get('/record/clear_deleted', function(req, res, next) {
   Record.deleteMany({deleted: true}, function(err, result) {
     if (err) return next(err);
     res.render('index',

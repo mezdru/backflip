@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 23-04-2017 04:22
+* @Last modified time: 05-05-2017 04:29
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -14,6 +14,10 @@ var PNF = require('google-libphonenumber').PhoneNumberFormat;
 var parseDomain = require('parse-domain');
 
 var LinkHelper = class LinkHelper {
+
+  static makeLink(value, type, country) {
+    return new LinkHelper(value, type, country).link;
+  }
 
   constructor(value, type, country) {
     this.country = country || 'FR';
@@ -49,10 +53,9 @@ var LinkHelper = class LinkHelper {
   makeLink() {
     switch (this.type) {
       case 'email' : return this.makeEmail();
-      case 'phone' : return this.makePhone();
-      case 'hyperlink' : return this.makeHyperlink();
+      case 'phone' : case 'home' : return this.makePhone();
       case 'address' : return this.makeAddress();
-      default : return this.makeCustom();
+      default : return this.makeHyperlink();
     }
   }
 
@@ -75,6 +78,7 @@ var LinkHelper = class LinkHelper {
   }
 
   makePhone () {
+    if (!this.phone) this.isPhone();
     this.value = phoneUtil.format(this.phone, PNF.E164);
     this.display = phoneUtil.format(this.phone, PNF.INTERNATIONAL);
   }
@@ -84,16 +88,22 @@ var LinkHelper = class LinkHelper {
   }
 
   makeHyperlink () {
+    switch (this.type) {
+      // For laruche.lenom.io
+      case 'road': this.display = 'Roadmap'; return;
+      case 'map': this.display = 'Asana'; return;
+      case 'comment': this.display = 'Forum'; return;
+    }
     var domain = parseDomain(this.value);
     switch (domain.domain) {
-      case 'slack': this.type = 'slack'; this.display = 'Slack'; break;
-      case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; break;
-      case 'dribbble': this.type = 'dribbble'; this.display = 'Dribbble'; break;
-      case 'dropbox': this.type = 'dropbox'; this.display = 'Dropbox'; break;
-      case 'facebook': this.type = 'facebook'; this.display = 'Facebook'; break;
-      case 'flickr': this.type = 'flickr'; this.display = 'Flickr'; break;
-      case 'foursquare': this.type = 'foursquare'; this.display = 'Foursquare'; break;
-      case 'github': this.type = 'github'; this.display = 'Github'; break;
+      case 'slack': this.type = 'slack'; this.display = 'Slack'; return;
+      case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; return;
+      case 'dribbble': this.type = 'dribbble'; this.display = 'Dribbble'; return;
+      case 'dropbox': this.type = 'dropbox'; this.display = 'Dropbox'; return;
+      case 'facebook': this.type = 'facebook'; this.display = 'Facebook'; return;
+      case 'flickr': this.type = 'flickr'; this.display = 'Flickr'; return;
+      case 'foursquare': this.type = 'foursquare'; this.display = 'Foursquare'; return;
+      case 'github': this.type = 'github'; this.display = 'Github'; return;
       case 'google':
         if (domain.subdomain == 'drive') {
           this.type = 'folder';
@@ -108,38 +118,23 @@ var LinkHelper = class LinkHelper {
           this.type = 'google';
           this.display = 'Google';
         }
-        break;
-      case 'instagram': this.type = 'instagram'; this.display = 'Instagram'; break;
-      case 'linkedin': this.type = 'linkedin'; this.display = 'LinkedIn'; break;
-      case 'pinterest': this.type = 'pinterest'; this.display = 'Pinterest'; break;
-      case 'renren': this.type = 'renren'; this.display = 'Renren'; break;
-      case 'skype': this.type = 'skype'; this.display = 'Skype'; break;
-      case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; break;
-      case 'trello': this.type = 'trello'; this.display = 'Trello'; break;
-      case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; break;
-      case 'twitter': this.type = 'twitter'; this.display = 'Twitter'; break;
-      case 'vimeo': this.type = 'vimeo'; this.display = 'Vimeo'; break;
-      case 'vk': this.type = 'vk'; this.display = 'VK'; break;
-      case 'weibo': this.type = 'weibo'; this.display = 'Weibo'; break;
-      case 'xing': this.type = 'xing'; this.display = 'Xing'; break;
-      case 'youtube': this.type = 'youtube'; this.display = 'Youtube'; break;
-      case 'whatsapp': this.type = 'whatsapp'; this.display = 'WhatsApp'; break;
-      default:  this.display = (domain.subdomain ? domain.subdomain + '.' : '') + domain.domain + '.' + domain.tld; break;
-    }
-  }
-
-  makeCustom () {
-    switch (this.type) {
-      // For laruche.lenom.io
-      case 'roadmap': this.type = 'road'; this.display = 'Roadmap'; break;
-      case 'asana': this.type = 'map'; this.display = 'Asana'; break;
-      case 'forum': this.type = 'comment'; this.display = 'Forum'; break;
-      case 'home':
-        if(this.isPhone()) {
-          this.makePhone();
-          this.type = 'home';
-        }
-        break;
+        return;
+      case 'instagram': this.type = 'instagram'; this.display = 'Instagram'; return;
+      case 'linkedin': this.type = 'linkedin'; this.display = 'LinkedIn'; return;
+      case 'pinterest': this.type = 'pinterest'; this.display = 'Pinterest'; return;
+      case 'renren': this.type = 'renren'; this.display = 'Renren'; return;
+      case 'skype': this.type = 'skype'; this.display = 'Skype'; return;
+      case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; return;
+      case 'trello': this.type = 'trello'; this.display = 'Trello'; return;
+      case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; return;
+      case 'twitter': this.type = 'twitter'; this.display = 'Twitter'; return;
+      case 'vimeo': this.type = 'vimeo'; this.display = 'Vimeo'; return;
+      case 'vk': this.type = 'vk'; this.display = 'VK'; return;
+      case 'weibo': this.type = 'weibo'; this.display = 'Weibo'; return;
+      case 'xing': this.type = 'xing'; this.display = 'Xing'; return;
+      case 'youtube': this.type = 'youtube'; this.display = 'Youtube'; return;
+      case 'whatsapp': this.type = 'whatsapp'; this.display = 'WhatsApp'; return;
+      default:  this.display = (domain.subdomain ? domain.subdomain + '.' : '') + domain.domain + '.' + domain.tld; return;
     }
   }
 

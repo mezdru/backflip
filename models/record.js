@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 23-04-2017 04:21
+* @Last modified time: 05-05-2017 04:34
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -18,21 +18,21 @@ var StructureHelper = require('../helpers/structure_helper.js');
 
 
 var recordSchema = mongoose.Schema({
-  name: String,
-  tag: String,
-  type: {type: String, enum: ['person', 'team', 'hashtag']},
   organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
-  ranking: {type: Number, default: 0},
+  tag: {type: String, required: true},
+  type: {type: String, enum: ['person', 'team', 'hashtag']},
+  name: String,
+  description: {type: String, default: '#empty'},
   picture: {
     url: String,
     path: String
   },
-  description: {type: String, default: '#empty'},
+  links: [linkSchema],
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
   ],
   structure: {},
-  links: [linkSchema],
+  ranking: {type: Number, default: 0},
   hidden_links: [linkSchema],
   google: {
     id: {type: String, index: true},
@@ -55,10 +55,46 @@ recordSchema.virtual('ObjectID').get(function () {
   return this._id;
 });
 
-//@todo restore the unique; true condition on organisation/tag
-//There's some UI needed here. Or make a different tag if needed.
-recordSchema.index({'organisation': 1, 'tag': 1}/*, {unique: true}*/);
+//@todo restore the unique: true condition on organisation/tag
+//There's some UI needed here. Or make a different tag if needed..
+recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
+
+
+// This pseudo constructor takes an object that is build by RecordObjectCSVHelper
+// @todo make RecordObjectCSVHelper return a Record !
+recordSchema.statics.makeFromInputObject = function(inputObject) {
+  if (inputObject.type != 'person' && inputObject.type != 'team') inputObject.type = 'hashtag';
+  inputObject.tag = this.makeTag(inputObject.tag, inputObject.name, inputObject.type);
+  inputObject.name = inputObject.name || inputObject.tag.slice(1);
+  return new this(inputObject);
+};
+
+recordSchema.statics.getTypeFromTag = function(tag) {
+  prefix = tag.charAt(0);
+  if (prefix === '@') {
+    firstLetter = tag.charAt(1);
+    if (firstLetter === firstLetter.toUpperCase())return 'team';
+    else return 'person';
+  } else return 'hashtag';
+};
+
+recordSchema.statics.makeTag = function(tag, name, type) {
+  if (tag && (tag.charAt(0) == '@' || tag.charAt(0) == '#')) tag = tag.slice(1);
+  prefix = (type == 'hashtag') ? '#' : '@';
+  if (tag) return prefix + tag;
+  if (name) return prefix + name.replace(/\W/g, '_');
+  return prefix + 'notag' + Math.floor(Math.random() * 1000);
+};
+
+recordSchema.methods.dumbMerge = function(inputObject) {
+  this.name = inputObject.name || this.name;
+  this.picture.url = inputObject.picture.url || this.picture.url;
+  this.description = inputObject.description || this.description;
+  //@todo clever mergeLinks();
+  this.links = inputObject.links || this.links;
+  return this;
+};
 
 recordSchema.methods.getGoogleId = function() {
   return undefsafe(this, 'google.id');
@@ -68,137 +104,8 @@ recordSchema.methods.isPerson = function() {
   return this.type === 'person';
 };
 
-recordSchema.statics.exportRecords4Csv = function(records) {
-  var header = {
-      action: 'action',
-      _id: '_id',
-      name: 'name',
-      tag: 'tag',
-      type: 'type',
-      picture_url: 'picture_url',
-      description: 'description',
-  };
-  for (var i=1; i<16; i++) {
-    header[`link_${i}`] = `link_${i}`;
-  }
-  header[`link_home`] = 'link_home';
-  var records4csv = [header];
-  records.forEach(function (record) {
-    records4csv.push(record.export4csv());
-  });
-  return records4csv;
-};
-
-recordSchema.methods.export4csv = function () {
-  var record4csv = {
-      action: 'keep',
-      _id: this._id,
-      name: this.name,
-      tag: this.tag,
-      type: this.type,
-      picture_url: this.picture.url,
-      description: this.description,
-  };
-  this.links.forEach(function (link, index) {
-    if (link.type == 'home') {
-      record4csv[`link_home`] = link.display;
-    } else if (link.type == 'phone') {
-      record4csv[`link_${index+1}`] = link.display;
-    } else {
-      record4csv[`link_${index+1}`] = link.value;
-    }
-  });
-  return record4csv;
-};
-
-recordSchema.statics.importRecordFromCsvLineAsJson = function(csvLineAsJson, organisationId, organisationTree, userId, callback) {
-  if (csvLineAsJson.action != 'create' && csvLineAsJson.action != 'overwrite' && csvLineAsJson.action != 'update' && csvLineAsJson.action != 'delete') return callback(null, null);
-  var csvLineAsRecord = this.readCsvLineAsJson(csvLineAsJson, organisationId);
-  if (csvLineAsRecord.action == 'create') {
-      return this.model('Record').createFromCsv(csvLineAsRecord, organisationTree, callback);
-  } else if ((csvLineAsRecord.action == 'overwrite' || csvLineAsRecord.action == 'update' || csvLineAsRecord.action == 'delete') && csvLineAsRecord._id) {
-    this.findById(csvLineAsRecord._id).populate('within', 'name tag type').exec(function(err, oldRecord) {
-      if (err) return callback(err);
-      if (!oldRecord) return callback(null, null);
-      if (!oldRecord.organisation.equals(organisationId)) {
-        return callback(new Error('Record out of Organisation'));
-      }
-      if (csvLineAsRecord.action == 'overwrite') {
-        return oldRecord.overwriteFromCsv(csvLineAsRecord, organisationTree, callback);
-      } else if (csvLineAsRecord.action == 'update') {
-        return oldRecord.updateFromCsv(csvLineAsRecord, organisationTree, callback);
-      } else if (csvLineAsRecord.action == 'delete') {
-        return oldRecord.delete(userId, callback);
-      }
-    });
-  }
-};
-
-recordSchema.statics.readCsvLineAsJson = function(csvLineAsJson, organisationId) {
-  var csvLineAsRecord = csvLineAsJson;
-  csvLineAsRecord.organisation = organisationId;
-  csvLineAsRecord.picture = {
-    url: csvLineAsJson.picture_url
-  };
-  csvLineAsRecord.links = [];
-  for (var prop in csvLineAsJson) {
-    let header = prop.split('_');
-    if (csvLineAsRecord[prop] && header[0] == 'link') {
-      let link = { value: csvLineAsRecord[prop] };
-      if (header[1] && !parseInt(header[1], 10)) link.type = header[1];
-      csvLineAsRecord.links.push(link);
-    }
-  }
-  return csvLineAsRecord;
-};
-
-recordSchema.statics.createFromCsv = function(csvLineAsRecord, tree, callback) {
-  if (csvLineAsRecord.action == 'create') {
-    delete csvLineAsRecord._id;
-    newRecord = new this(csvLineAsRecord);
-    newRecord.links = csvLineAsRecord.links.map(function(link) {
-      return new LinkHelper(link.value, link.type).link;
-    });
-    newRecord.updateWithin(tree, function(err) {
-      if (err) return console.error(err);
-      this.save(callback);
-    }.bind(newRecord));
-  }
-};
-
-recordSchema.methods.overwriteFromCsv = function (csvLineAsRecord, tree, callback) {
-  if (csvLineAsRecord.action == 'overwrite') {
-    this.name = csvLineAsRecord.name;
-    this.tag = csvLineAsRecord.tag;
-    this.type = csvLineAsRecord.type;
-    this.picture = csvLineAsRecord.picture;
-    this.description = csvLineAsRecord.description;
-    this.links = csvLineAsRecord.links.map(function(link) {
-      return new LinkHelper(link.value, link.type).link;
-    });
-    this.updateWithin(tree, function(err) {
-      if (err) return console.error(err);
-      this.save(callback);
-    }.bind(this));
-  }
-};
-
-recordSchema.methods.updateFromCsv = function (csvLineAsRecord, tree, callback) {
-  if (csvLineAsRecord.action == 'update') {
-    this.name = csvLineAsRecord.name;
-    this.tag = csvLineAsRecord.tag;
-    this.type = csvLineAsRecord.type;
-    this.picture = csvLineAsRecord.picture;
-    this.description = csvLineAsRecord.description;
-    this.updateWithin(tree, function(err) {
-      if (err) return console.error(err);
-      this.save(callback);
-    }.bind(this));
-  }
-};
-
-
-//@todo there's a pattern break here, the links array should have been parsed by the router first
+//@todo there's a pattern break here, the links array be parsed by the router first
+//We do not delete links, we move them to hidden_links
 recordSchema.methods.deleteLinks = function(formLinks) {
   formLinks = formLinks || [];
   formLinks.forEach(function (formLink, index, links) {
@@ -227,20 +134,9 @@ recordSchema.methods.createLinks = function(formNewLinks) {
   }, this);
 };
 
-// We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
-// @todo check performance of this expensive logic, if bulked there's better to do, like loading all teams & hashtags at once.
-// @todo I don't want to make this a pre middleware because of performance, but maybe it should be.
-// @todo teams tags are capitalized as a pre filter, but the tag is not updated in the desciption yet
+// @todo delete in favor of makeWithin
 recordSchema.methods.updateWithin = function(tree, callback) {
-	var regex = /([@#][\w-<>\/]+)/g;
-  var tags = this.description.match(regex);
-  if (!tags || tags.length === 0) {
-    this.description += '#notags';
-    tags = ['#notags'];
-  }
-  // A team or a hashtag is within itself so it shows when filtering.
-  // @todo this creates the tag 2 times !!!
-  if (this.type != 'person') tags.unshift(this.tag);
+  var tags = this.getWithinTags();
   this.newWithin = [];
   tags.forEach(function(tag) {
     this.getWithinRecordByTag(tag, function(err, record) {
@@ -257,28 +153,47 @@ recordSchema.methods.updateWithin = function(tree, callback) {
   }, this);
 };
 
-// @todo what if Record.within is not populated ? You're screwed aren't you ?
-recordSchema.methods.updateStructure = function(tree) {
-    structureHelper = new StructureHelper(this.within, tree);
-    structureHelper.build();
-    this.structure = structureHelper.structure;
+// We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
+// @todo this works only if organisation.records are loaded, otherwise creates duplicates be.
+recordSchema.methods.makeWithin = function(organisation) {
+  var tags = this.getWithinTags();
+  var newRecords = [];
+  this.within = tags.map(
+    function(tag) {
+      var outputRecord;
+      var localRecord = organisation.records.find(record => record.tag === tag);
+      if (localRecord) {
+        outputRecord = localRecord;
+      } else {
+        outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
+        organisation.records.push(outputRecord);
+        newRecords.push(outputRecord);
+      }
+      return this.model('Record').shallowCopy(outputRecord);
+    }, this
+  );
+  return newRecords;
 };
 
-recordSchema.methods.updateRanking = function(tree) {
-  switch (this.type) {
-    case 'person' : this.ranking = 1000; break;
-    case 'hashtag' : this.ranking = 2000; break;
-    case 'team' : this.ranking = 3000; break;
+recordSchema.statics.shallowCopy = function(record) {
+  return this({
+    _id: record.id,
+    name: record.name,
+    tag: record.tag,
+    type: record.type
+  });
+};
+
+recordSchema.methods.getWithinTags = function() {
+  var regex = /([@#][\w-<>\/]+)/g;
+  var tags = this.description.match(regex);
+  if (!tags || tags.length === 0) {
+    this.description += '#notags';
+    tags = ['#notags'];
   }
-  if (tree) this.ranking += this.getStructureRanking(tree);
-};
-
-recordSchema.methods.getStructureRanking = function(tree) {
-  let branches = tree.filter(function (branch) {
-    return branch[branch.length-1] == this.tag;
-  }, this);
-  var shortestBranchLength = branches.reduce((acc, cur) => Math.min(acc, cur.length), 9);
-  return 1000 - shortestBranchLength*100;
+  // A team or a hashtag is within itself so it shows when filtering.
+  if (this.type != 'person') tags.unshift(this.tag);
+  return tags;
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
@@ -313,7 +228,57 @@ recordSchema.statics.createByTag = function(tag, organisationId, callback) {
   record.save(callback);
 };
 
+recordSchema.statics.makeFromTag = function(tag, organisationId) {
+  let type = tag.substr(0,1) === '@' ? 'team' : 'hashtag';
+  tag = (type === 'team') ? '@' + tag.charAt(1).toUpperCase() + tag.slice(2) : '#' + tag.slice(1);
+  let name = tag.slice(1);
+  inputObject = {
+    type: type,
+    tag: tag,
+    name: name,
+    organisation: organisationId
+  };
+  return this.makeFromInputObject(inputObject);
+};
 
+// @todo what if Record.within is not populated ? You're screwed aren't you ?
+recordSchema.methods.updateStructure = function(tree) {
+    structureHelper = new StructureHelper(this.within, tree);
+    structureHelper.build();
+    this.structure = structureHelper.structure;
+};
+
+recordSchema.methods.makeStructure = function(organisation) {
+  structureHelper = new StructureHelper(this.within, organisation.tree);
+  structureHelper.build();
+  this.structure = structureHelper.structure;
+};
+
+recordSchema.methods.updateRanking = function(tree) {
+  switch (this.type) {
+    case 'person' : this.ranking = 1000; break;
+    case 'hashtag' : this.ranking = 2000; break;
+    case 'team' : this.ranking = 3000; break;
+  }
+  if (tree) this.ranking += this.getStructureRanking(tree);
+};
+
+recordSchema.methods.makeRanking = function(organisation) {
+  switch (this.type) {
+    case 'person' : this.ranking = 1000; break;
+    case 'hashtag' : this.ranking = 2000; break;
+    case 'team' : this.ranking = 3000; break;
+  }
+  if (organisation.tree) this.ranking += this.getStructureRanking(organisation.tree);
+};
+
+recordSchema.methods.getStructureRanking = function(tree) {
+  let branches = tree.filter(function (branch) {
+    return branch[branch.length-1] == this.tag;
+  }, this);
+  var shortestBranchLength = branches.reduce((acc, cur) => Math.min(acc, cur.length), 10);
+  return 1000 - shortestBranchLength*100;
+};
 
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
@@ -354,7 +319,7 @@ Record.validationSchema = {
   name: {
     isLength: {
       options: [{ min: 1, max: 64 }],
-      errorMessage: 'Name should be between 4 and 64 chars long' // Error message for the validator, takes precedent over parameter message
+      errorMessage: 'Name should be between 1 and 64 chars long' // Error message for the validator, takes precedent over parameter message
     }
   },
   description: {

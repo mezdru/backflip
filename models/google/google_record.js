@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 08-04-2017 09:41
+* @Last modified time: 05-05-2017 05:08
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -142,6 +142,7 @@ GoogleRecord.createRecord = function(googleUser, organisationID) {
 };
 
 //@todo get rid of the prefix @, #, ... in the code & db.
+//@todo We've got a unique Tag issue here !
 GoogleRecord.createTag = function(googleUser) {
   return '@'+googleUser.primaryEmail.split('@')[0];
 };
@@ -154,24 +155,28 @@ GoogleRecord.createTag = function(googleUser) {
 GoogleRecord.createLinks = function(googleUser) {
   var links = [];
   googleUser.emails.forEach(function(emailObject) {
-    links.push(new LinkHelper(emailObject.address).link);
+    links.push(LinkHelper.makeLink(emailObject.address, 'email'));
   });
   if (googleUser.addresses) {
     googleUser.addresses.forEach(function(addressObject) {
-      links.push(new LinkHelper(addressObject.formatted).link);
+      links.push(LinkHelper.makeLink(addressObject.formatted, 'address'));
     });
   }
   if (googleUser.phones) {
     googleUser.phones.forEach(function(phoneObject) {
-      links.push(new LinkHelper(phoneObject.value).link);
+      links.push(LinkHelper.makeLink(phoneObject.value, 'phone'));
     });
   }
   return links;
 };
 
+// We've got a unique Tag issue here !
 GoogleRecord.saveMany = function(records, callback) {
   records.forEach(function (record) {
-    record.save(callback);
+    record.save(function(err, record) {
+      if (err.code === 11000) console.error(err);
+      else return callback(err,record);
+    });
   });
   //@todo use batch save (does not work with mongoose-algolia yet)
   //Record.insertMany(records, callback);

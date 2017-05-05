@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 17-03-2017
+* @Last modified time: 04-05-2017 06:53
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -81,6 +81,10 @@ hbs.registerHelper('pictureUrl', function(picture, type) {
 hbs.registerHelper('error', function(status, elem) {
   error = errors.find(error => error.status == status || error.status == 500);
   return error[elem];
+});
+
+hbs.registerHelper('tagLink', function(tag) {
+  return `<a href="/?q=${tag}">${tag}</a>`;
 });
 
 hbs.registerPartials(__dirname + '/partials');

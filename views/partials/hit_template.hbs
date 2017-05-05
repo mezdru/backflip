@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 04-05-2017 04:39
+@Last modified time: 05-05-2017 05:14
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="hit-template">
@@ -23,7 +23,7 @@
             <a title="Compose" href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             {{/canEdit}}
             {{#canDelete}}
-            <a title="Delete" href="/admin/records/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+            <a title="Delete" href="/admin/record/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
             {{/canDelete}}
           </p>
           <h2 class="name searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.name.value}}}</h2>

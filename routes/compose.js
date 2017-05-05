@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-04-2017 06:13
+* @Last modified time: 04-05-2017 07:22
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -102,7 +102,7 @@ router.post('/:recordId', function(req, res, next) {
       res.locals.record.save (function (err) {
         if (err) return next(err);
         successes.push({msg: "Your story has been saved."});
-        console.log(`COMPOSE ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}`);
+        console.log(`COMPOSE ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
         res.render('compose', {title: 'Compose', successes: successes});
       });
     });
