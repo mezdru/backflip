@@ -4,11 +4,12 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 04:01
+* @Last modified time: 09-05-2017 05:45
 * @Copyright: Clément Dietschy 2017
 */
 
 var mongoose = require('mongoose');
+var undefsafe = require('undefsafe');
 
 var userSchema = mongoose.Schema({
   name: String,
@@ -70,14 +71,8 @@ userSchema.methods.isAdminToOrganisation = function(organisationID) {
 };
 
 userSchema.methods.getRecordIdByOrgId = function(organisationID) {
-  var recordId = false;
-  this.orgsAndRecords.forEach(function(orgAndRecord) {
-      // I have no clue why we need the .toString() function to evaluate this equality...
-      if (organisationID.equals(getId(orgAndRecord.organisation))) {
-        recordId = orgAndRecord.record;
-      }
-  });
-  return recordId;
+  var orgAndRecord = this.orgsAndRecords.find(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)));
+  return getId(orgAndRecord.record);
 };
 
 userSchema.methods.ownsRecord = function(recordId) {
@@ -86,6 +81,12 @@ userSchema.methods.ownsRecord = function(recordId) {
 
 userSchema.methods.isSuperAdmin = function() {
   return this.superadmin === true;
+};
+
+//@todo replace this placeholder with something handling multiple records
+//@todo does not work when populated
+userSchema.methods.getFirstOrganisation = function() {
+  return undefsafe(this, 'orgsAndRecords.0.organisation');
 };
 
 /*

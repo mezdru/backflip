@@ -4,12 +4,13 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 04-05-2017 06:53
+* @Last modified time: 09-05-2017 05:47
 * @Copyright: Clément Dietschy 2017
 */
 
 var hbs = require('hbs');
 var errors = require('./errors.json');
+var UrlHelper = require('../helpers/url_helper.js');
 
 hbs.registerHelper('raw', function(options) {
   return options.fn();
@@ -85,6 +86,14 @@ hbs.registerHelper('error', function(status, elem) {
 
 hbs.registerHelper('tagLink', function(tag) {
   return `<a href="/?q=${tag}">${tag}</a>`;
+});
+
+hbs.registerHelper('profileLink', function(user, organisation) {
+  if (!organisation) return null;
+  recordId = user.getRecordIdByOrgId(organisation._id);
+  if (!recordId) return null;
+  url = new UrlHelper(organisation.tag, `compose/${recordId}`).getUrl();
+  return `<a title="My profile" class="fa fa-user-circle-o profile" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerPartials(__dirname + '/partials');

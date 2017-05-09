@@ -3,14 +3,15 @@
 @Date:   17-03-2017
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
-@Last modified by:   bedhed
-@Last modified time: 02-04-2017 11:19
+@Last modified by:   clement
+@Last modified time: 09-05-2017 05:22
 @Copyright: Clément Dietschy 2017
 }}
 <div>
   {{#if user}}
-  <a class="logout" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+  {{{profileLink user organisation}}} 
+  <a title="Logout" class="fa fa-sign-out logout" href="/logout" aria-hidden="true"></a>
   {{else}}
-  <a class="login" href="/google/login"><i class="fa fa-google" aria-hidden="true"></i> Login</a>
+  <a title="Login" class="login" href="/google/login"><i class="fa fa-google" aria-hidden="true"></i> Login</a>
   {{/if}}
 </div>
