@@ -4,16 +4,16 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 09-05-2017 05:18
+* @Last modified time: 10-05-2017 04:17
 * @Copyright: Clément Dietschy 2017
 */
 
 var UrlHelper = class UrlHelper {
 
   constructor(subdomains, path, query) {
-    this.subdomains = subdomains;
-    this.path = path;
-    this.query = query;
+    this.subdomains = subdomains || '';
+    this.path = path || '';
+    this.query = query || '';
   }
 
   getUrl () {

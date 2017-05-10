@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-05-2017 12:01
+* @Last modified time: 10-05-2017 04:16
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -104,6 +104,11 @@ hbs.registerHelper('adminLink', function(user, organisation) {
 
 hbs.registerHelper('url', function(page, organisation) {
   return new UrlHelper(organisation.tag, page).getUrl();
+});
+
+hbs.registerHelper('homeUrl', function(organisation) {
+  if (organisation) return new UrlHelper(organisation.tag).getUrl();
+  else return new UrlHelper().getUrl();
 });
 
 hbs.registerPartials(__dirname + '/partials');

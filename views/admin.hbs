@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 10-05-2017 12:06
+@Last modified time: 10-05-2017 04:07
 @Copyright: Clément Dietschy 2017
 @todo deduplicate wiew code with partials/hit_template.hbs
 }}
@@ -27,7 +27,17 @@
         <p><a href="{{url "admin/record/resync/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Resync</a> Rebuild every records in your directory and updates search engine.</p>
       </div>
     </div>
-  </div><div class="pure-g">
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1-6 pure-u-md-1-6">
+      <h1 class="reward"><i class="fa fa-umbrella" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-5-6">
+      <h2>Organisation</h2>
+      <p><a href="{{url "admin/organisation/tree/" organisation}}"><i class="fa fa-tree" aria-hidden="true"></i> Tree</a></strong> Edit your organisation teams' tree.</p>
+    </div>
+  </div>
+  <div class="pure-g">
     <div class="pure-u-1-6 pure-u-md-1-6">
       <h1 class="reward"><i class="fa fa-google" aria-hidden="true"></i></h1>
     </div>
