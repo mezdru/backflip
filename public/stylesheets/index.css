@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 09-05-2017 05:24
+* @Last modified time: 10-05-2017 11:20
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -67,8 +67,6 @@ h3 {
   margin: 0;
   padding: 0;
   font-weight: 400;
-  font-size: 1em;
-  color: #7F8C8D;
 }
 
 em,
@@ -104,6 +102,11 @@ em a {
 .error-code {
   text-align: center;
   color: #F5F7FA;
+}
+
+.danger-zone {
+  padding-top: 8px;
+  font-size: 0.8em;
 }
 
 

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 04:16
+* @Last modified time: 10-05-2017 11:46
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -114,7 +114,7 @@ app.use('/superadmin', superadmin);
 
 // restricting admin access
 var restrictAdmin = require('./routes/restrict_admin.js');
-app.use('/', restrictAdmin);
+app.use('/admin', restrictAdmin);
 
 var googleAdmin = require('./routes/google/google_admin.js');
 app.use('/admin/google', googleAdmin);

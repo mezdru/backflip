@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 05:08
+* @Last modified time: 10-05-2017 11:36
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -174,7 +174,7 @@ GoogleRecord.createLinks = function(googleUser) {
 GoogleRecord.saveMany = function(records, callback) {
   records.forEach(function (record) {
     record.save(function(err, record) {
-      if (err.code === 11000) console.error(err);
+      if (err && err.code === 11000) console.error(err);
       else return callback(err,record);
     });
   });

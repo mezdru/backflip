@@ -4,14 +4,14 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 05:16
+* @Last modified time: 10-05-2017 11:34
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 var google = require('googleapis');
-var Record = require('../../models/record.js')
+var Record = require('../../models/record.js');
 var GoogleRecord = require('../../models/google/google_record.js');
 
 // Create Google OAuth2 Client for everyone
@@ -31,26 +31,28 @@ router.use(function(req, res, next) {
   return next();
 });
 
-router.get('/groups/list', function(req, res, next) {
-  google.admin('directory_v1').groups.list({customer: 'my_customer', maxResults: 200, pageToken:"AHmOf6YS-4S9DsWxW3fiy1k3A_c1OUWW4koqb5ENE6v6i5oBJyDfrgIIgLqhhdiLe1RUnz7iFkArla-qYyefSnFxldXMkaR5Oq4rhHUItd6QpYvy0Wi7000PkP1lJnuO4IdcZtzSpq-bprMAaCzUSwaeLu4uTA7yRQ"}, function (err, ans) {
+//@todo paginate & handle more than 200 (200 is the max maxResults)
+router.get('/group/list', function(req, res, next) {
+  google.admin('directory_v1').groups.list({customer: 'my_customer', maxResults: 200}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
         title: 'Google Groups within your organisation',
-        details: `Google Admin Directory API returns ${ans.groups.length} groups`,
+        details: `Google Admin Directory API returns ${ans.groups.length} groups (cannot return more than 200).`,
         content: ans
       }
     );
   });
 });
 
-router.get('/users/list', function(req, res, next) {
+//@todo paginate & handle more than 500 (500 is the max maxResults)
+router.get('/user/list', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
         title: 'Google Users within your organisation',
-        details: `Google Admin Directory API returns ${ans.users.length} users`,
+        details: `Google Admin Directory API returns ${ans.users.length} users (cannot return more than 500).`,
         content: ans
       }
     );
@@ -69,7 +71,7 @@ router.get('/users/get/:googleId', function (req, res, next) {
   });
 });
 
-router.get('/domains', function(req, res, next) {
+router.get('/domain/list', function(req, res, next) {
   google.admin('directory_v1').domains.list({customer: 'my_customer'}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
@@ -93,7 +95,7 @@ router.use(function(req, res, next) {
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
-router.get('/users/update', function(req, res, next) {
+router.get('/user/update', function(req, res, next) {
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
     if (err) return next(err);
     var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);

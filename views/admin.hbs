@@ -1,0 +1,45 @@
+{{!
+@Author: Clément Dietschy <bedhed>
+@Date:   10-5-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 10-05-2017 12:06
+@Copyright: Clément Dietschy 2017
+@todo deduplicate wiew code with partials/hit_template.hbs
+}}
+<div class="main admin">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <h1 class="tagline">{{organisation.name}} Administration</h1>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1-6 pure-u-md-1-6">
+      <h1 class="reward"><i class="fa fa-user-circle-o" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-5-6">
+      <h2>Records</h2>
+      <p><a href="{{url "admin/record/csv/" organisation}}"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download</a></strong> Every records in your directory as a CSV file.</p>
+      <p><a href="{{url "admin/record/upload/" organisation}}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</a> Update records in your directory from a CSV file.</p>
+      <div class="danger-zone">
+        <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Danger</h3>
+        <p><a href="{{url "admin/record/resync/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Resync</a> Rebuild every records in your directory and updates search engine.</p>
+      </div>
+    </div>
+  </div><div class="pure-g">
+    <div class="pure-u-1-6 pure-u-md-1-6">
+      <h1 class="reward"><i class="fa fa-google" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-5-6">
+      <h2>Google</h2>
+      <p><a href="{{url "admin/google/user/list/" organisation}}"><i class="fa fa-user" aria-hidden="true"></i> Users list</a> Users within your Google organisation (500 max).</p>
+      <p><a href="{{url "admin/google/group/list/" organisation}}"><i class="fa fa-users" aria-hidden="true"></i> Groups list</a></strong> Groups within your Google Organisation (200 max).</p>
+      <p><a href="{{url "admin/google/domain/list/" organisation}}"><i class="fa fa-square" aria-hidden="true"></i> Domains list</a> Domains within your Google organisation.</p>
+      <div class="danger-zone">
+        <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Danger</h3>
+        <p><a href="{{url "admin/google/user/update/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Update</a> Update the records in your directory by adding new Google users and removing suspended Google users.</p>
+      </div>
+    </div>
+  </div>
+</div>
