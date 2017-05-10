@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-05-2017 04:17
+* @Last modified time: 10-05-2017 04:48
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -30,7 +30,7 @@ var UrlHelper = class UrlHelper {
       }
       this.url = `http://localhost:3000/${this.path}${this.query}`;
     } else {
-      this.url =  `https://${subdomains}.lenom.io/${this.path}${this.query}`;
+      this.url =  `https://${this.subdomains}.lenom.io/${this.path}${this.query}`;
     }
   }
 
