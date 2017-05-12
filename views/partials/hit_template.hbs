@@ -4,16 +4,24 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 05-05-2017 05:14
+@Last modified time: 12-05-2017 05:11
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="hit-template">
   {{{{raw}}}}
   <div class="record pure-g {{type}}">
     <div class="pure-u-1-6">
+      {{#mozaic}}
+      <div class="mozaic">
+        {{#includes}}<a title="{{name}}" class="tile {{type}}" onclick="setSearch('{{tag}}')"><img onload="resizeImg(this)" src="{{picture.url}}"></a>{{/includes}}
+        {{#mozaic_more}}<a title="Search more" class="tile more" onclick="setSearch('{{tag}}')">+{{mozaic_more}}</a>{{/mozaic_more}}
+      </div>
+      {{/mozaic}}
+      {{^mozaic}}
       <div class="picture">
         <img onload="resizeImg(this)" src="{{picture.url}}">
       </div>
+      {{/mozaic}}
     </div>
     <div class="pure-u-5-6">
       <div class="central">

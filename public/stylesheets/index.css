@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-05-2017 10:47
+* @Last modified time: 12-05-2017 05:22
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -517,8 +517,8 @@ footer {
 /* Picture */
 
 .picture {
-  height: 14vw;
-  width: 14vw;
+  height: 12vw;
+  width: 12vw;
   margin: 8px;
   max-height: 104px;
   max-width: 104px;
@@ -530,15 +530,59 @@ footer {
 }
 
 .picture img {
-  width: 14vw;
+  width: 12vw;
   max-width: 104px;
 }
 
 .picture img.horizontal {
   width: auto;
   max-width: none;
-  height: 14vw;
+  height: 12vw;
   max-height: 104px;
+}
+
+/* Mozaic */
+.mozaic {
+  width: 100%;
+}
+
+.mozaic .tile {
+  float: left;
+  height: 4vw;
+  width: 4vw;
+  margin: 3px;
+  max-height: 32px;
+  max-width: 32px;
+  overflow: hidden;
+  opacity: 0.4;
+}
+
+.mozaic .more {
+  text-align: center;
+  line-height: 30px;
+}
+
+.mozaic .tile:hover {
+  transform: scale(1.5);
+  transition-duration: 0.3s;
+  text-decoration: none;
+  opacity: 1;
+}
+
+.mozaic .person {
+  border-radius: 50%;
+}
+
+.mozaic img {
+  width: 4vw;
+  max-width: 32px;
+}
+
+.mozaic img.horizontal {
+  width: auto;
+  max-width: none;
+  height: 4vw;
+  max-height: 32px;
 }
 
 /* Central */
@@ -770,7 +814,7 @@ footer {
 }
 
 .links .deleted {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .links .deleted .undelete-link {
