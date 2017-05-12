@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-05-2017 04:29
+* @Last modified time: 12-05-2017 10:47
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -72,8 +72,7 @@ h3 {
 em,
 em a {
 	font-style: normal;
-  /*font-weight: bolder;*/
-  color: #FF2600;
+  font-weight: bolder;
 }
 
 /* CUSTOM ELEMENTS */

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 05:16
+* @Last modified time: 12-05-2017 03:24
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -24,9 +24,11 @@ var csvtojson = require('csvtojson');
 
 // Load the whole organisation records, we'll need those for further use
 // Duplicate in google_admin
+// @todo this is such a bad idea. But makeWithin, makeIncludes logic are based on that
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();
-  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
+  Record.find({organisation: res.locals.organisation._id})
+  .exec(function(err, records) {
     if (err) return next(err);
     res.locals.organisation.records = records;
     return next();
@@ -46,6 +48,25 @@ router.get('/clear', function(req, res, next) {
   });
 });
 
+router.get('/make_includes/:recordId', function(req, res, next) {
+  Record.findById(req.params.recordId)
+  .populate({path:'within', select:'name tag type picture'})
+  .exec(function(err, record) {
+    if (err) return next(err);
+    record.makeIncludes(res.locals.organisation);
+    record.save(function(err, result) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Make Includes',
+          content: result
+        }
+      );
+    });
+  });
+});
+
+//@todo Fix pyramid of death, async fail & performance issues.
 router.get('/resync', function(req, res, next) {
   Record.find({organisation: res.locals.organisation._id}, function(err, records) {
     if (err) return next(err);
@@ -54,6 +75,7 @@ router.get('/resync', function(req, res, next) {
     records.forEach(function (record) {
       record.updateWithin(res.locals.organisation.tree, function(err, record) {
         if(err) return next(err);
+        record.makeIncludes(res.locals.organisation);
         record.save(function(err, record, numAffected) {
           countup += numAffected;
           countdown--;

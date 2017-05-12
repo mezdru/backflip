@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 04:34
+* @Last modified time: 12-05-2017 03:23
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -29,7 +29,10 @@ var recordSchema = mongoose.Schema({
   },
   links: [linkSchema],
   within: [
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Record', index: true}
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
+  ],
+  includes: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
   ],
   structure: {},
   ranking: {type: Number, default: 0},
@@ -55,10 +58,12 @@ recordSchema.virtual('ObjectID').get(function () {
   return this._id;
 });
 
-//@todo restore the unique: true condition on organisation/tag
+//@todo deal with consequences of "unique: true" condition on organisation/tag
 //There's some UI needed here. Or make a different tag if needed..
 recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
+recordSchema.index({'within': 1});
+recordSchema.index({'includes': 1});
 
 
 // This pseudo constructor takes an object that is build by RecordObjectCSVHelper
@@ -155,6 +160,7 @@ recordSchema.methods.updateWithin = function(tree, callback) {
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
 // @todo this works only if organisation.records are loaded, otherwise creates duplicates be.
+// WARNING NEW RECORDS NEEDS SAVING !
 recordSchema.methods.makeWithin = function(organisation) {
   var tags = this.getWithinTags();
   var newRecords = [];
@@ -175,12 +181,15 @@ recordSchema.methods.makeWithin = function(organisation) {
   return newRecords;
 };
 
+// We need this because we don't want our local Records to reference to each other
+// Otherwise there are tons of level of reference (even loops)
 recordSchema.statics.shallowCopy = function(record) {
   return this({
     _id: record.id,
     name: record.name,
     tag: record.tag,
-    type: record.type
+    type: record.type,
+    picture: record.picture
   });
 };
 
@@ -188,7 +197,7 @@ recordSchema.methods.getWithinTags = function() {
   var regex = /([@#][\w-<>\/]+)/g;
   var tags = this.description.match(regex);
   if (!tags || tags.length === 0) {
-    this.description += '#notags';
+    this.description += ' #notags';
     tags = ['#notags'];
   }
   // A team or a hashtag is within itself so it shows when filtering.
@@ -242,12 +251,14 @@ recordSchema.statics.makeFromTag = function(tag, organisationId) {
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
+// @todo remove in favvor of makeStructre when updateWithin is removed.
 recordSchema.methods.updateStructure = function(tree) {
     structureHelper = new StructureHelper(this.within, tree);
     structureHelper.build();
     this.structure = structureHelper.structure;
 };
 
+// @todo what if Record.within is not populated ? You're screwed aren't you ?
 recordSchema.methods.makeStructure = function(organisation) {
   structureHelper = new StructureHelper(this.within, organisation.tree);
   structureHelper.build();
@@ -280,6 +291,17 @@ recordSchema.methods.getStructureRanking = function(tree) {
   return 1000 - shortestBranchLength*100;
 };
 
+recordSchema.methods.countIncludes = function(callback) {
+  this.model('Record').count({within:this._id}, callback);
+};
+
+recordSchema.methods.makeIncludes = function(organisation) {
+  if (this.type !== 'team') return;
+  this.includes = organisation.records.filter(function(localRecord) {
+    return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
+  }, this);
+};
+
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
     this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);
@@ -300,15 +322,20 @@ recordSchema.plugin(mongooseDelete, {
   indexFields: 'all'
 });
 
+// @todo we need our own sync logic, this one is too hard to control & very expensive
 recordSchema.plugin(mongooseAlgolia, {
   appId: process.env.ALGOLIA_APPLICATION_ID,
   apiKey: process.env.ALGOLIA_WRITE_KEY,
   indexName: 'world',
   selector: '-_id -created -updated -google -hidden_links',
-  populate: {
+  // @todo remove the populate part for performance (we don't want another request to get the included/within records)
+  populate: [{
+    path: 'includes',
+    select: 'name tag type picture'
+  },{
     path: 'within',
-    select: 'name tag type'
-  },
+    select: 'name tag type picture'
+  }],
   softdelete: true,
   debug: true
 });
