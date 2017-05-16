@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 11-05-2017 11:02
+* @Last modified time: 16-05-2017 12:12
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -97,7 +97,7 @@ router.post('/:recordId', function(req, res, next) {
   if (!errors) {
     res.locals.record.deleteLinks(req.body.links);
     if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
-    res.locals.record.updateWithin(res.locals.organisation.tree, function (err, record) {
+    res.locals.record.updateWithin(res.locals.organisation, function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) return next(err);

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 27-04-2017 11:19
+* @Last modified time: 16-05-2017 11:28
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -22,7 +22,7 @@ var StructureHelper = class StructureHelper {
   build() {
     this.within.forEach(this.recordToStructure, this);
   }
-
+  
   recordToStructure(record) {
     let branches = this.tree.filter (function (branch) {
       return branch[branch.length-1] == record.tag;

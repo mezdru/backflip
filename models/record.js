@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-05-2017 03:23
+* @Last modified time: 16-05-2017 12:23
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,6 +13,7 @@ var mongooseDelete = require('mongoose-delete');
 var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
+var unique = require('array-unique');
 var LinkHelper = require('../helpers/link_helper.js');
 var StructureHelper = require('../helpers/structure_helper.js');
 
@@ -60,7 +61,7 @@ recordSchema.virtual('ObjectID').get(function () {
 
 //@todo deal with consequences of "unique: true" condition on organisation/tag
 //There's some UI needed here. Or make a different tag if needed..
-recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true});
+recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true, partialFilterExpression: { deleted: false }});
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
 recordSchema.index({'within': 1});
 recordSchema.index({'includes': 1});
@@ -140,8 +141,8 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 };
 
 // @todo delete in favor of makeWithin
-recordSchema.methods.updateWithin = function(tree, callback) {
-  var tags = this.getWithinTags();
+recordSchema.methods.updateWithin = function(organisation, callback) {
+  var tags = this.getWithinTags(organisation);
   this.newWithin = [];
   tags.forEach(function(tag) {
     this.getWithinRecordByTag(tag, function(err, record) {
@@ -150,8 +151,8 @@ recordSchema.methods.updateWithin = function(tree, callback) {
       //@todo fix this ugly way to syncrhonize a foreach
       if (tags.length === this.newWithin.length) {
         this.within = this.newWithin;
-        this.updateRanking(tree);
-        if (tree) this.updateStructure(tree);
+        this.updateRanking(organisation.tree);
+        this.updateStructure(organisation.tree);
         return callback(null, this);
       }
     }.bind(this));
@@ -162,7 +163,7 @@ recordSchema.methods.updateWithin = function(tree, callback) {
 // @todo this works only if organisation.records are loaded, otherwise creates duplicates be.
 // WARNING NEW RECORDS NEEDS SAVING !
 recordSchema.methods.makeWithin = function(organisation) {
-  var tags = this.getWithinTags();
+  var tags = this.getWithinTags(organisation);
   var newRecords = [];
   this.within = tags.map(
     function(tag) {
@@ -193,7 +194,7 @@ recordSchema.statics.shallowCopy = function(record) {
   });
 };
 
-recordSchema.methods.getWithinTags = function() {
+recordSchema.methods.getWithinTags = function(organisation) {
   var regex = /([@#][\w-<>\/]+)/g;
   var tags = this.description.match(regex);
   if (!tags || tags.length === 0) {
@@ -202,7 +203,18 @@ recordSchema.methods.getWithinTags = function() {
   }
   // A team or a hashtag is within itself so it shows when filtering.
   if (this.type != 'person') tags.unshift(this.tag);
-  return tags;
+  tags = tags.concat(this.getTreeTags(organisation, tags));
+  return unique(tags);
+};
+
+recordSchema.methods.getTreeTags = function(organisation, tags) {
+  let branches = organisation.tree.filter (function (branch) {
+    return tags.includes(branch[branch.length-1]);
+  }, this);
+  let newTags = branches.reduce( function(accumulator, branch) {
+    return accumulator.concat(branch);
+  }, []);
+  return newTags;
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
@@ -297,9 +309,10 @@ recordSchema.methods.countIncludes = function(callback) {
 
 recordSchema.methods.makeIncludes = function(organisation) {
   if (this.type !== 'team') return;
-  this.includes = organisation.records.filter(function(localRecord) {
+  var includes = organisation.records.filter(function(localRecord) {
     return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
   }, this);
+  this.includes = includes.map(record => this.model('Record').shallowCopy(record), this);
 };
 
 recordSchema.pre('save', function(next) {
@@ -327,7 +340,7 @@ recordSchema.plugin(mongooseAlgolia, {
   appId: process.env.ALGOLIA_APPLICATION_ID,
   apiKey: process.env.ALGOLIA_WRITE_KEY,
   indexName: 'world',
-  selector: '-_id -created -updated -google -hidden_links',
+  selector: '-_id -created -updated -google -deleted -hidden_links',
   // @todo remove the populate part for performance (we don't want another request to get the included/within records)
   populate: [{
     path: 'includes',

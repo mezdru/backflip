@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 10-05-2017 04:07
+@Last modified time: 16-05-2017 11:54
 @Copyright: Clément Dietschy 2017
 @todo deduplicate wiew code with partials/hit_template.hbs
 }}
@@ -24,7 +24,7 @@
       <p><a href="{{url "admin/record/upload/" organisation}}"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</a> Update records in your directory from a CSV file.</p>
       <div class="danger-zone">
         <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Danger</h3>
-        <p><a href="{{url "admin/record/resync/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Resync</a> Rebuild every records in your directory and updates search engine.</p>
+        <p><a href="{{url "admin/record/remake/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Remake</a> Rebuild every records in your directory and updates search engine.</p>
       </div>
     </div>
   </div>

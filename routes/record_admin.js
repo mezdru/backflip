@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-05-2017 03:24
+* @Last modified time: 16-05-2017 12:12
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -48,49 +48,31 @@ router.get('/clear', function(req, res, next) {
   });
 });
 
-router.get('/make_includes/:recordId', function(req, res, next) {
-  Record.findById(req.params.recordId)
-  .populate({path:'within', select:'name tag type picture'})
-  .exec(function(err, record) {
-    if (err) return next(err);
-    record.makeIncludes(res.locals.organisation);
-    record.save(function(err, result) {
-      if (err) return next(err);
-      res.render('index',
-        {
-          title: 'Make Includes',
-          content: result
-        }
-      );
-    });
-  });
-});
-
 //@todo Fix pyramid of death, async fail & performance issues.
-router.get('/resync', function(req, res, next) {
-  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
-    if (err) return next(err);
-    var countdown = records.length;
-    var countup = 0;
-    records.forEach(function (record) {
-      record.updateWithin(res.locals.organisation.tree, function(err, record) {
-        if(err) return next(err);
-        record.makeIncludes(res.locals.organisation);
-        record.save(function(err, record, numAffected) {
-          countup += numAffected;
-          countdown--;
-          if (err) next(err);
-          if (countdown === 0) {
-            res.render('index',
-              {
-                title: 'Records have been resynced',
-                details: `${countup} of ${records.length} Records have been retrieved & resaved`,
-                content: records
-              }
-            );
+router.get('/remake', function(req, res, next) {
+  res.locals.organisation.records.forEach( function(record) {
+    record.makeWithin(res.locals.organisation);
+  });
+  var countdown = res.locals.organisation.records.length;
+  var countup = 0;
+  res.locals.organisation.records.forEach (function (record) {
+    record.makeStructure(res.locals.organisation);
+    record.makeRanking(res.locals.organisation);
+    record.makeIncludes(res.locals.organisation);
+    record.save(function(err, record, numAffected) {
+      countup += numAffected;
+      countdown--;
+      if (err) console.error(err);
+      if (countdown === 0) {
+        logMemory(`Remake by ${res.locals.user._id}`);
+        res.render('index',
+          {
+            title: 'Records have been remade',
+            details: `${countup} of ${res.locals.organisation.records.length} Records have been retrieved & remade & resaved`,
+            content: res.locals.organisation.records
           }
-        });
-      });
+        );
+      }
     });
   });
 });
@@ -154,6 +136,7 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
       factory.makeOutput();
       factory.saveOutput(function(err, result) {
         if (err) return next(err);
+        logMemory(`Upload by ${res.locals.user._id}`);
         res.render('update_csv',
           {
             created: result.created,
@@ -165,9 +148,9 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
       });
 });
 
-function logMemory() {
+function logMemory(details) {
   mem = process.memoryUsage();
-  console.log(`RSS ${bToMB(mem.rss)}MB, HEAP ${Math.round(100*mem.heapUsed/mem.heapTotal)}% of ${bToMB(mem.heapTotal)}MB, EXT ${bToMB(mem.external)}MB`);
+  console.log(`RSS ${bToMB(mem.rss)}MB, HEAP ${Math.round(100*mem.heapUsed/mem.heapTotal)}% of ${bToMB(mem.heapTotal)}MB, EXT ${bToMB(mem.external)}MB. ${details}`);
 }
 
 function bToMB(b) {
