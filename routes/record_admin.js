@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 16-05-2017 12:12
+* @Last modified time: 16-05-2017 12:38
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -24,7 +24,7 @@ var csvtojson = require('csvtojson');
 
 // Load the whole organisation records, we'll need those for further use
 // Duplicate in google_admin
-// @todo this is such a bad idea. But makeWithin, makeIncludes logic are based on that
+// @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();
   Record.find({organisation: res.locals.organisation._id})
@@ -58,7 +58,7 @@ router.get('/remake', function(req, res, next) {
   res.locals.organisation.records.forEach (function (record) {
     record.makeStructure(res.locals.organisation);
     record.makeRanking(res.locals.organisation);
-    record.makeIncludes(res.locals.organisation);
+    //record.makeIncludes(res.locals.organisation);
     record.save(function(err, record, numAffected) {
       countup += numAffected;
       countdown--;
