@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 12-05-2017 05:11
+@Last modified time: 17-05-2017 11:26
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="hit-template">
@@ -35,7 +35,7 @@
             {{/canDelete}}
           </p>
           <h2 class="name searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.name.value}}}</h2>
-          <a title="{{name}}" class="tag searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</a>
+          <a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</a>
         </div>
         <p class="description snippet">{{{_snippetResult.description.value}}}</p>
         <p class="description full">{{{_highlightResult.description.value}}}</p>

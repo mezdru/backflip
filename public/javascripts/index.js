@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-05-2017 05:11
+* @Last modified time: 17-05-2017 11:22
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -40,6 +40,7 @@ transformItem = function (item) {
 	transformDescriptions(item);
 	transformLinks(item);
 	transformIncludes(item);
+	//transformHighlightedTag(item);
 	addCanEdit(item);
 	addCanDelete(item);
 	return item;
@@ -71,8 +72,15 @@ function transformString(input, within) {
 		var regex = /([@#][\w-<>\/]+)/g;
 		return input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
-			return `<a title="${getTitle(cleanMatch, within)}" onclick="setSearch('${cleanMatch}')">${match}</a>`;
+			record = getRecord(cleanMatch, within);
+			return `<a title="${record.name}" class="link-${record.type}" onclick="setSearch('${cleanMatch}')">${match}</a>`;
 		});
+}
+
+function getRecord(tag, within) {
+	record = within.find(record => record.tag == tag);
+	if (!record) return {tag: tag, name: tag, type: 'hashtag'};
+	return record;
 }
 
 function getTitle(tag, within) {
@@ -103,6 +111,13 @@ function transformIncludes(item) {
 		item.includes = item.includes.slice(0,8);
 	}
 	item.includes.forEach(item => transformImagePath(item));
+}
+
+
+function transformHighlightedTag(item) {
+	if (item.type == 'person') {
+		item._highlightResult.tag.value = item._highlightResult.tag.value.replace('@','<i class="fa fa-user-circle-o" aria-hidden="true"></i>');
+	}
 }
 
 function makeLinkIcon(link) {
@@ -179,7 +194,7 @@ transformTypeItem = function(item) {
 search.addWidget(
 	instantsearch.widgets.searchBox({
 		container: '#search',
-		placeholder: 'Search for Persons, @Teams, #hashtags...',
+		placeholder: 'Search by Name, @Team, #skill...',
 		wrapInput: false,
 		autofocus: false,
 		cssClasses: {
@@ -244,7 +259,7 @@ search.addWidget(
   instantsearch.widgets.clearAll({
     container: '#clear-all',
     templates: {
-      link: 'Reset Search'
+      link: '<i class="fa fa-times" aria-hidden="true"></i> Reset Search'
     }
   })
 );

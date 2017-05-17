@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-05-2017 05:22
+* @Last modified time: 17-05-2017 12:08
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -48,8 +48,13 @@ a {
 	text-decoration: none;
 }
 
+a.link-team {
+  color: #3498DB;
+  opacity: 0.6;
+}
+
 a:hover {
-  text-decoration: underline;
+  opacity: 1;
 }
 
 h2 {
@@ -61,6 +66,10 @@ h2, .name-input {
   color: #33374C;
   font-size: 1.5em;
   font-weight: 400;
+}
+
+.team h2, .team .name-input {
+  color: #3498DB;
 }
 
 h3 {
@@ -119,7 +128,7 @@ header a.fa:hover,
 .demo:hover .fa,
 .playstop:hover .fa,
 .twitter:hover .fa,
-.ais-root__collapsible:hover .fa {
+.ais-refinement-list--header:hover .fa {
   transform: scale(1.5);
   transition-duration: 0.3s;
 }
@@ -264,7 +273,7 @@ a.logout:hover {
 .ais-refinement-list--item:hover {
   cursor: pointer;
   color: #ffffff;
-  background: #2ECC71;
+  background: #7F8C8D;
 }
 
 .ais-refinement-list--label:hover {
@@ -277,12 +286,10 @@ a.logout:hover {
 
 .ais-refinement-list--item__active {
   font-weight: bold;
-  color: #2ECC71;
 }
 
 .ais-refinement-list--item__active .ais-refinement-list--count {
   font-weight: normal;
-  color: #2ECC71;
 }
 
 .ais-refinement-list--item__active:hover {
@@ -389,7 +396,7 @@ a.logout:hover {
 /* structure widget */
 
 .ais-hierarchical-menu a {
-  color:  #7F8C8D;
+  color:  #3498DB;
 }
 
 .ais-hierarchical-menu a:hover {
@@ -413,12 +420,12 @@ a.logout:hover {
 .ais-hierarchical-menu--list__lvl4,
 .ais-hierarchical-menu--list__lvl5 {
   margin-left: 1.4em;
-  border-left: 2px solid #2ECC71;
+  border-left: 2px solid #3498DB;
 }
 
 .ais-hierarchical-menu--item > div:first-child:hover {
   cursor: pointer;
-  background: #2ECC71;
+  background: #3498DB;
 }
 
 .ais-hierarchical-menu--item > div:first-child:hover a {
@@ -431,7 +438,7 @@ a.logout:hover {
 
 .ais-hierarchical-menu--item__active > div:first-child a {
   font-weight: bold;
-  color: #2ECC71;
+  color: #3498DB;
 }
 
 .ais-hierarchical-menu--item__active > div:first-child:hover {
@@ -554,7 +561,7 @@ footer {
   max-height: 32px;
   max-width: 32px;
   overflow: hidden;
-  opacity: 0.4;
+  opacity: 0.6;
 }
 
 .mozaic .more {
@@ -599,6 +606,10 @@ footer {
 .tag,
 .actions {
   display: inline-block;
+}
+
+.tag .fa {
+  margin-right: 2px;
 }
 
 .actions a {
@@ -867,7 +878,7 @@ footer {
 
 .dropdown-menu .textcomplete-item.active a {
   color: #ffffff;
-  background: #2ECC71;
+  background: #7F8C8D;
 }
 
 .dropdown-menu .textcomplete-item.active a  .record-tag {
