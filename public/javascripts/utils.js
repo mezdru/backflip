@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 06-04-2017 01:48
+* @Last modified time: 17-05-2017 04:47
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -28,12 +28,13 @@ function togglePanel() {
 	document.getElementById('left-panel').classList.toggle('open');
 }
 
-function resizeImg(img) {
+function resizeImg(img, ratio) {
   let width = img.naturalWidth;
   let height = img.naturalHeight;
-  if (height/width < 1) {
+  ratio = ratio || 1;
+  if (width/height > ratio) {
     img.classList.add('horizontal');
-    let marginLeft = Math.round((img.height-img.width)/2);
+    let marginLeft = Math.round((img.height*ratio-img.width)/2);
     img.style.marginLeft = marginLeft+"px";
   }
 }

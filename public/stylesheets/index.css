@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 17-05-2017 12:08
+* @Last modified time: 17-05-2017 04:29
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -49,11 +49,10 @@ a {
 }
 
 a.link-team {
-  color: #3498DB;
-  opacity: 0.6;
 }
 
 a:hover {
+  text-decoration: none;
   opacity: 1;
 }
 
@@ -69,7 +68,6 @@ h2, .name-input {
 }
 
 .team h2, .team .name-input {
-  color: #3498DB;
 }
 
 h3 {
@@ -200,8 +198,8 @@ header a:hover {
 .pure-u-menu > div {
   width: 100%;
   padding: 19px 8px;
-	text-transform: uppercase;
   text-align: right;
+  box-sizing: border-box;
 }
 
 .pure-u-menu a {
@@ -396,7 +394,7 @@ a.logout:hover {
 /* structure widget */
 
 .ais-hierarchical-menu a {
-  color:  #3498DB;
+  color:  #7F8C8D;
 }
 
 .ais-hierarchical-menu a:hover {
@@ -420,12 +418,12 @@ a.logout:hover {
 .ais-hierarchical-menu--list__lvl4,
 .ais-hierarchical-menu--list__lvl5 {
   margin-left: 1.4em;
-  border-left: 2px solid #3498DB;
+  border-left: 2px solid #7F8C8D;
 }
 
 .ais-hierarchical-menu--item > div:first-child:hover {
   cursor: pointer;
-  background: #3498DB;
+  background: #7F8C8D;
 }
 
 .ais-hierarchical-menu--item > div:first-child:hover a {
@@ -438,7 +436,7 @@ a.logout:hover {
 
 .ais-hierarchical-menu--item__active > div:first-child a {
   font-weight: bold;
-  color: #3498DB;
+  color: #7F8C8D;
 }
 
 .ais-hierarchical-menu--item__active > div:first-child:hover {
@@ -536,9 +534,22 @@ footer {
 	border-radius: 50%;
 }
 
+.team .picture {
+  border-radius: 25px;
+  height: 12vw;
+  width: 26vw;
+  max-height: 104px;
+  max-width: 224px;
+}
+
 .picture img {
   width: 12vw;
   max-width: 104px;
+}
+
+.team .picture img {
+  width: 26vw;
+  max-width: 224px;
 }
 
 .picture img.horizontal {
@@ -555,22 +566,21 @@ footer {
 
 .mozaic .tile {
   float: left;
-  height: 4vw;
-  width: 4vw;
-  margin: 3px;
-  max-height: 32px;
-  max-width: 32px;
+  height: 5.8vw;
+  width: 5.8vw;
+  margin: 4px;
+  max-height: 50px;
+  max-width: 50px;
   overflow: hidden;
   opacity: 0.6;
 }
 
 .mozaic .more {
   text-align: center;
-  line-height: 30px;
+  line-height: 50px;
 }
 
 .mozaic .tile:hover {
-  transform: scale(1.5);
   transition-duration: 0.3s;
   text-decoration: none;
   opacity: 1;
@@ -580,16 +590,22 @@ footer {
   border-radius: 50%;
 }
 
+.mozaic .team {
+  border-radius: 12px;
+  width: 12vw;
+  max-width: 108px;
+}
+
 .mozaic img {
-  width: 4vw;
-  max-width: 32px;
+  width: 5.8vw;
+  max-width: 50px;
 }
 
 .mozaic img.horizontal {
   width: auto;
   max-width: none;
-  height: 4vw;
-  max-height: 32px;
+  height: 5.8-vw;
+  max-height: 50px;
 }
 
 /* Central */
@@ -793,6 +809,10 @@ footer {
 
 .compose .record {
   border-bottom: none;
+}
+
+.picture-url-input {
+  margin-top: 5px;
 }
 
 .errors,

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 17-05-2017 11:22
+* @Last modified time: 17-05-2017 04:00
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -17,10 +17,10 @@
 // The length of the Description Snippet depends on the screen width.
 // @todo make it responsive dynamically (or not?)
 var descriptionSnippetLength = 8;
-var extraLinkLimit = 5;
+var extraLinkLimit = 4;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		descriptionSnippetLength = 28;
-		extraLinkLimit = 10;
+		descriptionSnippetLength = 24;
+		extraLinkLimit = 8;
 }
 
 var search = instantsearch({
@@ -39,8 +39,8 @@ transformItem = function (item) {
 	transformImagePath(item);
 	transformDescriptions(item);
 	transformLinks(item);
-	transformIncludes(item);
 	//transformHighlightedTag(item);
+	addType(item);
 	addCanEdit(item);
 	addCanDelete(item);
 	return item;
@@ -56,11 +56,25 @@ function transformImagePath(item) {
 		item.picture.url = item.picture.uri;
 	} else {
 		switch (item.type) {
-			case 'team' : item.picture = { url: "/images/placeholder_team.png"}; break;
+			case 'team' : transformIncludes(item); item.picture = { url: "/images/placeholder_team.png"}; break;
 			case 'hashtag' : item.picture = { url: "/images/placeholder_hashtag.png"}; break;
 			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
 		}
 	}
+}
+
+//@todo handle the display of teams
+function transformIncludes(item) {
+	if (item.type != 'team' || !item.includes || !item.includes.length) return;
+	item.includes = item.includes.filter(record => record.type == 'person');
+	let length = item.includes.length;
+	if (!length) return;
+	item.mozaic = true;
+	if (length > 8) {
+		item.mozaic_more = length - 7;
+		item.includes = item.includes.slice(0,7);
+	}
+	item.includes.forEach(item => transformImagePath(item));
 }
 
 function transformDescriptions(item) {
@@ -99,18 +113,6 @@ function transformLinks(item) {
 		makeLinkUrl(link);
 		if (index > extraLinkLimit-1) link.class = 'extraLink';
 	});
-}
-
-function transformIncludes(item) {
-	if (item.type != 'team' || !item.includes) return;
-	var length = item.includes.length;
-	if (length === 0) return;
-	item.mozaic = true;
-	if (length > 9) {
-		item.mozaic_more = length - 8;
-		item.includes = item.includes.slice(0,8);
-	}
-	item.includes.forEach(item => transformImagePath(item));
 }
 
 
@@ -174,6 +176,10 @@ function addCanDelete(item) {
 	if (isAdmin) {
 		item.canDelete = true;
 	}
+}
+
+function addType(item) {
+	item[item.type] = true;
 }
 
 transformStructureItem = function (item) {
