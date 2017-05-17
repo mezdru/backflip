@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 15-05-2017 11:47
+* @Last modified time: 17-05-2017 11:49
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -70,7 +70,7 @@ var LinkHelper = class LinkHelper {
   //@todo so this try..catch is here to silence phoneUtil.parser errors... now THAT'S ugly.
   isPhone () {
     try {
-      this.phone = phoneUtil.parse(this.value, this.country);
+      this.phone = this.phone || phoneUtil.parse(this.value, this.country);
       return phoneUtil.isPossibleNumber(this.phone);
     } catch (e) {
       //we do nothing here because phoneUtile.parse throws validation errors.
@@ -78,9 +78,10 @@ var LinkHelper = class LinkHelper {
   }
 
   makePhone () {
-    if (!this.phone) this.isPhone();
-    this.value = phoneUtil.format(this.phone, PNF.E164);
-    this.display = phoneUtil.format(this.phone, PNF.INTERNATIONAL);
+    if (this.isPhone()) {
+      this.value = phoneUtil.format(this.phone, PNF.E164);
+      this.display = phoneUtil.format(this.phone, PNF.INTERNATIONAL);
+    }
   }
 
   isHyperlink () {
