@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 16-05-2017 12:27
+* @Last modified time: 18-05-2017 10:10
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -35,6 +35,11 @@ var recordSchema = mongoose.Schema({
   includes: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
   ],
+  includes_count: {
+    person: {type: Number, default: 0},
+    team: {type: Number, default: 0},
+    hashtag: {type: Number, default: 0}
+  },
   structure: {},
   ranking: {type: Number, default: 0},
   hidden_links: [linkSchema],
@@ -312,7 +317,16 @@ recordSchema.methods.makeIncludes = function(organisation) {
   var includes = organisation.records.filter(function(localRecord) {
     return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
   }, this);
-  this.includes = includes.map(record => this.model('Record').shallowCopy(record), this);
+  includes.forEach(function(record) {
+    if (record.type == 'person') {
+      this.includes_count.person ++;
+      if (this.includes.length < 8) this.includes.push(this.model('Record').shallowCopy(record));
+    } else if (record.type == 'team') {
+      this.includes_count.team ++;
+    } else if (record.type == 'hashtag') {
+      this.includes_count.hashtag ++;
+    }
+  }, this);
 };
 
 recordSchema.pre('save', function(next) {

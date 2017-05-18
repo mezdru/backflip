@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 16-05-2017 12:50
+* @Last modified time: 18-05-2017 10:06
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -58,7 +58,7 @@ router.get('/remake', function(req, res, next) {
   res.locals.organisation.records.forEach (function (record) {
     record.makeStructure(res.locals.organisation);
     record.makeRanking(res.locals.organisation);
-    //record.makeIncludes(res.locals.organisation);
+    record.makeIncludes(res.locals.organisation);
     record.save(function(err, record, numAffected) {
       countup += numAffected;
       countdown--;

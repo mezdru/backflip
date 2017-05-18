@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 17-05-2017 04:29
+* @Last modified time: 18-05-2017 10:46
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -566,18 +566,21 @@ footer {
 
 .mozaic .tile {
   float: left;
-  height: 5.8vw;
-  width: 5.8vw;
-  margin: 4px;
-  max-height: 50px;
-  max-width: 50px;
+  height: 7.4vw;
+  width: 7.4vw;
+  margin: 2px;
+  max-height: 54px;
+  max-width: 54px;
   overflow: hidden;
   opacity: 0.6;
 }
 
 .mozaic .more {
   text-align: center;
-  line-height: 50px;
+  line-height: 7.4vw;
+  border-radius: 50%;
+  color: #FFFFFF;
+  background-color: #7F8C8D;
 }
 
 .mozaic .tile:hover {
@@ -590,22 +593,16 @@ footer {
   border-radius: 50%;
 }
 
-.mozaic .team {
-  border-radius: 12px;
-  width: 12vw;
-  max-width: 108px;
-}
-
 .mozaic img {
-  width: 5.8vw;
-  max-width: 50px;
+  width: 7.4vw;
+  max-width: 54px;
 }
 
 .mozaic img.horizontal {
   width: auto;
   max-width: none;
-  height: 5.8-vw;
-  max-height: 50px;
+  height: 7.4vw;
+  max-height: 54px;
 }
 
 /* Central */
@@ -999,6 +996,12 @@ footer {
   .toggle-text {
     display: inline;
   }
+
+  .mozaic .more {
+    font-size: 20px;
+    line-height: 54px;
+  }
+
 
 }
 

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 17-05-2017 04:00
+* @Last modified time: 18-05-2017 10:16
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -66,12 +66,9 @@ function transformImagePath(item) {
 //@todo handle the display of teams
 function transformIncludes(item) {
 	if (item.type != 'team' || !item.includes || !item.includes.length) return;
-	item.includes = item.includes.filter(record => record.type == 'person');
-	let length = item.includes.length;
-	if (!length) return;
 	item.mozaic = true;
-	if (length > 8) {
-		item.mozaic_more = length - 7;
+	if (item.includes_count.person > 8) {
+		item.mozaic_more = item.includes_count.person - 7;
 		item.includes = item.includes.slice(0,7);
 	}
 	item.includes.forEach(item => transformImagePath(item));

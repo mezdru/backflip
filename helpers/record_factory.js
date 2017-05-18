@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 15-05-2017 11:49
+* @Last modified time: 18-05-2017 11:14
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -28,6 +28,7 @@ var RecordFactory = class RecordFactory {
   makeOutput() {
     this.makeOutputFromInput();
     this.makeOutputFromOutputTags();
+    this.makeTheRest();
   }
 
   // First we take all the Objects in the input and convert them to Records
@@ -60,6 +61,16 @@ var RecordFactory = class RecordFactory {
         this.output = this.output.concat(record.makeWithin(this.organisation));
         record.makeStructure(this.organisation);
         record.makeRanking(this.organisation);
+      }, this
+    );
+  }
+
+  makeTheRest() {
+    this.output.forEach(
+      function(record) {
+        record.makeStructure(this.organisation);
+        record.makeRanking(this.organisation);
+        record.makeIncludes(this.organisation);
       }, this
     );
   }
