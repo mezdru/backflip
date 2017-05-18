@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 10:46
+* @Last modified time: 18-05-2017 12:25
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -1003,10 +1003,4 @@ footer {
   }
 
 
-}
-
-/* ORG SPECIFIC */
-
-.org-demo .person .picture img {
-  margin-top: -1vw;
 }

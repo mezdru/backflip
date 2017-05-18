@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 17-05-2017 04:47
+* @Last modified time: 18-05-2017 12:21
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -36,6 +36,9 @@ function resizeImg(img, ratio) {
     img.classList.add('horizontal');
     let marginLeft = Math.round((img.height*ratio-img.width)/2);
     img.style.marginLeft = marginLeft+"px";
+  } else {
+    marginTop = Math.round((img.width/ratio-img.height)/2);
+    img.style.marginTop = marginTop+"px";
   }
 }
 
