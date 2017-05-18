@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 05:10
+* @Last modified time: 18-05-2017 05:50
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -118,9 +118,9 @@ em a {
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
 #left-panel-closer:hover .fa,
+#toggle-panel a:hover .fa,
 header a:hover .fa,
 header a.fa:hover,
-.pure-u-toggle-panel a:hover .fa,
 .actions a:hover .fa,
 .links a:hover .fa,
 .demo:hover .fa,
@@ -317,8 +317,20 @@ a.logout:hover {
   display: none;
 }
 
-.pure-u-toggle-panel div {
+#toggle-panel div {
   padding: 5px 8px;
+}
+
+#toggle-panel .hide {
+  display: none;
+}
+
+#toggle-panel.open .hide {
+  display: inline-block;
+}
+
+#toggle-panel.open .show {
+  display: none;
 }
 
 #subheader .ais-refinement-list--item {

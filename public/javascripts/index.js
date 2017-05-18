@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 05:20
+* @Last modified time: 18-05-2017 06:43
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -19,7 +19,7 @@
 var descriptionSnippetLength = 8;
 var extraLinkLimit = 4;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		descriptionSnippetLength = 24;
+		descriptionSnippetLength = 20;
 		extraLinkLimit = 8;
 }
 
@@ -33,7 +33,7 @@ var search = instantsearch({
     	"description:"+descriptionSnippetLength
   	],
 		disjunctiveFacetsRefinements: {
-			type: ['person','team']
+			type: ['person','team','hashtag']
 		}
 	}
 });
@@ -207,7 +207,7 @@ search.addWidget(
 search.addWidget(
   instantsearch.widgets.infiniteHits({
     container: '#search-results',
-    hitsPerPage: 50,
+    hitsPerPage: 30,
     templates: {
       item: getTemplate('hit'),
       empty: getTemplate('noone')
@@ -296,9 +296,27 @@ var customClearAllWidget = {
 search.addWidget(customClearAllWidget);
 
 function setSearch(query, type) {
-	if (type) search.helper.clearRefinements().setQuery(query).toggleRefinement('type', type).search();
-	else search.helper.clearRefinements().setQuery(query).toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag').search();
+	search.helper.clearRefinements();
+	if (type) search.helper.toggleRefinement('type', type);
+	else search.helper.toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag');
+	if (!setHierarchicalRefinement(query)) search.helper.setQuery(query);
+	search.helper.search();
 	window.scrollTo(0,0);
+}
+
+function setHierarchicalRefinement(query) {
+	let branch = orgTree.find(branch => branch[branch.length-1] == query);
+	if (branch) {
+		search.helper.setQuery('').toggleRefinement('structure.0', branchToString(branch));
+		return true;
+	} else return false;
+}
+
+function branchToString(branch) {
+	return branch.reduce(function(acc, tag, index, branch) {
+		if (index === branch.length-1) return acc + tag;
+		return acc + tag + ' > ';
+	}, '');
 }
 
 function refresh() {

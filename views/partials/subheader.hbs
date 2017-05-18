@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 06-04-2017 01:52
+@Last modified time: 18-05-2017 05:48
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="toggle-template">
@@ -15,10 +15,13 @@
 
 <div id="subheader">
   <div class="pure-g">
-    <div class="pure-u-toggle-panel pure-u-1-6">
+    <div id="toggle-panel" class="pure-u-1-6">
       <div>
-        <a onclick="togglePanel()">
+        <a class="show" onclick="togglePanel()">
           <i class="fa fa-tree" aria-hidden="true"></i><span class="toggle-text">Show Tree</span>
+        </a>
+        <a class="hide" onclick="togglePanel()">
+          <i class="fa fa-tree" aria-hidden="true"></i><span class="toggle-text">Hide Tree</span>
         </a>
       </div>
     </div>
