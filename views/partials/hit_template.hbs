@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 17-05-2017 04:51
+@Last modified time: 18-05-2017 04:51
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="hit-template">
@@ -30,6 +30,11 @@
       <div class="central">
         <div class="central-header">
           <p class="actions">
+            <span class="counters">
+              {{#includes_count.person}}<a title="{{includes_count.person}} Persons" class="searcher link-persons" onclick="setSearch('{{tag}}','person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
+              {{#includes_count.team}}<a title="{{includes_count.team}} Teams" class="searcher link-teams" onclick="setSearch('{{tag}}','team')"><i class="fa fa-at" aria-hidden="true"></i>{{includes_count.team}}</a>{{/includes_count.team}}
+              {{#includes_count.hashtag}}<a title="{{includes_count.hashtag}} Hashtags" class="searcher link-hashtags" onclick="setSearch('{{tag}}', 'hashtag')"><i class="fa fa-hashtag" aria-hidden="true"></i>{{includes_count.hashtag}}</a>{{/includes_count.hashtag}}
+            </span>
             {{#canEdit}}
             <a title="Compose" href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             {{/canEdit}}

@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 12:25
+* @Last modified time: 18-05-2017 05:10
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -52,7 +52,7 @@ a.link-team {
 }
 
 a:hover {
-  text-decoration: none;
+  text-decoration: underline;
   opacity: 1;
 }
 
@@ -63,7 +63,7 @@ h2 {
 
 h2, .name-input {
   color: #33374C;
-  font-size: 1.5em;
+  font-size: 1.4em;
   font-weight: 400;
 }
 
@@ -271,7 +271,7 @@ a.logout:hover {
 .ais-refinement-list--item:hover {
   cursor: pointer;
   color: #ffffff;
-  background: #7F8C8D;
+  background: #2ECC71;
 }
 
 .ais-refinement-list--label:hover {
@@ -284,6 +284,7 @@ a.logout:hover {
 
 .ais-refinement-list--item__active {
   font-weight: bold;
+  color: #2ECC71;
 }
 
 .ais-refinement-list--item__active .ais-refinement-list--count {
@@ -312,7 +313,7 @@ a.logout:hover {
 }
 
 .toggle-text {
-  padding-left: 5px;
+  padding-left: 2px;
   display: none;
 }
 
@@ -418,12 +419,12 @@ a.logout:hover {
 .ais-hierarchical-menu--list__lvl4,
 .ais-hierarchical-menu--list__lvl5 {
   margin-left: 1.4em;
-  border-left: 2px solid #7F8C8D;
+  border-left: 2px solid #2ECC71;
 }
 
 .ais-hierarchical-menu--item > div:first-child:hover {
   cursor: pointer;
-  background: #7F8C8D;
+  background: #2ECC71;
 }
 
 .ais-hierarchical-menu--item > div:first-child:hover a {
@@ -436,7 +437,7 @@ a.logout:hover {
 
 .ais-hierarchical-menu--item__active > div:first-child a {
   font-weight: bold;
-  color: #7F8C8D;
+  color: #2ECC71;
 }
 
 .ais-hierarchical-menu--item__active > div:first-child:hover {
@@ -579,8 +580,7 @@ footer {
   text-align: center;
   line-height: 7.4vw;
   border-radius: 50%;
-  color: #FFFFFF;
-  background-color: #7F8C8D;
+  color: #7F8C8D;
 }
 
 .mozaic .tile:hover {
@@ -617,7 +617,8 @@ footer {
 
 .name,
 .tag,
-.actions {
+.actions,
+.counters {
   display: inline-block;
 }
 
@@ -629,15 +630,21 @@ footer {
   margin-left: 8px;
 }
 
-.actions a .fa {
-  opacity: 0.4;
+.counters .fa {
+  margin-right: 2px;
 }
 
-.actions a:hover .fa {
+.actions a {
+  opacity: 0.6;
+}
+
+.actions a:hover {
   opacity: 1;
+  text-decoration: none;
 }
 
-.name {
+.name,
+.tag {
   padding-right: 8px;
 }
 

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-05-2017 04:16
+* @Last modified time: 18-05-2017 01:17
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,6 +23,7 @@ hbs.registerHelper('json', function(context) {
 hbs.registerHelper('textfieldJson', function(context) {
   text = '[\n';
   context.forEach(branch => text += JSON.stringify(branch) + ',\n');
+  text = text.replace(/,\n$/, '\n');
   text += ']';
   return text;
 });

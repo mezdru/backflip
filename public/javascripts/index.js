@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 11:33
+* @Last modified time: 18-05-2017 05:20
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -31,7 +31,10 @@ var search = instantsearch({
 	searchParameters: {
 		attributesToSnippet: [
     	"description:"+descriptionSnippetLength
-  	]
+  	],
+		disjunctiveFacetsRefinements: {
+			type: ['person','team']
+		}
 	}
 });
 
@@ -39,7 +42,7 @@ transformItem = function (item) {
 	transformImagePath(item);
 	transformDescriptions(item);
 	transformLinks(item);
-	//transformHighlightedTag(item);
+	transformHighlightedTag(item);
 	addType(item);
 	addCanEdit(item);
 	addCanDelete(item);
@@ -68,7 +71,7 @@ function transformIncludes(item) {
 	if (item.type != 'team' || !item.includes || !item.includes.length || !item.includes_count) return;
 	item.mozaic = true;
 	if (item.includes_count.person > 8) {
-		item.mozaic_more = item.includes_count.person - 7;
+		item.mozaic_more = item.includes_count.person + item.includes_count.team + item.includes_count.hashtag - 7;
 		item.includes = item.includes.slice(0,7);
 	}
 	item.includes.forEach(item => transformImagePath(item));
@@ -179,11 +182,6 @@ function addType(item) {
 	item[item.type] = true;
 }
 
-transformStructureItem = function (item) {
-	item.count --;
-	return item;
-};
-
 transformTypeItem = function(item) {
 	let icon = 'fa-at';
 	switch (item.name) {
@@ -225,8 +223,7 @@ search.addWidget(
 		//sortBy: ['count', 'name:asc'],
     templates: {
       header: '<i class="fa fa-tree" aria-hidden="true"></i> Organisation Tree'
-    },
-		transformData: transformStructureItem
+    }
   })
 );
 
@@ -240,7 +237,8 @@ search.addWidget(
 			placeholder: 'Search',
 		},
 		templates: {
-      header: '<i class="fa fa-chevron-down" aria-hidden="true"></i> More filters'
+      header: '<i class="fa fa-chevron-down" aria-hidden="true"></i> More filters',
+      noResults: 'No result'
     },
 		collapsible: {
 			collapsed: true
@@ -297,8 +295,9 @@ var customClearAllWidget = {
 };
 search.addWidget(customClearAllWidget);
 
-function setSearch(query) {
-	search.helper.setQuery(query).search();
+function setSearch(query, type) {
+	if (type) search.helper.clearRefinements().setQuery(query).toggleRefinement('type', type).search();
+	else search.helper.clearRefinements().setQuery(query).toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag').search();
 	window.scrollTo(0,0);
 }
 
