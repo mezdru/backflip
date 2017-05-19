@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 18-05-2017 04:51
+@Last modified time: 19-05-2017 12:34
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="hit-template">
@@ -14,8 +14,8 @@
     {{^team}}<div class="pure-u-1-6">{{/team}}
       {{#mozaic}}
       <div class="mozaic">
-        {{#includes}}<a title="{{name}}" class="tile {{type}}" onclick="setSearch('{{tag}}')"><img onload="resizeImg(this)" src="{{picture.url}}"></a>{{/includes}}
-        {{#mozaic_more}}<a title="Search more" class="tile more" onclick="setSearch('{{tag}}')">+{{mozaic_more}}</a>{{/mozaic_more}}
+        {{#includes}}<a title="{{name}}" class="tile {{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')"><img onload="resizeImg(this)" src="{{picture.url}}"></a>{{/includes}}
+        {{#mozaic_more}}<a title="Search more" class="tile more" onclick="setSearch('', '{{tag}}')">+{{mozaic_more}}</a>{{/mozaic_more}}
       </div>
       {{/mozaic}}
       {{^mozaic}}
@@ -31,9 +31,9 @@
         <div class="central-header">
           <p class="actions">
             <span class="counters">
-              {{#includes_count.person}}<a title="{{includes_count.person}} Persons" class="searcher link-persons" onclick="setSearch('{{tag}}','person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
-              {{#includes_count.team}}<a title="{{includes_count.team}} Teams" class="searcher link-teams" onclick="setSearch('{{tag}}','team')"><i class="fa fa-at" aria-hidden="true"></i>{{includes_count.team}}</a>{{/includes_count.team}}
-              {{#includes_count.hashtag}}<a title="{{includes_count.hashtag}} Hashtags" class="searcher link-hashtags" onclick="setSearch('{{tag}}', 'hashtag')"><i class="fa fa-hashtag" aria-hidden="true"></i>{{includes_count.hashtag}}</a>{{/includes_count.hashtag}}
+              {{#includes_count.person}}<a title="{{includes_count.person}} Persons" class="searcher link-persons" onclick="setSearch('', '{{tag}}', 'person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
+              {{#includes_count.team}}<a title="{{includes_count.team}} Teams" class="searcher link-teams" onclick="setSearch('', '{{tag}}', 'team')"><i class="fa fa-at" aria-hidden="true"></i>{{includes_count.team}}</a>{{/includes_count.team}}
+              {{#includes_count.hashtag}}<a title="{{includes_count.hashtag}} Hashtags" class="searcher link-hashtags" onclick="setSearch('', '{{tag}}', 'hashtag')"><i class="fa fa-hashtag" aria-hidden="true"></i>{{includes_count.hashtag}}</a>{{/includes_count.hashtag}}
             </span>
             {{#canEdit}}
             <a title="Compose" href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -42,8 +42,8 @@
             <a title="Delete" href="/admin/record/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
             {{/canDelete}}
           </p>
-          <h2 class="name searcher" onclick="setSearch('{{tag}}')">{{{_highlightResult.name.value}}}</h2>
-          <a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}')">{{{_highlightResult.tag.value}}}</a>
+          <h2 class="name searcher" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.name.value}}}</h2>
+          <a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>
         </div>
         <p class="description snippet">{{{_snippetResult.description.value}}}</p>
         <p class="description full">{{{_highlightResult.description.value}}}</p>

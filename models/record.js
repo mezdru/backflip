@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 12:48
+* @Last modified time: 19-05-2017 12:48
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -313,7 +313,7 @@ recordSchema.methods.countIncludes = function(callback) {
 };
 
 recordSchema.methods.makeIncludes = function(organisation) {
-  if (this.type !== 'team') return;
+  if (this.type === 'person') return;
   var includes = organisation.records.filter(function(localRecord) {
     return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
   }, this);

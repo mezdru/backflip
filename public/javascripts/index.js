@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 06:43
+* @Last modified time: 19-05-2017 12:57
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -46,8 +46,17 @@ transformItem = function (item) {
 	addType(item);
 	addCanEdit(item);
 	addCanDelete(item);
+	addParentTag(item);
 	return item;
 };
+
+function addParentTag(item) {
+	if (item.type == 'team') item.parentTag = item.tag;
+	else {
+		let parent = item.within.find(within => within.type='team' && within.tag != item.tag);
+		if (parent) item.parentTag = parent.tag;
+	}
+}
 
 function transformImagePath(item) {
 	if (item.picture && item.picture.url) {
@@ -87,7 +96,7 @@ function transformString(input, within) {
 		return input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
 			record = getRecord(cleanMatch, within);
-			return `<a title="${record.name}" class="link-${record.type}" onclick="setSearch('${cleanMatch}')">${match}</a>`;
+			return `<a title="${record.name}" class="link-${record.type}" onclick="setSearch('${record.type == 'team' ? '' : cleanMatch}', '${record.type == 'team' ? cleanMatch : '' }')">${match}</a>`;
 		});
 }
 
@@ -256,14 +265,7 @@ search.addWidget(
   })
 );
 
-search.addWidget(
-  instantsearch.widgets.clearAll({
-    container: '#clear-all',
-    templates: {
-      link: '<i class="fa fa-times" aria-hidden="true"></i> Reset Search'
-    }
-  })
-);
+
 
 search.addWidget(
   instantsearch.widgets.analytics({
@@ -278,7 +280,7 @@ var customClearAllWidget = {
     init: function(args) {
         var helper = args.helper;
         document.getElementById('clear-search').addEventListener('click', function() {
-            helper.setQuery('').clearRefinements().search();
+            helper.setQuery('').clearRefinements().toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag').search();
 						window.scrollTo(0,0);
         });
     },
@@ -295,21 +297,23 @@ var customClearAllWidget = {
 };
 search.addWidget(customClearAllWidget);
 
-function setSearch(query, type) {
-	search.helper.clearRefinements();
-	if (type) search.helper.toggleRefinement('type', type);
+function setSearch(query, parent, filter) {
+	if (query == parent) query = '';
+	search.helper.clearRefinements().setQuery(query);
+
+	if (filter) search.helper.toggleRefinement('type', filter);
 	else search.helper.toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag');
-	if (!setHierarchicalRefinement(query)) search.helper.setQuery(query);
+
+	if (parent) setHierarchicalRefinement(parent, query);
+
 	search.helper.search();
 	window.scrollTo(0,0);
 }
 
-function setHierarchicalRefinement(query) {
-	let branch = orgTree.find(branch => branch[branch.length-1] == query);
-	if (branch) {
-		search.helper.setQuery('').toggleRefinement('structure.0', branchToString(branch));
-		return true;
-	} else return false;
+function setHierarchicalRefinement(parent, query) {
+	let branch = orgTree.find(branch => branch[branch.length-1] == parent);
+	if (branch) search.helper.toggleRefinement('structure.0', branchToString(branch));
+	else if (!query) search.helper.setQuery(parent);
 }
 
 function branchToString(branch) {
