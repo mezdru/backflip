@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 19-05-2017 12:57
+* @Last modified time: 19-05-2017 04:08
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -32,9 +32,9 @@ var search = instantsearch({
 		attributesToSnippet: [
     	"description:"+descriptionSnippetLength
   	],
-		disjunctiveFacetsRefinements: {
+		/*disjunctiveFacetsRefinements: {
 			type: ['person','team','hashtag']
-		}
+		}*/
 	}
 });
 
@@ -52,7 +52,7 @@ transformItem = function (item) {
 
 function addParentTag(item) {
 	if (item.type == 'team') item.parentTag = item.tag;
-	else {
+	else if (item.within) {
 		let parent = item.within.find(within => within.type='team' && within.tag != item.tag);
 		if (parent) item.parentTag = parent.tag;
 	}
@@ -280,7 +280,7 @@ var customClearAllWidget = {
     init: function(args) {
         var helper = args.helper;
         document.getElementById('clear-search').addEventListener('click', function() {
-            helper.setQuery('').clearRefinements().toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag').search();
+            helper.setQuery('').clearRefinements().search();
 						window.scrollTo(0,0);
         });
     },
@@ -302,7 +302,6 @@ function setSearch(query, parent, filter) {
 	search.helper.clearRefinements().setQuery(query);
 
 	if (filter) search.helper.toggleRefinement('type', filter);
-	else search.helper.toggleRefinement('type', 'person').toggleRefinement('type', 'team').toggleRefinement('type', 'hashtag');
 
 	if (parent) setHierarchicalRefinement(parent, query);
 
