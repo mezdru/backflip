@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 19-05-2017 04:08
+* @Last modified time: 31-05-2017 11:00
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -32,9 +32,9 @@ var search = instantsearch({
 		attributesToSnippet: [
     	"description:"+descriptionSnippetLength
   	],
-		/*disjunctiveFacetsRefinements: {
-			type: ['person','team','hashtag']
-		}*/
+		disjunctiveFacetsRefinements: {
+			type: ['person']
+		}
 	}
 });
 
