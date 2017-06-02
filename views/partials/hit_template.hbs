@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 19-05-2017 12:34
+@Last modified time: 31-05-2017 12:53
 @Copyright: Clément Dietschy 2017
 }}
 <script type="text/html" id="hit-template">
@@ -29,6 +29,8 @@
     {{^team}}<div class="pure-u-5-6">{{/team}}
       <div class="central">
         <div class="central-header">
+        <h2 class="name searcher" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.name.value}}}</h2>
+        <a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>
           <p class="actions">
             <span class="counters">
               {{#includes_count.person}}<a title="{{includes_count.person}} Persons" class="searcher link-persons" onclick="setSearch('', '{{tag}}', 'person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
@@ -42,8 +44,6 @@
             <a title="Delete" href="/admin/record/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
             {{/canDelete}}
           </p>
-          <h2 class="name searcher" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.name.value}}}</h2>
-          <a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>
         </div>
         <p class="description snippet">{{{_snippetResult.description.value}}}</p>
         <p class="description full">{{{_highlightResult.description.value}}}</p>

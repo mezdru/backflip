@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 05:50
+* @Last modified time: 31-05-2017 12:51
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -581,7 +581,7 @@ footer {
   float: left;
   height: 7.4vw;
   width: 7.4vw;
-  margin: 2px;
+  margin: 1px;
   max-height: 54px;
   max-width: 54px;
   overflow: hidden;
