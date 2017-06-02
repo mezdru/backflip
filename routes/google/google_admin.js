@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 02-06-2017 01:07
+* @Last modified time: 02-06-2017 02:58
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -37,6 +37,17 @@ router.get('/me', function (req, res, next) {
     {
       title: 'plus.people.get.me',
       details: 'Calling the plus API to get the user infos',
+      content: ans
+    });
+  });
+});
+
+router.get('/oauth', function (req, res, next) {
+  google.oauth2('v1').tokeninfo(req.session.user.google.tokens, function (err, ans) {
+    if (err) return next(err);res.render('index',
+    {
+      title: 'oauth2.tokeninfo',
+      details: 'Calling the oauth API to get the token infos',
       content: ans
     });
   });
