@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 02-06-2017 04:56
+* @Last modified time: 02-06-2017 05:13
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -75,7 +75,7 @@ router.get('/login/callback', function(req, res, next) {
       user.touchLogin(function(err) {
         if (err) return console.error(err);
       });
-      return res.redirect('/');
+      return res.redirect(req.session.redirect_after_login || '/');
     });
   });
 });
