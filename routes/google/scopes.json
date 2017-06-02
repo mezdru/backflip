@@ -1,6 +1,7 @@
 [
     "email",
     "profile",
-    "https://www.googleapis.com/auth/plus.me",
-    "https://www.googleapis.com/auth/admin.directory.user.readonly"
+    "https://www.googleapis.com/auth/admin.directory.user.readonly",
+    "https://www.googleapis.com/auth/admin.directory.group.readonly",
+    "https://www.googleapis.com/auth/admin.directory.group.member.readonly"
 ]

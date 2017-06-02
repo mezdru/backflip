@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 08-04-2017 09:41
+* @Last modified time: 02-06-2017 03:45
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -16,8 +16,7 @@ var GoogleUser = {};
 
 GoogleUser.getByTokens = function (tokens, oAuth, callback) {
   tokens.id_payload = GoogleUser.decodeIdToken(tokens.id_token);
-  User.
-  findOne({'google.id': tokens.id_payload.sub}, function(err, user) {
+  User.findOne({'google.id': tokens.id_payload.sub}, function(err, user) {
     if (err) return callback(err);
     //if no user is returned, create a new user
     if (!user) return GoogleUser.newByTokens(tokens, oAuth, callback);

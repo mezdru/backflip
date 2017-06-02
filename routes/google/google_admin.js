@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 02-06-2017 02:58
+* @Last modified time: 02-06-2017 03:38
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -43,6 +43,7 @@ router.get('/me', function (req, res, next) {
 });
 
 router.get('/oauth', function (req, res, next) {
+  console.log(res.locals.user.google.tokens);
   google.oauth2('v1').tokeninfo(req.session.user.google.tokens, function (err, ans) {
     if (err) return next(err);res.render('index',
     {

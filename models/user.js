@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-05-2017 05:45
+* @Last modified time: 02-06-2017 04:05
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -38,7 +38,8 @@ var userSchema = mongoose.Schema({
     hd: String,
     tokens: {
       id_token: String,
-      refresh_token: String
+      refresh_token: String,
+      access_token: String
     },
   },
   last_login: { type: Date },
