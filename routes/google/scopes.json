@@ -1,5 +1,6 @@
 [
     "email",
     "profile",
-    "https://www.googleapis.com/auth/plus.me"
+    "https://www.googleapis.com/auth/plus.me",
+    "https://www.googleapis.com/auth/admin.directory.user.readonly"
 ]

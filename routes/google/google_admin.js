@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 10-05-2017 11:34
+* @Last modified time: 02-06-2017 01:07
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -29,6 +29,17 @@ router.use(function(req, res, next) {
       auth: req.googleOAuth
   });
   return next();
+});
+
+router.get('/me', function (req, res, next) {
+  google.plus('v1').people.get({userId: 'me'}, function (err, ans) {
+    if (err) return next(err);res.render('index',
+    {
+      title: 'plus.people.get.me',
+      details: 'Calling the plus API to get the user infos',
+      content: ans
+    });
+  });
 });
 
 //@todo paginate & handle more than 200 (200 is the max maxResults)
