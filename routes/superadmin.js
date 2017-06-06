@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 05-05-2017 04:01
+* @Last modified time: 06-06-2017 06:44
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -68,6 +68,20 @@ router.get('/record/clear_deleted', function(req, res, next) {
         title: 'Soft Deleted Records have been cleared',
         details: `${result.length} records have been permanently cleared.`,
         content: result
+      }
+    );
+  });
+});
+
+var GoogleOrganisation = require('../models/google/google_organisation.js');
+router.get('/organisation/simulatenew', function(req, res, next) {
+  GoogleOrganisation.newByDomain('montest.fr', res.locals.user, function(err, organisation) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Organisation created',
+        details: `${organisation.name} has been created.`,
+        content: organisation
       }
     );
   });

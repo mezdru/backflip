@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 02-06-2017 03:45
+* @Last modified time: 06-06-2017 06:37
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -49,7 +49,7 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
   // if there is a domain, we find the user's organisation and the user Record
   //@todo inherit admin from Google
   //@todo fetch record not only on user creation (imagine this is the first user)
-  GoogleOrganisation.getByDomain(user.google.hd, oAuth, function(err, organisation) {
+  GoogleOrganisation.getByDomain(user.google.hd, user, function(err, organisation) {
     if (err) return callback(err);
     GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
       if (err) return callback(err);

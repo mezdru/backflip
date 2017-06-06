@@ -4,24 +4,25 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 11-04-2017 02:35
+* @Last modified time: 06-06-2017 06:38
 * @Copyright: Clément Dietschy 2017
 */
 
 var Organisation = require('../organisation.js');
+var EmailHelper = require('../../helpers/email_helper.js');
 
 var GoogleOrganisation = {};
 
 //@todo handle multi domain per organisation
-GoogleOrganisation.getByDomain = function (domain, oAuth, callback) {
+GoogleOrganisation.getByDomain = function (domain, user, callback) {
   Organisation.findOne({'google.hd': domain}, function(err, organisation) {
     if (err) return callback(err);
-    if (!organisation) return GoogleOrganisation.newByDomain(domain, oAuth, callback);
+    if (!organisation) return GoogleOrganisation.newByDomain(domain, user, callback);
     else return callback(null, organisation);
   });
 };
 
-GoogleOrganisation.newByDomain = function (domain, oAuth, callback) {
+GoogleOrganisation.newByDomain = function (domain, user, callback) {
   //@todo populate all fields
   //@todo fetch from googleadmin ...
   var organisation = new Organisation({
@@ -31,6 +32,7 @@ GoogleOrganisation.newByDomain = function (domain, oAuth, callback) {
       hd: domain,
     },
   });
+  EmailHelper.superadmin.newOrg(user.name, user.email, organisation.name, `${organisation.tag}.lenom.io`);
   return organisation.save(callback);
 };
 
