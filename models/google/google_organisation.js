@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 06-06-2017 06:38
+* @Last modified time: 06-06-2017 11:14
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -32,7 +32,7 @@ GoogleOrganisation.newByDomain = function (domain, user, callback) {
       hd: domain,
     },
   });
-  EmailHelper.superadmin.newOrg(user.name, user.email, organisation.name, `${organisation.tag}.lenom.io`);
+  EmailHelper.superadmin.newOrg(user.name, user.google.email, organisation.name, `${organisation.tag}.lenom.io`);
   return organisation.save(callback);
 };
 
