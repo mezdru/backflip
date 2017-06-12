@@ -4,27 +4,43 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 12-06-2017 12:13
+@Last modified time: 12-06-2017 07:05
 @Copyright: Clément Dietschy 2017
 }}
 {{#if intro}}
+<a id="start-intro" class="fa fa-question-circle" aria-hidden="true" onclick="startIntro()"></a>
 <script src="https://cdn.jsdelivr.net/intro.js/2.5.0/intro.min.js"></script>
 <script type="text/javascript">
   function startIntro(){
     var intro = introJs();
-      intro.setOptions({
+    intro.setOptions({
         steps: [
           {
-            intro: "Hello world!"
+            intro: "<h2>Welcome</h2>Take a tour of Lenom awesome features."
+          },
+          {
+            element: document.querySelector('#search-results .person'),
+            intro: "<h2>Human centric</h2>This is one of your coworker. A human, with a face, a name, skills and interests.",
+            position: 'right'
+          },
+          {
+            element: document.querySelector('#search-results .person .description'),
+            intro: "<h2>Story first</h2>Everyone got their own story. My job, my title, my team, AND my skills, interests, envy.",
+            position: 'right'
+          },
+          {
+            element: document.querySelector('#search-results .person .links'),
+            intro: "<h2>Links</h2>There are already many tools & ways to reach someone, connect with a click on Lenom.",
+            position: 'right'
           },
           {
             element: document.querySelector('#search'),
-            intro: "This is the search. But there are more details to be added. Especially one specific argument.",
+            intro: "<h2>Find</h2>Use the lightning fast & clever search field to find people by name, skill and/or interest. Try NodeJS expert london",
             position: 'bottom-middle-aligned'
           },
           {
             element: document.querySelector('#left-panel'),
-            intro: "Lorem ipsum indolor suit amen. Palatinum plopendum martigul. Mouhaha pargola hectorigulae mouts.",
+            intro: "<h2>Navigate</h2>Explore your organisation with the tree breakdown.",
             position: 'right'
           }
         ],
@@ -32,7 +48,16 @@
         hideNext: true,
         showStepNumbers: false
       });
-      intro.start();
+    intro.onchange(function(targetElement) {
+      if (targetElement.classList.contains('description')) {
+        toggleRecord(targetElement);
+      }
+      if (targetElement.id == 'left-panel') {
+        targetElement.classList.add('open');
+      }
+      console.log(targetElement);
+    })
+    intro.start();
   }
 </script>
 {{/if}}

@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-06-2017 12:02
+* @Last modified time: 12-06-2017 06:25
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -115,10 +115,19 @@ em a {
   font-size: 0.8em;
 }
 
+#start-intro {
+  color: #FF2600;
+  font-size: 4em;
+  position: fixed;
+  right: 0.5em;
+  bottom: 0.5em;
+}
+
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
 #left-panel-closer:hover .fa,
 #toggle-panel a:hover .fa,
+#start-intro:hover,
 header a:hover .fa,
 header a.fa:hover,
 .actions a:hover .fa,
@@ -129,6 +138,7 @@ header a.fa:hover,
 .ais-refinement-list--header:hover .fa {
   transform: scale(1.5);
   transition-duration: 0.3s;
+  text-decoration: none;
 }
 
 /* CUSTOM FORM */
@@ -530,6 +540,7 @@ footer {
 
 .record {
 	border-bottom: 2px solid #F5F7FA;
+  background-color: #ffffff;
 }
 
 /* Picture */

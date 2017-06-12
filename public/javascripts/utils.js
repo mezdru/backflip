@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-06-2017 10:50
+* @Last modified time: 12-06-2017 06:18
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -33,7 +33,6 @@ function onloadToggle() {
   if (window.matchMedia('(min-width: 1280px)').matches) {
   		togglePanel();
   }
-  startIntro();
 }
 
 function resizeImg(img, ratio) {

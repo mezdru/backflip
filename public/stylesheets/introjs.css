@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-06-2017 12:41
+* @Last modified time: 12-06-2017 05:43
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -82,7 +82,7 @@ header.introjs-fixParent {
     /* border-top: 1px solid #FFFFFF; */
     /* background: #FAFAFA; */
     color: #7F8C8D;
-    padding: 25px 30px 15px;
+    padding: 20px 30px 15px;
     /* border-bottom: 1px solid #FFFFFF; */
 }
 
@@ -103,13 +103,15 @@ header.introjs-fixParent {
   display: inline-block;
   padding: 0.5em 0.8em;
   /* box-shadow: 0 2px 0px -0px #306588; */
+  text-shadow: none;
   margin: 0;
   outline: none;
-  border: 2px solid;
+  border: 1px solid;
   background: transparent;
   text-decoration: none;
-  font: 11px/normal sans-serif;
-  color: #2980b9 !important;
+  font-size: 11px;
+  color: #2ECC71;
+  border-color: #2ECC71;
   white-space: nowrap;
   cursor: pointer;
   outline: none !important;
@@ -117,34 +119,26 @@ header.introjs-fixParent {
   -moz-background-clip: padding;
   -o-background-clip: padding-box;
   /*background-clip: padding-box;*/ /* commented out due to Opera 11.10 bug */
-  -webkit-border-radius: 0.2em;
-  -moz-border-radius: 0.2em;
-  border-radius: 0.2em;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
   /* IE hacks */
   zoom: 1;
   *display: inline;
   margin-top: 10px;
-  transition:all 0.25s ease;
-  -webkit-transition:all 0.25s ease;
-  -moz-transition:all 0.25s ease;
-  -ms-transition:all 0.25s ease;
-  -o-transition:all 0.25s ease;
 }
 
 .introjs-button:hover {
   color: #fff;
-  background: #2671A2;
+  background: #2ECC71;
+  border-color: #2ECC71;
   text-decoration: none;
-  border-color: #235677;
 }
 
 .introjs-button:focus,
 .introjs-button:active {
-    background: #23587A;  text-decoration: none;
-    color: #fff;
-    /* bottom: -1px; */
-    box-shadow: none;
-    border-color: #173B53;
+    opacity: 0.7;
+    background-image: none;
 }
 
 /* overrides extra padding on button elements in Firefox */
@@ -153,45 +147,62 @@ header.introjs-fixParent {
   border: 0;
 }
 
-.introjs-skipbutton {
+.introjs-skipbutton,
+.introjs-prevbutton.introjs-fullbutton {
   margin-right: 5px;
-  color: #c00;
+  color: #7F8C8D;
+  border-color: #7F8C8D;
   background: transparent;
 }
 
-.introjs-skipbutton:hover {
-    background: #EB1540;
-    border-color: #B91D0D;
+.introjs-skipbutton:hover,
+.introjs-prevbutton.introjs-fullbutton:hover {
+    color: #ffffff;
+    background: #7F8C8D;
+    border-color: #7F8C8D;
 
 }
 
 .introjs-skipbutton:active, .introjs-skipbutton:focus {
-    background: #C02312;
-    /* box-shadow: 0 1px 0px -0px #6F1309; */
+    opacity: 0.7;
+}
 
+.introjs-donebutton {
+  color: #2ECC71;
+  border-color: #2ECC71;
+  background: none;
+}
+
+.introjs-donebutton:hover {
+  color: #ffffff;
+  background-color: #2ECC71;
+  border-color: #2ECC71;
 }
 
 .introjs-prevbutton {
-  -webkit-border-radius: 0.2em 0 0 0.2em;
-  -moz-border-radius: 0.2em 0 0 0.2em;
-  border-radius: 0.2em 0 0 0.2em;
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
   border-right: none;
 }
 
 .introjs-nextbutton {
-  -webkit-border-radius: 0 0.2em 0.2em 0;
-  -moz-border-radius: 0 0.2em 0.2em 0;
-  border-radius: 0 0.2em 0.2em 0;
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.introjs-nextbutton.introjs-fullbutton,
+.introjs-prevbutton.introjs-fullbutton {
+  border-radius: 4px;
+}
+
+.introjs-prevbutton.introjs-fullbutton {
+
 }
 
 .introjs-disabled, .introjs-disabled:hover, .introjs-disabled:focus {
-  color: #C2C2C2 !important;
-  border-color: #d4d4d4;
-  cursor: default;
-  /* box-shadow: 0 2px 0px -0px #CACED1; */
-  background-color: #E6E6E6;
-  background-image: none;
-  text-decoration: none;
+  visibility: hidden;
 }
 
 .introjs-bullets {
@@ -203,7 +214,7 @@ header.introjs-fixParent {
 }
 .introjs-bullets ul {
   clear: both;
-  margin: 15px auto 0;
+  margin: 20px auto 0;
   padding: 0;
   display: inline-block;
 }
