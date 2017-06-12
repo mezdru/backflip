@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 06-04-2017 01:02
+@Last modified time: 12-06-2017 11:02
 @Copyright: Clément Dietschy 2017
 }}
 <!DOCTYPE html>
@@ -35,11 +35,17 @@
 
     <script src="/javascripts/utils.js"></script>
     <link rel="stylesheet" href="/stylesheets/index.css"/>
+
+    {{#if intro}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/intro.js/2.5.0/introjs.min.css">
+    <link rel="stylesheet" href="/stylesheets/introjs.css">
+    {{/if}}
   </head>
   <body>
     {{> header}}
     {{{body}}}
     {{> impersonate_footer}}
     {{> analytics}}
+    {{> intro}}
   </body>
 </html>

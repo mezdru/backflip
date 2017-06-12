@@ -1,0 +1,38 @@
+{{!
+@Author: Clément Dietschy <clement>
+@Date:   12-06-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 12-06-2017 12:13
+@Copyright: Clément Dietschy 2017
+}}
+{{#if intro}}
+<script src="https://cdn.jsdelivr.net/intro.js/2.5.0/intro.min.js"></script>
+<script type="text/javascript">
+  function startIntro(){
+    var intro = introJs();
+      intro.setOptions({
+        steps: [
+          {
+            intro: "Hello world!"
+          },
+          {
+            element: document.querySelector('#search'),
+            intro: "This is the search. But there are more details to be added. Especially one specific argument.",
+            position: 'bottom-middle-aligned'
+          },
+          {
+            element: document.querySelector('#left-panel'),
+            intro: "Lorem ipsum indolor suit amen. Palatinum plopendum martigul. Mouhaha pargola hectorigulae mouts.",
+            position: 'right'
+          }
+        ],
+        hidePrev: true,
+        hideNext: true,
+        showStepNumbers: false
+      });
+      intro.start();
+  }
+</script>
+{{/if}}
