@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-06-2017 06:18
+* @Last modified time: 13-06-2017 11:49
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -27,6 +27,11 @@ function toggleLink(child) {
 function togglePanel() {
 	document.getElementById('left-panel').classList.toggle('open');
   document.getElementById('toggle-panel').classList.toggle('open');
+}
+
+function openPanel() {
+	document.getElementById('left-panel').classList.add('open');
+  document.getElementById('toggle-panel').classList.add('open');
 }
 
 function onloadToggle() {

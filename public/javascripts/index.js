@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-06-2017 06:34
+* @Last modified time: 13-06-2017 11:43
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -326,5 +326,5 @@ function refresh() {
 
 search.start();
 
-// We force refresh every 6 hours to get new api key & get updates
-window.setTimeout(refresh , 21600000);
+// We force refresh every 1 hour to get new api key & get updates
+window.setTimeout(refresh , 3600000);
