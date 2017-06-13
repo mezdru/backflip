@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 12-06-2017 05:43
+* @Last modified time: 13-06-2017 04:43
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -82,8 +82,20 @@ header.introjs-fixParent {
     /* border-top: 1px solid #FFFFFF; */
     /* background: #FAFAFA; */
     color: #7F8C8D;
-    padding: 20px 30px 15px;
+    padding: 20px 20px 5px;
     /* border-bottom: 1px solid #FFFFFF; */
+}
+
+.introjs-tooltiptext p {
+  padding-top: 4px;
+}
+
+.introjs-tooltiptext a {
+  color: #2ECC71;
+}
+
+.introjs-tooltiptext strong {
+  color: #2ECC71;
 }
 
 .introjs-tooltipbuttons {
@@ -168,15 +180,15 @@ header.introjs-fixParent {
 }
 
 .introjs-donebutton {
-  color: #2ECC71;
-  border-color: #2ECC71;
+  color: #7F8C8D;
+  border-color: #7F8C8D;
   background: none;
 }
 
 .introjs-donebutton:hover {
   color: #ffffff;
-  background-color: #2ECC71;
-  border-color: #2ECC71;
+  background-color: #7F8C8D;
+  border-color: #7F8C8D;
 }
 
 .introjs-prevbutton {
