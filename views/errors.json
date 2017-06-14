@@ -6,6 +6,7 @@
     "description": "Thank you for joining Lenom, we now need some time to build a friendly directory for you and your coworkers. We will let you know by email when we are ready.",
     "quote": "We dig dig dig dig dig dig dig dig.",
     "reference": "The 7 dwarves",
+    "youtubeId": "HI0x0KYChq4?t=7s",
     "url": "https://youtu.be/HI0x0KYChq4?t=7s"
   },
   {
@@ -15,6 +16,7 @@
     "description": "We cannot understand your request. Please try something else.",
     "quote": "S'il vous plaît, dessine-moi un mouton.",
     "reference": "Le petit prince",
+    "youtubeId": "JOWw5OaaZf8?t=1m3s",
     "url": "https://youtu.be/JOWw5OaaZf8?t=1m3s"
   },
   {
@@ -24,6 +26,7 @@
     "description": "You need to be connected to access the page you requested.",
     "quote": "What... is your name?",
     "reference": "The keeper of the Bridge of Death",
+    "youtubeId": "cV0tCphFMr8?t=1m18s",
     "url": "https://youtu.be/cV0tCphFMr8?t=1m18s"
   },
   {
@@ -33,6 +36,7 @@
     "description": "You are not allowed to perform this request. Are you using the right account?",
     "quote": "You shall not pass.",
     "reference": "Gandalf the Grey",
+    "youtubeId": "mJZZNHekEQw?t=1m22s",
     "url": "https://youtu.be/mJZZNHekEQw?t=1m22s"
   },
   {
@@ -42,7 +46,8 @@
     "description": "We did not find anyone or anything yet. But we will, if you try someting else.",
     "quote": "I will look for you. I will find you.",
     "reference": "Liam Neeson - Taken",
-    "url": "https://youtu.be/jZOywn1qArI?t=35s"
+    "youtubeId": "jZOywn1qArI?t=35s",
+    "url": "https://youtu.be/jZOywn1qArI??start=35s"
   },
   {
     "status": 418,
@@ -51,6 +56,7 @@
     "description": "Thank you for joining. Sadly, your account does not belong to any Organisation. It won't work with Lenom at the moment.",
     "quote": "I'm a poor lonesome cowboy.",
     "reference": "Lucky Luke theme song",
+    "youtubeId": "1EpfwaSPBB8?t=41s",
     "url": "https://youtu.be/1EpfwaSPBB8?t=41s"
   },
   {
@@ -60,6 +66,7 @@
     "description": "Something broke on our side, Please try again.",
     "quote": "It will not break. It will not break. It broke",
     "reference": "The merchant in Aladin",
+    "youtubeId": "Q-AzEQpS0hs?t=27s",
     "url": "https://youtu.be/Q-AzEQpS0hs?t=27s"
   }
 ]
