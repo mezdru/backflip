@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 05:55
+* @Last modified time: 14-06-2017 12:31
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -29,9 +29,14 @@ function togglePanel() {
   document.getElementById('toggle-panel').classList.toggle('open');
 }
 
-function onloadToggle() {
+function openPanel() {
+	document.getElementById('left-panel').classList.add('open');
+  document.getElementById('toggle-panel').classList.add('open');
+}
+
+function onloadActions() {
   if (window.matchMedia('(min-width: 1280px)').matches) {
-  		togglePanel();
+  	togglePanel();
   }
 }
 
@@ -47,6 +52,16 @@ function resizeImg(img, ratio) {
     marginTop = Math.round((img.width/ratio-img.height)/2);
     img.style.marginTop = marginTop+"px";
   }
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 var inputIndex = 0;
@@ -66,4 +81,4 @@ function getTemplate(templateName) {
   return document.getElementById(templateName + '-template').innerHTML;
 }
 
-window.onload = onloadToggle;
+window.onload = onloadActions;

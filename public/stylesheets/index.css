@@ -5,8 +5,8 @@
 * @Date:   16-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 14-06-2017 04:17
+ * @Last modified by:   clement
+ * @Last modified time: 14-06-2017 05:51
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -24,7 +24,7 @@ html, button, input, select, textarea, .pure-g,
     letter-spacing: 0;
 }
 
-textarea:focus, input:focus{
+textarea:focus, input:focus {
     outline: none;
 }
 
@@ -82,6 +82,10 @@ em a {
   font-weight: bolder;width="100%" height="100%"
 }
 
+.align-right {
+  text-align: right;
+}
+
 /* CUSTOM ELEMENTS */
 .reward {
   margin: 0;
@@ -124,9 +128,27 @@ em a {
   height: 160px;
 }
 
+#start-intro {
+  color: #7F8C8D;
+  font-size: 4em;
+  position: fixed;
+  right: 0.5em;
+  bottom: 0.5em;
+}
+
+#join-beta {
+  color: #2ECC71;
+  font-size: 4em;
+  position: fixed;
+  right: 1.7em;
+  bottom: 0.5em;
+}
+
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
 #left-panel-closer:hover .fa,
 #toggle-panel a:hover .fa,
+#start-intro:hover,
+#join-beta:hover,
 header a:hover .fa,
 header a.fa:hover,
 .actions a:hover .fa,
@@ -137,6 +159,7 @@ header a.fa:hover,
 .ais-refinement-list--header:hover .fa {
   transform: scale(1.5);
   transition-duration: 0.3s;
+  text-decoration: none;
 }
 
 /* CUSTOM FORM */
@@ -179,7 +202,7 @@ header {
   width: 100%;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 999999;
 	background-color: #33374C;
 }
 
@@ -540,6 +563,12 @@ footer {
 	border-bottom: 2px solid #F5F7FA;
 }
 
+.record.introjs-showElement,
+.description.introjs-showElement,
+.links.introjs-showElement {
+  background-color: #ffffff;
+}
+
 /* Picture */
 
 .picture {
@@ -628,11 +657,11 @@ footer {
 /* Central */
 
 .central {
-  padding: 4px 8px;
+  padding: 0;
 }
 
 .central-header {
-  padding-bottom: 4px;
+  padding: 4px 8px 0;
 }
 
 .name,
@@ -686,12 +715,13 @@ footer {
   display:none;
 }
 
+.description {
+    padding: 4px 8px;
+    line-height: 1.5em;
+}
+
 
 /* LINKS */
-
-.links {
-  padding-top: 8px;
-}
 
 .links li {
   display: inline-block;

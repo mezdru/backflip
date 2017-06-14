@@ -3,8 +3,8 @@
 * @Date:   10-12-2016
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 05-06-2017 05:15
+ * @Last modified by:   clement
+ * @Last modified time: 14-06-2017 06:10
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -295,6 +295,17 @@ var customClearAllWidget = {
 };
 search.addWidget(customClearAllWidget);
 
+var introShowed = false;
+var customIntroWidget = {
+	render: function(args){
+		if (!introShowed) {
+	    startIntro();
+			introShowed = true;
+	  }
+	}
+};
+search.addWidget(customIntroWidget);
+
 function setSearch(query, parent, filter) {
 	if (query == parent) query = '';
 	search.helper.clearRefinements().setQuery(query);
@@ -326,5 +337,5 @@ function refresh() {
 
 search.start();
 
-// We force refresh every 6 hours to get new api key & get updates
-window.setTimeout(refresh , 21600000);
+// We force refresh every 1 hour to get new api key & get updates
+window.setTimeout(refresh , 3600000);
