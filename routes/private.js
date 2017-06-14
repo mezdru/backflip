@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
 * @Last modified by:   clement
-* @Last modified time: 18-05-2017 06:03
+* @Last modified time: 14-06-2017 12:24
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -31,6 +31,10 @@ router.get('/', function(req, res, next) {
   res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   res.locals.isMyOrg = true;
   res.render('directory', {search: true});
+});
+
+router.get('/welcome', function(req, res, next) {
+  res.render('error', {status: 204});
 });
 
 module.exports = router;
