@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 14-06-2017 06:10
+ * @Last modified time: 14-06-2017 06:44
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -19,7 +19,7 @@
 var descriptionSnippetLength = 8;
 var extraLinkLimit = 4;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		descriptionSnippetLength = 20;
+		descriptionSnippetLength = 24;
 		extraLinkLimit = 8;
 }
 

@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 14-06-2017 06:30
+ * @Last modified time: 15-06-2017 11:21
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -27,12 +27,12 @@ function getIntroSteps() {
   steps = [
     {
       element: introRecord0,
-      intro: "<h2><strong>Hello You</strong></h2><p>Lenom is an app to find the <strong><i class='fa fa-user-circle-o' aria-hidden='true'></i>Persons</strong> we are working with.</p>",
+      intro: "<h2><strong>Hello You</strong></h2><p>Lenom is an app to find, discover and reach the <strong><i class='fa fa-user-circle-o' aria-hidden='true'></i>Persons</strong> we are working with.</p><p class='align-right'>(basically, it's a directory)</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned'
     },
     {
       element: introWide ? introRecord1.querySelector('.description.full') : introRecord0.querySelector('.description.snippet') ,
-      intro: "<h2>Discover</h2><p>We each have our own story:</p><p>Team, position, skills... and interests, passions, dreams...</p>",
+      intro: "<h2>Discover</h2><p>We each have our own story:</p><p>Team, position, skills and interests, passions, dreams...</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned'
     },
     {
@@ -52,7 +52,7 @@ function getIntroSteps() {
       introWideOnly: true
     },
     {
-      intro: "<h2><strong>Be lazy</strong></h2><p>Find each other effortlessly:</p><p>Lenom builds itself and keeps updated <abbr title='Lenom learns through integration with your existing tools'>automagically</abbr>.</p><p><a href='https://lenom.io'><i class='fa fa-play-circle' aria-hidden='true'></i>Join the private beta</a></p>"
+      intro: "<h2><strong>Be lazy</strong></h2><p>Find each other effortlessly:</p><p>Lenom builds itself and keeps updated <abbr title='Lenom learns through integration with your existing tools'>automagically</abbr>.</p><div style='width:100%;height:0;padding-bottom:58%;padding-top:8px;position:relative;'><iframe src='https://giphy.com/embed/26ufnwz3wDUli7GU0' width='100%' height='100%' style='position:absolute' frameBorder='0' class='giphy-embed' allowFullScreen></iframe></div><p><a href='https://lenom.io'><i class='fa fa-play-circle' aria-hidden='true'></i>Join the private beta</a></p>"
     }
   ];
   return steps;
