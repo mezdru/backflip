@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 15-06-2017 11:21
+ * @Last modified time: 15-06-2017 11:28
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -27,12 +27,12 @@ function getIntroSteps() {
   steps = [
     {
       element: introRecord0,
-      intro: "<h2><strong>Hello You</strong></h2><p>Lenom is an app to find, discover and reach the <strong><i class='fa fa-user-circle-o' aria-hidden='true'></i>Persons</strong> we are working with.</p><p class='align-right'>(basically, it's a directory)</p>",
+      intro: "<h2><strong>Hello You</strong></h2><p>Lenom is an app to find the <strong><i class='fa fa-user-circle-o' aria-hidden='true'></i>Persons</strong> we are working with.</p><p class='align-right'>(basically, it's a directory)</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned'
     },
     {
       element: introWide ? introRecord1.querySelector('.description.full') : introRecord0.querySelector('.description.snippet') ,
-      intro: "<h2>Discover</h2><p>We each have our own story:</p><p>Team, position, skills and interests, passions, dreams...</p>",
+      intro: "<h2>Discover</h2><p>We each have our own story:</p><p>Team, position, skills, interests, dreams...</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned'
     },
     {

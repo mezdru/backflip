@@ -3,8 +3,8 @@
 * @Date:   03-05-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 02-06-2017 03:38
+ * @Last modified by:   clement
+ * @Last modified time: 21-06-2017 12:52
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -55,8 +55,9 @@ router.get('/oauth', function (req, res, next) {
 });
 
 //@todo paginate & handle more than 200 (200 is the max maxResults)
+//@todo find a way to get this without google admin rights
 router.get('/group/list', function(req, res, next) {
-  google.admin('directory_v1').groups.list({customer: 'my_customer', maxResults: 200}, function (err, ans) {
+  google.admin('directory_v1').groups.list({domain: 'lenom.io', maxResults: 200}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
@@ -70,7 +71,7 @@ router.get('/group/list', function(req, res, next) {
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
 router.get('/user/list', function(req, res, next) {
-  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType:'domain_public'}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
@@ -83,7 +84,7 @@ router.get('/user/list', function(req, res, next) {
 });
 
 router.get('/users/get/:googleId', function (req, res, next) {
-  google.admin('directory_v1').users.get( {userKey: req.params.googleId},function (err, ans) {
+  google.admin('directory_v1').users.get( {userKey: req.params.googleId, viewType:'domain_public'},function (err, ans) {
     if (err) return next(err);
     res.render('index',
     {
@@ -94,6 +95,7 @@ router.get('/users/get/:googleId', function (req, res, next) {
   });
 });
 
+//@todo get the OAuth scope first
 router.get('/domain/list', function(req, res, next) {
   google.admin('directory_v1').domains.list({customer: 'my_customer'}, function (err, ans) {
     if (err) return next(err);
@@ -119,7 +121,7 @@ router.use(function(req, res, next) {
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
 router.get('/user/update', function(req, res, next) {
-  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500}, function (err, ans) {
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType:'domain_public'}, function (err, ans) {
     if (err) return next(err);
     var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);
     GoogleRecord.deleteRecords(recordsAndGoogleUsers, res.locals.user._id, function(err, result) {
