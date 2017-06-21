@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 14-06-2017 12:30
+ * @Last modified by:   clement
+ * @Last modified time: 21-06-2017 05:48
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -75,7 +75,7 @@ router.get('/login/callback', function(req, res, next) {
       user.touchLogin(function(err) {
         if (err) return console.error(err);
       });
-      var forceRedirect = user.needsWelcoming() ? '/welcome' : null;
+      var forceRedirect = !user.hasOrganisation() ? '/welcome' : null;
       return res.redirect(forceRedirect || req.session.redirect_after_login || '/');
     });
   });
