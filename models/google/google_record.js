@@ -3,8 +3,8 @@
 * @Date:   13-04-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 10-05-2017 11:36
+ * @Last modified by:   clement
+ * @Last modified time: 21-06-2017 01:10
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -72,7 +72,7 @@ GoogleRecord.tagActions = function(recordsAndGoogleUsers) {
     // create
     } else if  (!recordAndGoogleUser.record &&
       recordAndGoogleUser.googleUser &&
-      recordAndGoogleUser.googleUser.suspended === false) {
+      !recordAndGoogleUser.googleUser.suspended) {
         recordAndGoogleUser.action = 'create';
     // keep
     } else if (recordAndGoogleUser.record &&
