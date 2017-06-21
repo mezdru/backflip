@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 18-05-2017 10:06
+ * @Last modified by:   clement
+ * @Last modified time: 21-06-2017 04:26
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -23,7 +23,7 @@ var csvtojson = require('csvtojson');
 
 
 // Load the whole organisation records, we'll need those for further use
-// Duplicate in google_admin
+// Duplicate in google_admin && fullcontact_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();

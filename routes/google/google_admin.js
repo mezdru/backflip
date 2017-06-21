@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 01:13
+ * @Last modified time: 21-06-2017 04:27
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -109,7 +109,7 @@ router.get('/domain/list', function(req, res, next) {
 });
 
 // Load the whole organisation records, we'll need those for further use
-// Duplicate in record_admin
+// Duplicate in record_admin && fullcontact_admin
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();
   Record.find({organisation: res.locals.organisation._id}, function(err, records) {

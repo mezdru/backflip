@@ -3,8 +3,8 @@
 * @Date:   07-04-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 19-05-2017 04:39
+ * @Last modified by:   clement
+ * @Last modified time: 21-06-2017 04:12
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -56,6 +56,7 @@ var recordSchema = mongoose.Schema({
     includeInGlobalAddressList: Boolean,
 
   },
+  fullcontact_updated: Date,
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now }
 });
@@ -143,6 +144,13 @@ recordSchema.methods.createLinks = function(formNewLinks) {
   formNewLinks.forEach(function(newLink) {
     if(newLink.value) this.links.push(new LinkHelper(newLink.value).link);
   }, this);
+};
+
+//adds a link to the record ONLY IF the type does not exist
+//@todo be more clever & overwrite if we trust new link more
+recordSchema.methods.addLink = function(newLink) {
+  if (this.links.every(link => link.type !== newLink.type))
+    this.links.push(newLink);
 };
 
 // @todo delete in favor of makeWithin

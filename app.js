@@ -3,8 +3,8 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 10-05-2017 11:46
+ * @Last modified by:   clement
+ * @Last modified time: 21-06-2017 02:25
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -118,6 +118,9 @@ app.use('/admin', restrictAdmin);
 
 var googleAdmin = require('./routes/google/google_admin.js');
 app.use('/admin/google', googleAdmin);
+
+var fullContactAdmin = require('./routes/fullcontact/fullcontact_admin.js');
+app.use('/admin/fullcontact', fullContactAdmin);
 
 var algoliaAdmin = require('./routes/algolia/algolia_admin.js');
 app.use('/admin/algolia', algoliaAdmin);
