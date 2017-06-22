@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 04:12
+ * @Last modified time: 22-06-2017 04:58
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -373,7 +373,9 @@ recordSchema.plugin(mongooseAlgolia, {
     path: 'within',
     select: 'name tag type picture'
   }],
-  softdelete: true,
+  filter: function(doc) {
+    return !doc.deleted;
+  },
   debug: true
 });
 

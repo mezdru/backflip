@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 04:26
+ * @Last modified time: 22-06-2017 05:05
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -78,7 +78,7 @@ router.get('/remake', function(req, res, next) {
 });
 
 router.get('/delete/:recordId', function(req, res, next) {
-  Record.findOneWithDeleted({_id:req.params.recordId}, function(err, record) {
+  Record.findOneWithDeleted({_id:req.params.recordId, organisation:res.locals.organisation._id}, function(err, record) {
     if (err) return next(err);
     if (!record) {
       err = new Error('No record to delete');
