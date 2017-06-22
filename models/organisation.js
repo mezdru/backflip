@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 08-04-2017 09:44
+ * @Last modified by:   clement
+ * @Last modified time: 22-06-2017 03:31
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -29,6 +29,11 @@ var organisationSchema = mongoose.Schema({
 
 organisationSchema.methods.needsWelcoming = function () {
   return !this.welcomed;
+};
+
+organisationSchema.methods.unlock = function(callback) {
+  this.welcomed = true;
+  this.save(callback);
 };
 
 var Organisation = mongoose.model('Organisation', organisationSchema);

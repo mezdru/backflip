@@ -3,8 +3,8 @@
 * @Date:   12-04-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 07-06-2017 12:01
+ * @Last modified by:   clement
+ * @Last modified time: 22-06-2017 03:47
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -13,6 +13,8 @@ var router = express.Router();
 
 var google = require('googleapis');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
+
+var Organisation = require('../models/organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 
@@ -57,6 +59,78 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
         title: 'Impersonate',
         details: 'You are now impersonating ' + res.locals.user.google.email
       });
+  });
+});
+
+router.get('/user/list', function(req, res, next) {
+  User.find().select('email created google.email google.hd').sort('-created').exec(function(err, users) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Users list',
+        details: `${users.length} users`,
+        content: users
+      });
+  });
+});
+
+router.get('/organisation/list', function(req, res, next) {
+  Organisation.find().select('tag created google.hd').sort('-created').exec(function(err, organisations) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Organisations list',
+        details: `${organisations.length} organisations`,
+        content: organisations
+      });
+  });
+});
+
+router.get('/organisation/:orgTag/makeadmin/:googleEmail', function(req, res, next) {
+  User.findOne({'google.email': req.params.googleEmail}, function(err, user) {
+    if (err) return next(err);
+    if (!user) {
+      err = new Error('No user found');
+      err.status = 400;
+      return next(err);
+    }
+    Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
+      if (err) return next(err);
+      if (!organisation) {
+        err = new Error('No organisation found');
+        err.status = 400;
+        return next(err);
+      }
+      user.makeAdminToOrganisation(organisation._id, function(err, user) {
+        if (err) return next(err);
+        res.render('index',
+          {
+            title: 'Admin added',
+            details: `${user.google.email} is now admin of ${organisation.tag}.`,
+            content: user
+          });
+      });
+    });
+  });
+});
+
+router.get('/organisation/:orgTag/unlock', function(req, res, next) {
+  Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
+    if (err) return next(err);
+    if (!organisation) {
+      err = new Error('No organisation found');
+      err.status = 400;
+      return next(err);
+    }
+    organisation.unlock(function(err, organisation) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Unlock Organisation',
+          details: `${organisation.tag} is now welcomed.`,
+          content: organisation
+        });
+    });
   });
 });
 
