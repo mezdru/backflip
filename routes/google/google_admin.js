@@ -4,14 +4,16 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 04:27
+ * @Last modified time: 23-06-2017 04:55
 * @Copyright: Clément Dietschy 2017
 */
 
 var express = require('express');
 var router = express.Router();
 var google = require('googleapis');
+var User = require('../../models/user.js');
 var Record = require('../../models/record.js');
+var GoogleUser = require('../../models/google/google_user.js');
 var GoogleRecord = require('../../models/google/google_record.js');
 
 // Create Google OAuth2 Client for everyone
@@ -80,6 +82,34 @@ router.get('/user/list', function(req, res, next) {
         content: ans
       }
     );
+  });
+});
+
+router.get('/user/attachRecords', function(req, res, next) {
+  User.find({'orgsAndRecords.organisation': res.locals.organisation._id}, function(err, users) {
+    if (err) return next(err);
+    missingRecordUsers = users.filter(user => !user.getRecordIdByOrgId(res.locals.organisation._id));
+    if (missingRecordUsers.length === 0) {
+      return res.render('index', {
+        title: 'No Users missing Records',
+        details: `Found 0 users.`
+      });
+    }
+    var results = [];
+    missingRecordUsers.forEach(function(user) {
+      GoogleUser.attachOrgAndRecord(user, res.locals.organisation, function(err, user) {
+        if (err) results.push(err);
+        else results.push(user);
+        if (results.length === missingRecordUsers.length) {
+          res.render('index',
+          {
+            title: 'Attach Records',
+            details: `Found ${missingRecordUsers.length} users without record and attempted to find a Record.`,
+            content: results
+          });
+        }
+      });
+    });
   });
 });
 

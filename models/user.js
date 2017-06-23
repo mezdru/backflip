@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 12:29
+ * @Last modified time: 23-06-2017 04:25
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -68,32 +68,48 @@ userSchema.methods.hasOrganisation = function() {
   return this.orgsAndRecords.length > 0;
 };
 
-userSchema.methods.belongsToOrganisation = function(organisationID) {
-  return this.orgsAndRecords.some(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)));
+userSchema.methods.belongsToOrganisation = function(organisationId) {
+  return this.orgsAndRecords.some(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
 };
 
-userSchema.methods.isAdminToOrganisation = function(organisationID) {
-  return this.orgsAndRecords.some(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)) && orgAndRecord.admin === true);
+userSchema.methods.isAdminToOrganisation = function(organisationId) {
+  return this.orgsAndRecords.some(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)) && orgAndRecord.admin === true);
 };
 
-userSchema.methods.makeAdminToOrganisation = function(organisationID, callback) {
-  var orgAndRecord = this.orgsAndRecords.find(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)));
+userSchema.methods.getOrgAndRecord = function(organisationId) {
+  return this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
+};
+
+userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
   if (orgAndRecord) {
     orgAndRecord.admin = true;
   } else {
-    this.orgsAndRecords.push({organisation: organisationID, admin: true});
+    this.orgsAndRecords.push({organisation: organisationId, admin: true});
   }
-  this.save(callback);
+  if (callback) this.save(callback);
+  else return this;
 };
 
-userSchema.methods.getRecordIdByOrgId = function(organisationID) {
-  var orgAndRecord = this.orgsAndRecords.find(orgAndRecord => organisationID.equals(getId(orgAndRecord.organisation)));
+userSchema.methods.getRecordIdByOrgId = function(organisationId) {
+  var orgAndRecord = this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
   if (!orgAndRecord || !orgAndRecord.record) return null;
   else return getId(orgAndRecord.record);
 };
 
 userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => recordId.equals(getId(orgAndRecord.record)));
+};
+
+userSchema.methods.attachOrgAndRecord = function(organisationId, recordId, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  if (orgAndRecord) {
+    orgAndRecord.record = recordId;
+  } else {
+    this.orgsAndRecords.push({organisation: organisationId, record: recordId});
+  }
+  if (callback) this.save(callback);
+  else return this;
 };
 
 userSchema.methods.isSuperAdmin = function() {

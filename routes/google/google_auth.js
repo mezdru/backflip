@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 05:48
+ * @Last modified time: 23-06-2017 03:58
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -62,7 +62,7 @@ router.get('/admin_login', function(req, res, next) {
 router.get('/login/callback', function(req, res, next) {
   if (req.query.error == 'access_denied') {
     console.log("OAUTH - ACCESS DENIED (someone clicked CANCEL on the google authorization screen)");
-    return res.redirect('/');
+    return res.redirect(req.session.redirect_after_login || '/');
   }
   req.googleOAuth.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);

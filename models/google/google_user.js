@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 12:53
+ * @Last modified time: 23-06-2017 04:20
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -47,21 +47,18 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
   if (!user.google.hd) return user.save(callback);
 
   // if there is a domain, we find the user's organisation and the user Record
+  //@todo inherit admin from Google (careful with 204 redirect not happening due to restrict.js L44)
   //@todo fetch record not only on user creation (imagine this is the first user)
   GoogleOrganisation.getByDomain(user.google.hd, user, function(err, organisation) {
     if (err) return callback(err);
-    GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
-      if (err) return callback(err);
-      let orgAndRecord  = {organisation: organisation._id};
-      if (record) {
-        orgAndRecord.record = record._id;
-        if (record.google.isAdmin) {
-          orgAndRecord.admin = true;
-        }
-      }
-      user.orgsAndRecords.push(orgAndRecord);
-      return user.save(callback);
-    });
+    GoogleUser.attachOrgAndRecord(user, organisation, callback);
+  });
+};
+
+GoogleUser.attachOrgAndRecord = function(user, organisation, callback) {
+  GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
+    if (err) return callback(err);
+    user.attachOrgAndRecord(organisation._id, record._id, callback);
   });
 };
 

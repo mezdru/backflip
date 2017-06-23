@@ -3,8 +3,8 @@
 * @Date:   13-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 02-06-2017 05:13
+ * @Last modified by:   clement
+ * @Last modified time: 23-06-2017 01:00
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -24,6 +24,7 @@ router.get('/logout', function(req, res, next) {
 
 // Setup User depending on Auth
 router.use(function(req, res, next) {
+  // @todo move to user model
   if (req.session.user) {
     User.findByIdAndUpdate(req.session.user._id, {last_action: Date.now()},function(err, user) {
       if (err) return next(err);
