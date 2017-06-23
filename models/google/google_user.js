@@ -4,13 +4,14 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 04:20
+ * @Last modified time: 23-06-2017 06:47
 * @Copyright: Clément Dietschy 2017
 */
 
 var User = require('../user.js');
 var GoogleOrganisation = require('./google_organisation.js');
 var GoogleRecord = require('./google_record.js');
+var undefsafe = require('undefsafe');
 
 var GoogleUser = {};
 
@@ -58,7 +59,8 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
 GoogleUser.attachOrgAndRecord = function(user, organisation, callback) {
   GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
     if (err) return callback(err);
-    user.attachOrgAndRecord(organisation._id, record._id, callback);
+    var recordId = undefsafe(record, '_id');
+    user.attachOrgAndRecord(organisation._id, recordId, callback);
   });
 };
 
