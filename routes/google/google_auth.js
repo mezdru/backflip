@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 03:58
+ * @Last modified time: 23-06-2017 06:07
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -17,8 +17,12 @@ const scopes = require('./scopes.json');
 const admin_scopes = require('./admin_scopes.json');
 
 var User = require('../../models/user.js');
+var Organisation = require('../../models/organisation.js');
+
 var GoogleUser = require('../../models/google/google_user.js');
-var Organisation = require('../../models/google/google_organisation.js');
+
+
+var UrlHelper = require('../../helpers/url_helper.js');
 
 
 // Create Google OAuth2 Client for everyone
@@ -46,6 +50,7 @@ router.get('/login', function(req, res, next) {
     access_type: 'offline',
     scope: scopes
   });
+  if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;
   res.redirect(url);
 });
 
@@ -75,8 +80,19 @@ router.get('/login/callback', function(req, res, next) {
       user.touchLogin(function(err) {
         if (err) return console.error(err);
       });
-      var forceRedirect = !user.hasOrganisation() ? '/welcome' : null;
-      return res.redirect(forceRedirect || req.session.redirect_after_login || '/');
+      if (req.session.redirect_after_login_tag) {
+        return res.redirect(new UrlHelper(req.session.redirect_after_login_tag).getUrl());
+      }
+      // we don't have session info about redirect, so we guess...
+      var firstOrgId = user.getFirstOrgId();
+      if (firstOrgId) {
+        Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
+          if(err) return next(err);
+          res.redirect(new UrlHelper(organisation.tag).getUrl());
+        });
+      } else {
+        return res.redirect(new UrlHelper(null, 'welcome').getUrl());
+      }
     });
   });
 });

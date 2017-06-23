@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 04:25
+ * @Last modified time: 23-06-2017 05:21
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -78,6 +78,10 @@ userSchema.methods.isAdminToOrganisation = function(organisationId) {
 
 userSchema.methods.getOrgAndRecord = function(organisationId) {
   return this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
+};
+
+userSchema.methods.getFirstOrgId = function() {
+  return undefsafe(this, 'orgsAndRecords.0.organisation');
 };
 
 userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {

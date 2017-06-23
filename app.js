@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 02:25
+ * @Last modified time: 23-06-2017 05:53
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -76,15 +76,15 @@ app.use(session({
     }
 }));
 
-// Taking care of Google Auth
-var googleAuth = require('./routes/google/google_auth.js');
-app.use('/google', googleAuth);
-
 // Taking care of general Auth
 var auth = require('./routes/auth.js');
 app.use('/', auth);
 app.locals.loginUrl = '/google/login';
 app.locals.logoutUrl = '/logout';
+
+// Taking care of Google Auth
+var googleAuth = require('./routes/google/google_auth.js');
+app.use('/google', googleAuth);
 
 // public pages
 var publicPages = require('./routes/public.js');
