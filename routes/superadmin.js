@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 22-06-2017 03:47
+ * @Last modified time: 23-06-2017 12:30
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -114,7 +114,7 @@ router.get('/organisation/:orgTag/makeadmin/:googleEmail', function(req, res, ne
   });
 });
 
-router.get('/organisation/:orgTag/unlock', function(req, res, next) {
+router.get('/organisation/:orgTag/welcome', function(req, res, next) {
   Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
     if (err) return next(err);
     if (!organisation) {
@@ -122,11 +122,11 @@ router.get('/organisation/:orgTag/unlock', function(req, res, next) {
       err.status = 400;
       return next(err);
     }
-    organisation.unlock(function(err, organisation) {
+    organisation.welcome(function(err, organisation) {
       if (err) return next(err);
       res.render('index',
         {
-          title: 'Unlock Organisation',
+          title: 'Welcome Organisation',
           details: `${organisation.tag} is now welcomed.`,
           content: organisation
         });

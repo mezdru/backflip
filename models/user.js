@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 22-06-2017 03:35
+ * @Last modified time: 23-06-2017 12:29
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -57,6 +57,11 @@ userSchema.methods.touchLogin = function (callback) {
 
 userSchema.methods.needsWelcoming = function () {
   return !this.welcomed;
+};
+
+userSchema.methods.welcome = function(callback) {
+  this.welcomed = true;
+  this.save(callback);
 };
 
 userSchema.methods.hasOrganisation = function() {

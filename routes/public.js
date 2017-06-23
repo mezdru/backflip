@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 12-06-2017 10:43
+ * @Last modified by:   clement
+ * @Last modified time: 23-06-2017 12:26
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -19,7 +19,10 @@ router.get('/', function(req, res, next) {
     if (res.locals.organisation.public === true) {
       res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
       res.locals.orgTree = res.locals.organisation.tree;
-      if (res.locals.organisation.tag === 'demo') res.locals.intro = true;
+      // careful, switching to false breaks intro_auto
+      res.locals.intro = true;
+      res.locals.beta = true;
+      if (res.locals.organisation.tag === 'demo') res.locals.intro_auto = true;
       if (res.locals.user) {
         res.locals.isMyOrg = res.locals.user.belongsToOrganisation(res.locals.organisation._id);
         res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);

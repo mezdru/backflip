@@ -6,7 +6,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 14-06-2017 05:51
+ * @Last modified time: 23-06-2017 12:02
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -128,20 +128,23 @@ em a {
   height: 160px;
 }
 
-#start-intro {
-  color: #7F8C8D;
+#bottom-right {
   font-size: 4em;
   position: fixed;
   right: 0.5em;
   bottom: 0.5em;
 }
 
+#bottom-right a {
+  margin-right: 0.2em;
+}
+
+#start-intro {
+  color: #7F8C8D;
+}
+
 #join-beta {
   color: #2ECC71;
-  font-size: 4em;
-  position: fixed;
-  right: 1.7em;
-  bottom: 0.5em;
 }
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/

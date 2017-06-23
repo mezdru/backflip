@@ -3,8 +3,8 @@
 * @Date:   15-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 14-06-2017 12:24
+ * @Last modified by:   clement
+ * @Last modified time: 23-06-2017 12:29
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -30,6 +30,12 @@ router.get('/', function(req, res, next) {
   res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
   res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   res.locals.isMyOrg = true;
+  // careful, switching to false breaks intro_auto
+  res.locals.intro = true;
+  if (res.locals.user.needsWelcoming()) {
+    res.locals.intro_auto = true;
+    res.locals.user.welcome(err => {if (err) console.error(err);});
+  }
   res.render('directory', {search: true});
 });
 

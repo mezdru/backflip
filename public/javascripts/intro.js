@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 15-06-2017 11:28
+ * @Last modified time: 23-06-2017 12:49
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -32,7 +32,7 @@ function getIntroSteps() {
     },
     {
       element: introWide ? introRecord1.querySelector('.description.full') : introRecord0.querySelector('.description.snippet') ,
-      intro: "<h2>Discover</h2><p>We each have our own story:</p><p>Team, position, skills, interests, dreams...</p>",
+      intro: "<h2>Discover</h2><p>We each have our own story:</p><p>Team, position, skills, interests, hobbies, dreams...</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned'
     },
     {
@@ -42,17 +42,17 @@ function getIntroSteps() {
     },
     {
       element: document.querySelector('#search'),
-      intro: "<h2>Find</h2><p>Lenom searches through all this within milliseconds.</p><p>Try <a onclick=\"setSearch('hr intern korea')\">hr interm korrea</a> (typo included).</p>",
+      intro: "<h2>Find</h2><p>Lenom searches through all this within milliseconds.</p><p>Try <a onclick=\"setSearch('HR intern in korea')\">HR intern in Paris</a>.</p>",
       position: 'bottom-middle-aligned'
     },
     {
       element: introWide ? document.querySelector('#left-panel') : document.querySelector('#subheader'),
-      intro: "<h2>Navigate</h2><p>Plus Lenom provides <strong><i class='fa fa-at' aria-hidden='true'></i>Teams</strong> and<br><strong><i class='fa fa-hashtag' aria-hidden='true'></i>Hashtags</strong> exploration.</p><p>Try <a onclick=\"setSearch(null,'@Accountings')\">@Accountings</a>, <a onclick=\"setSearch('#coffee')\">#coffee</a> or <a onclick=\"setSearch('#nodejs')\">#nodejs</a>.</p>",
+      intro: "<h2>Navigate</h2><p>Plus Lenom provides <strong><i class='fa fa-at' aria-hidden='true'></i>Teams</strong> and<br><abbr title='A hashtag can be a skill, project, achievement...'><strong><i class='fa fa-hashtag' aria-hidden='true'></i>Hashtags</strong></abbr> exploration.</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned',
       introWideOnly: true
     },
     {
-      intro: "<h2><strong>Be lazy</strong></h2><p>Find each other effortlessly:</p><p>Lenom builds itself and keeps updated <abbr title='Lenom learns through integration with your existing tools'>automagically</abbr>.</p><div style='width:100%;height:0;padding-bottom:58%;padding-top:8px;position:relative;'><iframe src='https://giphy.com/embed/26ufnwz3wDUli7GU0' width='100%' height='100%' style='position:absolute' frameBorder='0' class='giphy-embed' allowFullScreen></iframe></div><p><a href='https://lenom.io'><i class='fa fa-play-circle' aria-hidden='true'></i>Join the private beta</a></p>"
+      intro: "<h2><strong>Be lazy</strong></h2><p>Find each other effortlessly:</p><p>Lenom builds itself and keeps updated <abbr title='Lenom learns by integrating with your existing tools'>automagically</abbr>.</p><div style='width:100%;height:0;padding-bottom:58%;padding-top:8px;position:relative;'><iframe src='https://giphy.com/embed/26ufnwz3wDUli7GU0' width='100%' height='100%' style='position:absolute' frameBorder='0' class='giphy-embed' allowFullScreen></iframe></div>"
     }
   ];
   return steps;

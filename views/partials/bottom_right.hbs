@@ -1,0 +1,34 @@
+{{!
+@Author: Clément Dietschy <clement>
+@Date:   12-06-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 23-06-2017 12:24
+@Copyright: Clément Dietschy 2017
+}}
+<div id="bottom-right">
+{{#if intro}}
+<a id="start-intro" title="Help tutorial" class="fa fa-question-circle" aria-hidden="true" onclick="startIntro()"></a>
+<script src="https://cdn.jsdelivr.net/intro.js/2.5.0/intro.min.js"></script>
+<script src="/javascripts/intro.js"></script>
+{{/if}}
+{{! @todo intro_auto is launched from here because it depends on the scripts above, but it needs to be indendant.}}
+{{#if intro_auto}}
+<script>
+  var introShowed = false;
+  var customIntroWidget = {
+    render: function(args){
+      if (!introShowed) {
+        startIntro();
+        introShowed = true;
+      }
+    }
+  };
+  search.addWidget(customIntroWidget);
+</script>
+{{/if}}
+{{#if beta}}
+<a id="join-beta" title="Join the private beta" class="fa fa-play-circle" aria-hidden="true" href="https://lenom.io"></a>
+{{/if}}
+</div>
