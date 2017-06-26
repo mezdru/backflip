@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 26-06-2017 01:41
+ * @Last modified time: 26-06-2017 01:47
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -72,7 +72,7 @@ router.get('/group/list', function(req, res, next) {
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
-router.get('/user/list/:viewType', function(req, res, next) {
+router.get('/user/list/:viewType?', function(req, res, next) {
   var viewType = req.params.viewType == 'admin' ? 'admin_view' : 'domain_public';
   google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType}, function (err, ans) {
     if (err) return next(err);
@@ -151,8 +151,9 @@ router.use(function(req, res, next) {
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
-router.get('/user/update', function(req, res, next) {
-  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType:'domain_public'}, function (err, ans) {
+router.get('/user/update/:viewType?', function(req, res, next) {
+  var viewType = req.params.viewType == 'admin' ? 'admin_view' : 'domain_public';
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType}, function (err, ans) {
     if (err) return next(err);
     var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);
     GoogleRecord.deleteRecords(recordsAndGoogleUsers, res.locals.user._id, function(err, result) {

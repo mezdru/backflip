@@ -4,7 +4,7 @@
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 23-06-2017 05:08
+@Last modified time: 26-06-2017 01:49
 @Copyright: Clément Dietschy 2017
 @todo deduplicate wiew code with partials/hit_template.hbs
 }}
@@ -44,10 +44,14 @@
     </div>
     <div class="pure-u-5-6">
       <h2>Google</h2>
-      <p><a href="{{url "admin/google/user/list/" organisation}}"><i class="fa fa-user" aria-hidden="true"></i> Users list</a> Get users within your Google organisation (500 max).</p>
+      <p><a href="{{url "admin/google/user/list/" organisation}}"><i class="fa fa-user" aria-hidden="true"></i> Users list</a> <a href="{{url "admin/google/user/list/admin" organisation}}">(admin)</a> Get users within your Google organisation (500 max).</p>
       <div class="danger-zone">
         <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Danger</h3>
-        <p><a href="{{url "admin/google/user/update/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Update</a> Update the records in your directory by adding new Google users and removing suspended Google users.</p>
+        <p>
+          <a href="{{url "admin/google/user/update/" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Update</a>
+            <a href="{{url "admin/google/user/update/admin" organisation}}" onclick="return confirm('This action can break your directory. Are you sure?')">(admin)</a>
+          Update the records in your directory by adding new Google users and removing suspended Google users.
+        </p>
       </div>
     </div>
   </div>
