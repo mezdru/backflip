@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 01:10
+ * @Last modified time: 26-06-2017 02:33
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -126,6 +126,7 @@ GoogleRecord.createRecord = function(googleUser, organisationID) {
       picture: {
         url: googleUser.thumbnailPhotoUrl
       },
+      ranking: 1000,
       google: {
         id: googleUser.id,
         etag: googleUser.etag,
