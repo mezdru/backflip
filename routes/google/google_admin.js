@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 04:55
+ * @Last modified time: 26-06-2017 01:41
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -72,8 +72,9 @@ router.get('/group/list', function(req, res, next) {
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
-router.get('/user/list', function(req, res, next) {
-  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType:'domain_public'}, function (err, ans) {
+router.get('/user/list/:viewType', function(req, res, next) {
+  var viewType = req.params.viewType == 'admin' ? 'admin_view' : 'domain_public';
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
