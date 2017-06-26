@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 06:07
+ * @Last modified time: 26-06-2017 12:55
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -80,7 +80,7 @@ router.get('/login/callback', function(req, res, next) {
       user.touchLogin(function(err) {
         if (err) return console.error(err);
       });
-      if (req.session.redirect_after_login_tag) {
+      if (req.session.redirect_after_login_tag && req.session.redirect_after_login_tag != 'demo') {
         return res.redirect(new UrlHelper(req.session.redirect_after_login_tag).getUrl());
       }
       // we don't have session info about redirect, so we guess...

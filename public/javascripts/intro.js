@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 12:49
+ * @Last modified time: 26-06-2017 12:57
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -47,7 +47,7 @@ function getIntroSteps() {
     },
     {
       element: introWide ? document.querySelector('#left-panel') : document.querySelector('#subheader'),
-      intro: "<h2>Navigate</h2><p>Plus Lenom provides <strong><i class='fa fa-at' aria-hidden='true'></i>Teams</strong> and<br><abbr title='A hashtag can be a skill, project, achievement...'><strong><i class='fa fa-hashtag' aria-hidden='true'></i>Hashtags</strong></abbr> exploration.</p>",
+      intro: "<h2>Navigate</h2><p>Plus Lenom provides <strong><i class='fa fa-at' aria-hidden='true'></i>Teams</strong> and<br><abbr title='One Hashtag can be a skill, project, achievement...'><strong><i class='fa fa-hashtag' aria-hidden='true'></i>Hashtags</strong></abbr> exploration.</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned',
       introWideOnly: true
     },
