@@ -3,8 +3,8 @@
 * @Date:   17-03-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 18-05-2017 01:17
+ * @Last modified by:   clement
+ * @Last modified time: 26-06-2017 07:33
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -104,6 +104,11 @@ hbs.registerHelper('adminLink', function(user, organisation) {
 });
 
 hbs.registerHelper('url', function(page, organisation) {
+  return new UrlHelper(organisation.tag, page).getUrl();
+});
+
+hbs.registerHelper('composeUrl', function(recordId, organisation) {
+  page = 'compose/' + recordId;
   return new UrlHelper(organisation.tag, page).getUrl();
 });
 

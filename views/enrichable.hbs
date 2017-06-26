@@ -1,0 +1,26 @@
+{{!
+@Author: Clément Dietschy <bedhed>
+@Date:   09-03-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 26-06-2017 07:44
+@Copyright: Clément Dietschy 2017
+}}
+
+<div class="main">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <h2>{{title}}</h2>
+      <p>{{details}}</p>
+      {{#content}}
+      <h2>{{name}}</h2>
+      <p>
+        <a style="margin-right: 3em" target="_blank" href="https://www.google.fr/search?q={{name}}"><i class="fa fa-google" aria-hidden="true"></i> Google Search</a>
+        <a style="margin-right: 3em" target="_blank" href="https://www.google.fr/search?q={{name}} twitter"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter Search</a>
+        <a style="margin-right: 3em" target="_blank" href="{{composeUrl id ../organisation}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Compose</a>
+      </p>
+      {{/content}}
+    </div>
+  </div>
+</div>

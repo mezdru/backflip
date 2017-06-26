@@ -4,7 +4,7 @@
  * @Email:  clement@lenom.io
  * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 05:30
+ * @Last modified time: 26-06-2017 07:27
  * @Copyright: Clément Dietschy 2017
  */
 
@@ -26,6 +26,11 @@ var FullContactRecord = class FullContactRecord {
         let err = new Error('Fullcontact found less than a month ago');
         err.status = 403;
         return callback(err);
+      }
+      if (!this.record.google.primaryEmail) {
+        let customErr = new Error('No Google Email to search');
+        customErr.status = 403;
+        return callback(customErr);
       }
       fullContact.person.md5(md5(this.record.google.primaryEmail), function(err, data) {
         if (data) return callback(null, data);

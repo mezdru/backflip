@@ -4,7 +4,7 @@
  * @Email:  clement@lenom.io
  * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 21-06-2017 05:36
+ * @Last modified time: 26-06-2017 07:39
  * @Copyright: Clément Dietschy 2017
  */
 
@@ -50,6 +50,17 @@ router.use(function(req, res, next) {
     if (err) return next(err);
     res.locals.organisation.records = records;
     return next();
+  });
+});
+
+router.get('/enrichable', function(req, res, next) {
+  console.log(res.locals.organisation._id);
+  var enrichable = res.locals.organisation.records.filter(record => !record.fullcontact_updated);
+  res.render('enrichable',
+  {
+    title: 'Enrichable Records',
+    details: `${enrichable.length} out of ${res.locals.organisation.records.length} Records could be enriched`,
+    content: enrichable
   });
 });
 

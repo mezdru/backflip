@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 05:53
+ * @Last modified time: 26-06-2017 07:15
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -25,7 +25,7 @@ var db = mongoose.connection;
 
 db.on('error', console.error.bind(console));
 db.once('open', function() {
-  console.log('Connected !');
+  console.log('Connected to DB!');
 });
 
 // Views
