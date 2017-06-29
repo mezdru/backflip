@@ -3,8 +3,8 @@
 * @Date:   23-04-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 17-05-2017 11:49
+ * @Last modified by:   clement
+ * @Last modified time: 29-06-2017 06:01
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -125,7 +125,7 @@ var LinkHelper = class LinkHelper {
       case 'linkedin': this.type = 'linkedin'; this.display = 'LinkedIn'; return;
       case 'pinterest': this.type = 'pinterest'; this.display = 'Pinterest'; return;
       case 'renren': this.type = 'renren'; this.display = 'Renren'; return;
-      case 'skype': this.type = 'skype'; this.display = 'Skype'; return;
+      case 'skype': this.type = 'skype'; this.display = this.value; return;
       case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; return;
       case 'trello': this.type = 'trello'; this.display = 'Trello'; return;
       case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; return;

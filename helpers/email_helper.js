@@ -3,8 +3,8 @@
 * @Date:   06-06-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 06-06-2017 11:58
+ * @Last modified by:   clement
+ * @Last modified time: 27-06-2017 10:52
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -14,7 +14,6 @@ const defaultReciepient = 'hear-me@lenom.io';
 var EmailHelper = {
   superadmin: {
     newOrg: function(name, email, organisation, link) {
-      console.log(`${name}, ${email}, ${organisation}, ${link}`);
       const request = mailjet
         .post("send")
         .request({
