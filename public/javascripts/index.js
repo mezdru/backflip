@@ -4,7 +4,7 @@
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 23-06-2017 12:04
+ * @Last modified time: 30-06-2017 01:08
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -93,11 +93,12 @@ function transformDescriptions(item) {
 
 function transformString(input, within) {
 		var regex = /([@#][\w-<>\/]+)/g;
-		return input.replace(regex, function(match, offset, string) {
+		input = input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
 			record = getRecord(cleanMatch, within);
 			return `<a title="${record.name}" class="link-${record.type}" onclick="setSearch('${record.type == 'team' ? '' : cleanMatch}', '${record.type == 'team' ? cleanMatch : '' }')">${match}</a>`;
 		});
+		return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
 function getRecord(tag, within) {

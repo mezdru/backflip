@@ -3,8 +3,8 @@
 * @Date:   23-04-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 05-05-2017 05:16
+ * @Last modified by:   clement
+ * @Last modified time: 30-06-2017 01:21
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -78,7 +78,7 @@ var RecordObjectCSVHelper = class RecordObjectCSVHelper {
     this.record.tag = this.csv.tag;
     this.record.picture = {};
     this.record.picture.url = this.csv.picture_url;
-    this.record.description = this.csv.description;
+    this.record.description = this.csv.description.replace('\\n','\n');
     this.record.links = this.getLinksForObject();
   }
 
