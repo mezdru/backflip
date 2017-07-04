@@ -15,6 +15,7 @@ var User = require('../../models/user.js');
 var Record = require('../../models/record.js');
 var GoogleUser = require('../../models/google/google_user.js');
 var GoogleRecord = require('../../models/google/google_record.js');
+var undefsafe = require('undefsafe');
 
 // Create Google OAuth2 Client for everyone
 // Populate with tokens if available
@@ -170,6 +171,34 @@ router.get('/user/update/:viewType?', function(req, res, next) {
         keep: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'keep')
       });
     });
+});
+
+//Removes private Google Pictures
+router.get('/user/cleanPictures', function(req, res, next) {
+  var cleaned = [];
+  var toClean = res.locals.organisation.records.filter(record => undefsafe(record, 'picture.url') && record.picture.url.includes('https://plus.google.com/_/focus/photos/private/'));
+  if (toClean.length === 0) {
+    return res.render('index',
+      {
+        title: 'Cleaning Private Google Pictures',
+        details: `There is no Picture to Clean`
+      });
+  }
+  toClean.forEach(function(record) {
+    record.picture.url = null;
+    record.save(function(err, record) {
+      if (err) return next(err);
+      cleaned.push(record);
+      if (cleaned.length === toClean.length) {
+        res.render('index',
+          {
+            title: 'Cleaning Private Google Pictures',
+            details: `${cleaned.length} private google pictures have been cleaned`,
+            content: cleaned
+          });
+      }
+    });
+  });
 });
 
 module.exports = router;
