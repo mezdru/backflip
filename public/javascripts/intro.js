@@ -27,7 +27,7 @@ function getIntroSteps() {
   steps = [
     {
       element: introRecord0,
-      intro: "<h2><strong>Hello You</strong></h2><p>Lenom is an app to find the <strong><i class='fa fa-user-circle-o' aria-hidden='true'></i>Persons</strong> we are working with.</p><p class='align-right'>(basically, it's a directory)</p>",
+      intro: "<h2><strong>Human centric</strong></h2><p>Lenom is an app to find the <strong><i class='fa fa-user-circle-o' aria-hidden='true'></i>Persons</strong> we are working with.</p><p class='align-right'>(basically, it's a directory)</p>",
       position: introWide ? 'right' : 'bottom-middle-aligned'
     },
     {
