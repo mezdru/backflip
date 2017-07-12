@@ -202,18 +202,12 @@ transformTypeItem = function(item) {
 	return item;
 };
 
-var searchHook = function(query, search) {
-	query.clearRefinements();
-	search(query);
-};
-
 search.addWidget(
 	instantsearch.widgets.searchBox({
 		container: '#search',
 		placeholder: 'Search by Name, @Team, #skill...',
 		wrapInput: false,
 		autofocus: false,
-		queryHook: searchHook,
 		cssClasses: {
 			input: 'search-input'
 		}

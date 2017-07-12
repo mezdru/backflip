@@ -292,40 +292,48 @@ a.logout:hover {
   display: none;
 }
 
-.ais-refinement-list--count {
+.ais-refinement-list--count,
+.ais-menu--count {
   font-size: 0.8em;
   color: #ABB0BB;
 }
 
-.ais-refinement-list--item {
+.ais-refinement-list--item,
+.ais-menu--item {
   padding: 5px 8px;
   margin-bottom: 1px;
 }
 
-.ais-refinement-list--item:hover {
+.ais-refinement-list--item:hover,
+.ais-menu--item:hover  {
   cursor: pointer;
   color: #ffffff;
   background: #2ECC71;
 }
 
-.ais-refinement-list--label:hover {
+.ais-refinement-list--label:hover,
+.ais-menu--label:hover {
   cursor: pointer;
 }
 
-.ais-refinement-list--item:hover .ais-refinement-list--count {
+.ais-refinement-list--item:hover .ais-refinement-list--count,
+.ais-menu--item:hover .ais-menu-count {
   color: #E6E8EC;
 }
 
-.ais-refinement-list--item__active {
+.ais-refinement-list--item__active,
+.ais-menu--item__active {
   font-weight: bold;
   color: #2ECC71;
 }
 
-.ais-refinement-list--item__active .ais-refinement-list--count {
+.ais-refinement-list--item__active .ais-refinement-list--count,
+.ais-menu--item__active .ais-menu--count {
   font-weight: normal;
 }
 
-.ais-refinement-list--item__active:hover {
+.ais-refinement-list--item__active:hover,
+.ais-menu--item__active:hover {
   background-color: #7F8C8D;
 }
 
@@ -367,21 +375,21 @@ a.logout:hover {
   display: none;
 }
 
-#subheader .ais-refinement-list--item {
+#subheader .ais-refinement-list--item,
+#subheader .ais-menu--item {
   display: inline-block;
-}
-
-#subheader .ais-refinement-list--item {
   padding: 0;
   height: 30px;
   margin-bottom: 0;
 }
 
-#subheader .ais-refinement-list--item > div {
+#subheader .ais-refinement-list--item > div,
+#subheader .ais-menu--item > div {
   padding: 5px 8px 0;
 }
 
-#subheader .ais-refinement-list--label {
+#subheader .ais-refinement-list--label,
+#subheader .ais-menu--label {
   text-transform: capitalize;
 }
 
