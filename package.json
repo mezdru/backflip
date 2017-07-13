@@ -15,7 +15,10 @@
   "bugs": {
     "url": "https://github.com/lenomio/backflip/issues"
   },
-  "homepage": "https://github.com/lenomio/backflip#readme",
+  "engines": {
+    "node": "6.11.x"
+  }
+  "homepage": "https://lenom.io",
   "dependencies": {
     "algoliasearch": "^3.22.1",
     "array-unique": "^0.3.2",
