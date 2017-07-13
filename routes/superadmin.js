@@ -18,6 +18,7 @@ var Organisation = require('../models/organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 
+var UrlHelper = require('../helpers/url_helper.js');
 
 router.get('/depersonate', function(req, res, next) {
   req.session.user = new User(req.session.impersonator);
@@ -54,11 +55,20 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
     req.session.user = user;
     res.locals.impersonator = req.session.impersonator;
     res.locals.user = req.session.user;
-    return res.render('index',
-      {
-        title: 'Impersonate',
-        details: 'You are now impersonating ' + res.locals.user.google.email
+
+    var firstOrgId = user.getFirstOrgId();
+    if (firstOrgId) {
+      Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
+        if(err) return next(err);
+        res.redirect(new UrlHelper(organisation.tag).getUrl());
       });
+    } else {
+      return res.render('index',
+        {
+          title: 'Impersonate',
+          details: 'You are now impersonating ' + res.locals.user.google.email
+        });
+    }
   });
 });
 

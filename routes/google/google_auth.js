@@ -21,7 +21,6 @@ var Organisation = require('../../models/organisation.js');
 
 var GoogleUser = require('../../models/google/google_user.js');
 
-
 var UrlHelper = require('../../helpers/url_helper.js');
 
 
