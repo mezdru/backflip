@@ -33,13 +33,34 @@ app.set('views', path.join(__dirname, 'views'));
 var hbs = require('./views/hbs.js');
 app.set('view engine', 'hbs');
 
-// Redirect non https only in production
 if (app.get('env') === 'production') {
+  // Redirect non https only in production
   app.use(function(req, res, next) {
       if(req.protocol !== 'https') return res.redirect(301, "https://" + req.headers.host + req.url);
       else return next();
   });
+
+  // Setup organisationTag
+  app.use(function(req, res, next) {
+    if (req.subdomains.length > 0) req.organisationTag = req.subdomains[0];
+  });
+
+} else if (app.get('env') === 'development') {
+  // Setup organisationTag
+  app.use(function(req, res, next) {
+    if (req.query.subdomains) req.organisationTag = req.query.subdomains.split('.')[0];
+    return next();
+  });
+
 }
+
+// www is not an organisation, it's an 1990 artifact.
+app.use(function(req, res, next) {
+  if (req.organisationTag === 'www') {
+    return res.redirect(301, 'https://lenom.io' + req.url);
+  }
+  return next();
+});
 
 // Generic
 var morgan = require('morgan');
