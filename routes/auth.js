@@ -13,12 +13,13 @@ var router = express.Router();
 var User = require('../models/user.js');
 var Organisation = require('../models/organisation.js');
 var undefsafe = require('undefsafe');
+var UrlHelper = require('../helpers/url_helper.js');
 
 // Simple easy logout
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if (err) return next(err);
-    return res.redirect('/');
+    return res.redirect(new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());
   });
 });
 
@@ -68,7 +69,8 @@ router.use(function(req, res, next) {
       res.locals.organisation = organisation;
       return next();
     });
-  }
+  } else return next();
+
 });
 
 module.exports = router;

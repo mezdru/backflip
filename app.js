@@ -62,6 +62,28 @@ app.use(function(req, res, next) {
   return next();
 });
 
+// i18n logic
+const locales = ['en', 'fr'];
+var i18n = require('i18n');
+i18n.configure({
+  locales: locales,
+  directory: "" + __dirname + "/locales"
+});
+
+app.use(i18n.init);
+
+//@todo the i18n.init is quite heavy, can we avoid this logic when we read the Locale from the URL ?
+app.use(function(req, res, next) {
+  var match = req.url.match(/^\/([a-z]{2})([\/\?].*)?$/i);
+  if (match && locales.includes(match[1])) {
+    req.setLocale(match[1]);
+    req.url = match[2] || '/';
+  } else if (req.path == '/' && !req.organisationTag) {
+    res.redirect(301, req.getLocale() + '/');
+  }
+  return next();
+});
+
 // Generic
 var morgan = require('morgan');
 morgan.token('fullurl', function getFullUrl(req) {
@@ -100,8 +122,13 @@ app.use(session({
 // Taking care of general Auth
 var auth = require('./routes/auth.js');
 app.use('/', auth);
-app.locals.loginUrl = '/google/login';
-app.locals.logoutUrl = '/logout';
+
+var UrlHelper = require('./helpers/url_helper.js');
+app.use(function(req, res, next) {
+  res.locals.loginUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();
+  res.locals.logoutUrl = new UrlHelper(req.organisationTag, 'logout', null, req.getLocale()).getUrl();
+  return next();
+});
 
 // Taking care of Google Auth
 var googleAuth = require('./routes/google/google_auth.js');

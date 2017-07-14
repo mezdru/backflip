@@ -37,6 +37,7 @@
     "google-libphonenumber": "^2.0.15",
     "googleapis": "^17.1.0",
     "hbs": "~4.0.1",
+    "i18n": "^0.8.3",
     "md5": "^2.2.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",

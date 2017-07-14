@@ -50,6 +50,7 @@ router.get('/login', function(req, res, next) {
     scope: scopes
   });
   if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;
+  req.session.locale = req.getLocale();
   res.redirect(url);
 });
 
@@ -80,17 +81,17 @@ router.get('/login/callback', function(req, res, next) {
         if (err) return console.error(err);
       });
       if (req.session.redirect_after_login_tag && req.session.redirect_after_login_tag != 'demo') {
-        return res.redirect(new UrlHelper(req.session.redirect_after_login_tag).getUrl());
+        return res.redirect(new UrlHelper(req.session.redirect_after_login_tag, null, null, req.session.locale).getUrl());
       }
       // we don't have session info about redirect, so we guess...
       var firstOrgId = user.getFirstOrgId();
       if (firstOrgId) {
         Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
           if(err) return next(err);
-          res.redirect(new UrlHelper(organisation.tag).getUrl());
+          res.redirect(new UrlHelper(organisation.tag, null, null, req.session.locale).getUrl());
         });
       } else {
-        return res.redirect(new UrlHelper(null, 'welcome').getUrl());
+        return res.redirect(new UrlHelper(null, 'welcome', null, req.session.locale).getUrl());
       }
     });
   });

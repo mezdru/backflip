@@ -12,6 +12,10 @@ var hbs = require('hbs');
 var errors = require('./errors.json');
 var UrlHelper = require('../helpers/url_helper.js');
 
+hbs.registerHelper('__', function () {
+  return this.__.apply(this, arguments);
+});
+
 hbs.registerHelper('raw', function(options) {
   return options.fn();
 });
@@ -82,7 +86,7 @@ hbs.registerHelper('pictureUrl', function(picture, type) {
 
 hbs.registerHelper('error', function(status, elem) {
   error = errors.find(error => error.status == status || error.status == 500);
-  return error[elem];
+  return this.__(error[elem]);
 });
 
 hbs.registerHelper('tagLink', function(tag) {
@@ -93,28 +97,28 @@ hbs.registerHelper('profileLink', function(user, organisation) {
   if (!organisation || !user) return null;
   recordId = user.getRecordIdByOrgId(organisation._id);
   if (!recordId) return null;
-  url = new UrlHelper(organisation.tag, `compose/${recordId}`).getUrl();
+  url = new UrlHelper(organisation.tag, `compose/${recordId}`, null, this.getLocale()).getUrl();
   return `<a title="My profile" class="fa fa-user-circle-o profile" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {
   if (!organisation || !user || !user.isAdminToOrganisation(organisation._id)) return null;
-  url = new UrlHelper(organisation.tag, `admin/`).getUrl();
+  url = new UrlHelper(organisation.tag, `admin/`, null, this.getLocale()).getUrl();
   return `<a title="Administration" class="fa fa-cog admin" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('url', function(page, organisation) {
-  return new UrlHelper(organisation.tag, page).getUrl();
+  return new UrlHelper(organisation.tag, page, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('composeUrl', function(recordId, organisation) {
   page = 'compose/' + recordId;
-  return new UrlHelper(organisation.tag, page).getUrl();
+  return new UrlHelper(organisation.tag, page, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('homeUrl', function(organisation) {
-  if (organisation) return new UrlHelper(organisation.tag).getUrl();
-  else return new UrlHelper().getUrl();
+  if (organisation) return new UrlHelper(organisation.tag, null, null, this.getLocale()).getUrl();
+  else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
 });
 
 hbs.registerPartials(__dirname + '/partials');

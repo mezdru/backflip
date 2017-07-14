@@ -10,10 +10,11 @@
 
 var UrlHelper = class UrlHelper {
 
-  constructor(subdomains, path, query) {
+  constructor(subdomains, path, query, locale) {
     this.subdomains = subdomains || '';
     this.path = path || '';
     this.query = query || '';
+    this.locale = locale || '';
   }
 
   getUrl () {
@@ -28,9 +29,9 @@ var UrlHelper = class UrlHelper {
         if (this.query) this.query += `&subdomains=${this.subdomains}`;
         else this.query = `?subdomains=${this.subdomains}`;
       }
-      this.url = `http://localhost:3000/${this.path}${this.query}`;
+      this.url = `http://localhost:3000/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
     } else {
-      this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}lenom.io/${this.path}${this.query}`;
+      this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}lenom.io/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
     }
   }
 
