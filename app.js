@@ -70,7 +70,6 @@ i18n.configure({
   locales: locales,
   defaultLocale: 'en',
   updateFiles: app.get('env') === 'development',
-  syncFiles: true,
   directory: "" + __dirname + "/locales"
 });
 
