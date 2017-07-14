@@ -23,7 +23,6 @@ var UrlHelper = class UrlHelper {
   }
 
   makeUrl() {
-    var url;
     if (this.isDev()) {
       if (this.subdomains) {
         if (this.query) this.query += `&subdomains=${this.subdomains}`;

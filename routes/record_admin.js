@@ -20,6 +20,7 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({storage: storage});
 var csvtojson = require('csvtojson');
+var UrlHelper = require('../helpers/url_helper.js');
 
 
 // Load the whole organisation records, we'll need those for further use
@@ -110,8 +111,7 @@ router.get('/csv', function(req, res, next) {
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
 router.use('/upload', function(req, res, next) {
-  res.locals.formAction = '/admin/record/upload';
-  if (req.app.get('env') === 'development') res.locals.formAction = '/admin/record/upload/?subdomains=' + req.query.subdomains;
+  res.locals.formAction = new UrlHelper(req.organisationTag, 'admin/record/upload', null, req.getLocale()).getUrl();
   return next();
 });
 

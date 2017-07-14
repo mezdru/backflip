@@ -37,12 +37,12 @@
               {{#includes_count.team}}<a title="{{includes_count.team}} Teams" class="searcher link-teams" onclick="setSearch('', '{{tag}}', 'team')"><i class="fa fa-at" aria-hidden="true"></i>{{includes_count.team}}</a>{{/includes_count.team}}
               {{#includes_count.hashtag}}<a title="{{includes_count.hashtag}} Hashtags" class="searcher link-hashtags" onclick="setSearch('', '{{tag}}', 'hashtag')"><i class="fa fa-hashtag" aria-hidden="true"></i>{{includes_count.hashtag}}</a>{{/includes_count.hashtag}}
             </span>
-            {{#canEdit}}
-            <a title="Compose" href="/compose/{{objectID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            {{/canEdit}}
-            {{#canDelete}}
-            <a title="Delete" href="/admin/record/delete/{{objectID}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-            {{/canDelete}}
+            {{#editUrl}}
+            <a title="Compose" href="{{editUrl}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+            {{/editUrl}}
+            {{#deleteUrl}}
+            <a title="Delete" href="{{deleteUrl}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+            {{/deleteUrl}}
           </p>
         </div>
         <p class="description snippet">{{{_snippetResult.description.value}}}</p>

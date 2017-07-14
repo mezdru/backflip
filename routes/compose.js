@@ -14,6 +14,7 @@ var router = express.Router();
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
+var UrlHelper = require('../helpers/url_helper.js');
 
 // First we check there is an organisation.
 // There is no record without organisation
@@ -65,8 +66,7 @@ router.post('*', function(req, res, next) {
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
 router.use('/:recordId', function(req, res, next) {
-  res.locals.formAction = '/compose/' + req.params.recordId;
-  if (req.app.get('env') === 'development') res.locals.formAction = '/compose/' + req.params.recordId + '?subdomains=' + req.query.subdomains;
+  res.locals.formAction = new UrlHelper(req.organisationTag, 'compose/' + req.params.recordId, null, req.getLocale()).getUrl();
   return next();
 });
 

@@ -66,7 +66,7 @@ GoogleRecord.tagActions = function(recordsAndGoogleUsers) {
   recordsAndGoogleUsers.forEach(function (recordAndGoogleUser) {
     // Delete
     if (recordAndGoogleUser.record &&
-      (recordAndGoogleUser.googleUser === false ||
+      (recordAndGoogleUser.googleUser &&
       recordAndGoogleUser.googleUser.suspended === true)) {
         recordAndGoogleUser.action = 'delete';
     // create

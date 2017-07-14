@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
   res.locals.orgTree = res.locals.organisation.tree;
   res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
   res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
+  res.locals.isDevelopment = req.app.get('env') == 'development';
   res.locals.isMyOrg = true;
   // careful, switching to false breaks intro_auto
   res.locals.intro = true;

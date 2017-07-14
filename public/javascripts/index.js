@@ -44,8 +44,8 @@ transformItem = function (item) {
 	transformLinks(item);
 	transformHighlightedTag(item);
 	addType(item);
-	addCanEdit(item);
-	addCanDelete(item);
+	addEditUrl(item);
+	addDeleteUrl(item);
 	addParentTag(item);
 	return item;
 };
@@ -176,15 +176,15 @@ function makeLinkUrl(link) {
 	}
 }
 
-function addCanEdit(item) {
+function addEditUrl(item) {
 	if (isMyOrg && (item.type != 'person' || isAdmin || myRecordId == item.objectID)) {
-		item.canEdit = true;
+		item.editUrl = makeUrl(null, 'compose/' + item.objectID);
 	}
 }
 
-function addCanDelete(item) {
+function addDeleteUrl(item) {
 	if (isAdmin) {
-		item.canDelete = true;
+		item.deleteUrl = makeUrl(null, 'admin/record/delete/' + item.objectID);
 	}
 }
 

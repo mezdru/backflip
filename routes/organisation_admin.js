@@ -10,13 +10,13 @@
 
 var express = require('express');
 var router = express.Router();
+var UrlHelper = require('../helpers/url_helper.js');
 
 // Here we provide the action url to the view.
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
 router.use('/tree', function(req, res, next) {
-  res.locals.formAction = '/admin/organisation/tree';
-  if (req.app.get('env') === 'development') res.locals.formAction = '/admin/organisation/tree/?subdomains=' + req.query.subdomains;
+  res.locals.formAction = new UrlHelper(req.organisationTag, 'admin/organisation/tree', null, req.getLocale()).getUrl();
   return next();
 });
 

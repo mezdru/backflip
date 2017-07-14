@@ -81,4 +81,43 @@ function getTemplate(templateName) {
   return document.getElementById(templateName + '-template').innerHTML;
 }
 
+function makeUrl(subdomains, path, query, locale) {
+  var url;
+  subdomains = subdomains || getSubdomain();
+  path = path || '';
+  query = query || '';
+  locale = locale || getLocale();
+  if (isDevelopment) {
+    if (subdomains) {
+      if (query) query += `&subdomains=${subdomains}`;
+      else query = `?subdomains=${subdomains}`;
+    }
+    url = `http://localhost:3000/${locale ? locale + '/' : ''}${path}${query}`;
+  } else {
+    url =  `https://${subdomains ? subdomains + '.' : ''}lenom.io/${locale ? locale + '/' : ''}${path}${query}`;
+  }
+  return url;
+}
+
+var subdomain;
+function getSubdomain() {
+  if (subdomain) return subdomain;
+
+  var elements = window.location.host.split('.');
+  if (elements.length > 2) subdomain = window.location.host.split('.')[0];
+  else if (isDevelopment) subdomain = getParameterByName('subdomains');
+  
+  return subdomain;
+}
+
+var locale;
+function getLocale() {
+  if (locale) return locale;
+
+  firstPath = window.location.pathname.split('/')[1];
+  if (['en','fr'].includes(firstPath)) locale = firstPath;
+
+  return locale;
+}
+
 window.onload = onloadActions;
