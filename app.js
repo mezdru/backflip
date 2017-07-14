@@ -68,6 +68,9 @@ const locales = ['en', 'fr'];
 var i18n = require('i18n');
 i18n.configure({
   locales: locales,
+  defaultLocale: 'en',
+  updateFiles: app.get('env') === 'development',
+  syncFiles: true,
   directory: "" + __dirname + "/locales"
 });
 
