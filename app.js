@@ -43,6 +43,7 @@ if (app.get('env') === 'production') {
   // Setup organisationTag
   app.use(function(req, res, next) {
     if (req.subdomains.length > 0) req.organisationTag = req.subdomains[0];
+    return next();
   });
 
 } else if (app.get('env') === 'development') {

@@ -35,7 +35,6 @@ router.use(function(req, res, next) {
     });
   } else {
     res.locals.user = false;
-    req.session.redirect_after_login = req.protocol + '://' + req.get('host') + req.originalUrl;
     return next();
   }
 });

@@ -67,7 +67,8 @@ router.get('/admin_login', function(req, res, next) {
 router.get('/login/callback', function(req, res, next) {
   if (req.query.error == 'access_denied') {
     console.log("OAUTH - ACCESS DENIED (someone clicked CANCEL on the google authorization screen)");
-    return res.redirect(req.session.redirect_after_login || '/');
+    //@todo create a page to explain the authorization we ask on the google login screen
+    return res.redirect('/');
   }
   req.googleOAuth.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
