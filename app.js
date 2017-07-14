@@ -82,7 +82,7 @@ app.use(function(req, res, next) {
     req.setLocale(match[1]);
     req.url = match[2] || '/';
   } else if (req.path == '/' && !req.organisationTag) {
-    res.redirect(301, req.getLocale() + '/');
+    res.redirect(302, req.getLocale() + '/');
   }
   return next();
 });
