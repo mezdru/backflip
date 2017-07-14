@@ -17,8 +17,10 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 router.get('/', function(req, res, next) {
   if (res.locals.organisation) {
     if (res.locals.organisation.public === true) {
+      //@todo deduplicate these next 10 lines with private.js / public.js
       res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
       res.locals.orgTree = res.locals.organisation.tree;
+      res.locals.isDevelopment = req.app.get('env') == 'development';
       // careful, switching to false breaks intro_auto
       res.locals.intro = true;
       res.locals.beta = true;

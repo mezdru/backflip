@@ -25,6 +25,7 @@ router.get('/google/app', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
+  //@todo deduplicate these next 10 lines with private.js / public.js
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.locals.orgTree = res.locals.organisation.tree;
   res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);

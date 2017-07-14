@@ -14,11 +14,11 @@
 {{> hit_template}}
 {{> noone_template}}
 <script>
+  var isDevelopment = {{{json isDevelopment}}};
   var algoliaPublicKey = {{{json algoliaPublicKey}}};
   var isAdmin = {{{json isAdmin}}};
   var myRecordId = {{{json myRecordId}}};
   var isMyOrg = {{{json isMyOrg}}};
   var orgTree = {{{json orgTree}}};
-  var isDevelopment = {{{json isDevelopment}}}
 </script>
 <script src="/javascripts/index.js"></script>
