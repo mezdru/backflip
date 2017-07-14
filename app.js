@@ -64,7 +64,7 @@ app.use(function(req, res, next) {
 });
 
 // i18n logic
-const locales = ['en', 'fr'];
+const locales = ['en', 'fr', 'zu'];
 var i18n = require('i18n');
 i18n.configure({
   locales: locales,
@@ -85,6 +85,11 @@ app.use(function(req, res, next) {
   } else if (req.path == '/' && !req.organisationTag) {
     res.redirect(301, req.getLocale() + '/');
   }
+  return next();
+});
+
+app.use(function(req, res, next) {
+  if (req.getLocale() === 'zu') res.locals.inContext = true;
   return next();
 });
 

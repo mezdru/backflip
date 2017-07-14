@@ -36,6 +36,14 @@
     <script src="/javascripts/utils.js"></script>
     <link rel="stylesheet" href="/stylesheets/index.css"/>
 
+    {{#if inContext}}
+    <script type="text/javascript">
+      var _jipt = [];
+      _jipt.push(['project', 'lenom']);
+    </script>
+    <script type="text/javascript" src="//cdn.crowdin.com/jipt/jipt.js"></script>
+    {{/if}}
+
     {{#if intro}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/intro.js/2.5.0/introjs.min.css">
     <link rel="stylesheet" href="/stylesheets/introjs.css">
