@@ -107,8 +107,8 @@ hbs.registerHelper('adminLink', function(user, organisation) {
   return `<a title="Administration" class="fa fa-cog admin" href="${url}" aria-hidden="true"></a>`;
 });
 
-hbs.registerHelper('url', function(page, organisation) {
-  return new UrlHelper(organisation.tag, page, null, this.getLocale()).getUrl();
+hbs.registerHelper('url', function(path, organisationTag) {
+  return new UrlHelper(organisationTag, path, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('composeUrl', function(recordId, organisation) {
