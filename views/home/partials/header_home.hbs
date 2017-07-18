@@ -23,20 +23,18 @@
     </div>
   </div>
   <div class="pure-u-menu pure-u-md-1-6">
-    {{> menu}}
+    {{> menu_home}}
   </div>
 </div>
 {{else}}
 <div class="pure-g">
-  <a class="pure-u-logo pure-u-1-2 pure-u-md-1-6" href="{{homeUrl organisation}}">
+  <a class="pure-u-logo pure-u-1-3 pure-u-md-1-6" href="{{homeUrl organisation}}">
     <div class="logo">
       <img class="pure-img" src="/lenom.svg">
     </div>
   </a>
-  <div class="pure-u-search pure-u-md-2-3">
-  </div>
-  <div class="pure-u-menu pure-u-1-2 pure-u-md-1-6">
-    {{> menu}}
+  <div class="pure-u-menu pure-u-2-3 pure-u-md-5-6">
+    {{> menu_home}}
   </div>
 </div>
 {{/if}}

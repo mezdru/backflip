@@ -11,6 +11,7 @@
 var UrlHelper = class UrlHelper {
 
   constructor(subdomains, path, query, locale) {
+    console.log("sub: "+subdomains);
     this.subdomains = subdomains || '';
     this.path = path || '';
     this.query = query || '';

@@ -31,6 +31,9 @@ textarea:focus, input:focus {
 body {
   color: #474B54;
   font-size: 14px;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 p {
@@ -54,6 +57,10 @@ a.link-team {
 a:hover {
   text-decoration: underline;
   opacity: 1;
+}
+
+a.pure-button:hover {
+  text-decoration: none;
 }
 
 h2 {
@@ -148,6 +155,8 @@ em a {
 }
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
+footer a:hover img,
+footer a:hover .fa,
 #left-panel-closer:hover .fa,
 #toggle-panel a:hover .fa,
 #start-intro:hover,
@@ -183,7 +192,7 @@ p.validate {
 .pure-g {
   margin: 0 auto;
 	padding: 8px 0;
-  max-width: 720px;
+  max-width: 960px;
 }
 
 .grid-box {
@@ -191,7 +200,8 @@ p.validate {
 }
 
 .main {
-  margin-top: 60px;
+  padding-top: 70px;
+  flex: 1;
 }
 
 #search-results {
@@ -201,7 +211,7 @@ p.validate {
 /* HEADER */
 
 header {
-	height: 60px;
+	height: 70px;
   width: 100%;
   position: fixed;
   top: 0;
@@ -212,32 +222,34 @@ header {
 header .pure-g {
   padding-top: 0;
   padding-bottom: 0;
+  max-width: none;
 }
 
 header a {
-  color: #7F8C8D;
+  color: #CCD0D8;
+  font-weight: bolder;
 }
 
 header a:hover {
-  color: #2ECC71;
+  color: #FFFFFF;
   text-decoration: none;
   transition-duration: 0.3s;
 }
 
 .pure-u-logo > div {
-  padding: 16px 8px;
-  max-width: 104px;
+  padding: 20px 0 0 20px;
+  max-width: 114px;
 }
 
 .pure-u-menu > div {
   width: 100%;
-  padding: 19px 8px;
+  padding: 24px 20px 0 0;
   text-align: right;
   box-sizing: border-box;
 }
 
 .pure-u-menu a {
-  margin-left: 8px;
+  margin-left: 20px;
 }
 
 a.logout:hover {
@@ -560,12 +572,41 @@ a.logout:hover {
 
 /* footer */
 footer {
-  text-align: center;
-  padding: 32px 8px 8px 8px;
-  bottom: 0;
   width: 100%;
-  font-size: 0.7em;
-  z-index: 950
+  min-height: 60px;
+  background-color: #F5F7FA;
+  z-index: 700;
+}
+
+footer .pure-g {
+  padding: 0;
+}
+
+.pure-u-footer-logo div {
+  padding: 19px 0 0 20px;
+}
+
+.pure-u-footer-logo img {
+  height: 22px;
+}
+
+.pure-u-footer-twitter div {
+  text-align: right;
+  padding: 16px 20px 0 0;
+}
+
+.pure-u-footer-twitter {
+  font-size: 20px;
+}
+
+.pure-u-footer-menu div {
+  text-align: center;
+  padding: 20px 20px;
+}
+
+.pure-u-footer-menu a {
+  padding: 0 10px;
+  display: inline-block;
 }
 
 /* SEARCH RESULTS */
@@ -995,42 +1036,59 @@ footer {
 
 /* HOMEPAGE */
 
-.tagline {
-  font-weight: 300;
+.main.homepage {
+  padding-top: 70px;
+  padding-bottom: 50px;
+}
+
+.pure-tagline {
+  z-index: 500;
+}
+
+.pure-tagline h1 {
+  font-size: 2em;
+  font-weight: 400;
   text-align: center;
-  color: #33374C;
-  letter-spacing: 0.15em;
+  padding: 20px;
   margin: 0;
-  text-transform: uppercase;
 }
 
-.home-triptic .fa {
-  color: #CCD0D8;
+.homepage p,
+.homepage form {
+  padding: 10px 20px;
 }
 
-.playstop .fa {
-  color: #2ECC71;
-}
-.demo .fa {
-  color: #FF2600;
+.homepage p.homepage-or {
+  text-align: center;
+  padding: 10px 0 0 0;
 }
 
-.playstop .pure-button {
-  margin-top: 8px;
+.homepage .pure-button {
+  margin-top: 10px;
+  width: 100%;
+  font-weight: bold;
   background-color: #2ECC71;
   color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
 }
 
-.home-triptic h2,
-.home-bottom h2 {
-  font-size: 2em;
+.homepage .google-login {
+  background-color: #FF2600;
 }
 
-.home-triptic p,
-.home-bottom p,
-.home-triptic h2,
-.home-bottom h2 {
-  text-align: center;
+.pure-homepage-img {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.pure-homepage-img .credit {
+  font-size: 0.8em;
+  text-align: right;
+}
+
+.signup {
+  max-width: 320px;
+  margin: auto;
 }
 
 /* MOBILE VERSION */
@@ -1043,6 +1101,12 @@ footer {
 
 .search-on .pure-u-search {
   display: inherit;
+}
+
+@media screen and (min-width: 568px) {
+  .pure-tagline h1 {
+    font-size: 3em;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -1075,4 +1139,37 @@ footer {
     height: 405px;
   }
 
+  .main.homepage {
+    padding-top: 90px;
+  }
+
+  .pure-tagline h1 {
+    text-align: right;
+  }
+
+  .pure-homepage-img div {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 62vw;
+    max-width: 969px;
+  }
+
+  .pure-homepage-img .credit {
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .main.homepage {
+    padding-top: 110px;
+  }
+
+  .pure-homepage-img div {
+    bottom: -50px;
+  }
+
+  .pure-tagline h1 {
+    font-size: 4em;
+  }
 }

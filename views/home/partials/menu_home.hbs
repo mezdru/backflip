@@ -1,0 +1,18 @@
+{{!
+@Author: Clément Dietschy <clement>
+@Date:   17-03-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 10-05-2017 11:59
+@Copyright: Clément Dietschy 2017
+}}
+<div>
+  <a title="{{__ "Product"}}" href="{{url "product" null}}">{{__ "Product"}}</a>
+  <a title="{{__ "Pricing"}}" href="{{url "pricing" null}}">{{__ "Pricing"}}</a>
+  {{#if user}}
+  <a title="{{__ "Logout"}}" href="{{logoutUrl}}">{{__ "Logout"}}</a>
+  {{else}}
+  <a title="{{__ "Login"}}" href="{{loginUrl}}">{{__ "Login"}}</a>
+  {{/if}}
+</div>

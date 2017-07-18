@@ -122,5 +122,6 @@ hbs.registerHelper('homeUrl', function(organisation) {
 });
 
 hbs.registerPartials(__dirname + '/partials');
+hbs.registerPartials(__dirname + '/home/partials');
 
 module.exports = hbs;

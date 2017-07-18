@@ -45,5 +45,9 @@ router.get('/', function(req, res, next) {
   }
 });
 
+router.get('/homepage', function(req, res, next) {
+  res.render('home/homepage2', {layout: 'home/layout_home'});
+});
+
 
 module.exports = router;
