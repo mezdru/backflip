@@ -191,7 +191,7 @@ p.validate {
 
 .pure-g {
   margin: 0 auto;
-	padding: 8px 0;
+	padding: 10px 0;
   max-width: 960px;
 }
 
@@ -1054,16 +1054,16 @@ footer .pure-g {
 }
 
 .homepage p,
-.homepage form {
+.home-form {
   padding: 10px 20px;
 }
 
-.homepage p.homepage-or {
+.home-form p.homepage-or {
   text-align: center;
   padding: 10px 0 0 0;
 }
 
-.homepage .pure-button {
+.home-form .pure-button {
   margin-top: 10px;
   width: 100%;
   font-weight: bold;
@@ -1072,7 +1072,7 @@ footer .pure-g {
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
 }
 
-.homepage .google-login {
+.home-form .google-login {
   background-color: #FF2600;
 }
 
@@ -1089,6 +1089,84 @@ footer .pure-g {
 .signup {
   max-width: 320px;
   margin: auto;
+}
+
+/* PRODUCT */
+.main.product {
+  padding-top: 70px;
+  padding-bottom: 50px;
+}
+
+.banner {
+  height: 180px;
+  background-color: #F5F7FA;
+  margin-bottom: 20px;
+}
+
+.product h2 {
+  font-size: 2em;
+  text-align: right;
+  padding: 10px 10px 0 20px;
+}
+
+.product p {
+  padding: 10px 10px 10px 20px;
+  text-align: right;
+}
+
+.product p.automagic {
+  text-align: left;
+  font-size: 1.4em;
+}
+
+.placeholder {
+  display: flex;
+}
+
+.placeholder > div {
+  display: flex;
+  padding: 10px 20px 10px 10px;
+  flex: 1 1;
+}
+
+.placeholder div > div {
+  background-color: #F5F7FA;
+  flex: 1 1;
+}
+
+/* PRICING */
+.main.pricing {
+  padding-top: 70px;
+  padding-bottom: 50px;
+}
+
+.pricing h2 {
+  text-align: center;
+  font-size: 3em;
+  padding: 10px 10px 0px 20px;
+}
+
+.pricing h3 {
+  text-align: center;
+  font-size: 1em;
+  padding: 0px 10px 20px 20px;
+  color: #ABB0BB;
+}
+
+.pricing p {
+  padding: 10px 10px 10px 20px;
+  font-weight: bold;
+}
+
+.pricing p.subtitle {
+  font-weight: normal;
+  color: #2ECC71;
+}
+
+.yearly {
+  padding: 20px;
+  text-align: center;
+  width: 100%;
 }
 
 /* MOBILE VERSION */
