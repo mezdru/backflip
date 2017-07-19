@@ -1169,6 +1169,48 @@ footer .pure-g {
   width: 100%;
 }
 
+/* CHEERS */
+.main.cheers {
+  padding-top: 70px;
+  padding-bottom: 50px;
+}
+
+.cheers .placeholder > div {
+  height: 200px;
+  padding: 20px 20px 0;
+}
+
+.cheers h2 {
+  padding: 10px;
+}
+
+.cheers p {
+  padding: 10px;
+}
+
+.cheers .triptic div:first-child h2,
+.cheers .triptic div:first-child p {
+  padding-left: 20px;
+}
+
+.cheers .triptic div:last-child h2,
+.cheers .triptic div:last-child p {
+  padding-right: 20px;
+}
+
+.cheers .pure-button {
+  width: 100%;
+  font-weight: bold;
+  background-color: #FF2600;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+}
+
+/* RETRY */
+.retry h2 {
+  padding: 20px;
+}
+
 /* MOBILE VERSION */
 
 .search-on .pure-u-logo,

@@ -12,6 +12,13 @@ var express = require('express');
 var router = express.Router();
 
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
+var Application = require('../models/application.js');
+var UrlHelper = require('../helpers/url_helper.js');
+
+router.use(function(req, res, next) {
+  res.locals.formAction = new UrlHelper(null, 'cheers', null, req.getLocale()).getUrl();
+  return next();
+});
 
 /* GET homepage depending on context */
 router.get('/', function(req, res, next) {
@@ -55,6 +62,28 @@ router.get('/product', function(req, res, next) {
 
 router.get('/pricing', function(req, res, next) {
   res.render('home/pricing', {layout: 'home/layout_home'});
+});
+
+router.get('/cheers', function(req, res, next) {
+  res.render('home/cheers', {layout: 'home/layout_home'});
+});
+
+router.post('/cheers', function(req, res, next) {
+  req.sanitizeBody('email').escape();
+  req.sanitizeBody('email').escape();
+  req.checkBody(Application.validationSchema);
+  var errors = req.validationErrors();
+  if (!errors) {
+    application = new Application({
+      email: req.body.email,
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    });
+    application.save( function (err, application) {
+      res.render('home/cheers', {layout: 'home/layout_home'});
+    });
+  } else {
+    res.render('home/retry', {layout: 'home/layout_home', errors: errors, email: req.body.email});
+  }
 });
 
 
