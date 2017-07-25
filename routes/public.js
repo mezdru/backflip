@@ -53,7 +53,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/homepage', function(req, res, next) {
-  res.render('home/homepage', {layout: 'home/layout_home'});
+  res.render('home/homepage', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 router.get('/product', function(req, res, next) {

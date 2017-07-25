@@ -219,6 +219,10 @@ header {
 	background-color: #33374C;
 }
 
+.home header {
+  position: relative;
+}
+
 header .pure-g {
   padding-top: 0;
   padding-bottom: 0;
@@ -231,13 +235,26 @@ header a {
 }
 
 header a:hover {
-  color: #FFFFFF;
+  color: #FF2600;
   text-decoration: none;
   transition-duration: 0.3s;
 }
 
+.home header,
+.home .main {
+  background-color: #E6E8EC;
+}
+
+.home header a {
+  color: #7F8C8D
+}
+
+.home header a:hover {
+  color: #FF2600;
+}
+
 .pure-u-logo > div {
-  padding: 20px 0 0 20px;
+  padding: 20px;
   max-width: 114px;
 }
 
@@ -574,8 +591,13 @@ a.logout:hover {
 footer {
   width: 100%;
   min-height: 60px;
-  background-color: #F5F7FA;
+  background-color: #33374C;
   z-index: 700;
+}
+
+footer a,
+footer .fa-twitter {
+  color: #CCD0D8;
 }
 
 footer .pure-g {
@@ -1037,33 +1059,55 @@ footer .pure-g {
 /* HOMEPAGE */
 
 .main.homepage {
-  padding-top: 70px;
+  padding-top: 30px;
   padding-bottom: 50px;
+  background-image: url('../images/home_background.svg');
+  background-position: center 170px;
+  background-size: 140%;
+  background-repeat: no-repeat;
 }
 
 .pure-tagline {
   z-index: 500;
+  margin-bottom: -20px;
 }
 
 .pure-tagline h1 {
-  font-size: 2em;
-  font-weight: 400;
+  font-size: 3em;
+  font-family: 'Architects Daughter', cursive;
+  color: #000000;
+  font-weight: normal;;
   text-align: center;
   padding: 20px;
   margin: 0;
+  transform: rotate(5deg);
+  transform-origin: bottom right;
 }
 
-.homepage p,
-.home-form {
+.pure-homepage-description {
+  padding: 0 20px 50px;
+  text-align: center;
+}
+
+.signup-form {
   padding: 10px 20px;
+  max-width: 320px;
+  margin: auto;
 }
 
-.home-form p.homepage-or {
+.signup-form p {
   text-align: center;
   padding: 10px 0 0 0;
 }
 
-.home-form .pure-button {
+.signup-form.pure-form input[type="email"] {
+  margin-top: 10px;
+  border-radius: 16px;
+  padding-left: 16px;
+}
+
+.signup-form .pure-button {
+  border-radius: 16px;
   margin-top: 10px;
   width: 100%;
   font-weight: bold;
@@ -1072,7 +1116,7 @@ footer .pure-g {
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
 }
 
-.home-form .google-login {
+.signup-form .google-login {
   background-color: #FF2600;
 }
 
@@ -1084,12 +1128,9 @@ footer .pure-g {
 .pure-homepage-img .credit {
   font-size: 0.8em;
   text-align: right;
+  padding: 0 20px;
 }
 
-.signup {
-  max-width: 320px;
-  margin: auto;
-}
 
 /* PRODUCT */
 .main.product {
@@ -1225,7 +1266,7 @@ footer .pure-g {
 
 @media screen and (min-width: 568px) {
   .pure-tagline h1 {
-    font-size: 3em;
+    font-size: 4em;
   }
 }
 
@@ -1260,7 +1301,8 @@ footer .pure-g {
   }
 
   .main.homepage {
-    padding-top: 90px;
+    padding-top: 50px;
+    background-position: 0 180px;
   }
 
   .pure-tagline h1 {
@@ -1269,7 +1311,7 @@ footer .pure-g {
 
   .pure-homepage-img div {
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
     width: 62vw;
     max-width: 969px;
@@ -1282,14 +1324,15 @@ footer .pure-g {
 
 @media screen and (min-width: 1280px) {
   .main.homepage {
-    padding-top: 110px;
+    padding-top: 70px;
+    background-position: 0 200px;
   }
 
   .pure-homepage-img div {
-    bottom: -50px;
+    top: -50px;
   }
 
   .pure-tagline h1 {
-    font-size: 4em;
+    font-size: 5em;
   }
 }

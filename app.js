@@ -88,10 +88,8 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(req, res, next) {
-  console.log('HELLO');
   if (req.getLocale() === 'zu') {
     res.locals.inContext = true;
-    console.log('YES');
   }
   return next();
 });

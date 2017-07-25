@@ -8,7 +8,8 @@
 @Copyright: Clément Dietschy 2017
 }}
 
-<form action="{{formAction}}" method="post" class="home-form pure-form">
+<form action="{{formAction}}" method="post" class="signup-form pure-form">
+  <p>{{__ "An invitation to join the private beta."}}</p>
   <input class="pure-input-1" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
   {{#errors}}<p class="errors"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</p>{{/errors}}
   <button type="submit" class="pure-button">{{__ "Get Started"}}</button>
