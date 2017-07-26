@@ -57,15 +57,15 @@ router.get('/homepage', function(req, res, next) {
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('home/product', {layout: 'home/layout_home'});
+  res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 router.get('/pricing', function(req, res, next) {
-  res.render('home/pricing', {layout: 'home/layout_home'});
+  res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 router.get('/cheers', function(req, res, next) {
-  res.render('home/cheers', {layout: 'home/layout_home'});
+  res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 router.post('/cheers', function(req, res, next) {
@@ -79,10 +79,10 @@ router.post('/cheers', function(req, res, next) {
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     });
     application.save( function (err, application) {
-      res.render('home/cheers', {layout: 'home/layout_home'});
+      res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home'});
     });
   } else {
-    res.render('home/retry', {layout: 'home/layout_home', errors: errors, email: req.body.email});
+    res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home', errors: errors, email: req.body.email});
   }
 });
 

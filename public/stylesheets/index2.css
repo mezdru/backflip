@@ -204,6 +204,11 @@ p.validate {
   flex: 1;
 }
 
+.home .main {
+  padding-top: 0px;
+  padding-bottom: 50px;
+}
+
 #search-results {
   margin-top: 90px;
 }
@@ -1076,7 +1081,7 @@ footer .pure-g {
   font-size: 3em;
   font-family: 'Architects Daughter', cursive;
   color: #000000;
-  font-weight: normal;;
+  font-weight: normal;
   text-align: center;
   padding: 20px;
   margin: 0;
@@ -1085,39 +1090,17 @@ footer .pure-g {
 }
 
 .pure-homepage-description {
-  padding: 0 20px 50px;
+  padding: 0 20px 10px;
   text-align: center;
 }
 
-.signup-form {
-  padding: 10px 20px;
-  max-width: 320px;
-  margin: auto;
+.homepage-learn-more {
+  padding: 0px 20px 50px;
 }
 
-.signup-form p {
-  text-align: center;
-  padding: 10px 0 0 0;
-}
-
-.signup-form.pure-form input[type="email"] {
-  margin-top: 10px;
-  border-radius: 16px;
-  padding-left: 16px;
-}
-
-.signup-form .pure-button {
-  border-radius: 16px;
-  margin-top: 10px;
+.homepage-learn-more .pure-button{
   width: 100%;
-  font-weight: bold;
-  background-color: #2ECC71;
-  color: #ffffff;
-  box-shadow: 0 3px 10px rgba(0,0,0,.2);
-}
-
-.signup-form .google-login {
-  background-color: #FF2600;
+  font-weight: bolder;
 }
 
 .pure-homepage-img {
@@ -1133,9 +1116,12 @@ footer .pure-g {
 
 
 /* PRODUCT */
+
 .main.product {
-  padding-top: 70px;
-  padding-bottom: 50px;
+  background-image: url('../images/home_background.svg');
+  background-position: center 800px;
+  background-size: 140%;
+  background-repeat: no-repeat;
 }
 
 .banner {
@@ -1144,41 +1130,49 @@ footer .pure-g {
   margin-bottom: 20px;
 }
 
+.product .pure-g {
+  padding: 20px 0;
+}
+
+.product .introduction {
+  font-size: 2em;
+  font-family: 'Architects Daughter', cursive;
+  color: #000000;
+  text-align: center;
+  transform: rotate(-2deg);
+}
+
 .product h2 {
   font-size: 2em;
-  text-align: right;
   padding: 10px 10px 0 20px;
 }
 
 .product p {
   padding: 10px 10px 10px 20px;
-  text-align: right;
-}
-
-.product p.automagic {
-  text-align: left;
-  font-size: 1.4em;
-}
-
-.placeholder {
-  display: flex;
 }
 
 .placeholder > div {
-  display: flex;
-  padding: 10px 20px 10px 10px;
-  flex: 1 1;
+  padding: 10px 20px;
 }
 
 .placeholder div > div {
   background-color: #F5F7FA;
-  flex: 1 1;
+  height: 150px;
+}
+
+.demo-button {
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  font-weight: bold;
 }
 
 /* PRICING */
+
 .main.pricing {
-  padding-top: 70px;
-  padding-bottom: 50px;
+  background-image: url('../images/home_background.svg');
+  background-position: center 500px;
+  background-size: 140%;
+  background-repeat: no-repeat;
 }
 
 .pricing h2 {
@@ -1204,6 +1198,20 @@ footer .pure-g {
   color: #2ECC71;
 }
 
+.pricing p.soon {
+  font-weight: normal;
+  color: #FF2600;
+}
+
+.pricing-0eur {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+}
+
+.pricing-2eur, .pricing-10eur {
+  opacity: 0.8;
+}
+
 .yearly {
   padding: 20px;
   text-align: center;
@@ -1211,35 +1219,24 @@ footer .pure-g {
 }
 
 /* CHEERS */
-.main.cheers {
-  padding-top: 70px;
-  padding-bottom: 50px;
-}
 
-.cheers .placeholder > div {
-  height: 200px;
-  padding: 20px 20px 0;
+.main.cheers {
+  background-image: url('../images/home_background.svg');
+  background-position: center 300px;
+  background-size: 140%;
+  background-repeat: no-repeat;
 }
 
 .cheers h2 {
-  padding: 10px;
+  padding: 10px 20px 0;
 }
 
 .cheers p {
-  padding: 10px;
-}
-
-.cheers .triptic div:first-child h2,
-.cheers .triptic div:first-child p {
-  padding-left: 20px;
-}
-
-.cheers .triptic div:last-child h2,
-.cheers .triptic div:last-child p {
-  padding-right: 20px;
+  padding: 10px 20px;
 }
 
 .cheers .pure-button {
+  border-radius: 16px;
   width: 100%;
   font-weight: bold;
   background-color: #FF2600;
@@ -1251,6 +1248,40 @@ footer .pure-g {
 .retry h2 {
   padding: 20px;
 }
+
+/* SIGNUP FORM */
+.signup-form {
+  padding: 10px 20px;
+  max-width: 320px;
+  margin: auto;
+}
+
+.signup-form p {
+  text-align: center;
+  font-weight: normal;
+  padding: 10px 0 0 0;
+}
+
+.signup-form.pure-form input[type="email"] {
+  margin-top: 10px;
+  border-radius: 16px;
+  padding-left: 16px;
+}
+
+.signup-form .pure-button {
+  border-radius: 16px;
+  margin-top: 10px;
+  width: 100%;
+  font-weight: bold;
+  background-color: #2ECC71;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+}
+
+.signup-form .google-login {
+  background-color: #FF2600;
+}
+
 
 /* MOBILE VERSION */
 
@@ -1320,11 +1351,16 @@ footer .pure-g {
   .pure-homepage-img .credit {
     text-align: center;
   }
+
+  .pure-right h2, .pure-right p {
+    text-align: right;
+  }
 }
 
 @media screen and (min-width: 1280px) {
   .main.homepage {
     padding-top: 70px;
+    padding-bottom: 70px;
     background-position: 0 200px;
   }
 
