@@ -1075,6 +1075,7 @@ footer .pure-g {
 .pure-tagline {
   z-index: 500;
   margin-bottom: -20px;
+  overflow: hidden;
 }
 
 .pure-tagline h1 {
@@ -1132,6 +1133,10 @@ footer .pure-g {
 
 .product .pure-g {
   padding: 20px 0;
+}
+
+.pure-intro {
+  overflow: hidden;
 }
 
 .product .introduction {
