@@ -57,7 +57,7 @@ router.get('/homepage', function(req, res, next) {
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home'});
+  res.render('home/product_gif', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 router.get('/pricing', function(req, res, next) {

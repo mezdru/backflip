@@ -1096,6 +1096,8 @@ footer .pure-g {
 
 .homepage-learn-more {
   padding: 0px 20px 50px;
+  max-width: 320px;
+  margin: auto;
 }
 
 .homepage-learn-more .pure-button{
@@ -1118,15 +1120,18 @@ footer .pure-g {
 /* PRODUCT */
 
 .main.product {
-  background-image: url('../images/home_background.svg');
+  /*background-image: url('../images/home_background.svg');
   background-position: center 800px;
   background-size: 140%;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;*/
+  background-color: #ffffff;
 }
 
 .banner {
   height: 180px;
   background-color: #F5F7FA;
+  background-image: url('../images/banner_faces.jpg');
+  background-position: center;
   margin-bottom: 20px;
 }
 
@@ -1179,6 +1184,10 @@ footer .pure-g {
   background-repeat: no-repeat;
 }
 
+.pricing .banner {
+  background-image: url('../images/banner_table.jpg');
+}
+
 .pricing h2 {
   text-align: center;
   font-size: 3em;
@@ -1194,16 +1203,14 @@ footer .pure-g {
 
 .pricing p {
   padding: 10px 10px 10px 20px;
-  font-weight: bold;
 }
 
 .pricing p.subtitle {
-  font-weight: normal;
+  font-weight: bold;
   color: #2ECC71;
 }
 
 .pricing p.soon {
-  font-weight: normal;
   color: #FF2600;
 }
 
@@ -1229,6 +1236,11 @@ footer .pure-g {
   background-position: center 300px;
   background-size: 140%;
   background-repeat: no-repeat;
+}
+
+
+.cheers .banner {
+  background-image: url('../images/banner_tea.jpg');
 }
 
 .cheers h2 {
