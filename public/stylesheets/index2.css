@@ -1110,10 +1110,22 @@ footer .pure-g {
   margin-bottom: 20px;
 }
 
-.pure-homepage-img .credit {
+.credit {
   font-size: 0.8em;
   text-align: right;
   padding: 0 20px;
+}
+
+.banner {
+  position: relative;
+}
+
+.product .credit,
+.cheers .credit,
+.pricing .credit {
+  position: absolute;
+  bottom: -30px;
+  right: 0;
 }
 
 

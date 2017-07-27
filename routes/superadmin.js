@@ -17,6 +17,7 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var Organisation = require('../models/organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
+var Application = require('../models/application.js');
 
 var UrlHelper = require('../helpers/url_helper.js');
 
@@ -154,6 +155,18 @@ router.get('/record/clear_deleted', function(req, res, next) {
         content: result
       }
     );
+  });
+});
+
+router.get('/application/list', function(req, res, next) {
+  Application.find().sort('-created').exec(function(err, applications) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Application list',
+        details: `${applications.length} applications`,
+        content: applications
+      });
   });
 });
 
