@@ -64,7 +64,7 @@ app.use(function(req, res, next) {
 });
 
 // i18n logic
-const locales = ['en', 'fr', 'zu'];
+const locales = ['en', 'fr', 'zu','en-UD'];
 var i18n = require('i18n');
 i18n.configure({
   locales: locales,
@@ -77,10 +77,10 @@ app.use(i18n.init);
 
 //@todo the i18n.init is quite heavy, can we avoid this logic when we read the Locale from the URL ?
 app.use(function(req, res, next) {
-  var match = req.url.match(/^\/([a-z]{2})([\/\?].*)?$/i);
+  var match = req.url.match(/^\/([a-z]{2}(\-[A-Z]{2})?)([\/\?].*)?$/i);
   if (match && locales.includes(match[1])) {
     req.setLocale(match[1]);
-    req.url = match[2] || '/';
+    req.url = match[3] || '/';
   } else if (req.path == '/' && !req.organisationTag) {
     res.redirect(302, req.getLocale() + '/');
   }
