@@ -1129,7 +1129,7 @@ footer .pure-g {
 .banner {
   height: 180px;
   background-color: #F5F7FA;
-  background-image: url('../images/banner_network.jpg');
+  background-image: url('../images/banner_talk.jpg');
   background-position: center;
   margin-bottom: 20px;
 }
@@ -1188,7 +1188,7 @@ footer .pure-g {
 }
 
 .pricing .banner {
-  background-image: url('../images/banner_grass.jpg');
+  background-image: url('../images/banner_talk.jpg');
 }
 
 .pricing h2 {
@@ -1243,7 +1243,7 @@ footer .pure-g {
 
 
 .cheers .banner {
-  background-image: url('../images/banner_talk.jpg');
+  background-image: url('../images/banner_grass.jpg');
 }
 
 .cheers h2 {
