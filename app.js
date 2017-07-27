@@ -64,7 +64,7 @@ app.use(function(req, res, next) {
 });
 
 // i18n logic
-const locales = ['en', 'fr', 'zu','en-UD'];
+const locales = app.get('env') === 'development' ? ['en-UD'] : ['en', 'fr', 'zu'];
 var i18n = require('i18n');
 i18n.configure({
   locales: locales,
