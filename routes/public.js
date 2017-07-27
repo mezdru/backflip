@@ -60,8 +60,24 @@ router.get('/product', function(req, res, next) {
   res.render('home/product_gif', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
+router.get('/product-alt', function(req, res, next) {
+  res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home'});
+});
+
 router.get('/pricing', function(req, res, next) {
   res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home'});
+});
+
+router.get('/terms', function(req, res, next) {
+  err = new Error('Not ready yet');
+  err.status = 404;
+  return next(err);
+});
+
+router.get('/privacy', function(req, res, next) {
+    err = new Error('Not ready yet');
+    err.status = 404;
+    return next(err);
 });
 
 router.get('/cheers', function(req, res, next) {

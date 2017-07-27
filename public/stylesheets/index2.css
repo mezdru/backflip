@@ -1120,19 +1120,22 @@ footer .pure-g {
 /* PRODUCT */
 
 .main.product {
-  /*background-image: url('../images/home_background.svg');
+  background-image: url('../images/home_background.svg');
   background-position: center 800px;
   background-size: 140%;
-  background-repeat: no-repeat;*/
-  background-color: #ffffff;
+  background-repeat: no-repeat;
 }
 
 .banner {
   height: 180px;
   background-color: #F5F7FA;
-  background-image: url('../images/banner_faces.jpg');
+  background-image: url('../images/banner_network.jpg');
   background-position: center;
   margin-bottom: 20px;
+}
+
+.banner-alt {
+  background-image: url('../images/banner_coffee.jpg');
 }
 
 .product .pure-g {
@@ -1185,7 +1188,7 @@ footer .pure-g {
 }
 
 .pricing .banner {
-  background-image: url('../images/banner_table.jpg');
+  background-image: url('../images/banner_grass.jpg');
 }
 
 .pricing h2 {
@@ -1240,7 +1243,7 @@ footer .pure-g {
 
 
 .cheers .banner {
-  background-image: url('../images/banner_tea.jpg');
+  background-image: url('../images/banner_talk.jpg');
 }
 
 .cheers h2 {

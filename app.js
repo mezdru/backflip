@@ -68,7 +68,7 @@ const locales = app.get('env') === 'development' ? ['en-UD'] : ['en', 'fr', 'zu'
 var i18n = require('i18n');
 i18n.configure({
   locales: locales,
-  defaultLocale: 'en',
+  defaultLocale: app.get('env') === 'development' ? 'en-UD' : 'en',
   updateFiles: app.get('env') === 'development',
   directory: "" + __dirname + "/locales"
 });
