@@ -1184,6 +1184,10 @@ footer .pure-g {
   height: 150px;
 }
 
+.pure-gif {
+  margin: auto;
+}
+
 .demo-button {
   border-radius: 16px;
   box-shadow: 0 3px 10px rgba(0,0,0,.2);

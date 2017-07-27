@@ -48,12 +48,12 @@ router.get('/', function(req, res, next) {
       return next();
     }
   } else {
-    return res.render('homepage');
+    res.render('home/homepage', {layout: 'home/layout_home', bodyClass: 'home'});
   }
 });
 
-router.get('/homepage', function(req, res, next) {
-  res.render('home/homepage', {layout: 'home/layout_home', bodyClass: 'home'});
+router.get('/oldpage', function(req, res, next) {
+return res.render('homepage');
 });
 
 router.get('/product', function(req, res, next) {

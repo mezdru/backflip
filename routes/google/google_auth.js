@@ -92,7 +92,7 @@ router.get('/login/callback', function(req, res, next) {
           res.redirect(new UrlHelper(organisation.tag, null, null, req.session.locale).getUrl());
         });
       } else {
-        return res.redirect(new UrlHelper(null, 'welcome', null, req.session.locale).getUrl());
+        return res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
       }
     });
   });
