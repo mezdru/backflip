@@ -10,6 +10,7 @@
 
 var express = require('express');
 var router = express.Router();
+var UrlHelper = require('../helpers/url_helper.js');
 
 // Check if there is an user
 router.use(function(req, res, next) {
@@ -23,9 +24,7 @@ router.use(function(req, res, next) {
 // Check if there is an organisation for the user
 router.use(function(req, res, next) {
   if (!res.locals.user.hasOrganisation()) {
-    err = new Error('No Organisation for user');
-    err.status = 418;
-    return next(err);
+    res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
   } else return next();
 });
 

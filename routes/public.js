@@ -98,5 +98,9 @@ router.post('/cheers', function(req, res, next) {
   }
 });
 
+router.get('/retry', function(req, res, next) {
+  res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home'});
+});
+
 
 module.exports = router;
