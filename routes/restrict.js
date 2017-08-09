@@ -24,7 +24,7 @@ router.use(function(req, res, next) {
 // Check if there is an organisation for the user
 router.use(function(req, res, next) {
   if (!res.locals.user.hasOrganisation()) {
-    res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
+    return res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
   } else return next();
 });
 

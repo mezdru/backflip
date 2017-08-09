@@ -61,7 +61,7 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
     if (firstOrgId) {
       Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
         if(err) return next(err);
-        res.redirect(new UrlHelper(organisation.tag).getUrl());
+        return res.redirect(new UrlHelper(organisation.tag).getUrl());
       });
     } else {
       return res.render('index',

@@ -51,7 +51,7 @@ router.get('/login', function(req, res, next) {
   });
   if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;
   req.session.locale = req.getLocale();
-  res.redirect(url);
+  return res.redirect(url);
 });
 
 // Login redirection to Google login for Admins (larger oatuh scopes)
@@ -60,7 +60,7 @@ router.get('/admin_login', function(req, res, next) {
     access_type: 'offline',
     scope: admin_scopes
   });
-  res.redirect(url);
+  return res.redirect(url);
 });
 
 // Login redirection from Google login
@@ -89,7 +89,7 @@ router.get('/login/callback', function(req, res, next) {
       if (firstOrgId) {
         Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
           if(err) return next(err);
-          res.redirect(new UrlHelper(organisation.tag, null, null, req.session.locale).getUrl());
+          return res.redirect(new UrlHelper(organisation.tag, null, null, req.session.locale).getUrl());
         });
       } else {
         return res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
