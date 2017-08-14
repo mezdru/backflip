@@ -84,6 +84,12 @@ userSchema.methods.getFirstOrgId = function() {
   return undefsafe(this, 'orgsAndRecords.0.organisation');
 };
 
+userSchema.methods.addToOrganisation = function(organisationId, callback) {
+  callback('not implemented');
+  if (this.getOrgAndRecord(organisationId)) {
+  }
+};
+
 userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
   if (orgAndRecord) {

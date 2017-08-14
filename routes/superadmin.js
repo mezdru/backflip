@@ -97,6 +97,23 @@ router.get('/organisation/list', function(req, res, next) {
   });
 });
 
+router.get('/organisation/create/:orgTag', function(req, res, next) {
+  var organisation = new Organisation({
+    name: req.params.orgTag,
+    tag: req.params.orgTag.replace(/\W/g,'').toLowerCase()
+  });
+  organisation.save(function(err, organisation) {
+    if (err) return next(err);
+    var url = new UrlHelper(organisation.tag).getUrl();
+    res.render('index',
+      {
+        title: 'New organisation created',
+        details: `<a href="${url}">${organisation.tag}.lenom.io</a> has been created.`,
+        content: organisation
+      });
+  });
+});
+
 router.get('/organisation/:orgTag/makeadmin/:googleEmail', function(req, res, next) {
   User.findOne({'google.email': req.params.googleEmail}, function(err, user) {
     if (err) return next(err);

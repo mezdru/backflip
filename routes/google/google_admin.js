@@ -115,7 +115,7 @@ router.get('/user/attachRecords', function(req, res, next) {
   });
 });
 
-router.get('/users/get/:googleId', function (req, res, next) {
+router.get('/user/get/:googleId', function (req, res, next) {
   google.admin('directory_v1').users.get( {userKey: req.params.googleId, viewType:'domain_public'},function (err, ans) {
     if (err) return next(err);
     res.render('index',
@@ -124,6 +124,21 @@ router.get('/users/get/:googleId', function (req, res, next) {
       details: 'Google Admin Directory API returns these info about the user',
       content: ans
     });
+  });
+});
+
+router.get('/user/add/:googleEmail', function(req, res, next) {
+  User.findOne({'google.email': req.params.googleEmail}, function(err, user) {
+    if (err) return next(err);
+    if (!user) {
+      err = new Error('No user found');
+      err.status = 400;
+      return next(err);
+    }
+    res.render('index',
+      {
+        title: 'Not implemented',
+      });
   });
 });
 
