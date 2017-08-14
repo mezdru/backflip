@@ -135,10 +135,15 @@ router.get('/user/add/:googleEmail', function(req, res, next) {
       err.status = 400;
       return next(err);
     }
-    res.render('index',
-      {
-        title: 'Not implemented',
-      });
+    user.addToOrganisation(res.locals.organisation._id, function(err, user) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'User added',
+          details: `${user.google.email} has been added to ${res.locals.organisation.tag}`,
+          content: user
+        });
+    });
   });
 });
 

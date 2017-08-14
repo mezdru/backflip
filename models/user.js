@@ -85,9 +85,14 @@ userSchema.methods.getFirstOrgId = function() {
 };
 
 userSchema.methods.addToOrganisation = function(organisationId, callback) {
-  callback('not implemented');
   if (this.getOrgAndRecord(organisationId)) {
+    err = new Error('Already in organisation');
+    err.status = 400;
+    return callback(err);
   }
+  this.orgsAndRecords.push({organisation: organisationId});
+  if (callback) return this.save(callback);
+  else return this;
 };
 
 userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {
