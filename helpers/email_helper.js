@@ -38,6 +38,31 @@ var EmailHelper = {
           console.log(err);
         });
     }
+  },
+  public: {
+    emailLogin: function(name, email, url) {
+      const request = mailjet
+        .post("send")
+        .request({
+          "FromEmail": "lenombot@lenom.io",
+          "FromName": "Lenom Bot",
+          "Subject": "Login to Lenom",
+          "MJ-TemplateID": "197497",
+          "MJ-TemplateLanguage": true,
+          "Recipients": [
+            { "Email": email }
+          ],
+          "Vars": {
+            "name": name || "",
+            "url": url || "https://lenom.io"
+          }
+        });
+      request
+        .then()
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 

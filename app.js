@@ -144,6 +144,10 @@ app.use(function(req, res, next) {
 var googleAuth = require('./routes/google/google_auth.js');
 app.use('/google', googleAuth);
 
+// Taking care of Email Auth
+var emailAuth = require('./routes/email/email_auth.js');
+app.use('/email', emailAuth);
+
 // public pages
 var publicPages = require('./routes/public.js');
 app.use('/', publicPages);

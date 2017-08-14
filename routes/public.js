@@ -82,7 +82,6 @@ router.get('/cheers', function(req, res, next) {
 
 router.post('/cheers', function(req, res, next) {
   req.sanitizeBody('email').escape();
-  req.sanitizeBody('email').escape();
   req.checkBody(Application.validationSchema);
   var errors = req.validationErrors();
   if (!errors) {

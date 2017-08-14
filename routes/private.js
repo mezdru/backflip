@@ -20,7 +20,7 @@ var Record = require('../models/record.js');
 router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {
     if (err) return next(err);
-    return res.render('index', { title: 'The app', message: JSON.stringify(ans, null, 4)});
+    return res.render('index', {title: 'You are', content: ans});
   });
 });
 
