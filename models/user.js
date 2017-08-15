@@ -41,7 +41,10 @@ var userSchema = mongoose.Schema({
     },
   },
   email: {
-    value: {type: String, index: true, unique: true}
+    value: {type: String, index: true, unique: true},
+    hash: {type: String, index: true, unique: true},
+    token: String,
+    generated: Date
   },
   last_login: { type: Date },
   last_action: {type: Date},
