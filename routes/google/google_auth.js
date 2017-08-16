@@ -78,6 +78,7 @@ router.get('/login/callback', function(req, res, next) {
       user.google.tokens = Object.assign(user.google.tokens, tokens);
       // update session with user credentials
       req.session.user = user;
+      // @todo the following logic until is duplicated in google_auth and email_auth
       user.touchLogin(function(err) {
         if (err) return console.error(err);
       });
