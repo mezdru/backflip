@@ -109,7 +109,7 @@ em a {
   text-align: right;
 }
 
-.error-code {
+.error-code, .error-detail {
   text-align: center;
   color: #F5F7FA;
 }
@@ -1053,7 +1053,7 @@ footer {
     display: inherit;
   }
 
-  .error-code {
+  .error-code, .error-detail {
     text-align: right;
   }
 
