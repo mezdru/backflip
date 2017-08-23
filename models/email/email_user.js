@@ -93,7 +93,7 @@ EmailUser.authenticate = function(user, token) {
 };
 
 EmailUser.tokenStillValid = function(generated) {
-  return generated > Date.now() - 24*3600*1000;
+  return generated > Date.now() - 24*30*3600*1000;
 };
 
 EmailUser.createByEmail = function(email, organisationId, callback) {
