@@ -47,7 +47,7 @@ EmailUser.generateToken = function (user, callback) {
 EmailUser.sendLoginEmail = function (user, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
-    EmailHelper.public.emailLogin(user.name, user.email.value, EmailUser.getLoginUrl(user, res));
+    EmailHelper.public.emailInvite(user.name, user.email.value, EmailUser.getLoginUrl(user, res));
     return callback(null, user);
   });
 };

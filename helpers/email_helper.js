@@ -62,6 +62,29 @@ var EmailHelper = {
         .catch(err => {
           console.log(err);
         });
+    },
+    emailInvite: function(name, email, url) {
+      const request = mailjet
+        .post("send")
+        .request({
+          "FromEmail": "lenombot@lenom.io",
+          "FromName": "Lenom Bot",
+          "Subject": "Invitation to Lenom",
+          "MJ-TemplateID": "200696",
+          "MJ-TemplateLanguage": true,
+          "Recipients": [
+            { "Email": email }
+          ],
+          "Vars": {
+            "name": name || "",
+            "url": url || "https://lenom.io"
+          }
+        });
+      request
+        .then()
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
