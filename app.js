@@ -207,13 +207,16 @@ app.use(function(req, res, next) {
 
 // generic error setter
 app.use(function(err, req, res, next) {
-  // During early Beta log verbose errors to Heroku console
-  // @todo remove
-  console.error(err);
-  // set locals, only providing error in development
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // but the error status is not private
+  res.locals.error = err || {};
+    // only providing stacktrace in development
+  res.locals.error.stack = req.app.get('env') === 'development' ? err.stack : null;
   res.locals.status = (err.status || 500);
+  res.locals.error.date = new Date().toISOString();
+
+  // During early Beta log verbose 500 errors to Heroku console
+  // @todo remove
+  if (res.locals.status === 403) console.error(err);
+
   next(err);
 });
 
