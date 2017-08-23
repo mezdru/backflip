@@ -1,10 +1,10 @@
 /**
 * @Author: Clément Dietschy <bedhed>
-* @Date:   15-03-2017
+* @Date:   16-08-2017
 * @Email:  clement@lenom.io
 * @Project: Lenom - Backflip
  * @Last modified by:   clement
- * @Last modified time: 26-06-2017 12:55
+ * @Last modified time: 16-08-2017 10:21
 * @Copyright: Clément Dietschy 2017
 */
 
@@ -14,15 +14,18 @@ var undefsafe = require('undefsafe');
 
 var EmailUser = require('../../models/email/email_user.js');
 
-var User = require('../../models/user.js');
 var Organisation = require('../../models/organisation.js');
 
 var UrlHelper = require('../../helpers/url_helper.js');
 
+router.use('/login', function(req, res, next) {
+  res.locals.formAction = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
+  return next();
+});
+
 router.get('/login', function(req, res, next) {
   res.render('email_login');
 });
-
 
 router.post('/login', function(req, res, next) {
   if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;

@@ -181,6 +181,9 @@ app.use('/admin', restrictAdmin);
 var googleAdmin = require('./routes/google/google_admin.js');
 app.use('/admin/google', googleAdmin);
 
+var googleAdmin = require('./routes/email/email_admin.js');
+app.use('/admin/email', googleAdmin);
+
 var fullContactAdmin = require('./routes/fullcontact/fullcontact_admin.js');
 app.use('/admin/fullcontact', fullContactAdmin);
 
