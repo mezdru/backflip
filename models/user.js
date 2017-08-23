@@ -13,7 +13,6 @@ var undefsafe = require('undefsafe');
 
 var userSchema = mongoose.Schema({
   name: String,
-  // Careful not to use 1 email as identifier... better use arrays.
   picture: {
     uri: String,
     path: String
@@ -30,9 +29,9 @@ var userSchema = mongoose.Schema({
   ],
   locale: {type: String, default: 'en' },
   google: {
-    id: {type: String, index: true, unique: true},
+    id: {type: String, index: true, unique: true, sparse: true},
     //@todo rename to primaryEmail
-    email: String,
+    email: {type: String, index: true, unique: true, sparse: true},
     hd: String,
     tokens: {
       id_token: String,
@@ -41,8 +40,8 @@ var userSchema = mongoose.Schema({
     },
   },
   email: {
-    value: {type: String, index: true, unique: true},
-    hash: {type: String, index: true, unique: true},
+    value: {type: String, index: true, unique: true, sparse: true},
+    hash: {type: String, index: true, unique: true, sparse: true},
     token: String,
     generated: Date
   },
