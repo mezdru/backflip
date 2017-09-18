@@ -23,6 +23,11 @@ Application.validationSchema = {
     isEmail: {
       errorMessage: 'Wrong email'
     }
+  },
+  url: {
+    isEmpty: {
+      errorMessage: 'URL must be empty'
+    }
   }
 };
 

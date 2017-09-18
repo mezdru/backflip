@@ -1303,6 +1303,10 @@ footer .pure-g {
   padding-left: 16px;
 }
 
+.signup-form.pure-form input[type="url"] {
+  display: none;
+}
+
 .signup-form .pure-button {
   border-radius: 16px;
   margin-top: 10px;
