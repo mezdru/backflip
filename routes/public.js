@@ -11,6 +11,8 @@
 var express = require('express');
 var router = express.Router();
 
+var undefsafe = require('undefsafe');
+
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var Application = require('../models/application.js');
 var UrlHelper = require('../helpers/url_helper.js');
@@ -77,21 +79,21 @@ router.get('/privacy', function(req, res, next) {
 });
 
 router.get('/cheers', function(req, res, next) {
-  res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home'});
+  res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home', email: undefsafe(res.locals, 'user.google.email') || ''});
 });
 
 router.post('/cheers', function(req, res, next) {
   req.sanitizeBody('email').escape();
   req.checkBody(Application.validationSchema);
   var errors = req.validationErrors();
-  if (req.body.jeSuisHumain !== 'Oui!') errors = [{msg:'Please enable JS and try again after 3s.'}];
+  if (req.body.jeSuisHumain !== 'Oui!') errors = [{msg:'Please enable JS, reload, and try again after 3s.'}];
   if (!errors) {
     application = new Application({
       email: req.body.email,
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     });
     application.save( function (err, application) {
-      res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home'});
+      res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home', email: application.email});
     });
   } else {
     res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home', errors: errors, email: req.body.email});
