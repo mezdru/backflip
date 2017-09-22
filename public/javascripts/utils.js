@@ -34,12 +34,6 @@ function openPanel() {
   document.getElementById('toggle-panel').classList.add('open');
 }
 
-function onloadActions() {
-  if (window.matchMedia('(min-width: 1280px)').matches) {
-  	openPanel();
-  }
-}
-
 function resizeImg(img, ratio) {
   let width = img.naturalWidth;
   let height = img.naturalHeight;
@@ -106,7 +100,7 @@ function getSubdomain() {
   var elements = window.location.host.split('.');
   if (elements.length > 2) subdomain = window.location.host.split('.')[0];
   else if (isDevelopment) subdomain = getParameterByName('subdomains');
-  
+
   return subdomain;
 }
 
@@ -118,6 +112,12 @@ function getLocale() {
   if (['en','fr'].includes(firstPath)) locale = firstPath;
 
   return locale;
+}
+
+function onloadActions() {
+  /*if (window.matchMedia('(min-width: 1280px)').matches) {
+  	openPanel();
+  }*/
 }
 
 window.onload = onloadActions;
