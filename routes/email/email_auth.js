@@ -18,6 +18,7 @@ var Organisation = require('../../models/organisation.js');
 
 var UrlHelper = require('../../helpers/url_helper.js');
 
+//@todo deduplicate the /login logic found in auth.js and email_auth.js
 router.use('/login', function(req, res, next) {
   res.locals.formAction = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
   return next();

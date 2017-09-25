@@ -23,6 +23,17 @@ router.get('/logout', function(req, res, next) {
   });
 });
 
+// Generic login page
+//@todo deduplicate the /login logic found in auth.js and email_auth.js
+router.use('/login', function(req, res, next) {
+  res.locals.formAction = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
+  return next();
+});
+
+router.get('/login', function(req, res, next) {
+  res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home', signinText: 'login'});
+});
+
 // Setup User depending on Auth
 router.use(function(req, res, next) {
   if (req.session.user) {

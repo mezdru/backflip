@@ -129,16 +129,19 @@ app.use(session({
     }
 }));
 
+var UrlHelper = require('./helpers/url_helper.js');
+app.use(function(req, res, next) {
+  res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
+  res.locals.googleSigninUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();
+  res.locals.logoutUrl = new UrlHelper(req.organisationTag, 'logout', null, req.getLocale()).getUrl();
+  res.locals.signinUrl = new UrlHelper(req.organisationTag, 'login', null, req.getLocale()).getUrl();
+
+  return next();
+});
+
 // Taking care of general Auth
 var auth = require('./routes/auth.js');
 app.use('/', auth);
-
-var UrlHelper = require('./helpers/url_helper.js');
-app.use(function(req, res, next) {
-  res.locals.loginUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();
-  res.locals.logoutUrl = new UrlHelper(req.organisationTag, 'logout', null, req.getLocale()).getUrl();
-  return next();
-});
 
 // Taking care of Google Auth
 var googleAuth = require('./routes/google/google_auth.js');

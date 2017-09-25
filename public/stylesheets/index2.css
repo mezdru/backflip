@@ -1146,10 +1146,6 @@ footer .pure-g {
   margin-bottom: 20px;
 }
 
-.banner-alt {
-  background-image: url('../images/banner_coffee.jpg');
-}
-
 .product .pure-g {
   padding: 20px 0;
 }
@@ -1284,30 +1280,34 @@ footer .pure-g {
   padding: 20px;
 }
 
-/* SIGNUP FORM */
-.signup-form {
+/* signin FORM */
+.signin-form {
   padding: 10px 20px;
   max-width: 320px;
   margin: auto;
 }
 
-.signup-form p {
+.signin-form p {
   text-align: center;
   font-weight: normal;
   padding: 10px 0 0 0;
 }
 
-.signup-form.pure-form input[type="email"] {
+.signin-form input[type="email"] {
   margin-top: 10px;
   border-radius: 16px;
   padding-left: 16px;
+}
+
+.signin-form h2 {
+  font-size: 2em;
 }
 
 #jeSuisHumain {
   display: none;
 }
 
-.signup-form .pure-button {
+.signin-form .pure-button {
   border-radius: 16px;
   margin-top: 10px;
   width: 100%;
@@ -1317,8 +1317,20 @@ footer .pure-g {
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
 }
 
-.signup-form .google-login {
-  background-color: #FF2600;
+.signin-form .google-signin {
+  background-color: #FFFFFF;
+  color: #7F8C8D;
+  /*background-image: url('/images/google.svg');
+  background-repeat: no-repeat;
+  background-size: 18px;
+  background-position: 8px 8px;*/
+}
+
+.signin-form .google-signin img {
+  float: left;
+  margin-top: 1px;
+  height: 18px;
+  width: 18px;
 }
 
 

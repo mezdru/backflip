@@ -1,22 +1,21 @@
 {{!
 @Author: Clément Dietschy <clement>
-@Date:   18-07-2017
+@Date:   25-09-2017
 @Email:  clement@lenom.io
 @Project: Lenom - Backflip
 @Last modified by:   clement
-@Last modified time: 18-07-2017 03:59
+@Last modified time: 25-09-2017 10:32
 @Copyright: Clément Dietschy 2017
 }}
 
-<form action="{{formAction}}" method="post" class="signin-form pure-form">
-  <p>{{{__ "An invitation to join the private beta."}}}</p>
+<form action="{{emailSigninUrl}}" method="post" class="pure-form">
+  <a class="google-signin pure-button" href="{{googleSigninUrl}}"><img src="/images/google.svg"> {{__ "Sign in with Google"}}</a>
+  <p class="homepage-or">{{__ "or"}}</p>
   <input class="pure-input-1" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
   <input id="jeSuisHumain" class="pure-input-1" type="text" name="jeSuisHumain">
   {{#errors}}<p class="errors"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</p>{{/errors}}
-  <button type="submit" class="pure-button">{{__ "Get Started"}}</button>
-  <p class="homepage-or">{{__ "or"}}</p>
-  <a class="google-signin pure-button" href="{{googleSigninUrl}}"><img src="/images/google.svg"> {{__ "Get Started with Google"}}</a>
-</form>
+  <button type="submit" class="pure-button">{{__ "Sign in with your email"}}</button>
+  </form>
 <script>
   window.setTimeout(function() {
     document.getElementById('jeSuisHumain').value = 'Oui!';
