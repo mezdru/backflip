@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/welcome', function(req, res, next) {
-  res.render('error', {status: 204});
+  res.render('home/welcome', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 module.exports = router;
