@@ -10,7 +10,6 @@
 
 var mongoose = require('mongoose');
 var mongooseDelete = require('mongoose-delete');
-var mongooseAlgolia = require('mongoose-algolia');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
 var unique = require('array-unique');
@@ -62,10 +61,6 @@ var recordSchema = mongoose.Schema({
   fullcontact_updated: Date,
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now }
-});
-
-recordSchema.virtual('ObjectID').get(function () {
-  return this._id;
 });
 
 //@todo deal with consequences of "unique: true" condition on organisation/tag
@@ -362,7 +357,14 @@ recordSchema.plugin(mongooseDelete, {
   indexFields: 'all'
 });
 
-// @todo we need our own sync logic, this one is too hard to control & very expensive
+
+var mongooseAlgolia = require('mongoose-algolia');
+
+recordSchema.virtual('ObjectID').get(function () {
+  return this._id;
+});
+
+// @todo we need our own sync logic, this one is too hard to control & very expensive for bulk
 recordSchema.plugin(mongooseAlgolia, {
   appId: process.env.ALGOLIA_APPLICATION_ID,
   apiKey: process.env.ALGOLIA_WRITE_KEY,
