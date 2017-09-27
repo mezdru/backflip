@@ -11,7 +11,7 @@
 <form action="{{emailSigninUrl}}" method="post" class="pure-form">
   <a class="google-signin pure-button" href="{{googleSigninUrl}}"><img src="/images/google.svg"> {{__ "Sign in with Google"}}</a>
   <p class="homepage-or">{{__ "or"}}</p>
-  <input class="pure-input-1" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
+  <input class="pure-input-1 pure-input-rounded" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
   <input id="jeSuisHumain" class="pure-input-1" type="text" name="jeSuisHumain">
   {{#errors}}<p class="errors"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</p>{{/errors}}
   <button type="submit" class="pure-button">{{__ "Sign in with your email"}}</button>

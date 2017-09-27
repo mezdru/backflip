@@ -1334,6 +1334,10 @@ footer .pure-g {
 }
 
 /* WELCOME */
+.white-bg {
+  background-color: #FFFFFF;
+}
+
 .organisation-name {
   text-transform: uppercase;
   font-size: 4em;
@@ -1347,6 +1351,10 @@ footer .pure-g {
   margin: auto;
 }
 
+.welcome label {
+  text-align: center;
+  color: #2ECC71;
+}
 
 /* MOBILE VERSION */
 
