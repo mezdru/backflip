@@ -196,7 +196,7 @@ p.validate {
 }
 
 .grid-box {
-  padding: 16px 8px;
+  padding: 20px 10px;
 }
 
 .main {
@@ -934,13 +934,13 @@ footer .pure-g {
 }
 
 
-/* Compose page */
+/* Edit page */
 .pure-form fieldset {
   padding: 0;
   clear: both;
 }
 
-.compose .record {
+.edit .record {
   border-bottom: none;
 }
 
@@ -965,7 +965,7 @@ footer .pure-g {
   padding-right: 2em;
 }
 
-/* compose links */
+/* edit links */
 .links .delete-link,
 .links .undelete-link {
   float: right;
@@ -990,7 +990,7 @@ footer .pure-g {
 }
 
 
-/* Compose description autocomplete */
+/* Edit description autocomplete */
 
 #description a {
   text-decoration: none;
@@ -1334,6 +1334,10 @@ footer .pure-g {
 }
 
 /* WELCOME */
+.welcome .grid-box {
+  padding: 20px;
+}
+
 .white-bg {
   background-color: #FFFFFF;
 }
@@ -1347,13 +1351,117 @@ footer .pure-g {
 }
 
 .welcome-gif {
-  border: 8px solid #ffffff;
   margin: auto;
 }
 
 .welcome label {
+  font-size: 1.4em;
+  color: #7F8C8D;
+  padding: 60px 0 0 20px;
+}
+
+.welcome label:first-child {
+  padding-top: 0;
+}
+
+.welcome input[type="text"] {
+  font-size: 1.4em;
+  border-radius: 1.2em;
+  padding: 10px 20px;
+}
+
+.welcome-love {
+  transform: rotate(3deg);
+  padding: 60px 0;
+}
+
+.welcome-love .fa {
+  color: #FF2600;
+}
+
+.welcome-love strong {
+  font-weight: normal;
+  color: #FF2600;
+}
+
+.welcome-help {
+  margin: 56px 0;
+  padding: 20px;
+  background-color: #F5F7FA;
+  border-radius: 10px;
+  color: #7F8C8D;
+}
+
+.welcome-help .fa {
+  color: #3498DB;
+}
+
+.welcome-announcement {
+  margin-top: 0;
+}
+
+.welcome .links {
+  margin: 20px 20px 0;
+}
+
+.welcome .links-input {
+  margin: 0 20px;
+}
+
+.welcome .links-input input[type="text"] {
+  border-radius: 0;
+}
+
+.welcome .links-input input:first-child {
+  border-radius: 1.2em 1.2em 0 0;
+}
+
+.welcome .links-input input:last-child {
+  border-radius: 0 0 1.2em 1.2em;
+}
+
+.welcome .links-input input:first-child:last-child {
+  border-radius: 1.2em;
+}
+
+.welcome .new-link {
+  border-radius: 1.2em;
+  font-weight: bolder;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  color: #F5F7FA;
+  background-color: #7F8C8D;
+  margin: 10px 20px;
+}
+
+.welcome .submit {
   text-align: center;
-  color: #2ECC71;
+  margin-top: 60px;
+}
+
+.welcome .submit button {
+  font-size: 1.4em;
+  border-radius: 1.2em;
+  font-weight: bolder;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  color: #F5F7FA;
+  background-color: #2ECC71;
+  margin: auto;
+}
+
+.welcome-youtube {
+  margin-top: 32px;
+}
+
+.welcome-youtube p {
+  text-align: center;
+  color: #000000;
+  font-size: 1.4em;
+  font-family: 'Architects Daughter', cursive;
+}
+
+.welcome-youtube iframe {
+  width: 100%;
+  border-radius: 10px;
 }
 
 /* MOBILE VERSION */

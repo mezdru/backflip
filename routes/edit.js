@@ -66,7 +66,7 @@ router.post('*', function(req, res, next) {
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
 router.use('/:recordId', function(req, res, next) {
-  res.locals.formAction = new UrlHelper(req.organisationTag, 'compose/' + req.params.recordId, null, req.getLocale()).getUrl();
+  res.locals.formAction = new UrlHelper(req.organisationTag, 'edit/' + req.params.recordId, null, req.getLocale()).getUrl();
   return next();
 });
 
@@ -77,7 +77,7 @@ router.use('/:recordId', function(req, res, next) {
 });
 
 router.get('/:recordId', function(req, res, next) {
-  res.render('compose', {title: 'Compose'});
+  res.render('edit', {title: 'Edit'});
 });
 
 // We save the record after checking everything is alriqht.
@@ -103,12 +103,12 @@ router.post('/:recordId', function(req, res, next) {
       res.locals.record.save (function (err) {
         if (err) return next(err);
         successes.push({msg: "Your story has been saved."});
-        console.log(`COMPOSE ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
-        res.render('compose', {title: 'Compose', successes: successes});
+        console.log(`EDIT ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
+        res.render('edit', {title: 'Edit', successes: successes});
       });
     });
   } else {
-      res.render('compose', {title: 'Compose', errors: errors});
+      res.render('edit', {title: 'Edit', errors: errors});
   }
 });
 

@@ -16,7 +16,7 @@ var NB_RESULTS_DISPLAYED = 5;
 var algoliaClient = new algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
 var index = algoliaClient.initIndex(ALGOLIA_INDEX_NAME);
 var lastQuery = '';
-$('#description').textcomplete([
+$('.desc-input').textcomplete([
   {
     // #3 - Regular expression used to trigger the autocomplete dropdown
     match: /(^|\s)[@#](\w*(?:\s*\w*))$/,

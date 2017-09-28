@@ -71,6 +71,19 @@ function addLinkInput(button) {
   fieldset.insertBefore(input, span);
 }
 
+//@todo merge addLInkInput & addLinkInput2
+var inputIndex = 0;
+function addLinkInput2(placeholder) {
+	var fieldset = document.getElementById('new-links-fieldset');
+  var input = document.createElement('input');
+  input.name = `newLinks[${inputIndex}][value]`;
+  inputIndex++;
+  input.className = "pure-input-1 link-input";
+  input.type = "text";
+  input.placeholder = placeholder;
+  fieldset.insertBefore(input, null);
+}
+
 function getTemplate(templateName) {
   return document.getElementById(templateName + '-template').innerHTML;
 }

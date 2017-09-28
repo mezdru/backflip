@@ -97,7 +97,7 @@ hbs.registerHelper('profileLink', function(user, organisation) {
   if (!organisation || !user) return null;
   recordId = user.getRecordIdByOrgId(organisation._id);
   if (!recordId) return null;
-  url = new UrlHelper(organisation.tag, `compose/${recordId}`, null, this.getLocale()).getUrl();
+  url = new UrlHelper(organisation.tag, `edit/${recordId}`, null, this.getLocale()).getUrl();
   return `<a title="My profile" class="fa fa-user-circle-o profile" href="${url}" aria-hidden="true"></a>`;
 });
 
@@ -111,8 +111,8 @@ hbs.registerHelper('url', function(path, organisationTag) {
   return new UrlHelper(organisationTag, path, null, this.getLocale()).getUrl();
 });
 
-hbs.registerHelper('composeUrl', function(recordId, organisation) {
-  page = 'compose/' + recordId;
+hbs.registerHelper('editUrl', function(recordId, organisation) {
+  page = 'edit/' + recordId;
   return new UrlHelper(organisation.tag, page, null, this.getLocale()).getUrl();
 });
 

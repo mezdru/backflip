@@ -866,13 +866,13 @@ footer {
 }
 
 
-/* Compose page */
+/* Edit page */
 .pure-form fieldset {
   padding: 0;
   clear: both;
 }
 
-.compose .record {
+.edit .record {
   border-bottom: none;
 }
 
@@ -897,7 +897,7 @@ footer {
   padding-right: 2em;
 }
 
-/* compose links */
+/* edit links */
 .links .delete-link,
 .links .undelete-link {
   float: right;
@@ -922,7 +922,7 @@ footer {
 }
 
 
-/* Compose description autocomplete */
+/* Edit description autocomplete */
 
 #description a {
   text-decoration: none;

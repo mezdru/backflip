@@ -168,9 +168,9 @@ app.use('/', restrict);
 var privatePages = require('./routes/private.js');
 app.use('/', privatePages);
 
-// compose
-var compose = require('./routes/compose.js');
-app.use('/compose', compose);
+// edit
+var edit = require('./routes/edit.js');
+app.use('/edit', edit);
 
 
 // Super admin

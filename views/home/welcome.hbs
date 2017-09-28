@@ -19,33 +19,86 @@
       </div>
     </div>
   </div>
+  <form action="{{formAction}}" method="post" class="pure-form pure-form-stacked">
   <div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-2">
-      <h2>{{__ "What is going on here?"}}</h2>
-      <p>{{__ "We, the people within %s, are building a genuine tool to find, discover and reach each other directly. In other words, this is a collaborative directory, and we would love you to enrich it with your profile. Pretty please!" organisation.name}}</p>
+    <div class="pure-u-1 pure-u-md-2-3">
+        <p class="introduction welcome-love">{{{__ "We would <i class='fa fa-heart' aria-hidden='true'></i> to know<br/>who <strong>you</strong> are"}}}</p>
+        <div class="grid-box">
+          <label for="name">{{__ "What is your name?"}}</label>
+          <input class="pure-input-1" id="name" name="name" type="text" placeholder="{{__ "Jon Snow"}}">
+        </div>
     </div>
-    <div class="pure-u-1 pure-u-md-1-2">
-      <p class="introduction">{{{__ "Lenom is an app to find, discover and reach the humans within %s." organisation.name}}}</p>
+    <div class="pure-u-1 pure-u-md-1-3">
+      <p class="welcome-help welcome-announcement">{{__ "We, the people within %s, are building a genuine tool to find, discover and reach each other directly. In other words, this is a collaborative directory, and we would love you to enrich it with your profile. Pretty please!" organisation.name}}</p>
     </div>
   </div>
-  <form action="{{formAction}}" method="post" class="pure-form pure-form-stacked">
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-2-3">
-        <h2>{{__ "We would love to know who you really are"}}</h2>
-        <p>{{__ "These few questions are here to help you introduce yourself the way you want to be known within %s. Feel free to write whatever you want to share." organisation.name}}</p>
-        <label for="email">{{__ "What is your name?"}}</label>
-        <input class="pure-input-1 pure-input-rounded" id="email" name="name" type="text" placeholder="{{__ "John Snow"}}">
-        <p>{{__ "You can use #hashtags here, we use them to link projects or interests. You can also use @Ats here, these are our teams."}}</p>
-        <label for="email">{{__ "What do you do at the moment?"}}</label>
-        <input class="pure-input-1 pure-input-rounded" id="email" name="name" type="text" placeholder="{{__ "I am King in the @North @Winterfell #defendingTheWall"}}">
-        <label for="email">{{__ "Why and how should we contact you for help?"}}</label>
-        <input class="pure-input-1 pure-input-rounded" id="email" name="name" type="text" placeholder="{{__ "Need help to #killWhiteWalker? Send me a raven. But do not ask questions, I know nothing."}}">
-        <label for="email">{{__ "What stuff do you love to do?"}}</label>
-        <input class="pure-input-1 pure-input-rounded" id="email" name="name" type="text" placeholder="{{__ "Love #freeFolks. Learning to #rideADragon!"}}">
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <img class="pure-img welcome-gif" src="/images/name.gif">
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-2-3">
+      <div class="grid-box">
+        <label for="desc-do">{{__ "What do you do at the moment?"}}</label>
+        <input class="pure-input-1 desc-input" id="desc-do" name="desc-do" type="text" placeholder="{{__ "I am King in the @North @Winterfell #defendingTheWall"}}">
+        <label for="desc-help">{{__ "Why and how should we contact you for help?"}}</label>
+        <input class="pure-input-1 desc-input" id="desc-help" name="desc-help" type="text" placeholder="{{__ "Need help to #fightWhiteWalkers? Send me a raven. Otherwise, I know nothing."}}">
+        <label for="desc-love">{{__ "What else do you love?"}}</label>
+        <input class="pure-input-1 desc-input" id="desc-love" name="desc-love" type="text" placeholder="{{__ "Love #freeFolks. Learning to #rideADragon!"}}">
       </div>
     </div>
+    <div class="pure-u-1 pure-u-md-1-3">
+      <p class="welcome-help">{{{__ "<i class='fa fa-hashtag' aria-hidden='true'></i> are for <strong>projects</strong> or <strong>interests</strong>.<br/><i class='fa fa-at' aria-hidden='true'></i> are for <strong>teams</strong>."}}}</p>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-2-3">
+      <div class="links">
+        <label for="new-links-fieldset">{{__ "How or where can we reach you?"}}</label>
+        <ul>
+          {{#record.links}}
+          <li class="linkLi {{class}}">
+            <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
+            <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
+            <a title="{{__ "Delete"}}" onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+            <a title="{{__ "Restore"}}" onclick="toggleLink(this)" class="undelete-link"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+            <a href="{{linkUrl this}}" title="{{value}}" target="_blank"><i class="fa {{linkIcon this}}" aria-hidden="true"></i><span class="link-text">{{linkDisplay this}}</span></a>
+          </li>
+          {{/record.links}}
+        </ul>
+      </div>
+      <fieldset id="new-links-fieldset" class="links-input pure-group">
+      </fieldset>
+      <a class="pure-button new-link" onclick="addLinkInput2('{{__ "Phone, email, address, url..."}}')"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__ "Add Link"}}</a>
+    </div>
+    <div class="pure-u-1 pure-u-md-1-3">
+      <p class="welcome-help">{{{__ "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, The north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow"}}}</p>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-2-3">
+      <div class="grid-box">
+        <label for="picture[url]">{{__ "How do you look?"}}</label>
+        <input name="picture[url]" type="text" class="pure-input-1" placeholder="Picture url" value="{{record.picture.url}}">
+      </div>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-2-3">
+      <p class="submit">
+        <button type="submit" class="pure-button submit">{{{__ "Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>"}}}</button>
+      </p>
+    </div>
+    <div class="pure-u-1 pure-u-md-1-3 welcome-youtube">
+        <p>{{__ "Introductions matter!"}}</p>
+        <iframe src="https://www.youtube.com/embed/mk1DXwb-XbM" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
   </form>
 </div>
+<script>
+  addLinkInput2('{{__ "My email address..."}}');
+  addLinkInput2('{{__ "My phone number..."}}');
+  addLinkInput2('{{__ "My Address, social profile, other url..."}}');
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+</script>
+<script src="/javascripts/jquery-3.2.1.slim.min.js"></script>
+<script src="/javascripts/jquery.textcomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="/javascripts/edit.js"></script>
