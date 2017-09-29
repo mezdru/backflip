@@ -43,7 +43,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/welcome', function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.render('home/welcome', {layout: 'home/layout_home', bodyClass: 'home'});
+  res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 module.exports = router;

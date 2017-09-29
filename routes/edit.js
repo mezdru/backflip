@@ -28,7 +28,8 @@ router.use(function(req, res, next) {
 });
 
 // Get the record & check rights
-router.use('/:recordId',function(req, res, next) {
+router.use('(/:context)?/:recordId',function(req, res, next) {
+  //@todo handle the case we ask for me but there's no record
   req.params.recordId = req.params.recordId == 'me' ? res.locals.user.getRecordIdByOrgId(res.locals.organisation._id) : req.params.recordId;
   Record.findById(req.params.recordId, function(err, record) {
     if (err) return next(err);
@@ -65,23 +66,41 @@ router.post('*', function(req, res, next) {
 // Here we provide the action url to the view.
 // Needs some logic because of subdomain handling in development
 // @todo find a way to not do this check at each call
-router.use('/:recordId', function(req, res, next) {
-  res.locals.formAction = new UrlHelper(req.organisationTag, 'edit/' + req.params.recordId, null, req.getLocale()).getUrl();
+router.use('(/:context)?/:recordId', function(req, res, next) {
+  var path =  'edit/' + (req.params.context ? req.params.context + '/' : '' ) + req.params.recordId;
+  res.locals.formAction = new UrlHelper(req.organisationTag, path, null, req.getLocale()).getUrl();
   return next();
 });
 
-router.use('/:recordId', function(req, res, next) {
+router.use('(/:context)?/:recordId', function(req, res, next) {
     res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
     res.locals[res.locals.record.type] = true;
     return next();
 });
 
-router.get('/:recordId', function(req, res, next) {
-  res.render('edit', {title: 'Edit'});
+router.get('(/:context)?/:recordId', function(req, res, next) {
+  if (req.params.context === 'welcome') {
+    //@todo handle multiple lines in the source and spread thema accross the 3 fields
+    res.locals.record.descDo = res.locals.record.description.split("\n")[0];
+    res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
+  } else {
+    res.render('edit', {title: 'Edit'});
+  }
+});
+
+// If we come from the welcome view, we assemble the 3 desc fields to make description
+router.post('(/:context)?/:recordId', function(req, res, next) {
+  if (req.params.context == "welcome") {
+    req.body.description = (req.body.descDo ? req.body.descDo + "\n" : "") +
+      (req.body.descHelp ? req.body.descHelp + "\n" : "") +
+      (req.body.descLove ? req.body.descLove + "\n" : "");
+  }
+  return next();
 });
 
 // We save the record after checking everything is alriqht.
-router.post('/:recordId', function(req, res, next) {
+router.post('(/:context)?/:recordId', function(req, res, next) {
+  console.log(req.body);
   req.checkBody(Record.validationSchema);
   /* @todo ESCAPING & TRIMMING, at the moment we don't because it escapes simple quote...
   req.sanitizeBody('name').trim();

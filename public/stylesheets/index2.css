@@ -1404,6 +1404,18 @@ footer .pure-g {
   margin: 20px 20px 0;
 }
 
+.welcome .links .linkLi {
+  font-size: 1.4em;
+  padding: 5px 10px;
+  display: block;
+  border: 1px solid #ccc;
+  border-bottom: none;
+}
+
+.welcome .links .linkLi:first-child {
+  border-radius: 1.2em 1.2em 0 0;
+}
+
 .welcome .links-input {
   margin: 0 20px;
 }
@@ -1412,16 +1424,8 @@ footer .pure-g {
   border-radius: 0;
 }
 
-.welcome .links-input input:first-child {
-  border-radius: 1.2em 1.2em 0 0;
-}
-
 .welcome .links-input input:last-child {
   border-radius: 0 0 1.2em 1.2em;
-}
-
-.welcome .links-input input:first-child:last-child {
-  border-radius: 1.2em;
 }
 
 .welcome .new-link {
