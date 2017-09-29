@@ -24,7 +24,8 @@ var userSchema = mongoose.Schema({
       organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
       // Can be populated or not, use getId to get Id.
       record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null},
-      admin: Boolean
+      admin: Boolean,
+      welcomed: { type: Boolean, default: false }
     }
   ],
   locale: {type: String, default: 'en' },
@@ -65,6 +66,24 @@ userSchema.methods.needsWelcoming = function () {
 userSchema.methods.welcome = function(callback) {
   this.welcomed = true;
   this.save(callback);
+};
+
+userSchema.methods.needsWelcomingToOrganisation = function(organisationId) {
+  return this.orgsAndRecords.some(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)) && orgAndRecord.record && !orgAndRecord.welcomed);
+};
+
+userSchema.methods.welcomeToOrganisation = function(organisationId, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  if (orgAndRecord) {
+    orgAndRecord.welcomed = true;
+    if (callback) this.save(callback);
+    else return this;
+  } else {
+    err = new Error('Organisation not found');
+    err.status = 404;
+    if (callback) callback(err);
+    else return err;
+  }
 };
 
 userSchema.methods.hasOrganisation = function() {

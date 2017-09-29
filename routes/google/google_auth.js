@@ -78,23 +78,7 @@ router.get('/login/callback', function(req, res, next) {
       user.google.tokens = Object.assign(user.google.tokens, tokens);
       // update session with user credentials
       req.session.user = user;
-      // @todo the following logic until is duplicated in google_auth and email_auth
-      user.touchLogin(function(err) {
-        if (err) return console.error(err);
-      });
-      if (req.session.redirect_after_login_tag && req.session.redirect_after_login_tag != 'demo') {
-        return res.redirect(new UrlHelper(req.session.redirect_after_login_tag, null, null, req.session.locale).getUrl());
-      }
-      // we don't have session info about redirect, so we guess...
-      var firstOrgId = user.getFirstOrgId();
-      if (firstOrgId) {
-        Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
-          if(err) return next(err);
-          return res.redirect(new UrlHelper(organisation.tag, null, null, req.session.locale).getUrl());
-        });
-      } else {
-        return res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
-      }
+      return next();
     });
   });
 });

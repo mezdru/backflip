@@ -1050,19 +1050,22 @@ footer {
   z-index: 1000000;
   position: absolute;
   right: 40px;
-  top: 100px;
+  top: 132px;
   color: #2ECC71;
+  font-size: 1.6em;
+}
+
+.success-flash div {
+  text-align: center;
+  font-size: 3em;
+  width: 1.5em;
+  height: 1.5em;
+  color: #ffffff;
+  background-color: #2ECC71;
+  border-radius: 1.5em;
 }
 
 .success-flash .fa {
-  display: block;
-  text-align: center;
-  font-size: 3.2em;
-  width: 1.25em;
-  height: 1.25em;
-  color: #ffffff;
-  background-color: #2ECC71;
-  border-radius: 1em;
 }
 
 .success-flash p {

@@ -111,7 +111,8 @@ router.post('(/:context)?/:recordId', function(req, res, next) {
         if (err) return next(err);
         console.log(`EDIT ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
         req.flash('success', 'Saved');
-        return res.redirect(new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());
+        var query = req.params.context === 'welcome' ? '?welcomed=true' : null;
+        return res.redirect(new UrlHelper(req.organisationTag, null, query, req.getLocale()).getUrl());
       });
     });
   } else {

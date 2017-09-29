@@ -154,10 +154,13 @@ app.use('/google', googleAuth);
 var emailAuth = require('./routes/email/email_auth.js');
 app.use('/email', emailAuth);
 
+// Redirection after Login
+var authRedirect = require('./routes/auth_redirect.js');
+app.use('/', authRedirect);
+
 // public pages
 var publicPages = require('./routes/public.js');
 app.use('/', publicPages);
-
 
 /*
 * Restricted routes
