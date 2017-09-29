@@ -54,6 +54,10 @@ var userSchema = mongoose.Schema({
   superadmin: Boolean
 });
 
+userSchema.statics.findOneByEmail = function (email, callback) {
+  this.findOne({$or: [{'google.email':email}, {'email.value':email}] }, callback);
+};
+
 userSchema.methods.touchLogin = function (callback) {
   this.last_login = Date.now();
   this.save(callback);

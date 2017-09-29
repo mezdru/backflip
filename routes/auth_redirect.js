@@ -62,12 +62,9 @@ router.get('*/login/callback', function(req, res, next) {
 
 // Do the redirect after login callback
 router.get('*/login/callback', function(req, res, next) {
-  // I don't have an path to redirect to
-  if (!req.session.redirect_after_login_path) {
-    // If I don't have an organisation, I'm redirected to cheers
-    req.session.redirect_after_login_path = req.session.redirect_after_login_tag ? '' : 'cheers';
-  }
-  return res.redirect(new UrlHelper(req.session.redirect_after_login_tag, req.session.redirect_after_login_path, null, req.session.locale).getUrl());
+  // If I don't have an organisation, I'm redirected to cheers
+  var path = req.session.redirect_after_login_tag ? '' : 'cheers';
+  return res.redirect(new UrlHelper(req.session.redirect_after_login_tag, path, null, req.session.locale).getUrl());
 });
 
 module.exports = router;

@@ -114,8 +114,8 @@ router.get('/organisation/create/:orgTag', function(req, res, next) {
   });
 });
 
-router.get('/organisation/:orgTag/makeadmin/:googleEmail', function(req, res, next) {
-  User.findOne({'google.email': req.params.googleEmail}, function(err, user) {
+router.get('/organisation/:orgTag/makeadmin/:userEmail', function(req, res, next) {
+  User.findOneByEmail(req.params.userEmail, function(err, user) {
     if (err) return next(err);
     if (!user) {
       err = new Error('No user found');
