@@ -46,6 +46,14 @@
   <div class="pure-g">
     <div class="pure-u-1 pure-u-md-2-3">
       <div class="grid-box">
+        <label for="picture[url]">{{__ "Please share a picture of yourself!"}}</label>
+        <input type="hidden" role="uploadcare-uploader" name="picture[url]" data-image-shrink="512x512" data-images-only="true" />
+      </div>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1 pure-u-md-2-3">
+      <div class="grid-box">
         <label for="desc-do">{{__ "What do you do at the moment?"}}</label>
         <input class="pure-input-1 desc-input" id="desc-do" name="descDo" type="text" placeholder="{{__ "I am King in the @North @Winterfell #defendingTheWall"}}" value="{{record.descDo}}">
         <label for="desc-help">{{__ "Why and how should we contact you for help?"}}</label>
@@ -84,14 +92,6 @@
   </div>
   <div class="pure-g">
     <div class="pure-u-1 pure-u-md-2-3">
-      <div class="grid-box">
-        <label for="picture[url]">{{__ "How do you look?"}}</label>
-        <input name="picture[url]" type="text" class="pure-input-1" placeholder="Picture url" value="{{record.picture.url}}">
-      </div>
-    </div>
-  </div>
-  <div class="pure-g">
-    <div class="pure-u-1 pure-u-md-2-3">
       <p class="submit">
         <button type="submit" class="pure-button submit">{{{__ "<i class='fa fa-thumbs-up' aria-hidden='true'></i> Save and share"}}}</button>
       </p>
@@ -109,7 +109,13 @@
   addLinkInput2('{{__ "City, social profile, other url..."}}');
   var algoliaPublicKey = {{{json algoliaPublicKey}}};
 </script>
-<script src="/javascripts/jquery-3.2.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
+<script>
+  UPLOADCARE_LOCALE = "en";
+  UPLOADCARE_TABS = "file url facebook instagram";
+  UPLOADCARE_PUBLIC_KEY = "e9514d0994782ba32406";
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.1.4/uploadcare.min.js" charset="utf-8"></script>
 <script src="/javascripts/jquery.textcomplete.min.js"></script>
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script src="/javascripts/edit.js"></script>

@@ -1519,6 +1519,64 @@ footer .pure-g {
   border-radius: 10px;
 }
 
+.uploadcare--widget {
+  width: 100%;
+  font-size: 1.4em;
+  border: 1px solid #ccc;
+  border-radius: 1.2em;
+}
+
+.uploadcare--widget_status_ready {
+  border: none;
+}
+
+.uploadcare--widget__text {
+    padding: 10px 20px;
+}
+
+.uploadcare--widget__progress {
+    padding: 6px 9px;
+}
+
+.uploadcare--widget__button,
+.uploadcare--button_primary,
+.uploadcare--widget__button:hover,
+.uploadcare--button_primary:hover,
+.uploadcare--widget__button:active,
+.uploadcare--button_primary:active,
+.uploadcare--widget__button:focus,
+.uploadcare--button_primary:focus {
+  background-color: #7F8C8D;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  border-radius: 1.2em;
+  font-weight: bold;
+}
+
+.uploadcare--widget__button_type_open {
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.source-instagram .big-button {
+  border-radius: 2em;
+}
+
+.uploadcare--widget__button_type_open:hover,
+.uploadcare--button_primary:hover {
+  cursor: pointer;
+  filter: alpha(opacity=90);
+  background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+  background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+}
+
+.uploadcare--link,
+.uploadcare--link:hover,
+.uploadcare--link:focus,
+.uploadcare--link:active {
+  color: #2ECC71;
+}
+
 /* MOBILE VERSION */
 
 .search-on .pure-u-logo,
