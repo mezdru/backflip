@@ -78,16 +78,6 @@ router.use('(/:context)?/:recordId', function(req, res, next) {
     return next();
 });
 
-router.get('(/:context)?/:recordId', function(req, res, next) {
-  if (req.params.context === 'welcome') {
-    //@todo handle multiple lines in the source and spread thema accross the 3 fields
-    res.locals.record.descDo = res.locals.record.description.split("\n")[0];
-    res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
-  } else {
-    res.render('edit', {title: 'Edit'});
-  }
-});
-
 // If we come from the welcome view, we assemble the 3 desc fields to make description
 router.post('(/:context)?/:recordId', function(req, res, next) {
   if (req.params.context == "welcome") {
@@ -100,7 +90,6 @@ router.post('(/:context)?/:recordId', function(req, res, next) {
 
 // We save the record after checking everything is alriqht.
 router.post('(/:context)?/:recordId', function(req, res, next) {
-  console.log(req.body);
   req.checkBody(Record.validationSchema);
   /* @todo ESCAPING & TRIMMING, at the moment we don't because it escapes simple quote...
   req.sanitizeBody('name').trim();
@@ -109,7 +98,6 @@ router.post('(/:context)?/:recordId', function(req, res, next) {
   req.sanitizeBody('description').escape();
   */
   var errors = req.validationErrors();
-  var successes = [];
 
   //@todo ESCAPE PICTURE URL !
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description, picture: req.body.picture});
@@ -121,13 +109,24 @@ router.post('(/:context)?/:recordId', function(req, res, next) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) return next(err);
-        successes.push({msg: "Your story has been saved."});
         console.log(`EDIT ${res.locals.user.name} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
-        res.render('edit', {title: 'Edit', successes: successes});
+        req.flash('success', 'Saved');
+        return res.redirect(new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());
       });
     });
   } else {
-      res.render('edit', {title: 'Edit', errors: errors});
+    res.locals.errors = errors;
+    return next();
+  }
+});
+
+router.use('(/:context)?/:recordId', function(req, res, next) {
+  if (req.params.context === 'welcome') {
+    //@todo handle multiple lines in the source and spread thema accross the 3 fields
+    res.locals.record.descDo = res.locals.record.description.split("\n")[0];
+    res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
+  } else {
+    res.render('edit', {title: 'Edit'});
   }
 });
 

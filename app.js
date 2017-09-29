@@ -129,6 +129,9 @@ app.use(session({
     }
 }));
 
+var flash = require('express-flash');
+app.use(flash());
+
 var UrlHelper = require('./helpers/url_helper.js');
 app.use(function(req, res, next) {
   res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
