@@ -87,6 +87,14 @@ em a {
 }
 
 /* CUSTOM ELEMENTS */
+.introduction {
+  font-size: 2em;
+  font-family: 'Architects Daughter', cursive;
+  color: #000000;
+  text-align: center;
+  transform: rotate(-2deg);
+}
+
 .reward {
   margin: 0;
   font-size: 5em;
@@ -164,19 +172,6 @@ header a.fa:hover,
   transition-duration: 0.3s;
   text-decoration: none;
 }
-
-/* CUSTOM FORM */
-
-p.validate {
-  text-align: center;
-}
-
-.save-input {
-  color: #ffffff;
-  background-color: #2ECC71;
-  text-transform: uppercase;
-}
-
 
 /* GRID */
 
@@ -863,111 +858,6 @@ footer {
 
 .ais-infinite-hits--showmore button:disabled {
   display: none;
-}
-
-
-/* Edit page */
-.pure-form fieldset {
-  padding: 0;
-  clear: both;
-}
-
-.edit .record {
-  border-bottom: none;
-}
-
-.picture-url-input {
-  margin-top: 5px;
-}
-
-.errors,
-.successes {
-  color: #F39C12;
-  list-style-type: none;
-  padding: 0;
-  text-align: center;
-}
-
-.successes {
-  color: #2ECC71;
-}
-
-.errors li {
-  display: inline-block;
-  padding-right: 2em;
-}
-
-/* edit links */
-.links .delete-link,
-.links .undelete-link {
-  float: right;
-  padding-right: 0;
-  z-index: 500;
-}
-
-.links .undelete-link {
-  display: none;
-}
-
-.links .deleted {
-  opacity: 0.4;
-}
-
-.links .deleted .undelete-link {
-  display: block;
-}
-
-.links .deleted .delete-link {
-  display: none;
-}
-
-
-/* Edit description autocomplete */
-
-#description a {
-  text-decoration: none;
-  font-weight: normal;
-  color: #181818;
-}
-
-.dropdown-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-radius: 0 8px 8px 8px;
-  background-color: #F5F7FA;
-}
-
-.dropdown-menu .textcomplete-item a {
-  display: block;
-  cursor: pointer;
-  color: #7F8C8D;
-  position: relative;
-  text-decoration: none;
-  padding: 3px 10px;
-}
-
-.dropdown-menu .textcomplete-item a .record-tag {
-  color: #ABB0BB;
-  font-size: 0.8em;
-}
-
-.dropdown-menu .textcomplete-item:first-child a {
-  border-top-right-radius: 8px;
-}
-
-.dropdown-menu .textcomplete-item:last-child a {
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-.dropdown-menu .textcomplete-item.active a {
-  color: #ffffff;
-  background: #7F8C8D;
-}
-
-.dropdown-menu .textcomplete-item.active a  .record-tag {
-  color: #E6E8EC;
 }
 
 /* Admin Tree input */

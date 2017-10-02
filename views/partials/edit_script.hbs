@@ -1,0 +1,23 @@
+{{!
+@Author: Clément Dietschy <clement>
+@Date:   02-10-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 02-10-2017 11:40
+@Copyright: Clément Dietschy 2017
+}}
+<script>
+  addLinkInput2('{{__ "Email address..."}}');
+  addLinkInput2('{{__ "Phone number..."}}');
+  addLinkInput2('{{__ "City, social profile, other url..."}}');
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+  UPLOADCARE_LOCALE = "en";
+  UPLOADCARE_TABS = "file url facebook instagram";
+  UPLOADCARE_PUBLIC_KEY = "e9514d0994782ba32406";
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
+<script src="https://ucarecdn.com/libs/widget/3.1.4/uploadcare.min.js" charset="utf-8"></script>
+<script src="/javascripts/jquery.textcomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="/javascripts/edit.js"></script>

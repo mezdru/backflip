@@ -97,10 +97,7 @@ router.post('(/:context)?/:recordId', function(req, res, next) {
   req.sanitizeBody('description').trim();
   req.sanitizeBody('description').escape();
   */
-  console.log(req.body.picture);
   req.body.picture.url = req.body.picture.url || res.locals.record.picture.url;
-  console.log(req.body.picture);
-  console.log(req.body);
   var errors = req.validationErrors();
 
   //@todo ESCAPE PICTURE URL !
