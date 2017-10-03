@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  {{> edit_intro_person}}
+  {{> edit_intro_me}}
   <form action="{{formAction}}" method="post" class="pure-form pure-form-stacked">
   <input type="hidden" name="_id" value="{{record._id}}" />
   <div class="pure-g">
@@ -74,7 +74,7 @@
           {{/record.links}}
         </ul>
       </div>
-      <fieldset id="new-links-fieldset" class="links-input pure-group">
+      <fieldset id="new-links-fieldset" class="links-input pure-group {{#unless record.links}}no-previous-child{{/unless}}">
       </fieldset>
       <a class="pure-button new-link" onclick="addLinkInput2('{{__ "Phone, email, address, url..."}}')"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__ "Add Link"}}</a>
     </div>

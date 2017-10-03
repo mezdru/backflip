@@ -132,7 +132,7 @@ p.validate {
   border-radius: 0;
 }
 
-.edit .links-input input:first-child {
+.edit .links-input.no-previous-child input:first-child {
   border-radius: 1.2em 1.2em 0 0;
 }
 

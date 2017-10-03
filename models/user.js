@@ -139,7 +139,7 @@ userSchema.methods.getRecordIdByOrgId = function(organisationId) {
 };
 
 userSchema.methods.ownsRecord = function(recordId) {
-  return this.orgsAndRecords.some(orgAndRecord => recordId.equals(getId(orgAndRecord.record)));
+  return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
 };
 
 userSchema.methods.attachOrgAndRecord = function(organisationId, recordId, callback) {

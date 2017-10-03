@@ -122,11 +122,14 @@
 	"What can you tell us about you?": "What can you tell us about you?",
 	"Multi\\nLine\\nTest": "Multi\\nLine\\nTest",
 	"inzkJ34VMfk?t=27s": "inzkJ34VMfk?t=27s",
-	"<i class='fa fa-hashtag' aria-hidden='true'></i> + <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>": "<i class='fa fa-hashtag' aria-hidden='true'></i> + <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>",
-	"The name": "The name",
 	"We use hashtags (<i class='fa fa-hashtag' aria-hidden='true'></i>) to share our projects, skills, interests or hobbies. The ats (<i class='fa fa-at' aria-hidden='true'></i>) are there to show the teams.": "We use hashtags (<i class='fa fa-hashtag' aria-hidden='true'></i>) to share our projects, skills, interests or hobbies. The ats (<i class='fa fa-at' aria-hidden='true'></i>) are there to show the teams.",
-	"The picture": "The picture",
-	"The description": "The description",
-	"The links": "The links",
-	"thetag": "thetag"
+	"thetag": "thetag",
+	"<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>": "<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>",
+	"Name": "Name",
+	"Picture": "Picture",
+	"Description": "Description",
+	"Links": "Links",
+	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow",
+	"Tag": "Tag",
+	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> 0800 720 721<br/><i class='fa fa-envelope' aria-hidden='true'></i> nightswatch@thenorth.got<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Castle Black, The Wall<br/><i class='fa fa-github' aria-hidden='true'></i> https://github.com/nodejs/node": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> 0800 720 721<br/><i class='fa fa-envelope' aria-hidden='true'></i> nightswatch@thenorth.got<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Castle Black, The Wall<br/><i class='fa fa-github' aria-hidden='true'></i> https://github.com/nodejs/node"
 }
