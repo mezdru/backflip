@@ -84,7 +84,7 @@ recordSchema.statics.getTypeFromTag = function(tag) {
   prefix = tag.charAt(0);
   if (prefix === '@') {
     firstLetter = tag.charAt(1);
-    if (firstLetter === firstLetter.toUpperCase())return 'team';
+    if (firstLetter === firstLetter.toUpperCase()) return 'team';
     else return 'person';
   } else return 'hashtag';
 };

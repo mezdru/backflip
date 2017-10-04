@@ -21,6 +21,13 @@
   UPLOADCARE_PUBLIC_KEY = "e9514d0994782ba32406";
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
+<script>
+  $('#type-radio label').click(function () {
+    $('label').removeClass('checked');
+    $(this).addClass('checked');
+  });
+  $('#type-radio input:checked').parent().addClass('checked');
+</script>
 <script src="https://ucarecdn.com/libs/widget/3.1.4/uploadcare.min.js" charset="utf-8"></script>
 <script src="/javascripts/jquery.textcomplete.min.js"></script>
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
