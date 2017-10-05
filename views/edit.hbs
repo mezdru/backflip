@@ -26,22 +26,23 @@
         </ul>
       </div>
     </div>
-    {{#if create}}
+    {{#if add}}
     <div class="pure-g">
       <div class="pure-u-1 pure-u-md-2-3">
-        <div id="type-radio" class="grid-box">
-          <label for="person" class="pure-radio">
-            <input id="person" type="radio" name="type" value="person" {{#if person}}checked{{/if}}>
-            {{__ "Person"}}
-          </label>
-          <label for="team" class="pure-radio">
-            <input id="team" type="radio" name="type" value="team" {{#if team}}checked{{/if}}>
-            {{__ "Team"}}
-          </label>
-          <label for="hashtag" class="pure-radio">
-            <input id="hashtag" type="radio" name="type" value="hashtag" {{#if hashtag}}checked{{/if}}>
-            {{__ "Hashtag"}}
-          </label>
+        <div class="grid-box">
+          <label for="type-radio">{{__ "Add new..."}}</label>
+          <div id="type-radio">
+            <label for="person" class="pure-button">
+              <input id="person" type="radio" name="type" value="person" {{#if person}}checked{{/if}}>
+              <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{__ "Person"}}
+            </label><label for="team" class="pure-button">
+              <input id="team" type="radio" name="type" value="team" {{#if team}}checked{{/if}}>
+              <i class="fa fa-at" aria-hidden="true"></i> {{__ "Team"}}
+            </label><label for="hashtag" class="pure-button">
+              <input id="hashtag" type="radio" name="type" value="hashtag" {{#if hashtag}}checked{{/if}}>
+              <i class="fa fa-hashtag" aria-hidden="true"></i> {{__ "Hashtag"}}
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +51,7 @@
       <div class="pure-u-1 pure-u-md-2-3">
         <div class="grid-box">
           <label for="tag">{{__ "Tag"}}</label>
-          <input class="pure-input-1" id="tag" name="tag" type="text" placeholder="{{__ "thetag"}}" value="{{record.tag}}" {{#unless create}}readonly{{/unless}}>
+          <input class="pure-input-1" id="tag" name="tag" type="text" placeholder="{{__ "thetag"}}" value="{{record.tag}}" {{#unless add}}readonly{{/unless}}>
 
           <label for="name">{{#if itsMe}}{{__ "What is your name?"}}{{else}}{{__ "Name"}}{{/if}}</label>
           <input class="pure-input-1" id="name" name="name" type="text" placeholder="{{__ "Jon Snow"}}" value="{{record.name}}">

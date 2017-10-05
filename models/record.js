@@ -15,6 +15,7 @@ var undefsafe = require('undefsafe');
 var unique = require('array-unique');
 var LinkHelper = require('../helpers/link_helper.js');
 var StructureHelper = require('../helpers/structure_helper.js');
+var slug = require('slug');
 
 
 var recordSchema = mongoose.Schema({
@@ -93,7 +94,7 @@ recordSchema.statics.makeTag = function(tag, name, type) {
   if (tag && (tag.charAt(0) == '@' || tag.charAt(0) == '#')) tag = tag.slice(1);
   prefix = (type == 'hashtag') ? '#' : '@';
   if (tag) return prefix + tag;
-  if (name) return prefix + name.replace(/\W/g, '_');
+  if (name) return prefix + slug(name);
   return prefix + 'notag' + Math.floor(Math.random() * 1000);
 };
 
@@ -213,6 +214,7 @@ recordSchema.methods.getWithinTags = function(organisation) {
     tags = ['#notags'];
   }
   // A team or a hashtag is within itself so it shows when filtering.
+  // @todo do not store this in Mongo, only push this to Algolia instead.
   if (this.type != 'person') tags.unshift(this.tag);
   tags = tags.concat(this.getTreeTags(organisation, tags));
   return unique(tags);

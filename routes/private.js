@@ -32,6 +32,7 @@ router.get('/', function(req, res, next) {
   res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   res.locals.isDevelopment = req.app.get('env') == 'development';
   res.locals.isMyOrg = true;
+  res.locals.isCreator = true;
   // careful, switching to false breaks intro_auto
   res.locals.intro = true;
   if (res.locals.user.needsWelcoming()) {

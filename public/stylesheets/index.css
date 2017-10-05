@@ -151,15 +151,15 @@ em a {
   color: #7F8C8D;
 }
 
-#join-beta {
+#join-beta,
+#create-record {
   color: #2ECC71;
 }
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
 #left-panel-closer:hover .fa,
 #toggle-panel a:hover .fa,
-#start-intro:hover,
-#join-beta:hover,
+#bottom-right a:hover,
 header a:hover .fa,
 header a.fa:hover,
 .actions a:hover .fa,

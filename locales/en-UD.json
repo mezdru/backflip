@@ -135,5 +135,9 @@
 	"Person": "Person",
 	"Team": "Team",
 	"This tag is already taken": "This tag is already taken",
-	"Hashtag": "Hashtag"
+	"Hashtag": "Hashtag",
+	"Create new...": "Create new...",
+	"Add new record": "Add new record",
+	"Help Tutorial": "Help Tutorial",
+	"Add new...": "Add new..."
 }

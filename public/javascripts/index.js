@@ -178,7 +178,7 @@ function makeLinkUrl(link) {
 
 function addEditUrl(item) {
 	if (isMyOrg && (item.type != 'person' || isAdmin || myRecordId == item.objectID)) {
-		item.editUrl = makeUrl(null, 'edit/' + item.objectID);
+		item.editUrl = makeUrl(null, 'edit/id/' + item.objectID);
 	}
 }
 

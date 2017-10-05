@@ -91,6 +91,36 @@ p.validate {
   padding: 20px;
 }
 
+#type-radio label {
+  display: inline-block;
+  width: 33%;
+  padding: 10px 20px;
+  background-color: #7F8C8D;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  color: #ffffff;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#type-radio label:first-child {
+  border-radius: 1.2em 0 0 1.2em;
+}
+
+#type-radio label:last-child {
+  border-radius: 0 1.2em 1.2em 0;
+}
+
+#type-radio label input {
+  display: none;
+}
+
+#type-radio label.checked {
+  background-color: #2ECC71;
+  font-weight: bold;
+}
+
 .edit label {
   font-size: 1.4em;
   color: #7F8C8D;
@@ -142,7 +172,6 @@ p.validate {
 
 .edit .new-link {
   border-radius: 1.2em;
-  font-weight: bolder;
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
   color: #F5F7FA;
   background-color: #7F8C8D;
@@ -157,7 +186,6 @@ p.validate {
 .edit .submit button {
   font-size: 1.4em;
   border-radius: 1.2em;
-  font-weight: bolder;
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
   color: #F5F7FA;
   background-color: #2ECC71;
@@ -198,7 +226,6 @@ p.validate {
   border: none;
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
   border-radius: 1.2em;
-  font-weight: bold;
 }
 
 .uploadcare--widget__button_type_open {
