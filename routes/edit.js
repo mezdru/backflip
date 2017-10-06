@@ -25,6 +25,7 @@ router.use(function(req, res, next) {
     err.status = 400;
     return next(err);
   }
+  res.locals.errors = [];
   return next();
 });
 
@@ -49,7 +50,7 @@ router.use('/:context/:recordId?',function(req, res, next) {
     }
     if (record.type == 'person' && res.locals.user.ownsRecord(record._id)) {
       res.locals.itsMe = true;
-    } else if (record.type == 'person' && !res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+    } else if (record.type == 'person' && !res.locals.user.ownsRecord(record._id) && !res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
       err = new Error('Record not yours');
       err.status = 403;
       return next(err);
@@ -75,7 +76,6 @@ router.post('/:context/:recordId?', function(req, res, next) {
 // It's because updateWithin creates the record to populate the within array
 // @todo find a way to save the record only once.
 router.post('/add', function(req, res, next) {
-  res.locals.errors = [];
   res.locals.record = new Record({
     organisation: res.locals.organisation._id,
     type: req.body.type || 'person',
@@ -127,7 +127,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
       res.locals.record.save (function (err) {
         if (err) return next(err);
         console.log(`EDIT ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
-        req.flash('success', 'Saved');
+        req.flash('success', res.__("Saved!"));
         var query = req.params.context === 'welcome' ? '?welcomed=true' : null;
         return res.redirect(new UrlHelper(req.organisationTag, null, query, req.getLocale()).getUrl());
       });
@@ -149,6 +149,11 @@ router.use('/:context/:recordId?', function(req, res, next) {
     res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
 
     if (undefsafe(res.locals, 'record.type')) res.locals[res.locals.record.type] = true;
+
+    if (req.params.context) {
+      res.locals[req.params.context] = true;
+      res.locals.context = req.params.context;
+    }
     return next();
 });
 

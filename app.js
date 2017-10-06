@@ -64,11 +64,11 @@ app.use(function(req, res, next) {
 });
 
 // i18n logic
-const locales = app.get('env') === 'development' ? ['en-UD', 'zu'] : ['en', 'fr', 'zu'];
+const locales = app.get('env') === 'development' ? ['en-UK', 'zu'] : ['en', 'fr', 'zu'];
 var i18n = require('i18n');
 i18n.configure({
   locales: locales,
-  defaultLocale: app.get('env') === 'development' ? 'en-UD' : 'en',
+  defaultLocale: app.get('env') === 'development' ? 'en-UK' : 'en',
   updateFiles: app.get('env') === 'development',
   directory: "" + __dirname + "/locales"
 });

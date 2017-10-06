@@ -121,7 +121,6 @@
 	"Please share a picture of yourself!": "Please share a picture of yourself!",
 	"What can you tell us about you?": "What can you tell us about you?",
 	"inzkJ34VMfk?t=27s": "inzkJ34VMfk?t=27s",
-	"We use hashtags (<i class='fa fa-hashtag' aria-hidden='true'></i>) to share our projects, skills, interests or hobbies. The ats (<i class='fa fa-at' aria-hidden='true'></i>) are there to show the teams.": "We use hashtags (<i class='fa fa-hashtag' aria-hidden='true'></i>) to share our projects, skills, interests or hobbies. The ats (<i class='fa fa-at' aria-hidden='true'></i>) are there to show the teams.",
 	"thetag": "thetag",
 	"<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>": "<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>",
 	"Name": "Name",
@@ -139,5 +138,6 @@
 	"Create new...": "Create new...",
 	"Add new record": "Add new record",
 	"Help Tutorial": "Help Tutorial",
-	"Add new...": "Add new..."
+	"Add new...": "Add new...",
+	"Added!": "Added!"
 }
