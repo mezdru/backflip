@@ -339,6 +339,10 @@ recordSchema.methods.makeIncludes = function(organisation) {
   }, this);
 };
 
+recordSchema.methods.getEmail = function() {
+  return this.links.find(link => link.type === 'email').value;
+};
+
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
     this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);

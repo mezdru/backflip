@@ -92,7 +92,7 @@ p.validate {
   padding: 20px;
 }
 
-#type-radio label {
+.edit .radio-buttons label {
   display: inline-block;
   width: 33%;
   padding: 10px 20px;
@@ -106,21 +106,29 @@ p.validate {
   text-align: center;
 }
 
-#type-radio label:first-child {
+.edit .radio-buttons#invite-radio label {
+  width: 50%;
+}
+
+.edit .radio-buttons label:first-child {
   border-radius: 1.2em 0 0 1.2em;
 }
 
-#type-radio label:last-child {
+.edit .radio-buttons label:last-child {
   border-radius: 0 1.2em 1.2em 0;
 }
 
-#type-radio label input {
+.edit .radio-buttons label input {
   display: none;
 }
 
-#type-radio label.checked {
+.edit .radio-buttons label.checked {
   background-color: #2ECC71;
   font-weight: bold;
+}
+
+.edit .radio-buttons label[for="no"].checked {
+  background-color: #FF2600;
 }
 
 #formBody.formBody-hidden {
@@ -143,6 +151,16 @@ p.validate {
   transition-duration: 0.5s;
 }
 
+#formInvite {
+  max-height: 0;
+  overflow: hidden;
+  transition-duration: 0.5s;
+}
+
+.person #formInvite {
+  max-height: 300px;
+}
+
 .edit label {
   font-size: 1.4em;
   color: #7F8C8D;
@@ -156,6 +174,10 @@ p.validate {
   border-radius: 1.2em;
   padding: 10px 20px;
   margin-bottom: 40px;
+}
+
+.edit textarea {
+  border-bottom-right-radius: 0;
 }
 
 .edit .links {

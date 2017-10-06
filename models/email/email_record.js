@@ -30,7 +30,8 @@ EmailRecord.createRecord = function(email, organisationId, callback) {
       },
       links: this.createLinks(email),
   });
-  return record.save(callback);
+  if (callback) return record.save(callback);
+  else return record;
 };
 
 //@todo get rid of the prefix @, #, ... in the code & db.

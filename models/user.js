@@ -145,6 +145,11 @@ userSchema.methods.ownsRecord = function(recordId) {
 userSchema.methods.attachOrgAndRecord = function(organisationId, recordId, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
   if (orgAndRecord) {
+    if (orgAndRecord.record) {
+      err = new Error('Record Already Attached');
+      err.status = 400;
+      return callback(err);
+    }
     orgAndRecord.record = recordId;
   } else {
     this.orgsAndRecords.push({organisation: organisationId, record: recordId});

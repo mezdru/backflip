@@ -44,17 +44,24 @@ EmailUser.generateToken = function (user, callback) {
   user.save(callback);
 };
 
-EmailUser.sendLoginEmail = function (user, res, callback) {
+EmailUser.sendLoginEmail = function (user, organisation, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
-    EmailHelper.public.emailInvite(user.name, user.email.value, EmailUser.getLoginUrl(user, res));
+    EmailHelper.public.emailLogin(user.name, user.email.value, EmailUser.getLoginUrl(user, organisation));
     return callback(null, user);
   });
 };
 
-EmailUser.getLoginUrl = function(user, res) {
-  var url = new UrlHelper(undefsafe(res.locals, 'organisation.tag'), "email/login/callback", `?hash=${user.email.hash}&token=${user.email.token}`, res.getLocale()).getUrl();
-  console.log(url);
+EmailUser.sendInviteEmail = function (user, inviter, organisation, callback) {
+  EmailUser.generateToken(user, function(err, user) {
+    if (err) return callback(err);
+    EmailHelper.public.emailInvite(user.email.value, user.name, inviter.name, organisation.name, EmailUser.getLoginUrl(user, organisation));
+    return callback(null, user);
+  });
+};
+
+EmailUser.getLoginUrl = function(user, organisation) {
+  var url = new UrlHelper(undefsafe(organisation, 'tag'), "email/login/callback", `?hash=${user.email.hash}&token=${user.email.token}`).getUrl();
   return url;
 };
 
@@ -96,30 +103,23 @@ EmailUser.tokenStillValid = function(generated) {
   return generated > Date.now() - 24*30*3600*1000;
 };
 
-EmailUser.createByEmail = function(email, organisationId, callback) {
+EmailUser.addByEmail = function(email, organisationId, recordId, callback) {
   this.getByEmail(email, function(err, user) {
     if (err) return callback(err);
-    if (user) {
-      err = new Error('User already exist');
-      err.status = 403;
-      return callback(err);
-    }
-    EmailRecord.createRecord(email, organisationId, function(err, record) {
-      if (err) return callback(err);
+    if (!user) {
       user = new User({
         email: {
           value: email,
           hash: md5(email)
-        },
-        orgsAndRecords: [
-          {
-            organisation: organisationId,
-            record: record._id
-          }
-        ]
+        }
       });
-      return user.save(callback);
-    });
+    }
+    if (!recordId) {
+      record = EmailRecord.createRecord(email, organisationId);
+      recordId = record._id;
+      record.save(function(err) {if (err) console.error(err);});
+    }
+    user.attachOrgAndRecord(organisationId, recordId, callback);
   });
 };
 

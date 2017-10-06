@@ -8,13 +8,15 @@
 * @Copyright: Clément Dietschy 2017
 */
 
+var i18n = require('i18n');
+
 var UrlHelper = class UrlHelper {
 
   constructor(subdomains, path, query, locale) {
     this.subdomains = subdomains || '';
     this.path = path || '';
     this.query = query || '';
-    this.locale = locale || '';
+    this.locale = locale || i18n.getLocale() || '';
   }
 
   getUrl () {

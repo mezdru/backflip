@@ -16,6 +16,8 @@ var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
+var EmailUser = require('../models/email/email_user.js');
+
 
 // First we check there is an organisation.
 // There is no record without organisation
@@ -126,6 +128,20 @@ router.post('/:context/:recordId?', function(req, res, next) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) return next(err);
+        if (req.body.invite === "yes") {
+          EmailUser.addByEmail(res.locals.record.getEmail(), res.locals.organisation._id, res.locals.record._id, function(err, user) {
+            if (err) return next(err);
+            if (!user) {
+              err = new Error('Failed to create or find user to invite');
+              err.status = 500;
+              return callback(err);
+            }
+            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, function(err, user) {
+              if (err) return next(err);
+              return console.log(`INVITE ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> invited ${user.email.value} <${user._id}> in ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
+            });
+          });
+        }
         console.log(`EDIT ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
         req.flash('success', res.__("Saved!"));
         var query = req.params.context === 'welcome' ? '?welcomed=true' : null;
