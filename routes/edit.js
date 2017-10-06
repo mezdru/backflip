@@ -114,7 +114,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
   */
   req.body.picture.url = req.body.picture.url || res.locals.record.picture.url;
   var validationErrors = req.validationErrors();
-  if (validationErrors && validationErrors.length > 0) res.locals.errors = res.locals.errors.concat();
+  if (validationErrors && validationErrors.length > 0) res.locals.errors = res.locals.errors.concat(validationErrors);
 
   //@todo ESCAPE PICTURE URL !
   res.locals.record = Object.assign(res.locals.record, {name: req.body.name, description: req.body.description, picture: req.body.picture});
@@ -148,7 +148,9 @@ router.use('/:context/:recordId?', function(req, res, next) {
 router.use('/:context/:recordId?', function(req, res, next) {
     res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
 
-    if (undefsafe(res.locals, 'record.type')) res.locals[res.locals.record.type] = true;
+    if (undefsafe(res.locals, 'record.type')) {
+      res.locals[res.locals.record.type] = true;
+    }
 
     if (req.params.context) {
       res.locals[req.params.context] = true;

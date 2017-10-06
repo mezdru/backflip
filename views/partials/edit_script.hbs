@@ -26,8 +26,8 @@
     $('label').removeClass('checked');
     $(this).addClass('checked');
     $('form').removeClass('person').removeClass('team').removeClass('hashtag');
-    $('form').addClass('type-selected');
     $('form').addClass(this.getAttribute('for'));
+    $('#formBody').removeClass('formBody-hidden');
   });
   $('#type-radio input:checked').parent().addClass('checked');
 </script>

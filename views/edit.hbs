@@ -12,7 +12,7 @@
   {{#if welcome}}{{> edit_intro_welcome}}{{/if}}
   <form action="{{formAction}}" method="post" class="pure-form pure-form-stacked">
     <input type="hidden" name="_id" value="{{record._id}}" />
-    <div class="pure-g show">
+    <div class="pure-g">
       <div class="pure-u-1 pure-u-md-2-3">
         <ul class="errors">
           {{#errors}}
@@ -45,75 +45,77 @@
           </div>
         </div>
       </div>
-    </div>
-    {{/if}}
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-2-3">
-        <div class="grid-box">
-          {{#unless person}}
-            <label for="tag">{{__ "Tag"}}</label>
-            <input class="pure-input-1" id="tag" name="tag" type="text" placeholder="{{__ "thetag"}}" value="{{record.tag}}" {{#unless add}}readonly{{/unless}}>
-          {{/unless}}
-
-          <label for="name">{{#if itsMe}}{{__ "What is your name?"}}{{else}}{{__ "Name"}}{{/if}}</label>
-          <input class="pure-input-1" id="name" name="name" type="text" placeholder="{{__ "Jon Snow"}}" value="{{record.name}}">
-
-          <label for="picture[url]">{{#if itsMe}}{{__ "Please share a picture of yourself!"}}{{else}}{{__ "Picture"}}{{/if}}</label>
-          <input type="hidden" role="uploadcare-uploader" name="picture[url]" data-image-shrink="512x512" data-images-only="true" />
-        </div>
-      </div>
       {{#unless welcome}}
         <div class="pure-u-1 pure-u-md-1-3">
           <p class="introduction edit-love">{{{__ "<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>"}}}</p>
         </div>
       {{/unless}}
     </div>
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-2-3">
-        <div class="grid-box">
-          <label for="description">{{#if itsMe}}{{__ "What can you tell us about you?"}}{{else}}{{__ "Description"}}{{/if}}</label>
-          <textarea name="description" class="pure-input-1 desc-input" rows="4" placeholder="{{__ "Write what you feel like sharing..."}}">{{record.description}}</textarea>
+    {{/if}}
+    <div id="formBody" class="{{#unless record.type}}formBody-hidden{{/unless}}">
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-2-3">
+          <div class="grid-box">
+            <div id="formTag">
+              <label for="tag">{{__ "Tag"}}</label>
+              <input class="pure-input-1" id="tag" name="tag" type="text" placeholder="{{__ "thetag"}}" value="{{record.tag}}" {{#unless add}}readonly{{/unless}}>
+            </div>
+
+            <label for="name">{{#if itsMe}}{{__ "What is your name?"}}{{else}}{{__ "Name"}}{{/if}}</label>
+            <input class="pure-input-1" id="name" name="name" type="text" placeholder="{{#if person}}{{__ "Jon Snow"}}{{else}}{{__ "Winterfell"}}{{/if}}" value="{{record.name}}">
+
+            <label for="picture[url]">{{#if itsMe}}{{__ "Please share a picture of yourself!"}}{{else}}{{__ "Picture"}}{{/if}}</label>
+            <input type="hidden" role="uploadcare-uploader" name="picture[url]" data-image-shrink="512x512" data-images-only="true" />
+          </div>
         </div>
       </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <p class="edit-help">{{{__ "<i class='fa fa-hashtag' aria-hidden='true'></i> are for <strong>projects</strong> or <strong>interests</strong>.<br/><i class='fa fa-at' aria-hidden='true'></i> are for <strong>teams</strong>."}}}</p>
-      </div>
-    </div>
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-2-3">
-        <div class="links expanded">
-          <label for="new-links-fieldset">{{#if itsMe}}{{__ "How or where can we reach you?"}}{{else}}{{__ "Links"}}{{/if}}</label>
-          <ul>
-            {{#record.links}}
-            <li class="linkLi {{class}}">
-              <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
-              <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
-              <a title='Delete' onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-              <a title='Restore' onclick="toggleLink(this)" class="undelete-link"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
-              <a href="{{linkUrl this}}" title="{{value}}" target="_blank"><i class="fa {{linkIcon this}}" aria-hidden="true"></i><span class="link-text">{{value}}</span></a>
-            </li>
-            {{/record.links}}
-          </ul>
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-2-3">
+          <div class="grid-box">
+            <label for="description">{{#if itsMe}}{{__ "What can you tell us about you?"}}{{else}}{{__ "Description"}}{{/if}}</label>
+            <textarea name="description" class="pure-input-1 desc-input" rows="4" placeholder="{{__ "Write what you feel like sharing..."}}">{{record.description}}</textarea>
+          </div>
         </div>
-        <fieldset id="new-links-fieldset" class="links-input pure-group {{#unless record.links}}no-previous-child{{/unless}}">
-        </fieldset>
-        <a class="pure-button new-link" onclick="addLinkInput2('{{__ "Phone, email, address, url..."}}')"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__ "Add Link"}}</a>
+        <div class="pure-u-1 pure-u-md-1-3">
+          <p class="edit-help">{{{__ "<i class='fa fa-hashtag' aria-hidden='true'></i> are for <strong>projects</strong> or <strong>interests</strong>.<br/><i class='fa fa-at' aria-hidden='true'></i> are for <strong>teams</strong>."}}}</p>
+        </div>
       </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <p class="edit-help">
-          {{#if person}}
-            {{{__ "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow"}}}
-          {{else}}
-          {{{__ "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> 0800 720 721<br/><i class='fa fa-envelope' aria-hidden='true'></i> nightswatch@thenorth.got<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Castle Black, The Wall<br/><i class='fa fa-github' aria-hidden='true'></i> https://github.com/nodejs/node"}}}
-          {{/if}}
-        </p>
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-2-3">
+          <div class="links expanded">
+            <label for="new-links-fieldset">{{#if itsMe}}{{__ "How or where can we reach you?"}}{{else}}{{__ "Links"}}{{/if}}</label>
+            <ul>
+              {{#record.links}}
+              <li class="linkLi {{class}}">
+                <input type="hidden" name="links[{{@index}}][_id]" value="{{_id}}">
+                <input type="hidden" class="deleted-input" name="links[{{@index}}][deleted]" value="false">
+                <a title='Delete' onclick="toggleLink(this)" class="delete-link"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                <a title='Restore' onclick="toggleLink(this)" class="undelete-link"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+                <a href="{{linkUrl this}}" title="{{value}}" target="_blank"><i class="fa {{linkIcon this}}" aria-hidden="true"></i><span class="link-text">{{value}}</span></a>
+              </li>
+              {{/record.links}}
+            </ul>
+          </div>
+          <fieldset id="new-links-fieldset" class="links-input pure-group {{#unless record.links}}no-previous-child{{/unless}}">
+          </fieldset>
+          <a class="pure-button new-link" onclick="addLinkInput2('{{__ "Phone, email, address, url..."}}')"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{__ "Add Link"}}</a>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          <p class="edit-help">
+            {{#if person}}
+              {{{__ "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow"}}}
+            {{else}}
+            {{{__ "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> 0800 720 721<br/><i class='fa fa-envelope' aria-hidden='true'></i> nightswatch@thenorth.got<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Castle Black, The Wall<br/><i class='fa fa-github' aria-hidden='true'></i> https://github.com/nodejs/node"}}}
+            {{/if}}
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-2-3">
-        <p class="submit">
-          <button type="submit" class="pure-button submit">{{{__ "<i class='fa fa-thumbs-up' aria-hidden='true'></i> Save and share"}}}</button>
-        </p>
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-2-3">
+          <p class="submit">
+            <button type="submit" class="pure-button submit">{{{__ "<i class='fa fa-thumbs-up' aria-hidden='true'></i> Save and share"}}}</button>
+          </p>
+        </div>
       </div>
     </div>
   </form>

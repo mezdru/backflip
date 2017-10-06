@@ -123,20 +123,24 @@ p.validate {
   font-weight: bold;
 }
 
-.edit .pure-g {
+#formBody.formBody-hidden {
   max-height: 0;
+}
+
+#formBody {
+  max-height: 2000px;
   overflow: hidden;
-  transition: max-height 0.5s ease-out;
+  transition: 2s;
 }
 
-.edit .pure-g.show,
-.edit .type-selected .pure-g {
-  max-height: 500px;
+.person #formTag {
+  max-height: 0;
 }
 
-form.person label[for="tag"],
-form.person #tag {
-  display: none;
+#formTag {
+  max-height: 300px;
+  overflow: hidden;
+  transition-duration: 0.5s;
 }
 
 .edit label {

@@ -113,7 +113,6 @@
 	"Introductions matter!": "Introductions matter!",
 	"Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>": "Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>",
 	"What else do you love?": "What else do you love?",
-	"How do you look?": "How do you look?",
 	"Email address...": "Email address...",
 	"Phone number...": "Phone number...",
 	"City, social profile, other url...": "City, social profile, other url...",
@@ -139,5 +138,7 @@
 	"Add new record": "Add new record",
 	"Help Tutorial": "Help Tutorial",
 	"Add new...": "Add new...",
-	"Added!": "Added!"
+	"Added!": "Added!",
+	"Saved!": "Saved!",
+	"Winterfell": "Winterfell"
 }
