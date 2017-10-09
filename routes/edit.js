@@ -99,9 +99,10 @@ router.post('/add', function(req, res, next) {
 
 // If we come from the welcome view, we assemble the 3 desc fields to make description
 router.post('/welcome/:recordId', function(req, res, next) {
-  req.body.description = (req.body.descDo ? req.body.descDo + "\n" : "") +
-    (req.body.descHelp ? req.body.descHelp + "\n" : "") +
-    (req.body.descLove ? req.body.descLove + "\n" : "");
+  req.body.description = (req.body.descDo ? req.body.descDo : "") +
+    (req.body.descHelp ?  "\n" + req.body.descHelp : "") +
+    (req.body.descLove ? "\n" + req.body.descLove : "") +
+    (req.body.descOther ? "\n" + req.body.descOther : "");
   return next();
 });
 
@@ -178,7 +179,11 @@ router.use('/:context/:recordId?', function(req, res, next) {
 router.use('/:context/:recordId?', function(req, res, next) {
   if (req.params.context === 'welcome') {
     //@todo handle multiple lines in the source and spread thema accross the 3 fields
-    res.locals.record.descDo = res.locals.record.description.split("\n")[0];
+    var descLines = res.locals.record.description.split("\n");
+    res.locals.record.descDo = descLines[0];
+    if (descLines.length >= 2) res.locals.record.descHelp = descLines[1];
+    if (descLines.length >= 3) res.locals.record.descLove = descLines[2];
+    if (descLines.length > 3) res.locals.record.descOther = descLines.slice(3).join("\n");
     res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
   } else if (req.params.context === 'add') {
     res.render('edit', {title: 'Add new record', add: true});

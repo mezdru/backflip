@@ -52,6 +52,10 @@
         <input class="pure-input-1 desc-input" id="desc-help" name="descHelp" type="text" placeholder="{{__ "Need help to #fightWhiteWalkers? Send me a raven. Otherwise, I know nothing."}}" value="{{record.descHelp}}">
         <label for="desc-love">{{__ "What else do you love?"}}</label>
         <input class="pure-input-1 desc-input" id="desc-love" name="descLove" type="text" placeholder="{{__ "Love #freeFolks. Learning to #rideADragon!"}}" value="{{record.descLove}}">
+        {{#if record.descOther}}
+          <label for="desc-other">{{__ "Anything else?"}}</label>
+          <textarea class="pure-input-1 desc-input" id="desc-other" name="descOther"  rows="4" placeholder="{{__ "Write what you feel like sharing..."}}">{{record.descOther}}</textarea>
+        {{/if}}
       </div>
     </div>
     <div class="pure-u-1 pure-u-md-1-3">
@@ -88,9 +92,11 @@
         <button type="submit" class="pure-button submit">{{{__ "<i class='fa fa-thumbs-up' aria-hidden='true'></i> Save and share"}}}</button>
       </p>
     </div>
-    <div class="pure-u-1 pure-u-md-1-3 welcome-youtube">
+    <div class="pure-u-1 pure-u-md-1-3">
+      <div class="welcome-youtube">
         <p>{{__ "Introductions matter!"}}</p>
         <iframe src="https://www.youtube.com/embed/mk1DXwb-XbM" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
   </div>
   </form>

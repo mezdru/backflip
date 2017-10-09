@@ -34,13 +34,13 @@
           <div id="type-radio" class="radio-buttons">
             <label for="person" class="pure-button">
               <input id="person" type="radio" name="type" value="person" {{#if person}}checked{{/if}}>
-              <i class="fa fa-user-circle-o" aria-hidden="true"></i> {{__ "Person"}}
+              <i class="fa fa-user-circle-o" aria-hidden="true"></i><span class="button-text">{{__ "Person"}}</span>
             </label><label for="team" class="pure-button">
               <input id="team" type="radio" name="type" value="team" {{#if team}}checked{{/if}}>
-              <i class="fa fa-at" aria-hidden="true"></i> {{__ "Team"}}
+              <i class="fa fa-at" aria-hidden="true"></i><span class="button-text">{{__ "Team"}}</span>
             </label><label for="hashtag" class="pure-button">
               <input id="hashtag" type="radio" name="type" value="hashtag" {{#if hashtag}}checked{{/if}}>
-              <i class="fa fa-hashtag" aria-hidden="true"></i> {{__ "Hashtag"}}
+              <i class="fa fa-hashtag" aria-hidden="true"></i><span class="button-text">{{__ "Hashtag"}}</span>
             </label>
           </div>
         </div>
@@ -117,10 +117,10 @@
             <div id="invite-radio" class="radio-buttons">
               <label for="yes" class="pure-button">
                 <input id="yes" type="radio" name="invite" value="yes">
-                <i class="fa fa-user-plus" aria-hidden="true"></i> {{__ "Yes, invite"}}
+                <i class="fa fa-user-plus" aria-hidden="true"></i><span class="button-text">{{__ "Yes, invite"}}</span>
               </label><label for="no" class="pure-button">
                 <input id="no" type="radio" name="invite" value="no">
-                <i class="fa fa-user-times" aria-hidden="true"></i> {{__ "No, block"}}
+                <i class="fa fa-user-times" aria-hidden="true"></i><span class="button-text">{{__ "No, block"}}</span>
               </label>
             </div>
           </div>
