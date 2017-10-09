@@ -45,8 +45,8 @@ var LinkHelper = class LinkHelper {
 
   inferType() {
     if (this.isEmail()) this.type = 'email';
-    else if (this.isPhone()) this.type = 'phone';
     else if (this.isHyperlink()) this.type = 'hyperlink';
+    else if (this.isPhone()) this.type = 'phone';
     else this.type = "address";
   }
 
