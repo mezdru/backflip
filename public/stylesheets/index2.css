@@ -238,7 +238,7 @@ header a.fa:hover,
 
 .main {
   padding-top: 70px;
-  flex: 1;
+  flex-grow: 1;
 }
 
 .home .main {
@@ -298,6 +298,10 @@ header a:hover {
 .pure-u-logo > div {
   padding: 20px;
   max-width: 114px;
+}
+
+.pure-u-logo img {
+  width: 100%;
 }
 
 .pure-u-menu > div {

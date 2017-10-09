@@ -224,6 +224,10 @@ header a:hover {
   max-width: 104px;
 }
 
+.pure-u-logo img {
+  width: 100%;
+}
+
 .pure-u-menu > div {
   width: 100%;
   padding: 19px 8px;

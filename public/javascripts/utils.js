@@ -35,12 +35,12 @@ function openPanel() {
 }
 
 function resizeImg(img, ratio) {
-  let width = img.naturalWidth;
-  let height = img.naturalHeight;
+  var width = img.naturalWidth;
+  var height = img.naturalHeight;
   ratio = ratio || 1;
   if (width/height > ratio) {
     img.classList.add('horizontal');
-    let marginLeft = Math.round((img.height*ratio-img.width)/2);
+    var marginLeft = Math.round((img.height*ratio-img.width)/2);
     img.style.marginLeft = marginLeft+"px";
   } else {
     marginTop = Math.round((img.width/ratio-img.height)/2);
@@ -63,7 +63,7 @@ function addLinkInput(button) {
 	var fieldset = findAncestor(button, 'pure-group');
   var span = findAncestor(button, 'links-li');
   var input = document.createElement('input');
-  input.name = `newLinks[${inputIndex}][value]`;
+  input.name = 'newLinks['+inputIndex+'][value]';
   inputIndex++;
   input.className = "pure-input-1 link-input";
   input.type = "text";
@@ -76,7 +76,7 @@ var inputIndex = 0;
 function addLinkInput2(placeholder) {
 	var fieldset = document.getElementById('new-links-fieldset');
   var input = document.createElement('input');
-  input.name = `newLinks[${inputIndex}][value]`;
+  input.name = 'newLinks['+inputIndex+'][value]';
   inputIndex++;
   input.className = "pure-input-1 link-input";
   input.type = "text";
@@ -96,12 +96,12 @@ function makeUrl(subdomains, path, query, locale) {
   locale = locale || getLocale();
   if (isDevelopment) {
     if (subdomains) {
-      if (query) query += `&subdomains=${subdomains}`;
-      else query = `?subdomains=${subdomains}`;
+      if (query) query += '&subdomains='+subdomains;
+      else query = '?subdomains='+subdomains;
     }
-    url = `http://localhost:3000/${locale ? locale + '/' : ''}${path}${query}`;
+    url = 'http://localhost:3000/' + (locale ? locale + '/' : '') + path + query;
   } else {
-    url =  `https://${subdomains ? subdomains + '.' : ''}lenom.io/${locale ? locale + '/' : ''}${path}${query}`;
+    url =  'https://' + ( subdomains ? subdomains + '.' : '' ) + 'lenom.io/' + ( locale ? locale + '/' : '') + path + query;
   }
   return url;
 }

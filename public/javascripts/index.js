@@ -8,6 +8,8 @@
 * @Copyright: Clément Dietschy 2017
 */
 
+/* jshint esversion: 5 */
+
 /*
 / @todo infinit scroll https://www.algolia.com/doc/guides/search/infinite-scroll
 / @todo rename and split file
@@ -53,7 +55,9 @@ transformItem = function (item) {
 function addParentTag(item) {
 	if (item.type == 'team') item.parentTag = item.tag;
 	else if (item.within) {
-		let parent = item.within.find(within => within.type='team' && within.tag != item.tag);
+		var parent = item.within.find(function(within) {
+			return within.type=='team' && within.tag != item.tag;
+		});
 		if (parent) item.parentTag = parent.tag;
 	}
 }
@@ -83,7 +87,9 @@ function transformIncludes(item) {
 		item.mozaic_more = item.includes_count.person + item.includes_count.team + item.includes_count.hashtag - 7;
 		item.includes = item.includes.slice(0,7);
 	}
-	item.includes.forEach(item => transformImagePath(item));
+	item.includes.forEach(function(item) {
+		 transformImagePath(item);
+	});
 }
 
 function transformDescriptions(item) {
@@ -96,20 +102,20 @@ function transformString(input, within) {
 		input = input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
 			record = getRecord(cleanMatch, within);
-			return `<a title="${record.name}" class="link-${record.type}" onclick="setSearch('${record.type == 'team' ? '' : cleanMatch}', '${record.type == 'team' ? cleanMatch : '' }')">${match}</a>`;
+			return '<a title="' + record.name + '" class="link-' + record.type + '" onclick="setSearch(\'' + ( record.type == 'team' ? '' : cleanMatch ) + '\', \'' + ( record.type == 'team' ? cleanMatch : '' ) + '\')">' + match + '</a>';
 		});
 		return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
 function getRecord(tag, within) {
-	record = within.find(record => record.tag == tag);
+	record = within.find(function (record) { return record.tag == tag; });
 	if (!record) return {tag: tag, name: tag, type: 'hashtag'};
 	return record;
 }
 
 function getTitle(tag, within) {
 		if (!within) return tag;
-		record = within.find(record => record.tag == tag);
+		record = within.find(function(record) { return record.tag == tag; });
 		if (!record) return tag;
 		return record.name;
 }
@@ -193,12 +199,12 @@ function addType(item) {
 }
 
 transformTypeItem = function(item) {
-	let icon = 'fa-at';
+	var icon = 'fa-at';
 	switch (item.name) {
 		case 'person': icon = 'fa-user-circle-o'; break;
 		case 'hashtag': icon = 'fa-hashtag'; break;
 	}
-	item.highlighted = `<i class="fa ${icon}" aria-hidden="true"></i><span class="toggle-text">${item.highlighted}s</span>`;
+	item.highlighted = '<i class="fa ' + icon + '" aria-hidden="true"></i><span class="toggle-text">' + item.highlighted + 's</span>';
 	return item;
 };
 
@@ -287,7 +293,7 @@ var customClearAllWidget = {
         var helper = args.helper;
         var state = helper.getState();
         //Check refined facets and query. If we dont't have any, hide widget.
-        if(state.getRefinedDisjunctiveFacets()=='' && state.getQueryParameter('query')==''){
+        if(state.getRefinedDisjunctiveFacets()==='' && state.getQueryParameter('query')===''){
             document.getElementById('clear-search').style.display = 'none';
             return false;
         }
@@ -302,16 +308,16 @@ function setSearch(query, parent, filter) {
 
 	if (filter) search.helper.toggleRefinement('type', filter);
 
-	if (parent) setHierarchicalRefinement(parent, query);
+	if (parent) setHierarchicalRefinement(query, parent);
 
 	search.helper.search();
 	window.scrollTo(0,0);
 }
 
-function setHierarchicalRefinement(parent, query) {
-	let branch = orgTree.find(branch => branch[branch.length-1] == parent);
+function setHierarchicalRefinement(query, parent) {
+	var branch = orgTree.find(function(branch) { return branch[branch.length-1] == parent; });
 	if (branch) search.helper.toggleRefinement('structure.0', branchToString(branch));
-	else if (!query) search.helper.setQuery(parent);
+	search.helper.setQuery(parent + ' ' + query);
 }
 
 function branchToString(branch) {
