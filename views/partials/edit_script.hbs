@@ -8,9 +8,15 @@
 @Copyright: Clément Dietschy 2017
 }}
 <script>
-  addLinkInput2('{{__ "Email address..."}}');
-  addLinkInput2('{{__ "Phone number..."}}');
-  addLinkInput2('{{__ "City, social profile, other url..."}}');
+  {{#if newLinks}}
+    {{#newLinks}}
+      addLinkInput('', '{{value}}');
+    {{/newLinks}}
+  {{else}}
+    addLinkInput('{{__ "Email address..."}}');
+    addLinkInput('{{__ "Phone number..."}}');
+    addLinkInput('{{__ "City, social profile, other url..."}}');
+  {{/if}}
 </script>
 <script>
   var algoliaPublicKey = {{{json algoliaPublicKey}}};

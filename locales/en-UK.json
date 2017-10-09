@@ -148,5 +148,8 @@
 	"Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!": "Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!",
 	"Connect and share": "Connect and share",
 	"This email can be used to securely access Lenom for 30 days.": "This email can be used to securely access Lenom for 30 days.",
-	"Anything else?": "Anything else?"
+	"Anything else?": "Anything else?",
+	"Please write a name (no larger than 64 characters).": "Please write a name (no larger than 64 characters).",
+	"Please write a description (no larger than 2048 characters).": "Please write a description (no larger than 2048 characters).",
+	"Wrong email": "Wrong email"
 }

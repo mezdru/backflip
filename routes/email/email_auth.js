@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
   if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;
   req.session.locale = req.getLocale();
   req.sanitizeBody('email').escape();
-  var validationSchema = { email: { isEmail: { errorMessage: 'Wrong email'}}};
+  var validationSchema = { email: { isEmail: { errorMessage: res.__('Wrong email')}}};
   var errors = req.validationErrors();
   if (!errors) {
     EmailUser.getByEmail(req.body.email, function(err, user) {

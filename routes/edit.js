@@ -106,9 +106,16 @@ router.post('/welcome/:recordId', function(req, res, next) {
   return next();
 });
 
+// There could be empty NewLinks, we don't want those
+router.post('*', function(req, res, next) {
+  req.body.newLinks = req.body.newLinks.filter(newLink => newLink.value);
+  if (req.body.newLinks.length === 0) req.body.newLinks = undefined;
+  return next();
+});
+
 // We save the record after checking everything is alriqht.
 router.post('/:context/:recordId?', function(req, res, next) {
-  req.checkBody(Record.validationSchema);
+  req.checkBody(Record.getValidationSchema(res));
   /* @todo ESCAPING & TRIMMING, at the moment we don't because it escapes simple quote...
   req.sanitizeBody('name').trim();
   req.sanitizeBody('name').escape();
@@ -124,7 +131,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
 
   if (res.locals.errors.length === 0) {
     res.locals.record.deleteLinks(req.body.links);
-    if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
+    res.locals.record.createLinks(req.body.newLinks);
     res.locals.record.updateWithin(res.locals.organisation, function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
@@ -173,6 +180,8 @@ router.use('/:context/:recordId?', function(req, res, next) {
       res.locals[req.params.context] = true;
       res.locals.context = req.params.context;
     }
+
+    res.locals.newLinks = req.body.newLinks;
     return next();
 });
 

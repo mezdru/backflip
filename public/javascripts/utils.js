@@ -59,21 +59,7 @@ function getParameterByName(name, url) {
 }
 
 var inputIndex = 0;
-function addLinkInput(button) {
-	var fieldset = findAncestor(button, 'pure-group');
-  var span = findAncestor(button, 'links-li');
-  var input = document.createElement('input');
-  input.name = 'newLinks['+inputIndex+'][value]';
-  inputIndex++;
-  input.className = "pure-input-1 link-input";
-  input.type = "text";
-  input.placeholder = "Address, url, email, phone...";
-  fieldset.insertBefore(input, span);
-}
-
-//@todo merge addLInkInput & addLinkInput2
-var inputIndex = 0;
-function addLinkInput2(placeholder) {
+function addLinkInput(placeholder, value) {
 	var fieldset = document.getElementById('new-links-fieldset');
   var input = document.createElement('input');
   input.name = 'newLinks['+inputIndex+'][value]';
@@ -81,6 +67,7 @@ function addLinkInput2(placeholder) {
   input.className = "pure-input-1 link-input";
   input.type = "text";
   input.placeholder = placeholder;
+  input.value = value || '';
   fieldset.insertBefore(input, null);
 }
 

@@ -16,14 +16,16 @@ var applicationSchema = mongoose.Schema({
   created: { type: Date, default: Date.now },
 });
 
-var Application = mongoose.model('Application', applicationSchema);
-
-Application.validationSchema = {
-  email: {
-    isEmail: {
-      errorMessage: 'Wrong email'
+applicationSchema.statics.getValidationSchema = function (res) {
+  return {
+    email: {
+      isEmail: {
+        errorMessage: res.__('Wrong email')
+      }
     }
-  }
+  };
 };
+
+var Application = mongoose.model('Application', applicationSchema);
 
 module.exports = Application;

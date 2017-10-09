@@ -16,6 +16,7 @@ var unique = require('array-unique');
 var LinkHelper = require('../helpers/link_helper.js');
 var StructureHelper = require('../helpers/structure_helper.js');
 var slug = require('slug');
+var i18n = require('i18n');
 
 
 var recordSchema = mongoose.Schema({
@@ -343,6 +344,23 @@ recordSchema.methods.getEmail = function() {
   return this.links.find(link => link.type === 'email').value;
 };
 
+recordSchema.statics.getValidationSchema = function(res) {
+  return {
+    name: {
+      isLength: {
+        options: [{ min: 1, max: 64 }],
+        errorMessage: res.__('Please write a name (no larger than 64 characters).') // Error message for the validator, takes precedent over parameter message
+      }
+    },
+    description: {
+      isLength: {
+        options: [{ min: 2, max: 2048 }],
+        errorMessage: res.__('Please write a description (no larger than 2048 characters).') // Error message for the validator, takes precedent over parameter message
+      }
+    }
+  };
+};
+
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
     this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);
@@ -391,20 +409,5 @@ recordSchema.plugin(mongooseAlgolia, {
 });
 
 var Record = mongoose.model('Record', recordSchema);
-
-Record.validationSchema = {
-  name: {
-    isLength: {
-      options: [{ min: 1, max: 64 }],
-      errorMessage: 'Name should be between 1 and 64 chars long' // Error message for the validator, takes precedent over parameter message
-    }
-  },
-  description: {
-    isLength: {
-      options: [{ min: 2, max: 2048 }],
-      errorMessage: 'Description should be between 2 and 2048 chars long' // Error message for the validator, takes precedent over parameter message
-    }
-  }
-};
 
 module.exports = Record;

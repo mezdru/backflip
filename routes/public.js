@@ -85,7 +85,7 @@ router.get('/cheers', function(req, res, next) {
 
 router.post('/cheers', function(req, res, next) {
   req.sanitizeBody('email').escape();
-  req.checkBody(Application.validationSchema);
+  req.checkBody(Application.getValidationSchema(res));
   var errors = req.validationErrors();
   if (req.body.jeSuisHumain !== 'Oui!') errors = [{msg:'Please enable JS, reload, and try again after 3s.'}];
   if (!errors) {
