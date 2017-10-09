@@ -38,7 +38,7 @@ router.use('/:context/:recordId?',function(req, res, next) {
   //@todo handle the case we ask for me but there's no record
   req.params.recordId = req.params.recordId === 'me' ? res.locals.user.getRecordIdByOrgId(res.locals.organisation._id) : req.params.recordId;
 
-  Record.findById(req.params.recordId, function(err, record) {
+  Record.findById(req.params.recordId).populate('within').exec(function(err, record) {
     if (err) return next(err);
     if (!record) {
       err = new Error('No record found');
@@ -83,18 +83,7 @@ router.post('/add', function(req, res, next) {
     type: req.body.type || 'person',
     tag: Record.makeTag(req.body.tag, req.body.name, req.body.type)
   });
-  res.locals.record.save(function (err, record) {
-    if (err) {
-      if (err.code === 11000) {
-        res.locals.errors.push({msg:res.__('This tag is already taken')});
-        return next();
-      }
-      return next(err);
-    } else {
-      res.locals.record = record;
-      return next();
-    }
-    });
+  return next();
 });
 
 // If we come from the welcome view, we assemble the 3 desc fields to make description
@@ -131,11 +120,17 @@ router.post('/:context/:recordId?', function(req, res, next) {
 
   if (res.locals.errors.length === 0) {
     res.locals.record.deleteLinks(req.body.links);
-    res.locals.record.createLinks(req.body.newLinks);
+    if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
     res.locals.record.updateWithin(res.locals.organisation, function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
-        if (err) return next(err);
+        if (err) {
+          if (err.code === 11000) {
+            res.locals.errors.push({msg:res.__('This tag is already taken')});
+            return next();
+          }
+          return next(err);
+        }
         if (req.body.invite === "yes") {
           EmailUser.addByEmail(res.locals.record.getEmail(), res.locals.organisation._id, res.locals.record._id, function(err, user) {
             if (err) return next(err);

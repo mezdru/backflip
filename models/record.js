@@ -214,9 +214,6 @@ recordSchema.methods.getWithinTags = function(organisation) {
     this.description += ' #notags';
     tags = ['#notags'];
   }
-  // A team or a hashtag is within itself so it shows when filtering.
-  // @todo do not store this in Mongo, only push this to Algolia instead.
-  if (this.type != 'person') tags.unshift(this.tag);
   tags = tags.concat(this.getTreeTags(organisation, tags));
   return unique(tags);
 };
@@ -253,7 +250,7 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
 
 recordSchema.statics.createByTag = function(tag, organisationId, callback) {
   name = tag.slice(1);
-  type = tag.substr(0,1) === '@' ? 'team' : 'hashtag';
+  type = this.model('Record').getTypeFromTag(tag);
   record = new this({
     name: name,
     tag: tag,
@@ -361,6 +358,15 @@ recordSchema.statics.getValidationSchema = function(res) {
   };
 };
 
+
+// @todo do not store this in Mongo, only push this to Algolia instead.
+recordSchema.pre('save', function(next) {
+  if (this.type === 'team' || this.type === 'hashtag') {
+    this.within.unshift(this._id);
+  }
+  next();
+});
+
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
     this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);
@@ -383,10 +389,6 @@ recordSchema.plugin(mongooseDelete, {
 
 
 var mongooseAlgolia = require('mongoose-algolia');
-
-recordSchema.virtual('ObjectID').get(function () {
-  return this._id;
-});
 
 // @todo we need our own sync logic, this one is too hard to control & very expensive for bulk
 recordSchema.plugin(mongooseAlgolia, {
