@@ -113,7 +113,6 @@
   "Introductions matter!":"Introductions matter!",
   "Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>":"Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>",
   "What else do you love?":"What else do you love?",
-  "How do you look?":"How do you look?",
   "Email address...":"Email address...",
   "Phone number...":"Phone number...",
   "City, social profile, other url...":"City, social profile, other url...",
@@ -139,5 +138,18 @@
   "Add new record":"Add new record",
   "Help Tutorial":"Help Tutorial",
   "Add new...":"Add new...",
-  "Added!":"Added!"
+  "Added!":"Added!",
+  "Saved!":"Saved!",
+  "Winterfell":"Winterfell",
+  "Invite this person here?":"Invite this person here?",
+  "Yes, invite":"Yes, invite",
+  "No, block":"No, block",
+  "Join %s on Lenom":"Join %s on Lenom",
+  "Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!":"Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!",
+  "Connect and share":"Connect and share",
+  "This email can be used to securely access Lenom for 30 days.":"This email can be used to securely access Lenom for 30 days.",
+  "Anything else?":"Anything else?",
+  "Please write a name (no larger than 64 characters).":"Please write a name (no larger than 64 characters).",
+  "Please write a description (no larger than 2048 characters).":"Please write a description (no larger than 2048 characters).",
+  "Wrong email":"Wrong email"
 }
