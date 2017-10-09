@@ -64,7 +64,13 @@ var LinkHelper = class LinkHelper {
   }
 
   makeEmail () {
-    this.value = validator.normalizeEmail(this.value);
+    this.value = validator.normalizeEmail(this.value, {
+      gmail_remove_dots: false,
+      gmail_remove_subaddress: false,
+      outlookdotcom_remove_subaddress: false,
+      yahoo_remove_subaddress: false,
+      icloud_remove_subaddress: false
+    });
   }
 
   //@todo so this try..catch is here to silence phoneUtil.parser errors... now THAT'S ugly.
