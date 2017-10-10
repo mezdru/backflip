@@ -151,8 +151,8 @@ em a {
   color: #7F8C8D;
 }
 
-#join-beta,
-#create-record {
+#bottom-right #join-beta,
+#bottom-right #create-record {
   color: #2ECC71;
 }
 

@@ -30,7 +30,7 @@
       <div class="central">
         <div class="central-header">
         <h2 class="name searcher" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.name.value}}}</h2>
-        <a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>
+        {{^person}}<a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>{{/person}}
           <p class="actions">
             <span class="counters">
               {{#includes_count.person}}<a title="{{includes_count.person}} Persons" class="searcher link-persons" onclick="setSearch('', '{{tag}}', 'person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}

@@ -151,5 +151,9 @@
 	"This green button can be used to securely access Lenom for 30 days.": "This green button can be used to securely access Lenom for 30 days.",
 	"Hello %s! We are happy to welcome you back to Lenom.": "Hello %s! We are happy to welcome you back to Lenom.",
 	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow",
-	"Signed in!": "Signed in!"
+	"Signed in!": "Signed in!",
+	"Update my Profile": "Update my Profile",
+	"<strong>Thank you</strong> for enriching our directory!": "<strong>Thank you</strong> for enriching our directory!",
+	"<strong>Thank you</strong> for sharing": "<strong>Thank you</strong> for sharing",
+	"Thank <strong>you</strong> for sharing": "Thank <strong>you</strong> for sharing"
 }

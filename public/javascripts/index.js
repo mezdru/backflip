@@ -44,7 +44,6 @@ transformItem = function (item) {
 	transformImagePath(item);
 	transformDescriptions(item);
 	transformLinks(item);
-	transformHighlightedTag(item);
 	addType(item);
 	addEditUrl(item);
 	addDeleteUrl(item);
@@ -129,13 +128,6 @@ function transformLinks(item) {
 		makeLinkUrl(link);
 		if (index > extraLinkLimit-1) link.class = 'extraLink';
 	});
-}
-
-
-function transformHighlightedTag(item) {
-	if (item.type == 'person') {
-		item._highlightResult.tag.value = item._highlightResult.tag.value.replace('@','<i class="fa fa-user-circle-o" aria-hidden="true"></i>');
-	}
 }
 
 function makeLinkIcon(link) {

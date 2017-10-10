@@ -34,11 +34,12 @@ router.get('/', function(req, res, next) {
   res.locals.isMyOrg = true;
   res.locals.isCreator = true;
   // careful, switching to false breaks intro_auto
-  res.locals.intro = true;
-  if (res.locals.user.needsWelcoming()) {
+  res.locals.intro = false;
+  res.locals.intro_auto = false;
+  /*if (res.locals.user.needsWelcoming()) {
     res.locals.intro_auto = true;
     res.locals.user.welcome(err => {if (err) console.error(err);});
-  }
+  }*/
   res.render('directory', {search: true});
 });
 

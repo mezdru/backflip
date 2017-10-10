@@ -98,13 +98,19 @@ hbs.registerHelper('profileLink', function(user, organisation) {
   recordId = user.getRecordIdByOrgId(organisation._id);
   if (!recordId) return null;
   url = new UrlHelper(organisation.tag, `edit/id/${recordId}`, null, this.getLocale()).getUrl();
-  return `<a title="My profile" class="fa fa-user-circle-o profile" href="${url}" aria-hidden="true"></a>`;
+  return `<a title="${this.__('Update my Profile')}" class="fa fa-arrow-circle-up profile" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {
   if (!organisation || !user || !user.isAdminToOrganisation(organisation._id)) return null;
   url = new UrlHelper(organisation.tag, `admin/`, null, this.getLocale()).getUrl();
   return `<a title="Administration" class="fa fa-cog admin" href="${url}" aria-hidden="true"></a>`;
+});
+
+hbs.registerHelper('addLink', function(user, organisation) {
+  if (!organisation || !user || !user.belongsToOrganisation(organisation._id)) return null;
+  url = new UrlHelper(organisation.tag, `edit/add/`, null, this.getLocale()).getUrl();
+  return `<a id="create-record" title="${this.__('Add new record')}" class="fa fa-plus-circle" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('url', function(path, organisationTag) {
