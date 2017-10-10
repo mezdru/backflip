@@ -145,11 +145,13 @@
   "Yes, invite":"Yes, invite",
   "No, block":"No, block",
   "Join %s on Lenom":"Join %s on Lenom",
-  "Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!":"Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!",
+  "Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!":"Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are there!",
   "Connect and share":"Connect and share",
-  "This email can be used to securely access Lenom for 30 days.":"This email can be used to securely access Lenom for 30 days.",
   "Anything else?":"Anything else?",
   "Please write a name (no larger than 64 characters).":"Please write a name (no larger than 64 characters).",
   "Please write a description (no larger than 2048 characters).":"Please write a description (no larger than 2048 characters).",
-  "Wrong email":"Wrong email"
+  "Wrong email":"Wrong email",
+  "Sign in to Lenom":"Sign in to Lenom",
+  "This green button can be used to securely access Lenom for 30 days.":"This green button can be used to securely access Lenom for 30 days.",
+  "Hello %s! We are happy to welcome you back to Lenom.":"Hello %s! We are happy to welcome you back to Lenom."
 }

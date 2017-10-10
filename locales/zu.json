@@ -147,9 +147,11 @@
   "Join %s on Lenom":"crwdns657:0%scrwdne657:0",
   "Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!":"crwdns658:0%scrwdnd658:0%scrwdne658:0",
   "Connect and share":"crwdns659:0crwdne659:0",
-  "This email can be used to securely access Lenom for 30 days.":"crwdns660:0crwdne660:0",
   "Anything else?":"crwdns661:0crwdne661:0",
   "Please write a name (no larger than 64 characters).":"crwdns662:0crwdne662:0",
   "Please write a description (no larger than 2048 characters).":"crwdns663:0crwdne663:0",
-  "Wrong email":"crwdns664:0crwdne664:0"
+  "Wrong email":"crwdns664:0crwdne664:0",
+  "Sign in to Lenom":"crwdns665:0crwdne665:0",
+  "This green button can be used to securely access Lenom for 30 days.":"crwdns666:0crwdne666:0",
+  "Hello %s! We are happy to welcome you back to Lenom.":"crwdns667:0%scrwdne667:0"
 }
