@@ -131,7 +131,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
           }
           return next(err);
         }
-        if (req.body.invite === "yes") {
+        if (res.locals.record.type === "person" && req.body.invite === "yes") {
           EmailUser.addByEmail(res.locals.record.getEmail(), res.locals.organisation._id, res.locals.record._id, function(err, user) {
             if (err) return next(err);
             if (!user) {
@@ -139,14 +139,19 @@ router.post('/:context/:recordId?', function(req, res, next) {
               err.status = 500;
               return callback(err);
             }
-            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, function(err, user) {
+            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
               if (err) return next(err);
               return console.log(`INVITE ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> invited ${user.email.value} <${user._id}> in ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
             });
           });
         }
-        console.log(`EDIT ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
-        req.flash('success', res.__("Saved!"));
+        if(req.params.context === 'add') {
+          console.log(`ADDED ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> created ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
+          req.flash('success', res.__("Added!"));
+        } else {
+          console.log(`EDIT ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
+          req.flash('success', res.__("Saved!"));
+        }
         var query = req.params.context === 'welcome' ? '?welcomed=true' : null;
         return res.redirect(new UrlHelper(req.organisationTag, null, query, req.getLocale()).getUrl());
       });

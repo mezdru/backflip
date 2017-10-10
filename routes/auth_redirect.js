@@ -15,6 +15,7 @@ var Organisation = require('../models/organisation.js');
 
 
 // Check if user needs Welcoming
+//@todo avoid this double redirect on login.
 router.get('/', function(req, res, next) {
   if (res.locals.user && res.locals.organisation && res.locals.user.needsWelcomingToOrganisation(res.locals.organisation._id)) {
       if (req.query.welcomed) {
@@ -41,30 +42,12 @@ router.get('*/login/callback', function(req, res, next) {
 
 // Find the best organisationTag to redirect to.
 router.get('*/login/callback', function(req, res, next) {
-  // If I got no tag in session, or if the tag is demo
-  // redirect_after_login_tag is set by the login route
-  if (!req.session.redirect_after_login_tag || req.session.redirect_after_login_tag == 'demo') {
-    var firstOrgId = req.session.user.getFirstOrgId();
-    if (firstOrgId) {
-      Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
-        if(err) return next(err);
-        req.session.redirect_after_login_tag = organisation.tag;
-        return next();
-      });
-    } else {
-      req.session.redirect_after_login_tag = null;
-      return next();
-    }
-  } else {
-    return next();
-  }
-});
-
-// Do the redirect after login callback
-router.get('*/login/callback', function(req, res, next) {
-  // If I don't have an organisation, I'm redirected to cheers
-  var path = req.session.redirect_after_login_tag ? '' : 'cheers';
-  return res.redirect(new UrlHelper(req.session.redirect_after_login_tag, path, null, req.session.locale).getUrl());
+  req.redirectionTag = req.redirectionTag ||
+    req.organisationTag ||
+    req.session.user.getFirstOrgTag() ||
+    null;
+  var path = req.redirectionTag ? '' : 'cheers';
+  return res.redirect(new UrlHelper(req.redirectionTag, path, null, req.session.locale).getUrl());
 });
 
 module.exports = router;

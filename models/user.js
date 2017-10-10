@@ -12,7 +12,6 @@ var mongoose = require('mongoose');
 var undefsafe = require('undefsafe');
 
 var userSchema = mongoose.Schema({
-  name: String,
   picture: {
     uri: String,
     path: String
@@ -56,6 +55,14 @@ var userSchema = mongoose.Schema({
 
 userSchema.statics.findOneByEmail = function (email, callback) {
   this.findOne({$or: [{'google.email':email}, {'email.value':email}] }, callback);
+};
+
+userSchema.virtual('loginEmail').get(function() {
+  return this.google.email || this.email.value;
+});
+
+userSchema.methods.getName = function (organisationId) {
+
 };
 
 userSchema.methods.touchLogin = function (callback) {
@@ -106,8 +113,8 @@ userSchema.methods.getOrgAndRecord = function(organisationId) {
   return this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
 };
 
-userSchema.methods.getFirstOrgId = function() {
-  return undefsafe(this, 'orgsAndRecords.0.organisation');
+userSchema.methods.getFirstOrgTag = function() {
+  return undefsafe(this, 'orgsAndRecords.0.organisation.tag');
 };
 
 userSchema.methods.addToOrganisation = function(organisationId, callback) {
@@ -160,12 +167,6 @@ userSchema.methods.attachOrgAndRecord = function(organisationId, recordId, callb
 
 userSchema.methods.isSuperAdmin = function() {
   return this.superadmin === true;
-};
-
-//@todo replace this placeholder with something handling multiple records
-//@todo does not work when populated
-userSchema.methods.getFirstOrganisation = function() {
-  return undefsafe(this, 'orgsAndRecords.0.organisation');
 };
 
 /*

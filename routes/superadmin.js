@@ -57,19 +57,7 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
     res.locals.impersonator = req.session.impersonator;
     res.locals.user = req.session.user;
 
-    var firstOrgId = user.getFirstOrgId();
-    if (firstOrgId) {
-      Organisation.findById(firstOrgId, 'tag', function(err, organisation) {
-        if(err) return next(err);
-        return res.redirect(new UrlHelper(organisation.tag).getUrl());
-      });
-    } else {
-      return res.render('index',
-        {
-          title: 'Impersonate',
-          details: 'You are now impersonating ' + res.locals.user.google.email
-        });
-    }
+    return res.redirect(new UrlHelper(user.getFirstOrgTag()).getUrl());
   });
 });
 
@@ -134,7 +122,7 @@ router.get('/organisation/:orgTag/makeadmin/:userEmail', function(req, res, next
         res.render('index',
           {
             title: 'Admin added',
-            details: `${user.google.email} is now admin of ${organisation.tag}.`,
+            details: `${user.loginEmail} is now admin of ${organisation.tag}.`,
             content: user
           });
       });

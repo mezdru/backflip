@@ -12,7 +12,6 @@ const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, p
 const defaultReciepient = 'hear-me@lenom.io';
 const defaultEmitter = 'lenombot@lenom.io';
 const defaultEmitterName = 'Lenom';
-var i18n = require('i18n');
 
 var EmailHelper = {
   superadmin: {
@@ -66,24 +65,24 @@ var EmailHelper = {
           console.log(err);
         });
     },
-    emailInvite: function(email, name, inviterName, organisationName, url) {
+    emailInvite: function(email, name, inviterName, organisationName, url, res) {
       const request = mailjet
         .post("send")
         .request({
           "FromEmail": defaultEmitter,
           "FromName": inviterName || defaultEmitterName,
-          "Subject": i18n.__("Join %s on Lenom", organisationName),
+          "Subject": res.__("Join %s on Lenom", organisationName),
           "MJ-TemplateID": "200696",
           "MJ-TemplateLanguage": true,
           "Recipients": [
             { "Email": email }
           ],
           "Vars": {
-            "intro": i18n.__("Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!", name, organisationName),
+            "intro": res.__("Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!", name, organisationName),
             "inviterName": inviterName || defaultEmitterName,
-            "button": i18n.__("Connect and share"),
+            "button": res.__("Connect and share"),
             "url": url || "https://lenom.io",
-            "outro": i18n.__("This email can be used to securely access Lenom for 30 days.")
+            "outro": res.__("This email can be used to securely access Lenom for 30 days.")
           }
         });
       request

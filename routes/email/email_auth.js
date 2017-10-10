@@ -29,7 +29,6 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-  if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;
   req.session.locale = req.getLocale();
   req.sanitizeBody('email').escape();
   var validationSchema = { email: { isEmail: { errorMessage: res.__('Wrong email')}}};
@@ -41,7 +40,7 @@ router.post('/login', function(req, res, next) {
         errors = [{msg:res.__('Email not found')}];
         return res.render('email_login', {email: req.body.email, errors: errors});
       }
-      EmailUser.sendLoginEmail(user, res, function(err, user) {
+      EmailUser.sendLoginEmail(user, res.locals.organisation, res, function(err, user) {
         if (err) return next(err);
         return res.render('index', {title: "Email Sent", details: "Check your email to login"});
       });

@@ -44,7 +44,7 @@ EmailUser.generateToken = function (user, callback) {
   user.save(callback);
 };
 
-EmailUser.sendLoginEmail = function (user, organisation, callback) {
+EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
     EmailHelper.public.emailLogin(user.name, user.email.value, EmailUser.getLoginUrl(user, organisation));
@@ -52,10 +52,10 @@ EmailUser.sendLoginEmail = function (user, organisation, callback) {
   });
 };
 
-EmailUser.sendInviteEmail = function (user, inviter, organisation, callback) {
+EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
-    EmailHelper.public.emailInvite(user.email.value, user.name, inviter.name, organisation.name, EmailUser.getLoginUrl(user, organisation));
+    EmailHelper.public.emailInvite(user.email.value, user.name, inviter.name, organisation.name, EmailUser.getLoginUrl(user, organisation), res);
     return callback(null, user);
   });
 };

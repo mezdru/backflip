@@ -47,9 +47,9 @@ router.use(function(req, res, next) {
 router.get('/login', function(req, res, next) {
   url = req.googleOAuth.generateAuthUrl({
     access_type: 'offline',
-    scope: scopes
+    scope: scopes,
+    state: req.organisationTag
   });
-  if (res.locals.organisation) req.session.redirect_after_login_tag = res.locals.organisation.tag;
   req.session.locale = req.getLocale();
   return res.redirect(url);
 });
@@ -58,7 +58,8 @@ router.get('/login', function(req, res, next) {
 router.get('/admin_login', function(req, res, next) {
   url = req.googleOAuth.generateAuthUrl({
     access_type: 'offline',
-    scope: admin_scopes
+    scope: admin_scopes,
+    state: req.organisationTag
   });
   return res.redirect(url);
 });
@@ -70,6 +71,7 @@ router.get('/login/callback', function(req, res, next) {
     //@todo create a page to explain the authorization we ask on the google login screen
     return res.redirect('/');
   }
+  req.redirectionTag = req.query.state;
   req.googleOAuth.getToken(req.query.code, function(err, tokens) {
     if (err) return next(err);
     GoogleUser.getByTokens(tokens, req.googleOAuth, function(err, user) {

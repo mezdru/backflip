@@ -16,7 +16,6 @@ var unique = require('array-unique');
 var LinkHelper = require('../helpers/link_helper.js');
 var StructureHelper = require('../helpers/structure_helper.js');
 var slug = require('slug');
-var i18n = require('i18n');
 
 
 var recordSchema = mongoose.Schema({

@@ -38,7 +38,10 @@ router.get('/login', function(req, res, next) {
 router.use(function(req, res, next) {
   if (req.session.user) {
     // @todo move to user model
-    User.findByIdAndUpdate(req.session.user._id, {last_action: Date.now()},function(err, user) {
+    User.findByIdAndUpdate(req.session.user._id, {last_action: Date.now()})
+    .populate('orgsAndRecords.record')
+    .populate('orgsAndRecords.organisation', 'name picture tag')
+    .exec(function(err, user) {
       if (err) return next(err);
       req.session.user = user;
       res.locals.user = req.session.user;
