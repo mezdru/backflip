@@ -106,12 +106,10 @@
 	"<i class='fa fa-hashtag' aria-hidden='true'></i> are for <strong>projects</strong> or <strong>interests</strong>.<br/><i class='fa fa-at' aria-hidden='true'></i> are for <strong>teams</strong>.": "<i class='fa fa-hashtag' aria-hidden='true'></i> are for <strong>projects</strong> or <strong>interests</strong>.<br/><i class='fa fa-at' aria-hidden='true'></i> are for <strong>teams</strong>.",
 	"Phone, email, address, url...": "Phone, email, address, url...",
 	"Add Link": "Add Link",
-	"How or where can we find you?": "How or where can we find you?",
 	"Jon Snow": "Jon Snow",
 	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, The north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, The north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow",
 	"How or where can we reach you?": "How or where can we reach you?",
 	"Introductions matter!": "Introductions matter!",
-	"Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>": "Share and continue <i class='fa fa-smile-o' aria-hidden='true'></i>",
 	"What else do you love?": "What else do you love?",
 	"Email address...": "Email address...",
 	"Phone number...": "Phone number...",
@@ -126,7 +124,6 @@
 	"Picture": "Picture",
 	"Description": "Description",
 	"Links": "Links",
-	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow",
 	"Tag": "Tag",
 	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> 0800 720 721<br/><i class='fa fa-envelope' aria-hidden='true'></i> nightswatch@thenorth.got<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Castle Black, The Wall<br/><i class='fa fa-github' aria-hidden='true'></i> https://github.com/nodejs/node": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> 0800 720 721<br/><i class='fa fa-envelope' aria-hidden='true'></i> nightswatch@thenorth.got<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Castle Black, The Wall<br/><i class='fa fa-github' aria-hidden='true'></i> https://github.com/nodejs/node",
 	"Write what you feel like sharing...": "Write what you feel like sharing...",
@@ -134,7 +131,6 @@
 	"Team": "Team",
 	"This tag is already taken": "This tag is already taken",
 	"Hashtag": "Hashtag",
-	"Create new...": "Create new...",
 	"Add new record": "Add new record",
 	"Help Tutorial": "Help Tutorial",
 	"Add new...": "Add new...",
@@ -153,5 +149,7 @@
 	"Wrong email": "Wrong email",
 	"Sign in to Lenom": "Sign in to Lenom",
 	"This green button can be used to securely access Lenom for 30 days.": "This green button can be used to securely access Lenom for 30 days.",
-	"Hello %s! We are happy to welcome you back to Lenom.": "Hello %s! We are happy to welcome you back to Lenom."
+	"Hello %s! We are happy to welcome you back to Lenom.": "Hello %s! We are happy to welcome you back to Lenom.",
+	"Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow": "Examples of links:<br/><i class='fa fa-phone' aria-hidden='true'></i> +33 6 78 45 12 09<br/><i class='fa fa-envelope' aria-hidden='true'></i> jon@stark.no<br/><i class='fa fa-map-marker' aria-hidden='true'></i> Winterfell, north<br/><i class='fa fa-twitter' aria-hidden='true'></i> https://twitter.com/LordSnow",
+	"Signed in!": "Signed in!"
 }

@@ -1,10 +1,17 @@
+
 {{#if messages.success}}
-  <div class="success-flash">
-    <div>
-      <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-    </div>
+  <div class="flash success-flash">
+    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
     {{#messages.success}}
     <p>{{this}}</p>
     {{/messages.success}}
+  </div>
+{{/if}}
+{{#if messages.security}}
+  <div class="flash security-flash">
+    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+    {{#messages.security}}
+    <p>{{this}}</p>
+    {{/messages.security}}
   </div>
 {{/if}}

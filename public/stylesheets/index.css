@@ -939,35 +939,46 @@ footer {
   display: inherit;
 }
 
-/* SUCCESS FLASH */
-.success-flash {
+/* FLASH */
+.flash {
   z-index: 1000000;
   position: absolute;
   right: 40px;
-  top: 132px;
-  color: #2ECC71;
+  top: 100px;
   font-size: 1.6em;
+  color: #7F8C8D;
 }
 
-.success-flash div {
+.success-flash,
+.security-flash {
+  color: #2ECC71;
+}
+
+.flash .fa {
+  display: block;
+  margin: auto;
   text-align: center;
-  font-size: 3em;
-  width: 1.5em;
-  height: 1.5em;
+  font-size: 3.2em;
+  width: 1.25em;
+  height: 1.25em;
   color: #ffffff;
+  background-color: #7F8C8D;
+  border-radius: 1em;
+  padding-top: 5px;
+  box-sizing: border-box;
+}
+
+.success-flash .fa,
+.security-flash .fa {
   background-color: #2ECC71;
-  border-radius: 1.5em;
 }
 
-.success-flash .fa {
-}
-
-.success-flash p {
+.flash p {
   text-align: center;
   text-transform: uppercase;
 }
 
-.success-flash {
+.flash {
     -moz-animation-name: fadeOut;
     -webkit-animation-name: fadeOut;
     -ms-animation-name: fadeOut;

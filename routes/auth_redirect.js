@@ -47,6 +47,7 @@ router.get('*/login/callback', function(req, res, next) {
     req.session.user.getFirstOrgTag() ||
     null;
   var path = req.redirectionTag ? '' : 'cheers';
+  req.flash('security', res.__("Signed in!"));
   return res.redirect(new UrlHelper(req.redirectionTag, path, null, req.session.locale).getUrl());
 });
 
