@@ -18,12 +18,12 @@ var LinkHelper = require('../../helpers/link_helper.js');
 var EmailRecord = {};
 
 // @todo what if a record already exist for the same user ?
-EmailRecord.createRecord = function(email, organisationId, callback) {
+EmailRecord.createRecord = function(email, organisation, callback) {
   var record = new Record({
       name: this.createName(email),
       tag: this.createTag(email),
       type: 'person',
-      organisation: organisationId,
+      organisation: organisation,
       ranking: 1000,
       email: {
         value: email

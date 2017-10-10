@@ -62,7 +62,9 @@ userSchema.virtual('loginEmail').get(function() {
 });
 
 userSchema.methods.getName = function (organisationId) {
-
+  if (this.name) return this.name;
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  return undefsafe(orgAndRecord, 'record.name');
 };
 
 userSchema.methods.touchLogin = function (callback) {
@@ -149,17 +151,17 @@ userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
 };
 
-userSchema.methods.attachOrgAndRecord = function(organisationId, recordId, callback) {
-  var orgAndRecord = this.getOrgAndRecord(organisationId);
+userSchema.methods.attachOrgAndRecord = function(organisation, record, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisation._id);
   if (orgAndRecord) {
     if (orgAndRecord.record) {
       err = new Error('Record Already Attached');
       err.status = 400;
       return callback(err);
     }
-    orgAndRecord.record = recordId;
+    orgAndRecord.record = record;
   } else {
-    this.orgsAndRecords.push({organisation: organisationId, record: recordId});
+    this.orgsAndRecords.push({organisation: organisation, record: record});
   }
   if (callback) this.save(callback);
   else return this;

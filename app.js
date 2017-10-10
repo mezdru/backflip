@@ -142,9 +142,9 @@ app.use(function(req, res, next) {
   return next();
 });
 
-// Taking care of general Auth
-var auth = require('./routes/auth.js');
-app.use('/', auth);
+// Looking for the org and setup res.locals.organisation
+var org = require('./routes/org.js');
+app.use('/', org);
 
 // Taking care of Google Auth
 var googleAuth = require('./routes/google/google_auth.js');
@@ -153,6 +153,10 @@ app.use('/google', googleAuth);
 // Taking care of Email Auth
 var emailAuth = require('./routes/email/email_auth.js');
 app.use('/email', emailAuth);
+
+// Taking care of general Auth
+var auth = require('./routes/auth.js');
+app.use('/', auth);
 
 // Redirection after Login
 var authRedirect = require('./routes/auth_redirect.js');

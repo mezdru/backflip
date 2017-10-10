@@ -42,21 +42,23 @@ var EmailHelper = {
     }
   },
   public: {
-    emailLogin: function(name, email, url) {
+    emailLogin: function(email, name, url, res) {
       const request = mailjet
         .post("send")
         .request({
           "FromEmail": defaultEmitter,
           "FromName": defaultEmitterName,
-          "Subject": "Login to Lenom",
+          "Subject": res.__("Sign in to Lenom"),
           "MJ-TemplateID": "197497",
           "MJ-TemplateLanguage": true,
           "Recipients": [
             { "Email": email }
           ],
           "Vars": {
-            "name": name || "",
-            "url": url || "https://lenom.io"
+            "intro": res.__("Hello %s! We are happy to welcome you back to Lenom.", name),
+            "url": url || "https://lenom.io",
+            "button": res.__("Connect and share"),
+            "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
           }
         });
       request
@@ -82,7 +84,7 @@ var EmailHelper = {
             "inviterName": inviterName || defaultEmitterName,
             "button": res.__("Connect and share"),
             "url": url || "https://lenom.io",
-            "outro": res.__("This email can be used to securely access Lenom for 30 days.")
+            "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
           }
         });
       request

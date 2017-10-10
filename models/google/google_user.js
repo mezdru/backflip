@@ -57,10 +57,10 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
 };
 
 GoogleUser.attachOrgAndRecord = function(user, organisation, callback) {
+  //@todo what if the record does not exist yet ?
   GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
     if (err) return callback(err);
-    var recordId = undefsafe(record, '_id');
-    user.attachOrgAndRecord(organisation._id, recordId, callback);
+    user.attachOrgAndRecord(organisation, record, callback);
   });
 };
 

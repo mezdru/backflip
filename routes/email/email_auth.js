@@ -48,7 +48,6 @@ router.post('/login', function(req, res, next) {
   } else {
     res.render('email_login', { email: req.body.email, errors: errors });
   }
-
 });
 
 // Login redirection

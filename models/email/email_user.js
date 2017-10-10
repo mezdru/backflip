@@ -21,7 +21,9 @@ var EmailUser = {};
 
 //@todo look for user with a google email too
 EmailUser.getByEmail = function (email, callback) {
-  User.findOne({'email.value': email}, callback);
+  User.findOne({'email.value': email}).
+  populate('orgsAndRecords.record').
+  exec(callback);
 };
 
 EmailUser.getByHash = function (hash, callback) {
@@ -44,18 +46,21 @@ EmailUser.generateToken = function (user, callback) {
   user.save(callback);
 };
 
+//@todo fails if user.orgsAndRecords not populated
 EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
-    EmailHelper.public.emailLogin(user.name, user.email.value, EmailUser.getLoginUrl(user, organisation));
+    let name = organisation ? user.getName(organisation._id).split(' ')[0] : '';
+    EmailHelper.public.emailLogin(user.email.value, name, EmailUser.getLoginUrl(user, organisation), res);
     return callback(null, user);
   });
 };
 
+//@todo fails if
 EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
-    EmailHelper.public.emailInvite(user.email.value, user.name, inviter.name, organisation.name, EmailUser.getLoginUrl(user, organisation), res);
+    EmailHelper.public.emailInvite(user.email.value, user.getName(organisation._id).split(' ')[0], inviter.getName(organisation._id), organisation.name, EmailUser.getLoginUrl(user, organisation), res);
     return callback(null, user);
   });
 };
@@ -103,7 +108,7 @@ EmailUser.tokenStillValid = function(generated) {
   return generated > Date.now() - 24*30*3600*1000;
 };
 
-EmailUser.addByEmail = function(email, organisationId, recordId, callback) {
+EmailUser.addByEmail = function(email, organisation, record, callback) {
   this.getByEmail(email, function(err, user) {
     if (err) return callback(err);
     if (!user) {
@@ -114,12 +119,11 @@ EmailUser.addByEmail = function(email, organisationId, recordId, callback) {
         }
       });
     }
-    if (!recordId) {
-      record = EmailRecord.createRecord(email, organisationId);
-      recordId = record._id;
+    if (!record) {
+      record = EmailRecord.createRecord(email, organisation);
       record.save(function(err) {if (err) console.error(err);});
     }
-    user.attachOrgAndRecord(organisationId, recordId, callback);
+    user.attachOrgAndRecord(organisation, record, callback);
   });
 };
 
