@@ -73,6 +73,7 @@
   background-color: #F5F7FA;
   border-radius: 10px;
   color: #7F8C8D;
+  word-break: break-all;
 }
 
 .edit-help .fa {

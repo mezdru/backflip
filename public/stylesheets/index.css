@@ -759,6 +759,7 @@ footer {
 .link-text {
   padding-left: 8px;
   display: none;
+  word-break: break-all;
 }
 
 .expanded .link-text {

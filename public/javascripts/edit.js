@@ -19,7 +19,7 @@ var lastQuery = '';
 $('.desc-input').textcomplete([
   {
     // #3 - Regular expression used to trigger the autocomplete dropdown
-    match: /(^|\s)[@#](\w*(?:\s*\w*))$/,
+    match: /[@#]([^\s@#]*)$/,
     // #4 - Function called at every new keystroke
     search: function(query, callback) {
       lastQuery = query;
@@ -33,6 +33,7 @@ $('.desc-input').textcomplete([
           console.error(err);
         });
     },
+    index: 1,
     // #5 - Template used to display each result obtained by the Algolia API
     template: function (hit) {
       // Returns the highlighted version of the name attribute
@@ -40,7 +41,7 @@ $('.desc-input').textcomplete([
     },
     // #6 - Template used to display the selected result in the textarea
     replace: function (hit) {
-      return ' ' + hit.tag + ' ';
+      return hit.tag + ' ';
     }
   }
 ]);

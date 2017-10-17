@@ -172,7 +172,7 @@ recordSchema.methods.updateWithin = function(organisation, callback) {
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
-// @todo this works only if organisation.records are loaded, otherwise creates duplicates be.
+// @todo this works only if organisation.records are loaded, otherwise creates duplicates.
 // WARNING NEW RECORDS NEEDS SAVING !
 recordSchema.methods.makeWithin = function(organisation) {
   var tags = this.getWithinTags(organisation);
@@ -207,7 +207,7 @@ recordSchema.statics.shallowCopy = function(record) {
 };
 
 recordSchema.methods.getWithinTags = function(organisation) {
-  var regex = /([@#][\w-<>\/]+)/g;
+  var regex = /([@#][^\s@#]+)/g;
   var tags = this.description.match(regex);
   if (!tags || tags.length === 0) {
     this.description += ' #notags';
