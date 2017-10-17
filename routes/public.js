@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
       }
       res.render('directory', {search: true});
     } else if (!res.locals.user) {
-      return res.render('organisation_homepage');
+      res.render('home/organisation_homepage', {layout: 'home/layout_home', bodyClass: 'home'});
     } else {
       return next();
     }

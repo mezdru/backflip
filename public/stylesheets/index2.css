@@ -93,6 +93,10 @@ em a {
   text-align: right;
 }
 
+.align-center {
+  text-align: center;
+}
+
 /* CUSTOM ELEMENTS */
 .reward {
   margin: 0;
@@ -1231,6 +1235,15 @@ footer .pure-g {
   padding: 20px;
 }
 
+/* login page */
+.login h2 {
+  max-width: 320px;
+  margin: 0 auto;
+  padding-bottom: 0;
+  font-size: 2em;
+}
+
+
 /* signin FORM */
 .signin-form {
   padding: 10px 20px;
@@ -1248,10 +1261,6 @@ footer .pure-g {
   margin-top: 10px;
   border-radius: 16px;
   padding-left: 16px;
-}
-
-.signin-form h2 {
-  font-size: 2em;
 }
 
 #jeSuisHumain {
