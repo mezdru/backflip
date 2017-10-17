@@ -22,7 +22,7 @@ var StructureHelper = class StructureHelper {
   build() {
     this.within.forEach(this.recordToStructure, this);
   }
-  
+
   recordToStructure(record) {
     let branches = this.tree.filter (function (branch) {
       return branch[branch.length-1] == record.tag;

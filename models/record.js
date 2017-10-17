@@ -152,7 +152,7 @@ recordSchema.methods.addLink = function(newLink) {
     this.links.push(newLink);
 };
 
-// @todo delete in favor of makeWithin
+// @todo delete in favor of makeWithin (or not)
 recordSchema.methods.updateWithin = function(organisation, callback) {
   var tags = this.getWithinTags(organisation);
   this.newWithin = [];
@@ -213,6 +213,11 @@ recordSchema.methods.getWithinTags = function(organisation) {
     this.description += ' #notags';
     tags = ['#notags'];
   }
+  // teams and hashtag are within themselves for structuring and filtering
+  //@todo should only be on algolia side
+  if (this.type === 'team' || this.type === 'hashtag') {
+    tags.unshift(this.tag);
+  }
   tags = tags.concat(this.getTreeTags(organisation, tags));
   return unique(tags);
 };
@@ -229,6 +234,7 @@ recordSchema.methods.getTreeTags = function(organisation, tags) {
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
 recordSchema.methods.getWithinRecordByTag = function(tag, callback) {
+  if (this.tag === tag) return callback(null, this.model('Record').shallowCopy(this));
   var localRecord = this.within.find(function(record) {
     return record.tag === tag;
   });
@@ -356,15 +362,6 @@ recordSchema.statics.getValidationSchema = function(res) {
     }
   };
 };
-
-
-// @todo do not store this in Mongo, only push this to Algolia instead.
-recordSchema.pre('save', function(next) {
-  if (this.type === 'team' || this.type === 'hashtag') {
-    this.within.unshift(this._id);
-  }
-  next();
-});
 
 recordSchema.pre('save', function(next) {
   if (this.type == 'team') {
