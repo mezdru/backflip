@@ -225,7 +225,6 @@ recordSchema.statics.cleanTag = function(match, type) {
     body = body.charAt(0).toUpperCase() + body.slice(1);
   } else if (type === 'hashtag') {
     prefix = '#';
-    body = body.charAt(0).toLowerCase() + body.slice(1);
   } else if (type === 'person') {
     prefix = '@';
     body = body.charAt(0).toLowerCase() + body.slice(1);
