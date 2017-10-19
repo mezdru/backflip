@@ -39,7 +39,7 @@
         <input class="pure-input-1" id="name" name="name" type="text" placeholder="{{__ "Jon Snow"}}" value="{{record.name}}">
 
         <label for="picture[url]">{{__ "Please share a picture of yourself!"}}</label>
-        <input type="hidden" role="uploadcare-uploader" name="picture[url]" data-image-shrink="512x512" data-images-only="true" />
+        {{>uploadcare}}
       </div>
     </div>
   </div>

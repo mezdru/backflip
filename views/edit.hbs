@@ -10,7 +10,7 @@
 }}
 <div class="main edit {{context}}">
   {{#if welcome}}{{> edit_intro_welcome}}{{/if}}
-  <form action="{{formAction}}" method="post" class="pure-form pure-form-stacked">
+  <form action="{{formAction}}" method="post" class="pure-form pure-form-stacked {{record.type}}">
     <input type="hidden" name="_id" value="{{record._id}}" />
     <div class="pure-g">
       <div class="pure-u-1 pure-u-md-2-3">
@@ -63,7 +63,7 @@
             </div>
 
             <label for="picture[url]">{{#if itsMe}}{{__ "Please share a picture of yourself!"}}{{else}}{{__ "Picture"}}{{/if}}</label>
-            <input type="hidden" role="uploadcare-uploader" name="picture[url]" data-image-shrink="512x512" data-images-only="true" />
+            {{>uploadcare}}
           </div>
         </div>
         {{#unless welcome}}

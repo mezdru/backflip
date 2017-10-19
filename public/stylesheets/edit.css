@@ -247,6 +247,15 @@ p.validate {
 
 /* Upload picture */
 
+form.team #uploadcare {
+  display: none;
+}
+
+form.person #uploadcare4team,
+form.hashtag #uploadcare4team {
+  display: none
+}
+
 .uploadcare--widget {
   width: 100%;
   font-size: 1.4em;

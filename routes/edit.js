@@ -11,6 +11,7 @@
 var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');
+var parseDomain = require('parse-domain');
 
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
@@ -103,6 +104,15 @@ router.post('*', function(req, res, next) {
   return next();
 });
 
+
+// @todo this is an uploadcare hack, I did not find the way to change the crop setting dynamically... so I put 2 buttons, and switch the one displayed.
+router.post('*', function(req, res, next) {
+  if (req.body.type === 'team') {
+    req.body.picture = req.body.picture4team;
+  }
+  return next();
+});
+
 // We save the record after checking everything is alriqht.
 router.post('/:context/:recordId?', function(req, res, next) {
   req.checkBody(Record.getValidationSchema(res));
@@ -175,6 +185,11 @@ router.use('/:context/:recordId?', function(req, res, next) {
 
     if (undefsafe(res.locals, 'record.type')) {
       res.locals[res.locals.record.type] = true;
+    }
+
+    if (undefsafe(res.locals, 'record.picture.url')) {
+      var domain = parseDomain(res.locals.record.picture.url);
+      if (domain.domain === 'ucarecdn') res.locals.uploadCarePictureUrl = res.locals.record.picture.url;
     }
 
     if (req.params.context) {

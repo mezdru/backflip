@@ -16,6 +16,10 @@ hbs.registerHelper('__', function () {
   return this.__.apply(this, arguments);
 });
 
+hbs.registerHelper('locale', function() {
+  return this.getLocale();
+});
+
 hbs.registerHelper('raw', function(options) {
   return options.fn();
 });
