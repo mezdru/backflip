@@ -82,7 +82,7 @@ router.post('/add', function(req, res, next) {
   res.locals.record = new Record({
     organisation: res.locals.organisation._id,
     type: req.body.type || 'person',
-    tag: Record.makeTag(req.body.tag, req.body.name, req.body.type)
+    tag: Record.cleanTag(req.body.tag || req.body.name, req.body.type)
   });
   return next();
 });

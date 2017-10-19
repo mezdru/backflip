@@ -97,7 +97,7 @@ function transformDescriptions(item) {
 }
 
 function transformString(input, within) {
-		var regex = /([@#][^\s@#]+)/g;
+		var regex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
 		input = input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
 			record = getRecord(cleanMatch, within);

@@ -76,7 +76,7 @@ recordSchema.index({'includes': 1});
 // @todo make RecordObjectCSVHelper return a Record !
 recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type != 'person' && inputObject.type != 'team') inputObject.type = 'hashtag';
-  inputObject.tag = this.makeTag(inputObject.tag, inputObject.name, inputObject.type);
+  inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
   inputObject.name = inputObject.name || inputObject.tag.slice(1);
   return new this(inputObject);
 };
@@ -88,14 +88,6 @@ recordSchema.statics.getTypeFromTag = function(tag) {
     if (firstLetter === firstLetter.toUpperCase()) return 'team';
     else return 'person';
   } else return 'hashtag';
-};
-
-recordSchema.statics.makeTag = function(tag, name, type) {
-  if (tag && (tag.charAt(0) == '@' || tag.charAt(0) == '#')) tag = tag.slice(1);
-  prefix = (type == 'hashtag') ? '#' : '@';
-  if (tag) return prefix + tag;
-  if (name) return prefix + slug(name);
-  return prefix + 'notag' + Math.floor(Math.random() * 1000);
 };
 
 recordSchema.methods.dumbMerge = function(inputObject) {
@@ -152,8 +144,10 @@ recordSchema.methods.addLink = function(newLink) {
     this.links.push(newLink);
 };
 
+
 // @todo delete in favor of makeWithin (or not)
 recordSchema.methods.updateWithin = function(organisation, callback) {
+  this.cleanDescription();
   var tags = this.getWithinTags(organisation);
   this.newWithin = [];
   tags.forEach(function(tag) {
@@ -175,6 +169,7 @@ recordSchema.methods.updateWithin = function(organisation, callback) {
 // @todo this works only if organisation.records are loaded, otherwise creates duplicates.
 // WARNING NEW RECORDS NEEDS SAVING !
 recordSchema.methods.makeWithin = function(organisation) {
+  this.cleanDescription();
   var tags = this.getWithinTags(organisation);
   var newRecords = [];
   this.within = tags.map(
@@ -206,9 +201,40 @@ recordSchema.statics.shallowCopy = function(record) {
   });
 };
 
+const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
+
+recordSchema.methods.cleanDescription = function() {
+  this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
+};
+
+recordSchema.statics.cleanTag = function(match, type) {
+  var prefix = '';
+  var body = '';
+  if (match.charAt(0) === '@' || match.charAt(0) === '#' ) {
+    prefix = match.substr(0,1);
+    body = slug(match.slice(1));
+  } else {
+    prefix = '#';
+    body = slug(match);
+  }
+
+  if (!type) type = prefix === '@' ? 'team' : 'hashtag';
+
+  if (type === 'team') {
+    prefix = '@';
+    body = body.charAt(0).toUpperCase() + body.slice(1);
+  } else if (type === 'hashtag') {
+    prefix = '#';
+    body = body.charAt(0).toLowerCase() + body.slice(1);
+  } else if (type === 'person') {
+    prefix = '@';
+    body = body.charAt(0).toLowerCase() + body.slice(1);
+  }
+  return prefix + body;
+};
+
 recordSchema.methods.getWithinTags = function(organisation) {
-  var regex = /([@#][^\s@#]+)/g;
-  var tags = this.description.match(regex);
+  var tags = this.description.match(tagRegex);
   if (!tags || tags.length === 0) {
     this.description += ' #notags';
     tags = ['#notags'];

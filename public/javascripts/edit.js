@@ -19,7 +19,7 @@ var lastQuery = '';
 $('.desc-input').textcomplete([
   {
     // #3 - Regular expression used to trigger the autocomplete dropdown
-    match: /[@#]([^\s@#]*)$/,
+    match: /[@#]([^\s@#\,\.\!\?\;\(\)]*)$/,
     // #4 - Function called at every new keystroke
     search: function(query, callback) {
       lastQuery = query;
