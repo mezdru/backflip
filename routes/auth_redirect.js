@@ -27,19 +27,6 @@ router.get('/', function(req, res, next) {
   return next();
 });
 
-// Catch all login callbacks and touch the user
-router.get('*/login/callback', function(req, res, next) {
-  if (!req.session.user) {
-    err = new Error('Authentification failed');
-    err.status = 500;
-    return next(err);
-  }
-  req.session.user.touchLogin(function(err) {
-    if (err) return console.error(err);
-  });
-  return next();
-});
-
 // Find the best organisationTag to redirect to.
 router.get('*/login/callback', function(req, res, next) {
   req.redirectionTag = req.redirectionTag ||

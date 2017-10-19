@@ -33,6 +33,19 @@ router.get('/login', function(req, res, next) {
   res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home', signinText: 'login'});
 });
 
+// Catch all login callbacks and touch the user
+router.get('*/login/callback', function(req, res, next) {
+  if (!req.session.user) {
+    err = new Error('Authentification failed');
+    err.status = 500;
+    return next(err);
+  }
+  req.session.user.touchLogin(function(err) {
+    if (err) return console.error(err);
+    return next();
+  });
+});
+
 // Setup User depending on Auth
 router.use(function(req, res, next) {
   if (req.session.user) {

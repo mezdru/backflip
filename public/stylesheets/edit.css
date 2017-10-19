@@ -73,7 +73,6 @@
   background-color: #F5F7FA;
   border-radius: 10px;
   color: #7F8C8D;
-  word-break: break-all;
 }
 
 .edit-help .fa {
@@ -391,10 +390,6 @@ p.validate {
   text-align: center;
   margin: 10px 0;
   color: #2ECC71;
-}
-
-.welcome-gif {
-  margin: auto;
 }
 
 .welcome-youtube {

@@ -11,19 +11,47 @@
 var User = require('../user.js');
 var GoogleOrganisation = require('./google_organisation.js');
 var GoogleRecord = require('./google_record.js');
+var EmailUser = require('../email/email_user.js');
 var undefsafe = require('undefsafe');
 
 var GoogleUser = {};
 
 GoogleUser.getByTokens = function (tokens, oAuth, callback) {
   tokens.id_payload = GoogleUser.decodeIdToken(tokens.id_token);
-  User.findOne({'google.id': tokens.id_payload.sub}, function(err, user) {
+  console.log("getByTokens");
+  User.findOne({'google.id': tokens.id_payload.sub}).
+  populate('orgsAndRecords.record').
+  exec( function(err, user) {
     if (err) return callback(err);
     //if no user is returned, create a new user
-    if (!user) return GoogleUser.newByTokens(tokens, oAuth, callback);
+    if (!user) {
+      console.log("NoUser");
+      EmailUser.getByEmail(tokens.id_payload.email, function(err, user) {
+        if(err) return callback(err);
+        if(!user) return GoogleUser.newByTokens(tokens, oAuth, callback);
+        else return GoogleUser.addStrategy(tokens, user, callback);
+      });
+    }
     //else return the found user
     else return callback(null, user);
   });
+};
+
+//@todo merge with getByEmail (findAndUpdate) and save 1 DB query.
+GoogleUser.addStrategy = function(tokens, user, callback) {
+  console.log("addStrategy");
+  //we probably decoded the id_token just before, but in case we didn't
+  tokens.id_payload = tokens.id_payload || GoogleUser.decodeIdToken(tokens.id_token);
+  user.google = {
+    id: tokens.id_payload.sub,
+    email: tokens.id_payload.email,
+    hd: tokens.id_payload.hd,
+    tokens: {
+      id_token: tokens.id_token,
+      refresh_token: tokens.refresh_token
+    }
+  };
+  return user.save(callback);
 };
 
 

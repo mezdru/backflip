@@ -38,11 +38,16 @@ router.post('/login', function(req, res, next) {
       if (err) return next(err);
       if (!user) {
         errors = [{msg:res.__('Email not found')}];
+        return res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home', email: req.body.email, errors: errors});
+      }
+      if (res.locals.organisation && !user.belongsToOrganisation(res.locals.organisation._id)) {
+        errors = [{msg:res.__('This email does not belong to this organisation')}];
         return res.render('email_login', {email: req.body.email, errors: errors});
+
       }
       EmailUser.sendLoginEmail(user, res.locals.organisation, res, function(err, user) {
         if (err) return next(err);
-        return res.render('index', {title: "Email Sent", details: "Check your email to login"});
+        return res.render('home/signin_success', {layout: 'home/layout_home', bodyClass: 'home', email: req.body.email});
       });
     });
   } else {

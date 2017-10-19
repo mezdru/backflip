@@ -97,6 +97,10 @@ em a {
   text-align: center;
 }
 
+.break-all {
+  word-break: break-all;
+}
+
 /* CUSTOM ELEMENTS */
 .reward {
   margin: 0;
@@ -1236,22 +1240,22 @@ footer .pure-g {
 }
 
 /* login page */
-.login h2 {
+.signin h2 {
   max-width: 320px;
   margin: 0 auto;
-  padding-bottom: 0;
+  padding: 20px 0 0 20px;
   font-size: 2em;
 }
 
 
 /* signin FORM */
 .signin-form {
-  padding: 10px 20px;
   max-width: 320px;
   margin: auto;
 }
 
-.signin-form p {
+.signin-form p,
+.signin-outro {
   text-align: center;
   font-weight: normal;
   padding: 10px 0 0 0;
@@ -1291,6 +1295,15 @@ footer .pure-g {
   margin-top: 1px;
   height: 18px;
   width: 18px;
+}
+
+.welcome-gif {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.welcome-gif img {
+  margin: auto;
 }
 
 /* MOBILE VERSION */
