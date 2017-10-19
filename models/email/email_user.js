@@ -56,6 +56,11 @@ EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   });
 };
 
+//if we generated a token less than 15 minutes ago
+EmailUser.tooSoon = function (user, callback) {
+  return user.email.generated > Date.now() - 15*60*1000;
+};
+
 //@todo fails if
 EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
