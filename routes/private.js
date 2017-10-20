@@ -33,9 +33,7 @@ router.get('/', function(req, res, next) {
   res.locals.isDevelopment = req.app.get('env') == 'development';
   res.locals.isMyOrg = true;
   res.locals.isCreator = true;
-  // careful, switching to false breaks intro_auto
-  res.locals.intro = false;
-  res.locals.intro_auto = false;
+  //res.locals.intro = {auto: true, welcome: true};
   /*if (res.locals.user.needsWelcoming()) {
     res.locals.intro_auto = true;
     res.locals.user.welcome(err => {if (err) console.error(err);});

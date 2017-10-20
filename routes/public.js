@@ -30,10 +30,8 @@ router.get('/', function(req, res, next) {
       res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
       res.locals.orgTree = res.locals.organisation.tree;
       res.locals.isDevelopment = req.app.get('env') == 'development';
-      // careful, switching to false breaks intro_auto
-      res.locals.intro = true;
       res.locals.beta = true;
-      if (res.locals.organisation.tag === 'demo') res.locals.intro_auto = true;
+      if (res.locals.organisation.tag === 'demo') res.locals.intro = {auto: true};
       if (res.locals.user) {
         res.locals.isMyOrg = res.locals.user.belongsToOrganisation(res.locals.organisation._id);
         res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);

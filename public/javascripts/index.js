@@ -196,14 +196,14 @@ transformTypeItem = function(item) {
 		case 'person': icon = 'fa-user-circle-o'; break;
 		case 'hashtag': icon = 'fa-hashtag'; break;
 	}
-	item.highlighted = '<i class="fa ' + icon + '" aria-hidden="true"></i><span class="toggle-text">' + item.highlighted + 's</span>';
+	item.highlighted = '<i class="fa ' + icon + '" aria-hidden="true"></i><span class="toggle-text">' + typeStrings[item.name] + '</span>';
 	return item;
 };
 
 search.addWidget(
 	instantsearch.widgets.searchBox({
 		container: '#search',
-		placeholder: 'Search by Name, @Team, #skill...',
+		placeholder: searchPlaceholder,
 		wrapInput: false,
 		autofocus: false,
 		cssClasses: {
@@ -220,7 +220,8 @@ search.addWidget(
       item: getTemplate('hit'),
       empty: getTemplate('noone')
     },
-    transformData: transformItem
+    transformData: transformItem,
+		showMoreLabel: hitsShowMore
   })
 );
 

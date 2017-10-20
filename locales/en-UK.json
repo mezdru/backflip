@@ -162,5 +162,16 @@
 	"Success!": "Success!",
 	"Now please check your emails": "Now please check your emails",
 	"We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.": "We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.",
-	"Email already sent, check your inbox!": "Email already sent, check your inbox!"
+	"Email already sent, check your inbox!": "Email already sent, check your inbox!",
+	"Sign out": "Sign out",
+	"Search by Name, @Team, #interest...": "Search by Name, @Team, #interest...",
+	"Go back home": "Go back home",
+	"Tree": "Tree",
+	"Hide": "Hide",
+	"Show:": "Show:",
+	"Show more": "Show more",
+	"People": "People",
+	"Hashtags": "Hashtags",
+	"Teams": "Teams",
+	"Administration": "Administration"
 }

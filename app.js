@@ -228,7 +228,7 @@ app.use(function(err, req, res, next) {
 
   // During early Beta log verbose 500 errors to Heroku console
   // @todo remove
-  if (res.locals.status === 403) console.error(err);
+  if (res.locals.status === 500) console.error(err);
 
   next(err);
 });

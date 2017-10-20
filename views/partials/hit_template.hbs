@@ -33,7 +33,7 @@
         {{^person}}<a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>{{/person}}
           <p class="actions">
             <span class="counters">
-              {{#includes_count.person}}<a title="{{includes_count.person}} Persons" class="searcher link-persons" onclick="setSearch('', '{{tag}}', 'person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
+              {{#includes_count.person}}<a title="{{includes_count.person}} People" class="searcher link-persons" onclick="setSearch('', '{{tag}}', 'person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
               {{#includes_count.team}}<a title="{{includes_count.team}} Teams" class="searcher link-teams" onclick="setSearch('', '{{tag}}', 'team')"><i class="fa fa-at" aria-hidden="true"></i>{{includes_count.team}}</a>{{/includes_count.team}}
               {{#includes_count.hashtag}}<a title="{{includes_count.hashtag}} Hashtags" class="searcher link-hashtags" onclick="setSearch('', '{{tag}}', 'hashtag')"><i class="fa fa-hashtag" aria-hidden="true"></i>{{includes_count.hashtag}}</a>{{/includes_count.hashtag}}
             </span>

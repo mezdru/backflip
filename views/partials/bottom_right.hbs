@@ -10,26 +10,7 @@
 <div id="bottom-right">
   {{{addLink user organisation}}}
   {{{profileLink user organisation}}}
-  {{#if intro}}
-  <a id="start-intro" title="{{__ "Help Tutorial"}}" class="fa fa-question-circle" aria-hidden="true" onclick="startIntro()"></a>
-  <script src="https://cdn.jsdelivr.net/intro.js/2.5.0/intro.min.js"></script>
-  <script src="/javascripts/intro.js"></script>
-  {{/if}}
-  {{! @todo intro_auto is launched from here because it depends on the scripts above, but it needs to be independant.}}
-  {{#if intro_auto}}
-  <script>
-    var introShowed = false;
-    var customIntroWidget = {
-      render: function(args){
-        if (!introShowed) {
-          startIntro();
-          introShowed = true;
-        }
-      }
-    };
-    search.addWidget(customIntroWidget);
-  </script>
-  {{/if}}
+  {{#if intro}}<a id="start-intro" title="{{__ "Help Tutorial"}}" class="fa fa-question-circle" aria-hidden="true" onclick="startIntro()"></a>{{/if}}
   {{#if beta}}
   <a id="join-beta" title="{{__ "Join the private beta"}}" class="fa fa-play-circle" aria-hidden="true" href="{{url null null}}"></a>
   {{/if}}
