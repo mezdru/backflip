@@ -2,12 +2,22 @@
 function introSteps() {
   return [
     {
+      intro: "{{{__ "<h2><strong>You Are Awesome</strong></h2><p><img src='/images/awesome.gif' class='pure-img'></p><p>Thank you for joining us on Lenom!</p><p>Wanna take a quick tour now?</p>"}}}",
+    },
+    {
       element: document.querySelector('#search'),
-      intro: "<h2>Find</h2><p>Lenom searches through all this within milliseconds.</p><p>Try <a onclick=\"setSearch('HR intern in korea')\">HR intern in Paris</a>.</p>",
+      intro: "{{{__ "<h2>Simply Search</h2><p><img src='/images/find.gif' class='pure-img'></p><p>Find people within %s by name, team, interest, or anything that comes to your mind actually...</p>" organisation.name}}}",
       position: 'bottom-middle-aligned'
     },
     {
-      intro: "<h2><strong>You are Awesome</strong></h2><p><img src='/images/awesome.gif' class='pure-img'></p><p>Thank you for sharing! Now, do you want to learn how Lenom works?</p>"
+      element: introRecord0,
+      intro: "{{{__ "<h2>Discover and Reach</h2><p><img src='/images/discover.gif' class='pure-img'></p><p>We introduce ourselves openly here, plus we share means to contact each other.</p>"}}}",
+      position: introWide ? 'right' : 'bottom-middle-aligned'
+    },
+    {
+      element: document.querySelector('#bottom-right'),
+      intro: "{{{__ "<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-arrow-circle-up' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p>To invite more people from %s here, click <i class='fa fa-plus-circle' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>" organisation.name}}}",
+      position: 'top'
     }
   ];
 };

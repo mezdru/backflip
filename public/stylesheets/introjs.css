@@ -40,8 +40,10 @@ header.introjs-fixParent {
   border-left-color:#F5F7FA;
 }
 
-.introjs-arrow.bottom-middle {
+.introjs-arrow.bottom-middle,
+.introjs-arrow.bottom {
   bottom: -32px;
+  left:50%;
   margin-left: -16px;
   border-top-color:#F5F7FA;
   border-right-color:transparent;
@@ -98,11 +100,8 @@ header.introjs-fixParent {
 }
 
 .introjs-tooltiptext strong {
-  font-weight: bolder;
-}
-
-.introjs-tooltiptext h2 strong {
   color: #2ECC71;
+  font-weight: normal;
 }
 
 .introjs-tooltipbuttons {

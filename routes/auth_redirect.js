@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
   if (res.locals.user && res.locals.organisation && res.locals.user.needsWelcomingToOrganisation(res.locals.organisation._id)) {
       if (req.query.welcomed) {
         res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {if (err) console.error(err);});
+        res.locals.intro = {welcome: true, auto: true};
       } else {
         return res.redirect(new UrlHelper(res.locals.organisation.tag, 'edit/welcome/me', null, req.session.locale).getUrl());
       }

@@ -103,7 +103,7 @@ hbs.registerHelper('profileLink', function(user, organisation) {
   if (!recordId) return null;
   url = new UrlHelper(organisation.tag, `edit/id/${recordId}`, null, this.getLocale()).getUrl();
   //What about using the refresh icon instrad of the arrow-up?
-  return `<a title="${this.__('Update my Profile')}" class="fa fa-arrow-circle-up profile" href="${url}" aria-hidden="true"></a>`;
+  return `<a id="profileLink" title="${this.__('Update my Profile')}" class="fa fa-arrow-circle-up profile" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {
@@ -115,7 +115,7 @@ hbs.registerHelper('adminLink', function(user, organisation) {
 hbs.registerHelper('addLink', function(user, organisation) {
   if (!organisation || !user || !user.belongsToOrganisation(organisation._id)) return null;
   url = new UrlHelper(organisation.tag, `edit/add/`, null, this.getLocale()).getUrl();
-  return `<a id="create-record" title="${this.__('Add new record')}" class="fa fa-plus-circle" href="${url}" aria-hidden="true"></a>`;
+  return `<a id="addLink" title="${this.__('Add new record')}" class="fa fa-plus-circle" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('url', function(path, organisationTag) {

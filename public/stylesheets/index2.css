@@ -143,22 +143,30 @@ em a {
   height: 160px;
 }
 
+
 #bottom-right {
   font-size: 4em;
   position: fixed;
-  right: 0.5em;
+  right: 0;
   bottom: 0.5em;
+  width: 320px;
+  text-align: center;
 }
 
 #bottom-right a {
-  margin-right: 0.2em;
+  padding: 0.2em;
 }
 
 #start-intro {
   color: #7F8C8D;
 }
 
-#join-beta {
+#bottom-right.introjs-showElement a {
+  color: #ffffff;
+}
+
+#bottom-right #join-beta,
+#bottom-right #addLink {
   color: #2ECC71;
 }
 

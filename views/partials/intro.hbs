@@ -1,4 +1,5 @@
-{{#intro}}
+
+{{#if intro}}
   <script src="https://cdn.jsdelivr.net/intro.js/2.5.0/intro.min.js"></script>
   <script>
   var introRecord0;
@@ -24,17 +25,21 @@
         steps: introSteps(),
         hidePrev: true,
         hideNext: true,
-        showStepNumbers: false
+        showStepNumbers: false,
+        nextLabel: "{{{__ "Next <i class='fa fa-arrow-right' aria-hidden='true'></i>"}}}",
+        prevLabel: "{{{__ "<i class='fa fa-arrow-left' aria-hidden='true'></i> Previous"}}}",
+        skipLabel: "{{{__ "Skip <i class='fa fa-times' aria-hidden='true'></i>"}}}",
+        doneLabel: "{{{__ "Done <i class='fa fa-thumbs-up' aria-hidden='true'></i>"}}}"
       });
     intro.start();
   }
   </script>
-  {{#if welcome}}
+  {{#if intro.welcome}}
     {{> welcome_intro_steps}}
   {{else}}
     {{> demo_intro_steps}}
   {{/if}}
-  {{#auto}}
+  {{#if intro.auto}}
     <script>
       var introShowed = false;
       var customIntroWidget = {
@@ -47,5 +52,5 @@
       };
       search.addWidget(customIntroWidget);
     </script>
-  {{/auto}}
-{{/intro}}
+  {{/if}}
+{{/if}}
