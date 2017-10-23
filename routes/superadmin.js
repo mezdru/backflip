@@ -62,7 +62,7 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
 });
 
 router.get('/user/list', function(req, res, next) {
-  User.find().select('email created google.email google.hd').sort('-created').exec(function(err, users) {
+  User.find().select('created updated last_login last_action email.value google.email google.hd').sort('-created').exec(function(err, users) {
     if (err) return next(err);
     res.render('index',
       {
