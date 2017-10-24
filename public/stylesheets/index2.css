@@ -1056,6 +1056,24 @@ footer .pure-g {
   transform-origin: top right;
 }
 
+.pure-tagline h1 small {
+  color: #FF2600;
+  font-size: 25px;
+  position: relative;
+  bottom: 20px;
+}
+
+.pure-homepage-img h2 {
+  font-size: 25px;
+  font-family: 'Architects Daughter', cursive;
+  color: #FF2600;
+  font-weight: normal;
+  text-align: center;
+  padding: 0;
+  margin: 20px 0 -20px 0;
+  transform: rotate(-2deg);
+}
+
 .pure-homepage-description {
   padding: 0 20px 10px;
   text-align: center;
@@ -1372,6 +1390,19 @@ footer .pure-g {
 
   .pure-tagline h1 {
     text-align: right;
+  }
+
+  .pure-tagline h1 small {
+    font-size: 30px;
+    bottom: 25px;
+  }
+
+  .pure-homepage-img h2 {
+    font-size: 30px;
+    text-align: left;
+    padding: 0;
+    margin: 20px 0 -30px 60px;
+    transform: rotate(-2deg);
   }
 
   .pure-homepage-img div {
