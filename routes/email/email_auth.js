@@ -28,8 +28,8 @@ router.post('/login', function(req, res, next) {
       if (err) return next(err);
       errors = [];
       if (!user) errors.push({msg:res.__('Email not found')});
-      if (res.locals.organisation && !user.belongsToOrganisation(res.locals.organisation._id)) errors.push({msg:res.__('This email does not belong to this organisation')});
-      if (EmailUser.tooSoon(user)) errors.push({msg: res.__('Email already sent, check your inbox!')});
+      else if (res.locals.organisation && !user.belongsToOrganisation(res.locals.organisation._id)) errors.push({msg:res.__('This email does not belong to this organisation')});
+      else if (EmailUser.tooSoon(user)) errors.push({msg: res.__('Email already sent, check your inbox!')});
       if (errors.length > 0) return res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home', email: req.body.email, errors: errors});
 
       EmailUser.sendLoginEmail(user, res.locals.organisation, res, function(err, user) {
