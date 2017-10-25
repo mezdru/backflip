@@ -1101,16 +1101,31 @@ footer .pure-g {
   padding: 0 20px;
 }
 
-.banner {
-  position: relative;
-}
-
 .product .credit,
 .cheers .credit,
 .pricing .credit {
   position: absolute;
   bottom: -30px;
   right: 0;
+}
+
+.product .banner,
+.cheers .banner,
+.pricing .banner {
+  margin-bottom: 50px;
+}
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+  background-color: #F5F7FA;
+}
+
+.banner div {
+  background-image: url('../images/pattern5.png');
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -1121,14 +1136,6 @@ footer .pure-g {
   background-position: center 800px;
   background-size: 140%;
   background-repeat: no-repeat;
-}
-
-.banner {
-  height: 180px;
-  background-color: #F5F7FA;
-  background-image: url('../images/banner_talk.jpg');
-  background-position: center;
-  margin-bottom: 20px;
 }
 
 .product .pure-g {
@@ -1184,10 +1191,6 @@ footer .pure-g {
   background-repeat: no-repeat;
 }
 
-.pricing .banner {
-  background-image: url('../images/banner_talk.jpg');
-}
-
 .pricing h2 {
   text-align: center;
   font-size: 3em;
@@ -1236,11 +1239,6 @@ footer .pure-g {
   background-position: center 300px;
   background-size: 140%;
   background-repeat: no-repeat;
-}
-
-
-.cheers .banner {
-  background-image: url('../images/banner_grass.jpg');
 }
 
 .cheers h2 {
@@ -1385,6 +1383,7 @@ footer .pure-g {
 
   .main.homepage {
     padding-top: 50px;
+    padding-bottom: 50px;
     background-position: 0 180px;
   }
 
@@ -1425,7 +1424,7 @@ footer .pure-g {
 @media screen and (min-width: 1280px) {
   .main.homepage {
     padding-top: 70px;
-    padding-bottom: 70px;
+    padding-bottom: 100px;
     background-position: 0 200px;
   }
 
