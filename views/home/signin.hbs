@@ -7,7 +7,7 @@
 @Last modified time: 25-09-2017 06:23
 @Copyright: Clément Dietschy 2017
 }}
-<div class="signin main">
+<div class="main">
   {{#if organisation}}
     <div class="white-bg">
       <div class="pure-g">
@@ -21,8 +21,7 @@
       </div>
     </div>
   {{else}}
-  <div class="banner">
-  </div>
+  {{> banner position='top'}}
   {{/if}}
   <div class="pure-g">
     <div class="pure-u-1 pure-u-md-2-3">

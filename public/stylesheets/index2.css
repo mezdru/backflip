@@ -317,6 +317,14 @@ header a:hover {
   background-color: #E6E8EC;
 }
 
+.sigin header,
+.product header,
+.pricing header,
+.cheers header,
+.retry header {
+  background-color: #FFFFFF;
+}
+
 .home header a {
   color: #7F8C8D
 }
@@ -1030,7 +1038,7 @@ footer .pure-g {
 
 /* HOMEPAGE */
 
-.main.homepage {
+.homepage .main {
   padding-top: 30px;
   padding-bottom: 50px;
   background-image: url('../images/home_background.svg');
@@ -1109,36 +1117,43 @@ footer .pure-g {
   right: 0;
 }
 
-.product .banner,
-.cheers .banner,
-.pricing .banner {
-  margin-bottom: 50px;
-}
-
 .banner {
   position: relative;
   overflow: hidden;
   height: 120px;
   background-color: #F5F7FA;
+  border-color: #FFFFFF;
+  border-style: solid;
+  margin: 0;
+  border-width: 5px 0 5px 0;
+}
+
+.banner.top {
+  border-top: 0;
+  margin-top: 0;
+}
+
+.banner.bottom {
+  border-bottom: 0;
+  margin-bottom: 0;
 }
 
 .banner div {
-  background-image: url('../images/pattern5.png');
+  background-image: url('../images/pattern.png');
   width: 100%;
   height: 100%;
 }
 
-
 /* PRODUCT */
 
-.main.product {
+.product .main {
   background-image: url('../images/home_background.svg');
   background-position: center 800px;
   background-size: 140%;
   background-repeat: no-repeat;
 }
 
-.product .pure-g {
+.product .main .pure-g {
   padding: 20px 0;
 }
 
@@ -1154,12 +1169,12 @@ footer .pure-g {
   transform: rotate(-2deg);
 }
 
-.product h2 {
+.product .main h2 {
   font-size: 2em;
   padding: 10px 10px 0 20px;
 }
 
-.product p {
+.product .main p {
   padding: 10px 10px 10px 20px;
 }
 
@@ -1184,36 +1199,37 @@ footer .pure-g {
 
 /* PRICING */
 
-.main.pricing {
+.pricing .main {
   background-image: url('../images/home_background.svg');
   background-position: center 500px;
   background-size: 140%;
   background-repeat: no-repeat;
+  padding: 50px 0 50px;
 }
 
-.pricing h2 {
+.pricing .main h2 {
   text-align: center;
   font-size: 3em;
   padding: 10px 10px 0px 20px;
 }
 
-.pricing h3 {
+.pricing .main h3 {
   text-align: center;
   font-size: 1em;
   padding: 0px 10px 20px 20px;
   color: #ABB0BB;
 }
 
-.pricing p {
+.pricing .main p {
   padding: 10px 10px 10px 20px;
 }
 
-.pricing p.subtitle {
+.pricing .main p.subtitle {
   font-weight: bold;
   color: #2ECC71;
 }
 
-.pricing p.soon {
+.pricing .main p.soon {
   color: #FF2600;
 }
 
@@ -1234,22 +1250,22 @@ footer .pure-g {
 
 /* CHEERS */
 
-.main.cheers {
+.cheers .main {
   background-image: url('../images/home_background.svg');
   background-position: center 300px;
   background-size: 140%;
   background-repeat: no-repeat;
 }
 
-.cheers h2 {
+.cheers .main h2 {
   padding: 10px 20px 0;
 }
 
-.cheers p {
+.cheers .main p {
   padding: 10px 20px;
 }
 
-.cheers .pure-button {
+.cheers .main .pure-button {
   border-radius: 16px;
   width: 100%;
   font-weight: bold;
@@ -1259,12 +1275,12 @@ footer .pure-g {
 }
 
 /* RETRY */
-.retry h2 {
+.retry .main h2 {
   padding: 20px;
 }
 
 /* login page */
-.signin h2 {
+.signin .main h2 {
   max-width: 320px;
   margin: 0 auto;
   padding: 20px 0 0 20px;
@@ -1381,7 +1397,7 @@ footer .pure-g {
     height: 405px;
   }
 
-  .main.homepage {
+  .homepage .main {
     padding-top: 50px;
     padding-bottom: 50px;
     background-position: 0 180px;
@@ -1422,7 +1438,7 @@ footer .pure-g {
 }
 
 @media screen and (min-width: 1280px) {
-  .main.homepage {
+  .homepage .main {
     padding-top: 70px;
     padding-bottom: 100px;
     background-position: 0 200px;

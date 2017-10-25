@@ -44,12 +44,12 @@ router.get('/', function(req, res, next) {
       }
       res.render('directory', {search: true});
     } else if (!res.locals.user) {
-      res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home'});
+      res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home signin'});
     } else {
       return next();
     }
   } else {
-    res.render('home/homepage', {layout: 'home/layout_home', bodyClass: 'home'});
+    res.render('home/homepage', {layout: 'home/layout_home', bodyClass: 'home homepage'});
   }
 });
 
@@ -58,11 +58,11 @@ return res.render('homepage');
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home'});
+  res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home product'});
 });
 
 router.get('/pricing', function(req, res, next) {
-  res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home'});
+  res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home pricing'});
 });
 
 router.get('/terms', function(req, res, next) {
@@ -78,7 +78,7 @@ router.get('/privacy', function(req, res, next) {
 });
 
 router.get('/cheers', function(req, res, next) {
-  res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home', email: undefsafe(res.locals, 'user.google.email') || ''});
+  res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home cheers', email: undefsafe(res.locals, 'user.google.email') || ''});
 });
 
 router.post('/cheers', function(req, res, next) {
@@ -92,15 +92,15 @@ router.post('/cheers', function(req, res, next) {
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     });
     application.save( function (err, application) {
-      res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home', email: application.email});
+      res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home cheers', email: application.email});
     });
   } else {
-    res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home', errors: errors, email: req.body.email});
+    res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home retry', errors: errors, email: req.body.email});
   }
 });
 
 router.get('/retry', function(req, res, next) {
-  res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home'});
+  res.render('home/retry', {layout: 'home/layout_home', bodyClass: 'home retry'});
 });
 
 
