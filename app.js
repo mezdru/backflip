@@ -11,6 +11,7 @@
 require('dotenv').config();
 var express = require('express');
 var path = require('path');
+var undefsafe = require('undefsafe');
 
 // App
 var app = express();
@@ -94,12 +95,15 @@ app.use(function(req, res, next) {
   return next();
 });
 
-// Generic
+// Generic logging
 var morgan = require('morgan');
 morgan.token('fullurl', function getFullUrl(req) {
   return req.hostname + req.originalUrl;
 });
-app.use(morgan(':method :fullurl :status :res[content-length] - :response-time ms'));
+morgan.token('user', function user(req) {
+  return undefsafe(req, 'session.user.loginEmail') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+});
+app.use(morgan(':method :fullurl :status - :res[content-length] b in :response-time ms - :user'));
 
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
@@ -228,7 +232,7 @@ app.use(function(err, req, res, next) {
 
   // During early Beta log verbose 500 errors to Heroku console
   // @todo remove
-  if (res.locals.status === 500) console.error(err);
+  if (res.locals.status >= 500) console.error(err);
 
   next(err);
 });

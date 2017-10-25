@@ -30,14 +30,14 @@ router.post('/invite', function(req, res, next) {
   var validationSchema = { email: { isEmail: { errorMessage: 'Wrong email'}}};
   var errors = req.validationErrors();
   if (!errors) {
-    EmailUser.addByEmail(req.body.email, res.locals.organisation._id, null, function(err, user) {
+    EmailUser.addByEmail(req.body.email, res.locals.organisation, null, function(err, user) {
       if (err) return next(err);
       if (!user) {
         err = new Error('Failed to create or find user to invite');
         err.status = 500;
         return callback(err);
       }
-      EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, function(err, user) {
+      EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
         if (err) return next(err);
         return res.render('index', {title: "Invitation Sent", details: "The person you invited received an invitation email."});
       });
