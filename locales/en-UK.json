@@ -180,5 +180,6 @@
 	"<h2>Discover and Reach</h2><p><img src='/images/discover.gif' class='pure-img'></p><p>We introduce ourselves openly here, plus we share means to contact each other.</p>": "<h2>Discover and Reach</h2><p><img src='/images/discover.gif' class='pure-img'></p><p>We introduce ourselves openly here, plus we share means to contact each other.</p>",
 	"<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-arrow-circle-up' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p>To invite more people from %s here, click <i class='fa fa-plus-circle' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>": "<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-arrow-circle-up' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p>To invite more people from %s here, click <i class='fa fa-plus-circle' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>",
 	"* human beings": "* human beings",
-	"We<small>*</small> are the heart of work": "We<small>*</small> are the heart of work"
+	"We<small>*</small> are the heart of work": "We<small>*</small> are the heart of work",
+	"<i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i> Keep Scrolling": "<i class=\"fa fa-arrow-down\" aria-hidden=\"true\"></i> Keep Scrolling"
 }

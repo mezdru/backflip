@@ -61,6 +61,10 @@ router.get('/product', function(req, res, next) {
   res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home product'});
 });
 
+router.get('/why', function(req, res, next) {
+  res.render('home/why', {layout: 'home/layout_home', bodyClass: 'home why'});
+});
+
 router.get('/pricing', function(req, res, next) {
   res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home pricing'});
 });

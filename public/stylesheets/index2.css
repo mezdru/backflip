@@ -312,16 +312,17 @@ header a:hover {
   transition-duration: 0.3s;
 }
 
-.home header,
-.home .main {
+.home,
+.home.homepage header {
   background-color: #E6E8EC;
 }
 
-.sigin header,
-.product header,
-.pricing header,
-.cheers header,
-.retry header {
+.home.sigin header,
+.home.product header,
+.home.pricing header,
+.home.why header,
+.home.cheers header,
+.home.retry header {
   background-color: #FFFFFF;
 }
 
@@ -1121,21 +1122,18 @@ footer .pure-g {
   position: relative;
   overflow: hidden;
   height: 120px;
-  background-color: #F5F7FA;
+  background-color: #E6E8EC;
   border-color: #FFFFFF;
   border-style: solid;
-  margin: 0;
   border-width: 5px 0 5px 0;
 }
 
 .banner.top {
   border-top: 0;
-  margin-top: 0;
 }
 
 .banner.bottom {
   border-bottom: 0;
-  margin-bottom: 0;
 }
 
 .banner div {
@@ -1143,6 +1141,31 @@ footer .pure-g {
   width: 100%;
   height: 100%;
 }
+
+/* PRODUCT */
+.why .main {
+  background-image: url('../images/home_background.svg');
+  background-position: center 200px;
+  background-size: 140%;
+  background-repeat: no-repeat;
+}
+
+.why .main .banner {
+  margin: 80px 0 0 0;
+}
+
+.why .pure-intro {
+  margin: 80px 0 40px 0;
+}
+
+.big h2 {
+  font-size: 2em;
+}
+
+.big p {
+  font-size: 1.5em;
+}
+
 
 /* PRODUCT */
 
