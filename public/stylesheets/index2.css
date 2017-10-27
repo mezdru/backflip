@@ -263,7 +263,7 @@ header a.fa:hover,
 }
 
 .grid-box {
-  padding: 20px 10px;
+  padding: 20px;
 }
 
 .main {
@@ -273,7 +273,7 @@ header a.fa:hover,
 
 .home .main {
   padding-top: 0px;
-  padding-bottom: 50px;
+  padding-bottom: 80px;
 }
 
 #search-results {
@@ -1145,7 +1145,7 @@ footer .pure-g {
 /* PRODUCT */
 .why .main {
   background-image: url('../images/home_background.svg');
-  background-position: center 200px;
+  background-position: center 100px;
   background-size: 140%;
   background-repeat: no-repeat;
 }
@@ -1155,17 +1155,32 @@ footer .pure-g {
 }
 
 .why .pure-intro {
-  margin: 80px 0 40px 0;
+  padding: 80px 0 20px 0;
 }
 
-.big h2 {
-  font-size: 2em;
+.why .main .pure-img {
+  width: 100%;
+  border-radius: 10px;
 }
 
-.big p {
-  font-size: 1.5em;
+h2.big {
+  font-size: 1.6em;
 }
 
+p.big {
+  font-size: 1.2em;
+}
+
+.demo-block {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.why strong,
+.fa-red  {
+  font-weight: normal;
+  color: #FF2600;
+}
 
 /* PRODUCT */
 
@@ -1192,6 +1207,14 @@ footer .pure-g {
   transform: rotate(-2deg);
 }
 
+.introduction.tiltr {
+  transform: rotate(2deg);
+}
+
+.introduction.tiltf {
+  transform: rotate(-1deg);
+}
+
 .product .main h2 {
   font-size: 2em;
   padding: 10px 10px 0 20px;
@@ -1199,15 +1222,6 @@ footer .pure-g {
 
 .product .main p {
   padding: 10px 10px 10px 20px;
-}
-
-.placeholder > div {
-  padding: 10px 20px;
-}
-
-.placeholder div > div {
-  background-color: #F5F7FA;
-  height: 150px;
 }
 
 .pure-gif {
@@ -1453,6 +1467,14 @@ footer .pure-g {
 
   .pure-homepage-img .credit {
     text-align: center;
+  }
+
+  h2.big  {
+    font-size: 2em;
+  }
+
+  p.big {
+    font-size: 1.5em;
   }
 
   .pure-right h2, .pure-right p {
