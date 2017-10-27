@@ -47,7 +47,7 @@
 	"I will look for you. I will find you.": "I will look for you. I will find you.",
 	"Liam Neeson - Taken": "Liam Neeson - Taken",
 	"A short tagline to attract interest": "Nous sommes<br/>le cœur de l'entreprise",
-	"A synthetic description of the service we provide and how to use it. Maybe with a joke or an example, or both.": "Dans une startup, une asso ou un grand groupe, Lenom est l'outil essentiel pour se trouver entre collègues.",
+	"A synthetic description of the service we provide and how to use it. Maybe with a joke or an example, or both.": "Dans une startup, une asso ou un grand groupe, Lenom est l'outil évident pour se trouver entre collègues.",
 	"An invitation to join the private beta.": "Rejoignez la beta privée, c'est simple comme une pause café.",
 	"Logout": "Déconnexion",
 	"You joined the Beta": "Génial !",
@@ -183,7 +183,7 @@
 	"We<small>*</small> are the heart of work": "Nous<small>*</small> sommes le coeur de l'entreprise",
 	"Human beings are the <i class=\"fa fa-heart fa-red\" aria-hidden=\"true\"></i> of any organization": "Les humains sont le <i class=\"fa fa-heart fa-red\" aria-hidden=\"true\"></i> de l'entreprise",
 	"The Obvious Tool": "L'outil évident",
-	"Wheather we are in a startup, a non-profit society or a large corporation, the essential need is to know the people we work with. Lenom is the obvious tool to find, discover and reach them.": "Que nous soyons dans une startup, une association ou un grand groupe, notre besoin essentiel est de connaître les personnes avec qui l'on travaille. Lenom est l'outil évident pour les trouver, les découvrir et les contacter.",
+	"Wheather we are in a startup, a non-profit society or a large corporation, the essential need is to know the people we work with. Lenom is the obvious tool to find, discover and reach them.": "Que nous soyons dans une startup, une association ou un grand groupe, le besoin essentiel c'est de connaître les personnes avec qui l'on travaille. Lenom est l'outil évident pour les trouver, les découvrir et les contacter.",
 	"We simply need to <strong>Find</strong> each other": "Nous avons simplement besoin de se <strong>Trouver</strong> entre nous",
 	"A Fast Search Engine": "Un moteur de recherche rapide",
 	"Find the people you need by name and keywords: position, team, project, location, interests... anything that comes to mind actually. Lenom searches through everyone in your organization instantly.": "Trouve les personnes dont tu as besoin par nom et mots-clefs: poste, équipe, projet, compétences, lieu... tout ce qui vient à l'esprit en fait. Lenom cherche à travers ton organisation instantanément.",
@@ -201,5 +201,5 @@
 	"Experience the Demo": "Découvrez la démo (en anglais)",
 	"Join Lenom private beta, it's safe and effortless.": "Rejoins la bêta privée, c'est sûr et sans effort",
 	"Secure Integration": "Une intégration sécurisée",
-	"Lenom integrates with Google, Slack and your email domain to secure access and pre-fill profiles.": "Lenom integrates with Google, Slack and your email domain to secure access and pre-fill profiles."
+	"Lenom integrates with Google, Slack and your email domain to secure access and pre-fill profiles.": "Lenom s'intègre avec Google, Slack et votre domaine email pour sécuriser l'accès et préremplir les profiles."
 }
