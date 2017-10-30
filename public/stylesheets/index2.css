@@ -1161,6 +1161,17 @@ footer .pure-g {
 .why .main .pure-img {
   width: 100%;
   border-radius: 10px;
+  border: 5px solid white;
+}
+
+.why .main h2 {
+  border-bottom: 5px solid #ffffff;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.why .main p.big {
+  text-align: justify;
 }
 
 h2.big {

@@ -89,6 +89,12 @@ header.introjs-fixParent {
 
 .introjs-tooltiptext p {
   padding-top: 4px;
+  text-align: justify;
+}
+
+.introjs-tooltiptext .pure-img {
+  width: 100%;
+  border-radius: 10px;
 }
 
 .introjs-tooltiptext a {
