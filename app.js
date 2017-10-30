@@ -198,8 +198,8 @@ app.use('/admin', restrictAdmin);
 var googleAdmin = require('./routes/google/google_admin.js');
 app.use('/admin/google', googleAdmin);
 
-var googleAdmin = require('./routes/email/email_admin.js');
-app.use('/admin/email', googleAdmin);
+var emailAdmin = require('./routes/email/email_admin.js');
+app.use('/admin/email', emailAdmin);
 
 var fullContactAdmin = require('./routes/fullcontact/fullcontact_admin.js');
 app.use('/admin/fullcontact', fullContactAdmin);
@@ -213,6 +213,8 @@ app.use('/admin/organisation', organisationAdmin);// admin
 var recordAdmin = require('./routes/record_admin.js');
 app.use('/admin/record', recordAdmin);
 
+var userAdmin = require('./routes/user/user_admin.js');
+app.use('/admin/user', userAdmin);
 
 
 // catch 404 and forward to error handler

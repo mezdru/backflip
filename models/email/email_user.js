@@ -61,11 +61,34 @@ EmailUser.tooSoon = function (user, callback) {
   return user.email.generated > Date.now() - 15*60*1000;
 };
 
-//@todo fails if
+//@todo fails if user.orgsAndRecords not populated
 EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
-    EmailHelper.public.emailInvite(user.email.value, user.getName(organisation._id).split(' ')[0], inviter.getName(organisation._id), organisation.name, EmailUser.getLoginUrl(user, organisation), res);
+    EmailHelper.public.emailInvite(
+      user.email.value,
+      user.getName(organisation._id).split(' ')[0],
+      inviter.getName(organisation._id),
+      organisation.name,
+      EmailUser.getLoginUrl(user, organisation),
+      res);
+    return callback(null, user);
+  });
+};
+
+EmailUser.sendMonthlyEmail = function(user, inviter, organisation, userCount, extract, res, callback) {
+  EmailUser.generateToken(user, function(err, user) {
+    if (err) return callback(err);
+    EmailHelper.public.emailMonthly(
+      user.loginEmail,
+      user.getName(organisation._id).split(' ')[0],
+      inviter.getName(organisation._id),
+      organisation.name,
+      userCount,
+      EmailUser.getLoginUrl(user, organisation),
+      extract,
+      res
+      );
     return callback(null, user);
   });
 };

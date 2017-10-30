@@ -92,7 +92,34 @@ var EmailHelper = {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+    emailMonthly: function(email, name, inviterName, organisationName, userCount, url, extract, res) {
+      const request = mailjet
+        .post("send")
+        .request({
+          "FromEmail": defaultEmitter,
+          "FromName": inviterName || defaultEmitterName,
+          "Subject": res.__("%s this month", organisationName),
+          "MJ-TemplateID": "241873",
+          "MJ-TemplateLanguage": true,
+          "Recipients": [
+            { "Email": email }
+          ],
+          "Vars": {
+            "intro": res.__("Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!", name, userCount, organisationName),
+            "inviterName": inviterName || defaultEmitterName,
+            "extract": extract || '',
+            "button": res.__("Connect and share"),
+            "url": url || "https://lenom.io",
+            "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
+          }
+        });
+      request
+        .then()
+        .catch(err => {
+          console.log(err);
+        });
+      }
   }
 };
 

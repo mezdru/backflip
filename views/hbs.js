@@ -132,6 +132,12 @@ hbs.registerHelper('homeUrl', function(organisation) {
   else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
 });
 
+const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
+
+hbs.registerHelper('cleanShortDesc', function(description) {
+  return description.substring(0, 160).replace(tagRegex, `<span style="color:#7F8C8D;">$&</span>`).replace(/(?:\r\n|\r|\n)/g, '<br />') + '...';
+});
+
 hbs.registerPartials(__dirname + '/partials');
 hbs.registerPartials(__dirname + '/home/partials');
 

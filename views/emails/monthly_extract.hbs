@@ -1,0 +1,22 @@
+{{!
+@Author: Clément Dietschy <clement>
+@Date:   30-10-2017
+@Email:  clement@lenom.io
+@Project: Lenom - Backflip
+@Last modified by:   clement
+@Last modified time: 30-10-2017 10:14
+@Copyright: Clément Dietschy 2017
+}}
+<h1 style="margin:0; border-bottom: 2px solid #F5F7FA; color:#2ECC71; text-transform:uppercase; font-weight:400; font-size: 0.8em; text-align:center">{{__ "Our 3 best profiles!"}}</h1>
+<div style="font-family: 'Open Sans', sans-serif; color: #474B54;" class="records">
+{{#records}}
+  <div style="clear:both; border-bottom: 2px solid #F5F7FA; padding: 10px; min-height: 100px; max-width: 960px" class="record">
+    <div style="float: left; width:100px; height:100px; border-radius:50%; overflow:hidden" class="picture">
+      <img style="width:100px" src="{{picture.url}}">
+    </div>
+    <div style="padding-left: 120px;" class="central">
+      <h2 style="font-weight: 400; font-size: 1.4em; color: #33374C; margin: 0; padding-bottom: 10px;" class="name">{{name}}</h2>
+      <p style="line-height: 1.5em; font-size: 14px; margin: 0" class="description">{{{cleanShortDesc description}}}</p>
+    </div>
+  </div>
+{{/records}}
