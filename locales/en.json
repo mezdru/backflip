@@ -191,10 +191,10 @@
 	"Open Profiles": "Open Profiles",
 	"We are free to introduce ourselves the way we want on Lenom. Share your position, your talents, or your favorite coffee, or not.": "We are free to introduce ourselves the way we want on Lenom. Share your position, your talents, or your favorite coffee, or not.",
 	"Neat Hashtags": "Neat Hashtags",
-	"In our profiles, we use <i class=\"fa fa-hashtag fa-red\" aria-hidden=\"true\"></i> hashtags to show teams, skills or interests. They power a rich and clean search experience.": "In our profiles, we use <i class=\"fa fa-hashtag fa-red\" aria-hidden=\"true\"></i> hashtags to show teams, skills or interests. They power a rich and clean search experience.",
+	"In our profiles, we use <i class=\"fa fa-hashtag fa-red\" aria-hidden=\"true\"></i> hashtags to show teams, skills or interests. They power a rich and clean search experience.": "In our profiles, we use <br/><i class=\"fa fa-hashtag fa-red\" aria-hidden=\"true\"></i><strong>hashtags</strong> to show teams, skills or interests. They power a rich and clean search experience.",
 	"Pick the best way to <strong>Reach</strong> them": "Pick the best way to <strong>Reach</strong> them",
 	"Direct Contacts": "Direct Contacts",
-	"We already got tons of communication tools, Lenom is just here to find the right one to contact someone.<br/>But what if the best way is to grab a coffee together?": "We already got tons of communication tools, Lenom is just here to find the right one to contact someone.<br/>But what if the best way is to grab a coffee together?",
+	"We already got tons of communication tools, Lenom is just here to find the right one to contact someone.<br/>But what if the best way is to grab a coffee together?": "We already got tons of communication tools, Lenom is just here to find the right one to contact someone.<br/>And what if the best way is to grab a coffee together?",
 	"A <strong>Demo</strong> is better than a thousand gifs": "A <strong>Demo</strong> is better than a thousand gifs",
 	"Public Demonstration": "Public Demonstration",
 	"To show how Lenom works we invented a fake organization where Johnny Depp is an HR intern.": "To show how Lenom works we invented a fake organization where Johnny Depp is an HR intern.",
@@ -204,9 +204,9 @@
 	"Lenom integrates with Google, Slack and your email domain to secure access and pre-fill profiles.": "Lenom integrates with Google, Slack and your email domain to secure access and pre-fill profiles.",
 	"Wheather we are in a startup, a non-profit society or a large corporation, the essential need is to know the people we work with.": "Wheather we are in a startup, a non-profit society or a large corporation, the essential need is to know the people we work with.",
 	"Find the coworker you need by name and keywords: position, team, project, location, interests...": "Find the coworker you need by name and keywords: position, team, project, location, interests...",
-	"We are free to introduce ourselves the way we want on Lenom.": "We are free to introduce ourselves the way we want on Lenom.",
 	"Lenom is just here to find the right communication tool to contact someone.": "Lenom is just here to find the right communication tool to contact someone.",
-	"We use <i class=\"fa fa-hashtag fa-red\" aria-hidden=\"true\"></i> hashtags to power a rich and clean search experience.": "We use <i class=\"fa fa-hashtag fa-red\" aria-hidden=\"true\"></i> hashtags to power a rich and clean search experience.",
+	"We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience.": "We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience.",
 	"Safe and effortless": "Safe and effortless",
-	"We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience.": "We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience."
+	"In a startup, a society or a corporation, Lenom is the obvious tool to find each other.": "In a startup, a society or a corporation, Lenom is the obvious tool to find each other.",
+	"We are free to introduce ourselves the way we want on Lenom.": "We are free to introduce ourselves the way we want on Lenom."
 }
