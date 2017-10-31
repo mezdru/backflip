@@ -166,7 +166,7 @@ em a {
 }
 
 #bottom-right #join-beta,
-#bottom-right #addLink {
+#bottom-right #profileLink {
   color: #2ECC71;
 }
 
@@ -1291,7 +1291,7 @@ p.big {
 }
 
 .yearly {
-  padding: 20px;
+  margin: 50px 0;
   text-align: center;
   width: 100%;
 }
