@@ -317,7 +317,7 @@ header a:hover {
   background-color: #E6E8EC;
 }
 
-.home.sigin header,
+.home.signin header,
 .home.product header,
 .home.pricing header,
 .home.why header,
@@ -1388,6 +1388,8 @@ p.big {
 .welcome-gif {
   max-height: 200px;
   overflow: hidden;
+  border-radius: 10px;
+  margin: auto;
 }
 
 .welcome-gif img {

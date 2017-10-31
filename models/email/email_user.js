@@ -51,7 +51,7 @@ EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
     let name = organisation ? user.getName(organisation._id).split(' ')[0] : '';
-    EmailHelper.public.emailLogin(user.email.value, name, EmailUser.getLoginUrl(user, organisation), res);
+    EmailHelper.public.emailLogin(user.email.value, name, EmailUser.getLoginUrl(user, organisation, res.getLocale()), res);
     return callback(null, user);
   });
 };
@@ -70,7 +70,7 @@ EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback
       user.getName(organisation._id).split(' ')[0],
       inviter.getName(organisation._id),
       organisation.name,
-      EmailUser.getLoginUrl(user, organisation),
+      EmailUser.getLoginUrl(user, organisation, res.getLocale()),
       res);
     return callback(null, user);
   });
@@ -85,7 +85,7 @@ EmailUser.sendMonthlyEmail = function(user, inviter, organisation, userCount, ex
       inviter.getName(organisation._id),
       organisation.name,
       userCount,
-      EmailUser.getLoginUrl(user, organisation),
+      EmailUser.getLoginUrl(user, organisation, res.getLocale()),
       extract,
       res
       );
@@ -93,8 +93,8 @@ EmailUser.sendMonthlyEmail = function(user, inviter, organisation, userCount, ex
   });
 };
 
-EmailUser.getLoginUrl = function(user, organisation) {
-  var url = new UrlHelper(undefsafe(organisation, 'tag'), "email/login/callback", `?hash=${user.email.hash}&token=${user.email.token}`).getUrl();
+EmailUser.getLoginUrl = function(user, organisation, locale) {
+  var url = new UrlHelper(undefsafe(organisation, 'tag'), "email/login/callback", `?hash=${user.email.hash}&token=${user.email.token}`, locale).getUrl();
   return url;
 };
 
