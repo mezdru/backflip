@@ -32,22 +32,20 @@ router.get('/list', function(req, res, next) {
 
 router.get('/monthly/:action?', function(req, res, next) {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
+  .sort({date: -1})
   .populate('orgsAndRecords.record')
   .exec(function(err, users) {
     if (err) return next(err);
     var extractLength = 0;
+    var senderRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
     var records = users
       .map(user => user.orgsAndRecords.find(orgAndRecord => res.locals.organisation._id.equals(orgAndRecord.organisation)).record)
-      .filter(record => record && record.description.length > 36 && extractLength++ < 4 );
+      .filter(record => record &&
+        !record._id.equals(senderRecordId) &&
+        record.description.length > 36 &&
+        extractLength++ < 3 );
     res.render('emails/monthly_extract', {layout: false, records: records}, function(err, html) {
       if (req.params.action !== 'send') users = [res.locals.user];
-      res.render('index',
-        {
-          title: 'Monthly',
-          details: `Sending ${users.length} emails in ${res.locals.organisation.name}.`,
-          content: users.map(user => user.loginEmail)
-        }
-      );
       users.
       forEach(user => EmailUser.sendMonthlyEmail(
         user,
@@ -61,6 +59,13 @@ router.get('/monthly/:action?', function(req, res, next) {
           return console.log(`MONTHLY ${res.locals.user.loginEmail} <${res.locals.user._id}> sent the monthly email to ${user.loginEmail} <${user._id}> from ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
         }
       ));
+      return res.render('index',
+        {
+          title: 'Monthly',
+          details: `Sending ${users.length} emails in ${res.locals.organisation.name}.`,
+          content: users.map(user => user.loginEmail)
+        }
+      );
     });
   });
 });
