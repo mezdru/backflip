@@ -43,7 +43,7 @@
 	"The merchant in Aladin": "The merchant in Aladin",
 	"Noone here...": "Il n'y a personne ici...",
 	"We did not find anyone or anything yet. But we will, if you try someting else.": "Nous n'avons trouvé rien ni personne ici. Mais nous trouverons, si vous essayez autre chose.",
-	"https://youtu.be/jZOywn1qArI??start=35s": "https://youtu.be/jZOywn1qArI??start=35s",
+	"https://youtu.be/jZOywn1qArI??start=35s": "https://youtu.be/jZOywn1qArI??start=35s\n",
 	"I will look for you. I will find you.": "I will look for you. I will find you.",
 	"Liam Neeson - Taken": "Liam Neeson - Taken",
 	"A short tagline to attract interest": "Nous sommes<br/>le cœur de l'entreprise",
@@ -208,5 +208,8 @@
 	"We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience.": "Nous profitions des <i class='fa fa-hashtag fa-red' aria-hidden='true'></i><strong>hashtags</strong> pour une recherche riche et propre.",
 	"Safe and effortless": "Sûr et sans effort",
 	"In a startup, a society or a corporation, Lenom is the obvious tool to find each other.": "Dans une startup, une asso ou un grand groupe, Lenom est l'outil évident pour se trouver entre collègues.",
-	"We are free to introduce ourselves the way we want on Lenom.": "Nous sommes libres de nous présenter comme nous le voulons sur Lenom."
+	"We are free to introduce ourselves the way we want on Lenom.": "Nous sommes libres de nous présenter comme nous le voulons sur Lenom.",
+	"Our 3 best profiles!": "À découvrir...",
+	"%s this month": "%S ce mois",
+	"Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!": "Salut %s, nous sommes maintenant %s personnes de %s sur Lenom, un outil pour se trouver, se découvrir et se contacter. Si tu as 2 minutes pour mettre à jour ton profile, nous t'accueillons avec grand plaisir !"
 }

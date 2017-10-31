@@ -65,7 +65,7 @@
 	"Automagic": "Automagic Building",
 	"Demo": "App Demonstration",
 	"Experience the demo organisation where Johnny Depp is an HR intern.": "Look for Johnny Depp favorite coffee",
-	"Coming soon": "From september 2017",
+	"Coming soon": "From 2018",
 	"Sorry, the poll is not ready yet.": "Sorry, the poll is not ready yet.",
 	"Here": "Here",
 	"free forever": "free forever",
@@ -208,5 +208,8 @@
 	"We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience.": "We use <i class='fa fa-hashtag fa-red' aria-hidden='true'></i> hashtags to power a rich and clean search experience.",
 	"Safe and effortless": "Safe and effortless",
 	"In a startup, a society or a corporation, Lenom is the obvious tool to find each other.": "In a startup, a society or a corporation, Lenom is the obvious tool to find each other.",
-	"We are free to introduce ourselves the way we want on Lenom.": "We are free to introduce ourselves the way we want on Lenom."
+	"We are free to introduce ourselves the way we want on Lenom.": "We are free to introduce ourselves the way we want on Lenom.",
+	"Our 3 best profiles!": "Discover...",
+	"%s this month": "%s this month",
+	"Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!": "Hello %s, we are now %s people from %s on Lenom, a tool to find, discover and reach each other. If you have 2 minutes to update your profile, we welcome you with joy!"
 }
