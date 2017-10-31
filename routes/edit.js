@@ -114,6 +114,7 @@ router.post('*', function(req, res, next) {
 });
 
 // We save the record after checking everything is alriqht.
+// @this logic handles editing, new recorrds, invitation, cooking merguez and saving the world. Perhaps a bit much?
 router.post('/:context/:recordId?', function(req, res, next) {
   req.checkBody(Record.getValidationSchema(res));
   /* @todo ESCAPING & TRIMMING, at the moment we don't because it escapes simple quote...
@@ -142,20 +143,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
           }
           return next(err);
         }
-        if (res.locals.record.type === "person" && req.body.invite === "yes") {
-          EmailUser.addByEmail(res.locals.record.getEmail(), res.locals.organisation, res.locals.record, function(err, user) {
-            if (err) return next(err);
-            if (!user) {
-              err = new Error('Failed to create or find user to invite');
-              err.status = 500;
-              return callback(err);
-            }
-            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
-              if (err) return next(err);
-              return console.log(`INVITE ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> invited ${user.email.value} <${user._id}> in ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
-            });
-          });
-        }
+
         if(req.params.context === 'add') {
           console.log(`ADDED ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> created ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
           req.flash('success', res.__("Added!"));
@@ -163,8 +151,26 @@ router.post('/:context/:recordId?', function(req, res, next) {
           console.log(`EDIT ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> updated ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
           req.flash('success', res.__("Saved!"));
         }
-        var query = req.params.context === 'welcome' ? '?welcomed=true' : null;
-        return res.redirect(new UrlHelper(req.organisationTag, null, query, req.getLocale()).getUrl());
+
+        if (res.locals.record.type === "person" && req.body.invite === "yes") {
+          EmailUser.addByEmail(res.locals.record.getEmail(), res.locals.organisation, res.locals.record, function(err, user) {
+            if (err) return next(err);
+            if (!user) {
+              err = new Error('Failed to create or find user to invite');
+              err.status = 500;
+              return next(err);
+            }
+            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
+              if (err) return next(err);
+              console.log(`INVITE ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> invited ${user.email.value} <${user._id}> in ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
+              return res.redirect(new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());
+            });
+          });
+        } else {
+          var query = req.params.context === 'welcome' ? '?welcomed=true' : null;
+          return res.redirect(new UrlHelper(req.organisationTag, null, query, req.getLocale()).getUrl());
+        }
+
       });
     });
   } else return next();

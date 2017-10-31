@@ -151,11 +151,13 @@ userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
 };
 
+
 userSchema.methods.attachOrgAndRecord = function(organisation, record, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisation._id);
   if (orgAndRecord) {
-    if (orgAndRecord.record) {
-      err = new Error('Record Already Attached');
+    //@todo does not work if orgsAndRecords not pupulated.
+    if (orgAndRecord.record && !orgAndRecord.record._id.equals(record._id)) {
+      err = new Error('Another Record Already Attached');
       err.status = 400;
       return callback(err);
     }

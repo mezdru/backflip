@@ -30,8 +30,13 @@ router.get('/list', function(req, res, next) {
   });
 });
 
+//@todo only works for email users because the email logic is bound to the email auth at the moment
 router.get('/monthly/:action?', function(req, res, next) {
-  User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
+  User.find({
+    'orgsAndRecords.organisation': res.locals.organisation._id,
+    //@todo this next line should not be, this logic should work for all login strategies, plus it responds a false count
+    'email.value': {$exists: true}
+    })
   .sort({date: -1})
   .populate('orgsAndRecords.record')
   .exec(function(err, users) {
