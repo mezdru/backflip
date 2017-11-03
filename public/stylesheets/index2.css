@@ -1084,14 +1084,12 @@ footer .pure-g {
 }
 
 .pure-homepage-description {
-  padding: 0 20px 10px;
   text-align: center;
 }
 
 .homepage-learn-more {
-  padding: 0px 20px 50px;
   max-width: 320px;
-  margin: auto;
+  margin: 10px auto 50px;
 }
 
 .homepage-learn-more .pure-button{
