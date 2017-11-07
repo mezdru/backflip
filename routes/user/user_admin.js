@@ -17,7 +17,8 @@ var EmailUser = require('../../models/email/email_user.js');
 
 router.get('/list', function(req, res, next) {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
-  .populate('orgsAndRecords.record')
+  .select('created updated last_login last_action email.value google.email google.hd')
+  .sort('-created')
   .exec(function(err, users) {
     if (err) return next(err);
     res.render('index',
