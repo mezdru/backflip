@@ -11,17 +11,23 @@
 <div class="main">
   <div class="triptic pure-g">
     <div class="pure-u-1 pure-u-md-1-3">
-      <h2>{{__ "You joined the Beta"}}</h2>
-      <p>{{__ "Great to have you on board. We'll contact you by email as soon as a spot is available."}}</p>
+      <div class="grid-box">
+        <h2 class="big">{{__ "You joined the Beta"}}</h2>
+        <p class="big">{{__ "Great to have you on board. We'll contact you by email as soon as a spot is available."}}</p>
+      </div>
     </div>
     <div class="pure-u-1 pure-u-md-1-3">
-      <h2>{{__ "Let's meet!"}}</h2>
-      <p>{{{__ "We love sharing beers & feedback. Come and meet the team every wednesday at 6PM, at <a href='https://goo.gl/maps/3GpvJydbTQQ2'>Café Place Verte in Paris</a>."}}}</p>
+      <div class="grid-box">
+        <img src='/images/awesome.gif' class='pure-img'>
+      </div>
     </div>
     <div class="pure-u-1 pure-u-md-1-3">
-      <h2>{{__ "Got 2 minutes more?"}}</h2>
-      <p>{{__ "Please, help us understand your needs better by taking this poll about your work environment."}}</p>
-      <p><a class="poll-button pure-button" href="{{__ "https://lenom.typeform.com/to/Tc45CX?email=%s" email}}">{{__ "Answer 7 questions"}}</a></p>
+      <div class="grid-box">
+        <h2 class="big">{{__ "Got 2 minutes more?"}}</h2>
+        <p class="big">{{__ "Please, help us understand your needs better by taking this poll about your work environment."}}</p>
+        <p><a class="poll-button pure-button" href="{{__ "https://lenom.typeform.com/to/Tc45CX?email=%s" email}}">{{__ "Answer 7 questions"}}</a></p>
+      </div>
     </div>
   </div>
 </div>
+{{> banner position='bottom'}}

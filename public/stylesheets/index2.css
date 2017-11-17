@@ -1156,19 +1156,22 @@ footer .pure-g {
   padding: 80px 0 20px 0;
 }
 
-.why .main .pure-img {
+.why .main .pure-img,
+.cheers .main .pure-img {
   width: 100%;
   border-radius: 10px;
   border: 5px solid white;
 }
 
-.why .main h2 {
+.why .main h2,
+.cheers .main h2 {
   border-bottom: 5px solid #ffffff;
   padding-bottom: 5px;
   margin-bottom: 5px;
 }
 
-.why .main p.big {
+.why .main p.big,
+.cheers .main p.big {
   text-align: justify;
 }
 
@@ -1301,14 +1304,7 @@ p.big {
   background-position: center 300px;
   background-size: 140%;
   background-repeat: no-repeat;
-}
-
-.cheers .main h2 {
-  padding: 10px 20px 0;
-}
-
-.cheers .main p {
-  padding: 10px 20px;
+  padding: 50px 0 50px;
 }
 
 .cheers .main .pure-button {
@@ -1318,6 +1314,7 @@ p.big {
   background-color: #FF2600;
   color: #ffffff;
   box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  margin-top: 10px;
 }
 
 /* RETRY */
