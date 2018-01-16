@@ -73,12 +73,4 @@ router.use(function(req, res, next) {
   return next();
 });
 
-// Activate tracking when interested
-router.use(function(req, res, next) {
-  if (req.app.get('env') === 'production' && !undefsafe(res.locals, 'user.superadmin')) {
-    res.locals.track = true;
-  }
-  return next();
-});
-
 module.exports = router;

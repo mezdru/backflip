@@ -207,6 +207,7 @@ recordSchema.methods.cleanDescription = function() {
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
 };
 
+// @Todo change slug to use dots (.) and small case for persons.
 recordSchema.statics.cleanTag = function(match, type) {
   var prefix = '';
   var body = '';

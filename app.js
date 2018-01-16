@@ -146,6 +146,15 @@ app.use(function(req, res, next) {
   return next();
 });
 
+
+// Activate tracking when interested
+app.use(function(req, res, next) {
+  if (req.app.get('env') === 'production') {
+    res.locals.track = true;
+  }
+  return next();
+});
+
 // Looking for the org and setup res.locals.organisation
 var org = require('./routes/org.js');
 app.use('/', org);
