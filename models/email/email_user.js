@@ -138,6 +138,7 @@ EmailUser.tokenStillValid = function(generated) {
   return generated > Date.now() - 24*30*3600*1000;
 };
 
+//@todo this is as dodgy as an aligator wearing a kilt asking for the spare change
 EmailUser.addByEmail = function(email, organisation, record, callback) {
   this.getByEmail(email, function(err, user) {
     if (err) return callback(err);

@@ -369,7 +369,7 @@ recordSchema.methods.makeIncludes = function(organisation) {
 };
 
 recordSchema.methods.getEmail = function() {
-  return this.links.find(link => link.type === 'email').value;
+  return undefsafe(this.links.find(link => link.type === 'email'), 'value');
 };
 
 recordSchema.statics.getValidationSchema = function(res) {

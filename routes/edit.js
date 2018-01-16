@@ -153,7 +153,12 @@ router.post('/:context/:recordId?', function(req, res, next) {
         }
 
         if (res.locals.record.type === "person" && req.body.invite === "yes") {
-          EmailUser.addByEmail(res.locals.record.getEmail(), res.locals.organisation, res.locals.record, function(err, user) {
+          let email = res.locals.record.getEmail();
+          if (!email) {
+            res.locals.errors.push({msg:res.__('Please provide an email to invite this person.')});
+            return next();
+          }
+          EmailUser.addByEmail(email, res.locals.organisation, res.locals.record, function(err, user) {
             if (err) return next(err);
             if (!user) {
               err = new Error('Failed to create or find user to invite');
