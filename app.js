@@ -12,6 +12,7 @@ require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var undefsafe = require('undefsafe');
+var UrlHelper = require('./helpers/url_helper.js');
 
 // App
 var app = express();
@@ -83,7 +84,7 @@ app.use(function(req, res, next) {
     req.setLocale(match[1]);
     req.url = match[3] || '/';
   } else if (req.path == '/') {
-    return res.redirect(302, req.getLocale() + '/');
+    return res.redirect(302, new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());
   }
   return next();
 });
@@ -136,7 +137,6 @@ app.use(session({
 var flash = require('express-flash');
 app.use(flash());
 
-var UrlHelper = require('./helpers/url_helper.js');
 app.use(function(req, res, next) {
   res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
   res.locals.googleSigninUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();

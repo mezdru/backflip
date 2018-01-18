@@ -45,7 +45,9 @@ router.use( function(req, res, next) {
 });
 
 router.get('/impersonate/:googleEmail', function(req, res, next) {
-  User.findOne({'google.email': req.params.googleEmail}, function(err, user) {
+  User.findOne({'google.email': req.params.googleEmail})
+  .populate('orgsAndRecords.organisation', 'name picture tag')
+  .exec(function(err, user) {
     if (err) return next(err);
     if (!user) {
       err = new Error('No user found');
@@ -56,6 +58,8 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
     req.session.user = user;
     res.locals.impersonator = req.session.impersonator;
     res.locals.user = req.session.user;
+
+    console.log(new UrlHelper(user.getFirstOrgTag()).getUrl());
 
     return res.redirect(new UrlHelper(user.getFirstOrgTag()).getUrl());
   });
