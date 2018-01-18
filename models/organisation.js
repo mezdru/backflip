@@ -18,7 +18,7 @@ var organisationSchema = mongoose.Schema({
   },
   tag: {type: String, index: true, unique: true},
   google: {
-    hd: String,
+    hd: [String],
   },
   tree: [[String]],
   created: { type: Date, default: Date.now },
