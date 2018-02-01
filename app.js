@@ -27,10 +27,10 @@ app.set('view engine', 'hbs');
 
 if (app.get('env') === 'production') {
   // Redirect non Wingzy.io only in production
-  app.use(function(req, res, next) {
+  /*app.use(function(req, res, next) {
       if(req.headers.host !== process.env.HOST) return res.redirect(301, "https://" + process.env.HOST + req.url);
       else return next();
-  });
+  });*/
 
   // Redirect non https only in production
   app.use(function(req, res, next) {
