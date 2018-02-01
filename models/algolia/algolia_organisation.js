@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   15-03-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 03-05-2017 05:33
-* @Copyright: Clément Dietschy 2017
-*/
-
 var algoliasearch = require('algoliasearch');
 var client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_WRITE_KEY);
 

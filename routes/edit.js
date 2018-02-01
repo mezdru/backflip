@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   10-04-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 17-05-2017 04:17
-* @Copyright: Clément Dietschy 2017
-*/
-
 var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');

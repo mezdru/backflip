@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   13-03-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 10-04-2017 10:47
-* @Copyright: Clément Dietschy 2017
-*/
-
 var express = require('express');
 var router = express.Router();
 var UrlHelper = require('../helpers/url_helper.js');

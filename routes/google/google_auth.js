@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   15-03-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
- * @Last modified by:   clement
- * @Last modified time: 26-06-2017 12:55
-* @Copyright: Clément Dietschy 2017
-*/
-
 var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');
@@ -27,6 +17,7 @@ var UrlHelper = require('../../helpers/url_helper.js');
 // Create Google OAuth2 Client for everyone
 // Populate with tokens if available
 // @todo deduplicate this code (also in admin.js)
+// @todo the oauth2client generated can be set as a global auth option to be used everywhere...
 router.use(function(req, res, next) {
   req.googleOAuth = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,

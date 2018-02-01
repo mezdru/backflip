@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   10-12-2016
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
- * @Last modified by:   clement
- * @Last modified time: 30-06-2017 01:08
-* @Copyright: Clément Dietschy 2017
-*/
-
 /* jshint esversion: 5 */
 
 /*

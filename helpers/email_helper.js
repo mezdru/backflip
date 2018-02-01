@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   06-06-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
- * @Last modified by:   clement
- * @Last modified time: 27-06-2017 10:52
-* @Copyright: Clément Dietschy 2017
-*/
-
 const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 const defaultReciepient = 'hear-me@lenom.io';
 const defaultEmitter = 'lenombot@lenom.io';

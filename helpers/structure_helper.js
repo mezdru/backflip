@@ -1,15 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   27-04-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 16-05-2017 11:28
-* @Copyright: Clément Dietschy 2017
-*/
-
-
-
 var StructureHelper = class StructureHelper {
 
   constructor(within, tree) {

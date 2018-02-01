@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   23-04-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
- * @Last modified by:   clement
- * @Last modified time: 29-06-2017 06:01
-* @Copyright: Clément Dietschy 2017
-*/
-
 var validator = require('validator');
 var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 var PNF = require('google-libphonenumber').PhoneNumberFormat;

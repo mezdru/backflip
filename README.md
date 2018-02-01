@@ -1,5 +1,6 @@
 # backflip
 
-Building the Minimum Viable Product of **Lenom**, where coworkers find each other by [Clément Dietschy](https://www.linkedin.com/in/clementdietschy).
+**Wingzy** removes everything that stands between coworkers.
+This is a MVP build with NodeJS+Algolia.
 
-(c) 2016-2017 Clément Dietschy
+(cc-by-nc-sa) 2016-2017 [Clément Dietschy](https://www.linkedin.com/in/clementdietschy)

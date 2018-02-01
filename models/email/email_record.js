@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   13-04-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
- * @Last modified by:   clement
- * @Last modified time: 26-06-2017 02:33
-* @Copyright: Clément Dietschy 2017
-*/
-
 var Record = require('../record.js');
 var LinkHelper = require('../../helpers/link_helper.js');
 

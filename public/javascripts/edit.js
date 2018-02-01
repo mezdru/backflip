@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <bedhed>
-* @Date:   27-04-2017
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 27-04-2017 03:42
-* @Copyright: Clément Dietschy 2017
-*/
-
 var ALGOLIA_APPID = 'RSXBUBL0PB';
 var ALGOLIA_SEARCH_APIKEY = algoliaPublicKey.value;
 var ALGOLIA_INDEX_NAME = 'world';

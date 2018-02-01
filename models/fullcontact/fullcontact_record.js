@@ -1,13 +1,3 @@
-/**
- * @Author: Clément Dietschy <clement>
- * @Date:   21-06-2017 02:08
- * @Email:  clement@lenom.io
- * @Project: Lenom - Backflip
- * @Last modified by:   clement
- * @Last modified time: 29-06-2017 06:43
- * @Copyright: Clément Dietschy 2017
- */
-
 var Record = require('../record.js');
 var fullContact = require('fullcontact').createClient(process.env.FULLCONTACT_APIKEY);
 var undefsafe = require('undefsafe');

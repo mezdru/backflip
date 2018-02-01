@@ -1,13 +1,3 @@
-/**
-* @Author: Clément Dietschy <clement>
-* @Date:   09-05-2017 04:31
-* @Email:  clement@lenom.io
-* @Project: Lenom - Backflip
-* @Last modified by:   clement
-* @Last modified time: 02-06-2017 05:47
-* @Copyright: Clément Dietschy 2017
-*/
-
 var UrlHelper = class UrlHelper {
 
   constructor(subdomains, path, query, locale) {
