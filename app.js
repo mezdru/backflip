@@ -56,7 +56,7 @@ if (app.get('env') === 'production') {
 // www is not an organisation, it's an 1990 artifact.
 app.use(function(req, res, next) {
   if (req.organisationTag === 'www') {
-    return res.redirect(301, req.protocol + '://' + req.headers.host + req.url);
+    return res.redirect(301, req.protocol + '://' + process.env.HOST + req.url);
   }
   return next();
 });
