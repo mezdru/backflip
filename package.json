@@ -2,7 +2,7 @@
   "name": "backflip",
   "version": "0.1.0",
   "description": "Basic Backend IO Proof of Concept for wingzy.io ",
-  "author": "bedhed <clement@lenom.io>",
+  "author": "bedhed <clement@wingzy.io>",
   "license": "CC-BY-NC-SA-4.0",
   "private": true,
   "scripts": {
@@ -18,7 +18,7 @@
   "engines": {
     "node": "6.11.x"
   },
-  "homepage": "https://lenom.io",
+  "homepage": "https://wingzy.io",
   "dependencies": {
     "algoliasearch": "^3.22.1",
     "array-unique": "^0.3.2",

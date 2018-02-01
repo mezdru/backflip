@@ -47,21 +47,6 @@ router.get('/oauth', function (req, res, next) {
   });
 });
 
-//@todo paginate & handle more than 200 (200 is the max maxResults)
-//@todo find a way to get this without google admin rights
-router.get('/group/list', function(req, res, next) {
-  google.admin('directory_v1').groups.list({domain: 'lenom.io', maxResults: 200}, function (err, ans) {
-    if (err) return next(err);
-    res.render('index',
-      {
-        title: 'Google Groups within your organisation',
-        details: `Google Admin Directory API returns ${ans.groups.length} groups (cannot return more than 200).`,
-        content: ans
-      }
-    );
-  });
-});
-
 //@todo paginate & handle more than 500 (500 is the max maxResults)
 router.get('/user/list/:viewType?', function(req, res, next) {
   var viewType = req.params.viewType == 'admin' ? 'admin_view' : 'domain_public';

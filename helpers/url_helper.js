@@ -20,12 +20,16 @@ var UrlHelper = class UrlHelper {
       }
       this.url = `http://localhost:3000/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
     } else {
-      this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}lenom.io/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+      this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
     }
   }
 
   isDev() {
     return this.getEnv() === 'development';
+  }
+
+  getHost() {
+    return process.env.HOST;
   }
 
   //@todo there must be a way to use app.get('env')

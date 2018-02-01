@@ -6,7 +6,7 @@ var UrlHelper = require('./helpers/url_helper.js');
 
 // App
 var app = express();
-app.locals.title = 'Lenom';
+app.locals.title = 'Wingzy';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -26,6 +26,12 @@ var hbs = require('./views/hbs.js');
 app.set('view engine', 'hbs');
 
 if (app.get('env') === 'production') {
+  // Redirect non Wingzy.io only in production
+  app.use(function(req, res, next) {
+      if(req.headers.host !== process.env.HOST) return res.redirect(301, "https://" + process.env.HOST + req.url);
+      else return next();
+  });
+
   // Redirect non https only in production
   app.use(function(req, res, next) {
       if(req.protocol !== 'https') return res.redirect(301, "https://" + req.headers.host + req.url);
@@ -50,7 +56,7 @@ if (app.get('env') === 'production') {
 // www is not an organisation, it's an 1990 artifact.
 app.use(function(req, res, next) {
   if (req.organisationTag === 'www') {
-    return res.redirect(301, 'https://lenom.io' + req.url);
+    return res.redirect(301, req.protocol + '://' + req.headers.host + req.url);
   }
   return next();
 });
@@ -101,7 +107,7 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
 
-app.use(favicon(path.join(__dirname, 'public', 'lenom.png')));
+app.use(favicon(path.join(__dirname, 'public', 'wingzy.png')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
@@ -119,7 +125,7 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: db}),
     cookie: {
-      domain: (app.get('env') === 'development') ? null : 'lenom.io',
+      domain: (app.get('env') === 'development') ? null : process.env.HOST,
       maxAge: 2419200000
     }
 }));

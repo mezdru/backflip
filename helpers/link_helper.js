@@ -86,7 +86,7 @@ var LinkHelper = class LinkHelper {
 
   makeHyperlink () {
     switch (this.type) {
-      // For laruche.lenom.io
+      // For laruche
       case 'road': this.display = 'Roadmap'; return;
       case 'map': this.display = 'Asana'; return;
       case 'comment': this.display = 'Forum'; return;

@@ -78,7 +78,7 @@ function makeUrl(subdomains, path, query, locale) {
     }
     url = 'http://localhost:3000/' + (locale ? locale + '/' : '') + path + query;
   } else {
-    url =  'https://' + ( subdomains ? subdomains + '.' : '' ) + 'lenom.io/' + ( locale ? locale + '/' : '') + path + query;
+    url =  'https://' + ( subdomains ? subdomains + '.' : '' ) + 'wingzy.io/' + ( locale ? locale + '/' : '') + path + query;
   }
   return url;
 }

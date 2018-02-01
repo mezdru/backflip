@@ -22,7 +22,7 @@ GoogleOrganisation.newByDomain = function (domain, user, callback) {
       hd: domain,
     },
   });
-  EmailHelper.superadmin.newOrg(user.name, user.google.email, organisation.name, `${organisation.tag}.lenom.io`);
+  EmailHelper.superadmin.newOrg(user.name, user.google.email, organisation.name, organisation.host);
   return organisation.save(callback);
 };
 

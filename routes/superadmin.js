@@ -94,7 +94,7 @@ router.get('/organisation/create/:orgTag', function(req, res, next) {
     res.render('index',
       {
         title: 'New organisation created',
-        details: `<a href="${url}">${organisation.tag}.lenom.io</a> has been created.`,
+        details: `<a href="${url}">${organisation.host}</a> has been created.`,
         content: organisation
       });
   });

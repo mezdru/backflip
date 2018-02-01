@@ -1,7 +1,8 @@
 const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
-const defaultReciepient = 'hear-me@lenom.io';
-const defaultEmitter = 'lenombot@lenom.io';
-const defaultEmitterName = 'Lenom';
+const defaultReciepient = 'hear-me@wingzy.io';
+const defaultEmitter = 'aurore@wingzy.io';
+const defaultEmitterName = 'Wingzy';
+const defaultLink = 'https://wingzy.io'
 
 var EmailHelper = {
   superadmin: {
@@ -21,7 +22,7 @@ var EmailHelper = {
             "name": name || "No name",
             "email": email || "No email",
             "organisation": organisation || "No organisation",
-            "link": link || "lenom.io"
+            "link": link || defaultLink
           }
         });
       request
@@ -46,7 +47,7 @@ var EmailHelper = {
           ],
           "Vars": {
             "intro": res.__("Hello %s! We are happy to welcome you back to Lenom.", name),
-            "url": url || "https://lenom.io",
+            "url": url || defaultLink,
             "button": res.__("Connect and share"),
             "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
           }
@@ -73,7 +74,7 @@ var EmailHelper = {
             "intro": res.__("Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!", name, organisationName),
             "inviterName": inviterName || defaultEmitterName,
             "button": res.__("Connect and share"),
-            "url": url || "https://lenom.io",
+            "url": url || defaultLink,
             "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
           }
         });
@@ -100,7 +101,7 @@ var EmailHelper = {
             "inviterName": inviterName || defaultEmitterName,
             "extract": extract || '',
             "button": res.__("Connect and share"),
-            "url": url || "https://lenom.io",
+            "url": url || defaultLink,
             "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
           }
         });

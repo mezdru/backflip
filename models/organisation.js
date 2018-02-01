@@ -17,6 +17,10 @@ var organisationSchema = mongoose.Schema({
   public: { type: Boolean, default: false }
 });
 
+organisationSchema.virtual('host').get(function() {
+  return this.tag + '.' + process.env.HOST;
+});
+
 organisationSchema.methods.needsWelcoming = function () {
   return !this.welcomed;
 };
