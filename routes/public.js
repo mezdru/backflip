@@ -59,6 +59,10 @@ router.get('/pricing', function(req, res, next) {
   res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home pricing'});
 });
 
+router.get('/privacy', function(req, res, next) {
+  res.render('home/privacy', {layout: 'home/layout_home', bodyClass: 'home privacy'});
+});
+
 router.get('/terms', function(req, res, next) {
   err = new Error('Not ready yet');
   err.status = 404;
