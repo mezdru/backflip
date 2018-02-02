@@ -14,16 +14,6 @@ function toggleLink(child) {
 	linkDeleted.value = linkDeleted.value == 'true' ? 'false' : 'true';
 }
 
-function togglePanel() {
-	document.getElementById('left-panel').classList.toggle('open');
-  document.getElementById('toggle-panel').classList.toggle('open');
-}
-
-function openPanel() {
-	document.getElementById('left-panel').classList.add('open');
-  document.getElementById('toggle-panel').classList.add('open');
-}
-
 function resizeImg(img, ratio) {
   var width = img.naturalWidth;
   var height = img.naturalHeight;

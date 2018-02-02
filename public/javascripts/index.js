@@ -216,36 +216,6 @@ search.addWidget(
 );
 
 search.addWidget(
-  instantsearch.widgets.hierarchicalMenu({
-    container: '#structure',
-    attributes: ['structure.0', 'structure.1', 'structure.2'],
-		//sortBy: ['count', 'name:asc'],
-    templates: {
-      header: '<i class="fa fa-tree" aria-hidden="true"></i> Organisation Tree'
-    }
-  })
-);
-
-search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#within',
-    attributeName: 'within.tag',
-    operator: 'and',
-    limit: 5,
-		searchForFacetValues: {
-			placeholder: 'Search',
-		},
-		templates: {
-      header: '<i class="fa fa-chevron-down" aria-hidden="true"></i> More filters',
-      noResults: 'No result'
-    },
-		collapsible: {
-			collapsed: true
-		}
-  })
-);
-
-search.addWidget(
   instantsearch.widgets.refinementList({
     container: '#types',
     attributeName: 'type',

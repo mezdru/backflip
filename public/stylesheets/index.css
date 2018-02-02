@@ -150,8 +150,6 @@ em a {
 }
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
-#left-panel-closer:hover .fa,
-#toggle-panel a:hover .fa,
 #bottom-right a:hover,
 header a:hover .fa,
 header a.fa:hover,
@@ -351,22 +349,6 @@ a.logout:hover {
   display: none;
 }
 
-#toggle-panel div {
-  padding: 5px 8px;
-}
-
-#toggle-panel .hide {
-  display: none;
-}
-
-#toggle-panel.open .hide {
-  display: inline-block;
-}
-
-#toggle-panel.open .show {
-  display: none;
-}
-
 #subheader .ais-refinement-list--item,
 #subheader .ais-menu--item {
   display: inline-block;
@@ -395,159 +377,6 @@ a.logout:hover {
 
 #types {
   display: inline-block;
-}
-
-
-/* LEFT PANEL */
-
-#left-panel-closer {
-  float: right;
-  padding: 5px 8px;
-  color: #7F8C8D;
-  font-size: 1em;
-}
-
-#left-panel {
-  position: fixed;
-  left: 0;
-  top: 60px;
-  bottom: 0;
-  background-color: #F5F7FA;
-  border-right: 2px solid #ffffff;
-  color: #7F8C8D;
-  font-size: 1em;
-  width: 260px;
-  margin-left: -260px;
-  z-index: 900;
-  overflow-x: hidden;
-  transition: margin 1s;
-}
-
-#left-panel.open {
-  margin-left: 0;
-}
-
-.ais-header {
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.8em;
-  padding: 32px 8px 5px 8px;
-}
-
-.ais-header .fa {
-  font-size: 1.2em;
-}
-
-/* structure widget */
-
-.ais-hierarchical-menu a {
-  color:  #7F8C8D;
-}
-
-.ais-hierarchical-menu a:hover {
-  text-decoration: none;
-}
-
-.ais-hierarchical-menu--count {
-  float: right;
-  font-size: 0.8em;
-  color: #ABB0BB;
-}
-
-.ais-hierarchical-menu--item > div:first-child {
-  padding: 5px 8px;
-  margin-bottom: 1px;
-}
-
-.ais-hierarchical-menu--list__lvl1,
-.ais-hierarchical-menu--list__lvl2,
-.ais-hierarchical-menu--list__lvl3,
-.ais-hierarchical-menu--list__lvl4,
-.ais-hierarchical-menu--list__lvl5 {
-  margin-left: 1.4em;
-  border-left: 2px solid #2ECC71;
-}
-
-.ais-hierarchical-menu--item > div:first-child:hover {
-  cursor: pointer;
-  background: #2ECC71;
-}
-
-.ais-hierarchical-menu--item > div:first-child:hover a {
-  color: #ffffff;
-}
-
-.ais-hierarchical-menu--item > div:first-child:hover .ais-hierarchical-menu--count {
-  color: #E6E8EC;
-}
-
-.ais-hierarchical-menu--item__active > div:first-child a {
-  font-weight: bold;
-  color: #2ECC71;
-}
-
-.ais-hierarchical-menu--item__active > div:first-child:hover {
-  background-color: #7F8C8D;
-}
-
-/* refinment widget */
-
-#within .ais-refinement-list--count {
-    float: right;
-}
-
-/* Refinment Widget Search */
-
-#left-panel .sbx-sffv {
-  height: auto;
-}
-
-#left-panel .sbx-sffv__wrapper {
-  padding: 5px 8px;
-  height: auto;
-  width: auto;
-}
-
-#left-panel .sbx-sffv__input {
-  display: block;
-  padding: 0.2em 1em;
-  border: 2px solid #ABB0BB;
-  background: transparent;
-  border-radius: 1em;
-  color: #ABB0BB;
-  box-shadow: none;
-  font-size: 1em;
-  height: auto;
-  width: 14em;
-  transition: none;
-}
-
-#left-panel .sbx-sffv__input:focus {
-  background: #ffffff;
-  color: #474B54;
-}
-
-#left-panel .sbx-sffv__input::-webkit-input-placeholder { color: #ABB0BB; }
-#left-panel .sbx-sffv__input:-ms-input-placeholder { color: #ABB0BB; }
-#left-panel .sbx-sffv__input::-moz-placeholder { color: #ABB0BB; opacity: 1; }
-#left-panel .sbx-sffv__input:-moz-placeholder { color: #ABB0BB; }
-
-#left-panel .sbx-sffv__submit,
-#left-panel .sbx-sffv__reset {
-  display: none;
-}
-
-/* Clear all widget */
-
-#clear-all {
-  margin-top: 32px;
-}
-
-.ais-clear-all--link {
-  text-align: center;
-  color: #F1C40F;
-  text-transform: uppercase;
-  font-size: 0.8em;
 }
 
 /* footer */
