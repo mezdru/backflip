@@ -1,9 +1,13 @@
-<header>
+<header style="background-color:{{organisation.colors.primary}}">
 {{#if search}}
 <div class="pure-g search-on">
   <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-md-1-6" href="{{homeUrl organisation}}">
     <div>
-      <img src="/wingzy_full.png">
+      {{#if organisation.logo}}
+        <img class="organisation-logo" src="{{organisation.logo.url}}" alt="{{organisation.name}}">
+      {{else}}
+        <img src="/wingzy_full.png" alt="{{organisation.name}}">
+      {{/if}}
     </div>
   </a>
   <div class="pure-u-search pure-u-1 pure-u-md-2-3">

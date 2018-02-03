@@ -3,12 +3,17 @@ var mongoose = require('mongoose');
 var organisationSchema = mongoose.Schema({
   name: String,
   picture: {
-    uri: String,
-    path: String
+    url: String,
+  },
+  logo: {
+    url: String,
   },
   tag: {type: String, index: true, unique: true},
   google: {
     hd: [String],
+  },
+  colors: {
+    primary: [String]
   },
   tree: [[String]],
   created: { type: Date, default: Date.now },

@@ -376,15 +376,19 @@ form.person #uploadcare4hashtag {
 /* WELCOME */
 
 .white-bg {
-  background-color: #FFFFFF;
+  /*background-color: #FFFFFF;*/
   padding: 20px;
+}
+
+.signin .organisation-picture {
+  max-height: 120px;
 }
 
 .organisation-name {
   text-transform: uppercase;
   font-size: 3em;
   text-align: center;
-  margin: 10px 0;
+  margin: 10px 0 0;
   color: #2ECC71;
 }
 
