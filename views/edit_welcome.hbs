@@ -4,7 +4,7 @@
       <div class="pure-u-1 pure-u-md-2-3">
         <p class="introduction">{{__ "Welcome to Lenom for"}}</p>
         <h1 class="organisation-name">
-          {{#if organisation.picture}}
+          {{#if organisation.picture.url}}
             <img class="organisation-picture" src="{{organisation.picture.url}}" alt="{{organisation.name}}">
           {{else}}
             {{organisation.name}}

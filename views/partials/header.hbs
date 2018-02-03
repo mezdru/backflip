@@ -3,7 +3,7 @@
 <div class="pure-g search-on">
   <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-md-1-6" href="{{homeUrl organisation}}">
     <div>
-      {{#if organisation.logo}}
+      {{#if organisation.logo.url}}
         <img class="organisation-logo" src="{{organisation.logo.url}}" alt="{{organisation.name}}">
       {{else}}
         <img src="/wingzy_full.png" alt="{{organisation.name}}">
