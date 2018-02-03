@@ -1,6 +1,6 @@
 <div>
   {{#if user}}
-  {{{addLink user organisation}}}
+  {{#if canAdd}}{{{addLink user organisation}}}{{/if}}
   {{{profileLink user organisation}}}
   {{{adminLink user organisation}}}
   <a title="{{__ "Sign out"}}" class="fa fa-sign-out logout" href="{{logoutUrl}}" aria-hidden="true"></a>

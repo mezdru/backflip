@@ -93,7 +93,7 @@ hbs.registerHelper('profileLink', function(user, organisation) {
   if (!recordId) return null;
   url = new UrlHelper(organisation.tag, `edit/id/${recordId}`, null, this.getLocale()).getUrl();
   //What about using the refresh icon instrad of the arrow-up?
-  return `<a id="profileLink" title="${this.__('Update my Profile')}" class="fa fa-arrow-circle-up profile" href="${url}" aria-hidden="true"></a>`;
+  return `<a id="profileLink" title="${this.__('Update my Profile')}" class="fa fa-user-circle profile" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {

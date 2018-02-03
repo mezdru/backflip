@@ -72,7 +72,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
 router.post('/add', function(req, res, next) {
   res.locals.record = new Record({
     organisation: res.locals.organisation._id,
-    type: req.body.type || 'person',
+    type: /*req.body.type || */ 'person',
     tag: Record.cleanTag(req.body.tag || req.body.name, req.body.type)
   });
   return next();
@@ -97,8 +97,8 @@ router.post('*', function(req, res, next) {
 
 // @todo this is an uploadcare hack, I did not find the way to change the crop setting dynamically... so I put 2 buttons, and switch the one displayed.
 router.post('*', function(req, res, next) {
-  if (req.body.type === 'team') {
-    req.body.picture = req.body.picture4team;
+  if (req.body.type === 'hashtag' || req.body.type === 'team' ) {
+    req.body.picture = req.body.picture4hashtag;
   }
   return next();
 });
@@ -212,7 +212,7 @@ router.use('/:context/:recordId?', function(req, res, next) {
     if (descLines.length > 3) res.locals.record.descOther = descLines.slice(3).join("\n");
     res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
   } else if (req.params.context === 'add') {
-    res.render('edit', {title: 'Add new record', add: true});
+    res.render('edit', {title: 'Add new record', add: true, record: {type: 'person'}});
   } else {
     res.render('edit', {title: 'Edit'});
   }

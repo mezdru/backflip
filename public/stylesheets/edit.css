@@ -234,12 +234,12 @@ p.validate {
 
 /* Upload picture */
 
-form.team #uploadcare {
+form.team #uploadcare,
+form.hashtag #uploadcare {
   display: none;
 }
 
-form.person #uploadcare4team,
-form.hashtag #uploadcare4team {
+form.person #uploadcare4hashtag {
   display: none
 }
 

@@ -29,6 +29,7 @@
   });
   $('#type-radio input:checked').parent().addClass('checked');
 </script>
+{{! Used when there was a radio button to select record type when adding record
 <script>
   $('#type-radio label').click(function () {
     $('form').removeClass('person').removeClass('team').removeClass('hashtag');
@@ -36,3 +37,4 @@
     $('#formBody').removeClass('formBody-hidden');
   });
 </script>
+}}
