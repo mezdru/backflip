@@ -559,7 +559,8 @@ footer .pure-g {
 	border-radius: 50%;
 }
 
-.team .picture {
+.team .picture,
+.hashtag .picture {
   border-radius: 25px;
   height: 12vw;
   width: 26vw;
@@ -572,7 +573,8 @@ footer .pure-g {
   max-width: 104px;
 }
 
-.team .picture img {
+.team .picture img,
+.hashtag .picture img {
   width: 26vw;
   max-width: 224px;
 }

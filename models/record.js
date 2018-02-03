@@ -74,9 +74,10 @@ recordSchema.statics.makeFromInputObject = function(inputObject) {
 recordSchema.statics.getTypeFromTag = function(tag) {
   prefix = tag.charAt(0);
   if (prefix === '@') {
-    firstLetter = tag.charAt(1);
+    //@todo Team
+    /* firstLetter = tag.charAt(1);
     if (firstLetter === firstLetter.toUpperCase()) return 'team';
-    else return 'person';
+    else */ return 'person';
   } else return 'hashtag';
 };
 
@@ -312,8 +313,8 @@ recordSchema.methods.makeStructure = function(organisation) {
 recordSchema.methods.updateRanking = function(tree) {
   switch (this.type) {
     case 'person' : this.ranking = 1000; break;
-    case 'hashtag' : this.ranking = 2000; break;
-    case 'team' : this.ranking = 3000; break;
+    case 'hashtag' : case 'team' : this.ranking = 2000; break;
+    // case 'team' : this.ranking = 3000; break;
   }
   if (tree) this.ranking += this.getStructureRanking(tree);
 };
@@ -321,8 +322,8 @@ recordSchema.methods.updateRanking = function(tree) {
 recordSchema.methods.makeRanking = function(organisation) {
   switch (this.type) {
     case 'person' : this.ranking = 1000; break;
-    case 'hashtag' : this.ranking = 2000; break;
-    case 'team' : this.ranking = 3000; break;
+    case 'hashtag' : case 'team' : this.ranking = 2000; break;
+    //case 'team' : this.ranking = 3000; break;
   }
   if (organisation.tree) this.ranking += this.getStructureRanking(organisation.tree);
 };
@@ -350,9 +351,9 @@ recordSchema.methods.makeIncludes = function(organisation) {
     if (record.type == 'person') {
       this.includes_count.person ++;
       if (this.includes.length < 8) this.includes.push(this.model('Record').shallowCopy(record));
-    } else if (record.type == 'team') {
-      this.includes_count.team ++;
-    } else if (record.type == 'hashtag') {
+    }/* else if (record.type == 'team') {
+       this.includes_count.team ++;
+    }*/ else if (record.type == 'hashtag' || record.type == 'team') {
       this.includes_count.hashtag ++;
     }
   }, this);

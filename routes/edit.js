@@ -190,7 +190,7 @@ router.use('/:context/:recordId?', function(req, res, next) {
 
     if (undefsafe(res.locals, 'record.picture.url')) {
       var domain = parseDomain(res.locals.record.picture.url);
-      if (domain.domain === 'ucarecdn') res.locals.uploadCarePictureUrl = res.locals.record.picture.url;
+      if (undefsafe(domain, 'domain') && domain.domain === 'ucarecdn') res.locals.uploadCarePictureUrl = res.locals.record.picture.url;
     }
 
     if (req.params.context) {

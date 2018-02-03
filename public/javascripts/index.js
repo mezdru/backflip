@@ -62,7 +62,7 @@ function transformImagePath(item) {
 	} else {
 		switch (item.type) {
 			case 'team' : transformIncludes(item); item.picture = { url: "/images/placeholder_team.png"}; break;
-			case 'hashtag' : item.picture = { url: "/images/placeholder_hashtag.png"}; break;
+			case 'hashtag' : transformIncludes(item); item.picture = { url: "/images/placeholder_hashtag.png"}; break;
 			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
 		}
 	}
@@ -70,7 +70,7 @@ function transformImagePath(item) {
 
 //@todo handle the display of teams
 function transformIncludes(item) {
-	if (item.type != 'team' || !item.includes || !item.includes.length || !item.includes_count) return;
+	if (!item.includes || !item.includes.length || !item.includes_count) return;
 	item.mozaic = true;
 	if (item.includes_count.person > 8) {
 		item.mozaic_more = item.includes_count.person + item.includes_count.team + item.includes_count.hashtag - 7;
