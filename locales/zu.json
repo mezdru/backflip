@@ -178,7 +178,6 @@
 	"<h2><strong>You Are Awesome</strong></h2><p><img src='/images/awesome.gif' class='pure-img'></p><p>Thank you for joining us on Lenom!</p><p>Wanna take a quick tour now?</p>": "crwdns902:0crwdne902:0",
 	"<h2>Simply Search</h2><p><img src='/images/find.gif' class='pure-img'></p><p>Find people within %s by name, team, interest, or anything that comes to your mind actually...</p>": "crwdns903:0%scrwdne903:0",
 	"<h2>Discover and Reach</h2><p><img src='/images/discover.gif' class='pure-img'></p><p>We introduce ourselves openly here, plus we share means to contact each other.</p>": "crwdns904:0crwdne904:0",
-	"<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-arrow-circle-up' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p>To invite more people from %s here, click <i class='fa fa-plus-circle' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>": "crwdns905:0%scrwdne905:0",
 	"* human beings": "crwdns906:0crwdne906:0",
 	"We<small>*</small> are the heart of work": "crwdns907:0crwdne907:0",
 	"Human beings are the <i class=\"fa fa-heart fa-red\" aria-hidden=\"true\"></i> of any organization": "crwdns908:0crwdne908:0",
@@ -211,5 +210,6 @@
 	"Our 3 best profiles!": "crwdns732:0crwdne732:0",
 	"%s this month": "crwdns730:0%scrwdne730:0",
 	"Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!": "crwdns731:0%scrwdnd731:0%scrwdnd731:0%scrwdne731:0",
-	"Please provide an email to invite this person.": "crwdns936:0crwdne936:0"
+	"Please provide an email to invite this person.": "crwdns936:0crwdne936:0",
+	"<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-user-circle' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>": "crwdns937:0crwdne937:0"
 }
