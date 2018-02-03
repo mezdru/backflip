@@ -20,7 +20,7 @@ router.use('/login', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home signin', signinText: 'login'});
+  res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home signin', googleSignin:true, emailSignin:true, signinText: 'login'});
 });
 
 // Catch all login callbacks and touch the user
