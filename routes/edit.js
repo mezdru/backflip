@@ -46,9 +46,18 @@ router.use('/:context/:recordId?',function(req, res, next) {
       err.status = 403;
       return next(err);
     }
-    if (record.type == 'person' && res.locals.user.ownsRecord(record._id)) {
-      res.locals.itsMe = true;
+    if (record.type === 'person') {
+      if (res.locals.user.ownsRecord(record._id)) {
+        res.locals.itsMe = true;
+      } else if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+        //nothing special happens here.
+      } else {
+        err = new Error('This is not your record');
+        err.status = 403;
+        return next(err);
+      }
     }
+
     res.locals.record = record;
     return next();
   });
