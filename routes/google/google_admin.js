@@ -36,7 +36,6 @@ router.get('/me', function (req, res, next) {
 });
 
 router.get('/oauth', function (req, res, next) {
-  console.log(res.locals.user.google.tokens);
   google.oauth2('v1').tokeninfo(req.session.user.google.tokens, function (err, ans) {
     if (err) return next(err);res.render('index',
     {
