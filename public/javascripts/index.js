@@ -165,7 +165,7 @@ function makeLinkUrl(link) {
 }
 
 function addEditUrl(item) {
-	if (true || item.objectID === myRecordId || isAdmin) {
+	if (item.objectID === myRecordId || isAdmin) {
 		item.editUrl = makeUrl(null, 'edit/id/' + item.objectID);
 	}
 }
