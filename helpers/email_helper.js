@@ -1,35 +1,54 @@
 const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 const defaultReciepient = 'hear-me@wingzy.io';
+const defaultReciepientName = 'Hear me';
 const defaultEmitter = 'aurore@wingzy.io';
 const defaultEmitterName = 'Wingzy';
-const defaultLink = 'https://wingzy.io'
+const defaultLink = 'https://wingzy.io';
+
+/**
+ *
+ * This call sends a message to the given recipient with vars and custom vars.
+ *
+ */
 
 var EmailHelper = {
   superadmin: {
     newOrg: function(name, email, organisation, link) {
       const request = mailjet
-        .post("send")
+        .post("send", {'version': 'v3.1'})
         .request({
-          "FromEmail": defaultEmitter,
-          "FromName": defaultEmitterName,
-          "Subject": "New organisation",
-          "MJ-TemplateID": "164321",
-          "MJ-TemplateLanguage": true,
-          "Recipients": [
-            { "Email": defaultReciepient }
-          ],
-          "Vars": {
-            "name": name || "No name",
-            "email": email || "No email",
-            "organisation": organisation || "No organisation",
-            "link": link || defaultLink
-          }
-        });
-      request
-        .then()
-        .catch(err => {
-          console.log(err);
-        });
+      		"Messages":[
+      			{
+      				"From": {
+      					"Email": defaultEmitter,
+      					"Name": defaultEmitterName
+      				},
+      				"To": [
+      					{
+      						"Email": defaultReciepient,
+      						"Name": defaultReciepientName
+      					}
+      				],
+      				"TemplateID": 164321,
+      				"TemplateLanguage": true,
+      				"Subject": "New organisation",
+      				"Variables": {
+                "email": email || "No email",
+                "name": name || "No name",
+                "organisation": organisation || "No organisation",
+                "link": link || defaultLink
+              }
+      			}
+      		]
+      	});
+
+        request
+        	.then((result) => {
+        		console.log(result.body);
+        	})
+        	.catch((err) => {
+        		console.log(err);
+        	});
     }
   },
   public: {
