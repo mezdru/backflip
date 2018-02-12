@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
       }
       res.render('directory', {search: true});
     } else if (!res.locals.user) {
-      res.render('home/signin', {layout: 'home/layout_home', googleSignin:res.locals.organisation.google, emailSignin:res.locals.organisation.email, bodyClass: 'home signin'});
+      res.render('home/signin', {layout: 'home/layout_home', googleSignin: undefsafe(res.locals.organisation, 'google.hd'), emailSignin:undefsafe(res.locals.organisation, 'email.domains'), bodyClass: 'home signin'});
     } else {
       return next();
     }

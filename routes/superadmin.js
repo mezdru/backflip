@@ -148,6 +148,46 @@ router.get('/organisation/:orgTag/welcome', function(req, res, next) {
   });
 });
 
+router.get('/organisation/:orgTag/addGoogleHD/:hd', function(req, res, next) {
+  Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
+    if (err) return next(err);
+    if (!organisation) {
+      err = new Error('No organisation found');
+      err.status = 400;
+      return next(err);
+    }
+    organisation.addGoogleHD(req.params.hd, function(err, organisation) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Added Google HD to Organisation',
+          details: `${organisation.tag} can now login using ${req.params.hd}.`,
+          content: organisation
+        });
+    });
+  });
+});
+
+router.get('/organisation/:orgTag/addEmailDomain/:domain', function(req, res, next) {
+  Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
+    if (err) return next(err);
+    if (!organisation) {
+      err = new Error('No organisation found');
+      err.status = 400;
+      return next(err);
+    }
+    organisation.addEmailDomain(req.params.domain, function(err, organisation) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Added Email Domain to Organisation',
+          details: `${organisation.tag} can now login using ${req.params.domain}.`,
+          content: organisation
+        });
+    });
+  });
+});
+
 router.get('/record/clear_deleted', function(req, res, next) {
   Record.deleteMany({deleted: true}, function(err, result) {
     if (err) return next(err);

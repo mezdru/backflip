@@ -12,6 +12,9 @@ var organisationSchema = mongoose.Schema({
   google: {
     hd: [String],
   },
+  email: {
+    domains: [String]
+  },
   colors: {
     primary: [String]
   },
@@ -32,7 +35,17 @@ organisationSchema.methods.needsWelcoming = function () {
 
 organisationSchema.methods.welcome = function(callback) {
   this.welcomed = true;
-  this.save(callback);
+  if(callback) this.save(callback);
+};
+
+organisationSchema.methods.addGoogleHD = function(hd, callback) {
+  this.google.hd.push(hd);
+  if(callback) this.save(callback);
+};
+
+organisationSchema.methods.addEmailDomain = function(domain, callback) {
+  this.email.domains.push(domain);
+  if(callback) this.save(callback);
 };
 
 var Organisation = mongoose.model('Organisation', organisationSchema);
