@@ -7,6 +7,7 @@ var LinkHelper = require('../../helpers/link_helper.js');
 
 var GoogleRecord = {};
 
+//@todo create record if needed (perhaps in google_auth.js, not here)
 GoogleRecord.getByGoogleId = function(googleId, organisationId, callback) {
   return Record.findOne({
     organisation: organisationId,

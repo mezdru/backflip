@@ -74,6 +74,7 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
 GoogleUser.attachOrgAndRecord = function(user, organisation, callback) {
   //@todo what if the record does not exist yet ?
   //@todo what if the record exists but we are not in the same domain ?
+  //@todo what if the record exists but without google id ?
   GoogleRecord.getByGoogleId(user.google.id, organisation._id, function(err, record) {
     if (err) return callback(err);
     user.attachOrgAndRecord(organisation, record, callback);

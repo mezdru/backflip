@@ -7,25 +7,8 @@ var GoogleUser = require('../../models/google/google_user.js');
 var GoogleRecord = require('../../models/google/google_record.js');
 var undefsafe = require('undefsafe');
 
-// Create Google OAuth2 Client for everyone
-// Populate with tokens if available
-// @todo deduplicate this code (also in google_auth.js)
-router.use(function(req, res, next) {
-  req.googleOAuth = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI
-  );
-  // this only works if the user has a google account...
-  req.googleOAuth.setCredentials(req.session.user.google.tokens);
-  google.options({
-      auth: req.googleOAuth
-  });
-  return next();
-});
-
 router.get('/me', function (req, res, next) {
-  google.plus('v1').people.get({userId: 'me'}, function (err, ans) {
+  google.plus('v1').people.get({userId: 'me', auth:req.googleOAuth}, function (err, ans) {
     if (err) return next(err);res.render('index',
     {
       title: 'plus.people.get.me',
@@ -49,7 +32,7 @@ router.get('/oauth', function (req, res, next) {
 //@todo paginate & handle more than 500 (500 is the max maxResults)
 router.get('/user/list/:viewType?', function(req, res, next) {
   var viewType = req.params.viewType == 'admin' ? 'admin_view' : 'domain_public';
-  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType}, function (err, ans) {
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType, auth:req.googleOAuth}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
@@ -90,7 +73,7 @@ router.get('/user/attachRecords', function(req, res, next) {
 });
 
 router.get('/user/get/:googleId', function (req, res, next) {
-  google.admin('directory_v1').users.get( {userKey: req.params.googleId, viewType:'domain_public'},function (err, ans) {
+  google.admin('directory_v1').users.get( {userKey: req.params.googleId, viewType:'domain_public', auth:req.googleOAuth},function (err, ans) {
     if (err) return next(err);
     res.render('index',
     {
@@ -123,7 +106,7 @@ router.get('/user/add/:googleEmail', function(req, res, next) {
 
 //@todo get the OAuth scope first
 router.get('/domain/list', function(req, res, next) {
-  google.admin('directory_v1').domains.list({customer: 'my_customer'}, function (err, ans) {
+  google.admin('directory_v1').domains.list({customer: 'my_customer', auth:req.googleOAuth}, function (err, ans) {
     if (err) return next(err);
     res.render('index',
       {
@@ -146,9 +129,10 @@ router.use(function(req, res, next) {
 });
 
 //@todo paginate & handle more than 500 (500 is the max maxResults)
+//@todo do not recreate deleted records
 router.get('/user/update/:viewType?', function(req, res, next) {
   var viewType = req.params.viewType == 'admin' ? 'admin_view' : 'domain_public';
-  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType}, function (err, ans) {
+  google.admin('directory_v1').users.list({customer: 'my_customer', maxResults: 500, viewType: viewType, auth:req.googleOAuth}, function (err, ans) {
     if (err) return next(err);
     var recordsAndGoogleUsers = GoogleRecord.matchRecordsAndGoogleUsers(res.locals.organisation.records, ans.users);
     GoogleRecord.deleteRecords(recordsAndGoogleUsers, res.locals.user._id, function(err, result) {

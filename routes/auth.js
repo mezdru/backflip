@@ -37,6 +37,7 @@ router.get('*/login/callback', function(req, res, next) {
 });
 
 // Setup User depending on Auth
+//@todo avoid re-fetching the user on login
 router.use(function(req, res, next) {
   if (req.session.user) {
     // @todo move to user model
@@ -53,6 +54,23 @@ router.use(function(req, res, next) {
     res.locals.user = false;
     return next();
   }
+});
+
+
+var google = require('googleapis');
+// Create Google OAuth2 Client for everyone
+// Populate with tokens if available
+// @todo deduplicate this code (also in google_auth.js)
+router.use(function(req, res, next) {
+  if (undefsafe(req.session, 'user.google.tokens')) {
+    req.googleOAuth = req.googleOAuth || new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.GOOGLE_REDIRECT_URI
+    );
+    req.googleOAuth.setCredentials(req.session.user.google.tokens);
+  }
+  return next();
 });
 
 // Setup impersonator if there is one
