@@ -65,7 +65,8 @@ GoogleRecord.tagActions = function(recordsAndGoogleUsers) {
       recordAndGoogleUser.googleUser &&
       !recordAndGoogleUser.googleUser.suspended) {
         recordAndGoogleUser.action = 'create';
-    // keep
+    // keep (softdeleted records come here and leads to nothing)
+    //@todo create a fourth category for deleted records and show results to user
     } else if (recordAndGoogleUser.record &&
       recordAndGoogleUser.googleUser) {
         recordAndGoogleUser.action = 'keep';
@@ -108,6 +109,8 @@ GoogleRecord.createRecords = function(recordsAndGoogleUsers, organisationID, cal
   return this.saveMany(recordsToSave, callback);
 };
 
+//@todo do not take picture if private
+//@todo use UploadCare to store picture
 GoogleRecord.createRecord = function(googleUser, organisationID) {
   return new Record({
       name: googleUser.name.fullName,
@@ -136,7 +139,7 @@ GoogleRecord.createRecord = function(googleUser, organisationID) {
 //@todo get rid of the prefix @, #, ... in the code & db.
 //@todo We've got a unique Tag issue here !
 GoogleRecord.createTag = function(googleUser) {
-  return '@'+googleUser.primaryEmail.split('@')[0];
+  return Record.cleanTag(googleUser.primaryEmail.split('@')[0], 'person');
 };
 
 

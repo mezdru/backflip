@@ -76,7 +76,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
 
 // If we come from the add view, we instantiate a new record
 // We save the record here first, then it's resaved later as an update
-// It's because updateWithin creates the record to populate the within array
+// It's because makeWithin creates the record to populate the within array
 // @todo find a way to save the record only once.
 router.post('/add', function(req, res, next) {
   res.locals.record = new Record({
@@ -112,6 +112,17 @@ router.post('*', function(req, res, next) {
   return next();
 });
 
+// Load the whole organisation records, we'll need those for further use
+// Duplicate in google_admin && fullcontact_admin && record_admin
+// @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
+router.post('*', function(req, res, next) {
+  if (res.locals.organisation.records) return next();
+  res.locals.organisation.populateRecords(function(err, organisation) {
+    if (err) return next(err);
+    else return next();
+  });
+});
+
 // We save the record after checking everything is alriqht.
 // @this logic handles editing, new recorrds, invitation, cooking merguez and saving the world. Perhaps a bit much?
 router.post('/:context/:recordId?', function(req, res, next) {
@@ -132,7 +143,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
   if (res.locals.errors.length === 0) {
     res.locals.record.deleteLinks(req.body.links);
     if (req.body.newLinks) res.locals.record.createLinks(req.body.newLinks);
-    res.locals.record.updateWithin(res.locals.organisation, function (err, record) {
+    res.locals.record.makeWithin(res.locals.organisation, function (err, record) {
       if (err) return next(err);
       res.locals.record.save (function (err) {
         if (err) {
@@ -142,6 +153,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
           }
           return next(err);
         }
+        console.log(record);
 
         if(req.params.context === 'add') {
           console.log(`ADDED ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> created ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);

@@ -117,11 +117,11 @@ router.get('/domain/list', function(req, res, next) {
     });
 });
 
-// Load the whole organisation records, we'll need those for further use
+// Load the whole organisation records with DELETED, we'll need those for further use
 // Duplicate in record_admin && fullcontact_admin
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();
-  Record.find({organisation: res.locals.organisation._id}, function(err, records) {
+  Record.findWithDeleted({organisation: res.locals.organisation._id}, function(err, records) {
     if (err) return next(err);
     res.locals.organisation.records = records;
     return next();

@@ -35,6 +35,7 @@ var RecordFactory = class RecordFactory {
         else {
           // Creating One
           outputRecord = Record.makeFromInputObject(inputObject);
+          console.log(outputRecord);
           // Adding it to the local records so it can be found by findLocally()
           this.organisation.records.push(outputRecord);
         }
@@ -48,7 +49,8 @@ var RecordFactory = class RecordFactory {
   makeOutputFromOutputTags() {
     this.output.forEach(
       function(record) {
-        this.output = this.output.concat(record.makeWithin(this.organisation));
+        var within = record.makeWithin(this.organisation);
+        this.output = this.output.concat(within);
         record.makeStructure(this.organisation);
         record.makeRanking(this.organisation);
       }, this
@@ -75,7 +77,10 @@ var RecordFactory = class RecordFactory {
     this.output.forEach(
       function(record, index, output) {
         record.save(function(err, record) {
-          if (err) result.err.push(err);
+          if (err) {
+            result.err.push(err);
+            console.log(err);
+          }
           else if (record.__v === 0) result.created.push(record.tag);
           else result.updated.push(record.tag);
           //@todo learn code and stop doing uggly shit like this
@@ -87,7 +92,7 @@ var RecordFactory = class RecordFactory {
   }
 
   findLocally(inputObject) {
-    return this.organisation.records.find(record => record.tag === inputObject.tag);
+    return this.organisation.records.find(record => record.tag.toLowerCase() === inputObject.tag.toLowerCase());
   }
 
 };

@@ -5,7 +5,6 @@ var undefsafe = require('undefsafe');
 var unique = require('array-unique');
 var LinkHelper = require('../helpers/link_helper.js');
 var StructureHelper = require('../helpers/structure_helper.js');
-var slug = require('slug');
 
 
 var recordSchema = mongoose.Schema({
@@ -65,20 +64,10 @@ recordSchema.index({'includes': 1});
 // This pseudo constructor takes an object that is build by RecordObjectCSVHelper
 // @todo make RecordObjectCSVHelper return a Record !
 recordSchema.statics.makeFromInputObject = function(inputObject) {
-  if (inputObject.type != 'person' && inputObject.type != 'team') inputObject.type = 'hashtag';
+  if (inputObject.type !== 'hashtag') inputObject.type = 'person';
   inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
-  inputObject.name = inputObject.name || inputObject.tag.slice(1);
+  inputObject.name = inputObject.name || this.model('Record').getNameFromTag(inputObject.tag);
   return new this(inputObject);
-};
-
-recordSchema.statics.getTypeFromTag = function(tag) {
-  prefix = tag.charAt(0);
-  if (prefix === '@') {
-    //@todo Team
-    /* firstLetter = tag.charAt(1);
-    if (firstLetter === firstLetter.toUpperCase()) return 'team';
-    else */ return 'person';
-  } else return 'hashtag';
 };
 
 recordSchema.methods.dumbMerge = function(inputObject) {
@@ -157,31 +146,34 @@ recordSchema.methods.updateWithin = function(organisation, callback) {
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
-// @todo this works only if organisation.records are loaded, otherwise creates duplicates.
-// WARNING NEW RECORDS NEEDS SAVING !
-recordSchema.methods.makeWithin = function(organisation) {
-  this.cleanDescription();
-  var tags = this.getWithinTags(organisation);
-  var newRecords = [];
-  this.within = tags.map(
-    function(tag) {
-      var outputRecord;
-      var localRecord = organisation.records.find(record => record.tag === tag);
-      if (localRecord) {
-        outputRecord = localRecord;
-      } else {
-        outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
-        organisation.records.push(outputRecord);
-        newRecords.push(outputRecord);
-      }
-      return this.model('Record').shallowCopy(outputRecord);
-    }, this
-  );
-  return newRecords;
+// WE NEED ALL THE ORGS RECORDS TO BE THERE !
+recordSchema.methods.makeWithin = function(organisation, callback) {
+    this.cleanDescription();
+    var tags = this.getWithinTags(organisation);
+    var newRecords = [];
+    this.within = tags.map(
+      function(tag) {
+        var outputRecord;
+        var localRecord = organisation.records.find(record => record.tag.toLowerCase() === tag.toLowerCase());
+        if (localRecord) {
+          outputRecord = localRecord;
+        } else {
+          outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
+          organisation.records.push(outputRecord);
+          newRecords.push(outputRecord);
+        }
+        return this.model('Record').shallowCopy(outputRecord);
+      }, this
+    );
+    unique(this.within);
+    //@todo use insertMany instead of create (implies rewriting mongoose-Algolia to use the insertMany middleware too).
+    if (callback) return this.model('Record').create(newRecords, callback);
+    else return newRecords;
 };
 
 // We need this because we don't want our local Records to reference to each other
 // Otherwise there are tons of level of reference (even loops)
+// @todo not sure we need it if we already handle shallow records ;)
 recordSchema.statics.shallowCopy = function(record) {
   return this({
     _id: record.id,
@@ -192,36 +184,41 @@ recordSchema.statics.shallowCopy = function(record) {
   });
 };
 
-const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
+//@todo Does not match person (@) yet
+const tagRegex = /([#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 recordSchema.methods.cleanDescription = function() {
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
 };
 
-// @Todo change slug to use dots (.) and small case for persons.
-recordSchema.statics.cleanTag = function(match, type) {
+var slug = require('slug');
+var decamelize = require('decamelize');
+// @Todo change slug to NOT use dots (.) and small case for persons.
+recordSchema.statics.cleanTag = function(tag, type) {
+
   var prefix = '';
-  var body = '';
-  if (match.charAt(0) === '@' || match.charAt(0) === '#' ) {
-    prefix = match.substr(0,1);
-    body = slug(match.slice(1));
-  } else {
-    prefix = '#';
-    body = slug(match);
+  var body = tag;
+
+  if (type !== 'hashtag' || type !== 'person') type = null;
+  type = type || Record.getTypeFromTag(tag);
+
+  if (tag.charAt(0) === '@' || tag.charAt(0) === '#' ) {
+    body = tag.slice(1);
   }
 
-  if (!type) type = prefix === '@' ? 'team' : 'hashtag';
-
-  if (type === 'team') {
-    prefix = '@';
-    body = body.charAt(0).toUpperCase() + body.slice(1);
-  } else if (type === 'hashtag') {
+  if (type === 'hashtag') {
     prefix = '#';
+    body = slug(body, {lowercase: false});
   } else if (type === 'person') {
     prefix = '@';
-    body = body.charAt(0).toLowerCase() + body.slice(1);
+    body = slug(body, {replacement: '.', remove: null});
   }
   return prefix + body;
+};
+
+recordSchema.statics.getTypeFromTag = function(tag) {
+  if (tag.charAt(0) === '@') return 'person';
+  else return 'hashtag';
 };
 
 recordSchema.methods.getWithinTags = function(organisation) {
@@ -235,10 +232,11 @@ recordSchema.methods.getWithinTags = function(organisation) {
   if (this.type === 'team' || this.type === 'hashtag') {
     tags.unshift(this.tag);
   }
-  tags = tags.concat(this.getTreeTags(organisation, tags));
+  //tags = tags.concat(this.getTreeTags(organisation, tags));
   return unique(tags);
 };
 
+//@todo remove
 recordSchema.methods.getTreeTags = function(organisation, tags) {
   let branches = organisation.tree.filter (function (branch) {
     return tags.includes(branch[branch.length-1]);
@@ -283,8 +281,8 @@ recordSchema.statics.createByTag = function(tag, organisationId, callback) {
 };
 
 recordSchema.statics.makeFromTag = function(tag, organisationId) {
-  let type = tag.substr(0,1) === '@' ? 'team' : 'hashtag';
-  tag = (type === 'team') ? '@' + tag.charAt(1).toUpperCase() + tag.slice(2) : '#' + tag.slice(1);
+  let type = this.model('Record').getTypeFromTag(tag);
+  tag = this.model('Record').cleanTag(tag, type);
   let name = tag.slice(1);
   inputObject = {
     type: type,
@@ -293,6 +291,19 @@ recordSchema.statics.makeFromTag = function(tag, organisationId) {
     organisation: organisationId
   };
   return this.makeFromInputObject(inputObject);
+};
+
+recordSchema.statics.getNameFromTag = function(tag) {
+  tag = tag.slice(1);
+  tag = decamelize(tag, '-');
+  tag = tag.replace('.', '-');
+
+  var list = [];
+	slugs.split('-').forEach(function (slug) {
+		list.push(slug.substr(0, 1).toUpperCase() + slug.substr(1));
+	});
+  return list.join(' ');
+
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Record = require('./record.js');
 
 var organisationSchema = mongoose.Schema({
   name: String,
@@ -46,6 +47,17 @@ organisationSchema.methods.addGoogleHD = function(hd, callback) {
 organisationSchema.methods.addEmailDomain = function(domain, callback) {
   this.email.domains.push(domain);
   if(callback) this.save(callback);
+};
+
+organisationSchema.methods.populateRecords = function(callback) {
+  if (this.records) return callback(null, this);
+  Record.find({organisation: this._id})
+    .select('tag type description')
+    .exec(function(err, records) {
+    if (err) return callback(err);
+      this.records = records;
+      return callback(null, this);
+    }.bind(this));
 };
 
 var Organisation = mongoose.model('Organisation', organisationSchema);
