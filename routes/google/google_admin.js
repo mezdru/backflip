@@ -9,7 +9,8 @@ var undefsafe = require('undefsafe');
 
 router.get('/me', function (req, res, next) {
   google.plus('v1').people.get({userId: 'me', auth:req.googleOAuth}, function (err, ans) {
-    if (err) return next(err);res.render('index',
+    if (err) return next(err);
+    res.render('index',
     {
       title: 'plus.people.get.me',
       details: 'Calling the plus API to get the user infos',

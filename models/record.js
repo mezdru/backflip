@@ -3,6 +3,7 @@ var mongooseDelete = require('mongoose-delete');
 var linkSchema = require('./link_schema.js');
 var undefsafe = require('undefsafe');
 var unique = require('array-unique');
+var randomstring = require('randomstring');
 var LinkHelper = require('../helpers/link_helper.js');
 var StructureHelper = require('../helpers/structure_helper.js');
 
@@ -43,6 +44,8 @@ var recordSchema = mongoose.Schema({
     customerId: String,
     orgUnitPath: String,
     includeInGlobalAddressList: Boolean,
+    directory_updated: Date,
+    plus_updated: Date
 
   },
   email: {
@@ -178,12 +181,14 @@ recordSchema.statics.cleanTag = function(tag, type) {
   var prefix = '';
   var body = tag;
 
-  if (type !== 'hashtag' || type !== 'person') type = null;
+  if (type !== 'hashtag' && type !== 'person') type = null;
   type = type || Record.getTypeFromTag(tag);
 
   if (tag.charAt(0) === '@' || tag.charAt(0) === '#' ) {
     body = tag.slice(1);
   }
+
+  if (!body) body = randomstring.generate(16);
 
   if (type === 'hashtag') {
     prefix = '#';
@@ -230,6 +235,21 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   this.findOne({organisation: organisationId, tag: tag}, callback);
 };
 
+recordSchema.statics.makeFromEmail = function(email, organisationId) {
+  let type = 'person';
+  let tag = this.getTagFromEmail(email);
+  let name = this.getNameFromTag(tag);
+  let emailLink = new LinkHelper(email).link;
+  inputObject = {
+    type: type,
+    tag: tag,
+    name: name,
+    organisation: organisationId,
+    links: [emailLink]
+  };
+  return this.makeFromInputObject(inputObject);
+};
+
 recordSchema.statics.makeFromTag = function(tag, organisationId) {
   let type = this.getTypeFromTag(tag);
   tag = this.cleanTag(tag, type);
@@ -241,6 +261,10 @@ recordSchema.statics.makeFromTag = function(tag, organisationId) {
     organisation: organisationId
   };
   return this.makeFromInputObject(inputObject);
+};
+
+recordSchema.statics.getTagFromEmail = function(email) {
+  return this.cleanTag(email.split('@')[0], 'person');
 };
 
 recordSchema.statics.getNameFromTag = function(tag) {

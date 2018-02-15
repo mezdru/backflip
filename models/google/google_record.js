@@ -123,7 +123,6 @@ GoogleRecord.createRecord = function(googleUser, organisationID) {
       ranking: 1000,
       google: {
         id: googleUser.id,
-        etag: googleUser.etag,
         primaryEmail: googleUser.primaryEmail,
         isAdmin: googleUser.isAdmin,
         lastLoginTime: googleUser.lastLoginTime,
@@ -131,6 +130,7 @@ GoogleRecord.createRecord = function(googleUser, organisationID) {
         suspended: googleUser.suspended,
         customerId: googleUser.customerId,
         orgUnitPath: googleUser.orgUnitPath,
+        directory_updated: Date.now()
       },
       links: GoogleRecord.createLinks(googleUser),
   });

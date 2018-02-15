@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Record = require('../../models/record.js');
-var FullContactRecord = require('../../models/fullcontact/fullcontact_record.js');
+var FullContact = require('../../models/fullcontact/fullcontact.js');
 
 router.get('/enrich/:recordId', function (req, res, next) {
   Record.findById(req.params.recordId, function(err, record) {
@@ -17,8 +17,8 @@ router.get('/enrich/:recordId', function (req, res, next) {
        err.status = 403;
        return next(err);
     }
-    fullContactRecord = new FullContactRecord(record);
-    fullContactRecord.enrich(function(err, record){
+    fullContact = new FullContact(record);
+    fullContact.enrich(function(err, record){
       if (err) return next(err);
       res.render('index',
       {
@@ -56,8 +56,8 @@ router.get('/enrichable', function(req, res, next) {
 router.get('/enrichall', function(req, res, next) {
   var results = [];
   res.locals.organisation.records.forEach(function(record) {
-    fullContactRecord = new FullContactRecord(record);
-    fullContactRecord.enrich(function(err, savedRecord) {
+    fullContact = new FullContact(record);
+    fullContact.enrich(function(err, savedRecord) {
       if (err) results.push({name: record.name, msg: err.message});
       else results.push({name: record.name, msg: 'Enriched'});
       if (results.length === res.locals.organisation.records.length) {

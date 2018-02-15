@@ -191,6 +191,10 @@ app.use('/', privatePages);
 var edit = require('./routes/edit.js');
 app.use('/edit', edit);
 
+// onboarding
+var onboard = require('./routes/onboard.js');
+app.use('/onboard', onboard);
+
 
 // Super admin
 var superadmin = require('./routes/superadmin.js');

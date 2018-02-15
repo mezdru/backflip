@@ -4,7 +4,7 @@ var undefsafe = require('undefsafe');
 var md5 = require('md5');
 var LinkHelper = require('../../helpers/link_helper.js');
 
-var FullContactRecord = class FullContactRecord {
+class FullContact {
     constructor(record) {
       this.record = record;
     }
@@ -68,7 +68,7 @@ var FullContactRecord = class FullContactRecord {
     enrichLinks() {
       if (this.fullContactData.socialProfiles)
         this.fullContactData.socialProfiles.forEach(function(profile) {
-          if (FullContactRecord.isProfileTypeOk(profile.type)) {
+          if (FullContact.isProfileTypeOk(profile.type)) {
             var link = LinkHelper.makeLink(profile.url);
             this.record.addLink(link);
           }
@@ -101,8 +101,6 @@ var FullContactRecord = class FullContactRecord {
       }
       return handle;
     }
+}
 
-
-};
-
-module.exports = FullContactRecord;
+module.exports = FullContact;
