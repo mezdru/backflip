@@ -44,7 +44,6 @@ var EmailHelper = {
 
         request
         	.then((result) => {
-        		console.log(result.body);
         	})
         	.catch((err) => {
         		console.log(err);

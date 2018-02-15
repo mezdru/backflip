@@ -153,7 +153,6 @@ router.post('/:context/:recordId?', function(req, res, next) {
           }
           return next(err);
         }
-        console.log(record);
 
         if(req.params.context === 'add') {
           console.log(`ADDED ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> created ${res.locals.record.tag} <${res.locals.record._id}> of ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);

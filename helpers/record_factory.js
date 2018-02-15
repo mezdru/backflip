@@ -35,7 +35,6 @@ var RecordFactory = class RecordFactory {
         else {
           // Creating One
           outputRecord = Record.makeFromInputObject(inputObject);
-          console.log(outputRecord);
           // Adding it to the local records so it can be found by findLocally()
           this.organisation.records.push(outputRecord);
         }

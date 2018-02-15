@@ -18,11 +18,9 @@ var UrlHelper = require('../helpers/url_helper.js');
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();
-  Record.find({organisation: res.locals.organisation._id})
-  .exec(function(err, records) {
+  res.locals.organisation.populateRecords(function(err, organisation) {
     if (err) return next(err);
-    res.locals.organisation.records = records;
-    return next();
+    else return next();
   });
 });
 

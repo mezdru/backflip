@@ -49,8 +49,6 @@ router.get('/impersonate/:googleEmail', function(req, res, next) {
     res.locals.impersonator = req.session.impersonator;
     res.locals.user = req.session.user;
 
-    console.log(new UrlHelper(user.getFirstOrgTag()).getUrl());
-
     return res.redirect(new UrlHelper(user.getFirstOrgTag()).getUrl());
   });
 });

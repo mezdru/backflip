@@ -61,12 +61,12 @@ recordSchema.index({'within': 1});
 recordSchema.index({'includes': 1});
 
 
-// This pseudo constructor takes an object that is build by RecordObjectCSVHelper
-// @todo make RecordObjectCSVHelper return a Record !
+// This pseudo constructor takes an object that is build by RecordObjectCSVHelper or MakeFromTag
+// @todo this feels weird... why manipulate fake record object instead of just Records ?
 recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type !== 'hashtag') inputObject.type = 'person';
   inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
-  inputObject.name = inputObject.name || this.model('Record').getNameFromTag(inputObject.tag);
+  inputObject.name = inputObject.name || this.getNameFromTag(inputObject.tag);
   return new this(inputObject);
 };
 
@@ -124,32 +124,11 @@ recordSchema.methods.addLink = function(newLink) {
     this.links.push(newLink);
 };
 
-
-// @todo delete in favor of makeWithin (or not)
-recordSchema.methods.updateWithin = function(organisation, callback) {
-  this.cleanDescription();
-  var tags = this.getWithinTags(organisation);
-  this.newWithin = [];
-  tags.forEach(function(tag) {
-    this.getWithinRecordByTag(tag, function(err, record) {
-      if (err) return callback(err);
-      this.newWithin.push(record);
-      //@todo fix this ugly way to syncrhonize a foreach
-      if (tags.length === this.newWithin.length) {
-        this.within = this.newWithin;
-        this.updateRanking(organisation.tree);
-        this.updateStructure(organisation.tree);
-        return callback(null, this);
-      }
-    }.bind(this));
-  }, this);
-};
-
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
 // WE NEED ALL THE ORGS RECORDS TO BE THERE !
 recordSchema.methods.makeWithin = function(organisation, callback) {
     this.cleanDescription();
-    var tags = this.getWithinTags(organisation);
+    var tags = this.getWithinFromDescription(organisation);
     var newRecords = [];
     this.within = tags.map(
       function(tag) {
@@ -221,7 +200,7 @@ recordSchema.statics.getTypeFromTag = function(tag) {
   else return 'hashtag';
 };
 
-recordSchema.methods.getWithinTags = function(organisation) {
+recordSchema.methods.getWithinFromDescription = function(organisation) {
   var tags = this.description.match(tagRegex);
   if (!tags || tags.length === 0) {
     this.description += ' #notags';
@@ -232,7 +211,7 @@ recordSchema.methods.getWithinTags = function(organisation) {
   if (this.type === 'team' || this.type === 'hashtag') {
     tags.unshift(this.tag);
   }
-  //tags = tags.concat(this.getTreeTags(organisation, tags));
+  tags = tags.concat(this.getTreeTags(organisation, tags));
   return unique(tags);
 };
 
@@ -247,43 +226,14 @@ recordSchema.methods.getTreeTags = function(organisation, tags) {
   return newTags;
 };
 
-// @todo what if Record.within is not populated ? You're screwed aren't you ?
-recordSchema.methods.getWithinRecordByTag = function(tag, callback) {
-  if (this.tag === tag) return callback(null, this.model('Record').shallowCopy(this));
-  var localRecord = this.within.find(function(record) {
-    return record.tag === tag;
-  });
-  if (localRecord) {
-    return callback(null, localRecord);
-  } else {
-    this.model('Record').findByTag(tag, this.organisation, function(err, distantRecord) {
-      if (err) return callback(err);
-      if (distantRecord) return callback(null, distantRecord);
-      else this.model('Record').createByTag(tag, this.organisation, callback);
-    }.bind(this));
-  }
-};
-
 recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   this.findOne({organisation: organisationId, tag: tag}, callback);
 };
 
-recordSchema.statics.createByTag = function(tag, organisationId, callback) {
-  name = tag.slice(1);
-  type = this.model('Record').getTypeFromTag(tag);
-  record = new this({
-    name: name,
-    tag: tag,
-    type: type,
-    organisation: organisationId
-  });
-  record.save(callback);
-};
-
 recordSchema.statics.makeFromTag = function(tag, organisationId) {
-  let type = this.model('Record').getTypeFromTag(tag);
-  tag = this.model('Record').cleanTag(tag, type);
-  let name = tag.slice(1);
+  let type = this.getTypeFromTag(tag);
+  tag = this.cleanTag(tag, type);
+  let name = this.getNameFromTag(tag);
   inputObject = {
     type: type,
     tag: tag,
@@ -296,10 +246,12 @@ recordSchema.statics.makeFromTag = function(tag, organisationId) {
 recordSchema.statics.getNameFromTag = function(tag) {
   tag = tag.slice(1);
   tag = decamelize(tag, '-');
+  tag = tag.replace('_', '-');
+  //@todo remove when dots are removed from persons tags
   tag = tag.replace('.', '-');
 
   var list = [];
-	slugs.split('-').forEach(function (slug) {
+	tag.split('-').forEach(function (slug) {
 		list.push(slug.substr(0, 1).toUpperCase() + slug.substr(1));
 	});
   return list.join(' ');
@@ -307,27 +259,10 @@ recordSchema.statics.getNameFromTag = function(tag) {
 };
 
 // @todo what if Record.within is not populated ? You're screwed aren't you ?
-// @todo remove in favvor of makeStructre when updateWithin is removed.
-recordSchema.methods.updateStructure = function(tree) {
-    structureHelper = new StructureHelper(this.within, tree);
-    structureHelper.build();
-    this.structure = structureHelper.structure;
-};
-
-// @todo what if Record.within is not populated ? You're screwed aren't you ?
 recordSchema.methods.makeStructure = function(organisation) {
   structureHelper = new StructureHelper(this.within, organisation.tree);
   structureHelper.build();
   this.structure = structureHelper.structure;
-};
-
-recordSchema.methods.updateRanking = function(tree) {
-  switch (this.type) {
-    case 'person' : this.ranking = 1000; break;
-    case 'hashtag' : case 'team' : this.ranking = 2000; break;
-    // case 'team' : this.ranking = 3000; break;
-  }
-  if (tree) this.ranking += this.getStructureRanking(tree);
 };
 
 recordSchema.methods.makeRanking = function(organisation) {
@@ -353,6 +288,7 @@ recordSchema.methods.countIncludes = function(callback) {
 
 recordSchema.methods.makeIncludes = function(organisation) {
   if (this.type === 'person') return;
+  console.log(organisation.records);
   var includes = organisation.records.filter(function(localRecord) {
     return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
   }, this);
@@ -374,6 +310,10 @@ recordSchema.methods.getEmail = function() {
   return undefsafe(this.links.find(link => link.type === 'email'), 'value');
 };
 
+recordSchema.methods.hasTag = function(tag) {
+  return this.within.includes(record => record.tag.toLowerCase() === tag.toLowerCase());
+};
+
 recordSchema.statics.getValidationSchema = function(res) {
   return {
     name: {
@@ -390,13 +330,6 @@ recordSchema.statics.getValidationSchema = function(res) {
     }
   };
 };
-
-recordSchema.pre('save', function(next) {
-  if (this.type == 'team') {
-    this.tag = '@' + this.tag.charAt(1).toUpperCase() + this.tag.slice(2);
-  }
-  next();
-});
 
 recordSchema.pre('save', function(next) {
   this.updated = Date.now();
