@@ -16,7 +16,8 @@ var recordSchema = mongoose.Schema({
   description: {type: String, default: '#empty'},
   picture: {
     url: String,
-    path: String
+    path: String,
+    type: {type: String}
   },
   links: [linkSchema],
   within: [
@@ -123,8 +124,19 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 //adds a link to the record ONLY IF the type does not exist
 //@todo be more clever & overwrite if we trust new link more
 recordSchema.methods.addLink = function(newLink) {
-  if (this.links.every(link => link.type !== newLink.type))
+  if (!this.hasLink(newLink))
     this.links.push(newLink);
+};
+
+recordSchema.methods.hasLink = function(newLink) {
+  return this.links.some(function(link) {
+    if (newLink.value &&
+      newLink.value === link.value) return true;
+    if (newLink.type &&
+      newLink.username &&
+      newLink.type === link.type &&
+      newLink.username === link.username) return true;
+  });
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
@@ -334,9 +346,10 @@ recordSchema.methods.getEmail = function() {
   return undefsafe(this.links.find(link => link.type === 'email'), 'value');
 };
 
-recordSchema.methods.hasTag = function(tag) {
-  return this.within.includes(record => record.tag.toLowerCase() === tag.toLowerCase());
+recordSchema.methods.hasPicture = function() {
+  return undefsafe(this, 'picture.url') || undefsafe(this, 'picture.path');
 };
+
 
 recordSchema.statics.getValidationSchema = function(res) {
   return {

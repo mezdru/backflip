@@ -41,6 +41,7 @@
     "hbs": "~4.0.1",
     "i18n": "^0.8.3",
     "md5": "^2.2.1",
+    "merge": "^1.2.0",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",
     "mongoose-algolia": "^1.7.0",
@@ -53,6 +54,7 @@
     "serve-favicon": "~2.3.2",
     "slug": "^0.9.1",
     "undefsafe": "^2.0.1",
+    "url-parse": "^1.2.0",
     "validator": "^7.0.0"
   },
   "devDependencies": {}

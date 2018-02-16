@@ -8,6 +8,7 @@ var Record = require('../models/record.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var EmailUser = require('../models/email/email_user.js');
+var FullContact = require('../models/fullcontact/fullcontact.js');
 
 
 // First we check there is an organisation.
@@ -90,11 +91,6 @@ router.use(function(req, res, next) {
   });
 });
 
-//@todo do not do fullContact fetch everytime !
-router.use(function(req, res, next) {
-  next();
-});
-
 router.use(function(req, res, next) {
   res.render('index',
     {
@@ -103,7 +99,18 @@ router.use(function(req, res, next) {
       content: res.locals.record
     }
   );
+  next();
 });
+
+//@todo do not do fullContact fetch everytime !
+router.use(function(req, res, next) {
+  var fullcontact = new FullContact(res.locals.record);
+  fullcontact.enrich(function(err, record) {
+    if (err) return console.error(err);
+    res.locals.record = record;
+  });
+});
+
 
 // On post we always expect an _id field matching the record for the current user/organisation
 router.post('/:context/:recordId?', function(req, res, next) {

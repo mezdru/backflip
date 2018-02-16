@@ -2,6 +2,7 @@ var validator = require('validator');
 var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 var PNF = require('google-libphonenumber').PhoneNumberFormat;
 var parseDomain = require('parse-domain');
+var urlParse = require('url-parse');
 
 var LinkHelper = class LinkHelper {
 
@@ -9,10 +10,11 @@ var LinkHelper = class LinkHelper {
     return new LinkHelper(value, type, country).link;
   }
 
-  constructor(value, type, country) {
+  constructor(value, type, username, country) {
     this.country = country || 'FR';
     this.value = value;
     this.type = type;
+    this.username = username;
     this.display = undefined;
     this.url = undefined;
   }
@@ -23,6 +25,7 @@ var LinkHelper = class LinkHelper {
     return {
       type: this.type,
       value: this.value,
+      username: this.username,
       display: this.display,
       url: this.url
     };
@@ -43,8 +46,17 @@ var LinkHelper = class LinkHelper {
   makeLink() {
     switch (this.type) {
       case 'email' : return this.makeEmail();
+
       case 'phone' : case 'home' : return this.makePhone();
+
       case 'address' : return this.makeAddress();
+
+      case 'linkedin': case 'twitter': case 'github': case 'facebook':
+      return this.makeProfile();
+
+      case 'skype': case 'whatsapp': case 'gtalk':
+      return this.makeChat();
+
       default : return this.makeHyperlink();
     }
   }
@@ -84,14 +96,41 @@ var LinkHelper = class LinkHelper {
     return validator.isURL(this.value);
   }
 
-  makeHyperlink () {
-    switch (this.type) {
-      // For laruche
-      case 'road': this.display = 'Roadmap'; return;
-      case 'map': this.display = 'Asana'; return;
-      case 'comment': this.display = 'Forum'; return;
+  cleanUrl () {
+    var urlObject = urlParse(this.value, true);
+    urlObject.protocol = urlObject.protocol || 'https';
+    urlObject.slashes = true;
+    this.url = this.value = urlObject.toString();
+  }
+
+  makeProfile() {
+    if (!this.username && !validator.isURL(this.value)) {
+      this.username = this.value;
+      this.value = null;
+    } else {
+      this.cleanUrl();
     }
+    if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
+    switch(this.type) {
+      case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
+      case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = this.username || 'Twitter';  return;
+      case 'github': this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
+      case 'facebook': this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
+      default: this.makeHyperlink();
+    }
+  }
+
+  makeChat() {
+    switch(this.type) {
+      case 'skype': this.value = this.display = this.username || 'Skype'; return;
+      case 'whatsapp': this.value = this.display = this.username || 'WhatsApp'; return;
+      case 'gtalk': this.value = this.display = this.username || 'Google Talk'; this.type = 'google'; return;
+    }
+  }
+
+  makeHyperlink () {
     var domain = parseDomain(this.value);
+    this.cleanUrl();
     if (!domain) return;
     switch (domain.domain) {
       case 'slack': this.type = 'slack'; this.display = 'Slack'; return;
@@ -132,7 +171,7 @@ var LinkHelper = class LinkHelper {
       case 'xing': this.type = 'xing'; this.display = 'Xing'; return;
       case 'youtube': this.type = 'youtube'; this.display = 'Youtube'; return;
       case 'whatsapp': this.type = 'whatsapp'; this.display = 'WhatsApp'; return;
-      default:  this.display = (domain.subdomain ? domain.subdomain + '.' : '') + domain.domain + '.' + domain.tld; return;
+      default:  this.display = (domain.subdomain && domain.subdomain !== 'www' ? domain.subdomain + '.' : '') + domain.domain + '.' + domain.tld; return;
     }
   }
 
