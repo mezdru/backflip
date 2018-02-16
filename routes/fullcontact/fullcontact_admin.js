@@ -45,7 +45,7 @@ router.use(function(req, res, next) {
 
 router.get('/enrichable', function(req, res, next) {
   var enrichable = res.locals.organisation.records.filter(record => !record.fullcontact_updated);
-  res.render('enrichable',
+  res.render('admin/enrichable',
   {
     title: 'Enrichable Records',
     details: `${enrichable.length} out of ${res.locals.organisation.records.length} Records could be enriched`,

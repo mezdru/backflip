@@ -21,18 +21,25 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css"/>
   	<script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
 
-    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400"/>
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Architects+Daughter"/>
     <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
 
-    <link rel="stylesheet" href="/stylesheets/base.css"/>
+    <link rel="stylesheet" href="/stylesheets/index.css"/>
+    <link rel="stylesheet" href="/stylesheets/edit.css"/>
 
     <script src="/javascripts/polyfill.js"></script>
     <script src="/javascripts/utils.js"></script>
+
+    {{#if intro}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/intro.js/2.5.0/introjs.min.css">
+    <link rel="stylesheet" href="/stylesheets/introjs.css">
+    {{/if}}
   </head>
   <body>
     {{> flash}}
     {{> header}}
     {{{body}}}
+    {{> intro}}
     {{> impersonate_footer}}
     {{> analytics}}
     {{> crowdin}}

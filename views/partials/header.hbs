@@ -1,35 +1,31 @@
-<header style="background-color:{{organisation.colors.primary}}">
+<header>
 {{#if search}}
 <div class="pure-g search-on">
-  <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-md-1-6" href="{{homeUrl organisation}}">
+  <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-md-1-3" href="{{homeUrl organisation}}">
     <div>
-      {{#if organisation.logo.url}}
-        <img class="organisation-logo" src="{{organisation.logo.url}}" alt="{{organisation.name}}">
-      {{else}}
-        <img src="/wingzy_full.png" alt="{{organisation.name}}">
-      {{/if}}
+        <img src="/wingzy.png" alt="Wingzy">
     </div>
   </a>
-  <div class="pure-u-search pure-u-1 pure-u-md-2-3">
+  <div class="pure-u-search pure-u-1 pure-u-md-1-3">
     <div id="search">
       <i class="fa fa-search" aria-hidden="true"></i>
       <a id="clear-search" class="fa fa-times" aria-hidden="true"></a>
     </div>
   </div>
-  <div class="pure-u-menu pure-u-md-1-6">
+  <div class="pure-u-menu pure-u-md-1-3">
     {{> menu}}
   </div>
 </div>
 {{else}}
 <div class="pure-g">
-  <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-1-2 pure-u-md-1-6" href="{{homeUrl organisation}}">
-    <div class="logo">
-      <img src="/wingzy_full.png">
+  <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-md-1-3" href="{{homeUrl organisation}}">
+    <div>
+        <img src="/wingzy.png" alt="Wingzy">
     </div>
   </a>
-  <div class="pure-u-search pure-u-md-2-3">
+  <div class="pure-u-search pure-u-md-1-3">
   </div>
-  <div class="pure-u-menu pure-u-1-2 pure-u-md-1-6">
+  <div class="pure-u-menu pure-u-1-2 pure-u-md-1-3">
     {{> menu}}
   </div>
 </div>

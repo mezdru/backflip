@@ -142,7 +142,7 @@ router.get('/user/update/:viewType?', function(req, res, next) {
     GoogleRecord.createRecords(recordsAndGoogleUsers, res.locals.organisation._id, function(err, result) {
       if (err) return next(err);
     });
-    res.render('update_users',
+    res.render('admin/update_users',
       {
         googleUsers: ans.users,
         delete: GoogleRecord.getRecordsAndGoogleUser(recordsAndGoogleUsers, 'delete'),

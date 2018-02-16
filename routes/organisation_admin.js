@@ -11,7 +11,7 @@ router.use('/tree', function(req, res, next) {
 });
 
 router.get('/tree', function(req, res, next) {
-  res.render('tree');
+  res.render('admin/tree');
 });
 
 router.post('/tree', function(req, res, next) {
@@ -25,12 +25,12 @@ router.post('/tree', function(req, res, next) {
      }
   }
   if (errors.length > 0) {
-    res.render('tree', {textfield: req.body.tree, errors: errors});
+    res.render('admin/tree', {textfield: req.body.tree, errors: errors});
   } else {
     res.locals.organisation.save(function(err, organisation) {
       if(err) return next(err);
       successes.push({message: "Your tree has been saved."});
-      res.render('tree', {successes: successes});
+      res.render('admin/tree', {successes: successes});
     });
   }
 });

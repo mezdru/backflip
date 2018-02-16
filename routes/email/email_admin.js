@@ -13,7 +13,7 @@ router.use('/invite', function(req, res, next) {
 });
 
 router.get('/invite', function(req, res, next) {
-  res.render('email_invite');
+  res.render('admin/email_invite');
 });
 
 router.post('/invite', function(req, res, next) {
@@ -34,7 +34,7 @@ router.post('/invite', function(req, res, next) {
       });
     });
   } else {
-    res.render('email_invite', { email: req.body.email, errors: errors });
+    res.render('admin/email_invite', { email: req.body.email, errors: errors });
   }
 
 });

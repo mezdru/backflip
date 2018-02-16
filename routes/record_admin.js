@@ -104,7 +104,7 @@ router.use('/upload', function(req, res, next) {
 });
 
 router.get('/upload', function(req, res, next) {
-  res.render('upload',
+  res.render('admin/upload',
     {
       title: `Update ${res.locals.organisation.tag} by CSV`,
       details: `Upload a CSV file to update all records from ${res.locals.organisation.tag}`,
@@ -125,7 +125,7 @@ router.post('/upload', upload.single('file'), function(req, res, next) {
       factory.saveOutput(function(err, result) {
         if (err) return next(err);
         logMemory(`Upload by ${res.locals.user._id}`);
-        res.render('update_csv',
+        res.render('admin/update_csv',
           {
             created: result.created,
             updated: result.updated,
