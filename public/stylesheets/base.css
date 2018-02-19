@@ -165,6 +165,7 @@ a.fa,
 .grid-box {
   padding: 30px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .main {
@@ -205,7 +206,6 @@ header a {
 }
 
 header a:hover {
-  color: #dd362e;
   text-decoration: none;
 }
 
@@ -329,43 +329,38 @@ footer p {
 /* Picture */
 
 .picture {
-  height: 12vw;
-  width: 12vw;
-  margin: 8px;
-  max-height: 104px;
-  max-width: 104px;
+  height: 30vw;
+  width: 30vw;
+  max-height: 190px;
+  max-width: 190px;
   overflow: hidden;
-}
-
-.person .picture {
-	border-radius: 50%;
+  border-radius: 15px 0 0 0;
 }
 
 .team .picture,
 .hashtag .picture {
-  border-radius: 25px;
-  height: 12vw;
-  width: 26vw;
-  max-height: 104px;
-  max-width: 224px;
+  height: 30vw;
+  width: 60vw;
+  max-height: 190px;
+  max-width: 380px;
 }
 
 .picture img {
-  width: 12vw;
-  max-width: 104px;
+  width: 30vw;
+  max-width: 190px;
 }
 
 .team .picture img,
 .hashtag .picture img {
-  width: 26vw;
-  max-width: 224px;
+  width: 60vw;
+  max-width: 380px;
 }
 
 .picture img.horizontal {
   width: auto;
   max-width: none;
-  height: 12vw;
-  max-height: 104px;
+  height: 30vw;
+  max-height: 190px;
 }
 
 /* Mozaic */

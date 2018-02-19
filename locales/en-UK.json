@@ -218,5 +218,11 @@
 	"Welcome to %s!": "Welcome to %s!",
 	"We would love to find out who you are...": "We would love to find out who you are...",
 	"Search for, discover and contact your coworkers by skills and passions with Wingzy.": "Search for, discover and contact your coworkers by skills and passions with Wingzy.",
-	"I am ready!": "I am ready!"
+	"I am ready!": "I am ready!",
+	"Introduction": "Introduction",
+	"Next": "Next",
+	"Back": "Back",
+	"Email": "Email",
+	"About Security": "About Security",
+	"What do you do at %s?": "What do you do at %s?"
 }

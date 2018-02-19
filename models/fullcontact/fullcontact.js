@@ -103,8 +103,8 @@ class FullContact {
         return callback(customErr);
       }
       if (this.isRecent()) {
-        let err = new Error('Fullcontact found less than a month ago');
-        err.status = 403;
+        let err = new Error(`Fullcontact found less than a month ago for ${this.record._id}`);
+        err.status = 418;
         return callback(err);
       }
       this.queryAll(function(err, data) {

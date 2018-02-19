@@ -1,12 +1,16 @@
 <div>
   {{#if onboard}}
-    <a title="{{__ "Sign out"}}" class="fa fa-sign-out logout" href="{{logoutUrl}}" aria-hidden="true"></a>
+    {{#if onboard.step}}
+      {{> onboard_steps}}
+    {{else}}
+      <a title="{{__ "Learn more"}}" class="fa fa-question-circle" href="{{url "why" null}}" aria-hidden="true"></a>
+    {{/if}}
   {{else}}
     {{#if user}}
     {{#if canAdd}}{{{addLink user organisation}}}{{/if}}
     {{{profileLink user organisation}}}
     {{{adminLink user organisation}}}
-      <a title="{{__ "Sign out"}}" class="fa fa-sign-out logout" href="{{logoutUrl}}" aria-hidden="true"></a>
+      <a title="{{__ "Sign out"}}" class="fa fa-sign-out" href="{{logoutUrl}}" aria-hidden="true"></a>
     {{else}}
       <a title="{{__ "Sign in"}}" class="login" href="{{signinUrl}}"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</a>
     {{/if}}

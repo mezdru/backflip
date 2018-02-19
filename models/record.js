@@ -13,6 +13,7 @@ var recordSchema = mongoose.Schema({
   tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   name: String,
+  intro: {type: String, default: '#noIntro'},
   description: {type: String, default: '#empty'},
   picture: {
     url: String,

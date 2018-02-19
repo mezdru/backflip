@@ -1,4 +1,4 @@
-<div class="main onboard-welcome">
+<div class="main onboard onboard-welcome">
   <div class="pure-g">
     <div class="pure-u-1">
       <h1>{{__ "Welcome to %s!" organisation.name}}</h1>
@@ -7,8 +7,13 @@
   </div>
   <div class="ready-button">
     <div class="pure-g">
-      <div class="grid-box">
-        <a class="pure-u-1 pure-button scale" href="{{url "onboard/intro" null}}">{{{__ "I am ready!"}}}</a>
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <form action="{{formAction}}" method="post">
+            <input type="hidden" name="_id" value="{{record._id}}" />
+            <button type="submit" class="pure-u-1 pure-button scale" href="{{url "onboard/intro" null}}">{{{__ "I am ready!"}}}</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

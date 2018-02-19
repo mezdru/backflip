@@ -1,3 +1,78 @@
+.onboard .pure-button {
+  width: 100%;
+  font-size: 22.5px;
+  padding: 20px;
+  font-weight: 800;
+  border-radius: 45px;
+  background-color: #dd362e;
+  color: #ffffff;
+}
+
+.onboard .pure-button.back-button {
+  background-color: #ffffff;
+  border: 2px solid #dd362e;
+  font-weight: 400;
+  color: #dd362e;
+}
+
+.pure-u-menu a.step {
+  color: #dd362e;
+  margin-left: 15px;
+}
+
+.pure-u-menu .fa-long-arrow-right {
+  margin-left: 15px;
+  color: #c7bcbf;
+}
+
+.onboard h1 {
+  text-align: center;
+  margin: 0;
+  font-size: 22.5px;
+  font-weight: 700;
+  padding: 0 30px 15px;
+}
+
+.onboard h2 {
+  text-align: center;
+  margin: 0;
+  font-size: 22.5px;
+  font-weight: 400;
+  padding: 0 30px 30px;
+}
+
+.onboard label {
+  font-size: 20px;
+  font-weight: 700;
+  padding-left: 8px;
+}
+
+.onboard form input[type="email"],
+.onboard form input[type="text"] {
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 20px;
+  border: 1px solid #1d1f1a;
+  color: #1d1f1a;
+  box-shadow: none;
+}
+
+.onboard form input[type="email"][disabled] {
+  background: none;
+  border: none;
+  padding: 0 8px;
+  margin: 0;
+  color: #c7bcbf;
+}
+
+.onboard form .grid-box {
+ padding: 15px 30px;
+}
+
+.onboard form .button-box {
+  padding: 60px 30px;
+}
+
 /** WELCOME **/
 .onboard-welcome {
   position: relative;
@@ -9,45 +84,102 @@
   background-size: 50vh;
 }
 
-.onboard-welcome h1 {
-  text-align: center;
-  margin: 0;
-  font-size: 22.5px;
-  font-weight: 700;
-  padding: 0 30px 15px;
-}
-
-.onboard-welcome h2 {
-  text-align: center;
-  margin: 0;
-  font-size: 22.5px;
-  font-weight: 400;
-  padding: 0 30px 30px;
-}
-
-.onboard-welcome p {
-  text-align: center;
-  padding: 0 30px;
-  font-size: 15px;
-  font-weight: 400;
-  color: #c7bcbf;
-}
-
 .onboard-welcome a.pure-u-1-3 {
   text-align: center;
-}
-
-.onboard-welcome .pure-button {
-  font-size: 22.5px;
-  padding: 20px;
-  font-weight: 800;
-  border-radius: 45px;
-  background-color: #dd362e;
-  color: #ffffff;
 }
 
 .onboard-welcome .ready-button  {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+/** INTRO **/
+.onboard-intro a.fa-lock {
+  float: right;
+  color: #c7bcbf;
+  font-size: 30px;
+}
+
+.onboard-intro .picture {
+  border-radius: 15px 15px 15px 15px;
+  position: relative;
+}
+
+.picture-box {
+  padding-right: 0;
+}
+
+.uploadcare--widget {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.uploadcare--widget__text {
+  display: none;
+}
+
+.uploadcare--widget button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  font-weight: 700;
+  text-align: center;
+  font-size: 20px;
+  white-space: normal;
+  background-color: #c7bcbf;
+  color: #ffffff;
+}
+
+.uploadcare--widget button:hover,
+.uploadcare--widget button:active,
+.uploadcare--widget button:focus {
+  font-weight: 700;
+  font-size: 20px;
+  background-color: #c7bcbf;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.image-preview-single img {
+  z-index: 50;
+}
+
+.uploadcare--widget button.uploadcare--widget__button_type_remove {
+  background: none;
+  opacity: 0;
+}
+
+.uploadcare--widget button.uploadcare--widget__button_type_remove:hover,
+.uploadcare--widget button.uploadcare--widget__button_type_remove:active,
+.uploadcare--widget button.uploadcare--widget__button_type_remove:focus {
+  background-color: #c7bcbf;
+  opacity: 0.7;
+}
+
+.uploadcare--widget__button_type_cancel {
+  display: none;
+}
+
+.onboard-intro .picture:hover {
+  transform: scale(1.2);
+  background-image: none;
+}
+
+.onboard-intro .picture {
+  transition: all .3s ease-out;
+}
+
+.uploadcare--widget__progress {
+  width: 100%;
+  height: 100%;
+}
+
+.onboard-intro .uploadcare--progress_type_canvas {
+  color: #dd362e;
 }
