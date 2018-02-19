@@ -211,5 +211,12 @@
 	"%s this month": "%s this month",
 	"Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!": "Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!",
 	"Please provide an email to invite this person.": "Please provide an email to invite this person.",
-	"<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-user-circle' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>": "<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-user-circle' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>"
+	"<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-user-circle' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>": "<h2>Enjoy and Share!</h2><p><img src='/images/add.gif' class='pure-img'></p><p>To enrich profiles, click <i class='fa fa-user-circle' aria-hidden='true'></i> or <i class='fa fa-pencil-square-o' aria-hidden='true'></i>.</p><p><strong>We hope you are going to love using Lenom.</strong></p>",
+	"Welcome to %s, we would love to find out who you are!": "Welcome to %s, we would love to find out who you are!",
+	"Welcome to %s": "Welcome to %s",
+	"We would love to find out who you are!": "We would love to find out who you are!",
+	"Welcome to %s!": "Welcome to %s!",
+	"We would love to find out who you are...": "We would love to find out who you are...",
+	"Search for, discover and contact your coworkers by skills and passions with Wingzy.": "Search for, discover and contact your coworkers by skills and passions with Wingzy.",
+	"I am ready!": "I am ready!"
 }

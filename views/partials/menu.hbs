@@ -1,10 +1,14 @@
 <div>
-  {{#if user}}
-  {{#if canAdd}}{{{addLink user organisation}}}{{/if}}
-  {{{profileLink user organisation}}}
-  {{{adminLink user organisation}}}
-  <a title="{{__ "Sign out"}}" class="fa fa-sign-out logout" href="{{logoutUrl}}" aria-hidden="true"></a>
+  {{#if onboard}}
+    <a title="{{__ "Sign out"}}" class="fa fa-sign-out logout" href="{{logoutUrl}}" aria-hidden="true"></a>
   {{else}}
-  <a title="{{__ "Sign in"}}" class="login" href="{{signinUrl}}"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</a>
+    {{#if user}}
+    {{#if canAdd}}{{{addLink user organisation}}}{{/if}}
+    {{{profileLink user organisation}}}
+    {{{adminLink user organisation}}}
+      <a title="{{__ "Sign out"}}" class="fa fa-sign-out logout" href="{{logoutUrl}}" aria-hidden="true"></a>
+    {{else}}
+      <a title="{{__ "Sign in"}}" class="login" href="{{signinUrl}}"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</a>
+    {{/if}}
   {{/if}}
 </div>

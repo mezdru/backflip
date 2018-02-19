@@ -92,11 +92,12 @@ router.use(function(req, res, next) {
 });
 
 router.use(function(req, res, next) {
-  res.render('index',
+  res.render('onboard_welcome',
     {
       title: 'Welcome on board',
       details: 'At this moment, this is what you look like',
-      content: res.locals.record
+      content: res.locals.record,
+      onboard: true
     }
   );
   next();
