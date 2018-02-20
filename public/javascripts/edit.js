@@ -1,7 +1,7 @@
 var ALGOLIA_APPID = 'RSXBUBL0PB';
 var ALGOLIA_SEARCH_APIKEY = algoliaPublicKey.value;
 var ALGOLIA_INDEX_NAME = 'world';
-var NB_RESULTS_DISPLAYED = 5;
+var NB_RESULTS_DISPLAYED = 3;
 
 var algoliaClient = new algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
 var index = algoliaClient.initIndex(ALGOLIA_INDEX_NAME);
@@ -27,7 +27,7 @@ $('.desc-input').textcomplete([
     // #5 - Template used to display each result obtained by the Algolia API
     template: function (hit) {
       // Returns the highlighted version of the name attribute
-      return  hit._highlightResult.name.value + ' <span class="record-tag">' + hit._highlightResult.tag.value + '</span>';
+      return  hit._highlightResult.tag.value;
     },
     // #6 - Template used to display the selected result in the textarea
     replace: function (hit) {

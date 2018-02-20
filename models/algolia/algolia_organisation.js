@@ -7,6 +7,7 @@ var RecordObjectCSVHelper = require('../../helpers/record_object_csv_helper.js')
 
 var AlgoliaOrganisation = {};
 
+// We make the public key, restricting queries to the current org (and the "all" org where generic Hashtags are hold)
 AlgoliaOrganisation.makePublicKey = function(organisationId) {
   var public_key = {};
   // tokens lives 1 day
@@ -14,7 +15,7 @@ AlgoliaOrganisation.makePublicKey = function(organisationId) {
   public_key.value = client.generateSecuredApiKey(
     process.env.ALGOLIA_READ_KEY,
     {
-      filters: 'organisation:all OR organisation:'+organisationId,
+      filters: 'organisation:'+ Organisation.getTheAllOrganisationId() + ' OR organisation:'+organisationId,
       validUntil: Math.floor(public_key.valid_until / 1000)
     }
   );

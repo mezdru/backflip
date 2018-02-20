@@ -51,13 +51,32 @@ organisationSchema.methods.addEmailDomain = function(domain, callback) {
 
 organisationSchema.methods.populateRecords = function(callback) {
   if (this.records) return callback(null, this);
-  Record.find({organisation: this._id})
+  Record.find({organisation: this._id })
     .select('_id organisation tag type name description picture links within')
     .exec(function(err, records) {
-    if (err) return callback(err);
+      if (err) return callback(err);
       this.records = records;
       return callback(null, this);
     }.bind(this));
+};
+
+organisationSchema.statics.getTheAllOrganisation = function(callback) {
+  this.findById(this.getTheAllOrganisationId(), callback);
+};
+
+organisationSchema.statics.getTheAllOrganisationId = function() {
+  return process.env.THE_ALL_ORGANISATION_ID;
+};
+
+organisationSchema.statics.getTheWings = function(callback) {
+  Record.findOne({organisation: this.getTheAllOrganisationId(), tag: "#wings" }, function(err, wingRecord) {
+    if (err) return callback(err);
+    Record.find({organisation: this.getTheAllOrganisationId(), within: wingRecord._id }, function(err, records) {
+      if (err) return callback(err);
+      records = records.filter(record => !record._id.equals(wingRecord._id));
+      return callback(null, records);
+    });
+  }.bind(this));
 };
 
 var Organisation = mongoose.model('Organisation', organisationSchema);

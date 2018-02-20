@@ -5,6 +5,7 @@ var parseDomain = require('parse-domain');
 
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
+var Organisation = require('../models/organisation.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var EmailUser = require('../models/email/email_user.js');
@@ -101,6 +102,7 @@ router.use(function(req, res, next) {
 
 router.use(function(req, res, next) {
   res.locals.onboard = {
+    welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', null, req.getLocale()).getUrl(),
     introAction: new UrlHelper(req.organisationTag, 'onboard/intro', null, req.getLocale()).getUrl(),
     tagsAction: new UrlHelper(req.organisationTag, 'onboard/tags', null, req.getLocale()).getUrl(),
     linksAction: new UrlHelper(req.organisationTag, 'onboard/links', null, req.getLocale()).getUrl()
@@ -110,7 +112,6 @@ router.use(function(req, res, next) {
 
 //@todo record the datetime of clic on "I am ready" on the welcome page to validate tos
 router.get('/welcome', function(req, res, next) {
-  res.locals.formAction = new UrlHelper(req.organisationTag, 'onboard/intro', null, req.getLocale()).getUrl();
   res.render('onboard_welcome');
   next();
 });
@@ -136,6 +137,20 @@ router.post('/:context/:recordId?', function(req, res, next) {
     return next(err);
   }
   return next();
+});
+
+router.use('/intro', function(req, res, next) {
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+  next();
+});
+
+//@todo I'm pretty sure we could fetch the wings from Algolia and it would work like a charm.
+router.use('/intro', function(req, res, next) {
+  Organisation.getTheWings(function(err, records) {
+    if (err) return next(err);
+    res.locals.wings = records;
+    next();
+  });
 });
 
 
