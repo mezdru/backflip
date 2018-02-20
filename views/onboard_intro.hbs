@@ -31,14 +31,18 @@
           <input class="pure-input-1 desc-input" id="intro" name="intro" type="text" value="{{record.intro}}">
         </div>
         <div class="grid-box">
-          <label for="intro">{{__ "Which are your Wings?"}}</label>
-          <div class="owl-carousel owl-theme">
+          <label for="wings-checkbox">{{__ "Which are your Wings?"}}</label>
+          <div id="wings-checkbox" class="slick">
             {{#wings}}
             <div>
-              <img src="{{picture.url}}">
+              <label for="{{_id}}" class="wings-label">
+                <img src="{{picture.url}}" class="wings-img">
+                <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}">
+                {{tag}}
+              </label>
             </div>
             {{/wings}}
-        </div>
+          </div>
         </div>
       </div>
     </div>
@@ -96,17 +100,22 @@ $(function() {
 <script>var algoliaPublicKey = {{{json algoliaPublicKey}}};</script>
 <script src="/javascripts/edit.js"></script>
 
-<script src="/javascripts/owl.carousel.min.js"></script>
+<script src="/javascripts/slick.min.js"></script>
 
 <script>
 $(document).ready(function(){
-  $(".owl-carousel").owlCarousel({
-    loop: true,
-    margin: 15,
-    autoplay:true,
-    autoplayTimeout:5000,
-    autoplayHoverPause:true,
-    autoplaySpeed: 4000
+  $('.slick').slick({
+    slidesToShow: 3,
+    slidesToScroll: 3,
   });
 });
+</script>
+
+
+<script>
+  $('#wings-checkbox label').click(function () {
+    if($(this).children('input').is(':checked')) $(this).addClass('checked');
+    if(!$(this).children('input').is(':checked')) $(this).removeClass('checked');
+  });
+  $('#wings-checkbox input:checked').parent().addClass('checked');
 </script>

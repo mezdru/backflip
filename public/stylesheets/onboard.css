@@ -227,6 +227,42 @@
   background: #dd362e;
 }
 
+#wings-checkbox div.slick-slide {
+  outline: 0;
+}
+
+#wings-checkbox label {
+  padding: 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #c7bcbf;
+}
+
+#wings-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+#wings-checkbox img {
+  box-sizing: border-box;
+  border-radius: 15px;
+  width: 100%;
+  margin-bottom: 5px;
+  border: 5px solid #ffffff;
+}
+
+
+#wings-checkbox label.checked {
+  color: #dd362e;
+}
+
+#wings-checkbox label.checked img {
+  border: 5px solid #dd362e;
+}
+
+
+
+
 @media screen and (min-width: 660px) {
   .onboard-welcome .ready-button  {
     bottom: 30px;
