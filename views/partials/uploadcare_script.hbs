@@ -1,0 +1,33 @@
+{{! requires jquery}}
+<script>
+  UPLOADCARE_LOCALE = "{{{locale}}}";
+  UPLOADCARE_TABS = "file url camera";
+  UPLOADCARE_PUBLIC_KEY = "e9514d0994782ba32406";
+  UPLOADCARE_IMAGES_ONLY = true;
+  UPLOADCARE_CLEARABLE = true;
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.2.2/uploadcare.min.js" charset="utf-8"></script>
+<script>
+function installWidgetPreviewSingle(widget, img) {
+  widget.onChange(function(file) {
+    img.css('visibility', 'hidden');
+    img.attr('src', '');
+    if (file) {
+      file.done(function(fileInfo) {
+        var size = '' + (img.width() * 2) + 'x' + (img.height() * 2);
+        var previewUrl = fileInfo.cdnUrl;
+        img.attr('src', previewUrl);
+        img.css('visibility', 'visible');
+      });
+    }
+  });
+}
+$(function() {
+  $('.image-preview-single').each(function() {
+    installWidgetPreviewSingle(
+      uploadcare.SingleWidget($(this).children('input')),
+      $(this).children('img')
+    );
+  });
+});
+</script>

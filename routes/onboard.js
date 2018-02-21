@@ -3,14 +3,25 @@ var router = express.Router();
 var undefsafe = require('undefsafe');
 var parseDomain = require('parse-domain');
 
-var User = require('../models/user.js');
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
+
 var Record = require('../models/record.js');
 var Organisation = require('../models/organisation.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
-var EmailUser = require('../models/email/email_user.js');
 var FullContact = require('../models/fullcontact/fullcontact.js');
 
+
+router.use(function(req, res, next) {
+  res.locals.onboard = {
+    welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', null, req.getLocale()).getUrl(),
+    introAction: new UrlHelper(req.organisationTag, 'onboard/intro', null, req.getLocale()).getUrl(),
+    tagsAction: new UrlHelper(req.organisationTag, 'onboard/tags', null, req.getLocale()).getUrl(),
+    linksAction: new UrlHelper(req.organisationTag, 'onboard/links', null, req.getLocale()).getUrl()
+  };
+  next();
+});
 
 // First we check there is an organisation.
 // If there is an org, we now the user belongs there from restrict.js
@@ -22,6 +33,13 @@ router.use(function(req, res, next) {
   }
   res.locals.errors = [];
   return next();
+});
+
+//@todo record the datetime of clic on "I am ready" on the welcome page to validate tos
+router.get('/welcome', function(req, res, next) {
+  res.render('onboard_welcome', {
+    bodyClass: 'onboard onboard-welcome'
+  });
 });
 
 // Get the record
@@ -100,37 +118,23 @@ router.use(function(req, res, next) {
   return next(err);
 });
 
-router.use(function(req, res, next) {
-  res.locals.onboard = {
-    welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', null, req.getLocale()).getUrl(),
-    introAction: new UrlHelper(req.organisationTag, 'onboard/intro', null, req.getLocale()).getUrl(),
-    tagsAction: new UrlHelper(req.organisationTag, 'onboard/tags', null, req.getLocale()).getUrl(),
-    linksAction: new UrlHelper(req.organisationTag, 'onboard/links', null, req.getLocale()).getUrl()
-  };
-  next();
-});
-
-//@todo record the datetime of clic on "I am ready" on the welcome page to validate tos
-router.get('/welcome', function(req, res, next) {
-  res.render('onboard_welcome');
-  next();
-});
-
 // We try our luck with fullcontact to help user fill her profile.
 // That can be done after rendering the page ;)
-router.use('/welcome', function(req, res, next) {
+router.post('/welcome', function(req, res, next) {
   var fullcontact = new FullContact(res.locals.record);
   fullcontact.enrich(function(err, record) {
-    if (err) {
-      if (err.status === 418) return console.log(err.message);
-      else return console.error(err);
-    }
-    res.locals.record = record;
+    if (err && err.status !== 418) return console.error(err);
+    if (err && err.status === 418) console.log(err.message);
+    next();
   });
 });
 
+router.post('/welcome', function(req, res, next) {
+  res.redirect(res.locals.onboard.introAction);
+});
+
 // On post we always expect an _id field matching the record for the current user/organisation
-router.post('/:context/:recordId?', function(req, res, next) {
+router.post(function(req, res, next) {
   if (req.body._id != res.locals.record._id) {
     err = new Error('Record Mismatch');
     err.status = 500;
@@ -139,28 +143,19 @@ router.post('/:context/:recordId?', function(req, res, next) {
   return next();
 });
 
-router.use('/intro', function(req, res, next) {
+router.all('/intro', function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   next();
 });
 
 //@todo I'm pretty sure we could fetch the wings from Algolia and it would work like a charm.
-router.use('/intro', function(req, res, next) {
+router.all('/intro', function(req, res, next) {
   Organisation.getTheWings(function(err, records) {
     if (err) return next(err);
     res.locals.wings = records;
     next();
   });
 });
-
-
-// Here we provide the action url to the view.
-router.use('/intro', function(req, res, next) {
-  res.locals.onboard.step = "intro";
-  res.locals.onboard.intro = true;
-  res.render('onboard_intro');
-});
-
 
 // Load the whole organisation records, we'll need those for further use
 // Duplicate in google_admin && fullcontact_admin && record_admin
@@ -170,6 +165,27 @@ router.post('*', function(req, res, next) {
   res.locals.organisation.populateRecords(function(err, organisation) {
     if (err) return next(err);
     else return next();
+  });
+});
+
+router.post('/intro', function(req, res, next) {
+  body('name').withMessage('Empty name').isLength({ min: 1 }).withMessage('Empty name');
+  body('intro', 'Long intro').isLength({ max: 256 });
+  res.locals.errors = validationResult(req);
+
+  console.log(res.locals.errors.isEmpty());
+  console.log(res.locals.errors.array());
+  console.log(res.locals.errors.mapped());
+  console.log(req.body);
+
+  next();
+});
+
+router.all('/intro', function(req, res, next) {
+  res.locals.onboard.step = "intro";
+  res.locals.onboard.intro = true;
+  res.render('onboard_intro', {
+    bodyClass: 'onboard onboard-intro'
   });
 });
 

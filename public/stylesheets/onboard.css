@@ -1,3 +1,23 @@
+ul.errors {
+  list-style-type: none;
+  background-color: #dde03a;
+  border-radius: 15px;
+  padding: 15px;
+  font-size: 20px;
+}
+
+ul.errors li {
+  padding: 15px;
+}
+
+.onboard header {
+  position: absolute;
+}
+
+.onboard-welcome header {
+  border-bottom: none;
+}
+
 .onboard .pure-button {
   width: 100%;
   font-size: 22.5px;
@@ -81,8 +101,9 @@
 }
 
 /** WELCOME **/
-.onboard-welcome {
+.onboard-welcome .main {
   position: relative;
+  padding-top: 110px;
   min-height: 100vh;
   box-sizing: border-box;
   background-image: url('/onboard/aurore.png');
@@ -91,14 +112,19 @@
   background-size: 60vh;
 }
 
-.onboard-welcome a.pure-u-1-3 {
-  text-align: center;
-}
-
 .onboard-welcome .ready-button  {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+.onboard-welcome .ready-button .grid-box {
+  padding: 0 30px;
+}
+
+.onboard-welcome .ready-button a.pure-u-1-2 {
+  text-align: center;
+  padding: 15px 0 15px;
 }
 
 /** INTRO **/
@@ -109,6 +135,7 @@
 }
 
 .onboard-intro .picture {
+  margin: auto;
   border-radius: 15px 15px 15px 15px;
   position: relative;
 }
@@ -227,46 +254,44 @@
   background: #dd362e;
 }
 
-#wings-checkbox div.slick-slide {
-  outline: 0;
+.onboard form .wings-checkboxes-label {
+  padding-bottom: 0;
 }
 
-#wings-checkbox label {
-  padding: 0;
+#wings-checkboxes {
+    padding: 0 25px;
+    box-sizing: border-box;
+  }
+
+#wings-checkboxes label {
+  padding: 5px;
+  margin: 0;
   text-align: center;
   font-weight: 700;
   font-size: 15px;
   color: #c7bcbf;
 }
 
-#wings-checkbox input[type="checkbox"] {
+#wings-checkboxes input[type="checkbox"] {
   display: none;
 }
 
-#wings-checkbox img {
+#wings-checkboxes img {
   box-sizing: border-box;
   border-radius: 15px;
   width: 100%;
-  margin-bottom: 5px;
   border: 5px solid #ffffff;
 }
 
-
-#wings-checkbox label.checked {
+#wings-checkboxes label.checked {
   color: #dd362e;
 }
 
-#wings-checkbox label.checked img {
+#wings-checkboxes label.checked img {
   border: 5px solid #dd362e;
 }
 
-
-
-
 @media screen and (min-width: 660px) {
-  .onboard-welcome .ready-button  {
-    bottom: 30px;
-  }
 }
 
 

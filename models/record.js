@@ -13,7 +13,7 @@ var recordSchema = mongoose.Schema({
   tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   name: String,
-  intro: {type: String, default: '#noIntro'},
+  intro: {type: String},
   description: {type: String, default: '#empty'},
   picture: {
     url: String,
@@ -362,8 +362,14 @@ recordSchema.statics.getValidationSchema = function(res) {
     },
     description: {
       isLength: {
-        options: [{ min: 2, max: 2048 }],
-        errorMessage: res.__('Please write a description (no larger than 2048 characters).') // Error message for the validator, takes precedent over parameter message
+        options: [{max: 2048}],
+        errorMessage: res.__('Please write a description no larger than 2048 characters.') // Error message for the validator, takes precedent over parameter message
+      }
+    },
+    intro: {
+      isLength: {
+        options: [{max: 256}],
+        errorMessage: res.__('Please write an intro no larger than 256 characters.') // Error message for the validator, takes precedent over parameter message
       }
     }
   };

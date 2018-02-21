@@ -104,13 +104,11 @@ app.use(morgan(':method :fullurl :status - :res[content-length] b in :response-t
 
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
 
 
 app.use(favicon(path.join(__dirname, 'public', 'wingzy.png')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
 
 // Sessions & Auth
 var cookieParser = require('cookie-parser');

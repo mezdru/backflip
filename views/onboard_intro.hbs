@@ -1,8 +1,21 @@
-<div class="main onboard onboard-intro">
-  <form class="pure-form pure-form-stacked" action="{{onboard.tagsAction}}" method="post">
+<div class="main">
+  <form class="pure-form pure-form-stacked" action="{{onboard.introAction}}" method="post">
     <input type="hidden" name="_id" value="{{record._id}}" />
+    {{#if errors}}
     <div class="pure-g">
-      <div class="pure-u-1-3">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <ul class="errors">
+            {{#errors}}
+            <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
+            {{/errors}}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+    <div class="pure-g">
+      <div class="pure-u-md-1-3 pure-u-1">
       <div class="grid-box picture-box">
         <div id="uploadcare" class="image-preview-single picture">
           <img src="" alt="">
@@ -10,10 +23,9 @@
         </div>
       </div>
       </div>
-      <div class="pure-u-2-3">
+      <div class="pure-u-md-2-3 pure-u-1">
         <div class="grid-box">
           <label for="email">
-            <a title={{__ "About Security"}} class="fa fa-lock" aria-hidden="true" href="{{url "security" null}}"></a>
             {{__ "Email"}}
           </label>
           <input class="pure-input-1" id="email" name="email" type="email" value="{{user.loginEmail}}" disabled="">
@@ -30,21 +42,20 @@
           <label for="intro">{{__ "What do you do at %s?" organisation.name}}</label>
           <input class="pure-input-1 desc-input" id="intro" name="intro" type="text" value="{{record.intro}}">
         </div>
-        <div class="grid-box">
-          <label for="wings-checkbox">{{__ "Which are your Wings?"}}</label>
-          <div id="wings-checkbox" class="slick">
-            {{#wings}}
-            <div>
-              <label for="{{_id}}" class="wings-label">
-                <img src="{{picture.url}}" class="wings-img">
-                <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}">
-                {{tag}}
-              </label>
-            </div>
-            {{/wings}}
-          </div>
+        <div class="grid-box wings-checkboxes-label">
+          <label for="wings-checkboxes">{{__ "Which are your Wings?"}}</label>
         </div>
       </div>
+    </div>
+    <div id="wings-checkboxes" class="pure-g">
+      {{#wings}}
+        <div class="pure-u-1-3">
+          <label for="{{_id}}" class="wings-label">
+            <img src="{{picture.url}}" class="wings-img">
+            <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}">
+          </label>
+        </div>
+      {{/wings}}
     </div>
     <div class="pure-g">
       <div class="pure-u-1-3">
@@ -60,62 +71,18 @@
     </div>
   </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
-
-<script>
-  UPLOADCARE_LOCALE = "{{{locale}}}";
-  UPLOADCARE_TABS = "file url camera";
-  UPLOADCARE_PUBLIC_KEY = "e9514d0994782ba32406";
-  UPLOADCARE_IMAGES_ONLY = true;
-  UPLOADCARE_CLEARABLE = true;
-</script>
-<script src="https://ucarecdn.com/libs/widget/3.2.2/uploadcare.min.js" charset="utf-8"></script>
-<script>
-function installWidgetPreviewSingle(widget, img) {
-  widget.onChange(function(file) {
-    img.css('visibility', 'hidden');
-    img.attr('src', '');
-    if (file) {
-      file.done(function(fileInfo) {
-        var size = '' + (img.width() * 2) + 'x' + (img.height() * 2);
-        var previewUrl = fileInfo.cdnUrl;
-        img.attr('src', previewUrl);
-        img.css('visibility', 'visible');
-      });
-    }
-  });
-}
-$(function() {
-  $('.image-preview-single').each(function() {
-    installWidgetPreviewSingle(
-      uploadcare.SingleWidget($(this).children('input')),
-      $(this).children('img')
-    );
-  });
-});
-</script>
+{{> jquery}}
+{{> uploadcare_script}}
 
 <script src="/javascripts/jquery.textcomplete.min.js"></script>
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script>var algoliaPublicKey = {{{json algoliaPublicKey}}};</script>
 <script src="/javascripts/edit.js"></script>
 
-<script src="/javascripts/slick.min.js"></script>
-
 <script>
-$(document).ready(function(){
-  $('.slick').slick({
-    slidesToShow: 3,
-    slidesToScroll: 3,
-  });
-});
-</script>
-
-
-<script>
-  $('#wings-checkbox label').click(function () {
+  $('#wings-checkboxes label').click(function () {
     if($(this).children('input').is(':checked')) $(this).addClass('checked');
     if(!$(this).children('input').is(':checked')) $(this).removeClass('checked');
   });
-  $('#wings-checkbox input:checked').parent().addClass('checked');
+  $('#wings-checkboxes input:checked').parent().addClass('checked');
 </script>
