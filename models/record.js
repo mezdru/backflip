@@ -14,7 +14,7 @@ var recordSchema = mongoose.Schema({
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   name: String,
   intro: {type: String},
-  description: {type: String, default: '#empty'},
+  description: {type: String},
   picture: {
     url: String,
     path: String,
@@ -22,6 +22,9 @@ var recordSchema = mongoose.Schema({
   },
   links: [linkSchema],
   within: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
+  ],
+  hashtags: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
   ],
   includes: [
@@ -64,7 +67,6 @@ recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true, partialFilterEx
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
 recordSchema.index({'within': 1});
 recordSchema.index({'includes': 1});
-
 
 // This pseudo constructor takes an object that is build by RecordObjectCSVHelper or MakeFromTag
 // @todo this feels weird... why manipulate fake record object instead of just Records ?
@@ -140,11 +142,14 @@ recordSchema.methods.hasLink = function(newLink) {
   });
 };
 
+recordSchema.methods.setHashtags = function(hashtags) {
+
+};
+
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
 // WE NEED ALL THE ORGS RECORDS TO BE THERE !
 recordSchema.methods.makeWithin = function(organisation, callback) {
-    this.cleanDescription();
-    var tags = this.getWithinFromDescription(organisation);
+    var tags = this.getWithin(organisation);
     var newRecords = [];
     this.within = tags.map(
       function(tag) {
@@ -160,7 +165,6 @@ recordSchema.methods.makeWithin = function(organisation, callback) {
         return this.model('Record').shallowCopy(outputRecord);
       }, this
     );
-    unique(this.within);
     //@todo use insertMany instead of create (implies rewriting mongoose-Algolia to use the insertMany middleware too).
     if (callback) return this.model('Record').create(newRecords, callback);
     else return newRecords;
@@ -186,11 +190,14 @@ recordSchema.methods.cleanDescription = function() {
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
 };
 
+recordSchema.methods.cleanIntro = function() {
+  this.intro = this.intro.replace(tagRegex, this.model('Record').cleanTag);
+};
+
 var slug = require('slug');
 var decamelize = require('decamelize');
 // @Todo change slug to NOT use dots (.) and small case for persons.
 recordSchema.statics.cleanTag = function(tag, type) {
-
   var prefix = '';
   var body = tag;
 
@@ -218,30 +225,20 @@ recordSchema.statics.getTypeFromTag = function(tag) {
   else return 'hashtag';
 };
 
-recordSchema.methods.getWithinFromDescription = function(organisation) {
-  var tags = this.description.match(tagRegex);
-  if (!tags || tags.length === 0) {
-    this.description += ' #notags';
-    tags = ['#notags'];
-  }
-  // teams and hashtag are within themselves for structuring and filtering
-  //@todo should only be on algolia side
-  if (this.type === 'team' || this.type === 'hashtag') {
-    tags.unshift(this.tag);
-  }
-  tags = tags.concat(this.getTreeTags(organisation, tags));
-  return unique(tags);
+recordSchema.methods.getWithin = function(organisation) {
+  return unique(this.getWithinFromIntro().concat(this.getWithinFromDescription()));
 };
 
-//@todo remove
-recordSchema.methods.getTreeTags = function(organisation, tags) {
-  let branches = organisation.tree.filter (function (branch) {
-    return tags.includes(branch[branch.length-1]);
-  }, this);
-  let newTags = branches.reduce( function(accumulator, branch) {
-    return accumulator.concat(branch);
-  }, []);
-  return newTags;
+recordSchema.methods.getWithinFromIntro = function() {
+  this.cleanIntro();
+  var tags = this.intro.match(tagRegex);
+  return tags || [];
+};
+
+recordSchema.methods.getWithinFromDescription = function(organisation) {
+  this.cleanDescription();
+  var tags = this.description.match(tagRegex);
+  return unique(tags || []);
 };
 
 recordSchema.statics.findByTag = function(tag, organisationId, callback) {

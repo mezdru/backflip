@@ -37,5 +37,6 @@
 	"Le petit prince": "Le petit prince",
 	"Please write a name (no larger than 64 characters).": "Please write a name (no larger than 64 characters).",
 	"Please write a description no larger than 2048 characters.": "Please write a description no larger than 2048 characters.",
-	"Please write an intro no larger than 256 characters.": "Please write an intro no larger than 256 characters."
+	"Please write an intro no larger than 256 characters.": "Please write an intro no larger than 256 characters.",
+	"Please provide a valid https:// URL.": "Please provide a valid https:// URL."
 }

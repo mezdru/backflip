@@ -153,6 +153,7 @@ router.all('/intro', function(req, res, next) {
   Organisation.getTheWings(function(err, records) {
     if (err) return next(err);
     res.locals.wings = records;
+    req.wings = res.locals.wings;
     next();
   });
 });
@@ -168,17 +169,52 @@ router.post('*', function(req, res, next) {
   });
 });
 
+router.post('/intro',
+  sanitizeBody('name').trim().escape().stripLow(true),
+  sanitizeBody('intro').trim().escape().stripLow(true)
+);
+
+router.post('/intro',
+  body('name').isLength({ min: 1, max: 64 }).withMessage((value) => {
+    return value.data.root.__('Please write a name (no larger than 64 characters).');
+  }),
+  body('intro').isLength({ max: 256 }).withMessage((value) => {
+    return value.data.root.__('Please write an intro no larger than 256 characters.');
+  }),
+  body('picture.url').optional({checkFalsy: true}).isURL({ protocols: ['https'] }).withMessage((value) => {
+    return value.data.root.__('Please provide a valid https:// URL.');
+  }),
+  body('wings').custom((value, { req }) => {
+    if (!Array.isArray(value)) {
+      if (!value) return true;
+      value = [value];
+    }
+    return value.every((wingId) => req.wings.some((wing) => wing._id.equals(wingId)));
+  }).withMessage('Not a valid wing')
+);
+
 router.post('/intro', function(req, res, next) {
-  body('name').withMessage('Empty name').isLength({ min: 1 }).withMessage('Empty name');
-  body('intro', 'Long intro').isLength({ max: 256 });
-  res.locals.errors = validationResult(req);
-
-  console.log(res.locals.errors.isEmpty());
-  console.log(res.locals.errors.array());
-  console.log(res.locals.errors.mapped());
-  console.log(req.body);
-
-  next();
+  res.locals.record.name = req.body.name;
+  res.locals.record.intro = req.body.intro;
+  res.locals.record.picture.url = req.body.picture.url;
+  var errors = validationResult(req);
+  res.locals.errors = errors.array();
+  if (errors.isEmpty) {
+    res.locals.record.makeWithin(res.locals.organisation, function(err, records) {
+      if (err) return next(err);
+      res.locals.record.save(function(err, record) {
+        if(err) return next(err);
+        res.render('index',
+          {
+            title: 'Record have been saved',
+            content: record
+          }
+        );
+      });
+    });
+  } else {
+    next();
+  }
 });
 
 router.all('/intro', function(req, res, next) {
