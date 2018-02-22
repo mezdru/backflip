@@ -325,7 +325,6 @@ recordSchema.methods.countIncludes = function(callback) {
 
 recordSchema.methods.makeIncludes = function(organisation) {
   if (this.type === 'person') return;
-  console.log(organisation.records);
   var includes = organisation.records.filter(function(localRecord) {
     return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
   }, this);
