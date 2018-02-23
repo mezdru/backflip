@@ -40,7 +40,7 @@
         <div class="pure-u-1-3">
           <label for="{{_id}}" class="wings-label">
             <img src="{{picture.url}}" class="wings-img">
-            <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}">
+            <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}" {{#checked}}checked{{/checked}}>
           </label>
         </div>
       {{/wings}}

@@ -1,0 +1,14 @@
+<div class="main">
+  <form class="pure-form pure-form-stacked" action="{{onboard.introAction}}" method="post">
+    <input type="hidden" name="_id" value="{{record._id}}" />
+    {{> form_errors}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        {{#record.hashtags}}
+          <h2>{{name}}</h2>
+          <img src="{{picture.url}}">
+        {{/record.hashtags}}
+      </div>
+    </div>
+  </form>
+</div>

@@ -38,5 +38,13 @@
 	"Please write a name (no larger than 64 characters).": "Please write a name (no larger than 64 characters).",
 	"Please write a description no larger than 2048 characters.": "Please write a description no larger than 2048 characters.",
 	"Please write an intro no larger than 256 characters.": "Please write an intro no larger than 256 characters.",
-	"Please provide a valid https:// URL.": "Please provide a valid https:// URL."
+	"Please provide a valid https:// URL.": "Please provide a valid https:// URL.",
+	"https://youtu.be/jZOywn1qArI??start=35s": "https://youtu.be/jZOywn1qArI??start=35s",
+	"Search by Name, @Team, #interest...": "Search by Name, @Team, #interest...",
+	"Show more": "Show more",
+	"People": "People",
+	"Teams": "Teams",
+	"Update my Profile": "Update my Profile",
+	"Administration": "Administration",
+	"Sign out": "Sign out"
 }

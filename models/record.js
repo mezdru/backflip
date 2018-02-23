@@ -94,6 +94,10 @@ recordSchema.methods.isPerson = function() {
   return this.type === 'person';
 };
 
+recordSchema.methods.tagEquals = function(tag) {
+  return this.tag.toLowerCase() === tag.toLowerCase();
+};
+
 //@todo there's a pattern break here, the links array be parsed by the router first
 //We do not delete links, we move them to hidden_links
 recordSchema.methods.deleteLinks = function(formLinks) {
@@ -142,8 +146,85 @@ recordSchema.methods.hasLink = function(newLink) {
   });
 };
 
-recordSchema.methods.setHashtags = function(hashtags) {
+// We take the hashtags input and build the hashtags array accordingly.
+// WE NEED ALL THE ORGS RECORDS TO BE THERE !
+recordSchema.methods.makeHashtags2 = function(hashtags, organisation, callback) {
+  var newRecords = [];
+  this.hashtags = hashtags.map(
+    function(hashtag) {
+      var tag = hashtag.tag || hashtag;
+      var outputRecord;
+      //@todo we could lookup the existing tags by _id in theory
+      //@todo we could not have to lookup for those at all actually.
+      var localRecord = organisation.records.find(record => record.tagEquals(tag));
+      if (localRecord) {
+        outputRecord = localRecord;
+      } else {
+        outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
+        organisation.records.push(outputRecord);
+        newRecords.push(outputRecord);
+      }
+      return this.model('Record').shallowCopy(outputRecord);
+    }, this
+  );
+  //@todo use insertMany instead of create (implies rewriting mongoose-Algolia to use the insertMany middleware too).
+  if (callback) return this.model('Record').create(newRecords, callback);
+  else return newRecords;
+};
 
+recordSchema.methods.makeHashtags = function(hashtags, organisationId, callback) {
+  this.hashtags = [];
+  this.addHashtags(hashtags, organisationId,callback);
+};
+
+recordSchema.methods.addHashtags = function(hashtags, organisationId, callback) {
+  queue = hashtags.map((hashtag) => this.addHashtag(hashtag, organisationId));
+  Promise.all(queue).then((values) => {
+    callback(null, values);
+  }).catch((reasons) => {
+    callback(reasons);
+  });
+};
+
+recordSchema.methods.addHashtag = function(hashtag, organisationId) {
+  return new Promise((resolve, reject) =>
+  {
+    if (mongoose.Types.ObjectId.isValid(hashtag)) {
+      this.model('Record').findById(hashtag, (err, record) => {
+        if (err) return reject(err);
+        if (!record) return reject(new Error('Hashtag Record not found for ObjectId'));
+        if (!record.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record Id not in this organisation'));
+        this.pushHashtag(record);
+        return resolve(record);
+      });
+    } else if (hashtag instanceof Record) {
+      if (!hashtag.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record not in this organisation'));
+      this.pushHashtag(hashtag);
+      return resolve(hashtag);
+    } else if (typeof hashtag === "string") {
+      this.model('Record').findByTag(hashtag, organisationId, (err, record) => {
+        if (err) return reject(err);
+        if (!record) {
+          this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
+            this.pushHashtag(record);
+            return resolve(record);
+          });
+        } else {
+          this.pushHashtag(record);
+          return resolve(record);
+        }
+      });
+    } else {
+      err = new Error('Not a valid hashtag');
+      return reject(err);
+    }
+  });
+};
+
+//@todo I don't understand why only id is pushed...
+recordSchema.methods.pushHashtag = function(newRecord) {
+  if (!this.hashtags.find((oldRecord) => getId(oldRecord).equals(getId(newRecord))))
+    this.hashtags.push(newRecord);
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
@@ -154,7 +235,7 @@ recordSchema.methods.makeWithin = function(organisation, callback) {
     this.within = tags.map(
       function(tag) {
         var outputRecord;
-        var localRecord = organisation.records.find(record => record.tag.toLowerCase() === tag.toLowerCase());
+        var localRecord = organisation.records.find(record => record.tagEquals(tag));
         if (localRecord) {
           outputRecord = localRecord;
         } else {
@@ -241,8 +322,12 @@ recordSchema.methods.getWithinFromDescription = function(organisation) {
   return unique(tags || []);
 };
 
+// We look for tags in the org AND IN THE "ALL" ORGANISATION !
+//@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByTag = function(tag, organisationId, callback) {
-  this.findOne({organisation: organisationId, tag: tag}, callback);
+  this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
+  .collation({ locale: 'en_US', strength: 1 })
+  .exec(callback);
 };
 
 recordSchema.statics.makeFromEmail = function(email, organisationId) {
@@ -260,7 +345,11 @@ recordSchema.statics.makeFromEmail = function(email, organisationId) {
   return this.makeFromInputObject(inputObject);
 };
 
-recordSchema.statics.makeFromTag = function(tag, organisationId) {
+recordSchema.methods.belongsToOrganisation = function(organisationId) {
+  return getId(this.organisation).equals(organisationId) || getId(this.organisation).equals(this.model('Record').getTheAllOrganisationId());
+};
+
+recordSchema.statics.makeFromTag = function(tag, organisationId, callback) {
   let type = this.getTypeFromTag(tag);
   tag = this.cleanTag(tag, type);
   let name = this.getNameFromTag(tag);
@@ -270,7 +359,9 @@ recordSchema.statics.makeFromTag = function(tag, organisationId) {
     name: name,
     organisation: organisationId
   };
-  return this.makeFromInputObject(inputObject);
+  record = this.makeFromInputObject(inputObject);
+  if (callback) return record.save(callback);
+  else return record;
 };
 
 recordSchema.statics.getTagFromEmail = function(email) {
@@ -371,6 +462,10 @@ recordSchema.statics.getValidationSchema = function(res) {
   };
 };
 
+recordSchema.statics.getTheAllOrganisationId = function() {
+  return process.env.THE_ALL_ORGANISATION_ID;
+};
+
 recordSchema.pre('save', function(next) {
   this.updated = Date.now();
   next();
@@ -406,6 +501,16 @@ recordSchema.plugin(mongooseAlgolia, {
   },
   debug: true
 });
+
+/*
+* We have submodels within User (oransiation, record...)
+* Sometime these are populated (fetched by mongoose), sometime not.
+* We want to retrieve the ObjectId no matter.
+* @todo move this somewhere tidy like /helpers
+*/
+function getId(subObject) {
+  return subObject._id || subObject;
+}
 
 var Record = mongoose.model('Record', recordSchema);
 

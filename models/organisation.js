@@ -49,19 +49,16 @@ organisationSchema.methods.addEmailDomain = function(domain, callback) {
   if(callback) this.save(callback);
 };
 
+// We populate ALL the records in the Organisation AND IN THE "ALL" ORGANISATION
 organisationSchema.methods.populateRecords = function(callback) {
   if (this.records) return callback(null, this);
-  Record.find({organisation: [this.model('Organisation').getTheAllOrganisationId(), this._id] })
-    .select('_id organisation tag type name description picture links within')
+  Record.find({organisation: [this._id, this.model('Organisation').getTheAllOrganisationId()] })
+    .select('_id organisation tag type name description picture links within updated created')
     .exec(function(err, records) {
       if (err) return callback(err);
       this.records = records;
       return callback(null, this);
     }.bind(this));
-};
-
-organisationSchema.statics.getTheAllOrganisation = function(callback) {
-  this.findById(this.getTheAllOrganisationId(), callback);
 };
 
 organisationSchema.statics.getTheAllOrganisationId = function() {

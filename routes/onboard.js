@@ -17,7 +17,7 @@ router.use(function(req, res, next) {
   res.locals.onboard = {
     welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', null, req.getLocale()).getUrl(),
     introAction: new UrlHelper(req.organisationTag, 'onboard/intro', null, req.getLocale()).getUrl(),
-    tagsAction: new UrlHelper(req.organisationTag, 'onboard/tags', null, req.getLocale()).getUrl(),
+    hashtagsAction: new UrlHelper(req.organisationTag, 'onboard/hashtags', null, req.getLocale()).getUrl(),
     linksAction: new UrlHelper(req.organisationTag, 'onboard/links', null, req.getLocale()).getUrl()
   };
   next();
@@ -47,7 +47,7 @@ router.use(function(req, res, next) {
   var myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   if (!myRecordId) return next();
 
-  Record.findById(myRecordId).populate('within').exec(function(err, record) {
+  Record.findById(myRecordId).populate('within hashtags').exec(function(err, record) {
     if (err) return next(err);
     if (!record) {
       //@todo we could throw an error, but it's better to create a new record for the user
@@ -187,6 +187,7 @@ router.post('/intro',
   body('wings').custom((value, { req }) => {
     if (!Array.isArray(value)) {
       if (!value) return true;
+      req.body.wings = [req.body.wings];
       value = [value];
     }
     return value.every((wingId) => req.wings.some((wing) => wing._id.equals(wingId)));
@@ -197,19 +198,18 @@ router.post('/intro', function(req, res, next) {
   res.locals.record.name = req.body.name;
   res.locals.record.intro = req.body.intro;
   res.locals.record.picture.url = req.body.picture.url;
+  req.body.wings.forEach((wingId) => {res.locals.wings.find(record => record._id.equals(wingId)).checked = true;});
   var errors = validationResult(req);
   res.locals.errors = errors.array();
   if (errors.isEmpty) {
     res.locals.record.makeWithin(res.locals.organisation, function(err, records) {
       if (err) return next(err);
-      res.locals.record.save(function(err, record) {
-        if(err) return next(err);
-        res.render('index',
-          {
-            title: 'Record have been saved',
-            content: record
-          }
-        );
+      res.locals.record.makeHashtags(req.body.wings.concat(res.locals.record.hashtags), res.locals.organisation._id, function(err, records) {
+        if (err) return next(err);
+        res.locals.record.save(function(err, record) {
+          if(err) return next(err);
+          res.redirect(res.locals.onboard.hashtagsAction);
+        });
       });
     });
   } else {
@@ -222,6 +222,14 @@ router.all('/intro', function(req, res, next) {
   res.locals.onboard.intro = true;
   res.render('onboard_intro', {
     bodyClass: 'onboard onboard-intro'
+  });
+});
+
+router.all('/hashtags', function(req, res, next) {
+  res.locals.onboard.step = "hashtags";
+  res.locals.onboard.hashtags = true;
+  res.render('onboard_hashtags', {
+    bodyClass: 'onboard onboard-hashtags'
   });
 });
 
