@@ -4,10 +4,20 @@
     {{> form_errors}}
     <div class="pure-g">
       <div class="pure-u-1">
-        {{#record.hashtags}}
-          <h2>{{name}}</h2>
-          <img src="{{picture.url}}">
-        {{/record.hashtags}}
+        <div class="grid-box">
+          <label for="hashtag">{{__ "What are you good at? What do you love? Where do you belong?"}}</label>
+          <input class="pure-input-1" id="hashtag" name="hashtag" type="text" placeholder="marketing, surfing, empathy">
+        </div>
+        <div class="grid-box">
+          <div class="hashtags-cloud">
+            {{#record.hashtags}}
+            <div class="hashtag">
+              <img src="{{picture.url}}">
+              {{name}}
+            </div>
+            {{/record.hashtags}}
+          </div>
+        </div>
       </div>
     </div>
   </form>

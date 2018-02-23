@@ -291,6 +291,44 @@ ul.errors li {
   border: 5px solid #dd362e;
 }
 
+/* HASHTAGS */
+label[for="hashtag"] {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+input#hashtag {
+  border: 2px solid #dd362e;
+  padding: 20px;
+  font-size: 20px;
+  border-radius: 20px;
+}
+
+.hashtags-cloud {
+  border: 1px solid #c7bcbf;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.hashtag {
+  display: inline-block;
+  border: 1px solid #c7bcbf;
+  border-radius: 15px;
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #c7bcbf;
+  background: #f8f8f8;
+}
+
+.hashtag img {
+  height: 23px;
+  border-radius: 10px;
+  position: relative;
+  top: 3px;
+}
+
 @media screen and (min-width: 660px) {
 }
 
