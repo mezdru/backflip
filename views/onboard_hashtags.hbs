@@ -6,7 +6,7 @@
       <div class="pure-u-1">
         <div class="grid-box">
           <label for="hashtag">{{__ "What are you good at? What do you love? Where do you belong?"}}</label>
-          <input class="pure-input-1" id="hashtag" name="hashtag" type="text" placeholder="marketing, surfing, empathy">
+          <input class="pure-input-1" id="hashtag-input" type="text" placeholder="marketing, surfing, empathy">
         </div>
         <div class="grid-box">
           <ul id="hashtag-cloud">
@@ -43,10 +43,57 @@
     </div>
   </form>
 </div>
-<script src="/javascripts/Sortable.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script>var algoliaPublicKey = {{{json algoliaPublicKey}}};</script>
 <script>
   var cloudUl = document.getElementById('hashtag-cloud');
   var suggestionsUl = document.getElementById('hashtag-suggestions');
+</script>
+<script>
+  function getPictureUrl(suggestion) {
+    var pictureUrl = '/images/placeholder_hashtag.png';
+    if (suggestion.picture && suggestion.picture.url) pictureUrl = suggestion.picture.url;
+    return pictureUrl;
+  }
+
+  function addHashtagToCloud(event, suggestion, dataset) {
+    cloudUl.insertAdjacentHTML('afterbegin',
+      '<li class="hashtag list-group-item">' +
+      '<img src="' + getPictureUrl(suggestion) + '">' +
+      '<a class="js-remove">x</a>' +
+      '<input type="hidden" name="hashtags" value="' + suggestion.objectID + '" />'+
+      suggestion.name +
+      '</li>'
+    );
+    document.getElementById('hashtag-input').value = '';
+  }
+  function suggestionTemplate(suggestion) {
+    return '<img src="' + getPictureUrl(suggestion) + '">' +
+    suggestion._highlightResult.name.value;
+  }
+</script>
+<script>
+  var ALGOLIA_APPID = 'RSXBUBL0PB';
+  var ALGOLIA_SEARCH_APIKEY = algoliaPublicKey.value;
+  var ALGOLIA_INDEX_NAME = 'world';
+  var NB_RESULTS_DISPLAYED = 3;
+  var client = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
+  var index = client.initIndex(ALGOLIA_INDEX_NAME);
+  autocomplete('#hashtag-input', { hint: true }, [
+    {
+      source: autocomplete.sources.hits(index, {facetFilters: 'type:hashtag', hitsPerPage: NB_RESULTS_DISPLAYED }),
+      name: 'hashtag-suggestions',
+      templates: {
+        suggestion: suggestionTemplate
+      }
+    }
+  ]).on('autocomplete:selected', addHashtagToCloud);
+</script>
+
+<script src="/javascripts/Sortable.min.js"></script>
+<script>
   var animationSpeed = 500;
   var cloud = Sortable.create(
     cloudUl,

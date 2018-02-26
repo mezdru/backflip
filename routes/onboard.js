@@ -143,7 +143,7 @@ router.post(function(req, res, next) {
   return next();
 });
 
-router.all('/intro', function(req, res, next) {
+router.use(function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   next();
 });

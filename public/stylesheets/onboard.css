@@ -301,11 +301,54 @@ label[for="hashtag"] {
   margin-bottom: 20px;
 }
 
-input#hashtag {
+input#hashtag-input {
   border: 2px solid #dd362e;
   padding: 20px;
   font-size: 20px;
   border-radius: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+input#hashtag-input[aria-expanded=true] {
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+}
+
+.algolia-autocomplete {
+  width: 100%;
+}
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 100%;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 100%;
+  background-color: #fafafa;
+  border: 2px solid #dd362e;
+  border-radius: 0 0 20px 20px;
+  border-top: none;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  border-top: 1px solid #c7bcbf;
+  font-size: 20px;
+  padding: 20px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion img {
+  float: left;
+  height: 30px;
+  width: 30px;
+  margin: 0 20px 0 0;
+  border-radius: 15px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #a4c5cb;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: 700;
+  font-style: normal;
 }
 
 #hashtag-cloud {
