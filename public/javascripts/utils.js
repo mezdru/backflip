@@ -94,6 +94,11 @@ function getLocale() {
   return locale;
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+
 function onloadActions() {
   /*if (window.matchMedia('(min-width: 1280px)').matches) {
   	openPanel();

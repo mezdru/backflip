@@ -301,13 +301,37 @@ label[for="hashtag"] {
   margin-bottom: 20px;
 }
 
+#hashtag-input-box {
+  position: relative;
+}
+
+#hashtag-input-box .fa-search {
+  position: absolute;
+  right: 30px;
+  z-index: 100;
+  height: 60px;
+  font-size: 40px;
+  padding: 10px;
+  color:  #dd362e;
+}
+
 input#hashtag-input {
   border: 2px solid #dd362e;
-  padding: 20px;
+  height: 60px;
+  padding: 15px;
   font-size: 20px;
   border-radius: 20px;
   font-weight: 700;
   margin: 0;
+}
+
+input#hashtag-input::placeholder {
+  color: #c7bcbf;
+  opacity: 1;
+}
+
+input#hashtag-input:focus::placeholder {
+  opacity: 0;
 }
 
 input#hashtag-input[aria-expanded=true] {
