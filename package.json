@@ -34,7 +34,7 @@
     "express": "~4.14.1",
     "express-flash": "0.0.2",
     "express-session": "^1.15.1",
-    "express-validator": "^4.3.0",
+    "express-validator": "^5.0.1",
     "fullcontact": "^1.0.0",
     "google-libphonenumber": "^2.0.15",
     "googleapis": "^17.1.0",

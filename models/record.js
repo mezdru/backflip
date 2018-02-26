@@ -146,35 +146,9 @@ recordSchema.methods.hasLink = function(newLink) {
   });
 };
 
-// We take the hashtags input and build the hashtags array accordingly.
-// WE NEED ALL THE ORGS RECORDS TO BE THERE !
-recordSchema.methods.makeHashtags2 = function(hashtags, organisation, callback) {
-  var newRecords = [];
-  this.hashtags = hashtags.map(
-    function(hashtag) {
-      var tag = hashtag.tag || hashtag;
-      var outputRecord;
-      //@todo we could lookup the existing tags by _id in theory
-      //@todo we could not have to lookup for those at all actually.
-      var localRecord = organisation.records.find(record => record.tagEquals(tag));
-      if (localRecord) {
-        outputRecord = localRecord;
-      } else {
-        outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
-        organisation.records.push(outputRecord);
-        newRecords.push(outputRecord);
-      }
-      return this.model('Record').shallowCopy(outputRecord);
-    }, this
-  );
-  //@todo use insertMany instead of create (implies rewriting mongoose-Algolia to use the insertMany middleware too).
-  if (callback) return this.model('Record').create(newRecords, callback);
-  else return newRecords;
-};
-
 recordSchema.methods.makeHashtags = function(hashtags, organisationId, callback) {
   this.hashtags = [];
-  this.addHashtags(hashtags, organisationId,callback);
+  this.addHashtags(hashtags, organisationId, callback);
 };
 
 recordSchema.methods.addHashtags = function(hashtags, organisationId, callback) {
@@ -206,6 +180,7 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
         if (err) return reject(err);
         if (!record) {
           this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
+            if (err) return reject(err);
             this.pushHashtag(record);
             return resolve(record);
           });
@@ -224,7 +199,7 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
 //@todo I don't understand why only id is pushed...
 recordSchema.methods.pushHashtag = function(newRecord) {
   if (!this.hashtags.find((oldRecord) => getId(oldRecord).equals(getId(newRecord))))
-    this.hashtags.push(newRecord);
+    this.hashtags.push(this.model('Record').shallowCopy(newRecord));
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
@@ -325,6 +300,7 @@ recordSchema.methods.getWithinFromDescription = function(organisation) {
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByTag = function(tag, organisationId, callback) {
+  tag = this.cleanTag(tag);
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
   .exec(callback);

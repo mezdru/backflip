@@ -79,7 +79,7 @@ a.fa:hover {
   text-decoration: none;
 }
 
-.pure-button.scale:hover {
+.scale:hover {
   transform: scale(1.2);
   background-image: none;
 }

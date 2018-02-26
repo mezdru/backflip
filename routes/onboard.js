@@ -50,7 +50,7 @@ router.use(function(req, res, next) {
   Record.findById(myRecordId).populate('within hashtags').exec(function(err, record) {
     if (err) return next(err);
     if (!record) {
-      //@todo we could throw an error, but it's better to create a new record for the user
+      // we could throw an error, but it's better to create a new record for the user
       return next();
     }
     res.locals.record = record;
@@ -110,7 +110,7 @@ router.use(function(req, res, next) {
   });
 });
 
-// Finally if we get here, there's something wrong somewhere.
+// Finally if we get here, something went wrong
 router.use(function(req, res, next) {
   if (res.locals.record) return next();
   var err = new Error('No record found');
@@ -158,10 +158,20 @@ router.all('/intro', function(req, res, next) {
   });
 });
 
+router.all('/hashtags', function(req, res, next) {
+  Record.find({organisation: res.locals.organisation._id, type: 'hashtag'})
+  .limit(10)
+  .exec(function(err, records) {
+    if (err) return next(err);
+    res.locals.hashtagSuggestions = records;
+    next();
+  });
+});
+
 // Load the whole organisation records, we'll need those for further use
 // Duplicate in google_admin && fullcontact_admin && record_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
-router.post('*', function(req, res, next) {
+router.post('/intro', function(req, res, next) {
   if (res.locals.organisation.records) return next();
   res.locals.organisation.populateRecords(function(err, organisation) {
     if (err) return next(err);
@@ -171,27 +181,36 @@ router.post('*', function(req, res, next) {
 
 router.post('/intro',
   sanitizeBody('name').trim().escape().stripLow(true),
-  sanitizeBody('intro').trim().escape().stripLow(true)
+  sanitizeBody('intro').trim().escape().stripLow(true),
+  sanitizeBody('wings').customSanitizer((value, { req }) => {
+    if (!Array.isArray(value)) {
+      if (!value) value = [];
+      else value = [value];
+    }
+    req.body.wings = value;
+    return value;
+})
 );
 
 router.post('/intro',
-  body('name').isLength({ min: 1, max: 64 }).withMessage((value) => {
-    return value.data.root.__('Please write a name (no larger than 64 characters).');
+  body('name').isLength({ min: 1, max: 64 }).withMessage((value, {req}) => {
+    return req.__('Please write a name (no larger than 64 characters).');
   }),
-  body('intro').isLength({ max: 256 }).withMessage((value) => {
-    return value.data.root.__('Please write an intro no larger than 256 characters.');
+  body('intro').isLength({ max: 256 }).withMessage((value, {req}) => {
+    return req.__('Please write an intro no larger than 256 characters.');
   }),
-  body('picture.url').optional({checkFalsy: true}).isURL({ protocols: ['https'] }).withMessage((value) => {
-    return value.data.root.__('Please provide a valid https:// URL.');
+  body('picture.url').optional({checkFalsy: true}).isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
+    return req.__('Please provide a valid https:// URL.');
   }),
+  //@todo should be in sanitizer
   body('wings').custom((value, { req }) => {
     if (!Array.isArray(value)) {
-      if (!value) return true;
-      req.body.wings = [req.body.wings];
-      value = [value];
+      if (!value) value = [];
+      else value = [value];
     }
-    return value.every((wingId) => req.wings.some((wing) => wing._id.equals(wingId)));
-  }).withMessage('Not a valid wing')
+    req.body.wings = value;
+    return true;
+})
 );
 
 router.post('/intro', function(req, res, next) {
@@ -201,10 +220,10 @@ router.post('/intro', function(req, res, next) {
   req.body.wings.forEach((wingId) => {res.locals.wings.find(record => record._id.equals(wingId)).checked = true;});
   var errors = validationResult(req);
   res.locals.errors = errors.array();
-  if (errors.isEmpty) {
+  if (errors.isEmpty()) {
     res.locals.record.makeWithin(res.locals.organisation, function(err, records) {
       if (err) return next(err);
-      res.locals.record.makeHashtags(req.body.wings.concat(res.locals.record.hashtags), res.locals.organisation._id, function(err, records) {
+      res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
         if (err) return next(err);
         res.locals.record.save(function(err, record) {
           if(err) return next(err);
@@ -215,6 +234,32 @@ router.post('/intro', function(req, res, next) {
   } else {
     next();
   }
+});
+
+//@todo should be in sanitizer
+router.post('/hashtags',
+  body('hashtags').custom((value, { req }) => {
+    if (!Array.isArray(value)) {
+      if (!value) value = [];
+      else value = [value];
+    }
+    req.body.wings = value;
+    return true;
+  }),
+  body('hashtags').custom((value, { req }) => {
+    var endIndex = value.findIndex(hashtag => hashtag === "end_of_hashtag_cloud");
+    req.body.hashtags.splice(endIndex);
+    return true;
+  })
+);
+
+router.post('/hashtags', function(req, res, next) {
+  res.locals.record.makeHashtags(req.body.hashtags, res.locals.organisation._id, function(err, records) {
+    if (err) return next(err);
+    res.locals.record.save(function(err, record) {
+      res.redirect(res.locals.onboard.linksAction);
+    });
+  });
 });
 
 router.all('/intro', function(req, res, next) {
@@ -230,6 +275,15 @@ router.all('/hashtags', function(req, res, next) {
   res.locals.onboard.hashtags = true;
   res.render('onboard_hashtags', {
     bodyClass: 'onboard onboard-hashtags'
+  });
+});
+
+router.all('/links', function(req, res, next) {
+  res.locals.onboard.step = "links";
+  res.locals.onboard.links = true;
+  res.render('index', {
+    title: "Links page",
+    content: res.locals.record
   });
 });
 

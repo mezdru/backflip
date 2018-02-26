@@ -96,37 +96,41 @@ ul.errors li {
  padding: 15px 30px;
 }
 
-.onboard form .button-box {
+.onboard .main {
+    position: relative;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding-bottom: 180px;
+}
+
+.bottom-buttons  {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.onboard .bottom-buttons .grid-box {
   padding: 60px 30px;
 }
 
+.bottom-buttons a.pure-u-1-2 {
+  text-align: center;
+  padding: 15px 0 15px;
+}
+
+
 /** WELCOME **/
 .onboard-welcome .main {
-  position: relative;
   padding-top: 110px;
-  min-height: 100vh;
-  box-sizing: border-box;
   background-image: url('/onboard/aurore.png');
   background-position: center 220px;
   background-repeat: no-repeat;
   background-size: 60vh;
 }
 
-.onboard-welcome .ready-button  {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.onboard-welcome .bottom-buttons .grid-box {
+  padding-bottom: 0;
 }
-
-.onboard-welcome .ready-button .grid-box {
-  padding: 0 30px;
-}
-
-.onboard-welcome .ready-button a.pure-u-1-2 {
-  text-align: center;
-  padding: 15px 0 15px;
-}
-
 /** INTRO **/
 .onboard-intro a.fa-lock {
   float: right;
@@ -304,29 +308,91 @@ input#hashtag {
   border-radius: 20px;
 }
 
-.hashtags-cloud {
+#hashtag-cloud {
   border: 1px solid #c7bcbf;
   border-radius: 20px;
-  padding: 20px;
+  padding: 8px;
+  min-height: 46px;
 }
 
 .hashtag {
   display: inline-block;
-  border: 1px solid #c7bcbf;
+  box-sizing: border-box;
   border-radius: 15px;
   height: 30px;
-  padding: 5px 10px;
-  font-size: 20px;
+  padding: 4px;
+  margin: 8px;
+  border: 1px solid #c7bcbf;
+  font-size: 15px;
   font-weight: 700;
+  letter-spacing: 0.4px;
   color: #c7bcbf;
-  background: #f8f8f8;
+  background: #fafafa;
+  cursor: move;
 }
 
 .hashtag img {
-  height: 23px;
+  float: left;
+  height: 20px;
+  width: 20px;
+  margin: 0 10px 0 0;
   border-radius: 10px;
+}
+
+.hashtag .js-remove {
+  color: #c7bcbf;
+  font-weight: 300;
+  float: right;
+  margin-left: 10px;
   position: relative;
-  top: 3px;
+  bottom: 2px;
+  width: 1em;
+  text-align: center;
+}
+
+.hashtag .js-remove:hover {
+  font-weight: 800;
+  color: #dde03a;
+  text-decoration: none;
+}
+
+.hashtag-cloud-howto {
+  font-size: 10px;
+  color: #999999;
+  padding: 10px;
+}
+
+.onboard-hashtags h3 {
+  font-size: 10px;
+  padding: 5px 10px;
+  letter-spacing: 0.3px;
+  font-weight: 700;
+  color: #1d1f1a;
+}
+
+#hashtag-suggestions {
+  padding: 0;
+}
+
+#hashtag-suggestions .hashtag {
+  margin: 0 16px 0 0;
+  display: none;
+}
+
+#hashtag-suggestions .hashtag:nth-child(1),
+#hashtag-suggestions .hashtag:nth-child(2),
+#hashtag-suggestions .hashtag:nth-child(3) {
+  display: inline-block;
+}
+
+.sortable-chosen {
+  color: #1d1f1a;
+  border-color: #1d1f1a;
+}
+
+#hashtag-suggestions .hashtag.sortable-drag,
+#hashtag-cloud .hashtag.sortable-drag {
+  display: none;
 }
 
 @media screen and (min-width: 660px) {
