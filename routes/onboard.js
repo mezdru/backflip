@@ -281,9 +281,9 @@ router.all('/hashtags', function(req, res, next) {
 router.all('/links', function(req, res, next) {
   res.locals.onboard.step = "links";
   res.locals.onboard.links = true;
-  res.render('index', {
-    title: "Links page",
-    content: res.locals.record
+  console.log(res.locals.record.links);
+  res.render('onboard_links', {
+    bodyClass: 'onboard onboard-links'
   });
 });
 

@@ -18,18 +18,18 @@ ul.errors li {
   border-bottom: none;
 }
 
-.onboard .pure-button {
+.bottom-buttons .pure-button {
   width: 100%;
   font-size: 22.5px;
   line-height: 30px;
   padding: 15px;
   font-weight: 800;
-  border-radius: 45px;
+  border-radius: 30px;
   background-color: #dd362e;
   color: #ffffff;
 }
 
-.onboard .pure-button.back-button {
+.bottom-buttons .pure-button.back-button {
   background-color: #ffffff;
   border: 2px solid #dd362e;
   font-weight: 400;
@@ -132,11 +132,6 @@ ul.errors li {
   padding-bottom: 0;
 }
 /** INTRO **/
-.onboard-intro a.fa-lock {
-  float: right;
-  color: #c7bcbf;
-  font-size: 30px;
-}
 
 .onboard-intro .picture {
   margin: auto;
@@ -223,7 +218,6 @@ ul.errors li {
 }
 
 /* Edit description autocomplete */
-
 #description a {
   text-decoration: none;
   font-weight: normal;
@@ -263,9 +257,9 @@ ul.errors li {
 }
 
 #wings-checkboxes {
-    padding: 0 25px;
-    box-sizing: border-box;
-  }
+  padding: 0 25px;
+  box-sizing: border-box;
+}
 
 #wings-checkboxes label {
   padding: 5px;
@@ -296,7 +290,8 @@ ul.errors li {
 }
 
 /* HASHTAGS */
-label[for="hashtag"] {
+label[for="hashtag"],
+label[for="link-buttons"] {
   font-size: 25px;
   margin-bottom: 20px;
 }
@@ -387,7 +382,8 @@ input#hashtag-input.open {
   font-style: normal;
 }
 
-#hashtag-cloud {
+#hashtag-cloud,
+#link-cloud {
   border: 1px solid #c7bcbf;
   border-radius: 20px;
   padding: 8px;
@@ -395,7 +391,8 @@ input#hashtag-input.open {
   box-sizing: border-box;
 }
 
-.hashtag {
+.hashtag,
+.link {
   display: inline-block;
   box-sizing: border-box;
   border-radius: 15px;
@@ -411,6 +408,14 @@ input#hashtag-input.open {
   cursor: move;
 }
 
+.link {
+  padding-left: 10px;
+}
+
+.link .fa {
+  margin-right: 10px;
+}
+
 .hashtag img {
   float: left;
   height: 20px;
@@ -419,7 +424,7 @@ input#hashtag-input.open {
   border-radius: 10px;
 }
 
-.hashtag .js-remove {
+.js-remove {
   color: #c7bcbf;
   font-weight: 300;
   float: right;
@@ -430,13 +435,13 @@ input#hashtag-input.open {
   text-align: center;
 }
 
-.hashtag .js-remove:hover {
+.js-remove:hover {
   font-weight: 800;
   color: #dde03a;
   text-decoration: none;
 }
 
-.hashtag-cloud-howto {
+.cloud-howto {
   font-size: 10px;
   color: #999999;
   padding: 10px;
@@ -472,18 +477,17 @@ input#hashtag-input.open {
 }
 
 #hashtag-suggestions .hashtag.sortable-drag,
-#hashtag-cloud .hashtag.sortable-drag {
+#hashtag-cloud .hashtag.sortable-drag,
+#link-cloud .link.sortable-drag {
   display: none;
 }
 
-
-
-.hashtag.added {
-	animation: hashtag_added 1s;
+.added {
+	animation: added 1s;
 }
 
 
-@keyframes hashtag_added {
+@keyframes added {
 	0% {
     color: #c7bcbf;
     border-color: #c7bcbf;
@@ -499,6 +503,99 @@ input#hashtag-input.open {
     border-color: #c7bcbf;
     background: #fafafa;
   }
+}
+
+/* Links */
+#link-buttons {
+  position: relative;
+}
+
+#link-buttons .pure-button {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 15px;
+  height: 30px;
+  padding: 4px 10px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  background: #c7bcbf;
+  border: 1px solid #c7bcbf;
+  cursor: pointer;
+  text-align: left;
+}
+
+#link-buttons .pure-button .fa {
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+.links-label-box label {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+#link-buttons .twitter,
+#link-input .twitter {
+  background: #32CCFE;
+  border-color: #32CCFE;
+}
+
+#link-buttons .linkedin,
+#link-input .linkedin {
+  background: #0085AE;
+  border-color: #0085AE;
+}
+
+#link-buttons .facebook,
+#link-input .facebook {
+  background: #3C599F;
+  border-color: #3C599F;
+}
+
+#link-input {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  max-width: 660px;
+  z-index: 600;
+  display: none;
+}
+
+#link-input .grid-box {
+  padding-top: 10px;
+}
+
+#link-input .modal {
+  min-height: 70px;
+  padding: 30px;
+  border-radius: 20px;
+  background: #c7bcbf;
+  color: #ffffff;
+}
+
+#link-input .pure-button {
+  width: auto;
+  margin: 30px auto 0;
+  font-size: 20px;
+  display: block;
+  height: auto;
+  padding: 15px;
+  font-weight: 400;
+  border-radius: 30px;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+#modal-layer {
+  position: fixed;
+  width: 100vw;
+  height: 100vw;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 500;
+  display: none;
 }
 
 @media screen and (min-width: 660px) {

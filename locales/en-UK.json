@@ -51,5 +51,18 @@
 	"The first three will be displayed in search results. Drag to add and reorder.": "The first three will be displayed in search results. Drag to add and reorder.",
 	"Suggested": "Suggested",
 	"Create new hashtag": "Create new hashtag",
-	"There is no matching hashtag... yet!": "There is no matching hashtag... yet!"
+	"There is no matching hashtag... yet!": "There is no matching hashtag... yet!",
+	"How would you like to others to connect with you?": "How would you like to others to connect with you?",
+	"Done": "Done",
+	"How would you like others to connect with you?": "How would you like others to connect with you?",
+	"Add an Email": "Add an Email",
+	"Add a Phone": "Add a Phone",
+	"Add a Link": "Add a Link",
+	"Twitter": "Twitter",
+	"LinkedIn": "LinkedIn",
+	"Facebook": "Facebook",
+	"How would you like to connect?": "How would you like to connect?",
+	"my-email@domain.io": "my-email@domain.io",
+	"Email address": "Email address",
+	"Add to profile": "Add to profile"
 }
