@@ -334,7 +334,7 @@ input#hashtag-input:focus::placeholder {
   opacity: 0;
 }
 
-input#hashtag-input[aria-expanded=true] {
+input#hashtag-input.open {
   border-bottom: none;
   border-radius: 20px 20px 0 0;
 }
@@ -360,6 +360,18 @@ input#hashtag-input[aria-expanded=true] {
   font-size: 20px;
   padding: 20px;
 }
+.algolia-autocomplete .aa-newHashtag,
+.algolia-autocomplete .aa-empty {
+  border-top: 1px solid #c7bcbf;
+  font-size: 20px;
+  padding: 20px;
+  color: #c7bcbf;
+}
+.algolia-autocomplete .aa-newHashtag span {
+  color: #1d1f1a;
+  font-weight: 700;
+}
+
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion img {
   float: left;
   height: 30px;
@@ -379,7 +391,8 @@ input#hashtag-input[aria-expanded=true] {
   border: 1px solid #c7bcbf;
   border-radius: 20px;
   padding: 8px;
-  min-height: 46px;
+  min-height: 64px;
+  box-sizing: border-box;
 }
 
 .hashtag {
@@ -455,6 +468,7 @@ input#hashtag-input[aria-expanded=true] {
 .sortable-chosen {
   color: #1d1f1a;
   border-color: #1d1f1a;
+  background-color: #a4c5cb;
 }
 
 #hashtag-suggestions .hashtag.sortable-drag,

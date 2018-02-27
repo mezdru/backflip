@@ -47,7 +47,11 @@
 
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
-<script>var algoliaPublicKey = {{{json algoliaPublicKey}}};</script>
+<script>
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+  var newHashtagSentence = '{{__ "Create new hashtag"}}';
+  var notFoundSentence = '{{__ "There is no matching hashtag... yet!"}}'
+</script>
 <script>
   var cloudUl = document.getElementById('hashtag-cloud');
   var suggestionsUl = document.getElementById('hashtag-suggestions');
@@ -65,15 +69,23 @@
       '<li class="hashtag list-group-item">' +
       '<img src="' + getPictureUrl(suggestion) + '">' +
       '<a class="js-remove">x</a>' +
-      '<input type="hidden" name="hashtags" value="' + suggestion.objectID + '" />'+
-      suggestion.name +
+      '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+
+      (suggestion.name || suggestion.tag) +
       '</li>'
     );
-    hashtagInput.value = '';
+    search.autocomplete.setVal('');
   }
+
   function suggestionTemplate(suggestion) {
-    return '<img src="' + getPictureUrl(suggestion) + '">' +
-    suggestion._highlightResult.name.value;
+    if (suggestion.type === 'newHashtag') {
+      return newHashtagSentence +
+      ' <span><i class="fa fa-hashtag" aria-hidden="true"></i>' +
+      suggestion.tag +
+      '</span>';
+    } else {
+      return '<img src="' + getPictureUrl(suggestion) + '">' +
+      suggestion._highlightResult.name.value;
+    }
   }
 </script>
 <script>
@@ -83,15 +95,23 @@
   var NB_RESULTS_DISPLAYED = 3;
   var client = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
   var index = client.initIndex(ALGOLIA_INDEX_NAME);
-  autocomplete('#hashtag-input', { hint: true }, [
+  var hitsSource = autocomplete.sources.hits(index, {facetFilters: 'type:hashtag', hitsPerPage: NB_RESULTS_DISPLAYED });
+  var search = autocomplete('#hashtag-input', { hint: false, autoselect: true, autoselectOnBlur: true}, [
     {
-      source: autocomplete.sources.hits(index, {facetFilters: 'type:hashtag', hitsPerPage: NB_RESULTS_DISPLAYED }),
+      source: function(query, callback) {
+        hitsSource(query, function(suggestions) {
+          suggestions.push({type:'newHashtag', tag: query, name: query})
+          callback(suggestions);
+        });
+      },
       name: 'hashtag-suggestions',
       templates: {
         suggestion: suggestionTemplate
       }
     }
-  ]).on('autocomplete:selected', addHashtagToCloud);
+  ]).on('autocomplete:selected', addHashtagToCloud)
+  .on('autocomplete:shown', function() {hashtagInput.classList.add('open');})
+  .on('autocomplete:closed', function() {hashtagInput.classList.remove('open');});
 </script>
 
 <script src="/javascripts/Sortable.min.js"></script>
