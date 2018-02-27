@@ -402,12 +402,12 @@ input#hashtag-input.open {
   height: 30px;
   padding: 4px;
   margin: 8px;
-  border: 1px solid #c7bcbf;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.4px;
   color: #c7bcbf;
   background: #fafafa;
+  border: 1px solid #c7bcbf;
   cursor: move;
 }
 
@@ -474,6 +474,31 @@ input#hashtag-input.open {
 #hashtag-suggestions .hashtag.sortable-drag,
 #hashtag-cloud .hashtag.sortable-drag {
   display: none;
+}
+
+
+
+.hashtag.added {
+	animation: hashtag_added 1s;
+}
+
+
+@keyframes hashtag_added {
+	0% {
+    color: #c7bcbf;
+    border-color: #c7bcbf;
+    background: #fafafa;
+  }
+	30% {
+    color: #1d1f1a;
+    border-color: #1d1f1a;
+    background-color: #a4c5cb;
+  }
+	100% {
+    color: #c7bcbf;
+    border-color: #c7bcbf;
+    background: #fafafa;
+  }
 }
 
 @media screen and (min-width: 660px) {

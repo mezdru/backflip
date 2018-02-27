@@ -153,8 +153,9 @@ recordSchema.methods.makeHashtags = function(hashtags, organisationId, callback)
 
 recordSchema.methods.addHashtags = function(hashtags, organisationId, callback) {
   queue = hashtags.map((hashtag) => this.addHashtag(hashtag, organisationId));
-  Promise.all(queue).then((values) => {
-    callback(null, values);
+  Promise.all(queue).then((records) => {
+    records.forEach(record => this.pushHashtag(record));
+    callback(null, records);
   }).catch((reasons) => {
     callback(reasons);
   });
@@ -168,12 +169,10 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
         if (err) return reject(err);
         if (!record) return reject(new Error('Hashtag Record not found for ObjectId'));
         if (!record.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record Id not in this organisation'));
-        this.pushHashtag(record);
         return resolve(record);
       });
     } else if (hashtag instanceof Record) {
       if (!hashtag.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record not in this organisation'));
-      this.pushHashtag(hashtag);
       return resolve(hashtag);
     } else if (typeof hashtag === "string") {
       this.model('Record').findByTag(hashtag, organisationId, (err, record) => {
@@ -181,11 +180,9 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
         if (!record) {
           this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
             if (err) return reject(err);
-            this.pushHashtag(record);
             return resolve(record);
           });
         } else {
-          this.pushHashtag(record);
           return resolve(record);
         }
       });
