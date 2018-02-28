@@ -87,6 +87,42 @@ router.get('/delete/:recordId', function(req, res, next) {
   });
 });
 
+router.get('/restore/:recordId', function(req, res, next) {
+  Record.findOneWithDeleted({_id:req.params.recordId, organisation:res.locals.organisation._id}, function(err, record) {
+    if (err) return next(err);
+    if (!record) {
+      err = new Error('No record to restore');
+      err.status = 500;
+      return next(err);
+    }
+    record.restore(function(err, record) {
+      if (err) return next(err);
+      res.render('index',
+      {
+        title: 'Record has been restored',
+        details: `You restored the record ${record._id}`,
+        content: record
+      });
+    });
+  });
+});
+
+router.get('/list', function(req, res, next) {
+  Record.find({organisation: res.locals.organisation._id})
+  .select('_id tag type name google.id google.primaryEmail email.value')
+  .sort('-created')
+  .exec(function(err, records) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Records List',
+        details: `Found ${records.length} records in ${res.locals.organisation.name}.`,
+        content: records
+      }
+    );
+  });
+});
+
 router.get('/csv', function(req, res, next) {
   Record.find({organisation: res.locals.organisation._id}, function(err, records) {
     if (err) return next(err);
