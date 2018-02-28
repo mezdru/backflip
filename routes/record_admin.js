@@ -108,8 +108,8 @@ router.get('/restore/:recordId', function(req, res, next) {
 });
 
 router.get('/list', function(req, res, next) {
-  Record.find({organisation: res.locals.organisation._id})
-  .select('_id tag type name google.id google.primaryEmail email.value')
+  Record.findWithDeleted({organisation: res.locals.organisation._id})
+  .select('_id tag type deleted name google.id google.primaryEmail email.value')
   .sort('-created')
   .exec(function(err, records) {
     if (err) return next(err);
