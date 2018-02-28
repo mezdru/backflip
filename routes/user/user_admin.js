@@ -32,7 +32,7 @@ router.get('/:userId/attach/:recordId', function(req, res, next) {
 
 router.get('/list', function(req, res, next) {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
-  .select('created updated last_login last_action email.value google.email google.hd orgsAndRecords')
+  .select('created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords')
   .sort('-created')
   .exec(function(err, users) {
     if (err) return next(err);
