@@ -94,7 +94,7 @@
     {
       group: {name: "links", pull: false, put: false},
       animation: animationSpeed,
-      draggable: '.links',
+      draggable: '.link',
       filter: ".js-remove",
       onFilter: function (evt) {
       	var item = evt.item, ctrl = evt.target;
@@ -122,8 +122,9 @@
     }
   }
   var addButton = document.getElementById('add-button');
-  addButton.onclick = function() {
-    addLinkToCloud('email', 'plop');
+  addButton.onclick = function(event) {
+    var input = addButton.parentElement.querySelector('input');
+    addLinkToCloud('email', input.value);
   }
 
   function addLinkToCloud(type, value) {
@@ -143,16 +144,14 @@
     var faClass = '';
     switch (type) {
       case 'email':
-        faClass = 'fa-envelope-o';
+        faClass = 'fa-envelope-o'; break;
       case 'address':
-        faClass = 'fa-map-marker';
+        faClass = 'fa-map-marker'; break;
       case 'hyperlink':
-        faClass = 'fa-link';
+        faClass = 'fa-link'; break;
       default:
-        faClass = 'fa-'+ type;
+        faClass = 'fa-'+ type; break;
     }
-    return '<i class="fa fa-' + faClass + '" aria-hidden="true"></i>';
+    return '<i class="fa ' + faClass + '" aria-hidden="true"></i>';
   }
-
-
 </script>
