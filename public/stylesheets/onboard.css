@@ -308,12 +308,12 @@ label[for="link-input"] {
 #hashtag-input-box > .fa,
 #link-input-box > .fa {
   position: absolute;
-  right: 30px;
-  z-index: 101;
-  height: 60px;
-  font-size: 40px;
+  right: 40px;
   padding: 10px;
+  z-index: 101;
+  font-size: 40px;
   color:  #dd362e;
+  transition: none;
 }
 
 input#hashtag-input,
@@ -508,53 +508,104 @@ input#hashtag-input.open {
 }
 
 /* Links */
-#link-input .twitter {
-  border-color: #32CCFE;
-}
-
-#link-input .linkedin {
-  border-color: #0085AE;
-}
-
-#link-input .facebook {
-  border-color: #3C599F;
-}
 
 #type-selector {
   margin: 0;
   padding: 0 30px;
 }
 
-#type-selector label {
+#type-selector li {
   position: relative;
   display: inline-block;
   font-size: 15px;
   font-weight: 600;
-  padding: 5px 20px;
+  padding: 5px 12px;
   margin: 0 -10px 0 0;
   border-radius: 15px 15px 0 0;
   border: 2px solid #dd362e;
   color: #dd362e;
   background-color: #f6f4f4;
   border-bottom: none;
+  cursor: pointer;
 }
 
-#type-selector label .fa {
+#type-selector li .fa-phone {
   color: #dd362e;
 }
 
-#type-selector label.selected,
-#type-selector label.selected .fa {
+#type-selector li.selected {
   color: #ffffff;
   background-color: #dd362e;
   z-index: 100;
 }
 
-#type-selector input[type="radio"] {
+#type-selector li.selected .fa {
+  color: #ffffff;
+}
+
+#link-input.twitter {
+  border-color: #32CCFE;
+}
+
+#plus-button.twitter {
+ color: #32CCFE;
+}
+
+li#twitter-selector {
+  border-color: #32CCFE;
+}
+
+li#twitter-selector.selected {
+  background-color: #32CCFE;
+  border-color: #32CCFE;
+}
+
+#link-input.linkedin {
+  border-color: #0085AE;
+}
+
+#plus-button.linkedin {
+ color: #0085AE;
+}
+
+li#linkedin-selector {
+  border-color: #0085AE;
+}
+
+li#linkedin-selector.selected {
+  background-color: #0085AE;
+  border-color: #0085AE;
+}
+
+#link-input.facebook {
+  border-color: #3C599F;
+}
+
+#plus-button.facebook {
+ color: #3C599F;
+}
+
+li#facebook-selector {
+  border-color: #3C599F;
+}
+
+li#facebook-selector.selected {
+  background-color: #3C599F;
+  border-color: #3C599F;
+}
+
+#type-selector li span {
   display: none;
 }
 
 @media screen and (min-width: 660px) {
+  #type-selector li span {
+    display: inline;
+  }
+
+  #type-selector li {
+    padding: 5px 20px;
+  }
 }
 
 

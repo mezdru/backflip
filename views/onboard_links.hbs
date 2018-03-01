@@ -4,29 +4,23 @@
     <div class="pure-u-1">
       <div id="link-input-box" class="grid-box">
         <label for="link-input">{{__ "How would you like people at %s to contact you?" organisation.name}}</label>
-        <div id="type-selector">
-          <label for="email-selector" data-type="email" data-placeholder="{{__ 'my-email@domain.io'}}">
-            <i class="fa fa-envelope" aria-hidden="true"></i> {{__ "Email"}}
-            <input id="email-selector" type="radio" name="type-selector" value="email-selector">
-          </label><label for="phone-selector" data-type="phone" data-placeholder="{{__ '+33 1 12 35 81 32'}}">
-            <i class="fa fa-phone" aria-hidden="true"></i> {{__ "Phone"}}
-            <input id="phone-selector" type="radio" name="type-selector" value="phone-selector">
-          </label><label for="twitter-selector" data-type="twitter" data-placeholder="{{__ '@Wingzy_io'}}">
+        <ul id="type-selector">
+          <li id="email-selector" data-type="email" data-placeholder="{{__ 'my-email@domain.io'}}">
+            <i class="fa fa-envelope" aria-hidden="true"></i><span> {{__ "Email"}}</span>
+          </li><li id="phone-selector" data-type="phone" data-placeholder="{{__ '+33 1 12 35 81 32'}}">
+            <i class="fa fa-phone" aria-hidden="true"></i><span> {{__ "Phone"}}</span>
+          </li><li id="twitter-selector" data-type="twitter" data-placeholder="{{__ '@Wingzy_io'}}">
             <i class="fa fa-twitter" aria-hidden="true"></i>
-            <input id="twitter-selector" type="radio" name="type-selector" value="twitter-selector">
-          </label><label for="linkedin-selector" data-type="linkedin" data-placeholder="{{__ 'fatima.benomar'}}">
+          </li><li id="linkedin-selector" data-type="linkedin" data-placeholder="{{__ 'fatima.benomar'}}">
             <i class="fa fa-linkedin" aria-hidden="true"></i>
-            <input id="linkedin-selector" type="radio" name="type-selector" value="linkedin-selector">
-          </label><label for="facebook-selector" data-type="facebook" data-placeholder="{{__ 'fatima.benomar'}}">
+          </li><li id="facebook-selector" data-type="facebook" data-placeholder="{{__ 'fatima.benomar'}}">
             <i class="fa fa-facebook" aria-hidden="true"></i>
-            <input id="facebook-selector" type="radio" name="type-selector" value="facebook-selector">
-          </label><label for="link-selector" data-type="link" data-placeholder="{{__ 'https://plus.google.com/me'}}">
-            <i class="fa fa-link" aria-hidden="true"></i> {{__ "Link"}}
-            <input id="link-selector" type="radio" name="type-selector" value="link-selector">
-          </label>
-        </div>
-        <i class="fa fa-plus" aria-hidden="true"></i>
-        <input id="link-input" class="pure-input-1"type="text" placeholder="{{__ 'Add contact'}}">
+          </li><li id="link-selector" data-type="link" data-placeholder="{{__ 'https://plus.google.com/me'}}">
+            <i class="fa fa-link" aria-hidden="true"></i><span> {{__ "Link"}}</span>
+          </li>
+        </ul>
+        <a id="plus-button" class="fa fa-plus" aria-hidden="true"></a>
+        <input id="link-input" class="pure-input-1"type="text" placeholder="{{__ 'Add contact'}}" autofocus>
       </div>
     </div>
   </div>
@@ -84,9 +78,15 @@
 </script>
 {{> jquery}}
 <script>
-  var linkInput = document.getElementById("link-input")
+  var linkInput = document.getElementById("link-input");
+  var plusButton = document.getElementById("plus-button");
 
-  function addLinkToCloud(type, value) {
+  function addLinkToCloud() {
+    var type = linkInput.dataset.type
+    var value = linkInput.value
+    //@todo some validation should come here
+    if (!value) return goNext(true);
+
     cloudUl.insertAdjacentHTML('afterbegin',
       '<li class="link list-group-item added">' +
       '<a class="js-remove">x</a>' +
@@ -95,21 +95,28 @@
       value +
       '</li>'
     );
-    linkInput.value = '';
+    linkInput.value = ''
+    return goNext()
   }
 
-function formInputType(type) {
-  switch (type) {
-    case 'email':
-      return 'email';
-    case 'phone':
-      return 'tel';
-    case 'link':
-      return'url';
-    default:
-      return 'text';
+  function goNext(loop) {
+    var nextSelector = $('#type-selector li.selected').next();
+    if (!nextSelector.length && loop) nextSelector = $('#type-selector li').first();
+    nextSelector.click();
   }
-}
+
+  function formInputType(type) {
+    switch (type) {
+      case 'email':
+        return 'email';
+      case 'phone':
+        return 'tel';
+      case 'link':
+        return'url';
+      default:
+        return 'text';
+    }
+  }
 
   function linkIcon(type) {
     var faClass = '';
@@ -127,19 +134,46 @@ function formInputType(type) {
   }
 </script>
 <script>
-  $('#type-selector label').click(function () {
-    $('#type-selector input').parent().removeClass('selected');
-    if($(this).children('input').is(':checked')) $(this).addClass('selected');
+  $('#type-selector li').click(function () {
+    // Toggle between type tabs
+    $('#type-selector li').removeClass('selected');
+    $(this).addClass('selected');
+
+    // Setup link-input accordingly
+    var type = $(this).data('type');
     linkInput.placeholder = $(this).data('placeholder');
-    linkInput.type = formInputType($(this).data('type'));
-    linkInput.setAttribute('data-type', $(this).data('type'));
+    linkInput.type = formInputType(type);
+    linkInput.setAttribute('data-type', type);
+
+    // Change the color
+    linkInput.classList.remove('twitter', 'linkedin', 'facebook');
+    plusButton.classList.remove('twitter', 'linkedin', 'facebook');
+    if (type === 'twitter' || type === 'linkedin' || type === 'facebook') {
+      plusButton.classList.add(type);
+      linkInput.classList.add(type);
+    }
   });
-  $('#type-selector input:checked').parent().addClass('selected');
   linkInput.addEventListener('keypress', (event) => {
     if (event.which == 13 || event.keyCode == 13) {
-            addLinkToCloud(linkInput.dataset.type, linkInput.value);
+            event.preventDefault();
+            addLinkToCloud();
             return false;
         }
     return true;
   })
+
+  linkInput.addEventListener('keypress', (event) => {
+    if (event.which == 9 || event.keyCode == 9) {
+            event.preventDefault();
+            goNext(true);
+            return false;
+        }
+    return true;
+  })
+$('#plus-button').click(addLinkToCloud)
+
+  $( document ).ready(function() {
+    $('#phone-selector').click();
+  });
+
 </script>
