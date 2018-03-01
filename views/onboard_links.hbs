@@ -1,59 +1,37 @@
 <div class="main">
+  {{> form_errors}}
+  <div class="pure-g pure-form pure-form-stacked">
+    <div class="pure-u-1">
+      <div id="link-input-box" class="grid-box">
+        <label for="link-input">{{__ "How would you like people at %s to contact you?" organisation.name}}</label>
+        <div id="type-selector">
+          <label for="email-selector" data-type="email" data-placeholder="{{__ 'my-email@domain.io'}}">
+            <i class="fa fa-envelope" aria-hidden="true"></i> {{__ "Email"}}
+            <input id="email-selector" type="radio" name="type-selector" value="email-selector">
+          </label><label for="phone-selector" data-type="phone" data-placeholder="{{__ '+33 1 12 35 81 32'}}">
+            <i class="fa fa-phone" aria-hidden="true"></i> {{__ "Phone"}}
+            <input id="phone-selector" type="radio" name="type-selector" value="phone-selector">
+          </label><label for="twitter-selector" data-type="twitter" data-placeholder="{{__ '@Wingzy_io'}}">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+            <input id="twitter-selector" type="radio" name="type-selector" value="twitter-selector">
+          </label><label for="linkedin-selector" data-type="linkedin" data-placeholder="{{__ 'fatima.benomar'}}">
+            <i class="fa fa-linkedin" aria-hidden="true"></i>
+            <input id="linkedin-selector" type="radio" name="type-selector" value="linkedin-selector">
+          </label><label for="facebook-selector" data-type="facebook" data-placeholder="{{__ 'fatima.benomar'}}">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            <input id="facebook-selector" type="radio" name="type-selector" value="facebook-selector">
+          </label><label for="link-selector" data-type="link" data-placeholder="{{__ 'https://plus.google.com/me'}}">
+            <i class="fa fa-link" aria-hidden="true"></i> {{__ "Link"}}
+            <input id="link-selector" type="radio" name="type-selector" value="link-selector">
+          </label>
+        </div>
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        <input id="link-input" class="pure-input-1"type="text" placeholder="{{__ 'Add contact'}}">
+      </div>
+    </div>
+  </div>
   <form class="pure-form pure-form-stacked" action="{{onboard.linksAction}}" method="post">
     <input type="hidden" name="_id" value="{{record._id}}" />
-    {{> form_errors}}
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box links-label-box">
-          <label for="link-buttons">{{__ "How would you like to connect?"}}</label>
-        </div>
-      </div>
-    </div>
-    <div id="link-buttons">
-      <div class="pure-g">
-        <div class="pure-u-1-3">
-          <div class="grid-box">
-            <button type="button" id="email-button" class="pure-button scale link-button"><i class="fa fa-envelope" aria-hidden="true"></i> {{__ "Add an Email"}}</button>
-          </div>
-        </div>
-        <div class="pure-u-1-3">
-          <div class="grid-box">
-            <button type="button" class="pure-button scale link-button"><i class="fa fa-phone" aria-hidden="true"></i> {{__ "Add a Phone"}}</button>
-          </div>
-        </div>
-        <div class="pure-u-1-3">
-          <div class="grid-box">
-            <button type="button" class="pure-button scale link-button"><i class="fa fa-link" aria-hidden="true"></i> {{__ "Add a Link"}}</button>
-          </div>
-        </div>
-        <div class="pure-u-1-3">
-          <div class="grid-box">
-            <button type="button" class="pure-button scale twitter link-button"><i class="fa fa-twitter" aria-hidden="true"></i> {{__ "Twitter"}}</button>
-          </div>
-        </div>
-        <div class="pure-u-1-3">
-          <div class="grid-box">
-            <button type="button" class="pure-button scale linkedin link-button"><i class="fa fa-linkedin" aria-hidden="true"></i> {{__ "LinkedIn"}}</button>
-          </div>
-        </div>
-        <div class="pure-u-1-3">
-          <div class="grid-box">
-            <button type="button" class="pure-button scale facebook link-button"><i class="fa fa-facebook" aria-hidden="true"></i> {{__ "Facebook"}}</button>
-          </div>
-        </div>
-        <div id="link-input">
-          <div class="grid-box">
-            <div class="modal">
-              <label for="email">
-                {{__ "Email address"}}
-              </label>
-              <input class="pure-input-1" id="email" name="email" type="email" placeholder="{{__ "my-email@domain.io"}}">
-              <button id="add-button" type="button" class="pure-button scale">{{{__ "Add to profile"}}}</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="pure-g">
       <div class="pure-u-1">
         <div class="grid-box">
@@ -82,8 +60,6 @@
     </div>
   </form>
 </div>
-<div id="modal-layer">
-</div>
 
 <script src="/javascripts/Sortable.min.js"></script>
 <script>
@@ -106,30 +82,11 @@
     }
   );
 </script>
-
+{{> jquery}}
 <script>
-  var modal = document.getElementById('link-input');
-  var modalLayer = document.getElementById('modal-layer');
-  var openButton = document.getElementById('email-button');
-  openButton.onclick = function() {
-    modal.style.display = 'block';
-    modalLayer.style.display = 'block';
-  }
-  window.onclick = function(event) {
-    if (event.target == modalLayer) {
-      modal.style.display = 'none';
-      modalLayer.style.display = 'none';
-    }
-  }
-  var addButton = document.getElementById('add-button');
-  addButton.onclick = function(event) {
-    var input = addButton.parentElement.querySelector('input');
-    addLinkToCloud('email', input.value);
-  }
+  var linkInput = document.getElementById("link-input")
 
   function addLinkToCloud(type, value) {
-    modal.style.display = 'none';
-    modalLayer.style.display = 'none';
     cloudUl.insertAdjacentHTML('afterbegin',
       '<li class="link list-group-item added">' +
       '<a class="js-remove">x</a>' +
@@ -138,7 +95,21 @@
       value +
       '</li>'
     );
+    linkInput.value = '';
   }
+
+function formInputType(type) {
+  switch (type) {
+    case 'email':
+      return 'email';
+    case 'phone':
+      return 'tel';
+    case 'link':
+      return'url';
+    default:
+      return 'text';
+  }
+}
 
   function linkIcon(type) {
     var faClass = '';
@@ -154,4 +125,21 @@
     }
     return '<i class="fa ' + faClass + '" aria-hidden="true"></i>';
   }
+</script>
+<script>
+  $('#type-selector label').click(function () {
+    $('#type-selector input').parent().removeClass('selected');
+    if($(this).children('input').is(':checked')) $(this).addClass('selected');
+    linkInput.placeholder = $(this).data('placeholder');
+    linkInput.type = formInputType($(this).data('type'));
+    linkInput.setAttribute('data-type', $(this).data('type'));
+  });
+  $('#type-selector input:checked').parent().addClass('selected');
+  linkInput.addEventListener('keypress', (event) => {
+    if (event.which == 13 || event.keyCode == 13) {
+            addLinkToCloud(linkInput.dataset.type, linkInput.value);
+            return false;
+        }
+    return true;
+  })
 </script>

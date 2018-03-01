@@ -65,7 +65,20 @@ organisationSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
 };
 
-organisationSchema.statics.getTheWings = function(callback) {
+organisationSchema.statics.getTheWings = function(req, res, next) {
+  Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#wings" }, function(err, wingRecord) {
+    if (err) return next(err);
+    Record.find({organisation: Organisation.getTheAllOrganisationId(), within: wingRecord._id }, function(err, records) {
+      if (err) return next(err);
+      records = records.filter(record => !record._id.equals(wingRecord._id));
+      res.locals.wings = records;
+      return next();
+    }.bind(this));
+  }.bind(this));
+};
+
+
+organisationSchema.statics.getTheWings2 = function(callback) {
   Record.findOne({organisation: this.getTheAllOrganisationId(), tag: "#wings" }, function(err, wingRecord) {
     if (err) return callback(err);
     Record.find({organisation: this.getTheAllOrganisationId(), within: wingRecord._id }, function(err, records) {

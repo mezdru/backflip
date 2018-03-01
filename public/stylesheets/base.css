@@ -94,7 +94,7 @@ a.fa,
 
 /* FLASH */
 .flash {
-  z-index: 1000000;
+  z-index: 200;
   position: absolute;
   right: 40px;
   top: 100px;
@@ -187,11 +187,11 @@ a.fa,
 header {
 	height: 100px;
   width: 100%;
-  border-top: 10px solid #dd362e;
-  border-bottom: 1px solid #dd362e;
+  border-top: 9px solid #dd362e;
+  border-bottom: 1px solid #c7bcbf;
   position: fixed;
   top: 0;
-  z-index: 999999;
+  z-index: 100;
   background: #ffffff;
 }
 
@@ -278,8 +278,9 @@ footer {
   width: 100%;
   min-height: 90px;
   background-color: #c7bcbf;
-  z-index: 700;
+  z-index: 100;
   padding: 15px 0 60px;
+  border-top: 1px solid #ffffff;
 }
 
 footer .pure-g {
@@ -335,7 +336,7 @@ footer p {
   max-height: 190px;
   max-width: 190px;
   overflow: hidden;
-  border-radius: 15px 0 0 0;
+  border-radius: 50%;
 }
 
 .team .picture,
@@ -618,7 +619,7 @@ footer p {
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 2000;
+  z-index: 200;
   text-transform: uppercase;
   font-size: 0.8em;
   padding: 4px;

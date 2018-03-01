@@ -149,14 +149,7 @@ router.use(function(req, res, next) {
 });
 
 //@todo I'm pretty sure we could fetch the wings from Algolia and it would work like a charm.
-router.all('/intro', function(req, res, next) {
-  Organisation.getTheWings(function(err, records) {
-    if (err) return next(err);
-    res.locals.wings = records;
-    req.wings = res.locals.wings;
-    next();
-  });
-});
+router.all('/intro', Organisation.getTheWings);
 
 router.all('/hashtags', function(req, res, next) {
   Record.find({organisation: res.locals.organisation._id, type: 'hashtag'})
@@ -166,6 +159,16 @@ router.all('/hashtags', function(req, res, next) {
     res.locals.hashtagSuggestions = records;
     next();
   });
+});
+
+router.all('/hashtags', Organisation.getTheWings);
+
+router.all('/hashtags', function(req, res, next) {
+  res.locals.record.hashtags.forEach(function(hashtag) {
+    if (res.locals.wings.some(wing => wing._id.equals(hashtag._id)))
+      hashtag.added = true;
+  });
+  next();
 });
 
 // Load the whole organisation records, we'll need those for further use
@@ -181,15 +184,7 @@ router.post('/intro', function(req, res, next) {
 
 router.post('/intro',
   sanitizeBody('name').trim().escape().stripLow(true),
-  sanitizeBody('intro').trim().escape().stripLow(true),
-  sanitizeBody('wings').customSanitizer((value, { req }) => {
-    if (!Array.isArray(value)) {
-      if (!value) value = [];
-      else value = [value];
-    }
-    req.body.wings = value;
-    return value;
-})
+  sanitizeBody('intro').trim().escape().stripLow(true)
 );
 
 router.post('/intro',

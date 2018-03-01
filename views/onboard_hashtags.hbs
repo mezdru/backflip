@@ -7,7 +7,7 @@
         <div id="hashtag-input-box" class="grid-box">
           <label for="hashtag">{{__ "What are you good at? What do you love? Where do you belong?"}}</label>
           <i class="fa fa-search" aria-hidden="true"></i>
-          <input class="pure-input-1" id="hashtag-input" type="text" placeholder="{{hashtagSuggestions.0.name}}">
+          <input class="pure-input-1" id="hashtag-input" type="text" placeholder="{{__ 'Search Hashtags'}}">
         </div>
         <div class="grid-box">
           <ul id="hashtag-cloud">
@@ -44,6 +44,8 @@
     </div>
   </form>
 </div>
+<div id="modal-layer">
+</div>
 
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
@@ -56,6 +58,7 @@
   var cloudUl = document.getElementById('hashtag-cloud');
   var suggestionsUl = document.getElementById('hashtag-suggestions');
   var hashtagInput = document.getElementById('hashtag-input');
+  var modalLayer = document.getElementById('modal-layer');
 </script>
 <script>
   function getPictureUrl(suggestion) {
@@ -78,10 +81,11 @@
 
   function suggestionTemplate(suggestion) {
     if (suggestion.type === 'newHashtag') {
-      return newHashtagSentence +
-      ' <span><i class="fa fa-hashtag" aria-hidden="true"></i>' +
+      return ' <span class="newHashtag">' +
+      newHashtagSentence +
+      ' </span><em><i class="fa fa-hashtag" aria-hidden="true"></i>' +
       suggestion.tag +
-      '</span>';
+      '</em>';
     } else {
       return '<img src="' + getPictureUrl(suggestion) + '">' +
       suggestion._highlightResult.name.value;
@@ -110,8 +114,14 @@
       }
     }
   ]).on('autocomplete:selected', addHashtagToCloud)
-  .on('autocomplete:shown', function() {hashtagInput.classList.add('open');})
-  .on('autocomplete:closed', function() {hashtagInput.classList.remove('open');});
+  .on('autocomplete:shown', function() {
+    hashtagInput.classList.add('open');
+    modalLayer.style.display = 'block';
+  })
+  .on('autocomplete:closed', function() {
+    hashtagInput.classList.remove('open');
+    modalLayer.style.display = 'none';
+  });
 </script>
 
 <script src="/javascripts/Sortable.min.js"></script>
@@ -150,27 +160,4 @@
       }
     }
   );
-</script>
-<script>
-  var placeholders = [
-    {{#hashtagSuggestions}}
-      "{{name}}",
-    {{/hashtagSuggestions}}
-      ";-)"
-  ];
-</script>
-<script>
-  function incrementPlaceholder(pp, cp, dir) {
-    var cp = cp+dir;
-    if (cp > placeholders[pp].length) {
-      dir = -1;
-      cp--;
-    } else if (cp < 0) {
-      dir = +1;
-      pp = getRandomInt(placeholders.length-1);
-    }
-    hashtagInput.placeholder = placeholders[pp].substring(0, cp);
-    window.setTimeout(incrementPlaceholder, 100*(2+dir), pp, cp, dir);
-  }
-  window.onload = incrementPlaceholder(getRandomInt(placeholders.length-1), 0, 1);
 </script>

@@ -1,5 +1,5 @@
 {{! WARNING DUPLICATED IN AUTOCOMPLETE JS : addHashtagToCloud() !!!}}
-<li class="hashtag list-group-item">
+<li class="hashtag list-group-item {{#if added}}added{{/if}}">
   <img src="{{pictureUrl picture type}}">
   <a class="js-remove">x</a>
   <input type="hidden" name="hashtags" value="{{_id}}" />
