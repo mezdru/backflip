@@ -223,6 +223,9 @@ app.use('/admin/record', recordAdmin);
 var userAdmin = require('./routes/user/user_admin.js');
 app.use('/admin/user', userAdmin);
 
+var profile = require('./routes/profile.js');
+app.use('/', profile);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

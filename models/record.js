@@ -309,6 +309,7 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   tag = this.cleanTag(tag);
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
+  .populate('within hashtags')
   .exec(callback);
 };
 

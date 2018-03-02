@@ -94,16 +94,8 @@ ul.errors li {
   color: #c7bcbf;
 }
 
-.onboard .main .grid-box {
- padding: 15px 30px;
-}
-
 .onboard .main {
-    position: relative;
-    min-height: 100vh;
-    box-sizing: border-box;
-    padding-bottom: 180px;
-    background-color: #f6f4f4;
+  padding-bottom: 180px;
 }
 
 .bottom-buttons  {
@@ -143,8 +135,8 @@ ul.errors li {
 .onboard-welcome .bottom-buttons .grid-box {
   padding-bottom: 0;
 }
-/** INTRO **/
 
+/** INTRO **/
 .onboard-intro .picture {
   margin: auto;
   position: relative;
@@ -383,47 +375,12 @@ input#hashtag-input.open {
 
 #hashtag-cloud,
 #link-cloud {
-  border: 1px solid #c7bcbf;
-  background: #ffffff;
-  border-radius: 30px;
-  padding: 10px;
   min-height: 64px;
-  box-sizing: border-box;
 }
 
-.hashtag,
-.link {
-  display: inline-block;
-  box-sizing: border-box;
-  border-radius: 15px;
-  height: 30px;
-  padding: 4px;
-  margin: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  color: #5C4D51;
-  background: #f6f4f4;
-  border: 1px solid #c7bcbf;
+.onboard .hashtag,
+.onboard .link {
   cursor: move;
-  word-break: break-all;
-  overflow: hidden;
-}
-
-.link {
-  padding-left: 10px;
-}
-
-.link .fa {
-  margin-right: 10px;
-}
-
-.hashtag img {
-  float: left;
-  height: 20px;
-  width: 20px;
-  margin: 0 10px 0 0;
-  border-radius: 10px;
 }
 
 .js-remove {
@@ -530,7 +487,7 @@ input#hashtag-input.open {
   min-width: 40px;
   box-sizing: border-box;
   text-align: center;
-  border-radius: 15px 15px 0 0;
+  border-radius: 20px 20px 0 0;
   border: 2px solid #c7bcbf;
   color: #ffffff;
   background-color: #c7bcbf;

@@ -56,7 +56,7 @@ h3 {
 em,
 em a {
 	font-style: normal;
-  font-weight: bolder;
+  font-weight: 800;
 }
 
 .align-right {
@@ -87,7 +87,8 @@ a.fa:hover {
 a img,
 a .fa,
 a.fa,
-.scale {
+.scale,
+.cloud-element {
   transition: all .3s ease-out;
 }
 
@@ -163,14 +164,18 @@ a.fa,
 }
 
 .grid-box {
-  padding: 30px;
+  padding: 15px 30px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .main {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
   padding-top: 140px;
   flex-grow: 1;
+  background-color: #f6f4f4;
 }
 
 .home .main {
@@ -273,7 +278,7 @@ header a:hover {
 .search-input::-moz-placeholder { color: #7F8C8D; opacity: 1; }
 .search-input:-moz-placeholder { color: #7F8C8D; }
 
-/* footer */
+/* FOOTER */
 footer {
   width: 100%;
   min-height: 90px;
@@ -323,13 +328,64 @@ footer p {
   text-align: center;
 }
 
+/* CLOUDS & ITEMS */
+.cloud {
+  border: 1px solid #c7bcbf;
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 10px;
+  min-height: 64px;
+  box-sizing: border-box;
+}
+
+p.cloud {
+  padding: 20px 30px;
+}
+
+.cloud-element {
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 15px;
+  height: 30px;
+  padding: 4px 10px;
+  margin: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #5C4D51;
+  background: #f6f4f4;
+  border: 1px solid #c7bcbf;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.cloud-element:hover {
+  text-decoration: none;
+  transform: scale(1.2);
+}
+
+.cloud-element.link .fa {
+  margin-right: 10px;
+}
+
+.cloud-element.hashtag {
+  padding-left: 4px;
+}
+
+.cloud-element.hashtag img {
+  float: left;
+  height: 20px;
+  width: 20px;
+  margin: 0 10px 0 0;
+  border-radius: 10px;
+}
+
 /* SEARCH RESULTS */
 .record {
 	border-bottom: 2px solid #F5F7FA;
 }
 
-/* Picture */
-
+/* PICTURE */
 .picture {
   height: 30vw;
   width: 30vw;
@@ -365,7 +421,7 @@ footer p {
   max-height: 190px;
 }
 
-/* Mozaic */
+/* MOZAIC */
 .mozaic {
   width: 100%;
 }
@@ -410,7 +466,7 @@ footer p {
   max-height: 54px;
 }
 
-/* Central */
+/* CENTRAL */
 .central {
   padding: 0;
 }

@@ -32,7 +32,6 @@ router.use(function(req, res, next) {
     err.status = 400;
     return next(err);
   }
-  res.locals.errors = [];
   return next();
 });
 
@@ -285,6 +284,7 @@ router.all('/intro', function(req, res, next) {
 router.all('/hashtags', function(req, res, next) {
   res.locals.onboard.step = "hashtags";
   res.locals.onboard.hashtags = true;
+  res.locals.record.hashtags.forEach(hashtag => hashtag.editable = true);
   res.render('onboard_hashtags', {
     bodyClass: 'onboard onboard-hashtags'
   });
@@ -293,6 +293,7 @@ router.all('/hashtags', function(req, res, next) {
 router.all('/links', function(req, res, next) {
   res.locals.onboard.step = "links";
   res.locals.onboard.links = true;
+  res.locals.record.links.forEach(link => link.editable = true);
   res.render('onboard_links', {
     bodyClass: 'onboard onboard-links'
   });
