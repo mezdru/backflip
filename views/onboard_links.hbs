@@ -3,7 +3,7 @@
   <div class="pure-g pure-form pure-form-stacked">
     <div class="pure-u-1">
       <div id="link-input-box" class="grid-box">
-        <label for="link-input">{{__ "How would you like people at %s to contact you?" organisation.name}}</label>
+        <label for="link-input">{{__ "What contact info would you like to share?" organisation.name}}</label>
         <ul id="type-selector">
           <li id="email-selector" data-type="email" data-placeholder="{{__ 'my-email@domain.io'}}">
             <i class="fa fa-envelope" aria-hidden="true"></i><span> {{__ "Email"}}</span>
@@ -11,11 +11,11 @@
             <i class="fa fa-phone" aria-hidden="true"></i><span> {{__ "Phone"}}</span>
           </li><li id="twitter-selector" data-type="twitter" data-placeholder="{{__ '@Wingzy_io'}}">
             <i class="fa fa-twitter" aria-hidden="true"></i>
-          </li><li id="linkedin-selector" data-type="linkedin" data-placeholder="{{__ 'fatima.benomar'}}">
+          </li><li id="linkedin-selector" data-type="linkedin" data-placeholder="{{__ 'simonedebeauvoir'}}">
             <i class="fa fa-linkedin" aria-hidden="true"></i>
-          </li><li id="facebook-selector" data-type="facebook" data-placeholder="{{__ 'fatima.benomar'}}">
+          </li><li id="facebook-selector" data-type="facebook" data-placeholder="{{__ 'simone.de.beauvoir'}}">
             <i class="fa fa-facebook" aria-hidden="true"></i>
-          </li><li id="link-selector" data-type="link" data-placeholder="{{__ 'https://plus.google.com/me'}}">
+          </li><li id="link-selector" data-type="link" data-placeholder="{{__ 'https://github.com/wingzy'}}">
             <i class="fa fa-link" aria-hidden="true"></i><span> {{__ "Link"}}</span>
           </li>
         </ul>
@@ -87,10 +87,11 @@
     //@todo some validation should come here
     if (!value) return goNext(true);
 
-    cloudUl.insertAdjacentHTML('afterbegin',
+    cloudUl.insertAdjacentHTML('beforeend',
       '<li class="link list-group-item added">' +
       '<a class="js-remove">x</a>' +
-      '<input type="hidden" name="links" value="' + value + '" />' +
+      '<input type="hidden" name="links[values]" value="' + value + '" />' +
+      '<input type="hidden" name="links[types]" value="' + type + '" />' +
       linkIcon(type) + ' ' +
       value +
       '</li>'

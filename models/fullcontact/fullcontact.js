@@ -50,11 +50,11 @@ class FullContact {
 
     mergeData(data) {
       this.data.photos = this.data.photos.concat(data.photos || []);
-      this.data.contactInfo.chats = this.data.contactInfo.chats.concat(data.contactInfo.chats || []);
-      this.data.contactInfo.websites = this.data.contactInfo.websites.concat(data.contactInfo.websites || []);
+      this.data.contactInfo.chats = this.data.contactInfo.chats.concat(undefsafe(data, 'contactInfo.chats') || []);
+      this.data.contactInfo.websites = this.data.contactInfo.websites.concat(undefsafe(data, 'contactInfo.websites') || []);
       //@todo instead of picking the first one, what about picking the most likely ?
-      this.data.contactInfo.fullName = this.data.contactInfo.fullName || data.contactInfo.fullName;
-      this.data.demographics.locationDeduced.normalizedLocation = this.data.demographics.locationDeduced.normalizedLocation || data.demographics.locationDeduced.normalizedLocation;
+      this.data.contactInfo.fullName = this.data.contactInfo.fullName || undefsafe(data, 'contactInfo.fullName');
+      this.data.demographics.locationDeduced.normalizedLocation = this.data.demographics.locationDeduced.normalizedLocation || undefsafe(data, 'demographics.locationDeduced.normalizedLocation');
       this.data.socialProfiles = this.data.socialProfiles.concat(data.socialProfiles || []);
     }
 

@@ -6,8 +6,8 @@ var urlParse = require('url-parse');
 
 var LinkHelper = class LinkHelper {
 
-  static makeLink(value, type, country) {
-    return new LinkHelper(value, type, country).link;
+  static makeLink(value, type, username, country) {
+    return new LinkHelper(value, type, username, country).link;
   }
 
   constructor(value, type, username, country) {
@@ -32,8 +32,7 @@ var LinkHelper = class LinkHelper {
   }
 
   setType(type) {
-    if (type) this.type = type;
-    else if (!this.type) this.inferType();
+    if (!this.type) this.inferType();
   }
 
   inferType() {
@@ -73,6 +72,7 @@ var LinkHelper = class LinkHelper {
       yahoo_remove_subaddress: false,
       icloud_remove_subaddress: false
     });
+    if (!this.value) this.makeError();
   }
 
   //@todo so this try..catch is here to silence phoneUtil.parser errors... now THAT'S ugly.
@@ -89,31 +89,41 @@ var LinkHelper = class LinkHelper {
     if (this.isPhone()) {
       this.value = phoneUtil.format(this.phone, PNF.E164);
       this.display = phoneUtil.format(this.phone, PNF.INTERNATIONAL);
-    }
+    } else this.makeError();
   }
 
   isHyperlink () {
     return validator.isURL(this.value);
   }
 
-  cleanUrl () {
+  cleanUrl() {
     var urlObject = urlParse(this.value, true);
-    urlObject.protocol = urlObject.protocol || 'https';
-    urlObject.slashes = true;
+    urlObject.set('protocol',  urlObject.protocol || 'https');
+    urlObject.set('slashes', true);
+    urlObject.set('query', null);
     this.url = this.value = urlObject.toString();
   }
 
+  //@todo too dumb to really work
+  setUsername() {
+    var url = this.url;
+    if (url.charAt(url.length-1) === '/') url = url.substring(0, url.length-1);
+    var splitUrl = url.split('/');
+    this.username = splitUrl[splitUrl.length-1];
+  }
+
   makeProfile() {
-    if (!this.username && !validator.isURL(this.value)) {
-      this.username = this.value;
-      this.value = null;
+    if (!this.username && !validator.isURL(this.value, {require_protocol: true})) {
+      this.username = validator.escape(this.value);
+      this.value = undefined;
     } else {
       this.cleanUrl();
+      this.setUsername();
     }
     if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     switch(this.type) {
       case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
-      case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = this.username || 'Twitter';  return;
+      case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = (this.username ? '@' + this.username : 'Twitter');  return;
       case 'github': this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
       case 'facebook': this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
       default: this.makeHyperlink();
@@ -125,22 +135,24 @@ var LinkHelper = class LinkHelper {
       case 'skype': this.value = this.display = this.username || 'Skype'; return;
       case 'whatsapp': this.value = this.display = this.username || 'WhatsApp'; return;
       case 'gtalk': this.value = this.display = this.username || 'Google Talk'; this.type = 'google'; return;
+      default: return this.makeError();
     }
   }
 
   makeHyperlink () {
     var domain = parseDomain(this.value);
     this.cleanUrl();
-    if (!domain) return;
+    this.setUsername();
+    if (!domain) return this.makeError();
     switch (domain.domain) {
       case 'slack': this.type = 'slack'; this.display = 'Slack'; return;
       case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; return;
       case 'dribbble': this.type = 'dribbble'; this.display = 'Dribbble'; return;
       case 'dropbox': this.type = 'dropbox'; this.display = 'Dropbox'; return;
-      case 'facebook': this.type = 'facebook'; this.display = 'Facebook'; return;
+      case 'facebook': this.type = 'facebook'; this.display = this.username || 'Facebook'; return;
       case 'flickr': this.type = 'flickr'; this.display = 'Flickr'; return;
       case 'foursquare': this.type = 'foursquare'; this.display = 'Foursquare'; return;
-      case 'github': this.type = 'github'; this.display = 'Github'; return;
+      case 'github': this.type = 'github'; this.display = (this.username ? '@'+this.username : 'Github'); return;
       case 'google':
         if (domain.subdomain == 'drive') {
           this.type = 'folder';
@@ -157,14 +169,14 @@ var LinkHelper = class LinkHelper {
         }
         return;
       case 'instagram': this.type = 'instagram'; this.display = 'Instagram'; return;
-      case 'linkedin': this.type = 'linkedin'; this.display = 'LinkedIn'; return;
+      case 'linkedin': this.type = 'linkedin'; this.display = this.username || 'LinkedIn'; return;
       case 'pinterest': this.type = 'pinterest'; this.display = 'Pinterest'; return;
       case 'renren': this.type = 'renren'; this.display = 'Renren'; return;
       case 'skype': this.type = 'skype'; this.display = this.value; return;
       case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; return;
       case 'trello': this.type = 'trello'; this.display = 'Trello'; return;
       case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; return;
-      case 'twitter': this.type = 'twitter'; this.display = 'Twitter'; return;
+      case 'twitter': this.type = 'twitter'; this.display = this.username || 'Twitter'; return;
       case 'vimeo': this.type = 'vimeo'; this.display = 'Vimeo'; return;
       case 'vk': this.type = 'vk'; this.display = 'VK'; return;
       case 'weibo': this.type = 'weibo'; this.display = 'Weibo'; return;
@@ -178,6 +190,14 @@ var LinkHelper = class LinkHelper {
   makeAddress () {
   }
 
+  makeError () {
+    this.type = 'error';
+    this.country = undefined;
+    this.value = undefined;
+    this.username = undefined;
+    this.display = undefined;
+    this.url = undefined;
+  }
 
 };
 

@@ -68,7 +68,7 @@
   }
 
   function addHashtagToCloud(event, suggestion, dataset) {
-    cloudUl.insertAdjacentHTML('afterbegin',
+    cloudUl.insertAdjacentHTML('beforeend',
       '<li class="hashtag list-group-item added">' +
       '<img src="' + getPictureUrl(suggestion) + '">' +
       '<a class="js-remove">x</a>' +

@@ -72,7 +72,7 @@ ul.errors li {
 .onboard input[type="text"],
 .onboard input[type="url"],
 .onboard input[type="tel"] {
-  padding: 15px;
+  padding: 15px 20px;
   border-radius: 30px;
   font-size: 20px;
   line-height: 28px;
@@ -478,6 +478,12 @@ input#hashtag-input.open {
   background-color: #dd362e;
 }
 
+.sortable-chosen .fa {
+  color: #ffffff;
+  border-color: #dd362e;
+  background-color: #dd362e;
+}
+
 #hashtag-suggestions .hashtag.sortable-drag,
 #hashtag-cloud .hashtag.sortable-drag,
 #link-cloud .link.sortable-drag {
@@ -521,21 +527,25 @@ input#hashtag-input.open {
   font-weight: 600;
   padding: 5px 12px;
   margin: 0 -10px 0 0;
+  min-width: 40px;
+  box-sizing: border-box;
+  text-align: center;
   border-radius: 15px 15px 0 0;
-  border: 2px solid #dd362e;
-  color: #dd362e;
-  background-color: #f6f4f4;
+  border: 2px solid #c7bcbf;
+  color: #ffffff;
+  background-color: #c7bcbf;
   border-bottom: none;
   cursor: pointer;
 }
 
-#type-selector li .fa-phone {
-  color: #dd362e;
+#type-selector li .fa {
+  color: #ffffff;
 }
 
 #type-selector li.selected {
   color: #ffffff;
   background-color: #dd362e;
+  border-color: #dd362e;
   z-index: 100;
 }
 
@@ -551,10 +561,6 @@ input#hashtag-input.open {
  color: #32CCFE;
 }
 
-li#twitter-selector {
-  border-color: #32CCFE;
-}
-
 li#twitter-selector.selected {
   background-color: #32CCFE;
   border-color: #32CCFE;
@@ -568,10 +574,6 @@ li#twitter-selector.selected {
  color: #0085AE;
 }
 
-li#linkedin-selector {
-  border-color: #0085AE;
-}
-
 li#linkedin-selector.selected {
   background-color: #0085AE;
   border-color: #0085AE;
@@ -583,10 +585,6 @@ li#linkedin-selector.selected {
 
 #plus-button.facebook {
  color: #3C599F;
-}
-
-li#facebook-selector {
-  border-color: #3C599F;
 }
 
 li#facebook-selector.selected {

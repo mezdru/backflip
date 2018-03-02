@@ -11,6 +11,7 @@ var Organisation = require('../models/organisation.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var FullContact = require('../models/fullcontact/fullcontact.js');
+var LinkHelper = require('../helpers/link_helper.js');
 
 
 router.use(function(req, res, next) {
@@ -125,6 +126,7 @@ router.post('/welcome', function(req, res, next) {
   fullcontact.enrich(function(err, record) {
     if (err && err.status !== 418) return console.error(err);
     if (err && err.status === 418) console.log(err.message);
+    else console.log(`FullContact lookup for record ${res.locals.record._id}`);
     next();
   });
 });
@@ -257,7 +259,22 @@ router.post('/hashtags', function(req, res, next) {
   });
 });
 
+router.post('/links', function(req, res, next) {
+  var links = [];
+  req.body.links.values.forEach(function(value, index) {
+    links.push(LinkHelper.makeLink(value, req.body.links.types[index]));
+  });
+  res.locals.record.makeLinks(links);
+  res.locals.record.save(function(err, record) {
+    res.render('index', {
+      title: "links",
+      content: res.locals.record
+    });
+  });
+});
+
 router.all('/intro', function(req, res, next) {
+  res.locals.uploadcareUrl = res.locals.record.getUploadcareUrl() || '';
   res.locals.onboard.step = "intro";
   res.locals.onboard.intro = true;
   res.render('onboard_intro', {
@@ -276,7 +293,6 @@ router.all('/hashtags', function(req, res, next) {
 router.all('/links', function(req, res, next) {
   res.locals.onboard.step = "links";
   res.locals.onboard.links = true;
-  console.log(res.locals.record.links);
   res.render('onboard_links', {
     bodyClass: 'onboard onboard-links'
   });

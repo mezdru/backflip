@@ -128,10 +128,19 @@ recordSchema.methods.createLinks = function(formNewLinks) {
   }, this);
 };
 
+recordSchema.methods.makeLinks = function(newLinks) {
+  this.links = [];
+  this.addLinks(newLinks);
+};
+
+recordSchema.methods.addLinks = function(newLinks) {
+  newLinks.forEach(newLink => this.addLink(newLink));
+};
+
 //adds a link to the record ONLY IF the type does not exist
 //@todo be more clever & overwrite if we trust new link more
 recordSchema.methods.addLink = function(newLink) {
-  if (!this.hasLink(newLink))
+  if (newLink.type !== 'error' && !this.hasLink(newLink))
     this.links.push(newLink);
 };
 
@@ -409,6 +418,14 @@ recordSchema.methods.getEmail = function() {
 
 recordSchema.methods.hasPicture = function() {
   return undefsafe(this, 'picture.url') || undefsafe(this, 'picture.path');
+};
+
+var parseDomain = require('parse-domain');
+recordSchema.methods.getUploadcareUrl = function() {
+  if (!this.picture.url) return false;
+  var domain = parseDomain(this.picture.url);
+  if (undefsafe(domain, 'domain') && domain.domain === 'ucarecdn') return this.picture.url;
+  else return false;
 };
 
 
