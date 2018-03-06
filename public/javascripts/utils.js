@@ -28,6 +28,23 @@ function resizeImg(img, ratio) {
   }
 }
 
+function getPictureUrl(item) {
+	if (item.picture && item.picture.url) {
+			return item.picture.url;
+	} else if (item.picture && item.picture.path) {
+		return "/images" + item.picture.path;
+		//@todo remove this last if once the refacto URI > URL is done
+	} else if (item.picture && item.picture.uri) {
+		return item.picture.uri;
+	} else {
+		switch (item.type) {
+			case 'team' : return "/images/placeholder_team.png";
+			case 'hashtag' : return "/images/placeholder_hashtag.png";
+			default: case 'person': return "/images/placeholder_person.png";
+		}
+	}
+}
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");

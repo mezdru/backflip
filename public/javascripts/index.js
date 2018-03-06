@@ -11,8 +11,8 @@
 var introSnippetLength = 6;
 var extraLinkLimit = 4;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		introSnippetLength = 10;
-		extraLinkLimit = 6;
+		introSnippetLength = 15;
+		extraLinkLimit = 9;
 }
 
 var search = instantsearch({
@@ -35,7 +35,9 @@ transformItem = function (item) {
 	transformImagePath(item);
 	transformIntro(item);
 	transformLinks(item);
+	transformHashtags(item);
 	addType(item);
+	addUrl(item);
 	addParentTag(item);
 	return item;
 };
@@ -51,20 +53,7 @@ function addParentTag(item) {
 }
 
 function transformImagePath(item) {
-	if (item.picture && item.picture.url) {
-			item.picture.url = item.picture.url;
-	} else if (item.picture && item.picture.path) {
-		item.picture.url = "/images" + item.picture.path;
-		//@todo remove this last if once the refacto URI > URL is done
-	} else if (item.picture && item.picture.uri) {
-		item.picture.url = item.picture.uri;
-	} else {
-		switch (item.type) {
-			case 'team' : transformIncludes(item); item.picture = { url: "/images/placeholder_team.png"}; break;
-			case 'hashtag' : transformIncludes(item); item.picture = { url: "/images/placeholder_hashtag.png"}; break;
-			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
-		}
-	}
+	item.picture = {url: getPictureUrl(item)};
 }
 
 //@todo handle the display of teams
@@ -93,7 +82,7 @@ function transformString(input, within) {
 			record = getRecord(cleanMatch, within);
 			return '<a title="' + record.name + '" class="link-' + record.type + '" onclick="setSearch(\'' + ( record.type == 'team' ? '' : cleanMatch ) + '\', \'' + ( record.type == 'team' ? cleanMatch : '' ) + '\')">' + match + '</a>';
 		});
-		return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
+		return input;
 }
 
 function getRecord(tag, within) {
@@ -168,6 +157,10 @@ function addType(item) {
 	item[item.type] = true;
 }
 
+function addUrl(item) {
+	item.url = makeUrl(null, item.tag);
+}
+
 transformTypeItem = function(item) {
 	var icon = 'fa-at';
 	switch (item.name) {
@@ -176,6 +169,15 @@ transformTypeItem = function(item) {
 	}
 	item.highlighted = '<i class="fa ' + icon + '" aria-hidden="true"></i><span class="toggle-text">' + typeStrings[item.name] + '</span>';
 	return item;
+};
+
+transformHashtags = function(item) {
+	if (!item.hashtags) item.hashtags = [];
+	if (!item.within) item.within = [];
+	item.hashtags = item.hashtags.concat(item.within);
+	item.hashtags.forEach(function(item) {
+		 transformImagePath(item);
+	});
 };
 
 search.addWidget(

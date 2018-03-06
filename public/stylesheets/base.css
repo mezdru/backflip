@@ -29,7 +29,7 @@ ul {
 }
 
 a {
-	color: #76cfe7;
+	color: #5C4D51;
 	text-decoration: none;
 }
 
@@ -86,7 +86,9 @@ h3 {
 
 em,
 em a {
-	font-style: normal;
+	background: #dd362e;
+  color: #ffffff;
+  border-radius: 5px;
   font-weight: 800;
 }
 
@@ -103,8 +105,8 @@ em a {
 }
 
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
-a:hover img,
-a:hover .fa,
+footer a:hover img,
+header a:hover img,
 a.fa:hover {
   transform: scale(1.5);
   text-decoration: none;
@@ -276,7 +278,7 @@ header a:hover {
   position: absolute;
   z-index: 101;
   padding: 10px;
-  right: 40px;
+  right: 20px;
   font-size: 40px;
   color: #dd362e;
   transition: none;
@@ -438,8 +440,6 @@ p.cloud {
 }
 
 /* SEARCH RESULTS */
-
-
 #search-results .pure-g-box {
   padding: 15px;
 }
@@ -451,21 +451,42 @@ p.cloud {
 .record {
   padding: 0;
   border-top-left-radius: 14vw;
+  overflow: hidden;
+}
+
+.record .name {
+  display: block;
+  position: relative;
+  padding: 5px 15px;
+  height: 14vw;
+  max-height: 90px;
+  box-sizing: border-box;
+  color: #1d1f1a;
 }
 
 .record h2 {
-  font-size: 30px;
+  position: absolute;
+  margin: 0;
+  bottom: 0;
+  font-size: 18px;
+  line-height: 18px;
   font-weight: 700;
-  margin: 30px 15px 5px 15px;
+
 }
 
 .record p {
-  font-size: 18px;
+  font-size: 15px;
+  line-height: 18px;
   margin: 5px 15px 5px 15px;
+}
+
+.link-hashtag {
+  cursor: pointer;
 }
 
 /* PICTURE */
 .picture {
+  display: block;
   height: 28vw;
   width: 28vw;
   max-height: 180px;
@@ -474,24 +495,26 @@ p.cloud {
   border-radius: 50%;
 }
 
-.picture img {
+ .picture img {
   width: 28vw;
   max-width: 180px;
 }
 
 
-/* LINKS */
-.links {
+/* CONTACTS */
+.contacts {
   border-top: 1px solid #c7bcbf;
-  padding: 0 15px;
+  padding: 0 5px;
 }
 
-.links a {
+.contacts a {
   font-size: 30px;
   padding: 15px;
+  max-width: 60px;
+  box-sizing: border-box;
 }
 
-.links .extraLink {
+.contacts .extraLink {
   display: none;
 }
 
@@ -529,11 +552,11 @@ p.cloud {
 .fa-comment{color:#056E7D;}
 .fa-folder, .fa-file{color:#4285F4;}
 
-.links .fa {
+.contacts .fa {
   opacity: 0.3;
 }
 
-.links .fa:hover {
+.contacts .fa:hover {
   opacity: 1;
 }
 
@@ -581,6 +604,21 @@ p.cloud {
 
   .record {
     border-top-left-radius: 90px;
+  }
+
+  .record h2 {
+    font-size: 30px;
+    line-height: 30px;
+
+  }
+
+  .record p {
+    font-size: 18px;
+    line-height: normal;
+  }
+
+  .contacts {
+    padding: 0 10px;
   }
 
   /* to cleanup: */
