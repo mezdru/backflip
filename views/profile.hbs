@@ -1,46 +1,70 @@
 <div class="main">
   {{> form_errors}}
   <div class="pure-g">
-    <div class="pure-u-md-1-3 pure-u-1">
+    <div class="pure-u-1-3">
       <div class="grid-box picture-box">
         <div class="picture">
           <img src="{{pictureUrl record.picture record.type}}" alt="">
         </div>
       </div>
     </div>
-    <div class="pure-u-md-2-3 pure-u-1">
+    <div class="pure-u-2-3">
       <div class="grid-box">
         <h1 id="name">{{{record.name}}}</h1>
+        {{#if canEdit}}
+        <a id="edit-button" href="{{url  'onboard/intro' organisation.tag}}" class="pure-u-1 pure-button back-button scale">{{{__ "Edit profile"}}}</a>
+        {{/if}}
       </div>
     </div>
   </div>
+  {{#if record.intro}}
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="grid-box">
+        <h2>{{__ "What I do at %s" organisation.name}}</h2>
         <p class="cloud" id="intro">{{{record.intro}}}</p>
       </div>
     </div>
   </div>
+  {{/if}}
+  {{#if record.hashtags}}
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="grid-box">
+        <h2>{{__ "My Hashtags"}}</h2>
         <ul class="cloud" id="hashtag-cloud">
           {{#record.hashtags}}
           {{> hashtag}}
           {{/record.hashtags}}
         </ul>
+        <p class="cloud-howto">{{__ "By order of importance."}}</p>
       </div>
     </div>
   </div>
+  {{/if}}
+  {{#if record.links}}
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="grid-box">
+        <h2>{{__ "My contact information"}}</h2>
         <ul class="cloud" id="link-cloud">
           {{#record.links}}
           {{> link}}
           {{/record.links}}
         </ul>
+        <p class="cloud-howto">{{__ "By order of preference."}}</p>
       </div>
     </div>
   </div>
+  {{/if}}
+  {{#if record.description}}
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <h2>{{__ "About me"}}</h2>
+        <p class="cloud" id="description">{{{record.description}}}</p>
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </div>

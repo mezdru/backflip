@@ -15,13 +15,17 @@ var LinkHelper = require('../helpers/link_helper.js');
 
 
 router.use(function(req, res, next) {
+  var query = null;
+  if (req.query.recordId) {
+    query = `?recordId=${req.query.recordId}`;
+  }
   res.locals.onboard = {
-    welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', null, req.getLocale()).getUrl(),
-    introAction: new UrlHelper(req.organisationTag, 'onboard/intro', null, req.getLocale()).getUrl(),
-    hashtagsAction: new UrlHelper(req.organisationTag, 'onboard/hashtags', null, req.getLocale()).getUrl(),
-    linksAction: new UrlHelper(req.organisationTag, 'onboard/links', null, req.getLocale()).getUrl()
+    welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', query, req.getLocale()).getUrl(),
+    introAction: new UrlHelper(req.organisationTag, 'onboard/intro', query, req.getLocale()).getUrl(),
+    hashtagsAction: new UrlHelper(req.organisationTag, 'onboard/hashtags', query, req.getLocale()).getUrl(),
+    linksAction: new UrlHelper(req.organisationTag, 'onboard/links', query, req.getLocale()).getUrl()
   };
-  next();
+  return next();
 });
 
 // First we check there is an organisation.
@@ -42,12 +46,35 @@ router.get('/welcome', function(req, res, next) {
   });
 });
 
-// Get the record
+// Get the record by query
 router.use(function(req, res, next) {
+  if (!req.query.recordId) return next();
+  Record.findById(req.query.recordId, res.locals.organisation._id, function(err, record) {
+    if (err) return next(err);
+    if (!record) {
+      let err = new Error('Record not found');
+      err.status = 404;
+      return next(err);
+    }
+    if (res.locals.user.ownsRecord(record._id) ||
+    res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+      res.locals.record = record;
+      return next();
+    } else {
+      let err = new Error('Forbidden Record');
+      err.status = 403;
+      return next(err);
+    }
+  });
+});
+
+// Get the record by user
+router.use(function(req, res, next) {
+  if (res.locals.record) return next();
   var myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   if (!myRecordId) return next();
 
-  Record.findById(myRecordId).populate('within hashtags').exec(function(err, record) {
+  Record.findById(myRecordId, res.locals.organisation._id, function(err, record) {
     if (err) return next(err);
     if (!record) {
       // we could throw an error, but it's better to create a new record for the user
@@ -152,6 +179,14 @@ router.use(function(req, res, next) {
 //@todo I'm pretty sure we could fetch the wings from Algolia and it would work like a charm.
 router.all('/intro', Organisation.getTheWings);
 
+router.all('/intro', function(req, res, next) {
+  res.locals.record.hashtags.forEach(function(hashtag) {
+      var wing = res.locals.wings.find(wing => wing._id.equals(hashtag._id));
+      if (wing) wing.checked = true;
+  });
+  next();
+});
+
 router.all('/hashtags', function(req, res, next) {
   Record.find({organisation: res.locals.organisation._id, type: 'hashtag'})
   .limit(10)
@@ -162,8 +197,8 @@ router.all('/hashtags', function(req, res, next) {
   });
 });
 
+// To blink the wings (css class 'added') when arriving on hashtags
 router.all('/hashtags', Organisation.getTheWings);
-
 router.all('/hashtags', function(req, res, next) {
   res.locals.record.hashtags.forEach(function(hashtag) {
     if (res.locals.wings.some(wing => wing._id.equals(hashtag._id)))
@@ -239,7 +274,7 @@ router.post('/hashtags',
       if (!value) value = [];
       else value = [value];
     }
-    req.body.wings = value;
+    req.body.hashtags = value;
     return true;
   }),
   body('hashtags').custom((value, { req }) => {
@@ -253,10 +288,30 @@ router.post('/hashtags', function(req, res, next) {
   res.locals.record.makeHashtags(req.body.hashtags, res.locals.organisation._id, function(err, records) {
     if (err) return next(err);
     res.locals.record.save(function(err, record) {
+      if (err) return next(err);
       res.redirect(res.locals.onboard.linksAction);
     });
   });
 });
+
+//@todo should be in sanitizer
+router.post('/links',
+  body('links').custom((links, { req }) => {
+    if (!links) {
+      links = {values: [], types: []};
+    }
+    if (!Array.isArray(links.values)) {
+      if (!links.values) links.values = [];
+      else links.values = [links.values];
+    }
+    if (!Array.isArray(links.types)) {
+      if (!links.types) links.types = [];
+      else links.types = [links.types];
+    }
+    req.body.links = links;
+    return true;
+  })
+);
 
 router.post('/links', function(req, res, next) {
   var links = [];
@@ -265,6 +320,7 @@ router.post('/links', function(req, res, next) {
   });
   res.locals.record.makeLinks(links);
   res.locals.record.save(function(err, record) {
+    if (err) return next(err);
     res.render('index', {
       title: "links",
       content: res.locals.record
@@ -285,6 +341,7 @@ router.all('/hashtags', function(req, res, next) {
   res.locals.onboard.step = "hashtags";
   res.locals.onboard.hashtags = true;
   res.locals.record.hashtags.forEach(hashtag => hashtag.editable = true);
+  res.locals.hashtagSuggestions.forEach(hashtag => hashtag.editable = true);
   res.render('onboard_hashtags', {
     bodyClass: 'onboard onboard-hashtags'
   });

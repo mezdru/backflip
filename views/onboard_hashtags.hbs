@@ -69,7 +69,7 @@
 
   function addHashtagToCloud(event, suggestion, dataset) {
     cloudUl.insertAdjacentHTML('beforeend',
-      '<li class="hashtag list-group-item added">' +
+      '<li class="cloud-element hashtag added">' +
       '<img src="' + getPictureUrl(suggestion) + '">' +
       '<a class="js-remove">x</a>' +
       '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+

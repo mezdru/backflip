@@ -14,26 +14,25 @@ ul.errors li {
   position: absolute;
 }
 
+.oiseaux {
+    position: absolute;
+    left: 0;
+    top: 200px;
+    z-index: 1000;
+    background-image: url('/images/oiseaux.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 200px;
+    width: 200px;
+    height: 400px;
+}
+
+.onboard .pure-u-menu img {
+  max-height: 50px;
+}
+
 .onboard-welcome header {
   border-bottom: none;
-}
-
-.bottom-buttons .pure-button {
-  width: 100%;
-  font-size: 22.5px;
-  line-height: 30px;
-  padding: 15px;
-  font-weight: 800;
-  border-radius: 30px;
-  background-color: #dd362e;
-  color: #ffffff;
-}
-
-.bottom-buttons .pure-button.back-button {
-  background: #f6f4f4;
-  border: 2px solid #dd362e;
-  font-weight: 400;
-  color: #dd362e;
 }
 
 .pure-u-menu a.step {
@@ -63,8 +62,6 @@ ul.errors li {
 }
 
 .onboard label {
-  font-size: 20px;
-  font-weight: 700;
   padding-left: 15px;
 }
 
@@ -76,14 +73,14 @@ ul.errors li {
   border-radius: 30px;
   font-size: 20px;
   line-height: 28px;
-  border: 1px solid #c7bcbf;
+  border: 2px solid #1d1f1a;
   color: #1d1f1a;
   box-shadow: none;
 }
 
 .onboard input[type="email"]:focus,
 .onboard input[type="text"]:focus {
-  border: 1px solid #1d1f1a;
+  border: 2px solid #dd362e;
 }
 
 .onboard form input[type="email"][disabled] {
@@ -235,17 +232,23 @@ ul.errors li {
   padding: 0;
   border-radius: 0 15px 15px 15px;
   background-color: #ffffff;
-  border: 1px solid #dd362e;
+  border: 2px solid #dd362e;
+  background-color: #f6f4f4;
   overflow: hidden;
 }
 
 .dropdown-menu .textcomplete-item a {
   display: block;
   cursor: pointer;
-  color: #1d1f1a;
+  border-top: 1px solid #c7bcbf;
+  color: #5C4D51;
   position: relative;
   text-decoration: none;
   padding: 10px 20px;
+}
+
+.dropdown-menu .textcomplete-item:first-child a {
+  border-top: none;
 }
 
 .dropdown-menu .textcomplete-item a em {
@@ -398,20 +401,6 @@ input#hashtag-input.open {
   font-weight: 800;
   color: #dde03a;
   text-decoration: none;
-}
-
-.cloud-howto {
-  font-size: 10px;
-  color: #5C4D51;
-  padding: 10px;
-}
-
-.onboard-hashtags h3 {
-  font-size: 12px;
-  padding: 5px 10px;
-  letter-spacing: 0.3px;
-  font-weight: 600;
-  color: #1d1f1a;
 }
 
 #hashtag-suggestions {

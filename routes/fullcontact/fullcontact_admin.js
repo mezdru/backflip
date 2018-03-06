@@ -5,7 +5,7 @@ var Record = require('../../models/record.js');
 var FullContact = require('../../models/fullcontact/fullcontact.js');
 
 router.get('/enrich/:recordId', function (req, res, next) {
-  Record.findById(req.params.recordId, function(err, record) {
+  Record.findById(req.params.recordId, res.locals.organisation._id, function(err, record) {
     if (err) return next(err);
     if (!record) {
        err = new Error('No record found');

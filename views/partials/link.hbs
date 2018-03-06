@@ -5,11 +5,11 @@
   <input type="hidden" name="links[values]" value="{{value}}" />
   <input type="hidden" name="links[types]" value="{{type}}" />
   <i class="fa {{linkIcon this}}" aria-hidden="true"></i>
-  {{#if display}}{{display}}{{else}}{{value}}{{/if}}
+  {{linkDisplay this}}
 </li>
 {{else}}
-<a href="{{this.url}}" class="cloud-element link">
+<a href="{{linkUrl this}}" class="cloud-element link" target="_blank">
   <i class="fa {{linkIcon this}}" aria-hidden="true"></i>
-  {{#if display}}{{display}}{{else}}{{value}}{{/if}}
+  {{linkDisplay this}}
 </a>
 {{/if}}

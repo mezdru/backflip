@@ -29,7 +29,7 @@ router.use('/:context/:recordId?',function(req, res, next) {
   //@todo handle the case we ask for me but there's no record
   req.params.recordId = req.params.recordId === 'me' ? res.locals.user.getRecordIdByOrgId(res.locals.organisation._id) : req.params.recordId;
 
-  Record.findById(req.params.recordId).populate('within').exec(function(err, record) {
+  Record.findById(req.params.recordId, res.locals.organisation._id, function(err, record) {
     if (err) return next(err);
     if (!record) {
       err = new Error('No record found');
@@ -163,7 +163,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
         }
 
         if (res.locals.record.type === "person" && req.body.invite === "yes") {
-          let email = res.locals.record.getEmail();
+          let email = res.locals.record.firstEmail;
           if (!email) {
             res.locals.errors.push({msg:res.__('Please provide an email to invite this person.')});
             return next();

@@ -53,7 +53,7 @@ hbs.registerHelper('linkUrl', function(link) {
 		case 'email':
 			return 'mailto:'+link.value;
     case 'phone':
-      return 'tel'+link.value;
+      return 'tel:'+link.value;
 		case 'address':
 			return 'http://maps.google.com/?q='+encodeURIComponent(link.value);
 		default:
@@ -91,9 +91,9 @@ hbs.registerHelper('profileLink', function(user, organisation) {
   if (!organisation || !user) return null;
   recordId = user.getRecordIdByOrgId(organisation._id);
   if (!recordId) return null;
-  url = new UrlHelper(organisation.tag, `edit/id/${recordId}`, null, this.getLocale()).getUrl();
+  url = new UrlHelper(organisation.tag, `id/${recordId}`, null, this.getLocale()).getUrl();
   //What about using the refresh icon instrad of the arrow-up?
-  return `<a id="profileLink" title="${this.__('Update my Profile')}" class="fa fa-user-circle profile" href="${url}" aria-hidden="true"></a>`;
+  return `<a id="profileLink" title="${this.__('Profile')}" class="fa fa-user-circle profile" href="${url}" aria-hidden="true"></a>`;
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {

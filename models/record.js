@@ -174,10 +174,9 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
   return new Promise((resolve, reject) =>
   {
     if (mongoose.Types.ObjectId.isValid(hashtag)) {
-      this.model('Record').findById(hashtag, (err, record) => {
+      this.model('Record').findById(hashtag, organisationId, (err, record) => {
         if (err) return reject(err);
         if (!record) return reject(new Error('Hashtag Record not found for ObjectId'));
-        if (!record.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record Id not in this organisation'));
         return resolve(record);
       });
     } else if (hashtag instanceof Record) {
@@ -313,6 +312,14 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   .exec(callback);
 };
 
+// We look for tags in the org AND IN THE "ALL" ORGANISATION !
+//@Todo create the corresponding index with the right collation.
+recordSchema.statics.findById = function(id, organisationId, callback) {
+  this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
+  .populate('within hashtags')
+  .exec(callback);
+};
+
 recordSchema.statics.makeFromEmail = function(email, organisationId) {
   let type = 'person';
   let tag = this.getTagFromEmail(email);
@@ -413,9 +420,9 @@ recordSchema.methods.makeIncludes = function(organisation) {
   }, this);
 };
 
-recordSchema.methods.getEmail = function() {
-  return undefsafe(this.links.find(link => link.type === 'email'), 'value');
-};
+recordSchema.virtual('firstEmail').get(function () {
+  return undefsafe(this, 'google.primaryEmail') || undefsafe(this, 'email.value') || this.links.find(link => link.type === 'email').value;
+});
 
 recordSchema.methods.hasPicture = function() {
   return undefsafe(this, 'picture.url') || undefsafe(this, 'picture.path');

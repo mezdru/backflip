@@ -24,11 +24,36 @@ router.get('/:tag', function(req, res, next) {
       return next(error);
     }
     res.locals.record = record;
-    res.locals.onboard = true;
-    res.render('profile', {
-      title: record.name,
-      bodyClass: 'profile'
-    });
+    next();
+  });
+});
+
+router.get('/id/:id', function(req, res, next) {
+  Record.findById(req.params.id, res.locals.organisation._id, function(err, record) {
+    if (err) return next(err);
+    if (!record) {
+      let error = new Error('Profile not found');
+      error.status = 404;
+      return next(error);
+    }
+    res.locals.record = record;
+    next();
+  });
+});
+
+router.get('*', function(req, res, next) {
+  if (res.locals.user.ownsRecord(res.locals.record._id) ||
+    res.locals.user.isAdminToOrganisation(res.locals.organisation._id)
+  ) {
+    res.locals.canEdit = true;
+  }
+  next();
+});
+
+router.get('*', function(req, res, next) {
+  res.render('profile', {
+    title: res.locals.record.name,
+    bodyClass: 'profile'
   });
 });
 

@@ -16,7 +16,7 @@
           <label for="email">
             {{__ "Email"}}
           </label>
-          <input class="pure-input-1" id="email" name="email" type="email" value="{{user.loginEmail}}" disabled="">
+          <input class="pure-input-1" id="email" name="email" type="email" value="{{record.firstEmail}}" disabled="">
         </div>
         <div class="grid-box">
           <label for="name">{{__ "Name"}}</label>
@@ -28,7 +28,7 @@
       <div class="pure-u-1">
         <div class="grid-box">
           <label for="intro">{{__ "What do you do at %s?" organisation.name}}</label>
-          <input class="pure-input-1 desc-input" id="intro" name="intro" type="text" value="{{{record.intro}}}">
+          <input class="pure-input-1 desc-input" id="intro" name="intro" type="text" value="{{{record.intro}}}" autocomplete="off">
         </div>
         <div class="grid-box wings-checkboxes-label">
           <label for="wings-checkboxes">{{__ "Which are your Wings?"}}</label>
