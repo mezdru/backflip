@@ -1,53 +1,21 @@
 <script type="text/html" id="hit-template">
   {{{{raw}}}}
-  <div class="record pure-g {{type}}">
-    {{^person}}<div class="pure-u-1-3">{{/person}}
-    {{#person}}<div class="pure-u-1-6">{{/person}}
-      {{#mozaic}}
-      <div class="mozaic">
-        {{#includes}}<a title="{{name}}" class="tile {{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')"><img onload="resizeImg(this)" src="{{picture.url}}"></a>{{/includes}}
-        {{#mozaic_more}}<a title="Search more" class="tile more" onclick="setSearch('', '{{tag}}')">+{{mozaic_more}}</a>{{/mozaic_more}}
-      </div>
-      {{/mozaic}}
-      {{^mozaic}}
+  <div class="record {{type}} pure-g">
+    <div class="pure-u-1-3">
       <div class="picture">
-        {{^person}}<img onload="resizeImg(this, 2.15)" src="{{picture.url}}">{{/person}}
-        {{#person}}<img onload="resizeImg(this)" src="{{picture.url}}">{{/person}}
+        <img onload="resizeImg(this)" src="{{picture.url}}">
       </div>
-      {{/mozaic}}
     </div>
-    {{^person}}<div class="pure-u-2-3">{{/person}}
-    {{#person}}<div class="pure-u-5-6">{{/person}}
-      <div class="central">
-        <div class="central-header">
-        <h2 class="name searcher" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.name.value}}}</h2>
-        {{^person}}<a title="{{name}}" class="tag searcher link-{{type}}" onclick="setSearch('{{tag}}', '{{parentTag}}')">{{{_highlightResult.tag.value}}}</a>{{/person}}
-          <p class="actions">
-            <span class="counters">
-              {{#includes_count.person}}<a title="{{includes_count.person}} People" class="searcher link-persons" onclick="setSearch('', '{{tag}}', 'person')"><i class="fa fa-user-circle-o" aria-hidden="true"></i>{{includes_count.person}}</a>{{/includes_count.person}}
-              {{#includes_count.team}}<a title="{{includes_count.team}} Teams" class="searcher link-teams" onclick="setSearch('', '{{tag}}', 'team')"><i class="fa fa-at" aria-hidden="true"></i>{{includes_count.team}}</a>{{/includes_count.team}}
-              {{#includes_count.hashtag}}<a title="{{includes_count.hashtag}} Hashtags" class="searcher link-hashtags" onclick="setSearch('', '{{tag}}', 'hashtag')"><i class="fa fa-hashtag" aria-hidden="true"></i>{{includes_count.hashtag}}</a>{{/includes_count.hashtag}}
-            </span>
-            {{#editUrl}}
-            <a title="Edit" href="{{editUrl}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            {{/editUrl}}
-            {{#deleteUrl}}
-            <a title="Delete" href="{{deleteUrl}}"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-            {{/deleteUrl}}
-          </p>
-        </div>
-        <p class="description snippet">{{{_snippetResult.description.value}}}</p>
-        <p class="description full">{{{_highlightResult.description.value}}}</p>
-        <div class="links">
-          <ul>
-            <li class="expander"><a onclick="toggleRecord(this)"><i class="fa fa-chevron-down" aria-hidden="true"></i></a></li>
-            {{#links}}
-            <li class="{{class}}"><a href="{{url}}" title="{{display}}" target="_blank"><i class="fa fa-{{icon}}" aria-hidden="true"></i><span class="link-text">{{display}}</span></a></li>
-            {{/links}}
-            <li class="collapser"><a onclick="toggleRecord(this)"><i class="fa fa-chevron-up" aria-hidden="true"></i></a></li>
-          </ul>
-        </div>
-      </div>
+    <div class="pure-u-2-3">
+      <h2>{{{_highlightResult.name.value}}}</h2>
+      <p>{{{_snippetResult.description.value}}}</p>
+    </div>
+    <div class="pure-u-1">
+    </div>
+    <div class="pure-u-1 links">
+      {{#links}}
+      <a href="{{url}}" class="{{class}} fa fa-{{icon}}" title="{{display}}" aria-hidden="true" target="_blank"></a>
+      {{/links}}
     </div>
   </div>
   {{{{/raw}}}}

@@ -321,9 +321,9 @@ router.post('/links', function(req, res, next) {
   res.locals.record.makeLinks(links);
   res.locals.record.save(function(err, record) {
     if (err) return next(err);
-    res.render('index', {
-      title: "links",
-      content: res.locals.record
+    res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
+      if (err) console.error(err);
+      return res.redirect(new UrlHelper(res.locals.organisation.tag).getUrl());
     });
   });
 });

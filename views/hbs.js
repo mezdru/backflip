@@ -108,7 +108,7 @@ hbs.registerHelper('addLink', function(user, organisation) {
   return `<a id="addLink" title="${this.__('Add new record')}" class="fa fa-plus-circle" href="${url}" aria-hidden="true"></a>`;
 });
 
-hbs.registerHelper('url', function(path, organisationTag) {
+hbs.registerHelper('url', function(path, organisationTag, query) {
   return new UrlHelper(organisationTag, path, null, this.getLocale()).getUrl();
 });
 

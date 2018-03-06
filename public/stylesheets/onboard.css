@@ -65,24 +65,6 @@ ul.errors li {
   padding-left: 15px;
 }
 
-.onboard input[type="email"],
-.onboard input[type="text"],
-.onboard input[type="url"],
-.onboard input[type="tel"] {
-  padding: 15px 20px;
-  border-radius: 30px;
-  font-size: 20px;
-  line-height: 28px;
-  border: 2px solid #1d1f1a;
-  color: #1d1f1a;
-  box-shadow: none;
-}
-
-.onboard input[type="email"]:focus,
-.onboard input[type="text"]:focus {
-  border: 2px solid #dd362e;
-}
-
 .onboard form input[type="email"][disabled] {
   background: none;
   border: none;
@@ -102,7 +84,7 @@ ul.errors li {
 }
 
 .onboard .bottom-buttons .grid-box {
-  padding: 60px 30px;
+  padding: 60px 15px;
 }
 
 .bottom-buttons a.pure-u-1-2 {
@@ -293,40 +275,6 @@ label[for="hashtag"],
 label[for="link-input"] {
   font-size: 25px;
   margin-bottom: 20px;
-}
-
-#hashtag-input-box,
-#link-input-box {
-  position: relative;
-}
-
-#hashtag-input-box > .fa,
-#link-input-box > .fa {
-  position: absolute;
-  right: 40px;
-  padding: 10px;
-  z-index: 101;
-  font-size: 40px;
-  color:  #dd362e;
-  transition: none;
-}
-
-input#hashtag-input,
-input#link-input {
-  border: 2px solid #dd362e;
-  height: 60px;
-  padding: 15px 20px;
-  font-size: 20px;
-  border-radius: 30px;
-  font-weight: 700;
-  margin: 0;
-  z-index: 100;
-}
-
-input#hashtag-input::placeholder,
-input#link-input::placeholder {
-  color: #c7bcbf;
-  opacity: 1;
 }
 
 input#hashtag-input.open {
@@ -542,7 +490,7 @@ li#facebook-selector.selected {
   display: none;
 }
 
-@media screen and (min-width: 660px) {
+@media screen and (min-width: 640px) {
   #type-selector li span {
     display: inline;
   }

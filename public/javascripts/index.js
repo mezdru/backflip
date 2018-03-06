@@ -8,11 +8,11 @@
 
 // The length of the Description Snippet depends on the screen width.
 // @todo make it responsive dynamically (or not?)
-var descriptionSnippetLength = 8;
+var introSnippetLength = 6;
 var extraLinkLimit = 4;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		descriptionSnippetLength = 24;
-		extraLinkLimit = 8;
+		introSnippetLength = 10;
+		extraLinkLimit = 6;
 }
 
 var search = instantsearch({
@@ -22,7 +22,8 @@ var search = instantsearch({
 	urlSync: true,
 	searchParameters: {
 		attributesToSnippet: [
-    	"description:"+descriptionSnippetLength
+    	"description:"+introSnippetLength,
+	    "intro:"+introSnippetLength
   	],
 		disjunctiveFacetsRefinements: {
 			type: ['person']
@@ -32,11 +33,9 @@ var search = instantsearch({
 
 transformItem = function (item) {
 	transformImagePath(item);
-	transformDescriptions(item);
+	transformIntro(item);
 	transformLinks(item);
 	addType(item);
-	addEditUrl(item);
-	addDeleteUrl(item);
 	addParentTag(item);
 	return item;
 };
@@ -81,9 +80,9 @@ function transformIncludes(item) {
 	});
 }
 
-function transformDescriptions(item) {
-	if (item._snippetResult) item._snippetResult.description.value = transformString(item._snippetResult.description.value, item.within);
-	if (item._highlightResult) item._highlightResult.description.value = transformString(item._highlightResult.description.value, item.within);
+function transformIntro(item) {
+	if (item._snippetResult && item._snippetResult.intro) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item.within);
+	else if (item._snippetResult && item._snippetResult.description) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item.within)};
 }
 
 function transformString(input, within) {
@@ -165,18 +164,6 @@ function makeLinkUrl(link) {
 	}
 }
 
-function addEditUrl(item) {
-	if (item.objectID === myRecordId || isAdmin) {
-		item.editUrl = makeUrl(null, 'edit/id/' + item.objectID);
-	}
-}
-
-function addDeleteUrl(item) {
-	if (isAdmin) {
-		item.deleteUrl = makeUrl(null, 'admin/record/delete/' + item.objectID);
-	}
-}
-
 function addType(item) {
 	item[item.type] = true;
 }
@@ -197,6 +184,9 @@ search.addWidget(
 		placeholder: searchPlaceholder,
 		wrapInput: false,
 		autofocus: false,
+    reset: false,
+		magnifier: false,
+    loadingIndicator: false,
 		cssClasses: {
 			input: 'search-input'
 		}
@@ -207,6 +197,9 @@ search.addWidget(
   instantsearch.widgets.infiniteHits({
     container: '#search-results',
     hitsPerPage: 30,
+		cssClasses: {
+			item: 'pure-g-box'
+		},
     templates: {
       item: getTemplate('hit'),
       empty: getTemplate('noone')
@@ -234,27 +227,6 @@ search.addWidget(
 		}
 	})
 );
-
-var customClearAllWidget = {
-    init: function(args) {
-        var helper = args.helper;
-        document.getElementById('clear-search').addEventListener('click', function() {
-            helper.setQuery('').clearRefinements().search();
-						window.scrollTo(0,0);
-        });
-    },
-    render:function(args){
-        var helper = args.helper;
-        var state = helper.getState();
-        //Check refined facets and query. If we dont't have any, hide widget.
-        if(state.getRefinedDisjunctiveFacets()==='' && state.getQueryParameter('query')===''){
-            document.getElementById('clear-search').style.display = 'none';
-            return false;
-        }
-        document.getElementById('clear-search').style.display = '';
-    }
-};
-search.addWidget(customClearAllWidget);
 
 function setSearch(query, parent, filter) {
 	if (query == parent) query = '';

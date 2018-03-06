@@ -8,13 +8,15 @@ var Organisation = require('../models/organisation.js');
 //@todo avoid this double redirect on login.
 router.get('/', function(req, res, next) {
   if (res.locals.user && res.locals.organisation && res.locals.user.needsWelcomingToOrganisation(res.locals.organisation._id)) {
+      //@todo the welcomeToOrganisation is in onboard.js now, we could remove this
       if (req.query.welcomed) {
         res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {if (err) console.error(err);});
-        return next();
       } else {
+        //@todo that we need to keep (unless we rewrite the logic to avoid this unecessary second redirect)
         return res.redirect(new UrlHelper(res.locals.organisation.tag, 'onboard/welcome', null, req.session.locale).getUrl());
       }
   }
+  return next();
 });
 
 // Find the best organisationTag to redirect to.
