@@ -38,12 +38,14 @@ a:hover {
   opacity: 1;
 }
 
-.pure-button {
+.pure-button,
+.ais-infinite-hits--showmore button {
   width: 100%;
   font-size: 22.5px;
   line-height: 30px;
   padding: 15px 30px;
   font-weight: 800;
+  border: none;
   border-radius: 30px;
   background-color: #dd362e;
   color: #ffffff;
@@ -54,6 +56,17 @@ a:hover {
   border: 2px solid #dd362e;
   font-weight: 400;
   color: #dd362e;
+}
+
+.ais-infinite-hits--showmore button {
+  width: auto;
+  margin: auto;
+  display: block;
+  margin-top: 45px;
+}
+
+.ais-infinite-hits--showmore button:disabled {
+  display: none;
 }
 
 a.pure-button:hover {
@@ -419,10 +432,6 @@ p.cloud {
 }
 
 /* PROFILE */
-.profile #name {
-  font-size: 24px;
-  font-weight: 700;
-}
 
 .profile #intro {
    font-size: 18px;
@@ -435,8 +444,10 @@ p.cloud {
 
 .profile #edit-button {
   width: auto;
-  margin-top: 45px;
+  margin-top: 30px;
   float: right;
+  font-size: 18px;
+  padding: 5px 15px;
 }
 
 /* SEARCH RESULTS */
@@ -453,7 +464,7 @@ p.cloud {
   border-top-left-radius: 17vw;
 }
 
-.record .name {
+.name {
   display: block;
   position: relative;
   padding: 5px 15px;
@@ -463,7 +474,8 @@ p.cloud {
   color: #1d1f1a;
 }
 
-.record h2 {
+.name h2,
+.name h1 {
   position: absolute;
   margin: 0;
   bottom: 0;
@@ -523,6 +535,12 @@ a.hashtag {
   overflow-x: scroll;
   padding: 5px;
   transition: all 1s ease-in-out;
+}
+
+.hashtag.highlighted {
+  color: #ffffff;
+  border-color: #dd362e;
+  background-color: #dd362e;
 }
 
 .scroll-right, .scroll-left {
@@ -637,15 +655,12 @@ a.hashtag {
     display: inline-block;
   }
 
-  .profile #name {
-    font-size: 36px;
-  }
-
   .record {
     border-top-left-radius: 105px;
   }
 
-  .record h2 {
+  .name h2,
+  .name h1 {
     font-size: 30px;
     line-height: 30px;
 

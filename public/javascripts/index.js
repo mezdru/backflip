@@ -21,81 +21,43 @@ var search = instantsearch({
 	indexName: 'world',
 	urlSync: true,
 	searchParameters: {
-		attributesToSnippet: [
-    	"description:"+introSnippetLength,
-	    "intro:"+introSnippetLength
-  	],
-		disjunctiveFacetsRefinements: {
-			type: ['person']
-		}
+		facetFilters: ['type:person']
 	}
 });
 
 transformItem = function (item) {
 	transformImagePath(item);
+	transformHashtags(item);
 	transformIntro(item);
 	transformLinks(item);
-	transformHashtags(item);
-	addType(item);
 	addUrl(item);
-	addParentTag(item);
 	return item;
 };
-
-function addParentTag(item) {
-	if (item.type == 'team') item.parentTag = item.tag;
-	else if (item.within) {
-		var parent = item.within.find(function(within) {
-			return within.type=='team' && within.tag != item.tag;
-		});
-		if (parent) item.parentTag = parent.tag;
-	}
-}
 
 function transformImagePath(item) {
 	item.picture = {url: getPictureUrl(item)};
 }
 
-//@todo handle the display of teams
-function transformIncludes(item) {
-	if (!item.includes || !item.includes.length || !item.includes_count) return;
-	item.mozaic = true;
-	if (item.includes_count.person > 8) {
-		item.mozaic_more = item.includes_count.person + item.includes_count.team + item.includes_count.hashtag - 7;
-		item.includes = item.includes.slice(0,7);
-	}
-	item.includes.forEach(function(item) {
-		 transformImagePath(item);
-	});
-}
-
 function transformIntro(item) {
-	if (item._snippetResult && item._snippetResult.intro) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item.within);
-	else if (item._snippetResult && item._snippetResult.description) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item.within)};
+	if (item._snippetResult && item._snippetResult.intro) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item.hashtags);
+	else if (item._snippetResult && item._snippetResult.description) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item.hashtags)};
 }
 
-function transformString(input, within) {
+function transformString(input, hashtags) {
 		// Does not match person (@) yet
 		var regex = /([#][^\s@#\,\.\!\?\;\(\)]+)/g;
 		input = input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
-			record = getRecord(cleanMatch, within);
+			record = getRecord(cleanMatch, hashtags);
 			return '<a title="' + record.name + '" class="link-' + record.type + '" onclick="setSearch(\'' + ( record.type == 'team' ? '' : cleanMatch ) + '\', \'' + ( record.type == 'team' ? cleanMatch : '' ) + '\')">' + match + '</a>';
 		});
 		return input;
 }
 
-function getRecord(tag, within) {
-	record = within.find(function (record) { return record.tag == tag; });
+function getRecord(tag, hashtags) {
+	record = hashtags.find(function (record) { return record.tag == tag; });
 	if (!record) return {tag: tag, name: tag, type: 'hashtag'};
 	return record;
-}
-
-function getTitle(tag, within) {
-		if (!within) return tag;
-		record = within.find(function(record) { return record.tag == tag; });
-		if (!record) return tag;
-		return record.name;
 }
 
 // @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
@@ -153,30 +115,26 @@ function makeLinkUrl(link) {
 	}
 }
 
-function addType(item) {
-	item[item.type] = true;
-}
-
 function addUrl(item) {
 	item.url = makeUrl(null, item.tag);
 }
-
-transformTypeItem = function(item) {
-	var icon = 'fa-at';
-	switch (item.name) {
-		case 'person': icon = 'fa-user-circle-o'; break;
-		case 'hashtag': icon = 'fa-hashtag'; break;
-	}
-	item.highlighted = '<i class="fa ' + icon + '" aria-hidden="true"></i><span class="toggle-text">' + typeStrings[item.name] + '</span>';
-	return item;
-};
 
 transformHashtags = function(item) {
 	if (!item.hashtags) item.hashtags = [];
 	if (!item.within) item.within = [];
 	item.hashtags = item.hashtags.concat(item.within);
+	makeHightlighted(item);
 	item.hashtags.forEach(function(item) {
-		 transformImagePath(item);
+		transformImagePath(item);
+	});
+};
+
+makeHightlighted = function(item) {
+	if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];
+	if (!item._highlightResult.within) item._highlightResult.within = [];
+	item._highlightResult.hashtags = item._highlightResult.hashtags.concat(item._highlightResult.within);
+	item._highlightResult.hashtags.forEach(function(hashtag, index) {
+		if (hashtag.tag && hashtag.tag.fullyHighlighted) item.hashtags[index].class = 'highlighted';
 	});
 };
 
@@ -212,16 +170,6 @@ search.addWidget(
 );
 
 search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#types',
-    attributeName: 'type',
-    operator: 'or',
-    limit: 4,
-		transformData: transformTypeItem
-  })
-);
-
-search.addWidget(
   instantsearch.widgets.analytics({
     pushFunction: function(formattedParameters, state, results) {
       window.ga('set', 'page', '/search/query/?query=' + state.query + '&' + formattedParameters + '&numberOfHits=' + results.nbHits);
@@ -230,29 +178,10 @@ search.addWidget(
 	})
 );
 
-function setSearch(query, parent, filter) {
-	if (query == parent) query = '';
+function setSearch(query) {
 	search.helper.clearRefinements().setQuery(query);
-
-	if (filter) search.helper.toggleRefinement('type', filter);
-
-	if (parent) setHierarchicalRefinement(query, parent);
-
 	search.helper.search();
 	window.scrollTo(0,0);
-}
-
-function setHierarchicalRefinement(query, parent) {
-	var branch = orgTree.find(function(branch) { return branch[branch.length-1] == parent; });
-	if (branch) search.helper.toggleRefinement('structure.0', branchToString(branch));
-	search.helper.setQuery(parent + ' ' + query);
-}
-
-function branchToString(branch) {
-	return branch.reduce(function(acc, tag, index, branch) {
-		if (index === branch.length-1) return acc + tag;
-		return acc + tag + ' > ';
-	}, '');
 }
 
 function refresh() {

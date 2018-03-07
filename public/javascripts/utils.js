@@ -1,33 +1,3 @@
-function findAncestor(child, classSearched) {
-    while ((child = child.parentElement) && !child.classList.contains(classSearched));
-		return child;
-}
-
-function toggleRecord(child) {
-	findAncestor(child, 'record').classList.toggle('expanded');
-}
-
-function toggleLink(child) {
-	var linkLi = findAncestor(child, 'linkLi');
-	linkLi.classList.toggle('deleted');
-	var linkDeleted = linkLi.getElementsByClassName('deleted-input')[0];
-	linkDeleted.value = linkDeleted.value == 'true' ? 'false' : 'true';
-}
-
-function resizeImg(img, ratio) {
-  var width = img.naturalWidth;
-  var height = img.naturalHeight;
-  ratio = ratio || 1;
-  if (width/height > ratio) {
-    img.classList.add('horizontal');
-    var marginLeft = Math.round((img.height*ratio-img.width)/2);
-    img.style.marginLeft = marginLeft+"px";
-  } else {
-    marginTop = Math.round((img.width/ratio-img.height)/2);
-    img.style.marginTop = marginTop+"px";
-  }
-}
-
 function getPictureUrl(item) {
 	if (item.picture && item.picture.url) {
 			return item.picture.url;
@@ -53,19 +23,6 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-var inputIndex = 0;
-function addLinkInput(placeholder, value) {
-	var fieldset = document.getElementById('new-links-fieldset');
-  var input = document.createElement('input');
-  input.name = 'newLinks['+inputIndex+'][value]';
-  inputIndex++;
-  input.className = "pure-input-1 link-input";
-  input.type = "text";
-  input.placeholder = placeholder;
-  input.value = value || '';
-  fieldset.insertBefore(input, null);
 }
 
 function getTemplate(templateName) {
