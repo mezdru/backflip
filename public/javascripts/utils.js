@@ -35,14 +35,16 @@ function makeUrl(subdomains, path, query, locale) {
   path = path || '';
   query = query || '';
   locale = locale || getLocale();
-  if (isDevelopment) {
-    if (subdomains) {
-      if (query) query += '&subdomains='+subdomains;
-      else query = '?subdomains='+subdomains;
-    }
-    url = 'http://localhost:3000/' + (locale ? locale + '/' : '') + path + query;
-  } else {
+  if (isProduction) {
     url =  'https://' + ( subdomains ? subdomains + '.' : '' ) + 'wingzy.io/' + ( locale ? locale + '/' : '') + path + query;
+  } else {
+		if (subdomains) {
+	    if (query) query += '&subdomains='+subdomains;
+	    else query = '?subdomains='+subdomains;
+	  }
+		var protocol = location.protocol ;
+		var host = window.location.hostname;
+	  url = location.protocol + '//' + host + (location.port ? ':' + location.port : '') + '/' + (locale ? locale + '/' : '') + path + query;
   }
   return url;
 }
@@ -52,8 +54,8 @@ function getSubdomain() {
   if (subdomain) return subdomain;
 
   var elements = window.location.host.split('.');
-  if (elements.length > 2) subdomain = window.location.host.split('.')[0];
-  else if (isDevelopment) subdomain = getParameterByName('subdomains');
+  if (isProduction && elements.length > 2) subdomain = elements[0];
+  else subdomain = getParameterByName('subdomains');
 
   return subdomain;
 }

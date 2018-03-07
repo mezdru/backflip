@@ -105,5 +105,7 @@
 	"Product": "Product",
 	"Pricing": "Pricing",
 	"Logout": "Logout",
-	"Join us": "Join us"
+	"Join us": "Join us",
+	"You want Lenom in your organization? <a href=\"mailto:apply@lenom.io\">Send us an email!</a>": "You want Lenom in your organization? <a href=\"mailto:apply@lenom.io\">Send us an email!</a>",
+	"We, the people within %s, are building a genuine tool to find, discover and reach each other directly. In other words, this is a collaborative directory, and we would love you to enrich it with your profile. Pretty please!": "We, the people within %s, are building a genuine tool to find, discover and reach each other directly. In other words, this is a collaborative directory, and we would love you to enrich it with your profile. Pretty please!"
 }

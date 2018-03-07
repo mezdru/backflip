@@ -13,19 +13,28 @@ var UrlHelper = class UrlHelper {
   }
 
   makeUrl() {
-    if (this.isDev()) {
+    if (this.isProd()) {
+      this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+    } else {
       if (this.subdomains) {
         if (this.query) this.query += `&subdomains=${this.subdomains}`;
         else this.query = `?subdomains=${this.subdomains}`;
       }
-      this.url = `http://localhost:3000/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
-    } else {
-      this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+      //@todo read the protocol, host & port from the request instead of hardcoding this shit
+      if (this.isStaging()) {
+        this.url = `https://wingzy-staging.herokuapp.com/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+      } else {
+        this.url = `http://localhost:3000/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+      }
     }
   }
 
-  isDev() {
-    return this.getEnv() === 'development';
+  isProd() {
+    return this.getEnv() === 'production';
+  }
+
+  isStaging() {
+    return this.getEnv() === 'staging';
   }
 
   getHost() {
