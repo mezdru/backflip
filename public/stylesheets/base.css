@@ -206,7 +206,7 @@ a.fa,
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
-  padding-top: 150px;
+  padding-top: 130px;
   padding-bottom: 60px;
   flex-grow: 1;
   background-color: #f6f4f4;
@@ -222,8 +222,8 @@ a.fa,
 header {
 	height: 120px;
   width: 100%;
-  border-top: 9px solid #dd362e;
-  border-bottom: 1px solid #c7bcbf;
+  border-top: 8px solid #dd362e;
+  border-bottom: 2px solid #e9e5e6;
   position: fixed;
   top: 0;
   z-index: 100;
@@ -362,7 +362,7 @@ footer p {
 /* CLOUDS & ITEMS */
 .cloud,
 .record {
-  border: 1px solid #c7bcbf;
+  border: 2px solid #e9e5e6;
   background: #ffffff;
   border-radius: 30px;
   padding: 10px;
@@ -386,7 +386,7 @@ p.cloud {
   letter-spacing: 0.4px;
   color: #5C4D51;
   background: #f6f4f4;
-  border: 1px solid #c7bcbf;
+  border: 1px solid #e9e5e6;
   word-break: break-all;
   overflow: hidden;
 }
@@ -450,8 +450,7 @@ p.cloud {
 
 .record {
   padding: 0;
-  border-top-left-radius: 14vw;
-  overflow: hidden;
+  border-top-left-radius: 17vw;
 }
 
 .record .name {
@@ -459,7 +458,7 @@ p.cloud {
   position: relative;
   padding: 5px 15px;
   height: 14vw;
-  max-height: 90px;
+  max-height: 105px;
   box-sizing: border-box;
   color: #1d1f1a;
 }
@@ -480,7 +479,8 @@ p.cloud {
   margin: 5px 15px 5px 15px;
 }
 
-.link-hashtag {
+.link-hashtag,
+a.hashtag {
   cursor: pointer;
 }
 
@@ -500,10 +500,49 @@ p.cloud {
   max-width: 180px;
 }
 
+.record .picture {
+  margin: 15px 0 0 15px;
+}
+
+/* HASHTAGS */
+
+.pure-u-hashtags {
+  position: relative;
+  margin-top: 15px;
+  border-top: 2px solid #e9e5e6;
+}
+
+.hashtags-box {
+  height: 60px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.hashtags {
+  white-space: nowrap;
+  overflow-x: scroll;
+  padding: 5px;
+  transition: all 1s ease-in-out;
+}
+
+.scroll-right, .scroll-left {
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  font-size: 30px;
+  color: #e9e5e6;
+  cursor: pointer;
+}
+
+.scroll-left {
+  right: auto;
+  left: -30px;
+}
 
 /* CONTACTS */
 .contacts {
-  border-top: 1px solid #c7bcbf;
+  border-top: 2px solid #e9e5e6;
   padding: 0 5px;
 }
 
@@ -603,7 +642,7 @@ p.cloud {
   }
 
   .record {
-    border-top-left-radius: 90px;
+    border-top-left-radius: 105px;
   }
 
   .record h2 {
@@ -619,6 +658,10 @@ p.cloud {
 
   .contacts {
     padding: 0 10px;
+  }
+
+  .scroll-right, .scroll-left {
+    display: block;
   }
 
   /* to cleanup: */

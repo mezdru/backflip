@@ -115,11 +115,16 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-
-function onloadActions() {
-  /*if (window.matchMedia('(min-width: 1280px)').matches) {
-  	openPanel();
-  }*/
+function goRight(child) {
+  child.parentElement.getElementsByClassName('hashtags')[0].scrollLeft += 200;
 }
 
-window.onload = onloadActions;
+function goLeft(child) {
+  child.parentElement.getElementsByClassName('hashtags')[0].scrollLeft -= 200;
+}
+
+
+function onload() {
+}
+
+window.onload = onload();

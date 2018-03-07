@@ -12,13 +12,19 @@
       </a>
       <p>{{{_snippetResult.intro.value}}}</p>
     </div>
-    <div class="pure-u-1 hashtags">
-      {{#hashtags}}
-      <a onclick="setSearch('{{tag}}')" class="cloud-element hashtag">
-        <img src="{{picture.url}}">
-        {{name}}
-      </a>
-      {{/hashtags}}
+    <div class="pure-u-1 pure-u-hashtags">
+      <a onclick="goRight(this)" class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
+      <a onclick="goLeft(this)" class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
+      <div class=" hashtags-box">
+        <div class="hashtags">
+          {{#hashtags}}
+          <a onclick="setSearch('{{tag}}')" class="cloud-element hashtag">
+            <img src="{{picture.url}}">
+            {{name}}
+          </a>
+          {{/hashtags}}
+        </div>
+      </div>
     </div>
     <div class="pure-u-1 contacts">
       {{#links}}
