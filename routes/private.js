@@ -22,18 +22,7 @@ router.get('/', function(req, res, next) {
   res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   res.locals.isProduction = req.app.get('env') == 'production';
   res.locals.isMyOrg = true;
-  res.locals.isCreator = true;
-  res.locals.intro = res.locals.intro || {welcome: true};
-  /*if (res.locals.user.needsWelcoming()) {
-    res.locals.intro_auto = true;
-    res.locals.user.welcome(err => {if (err) console.error(err);});
-  }*/
   res.render('directory', {search: true});
-});
-
-router.get('/welcome', function(req, res, next) {
-  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.render('edit_welcome', {layout: 'home/layout_home', bodyClass: 'home'});
 });
 
 module.exports = router;

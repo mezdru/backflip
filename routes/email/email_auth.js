@@ -8,20 +8,33 @@ var Organisation = require('../../models/organisation.js');
 
 var UrlHelper = require('../../helpers/url_helper.js');
 
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
+
+router.post('/login',
+  sanitizeBody('email').trim().escape().stripLow(true)
+);
+
+router.post('/login',
+  body('email').isEmail().withMessage((value, {req}) => {
+    return req.__('Please provide a valid Email Address');
+  })
+);
+
+
 router.post('/login', function(req, res, next) {
   req.session.locale = req.getLocale();
-  req.sanitizeBody('email').escape();
-  var validationSchema = { email: { isEmail: { errorMessage: res.__('Wrong email')}}};
-  var errors = req.validationErrors();
-  if (!errors) {
+  var errors = validationResult(req);
+  res.locals.errors = errors.array() || [];
+  if (errors.isEmpty()) {
     EmailUser.getByEmail(req.body.email, function(err, user) {
       if (err) return next(err);
       errors = [];
-      if (!user) errors.push({msg:res.__('Email not found')});
-      else if (res.locals.organisation && !user.belongsToOrganisation(res.locals.organisation._id)) errors.push({msg:res.__('This email does not belong to this organisation')});
-      else if (EmailUser.tooSoon(user)) errors.push({msg: res.__('Email already sent, check your inbox!')});
+      if (!user) res.locals.errors.push({msg:res.__('Email not found')});
+      else if (res.locals.organisation && !user.belongsToOrganisation(res.locals.organisation._id)) res.locals.errors.push({msg:res.__('This email does not belong to this organisation')});
+      else if (EmailUser.tooSoon(user)) res.locals.errors.push({msg: res.__('Email already sent, check your inbox!')});
 
-      if (errors.length > 0) return res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home signin', googleSignin:true, emailSignin:true, email: req.body.email, errors: errors});
+      if (res.locals.errors.length > 0) return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});
 
       EmailUser.sendLoginEmail(user, res.locals.organisation, res, function(err, user) {
         if (err) return next(err);
@@ -29,7 +42,7 @@ router.post('/login', function(req, res, next) {
       });
     });
   } else {
-    return res.render('home/signin', {layout: 'home/layout_home', bodyClass: 'home signin', googleSignin:true, emailSignin:true, email: req.body.email, errors: errors});
+    return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});
   }
 });
 

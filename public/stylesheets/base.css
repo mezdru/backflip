@@ -117,6 +117,18 @@ em a {
   word-break: break-all;
 }
 
+ul.errors {
+  list-style-type: none;
+  background-color: #dde03a;
+  border-radius: 30px;
+  padding: 20px;
+  font-size: 20px;
+}
+
+ul.errors li {
+  padding: 15px;
+}
+
 /*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
 footer a:hover img,
 header a:hover img,
@@ -617,6 +629,87 @@ a.hashtag {
   opacity: 1;
 }
 
+/* SIGNIN PAGE */
+
+.signin header {
+  border-bottom: none;
+}
+
+.signin .main {
+  padding-top: 120px;
+  padding-bottom: 420px;
+  background-image: url('/images/chat.png');
+  background-position: right 180px;
+  background-repeat: no-repeat;
+  background-size: 60vh;
+  background-color: #ffffff;
+}
+
+.signin h1 {
+  text-align: center;
+  margin: 0;
+  font-size: 22.5px;
+  font-weight: 700;
+  padding: 0 30px 15px;
+}
+
+.signin h2 {
+  text-align: center;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 0 30px 30px;
+}
+
+.signin-or {
+  font-size: 15px;
+  padding: 15px;
+  text-align: center;
+  font-weight: 700;
+  color: #c7bcbf;
+}
+
+#email-input {
+  margin-bottom: 15px;
+  border-color: #a4c5cb;
+}
+
+#email-submit {
+  background-color: #a4c5cb;
+}
+
+#jeSuisHumain {
+  display: none;
+}
+
+.signin .pure-button {
+  background-color: #c7bcbf;
+}
+
+.google-signin img {
+  float: left;
+  height: 30px;
+}
+
+.bottom-buttons  {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.onboard .bottom-buttons .grid-box {
+  padding: 60px 15px;
+}
+
+.bottom-buttons a.pure-u-1-2 {
+  text-align: center;
+  padding: 15px 0 15px;
+}
+
+.signin .bottom-buttons .grid-box {
+  padding-bottom: 0;
+}
+
 /* IMPERSONATE FOOTER */
 .impersonate {
   position: fixed;
@@ -720,6 +813,10 @@ a.hashtag {
     display: block;
   }
 
+  .signin h2 {
+    font-size: 22.5px;
+  }
+
   /* to cleanup: */
 
   .error-code, .error-detail {
@@ -745,6 +842,10 @@ a.hashtag {
     .search-on .pure-u-menu,
     .pure-u-search  {
       display: inherit;
+    }
+
+    .signin .main {
+      background-size: 75vh;
     }
 
     header .pure-g {

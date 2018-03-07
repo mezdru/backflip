@@ -68,6 +68,7 @@ organisationSchema.statics.getTheAllOrganisationId = function() {
 organisationSchema.statics.getTheWings = function(req, res, next) {
   Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#wings" }, function(err, wingRecord) {
     if (err) return next(err);
+    if (!wingRecord) return next(new Error('Cannot get the Wings'));
     Record.find({organisation: Organisation.getTheAllOrganisationId(), within: wingRecord._id }, function(err, records) {
       if (err) return next(err);
       records = records.filter(record => !record._id.equals(wingRecord._id));

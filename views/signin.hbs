@@ -1,20 +1,21 @@
 <div class="main">
+  {{#if organisation}}
   <div class="pure-g">
     <div class="pure-u-1">
       <h1>{{__ "Welcome to %s!" organisation.name}}</h1>
       <h2>{{{__ "Wingzy is an app to to search for, discover and contact each other"}}}</h2>
     </div>
   </div>
-  <div class="bottom-buttons">
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box">
-          <form action="{{onboard.welcomeAction}}" method="post">
-            <button type="submit" class="pure-u-1 pure-button scale">{{{__ "Spread your wings"}}}</button>
-          </form>
-        </div>
-      </div>
+  {{else}}
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <h1>{{__ "Welcome to Wingzy"}}</h1>
+      <h2>{{{__ "Wingzy is an app to search for, discover and contact your coworkers"}}}</h2>
     </div>
+  </div>
+  {{/if}}
+  <div class="bottom-buttons">
+    {{> signin_form}}
     <div class="pure-g">
       <a class="pure-u-1-2" title="{{__ "Terms of Service"}}" href="{{url "terms" null}}">{{__ "Terms of Service"}}</a>
       <a class="pure-u-1-2" title="{{__ "Privacy Policy"}}" href="{{url "privacy" null}}">{{__ "Privacy Policy"}}</a>

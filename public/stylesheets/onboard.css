@@ -1,15 +1,3 @@
-ul.errors {
-  list-style-type: none;
-  background-color: #dde03a;
-  border-radius: 30px;
-  padding: 20px;
-  font-size: 20px;
-}
-
-ul.errors li {
-  padding: 15px;
-}
-
 .onboard header {
   position: absolute;
 }
@@ -56,7 +44,7 @@ ul.errors li {
 .onboard h2 {
   text-align: center;
   margin: 0;
-  font-size: 22.5px;
+  font-size: 15px;
   font-weight: 400;
   padding: 0 30px 30px;
 }
@@ -68,28 +56,14 @@ ul.errors li {
 .onboard form input[type="email"][disabled] {
   background: none;
   border: none;
+  height: auto;
   padding: 0 8px;
-  margin: 0;
+  margin-bottom: 25px;
   color: #c7bcbf;
 }
 
 .onboard .main {
   padding-bottom: 180px;
-}
-
-.bottom-buttons  {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-.onboard .bottom-buttons .grid-box {
-  padding: 60px 15px;
-}
-
-.bottom-buttons a.pure-u-1-2 {
-  text-align: center;
-  padding: 15px 0 15px;
 }
 
 #modal-layer {
@@ -103,8 +77,8 @@ ul.errors li {
 
 /** WELCOME **/
 .onboard-welcome .main {
-  padding-top: 110px;
-  background-image: url('/onboard/aurore.png');
+  padding-top: 120px;
+  background-image: url('/spread_your_wings.jpg');
   background-position: center 220px;
   background-repeat: no-repeat;
   background-size: 60vh;
@@ -498,7 +472,14 @@ li#facebook-selector.selected {
   #type-selector li {
     padding: 5px 20px;
   }
+
+  .onboard h2 {
+    font-size: 22.5px;
+  }
 }
 
-
-.
+@media screen and (min-width: 1280px) {
+  .onboard-welcome .main {
+    background-size: 75vh;
+  }
+}
