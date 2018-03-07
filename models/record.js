@@ -13,8 +13,8 @@ var recordSchema = mongoose.Schema({
   tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   name: String,
-  intro: {type: String},
-  description: {type: String},
+  intro: {type: String, default: ''},
+  description: {type: String, default: ''},
   picture: {
     url: String,
     path: String,
@@ -248,10 +248,12 @@ recordSchema.statics.shallowCopy = function(record) {
 const tagRegex = /([#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 recordSchema.methods.cleanDescription = function() {
+  this.description = this.description || '';
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
 };
 
 recordSchema.methods.cleanIntro = function() {
+  this.intro = this.intro || '';
   this.intro = this.intro.replace(tagRegex, this.model('Record').cleanTag);
 };
 
