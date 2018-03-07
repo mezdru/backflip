@@ -26,18 +26,19 @@ var hbs = require('./views/hbs.js');
 app.set('view engine', 'hbs');
 
 if (app.get('env') === 'production') {
-  // Redirect non Wingzy.io only in production
-  /*app.use(function(req, res, next) {
-      if(req.headers.host !== process.env.HOST) return res.redirect(301, "https://" + process.env.HOST + req.url);
-      else return next();
-  });*/
-
   // Redirect non https only in production
   app.use(function(req, res, next) {
       if(req.protocol !== 'https') return res.redirect(301, "https://" + req.headers.host + req.url);
       else return next();
   });
 
+  // Setup organisationTag
+  app.use(function(req, res, next) {
+    if (req.subdomains.length > 0) req.organisationTag = req.subdomains[0];
+    return next();
+  });
+
+} else if (app.get('env') === 'staging') {
   // Setup organisationTag
   app.use(function(req, res, next) {
     if (req.subdomains.length > 0) req.organisationTag = req.subdomains[0];
