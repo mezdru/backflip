@@ -41,7 +41,7 @@ if (app.get('env') === 'production') {
 } else if (app.get('env') === 'staging') {
   // Setup organisationTag
   app.use(function(req, res, next) {
-    if (req.subdomains.length > 0) req.organisationTag = req.subdomains[0];
+    if (req.query.subdomains) req.organisationTag = req.query.subdomains.split('.')[0];
     return next();
   });
 
@@ -239,7 +239,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   res.locals.error = err || {};
     // only providing stacktrace in development
-  res.locals.error.stack = req.app.get('env') === 'development' ? err.stack : null;
+  res.locals.error.stack = req.app.get('env') === 'production' ? null : err.stack;
   res.locals.status = (err.status || 500);
   res.locals.error.date = new Date().toISOString();
 

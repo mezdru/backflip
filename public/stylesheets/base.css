@@ -635,6 +635,47 @@ a.hashtag {
   color: #dd362e;
 }
 
+/* Error page */
+
+.main.error {
+  padding-top: 150px;
+}
+
+.reward {
+  margin: 0;
+  font-size: 5em;
+  line-height: 1em;
+  text-align: center;
+  color: #dd362e;
+}
+
+.reward .fa {
+  width: auto;
+}
+
+.quote {
+  display: block;
+  width: 320px;
+  margin: 60px auto 0;
+}
+
+.quote span {
+  display: block;
+  text-align: right;
+}
+
+.error-code, .error-detail {
+  text-align: center;
+  color: #c7bcbf;
+}
+
+.youtube-player iframe {
+  display: block;
+  margin: 15px auto 60px;
+  width: 320px;
+  height: 160px;
+}
+
 /* MOBILE VERSION */
 
 .search-on .pure-u-logo,

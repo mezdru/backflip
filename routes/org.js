@@ -8,6 +8,7 @@ router.use(function(req, res, next) {
     Organisation.findOne({'tag': req.organisationTag}, function(err, organisation) {
       if (err) return next (err);
       if (!organisation) {
+        //@todo throwing this error shortcircuits the auth and therefore renders a logged out error page all the time
         err = new Error('Organisation not found');
         err.status = 404;
         return next(err);
