@@ -12,6 +12,7 @@
       </a>
       <p>{{{_snippetResult.intro.value}}}</p>
     </div>
+    {{#hashtags.length}}
     <div class="pure-u-1 pure-u-hashtags">
       <a onclick="goRight(this)" class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
       <a onclick="goLeft(this)" class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
@@ -26,11 +27,14 @@
         </div>
       </div>
     </div>
+    {{/hashtags.length}}
+    {{#links.length}}
     <div class="pure-u-1 contacts">
       {{#links}}
       <a href="{{url}}" class="{{class}} fa fa-{{icon}}" title="{{display}}" aria-hidden="true" target="_blank"></a>
       {{/links}}
     </div>
+    {{/links.length}}
   </div>
   {{{{/raw}}}}
 </script>

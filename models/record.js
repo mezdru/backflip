@@ -13,8 +13,8 @@ var recordSchema = mongoose.Schema({
   tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   name: String,
-  intro: {type: String, default: ''},
-  description: {type: String, default: ''},
+  intro: {type: String},
+  description: {type: String},
   picture: {
     url: String,
     path: String,
@@ -51,7 +51,6 @@ var recordSchema = mongoose.Schema({
     includeInGlobalAddressList: Boolean,
     directory_updated: Date,
     plus_updated: Date
-
   },
   email: {
     value: {type: String, index: true}

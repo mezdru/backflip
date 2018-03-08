@@ -3,7 +3,7 @@ var undefsafe = require('undefsafe');
 var md5 = require('md5');
 var randomstring = require('randomstring');
 
-var EmailRecord = require('./email_record.js');
+var Record = require('../record.js');
 var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper.js');
 
@@ -141,7 +141,7 @@ EmailUser.addByEmail = function(email, organisation, record, callback) {
       });
     }
     if (!record) {
-      record = EmailRecord.createRecord(email, organisation);
+      record = Record.makeFromEmail(email, organisation._id);
       record.save(function(err) {if (err) console.error(err);});
     }
     user.attachOrgAndRecord(organisation, record, callback);

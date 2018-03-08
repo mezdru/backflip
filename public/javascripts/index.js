@@ -39,8 +39,8 @@ function transformImagePath(item) {
 }
 
 function transformIntro(item) {
-	if (item._snippetResult && item._snippetResult.intro) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item.hashtags);
-	else if (item._snippetResult && item._snippetResult.description) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item.hashtags)};
+	if (item._snippetResult && item._snippetResult.intro && item._snippetResult.intro.value) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item.hashtags);
+	else if (item._snippetResult && item._snippetResult.description && item._snippetResult.description.value ) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item.hashtags)};
 }
 
 function transformString(input, hashtags) {
