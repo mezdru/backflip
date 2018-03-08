@@ -118,6 +118,11 @@ hbs.registerHelper('editUrl', function(recordId, organisationTag) {
   return new UrlHelper(organisationTag, page, query, this.getLocale()).getUrl();
 });
 
+hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
+  page = 'admin/record/delete/'+recordId;
+  return new UrlHelper(organisationTag, page, null, this.getLocale()).getUrl();
+});
+
 hbs.registerHelper('homeUrl', function(organisation) {
   if (organisation) return new UrlHelper(organisation.tag, null, null, this.getLocale()).getUrl();
   else return new UrlHelper(null, null, null, this.getLocale()).getUrl();

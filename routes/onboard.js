@@ -93,6 +93,7 @@ router.use(function(req, res, next) {
 
   GoogleRecord.getByGoogleId(res.locals.user.google.id, res.locals.organisation._id, function(err, record) {
     if (err) return next(err);
+    if (!record) return next();
     res.locals.record = record;
     res.locals.user.attachOrgAndRecord(res.locals.organisation, record, function(err, user) {
       if (err) return next(err);
@@ -107,10 +108,11 @@ router.use(function(req, res, next) {
 var googlePlus = require('../models/google/google_plus.js');
 router.use(function(req, res, next) {
   if (res.locals.record) return next();
+  if (!undefsafe(res.locals.user, 'google.id')) return next();
   if (!req.googleOAuth) return next();
-  var plus = new googlePlus(req.googleOAuth);
 
-  plus.getRecord(res.locals.organisation._id, function(err, record) {
+  var plus = new googlePlus(req.googleOAuth);
+  plus.makeRecord(res.locals.organisation._id, function(err, record) {
     record.save(function(err, record) {
       if (err) return next(err);
       res.locals.record = record;
@@ -247,7 +249,7 @@ router.post('/intro',
 router.post('/intro', function(req, res, next) {
   res.locals.record.name = req.body.name;
   res.locals.record.intro = req.body.intro;
-  res.locals.record.picture.url = req.body.picture.url;
+  res.locals.record.picture.url = req.body.picture.url || res.locals.record.picture.url;
   req.body.wings.forEach((wingId) => {res.locals.wings.find(record => record._id.equals(wingId)).checked = true;});
   var errors = validationResult(req);
   res.locals.errors = errors.array();
@@ -323,7 +325,8 @@ router.post('/links', function(req, res, next) {
     if (err) return next(err);
     res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
       if (err) console.error(err);
-      return res.redirect(new UrlHelper(res.locals.organisation.tag).getUrl());
+      console.log('i am here');
+      return res.redirect(new UrlHelper(res.locals.organisation.tag, null, `?q=${res.locals.record.name}`, req.getLocale()).getUrl());
     });
   });
 });

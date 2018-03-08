@@ -51,6 +51,13 @@ router.get('*', function(req, res, next) {
 });
 
 router.get('*', function(req, res, next) {
+  if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+    res.locals.canDelete = true;
+  }
+  next();
+});
+
+router.get('*', function(req, res, next) {
   res.render('profile', {
     title: res.locals.record.name,
     bodyClass: 'profile'

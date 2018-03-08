@@ -14,7 +14,10 @@
           <h1>{{{record.name}}}</h2>
         </div>
         {{#if canEdit}}
-        <a id="edit-button" href="{{editUrl  record._id organisation.tag}}" class="pure-u-1 pure-button scale">{{{__ "Edit profile"}}}</a>
+        <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale">{{{__ "Edit profile"}}}</a>
+        {{/if}}
+        {{#if canDelete}}
+        <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
         {{/if}}
       </div>
     </div>

@@ -1,35 +1,33 @@
 var Record = require('../record.js');
 var LinkHelper = require('../../helpers/link_helper.js');
 var google = require('googleapis');
+var urlParse = require('url-parse');
 
 class GooglePlus {
-  constructor(googleOAuth) {
+  constructor(googleOAuth, record) {
     this.googleOAuth = googleOAuth;
     this.profile = {
       emails: [{"value": null, "type": "account" }]
     };
+    this.record = record;
   }
 
-  getRecord(organisationId, callback) {
+  makeRecord(organisationId, callback) {
     this.getProfile(function(err, profile) {
       if (err) return callback(err);
       this.profile = profile;
-      var record = this.makeRecord(organisationId);
-      return callback(null, record);
+      this.record = new Record({
+        organisation: organisationId,
+        tag: this.tag,
+        type: 'person',
+        name: this.name,
+        description: this.description,
+        picture: this.picture,
+        google: this.google
+      });
+      this.makeLinks();
+      return callback(null, this.record);
     }.bind(this));
-  }
-
-  makeRecord(organisationId) {
-    return new Record({
-      organisation: organisationId,
-      tag: this.tag,
-      type: 'person',
-      name: this.name,
-      description: this.description,
-      picture: this.picture,
-      links: this.links,
-      google: this.google
-    });
   }
 
   get tag() {
@@ -45,16 +43,18 @@ class GooglePlus {
   }
 
   get picture() {
-    return {url: this.profile.image.url};
+    var urlObject = urlParse(this.profile.image.url, true);
+    urlObject.set('query', null);
+    return {url: urlObject.toString()};
   }
 
-  get links() {
+  makeLinks() {
     var links = [];
-    links.push(LinkHelper.makeLink(this.accountEmail, 'email'));
-    if (this.profile.url) links.push(LinkHelper.makeLink(this.profile.url, 'hyperlink'));
-    if (this.profile.urls) this.profile.urls.forEach(url => links.push(LinkHelper.makeLink(url.value, 'hyperlink')));
-    if (this.profile.placesLived) links.push(LinkHelper.makeLink(this.profile.placesLived.find(place => place.primary).value, 'address'));
-    return links;
+    this.record.addLink(LinkHelper.makeLink(this.accountEmail, 'email'));
+    if (this.profile.url) this.record.addLink(LinkHelper.makeLink(this.profile.url, 'hyperlink'));
+    if (this.profile.urls) this.profile.urls.forEach(url => this.record.addLink(LinkHelper.makeLink(url.value, 'hyperlink')));
+    if (this.profile.placesLived) this.record.addLink(LinkHelper.makeLink(this.profile.placesLived.find(place => place.primary).value, 'address'));
+    return this.record.links;
   }
 
   get google() {
