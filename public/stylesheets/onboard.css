@@ -25,11 +25,11 @@
 
 .pure-u-menu a.step {
   color: #dd362e;
-  margin-left: 15px;
+  margin-left: 0;
 }
 
 .pure-u-menu .fa-long-arrow-right {
-  margin-left: 15px;
+  margin-left: 0;
   color: #c7bcbf;
 }
 
@@ -94,6 +94,10 @@
   margin: auto;
   position: relative;
   height: 40vw;
+  width: 40vw;
+}
+
+.onboard-intro .picture img {
   width: 40vw;
 }
 

@@ -43,8 +43,8 @@ a:hover {
   width: 100%;
   font-size: 22.5px;
   line-height: 30px;
-  padding: 15px 30px;
-  font-weight: 800;
+  padding: 15px;
+  font-weight: 600;
   border: none;
   border-radius: 30px;
   background-color: #dd362e;
@@ -637,11 +637,11 @@ a.hashtag {
 
 .signin .main {
   padding-top: 120px;
-  padding-bottom: 420px;
+  padding-bottom: 150px;
   background-image: url('/images/chat.png');
-  background-position: right 180px;
+  background-position: center 225px;
   background-repeat: no-repeat;
-  background-size: 60vh;
+  background-size: 40vh;
   background-color: #ffffff;
 }
 
