@@ -127,5 +127,12 @@
 	"Now please check your emails": "Now please check your emails",
 	"We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.": "We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.",
 	"<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>": "<i class='fa fa-hashtag' aria-hidden='true'></i> x <i class='fa fa-at' aria-hidden='true'></i> = <i class='fa fa-heart' aria-hidden='true'></i>",
-	"Delete profile": "Delete profile"
+	"Delete profile": "Delete profile",
+	"Invitee Work Email": "Invitee Work Email",
+	"fa-diamond": "fa-diamond",
+	"Work in progress.": "Work in progress.",
+	"Thank you for joining Lenom, we now need some time to build a friendly directory for you and your coworkers. We will let you know by email when we are ready.": "Thank you for joining Lenom, we now need some time to build a friendly directory for you and your coworkers. We will let you know by email when we are ready.",
+	"HI0x0KYChq4?t=7s": "HI0x0KYChq4?t=7s",
+	"We dig dig dig dig dig dig dig dig.": "We dig dig dig dig dig dig dig dig.",
+	"The 7 dwarves": "The 7 dwarves"
 }

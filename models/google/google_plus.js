@@ -21,7 +21,6 @@ class GooglePlus {
         tag: this.tag,
         type: 'person',
         name: this.name,
-        description: this.description,
         picture: this.picture,
         google: this.google
       });
@@ -38,8 +37,8 @@ class GooglePlus {
     return this.profile.displayName || Record.getNameFromTag(this.tag);
   }
 
-  get description() {
-    return this.profile.aboutMe || this.profile.tagline || this.profile.occupation || '#empty';
+  get intro() {
+    return this.profile.aboutMe || this.profile.tagline || this.profile.occupation;
   }
 
   get picture() {

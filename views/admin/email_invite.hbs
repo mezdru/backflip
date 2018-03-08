@@ -2,26 +2,24 @@
   <form action="{{formAction}}" method="post" class="pure-form">
     <div class="pure-g">
       <div class="pure-u-1">
-        <h1 class="tagline">Invite new user to join {{organisation.name}}</h1>
-        <ul class="errors">
-          {{#errors}}
-          <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
-          {{/errors}}
-        </ul>
+        <div class="grid-box">
+          <h1 class="tagline">Invite new user to join {{organisation.name}}</h1>
+        </div>
+      </div>
+    </div>
+    {{> form_errors}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <input name="email" type="email" class="pure-input-1" placeholder="{{__ "Invitee Work Email"}}" value="{{email}}">
+        </div>
       </div>
     </div>
     <div class="pure-g">
       <div class="pure-u-1">
-        <fieldset class="pure-group">
-          <input name="email" type="email" class="pure-input-1 email-input" placeholder="{{__ "Invitee Work Email"}}" value="{{email}}">
-        </fieldset>
-      </div>
-    </div>
-    <div class="pure-g">
-      <div class="pure-u-1-1">
-        <p class="validate">
-          <input type=submit class="pure-button button-success save-input" value="Invite"></input>
-        </p>
+        <div class="grid-box">
+          <input type=submit class="pure-button button-success save-input scale" value="Invite"></input>
+        </div>
       </div>
     </div>
   </form>

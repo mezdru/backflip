@@ -18,7 +18,8 @@ var recordSchema = mongoose.Schema({
   picture: {
     url: String,
     path: String,
-    type: {type: String}
+    type: {type: String},
+    uuid: String
   },
   links: [linkSchema],
   within: [
@@ -429,11 +430,38 @@ recordSchema.methods.hasPicture = function() {
   return undefsafe(this, 'picture.url') || undefsafe(this, 'picture.path');
 };
 
-var parseDomain = require('parse-domain');
+//@todo Seriously ? This model is already messy as fuck and you're adding picture processing ? WTF
+//@todo remove old picture from uploadcare when adding new one
+var urlParse = require('url-parse');
+var uploadcare = require('uploadcare')(process.env.UPLOADCARE_PUBLIC_KEY, process.env.UPLOADCARE_PRIVATE_KEY);
+
+recordSchema.methods.addPictureByUrl = function(url, callback) {
+  url = urlParse(url, true);
+  if (!url.hostname) return callback(new Error('Picture url invalid'));
+  if (url.hostname === 'ucarecdn.com') {
+    this.picture.url = url.toString();
+    this.picture.uuid = url.pathname.split('/')[1];
+    return callback(null, this);
+  } else {
+    uploadcare.file.fromUrl(url.toString(), function(err, file) {
+      if (err || !file) {
+        this.picture.url = url.toString();
+        console.error(err || 'No file returned from UploadCare for record '+this._id);
+        return callback(null, this);
+      }
+      this.picture.uuid = file.uuid;
+      var newUrl = urlParse('https://ucarecdn.com/');
+      newUrl.set('pathname', this.picture.uuid + '/-/resize/180x180/');
+      this.picture.url = newUrl.toString();
+      return callback(null, this);
+    }.bind(this));
+  }
+};
+
 recordSchema.methods.getUploadcareUrl = function() {
   if (!this.picture.url) return false;
-  var domain = parseDomain(this.picture.url);
-  if (undefsafe(domain, 'domain') && domain.domain === 'ucarecdn') return this.picture.url;
+  var url = urlParse(this.picture.url, true);
+  if (url.pathname && url.hostname === 'ucarecdn.com') return this.picture.url;
   else return false;
 };
 

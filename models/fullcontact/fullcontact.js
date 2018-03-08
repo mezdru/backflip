@@ -109,13 +109,16 @@ class FullContact {
       }
       this.queryAll(function(err, data) {
         if (err) return callback(err);
+        this.enrichIntro();
         this.enrichPicture();
         this.enrichAddress();
         this.enrichSocialProfiles();
         this.enrichChats();
         this.enrichWebsites();
         this.touch();
-        return this.record.save(callback);
+        this.record.addPictureByUrl(this.record.picture.url, function(err, record) {
+          return record.save(callback);
+        });
       }.bind(this));
     }
 
@@ -141,6 +144,12 @@ class FullContact {
       this.data.socialProfiles.forEach(function(profile) {
         this.record.addLink(LinkHelper.makeLink(profile.url, profile.type, profile.username));
       }, this);
+    }
+
+    enrichIntro() {
+      if(this.record.intro) return;
+      var linkedin = this.data.socialProfiles.find(profile => profile.type === 'linkedin');
+      this.record.intro = linkedin.bio;
     }
 
     enrichChats() {

@@ -231,7 +231,7 @@ a.fa,
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
-  padding-top: 130px;
+  padding-top: 145px;
   padding-bottom: 60px;
   flex-grow: 1;
   background-color: #f6f4f4;
@@ -526,14 +526,13 @@ a.hashtag {
 }
 
 .record .picture {
-  margin: 15px 0 0 15px;
+  margin: 15px;
 }
 
 /* HASHTAGS */
 
 .pure-u-hashtags {
   position: relative;
-  margin-top: 15px;
   border-top: 2px solid #e9e5e6;
 }
 
@@ -730,10 +729,6 @@ a.hashtag {
 }
 
 /* Error page */
-
-.main.error {
-  padding-top: 150px;
-}
 
 .reward {
   margin: 0;

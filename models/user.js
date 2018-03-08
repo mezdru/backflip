@@ -2,10 +2,6 @@ var mongoose = require('mongoose');
 var undefsafe = require('undefsafe');
 
 var userSchema = mongoose.Schema({
-  picture: {
-    uri: String,
-    path: String
-  },
   orgsAndRecords: [
     {
       _id: false,
@@ -120,6 +116,18 @@ userSchema.methods.addToOrganisation = function(organisationId, callback) {
   else return this;
 };
 
+//@todo addToOrganisation does the same as attachOrgAndRecord...
+userSchema.methods.attachOrgAndRecord = function(organisation, record, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisation._id);
+  if (orgAndRecord) {
+    orgAndRecord.record = record;
+  } else {
+    this.orgsAndRecords.push({organisation: organisation, record: record});
+  }
+  if (callback) this.save(callback);
+  else return this;
+};
+
 userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
   if (orgAndRecord) {
@@ -139,18 +147,6 @@ userSchema.methods.getRecordIdByOrgId = function(organisationId) {
 
 userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
-};
-
-
-userSchema.methods.attachOrgAndRecord = function(organisation, record, callback) {
-  var orgAndRecord = this.getOrgAndRecord(organisation._id);
-  if (orgAndRecord) {
-    orgAndRecord.record = record;
-  } else {
-    this.orgsAndRecords.push({organisation: organisation, record: record});
-  }
-  if (callback) this.save(callback);
-  else return this;
 };
 
 userSchema.methods.isSuperAdmin = function() {

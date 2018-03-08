@@ -140,10 +140,10 @@ EmailUser.addByEmail = function(email, organisation, record, callback) {
         }
       });
     }
-    if (!record) {
+    /*if (!record) {
       record = Record.makeFromEmail(email, organisation._id);
       record.save(function(err) {if (err) console.error(err);});
-    }
+    }*/
     user.attachOrgAndRecord(organisation, record, callback);
   });
 };

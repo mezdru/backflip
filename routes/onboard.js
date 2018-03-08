@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');
 var parseDomain = require('parse-domain');
+var uploadcare = require('uploadcare')(process.env.UPLOADCARE_PUBLIC_KEY, process.env.UPLOADCARE_PRIVATE_KEY);
 
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
@@ -40,6 +41,7 @@ router.use(function(req, res, next) {
 });
 
 //@todo record the datetime of clic on "I am ready" on the welcome page to validate tos
+//@todo we could do some asynchronous mining here to save time loading onbaord/intro
 router.get('/welcome', function(req, res, next) {
   res.render('onboard_welcome', {
     bodyClass: 'onboard onboard-welcome'
@@ -175,6 +177,7 @@ router.post(function(req, res, next) {
 
 router.use(function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+  res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
   next();
 });
 
@@ -258,9 +261,12 @@ router.post('/intro', function(req, res, next) {
       if (err) return next(err);
       res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
         if (err) return next(err);
-        res.locals.record.save(function(err, record) {
-          if(err) return next(err);
-          res.redirect(res.locals.onboard.hashtagsAction);
+        res.locals.record.addPictureByUrl(res.locals.record.picture.url, function(err, record) {
+          if (err) return next(err);
+          res.locals.record.save(function(err, record) {
+            if(err) return next(err);
+            res.redirect(res.locals.onboard.hashtagsAction);
+          });
         });
       });
     });
@@ -333,6 +339,10 @@ router.post('/links', function(req, res, next) {
 
 router.all('/intro', function(req, res, next) {
   res.locals.uploadcareUrl = res.locals.record.getUploadcareUrl() || '';
+  next();
+});
+
+router.all('/intro', function(req, res, next) {
   res.locals.onboard.step = "intro";
   res.locals.onboard.intro = true;
   res.render('onboard_intro', {
