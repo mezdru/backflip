@@ -94,6 +94,8 @@ h3 {
   padding: 5px 10px;
   letter-spacing: 0.3px;
   font-weight: 600;
+  height: 30px;
+  box-sizing: border-box;
   color: #1d1f1a;
 }
 
@@ -146,7 +148,7 @@ a img,
 a .fa,
 a.fa,
 .scale,
-.cloud-element {
+a.cloud-element {
   transition: all .3s ease-out;
 }
 
@@ -416,7 +418,7 @@ p.cloud {
   overflow: hidden;
 }
 
-.cloud-element:hover {
+a.cloud-element:hover {
   text-decoration: none;
   transform: scale(1.2);
 }
@@ -546,7 +548,6 @@ a.hashtag {
   white-space: nowrap;
   overflow-x: scroll;
   padding: 5px 5px 50px;
-  transition: all 1s ease-in-out;
 }
 
 .hashtag.highlighted {

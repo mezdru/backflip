@@ -75,11 +75,11 @@ function getRandomInt(max) {
 }
 
 function goRight(child) {
-  child.parentElement.getElementsByClassName('hashtags')[0].scrollLeft += 200;
+  child.parentElement.getElementsByClassName('scroll')[0].scrollLeft += 200;
 }
 
 function goLeft(child) {
-  child.parentElement.getElementsByClassName('hashtags')[0].scrollLeft -= 200;
+  child.parentElement.getElementsByClassName('scroll')[0].scrollLeft -= 200;
 }
 
 
