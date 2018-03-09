@@ -149,7 +149,10 @@ class FullContact {
     enrichIntro() {
       if(this.record.intro) return;
       var linkedin = this.data.socialProfiles.find(profile => profile.type === 'linkedin');
-      this.record.intro = linkedin.bio;
+      this.record.intro = undefsafe(linkedin, 'bio');
+      if(this.record.intro) return;
+      var twitter = this.data.socialProfiles.find(profile => profile.type === 'twitter');
+      this.record.intro = undefsafe(twitter, 'bio');
     }
 
     enrichChats() {
