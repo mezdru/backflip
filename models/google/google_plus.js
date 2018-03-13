@@ -42,6 +42,7 @@ class GooglePlus {
   }
 
   get picture() {
+    if (!undefsafe(this.profile, 'image.url')) return null;
     var urlObject = urlParse(this.profile.image.url, true);
     urlObject.set('query', null);
     return {url: urlObject.toString()};
@@ -52,7 +53,10 @@ class GooglePlus {
     this.record.addLink(LinkHelper.makeLink(this.accountEmail, 'email'));
     if (this.profile.url) this.record.addLink(LinkHelper.makeLink(this.profile.url, 'hyperlink'));
     if (this.profile.urls) this.profile.urls.forEach(url => this.record.addLink(LinkHelper.makeLink(url.value, 'hyperlink')));
-    if (this.profile.placesLived) this.record.addLink(LinkHelper.makeLink(this.profile.placesLived.find(place => place.primary).value, 'address'));
+    if (this.profile.placesLived) {
+      let primaryPlace = undefsafe(this.profile.placesLived.find(place => place.primary), 'value');
+      if (primaryPlace) this.record.addLink(primaryPlace, 'address');
+    }
     return this.record.links;
   }
 
@@ -65,9 +69,7 @@ class GooglePlus {
   }
 
   get accountEmail() {
-    var email = this.profile.emails.find(email => email.type === "account").value;
-    if (!email) email = this.profile.emails[0];
-    return email;
+    return undefsafe(this.profile.emails.find(email => email.type === "account"), 'value') || this.profile.emails[0];
   }
 
   getProfile(callback) {

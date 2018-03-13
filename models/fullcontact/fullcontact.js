@@ -55,7 +55,7 @@ class FullContact {
       //@todo instead of picking the first one, what about picking the most likely ?
       this.data.contactInfo.fullName = this.data.contactInfo.fullName || undefsafe(data, 'contactInfo.fullName');
       this.data.demographics.locationDeduced.normalizedLocation = this.data.demographics.locationDeduced.normalizedLocation || undefsafe(data, 'demographics.locationDeduced.normalizedLocation');
-      this.data.socialProfiles = this.data.socialProfiles.concat(data.socialProfiles || []);
+      this.data.socialProfiles = this.data.socialProfiles.concat(undefsafe(data, 'socialProfiles') || []);
     }
 
     cleanData() {
