@@ -21,7 +21,7 @@ var search = instantsearch({
 	indexName: 'world',
 	urlSync: true,
 	searchParameters: {
-		facetFilters: ['type:person']
+		facetFilters: getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person']
 	}
 });
 
@@ -116,7 +116,8 @@ function makeLinkUrl(link) {
 }
 
 function addUrl(item) {
-	item.url = makeUrl(null, item.tag);
+	var path = item.tag.replace('#', '');
+	item.url = makeUrl(null, path);
 }
 
 transformHashtags = function(item) {

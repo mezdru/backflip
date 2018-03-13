@@ -427,7 +427,7 @@ recordSchema.methods.makeIncludes = function(organisation) {
 };
 
 recordSchema.virtual('firstEmail').get(function () {
-  return undefsafe(this, 'google.primaryEmail') || undefsafe(this, 'email.value') || this.links.find(link => link.type === 'email').value;
+  return undefsafe(this, 'google.primaryEmail') || undefsafe(this, 'email.value') || undefsafe(this.links.find(link => link.type === 'email'), 'value');
 });
 
 recordSchema.methods.hasPicture = function() {

@@ -27,7 +27,7 @@
           <input class="pure-input-1 desc-input" id="intro" name="intro" type="text" value="{{{record.intro}}}" autocomplete="off">
         </div>
         <div class="grid-box wings-checkboxes-label">
-          <label for="wings-checkboxes">{{__ "Which are your Wings?"}}</label>
+          <label for="wings-checkboxes">{{__ "Choose your first wings"}}</label>
         </div>
       </div>
     </div>
@@ -35,7 +35,10 @@
       {{#wings}}
         <div class="pure-u-1-3">
           <label for="{{_id}}" class="wings-label">
-            <img src="{{picture.url}}" class="wings-img">
+            <div>
+              <img src="{{pictureUrl picture type}}" class="wings-img">
+            </div>
+            {{tag}}
             <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}" {{#checked}}checked{{/checked}}>
           </label>
         </div>

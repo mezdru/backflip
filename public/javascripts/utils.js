@@ -4,8 +4,6 @@ function getPictureUrl(item) {
 	} else if (item.picture && item.picture.path) {
 		return "/images" + item.picture.path;
 		//@todo remove this last if once the refacto URI > URL is done
-	} else if (item.picture && item.picture.uri) {
-		return item.picture.uri;
 	} else {
 		switch (item.type) {
 			case 'team' : return "/images/placeholder_team.png";

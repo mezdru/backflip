@@ -233,19 +233,33 @@
   display: none;
 }
 
-#wings-checkboxes img {
-  box-sizing: border-box;
-  border-radius: 15px;
-  width: 100%;
-  border: 5px solid #ffffff;
+#wings-checkboxes .wings-label {
+  text-align: center;
+  margin-bottom: 30px;
+  transition: all .3s ease-out;
 }
 
-#wings-checkboxes label.checked {
+.wings-label > div {
+  background-color: #f6f4f4;
+  border-radius: 50%;
+  transition: all .3s ease-out;
+}
+
+.wings-label.checked {
   color: #dd362e;
 }
 
-#wings-checkboxes label.checked img {
-  border: 5px solid #dd362e;
+.wings-label.checked > div {
+  background-color: #dd362e;
+}
+
+.wings-label img {
+  transition: all .3s ease;
+}
+
+.wings-label:hover img,
+.wings-label.checked img {
+  transform: scale(1.2);
 }
 
 /* HASHTAGS */
