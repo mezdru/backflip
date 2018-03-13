@@ -72,7 +72,7 @@ recordSchema.index({'includes': 1});
 // @todo this feels weird... why manipulate fake record object instead of just Records ?
 recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type !== 'hashtag') inputObject.type = 'person';
-  inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
+  inputObject.tag = this.œ(inputObject.tag || inputObject.name, inputObject.type);
   inputObject.name = inputObject.name || this.getNameFromTag(inputObject.tag);
   return new this(inputObject);
 };
@@ -183,14 +183,21 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
         if (record) return resolve(record);
         //@todo did not find a way to differenciate for sure between recordId and tag, so we need to do a second query to find the record by id.
         // All this because mongoose.Types.ObjectId.isValid(hashtag) does not work (ie. led zeppelin is a valid ObjectId)
-        this.model('Record').findById(hashtag, organisationId, (err, record) => {
-          if (err) return reject(err);
-          if (record) return resolve(record);
+        if (mongoose.Types.ObjectId.isValid(hashtag)) {
+          this.model('Record').findById(hashtag, organisationId, (err, record) => {
+            if (err) return reject(err);
+            if (record) return resolve(record);
+            this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
+              if (err) return reject(err);
+              return resolve(record);
+            });
+          });
+        } else {
           this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
             if (err) return reject(err);
             return resolve(record);
           });
-        });
+        }
       });
     } else {
       err = new Error('Not a valid hashtag');
@@ -255,9 +262,8 @@ recordSchema.methods.cleanIntro = function() {
   this.intro = this.intro.replace(tagRegex, this.model('Record').cleanTag);
 };
 
-var slug = require('slug');
+var uppercamelcase = require('uppercamelcase');
 var decamelize = require('decamelize');
-// @Todo change slug to NOT use dots (.) and small case for persons.
 recordSchema.statics.cleanTag = function(tag, type) {
   var prefix = '';
   var body = tag;
@@ -273,10 +279,10 @@ recordSchema.statics.cleanTag = function(tag, type) {
 
   if (type === 'hashtag') {
     prefix = '#';
-    body = slug(body, {lowercase: false});
+    body = uppercamelcase(body);
   } else if (type === 'person') {
     prefix = '@';
-    body = slug(body, {replacement: '.', remove: null});
+    body = uppercamelcase(body);
   }
   return prefix + body;
 };
