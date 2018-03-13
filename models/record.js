@@ -170,29 +170,27 @@ recordSchema.methods.addHashtags = function(hashtags, organisationId, callback) 
   });
 };
 
+//@todo Rename: this does not really add the hashtag, it just creates a promise that returns the hashtag
 recordSchema.methods.addHashtag = function(hashtag, organisationId) {
   return new Promise((resolve, reject) =>
   {
-    if (mongoose.Types.ObjectId.isValid(hashtag)) {
-      this.model('Record').findById(hashtag, organisationId, (err, record) => {
-        if (err) return reject(err);
-        if (!record) return reject(new Error('Hashtag Record not found for ObjectId'));
-        return resolve(record);
-      });
-    } else if (hashtag instanceof Record) {
+    if (hashtag instanceof Record) {
       if (!hashtag.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record not in this organisation'));
       return resolve(hashtag);
     } else if (typeof hashtag === "string") {
       this.model('Record').findByTag(hashtag, organisationId, (err, record) => {
         if (err) return reject(err);
-        if (!record) {
+        if (record) return resolve(record);
+        //@todo did not find a way to differenciate for sure between recordId and tag, so we need to do a second query to find the record by id.
+        // All this because mongoose.Types.ObjectId.isValid(hashtag) does not work (ie. led zeppelin is a valid ObjectId)
+        this.model('Record').findById(hashtag, organisationId, (err, record) => {
+          if (err) return reject(err);
+          if (record) return resolve(record);
           this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
             if (err) return reject(err);
             return resolve(record);
           });
-        } else {
-          return resolve(record);
-        }
+        });
       });
     } else {
       err = new Error('Not a valid hashtag');
