@@ -261,13 +261,20 @@ router.post('/intro', function(req, res, next) {
       if (err) return next(err);
       res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
         if (err) return next(err);
-        res.locals.record.addPictureByUrl(res.locals.record.picture.url, function(err, record) {
-          if (err) return next(err);
+        if (res.locals.record.picture.url) {
+          res.locals.record.addPictureByUrl(res.locals.record.picture.url, function(err, record) {
+            if (err) return next(err);
+            res.locals.record.save(function(err, record) {
+              if(err) return next(err);
+              res.redirect(res.locals.onboard.hashtagsAction);
+            });
+          });
+        } else {
           res.locals.record.save(function(err, record) {
             if(err) return next(err);
             res.redirect(res.locals.onboard.hashtagsAction);
           });
-        });
+        }
       });
     });
   } else {

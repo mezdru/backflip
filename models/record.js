@@ -72,7 +72,7 @@ recordSchema.index({'includes': 1});
 // @todo this feels weird... why manipulate fake record object instead of just Records ?
 recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type !== 'hashtag') inputObject.type = 'person';
-  inputObject.tag = this.œ(inputObject.tag || inputObject.name, inputObject.type);
+  inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
   inputObject.name = inputObject.name || this.getNameFromTag(inputObject.tag);
   return new this(inputObject);
 };
