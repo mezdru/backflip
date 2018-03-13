@@ -2,6 +2,7 @@ var Record = require('../record.js');
 var LinkHelper = require('../../helpers/link_helper.js');
 var google = require('googleapis');
 var urlParse = require('url-parse');
+var undefsafe = require('undefsafe');
 
 class GooglePlus {
   constructor(googleOAuth, record) {
