@@ -137,7 +137,7 @@ function makeLinkUrl(link) {
 }
 
 function addUrl(item) {
-	var path = item.tag.replace('#', '');
+	var path = 'id/' + item.objectID;
 	item.url = makeUrl(null, path);
 }
 
