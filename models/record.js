@@ -525,6 +525,9 @@ recordSchema.plugin(mongooseAlgolia, {
   selector: '-_id -created -updated -google -deleted -hidden_links',
   // @todo remove the populate part for performance (we don't want another request to get the included/within records)
   populate: [{
+    path: 'hashtags',
+    select: 'name tag type picture'
+  },{
     path: 'includes',
     select: 'name tag type picture'
   },{

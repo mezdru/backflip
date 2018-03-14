@@ -11,7 +11,7 @@
 var introSnippetLength = 7;
 var extraLinkLimit = 3;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		introSnippetLength = 20;
+		introSnippetLength = 15;
 		extraLinkLimit = 4;
 }
 
@@ -23,7 +23,7 @@ var search = instantsearch({
 	searchParameters: {
 		attributesToSnippet: [
     	"description:"+introSnippetLength,
-    	"description:"+introSnippetLength
+    	"intro:"+introSnippetLength
 		],
 		facetFilters: getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person']
 	}

@@ -257,6 +257,10 @@ header {
   background: #ffffff;
 }
 
+.signin header {
+  position: absolute;
+}
+
 header a {
   color: #c7bcbf;
   font-weight: bolder;
@@ -298,7 +302,7 @@ header a:hover {
 
 .search-input-box {
   position: relative;
-  padding: 30px 15px;
+  padding: 30px 15px 15px;
 }
 
 .search-input-box > .fa {
@@ -395,11 +399,15 @@ footer p {
   padding: 10px;
   min-height: 64px;
   box-sizing: border-box;
+}
+
+div.cloud {
   font-size: 0;
 }
 
 p.cloud {
   padding: 20px 30px;
+  min-height:inherit;
 }
 
 .cloud-element {
@@ -433,10 +441,6 @@ a.cloud-element:hover {
   display: inline-block;
   vertical-align: top;
   padding: 5px 10px;
-}
-
-.cloud-element span:first-child {
-  padding-left: 15px;
 }
 
 .cloud-element img {
@@ -503,8 +507,8 @@ a.cloud-element:hover {
 }
 
 .name h2 {
+  font-size: 18px;
   line-height: 1em;
-  font-size: 20px;
   position: absolute;
   bottom: 0;
   padding: 0;
@@ -800,7 +804,12 @@ a.hashtag {
   display: inherit;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 639px) {
+
+  .cloud,
+  .record {
+    min-height: 84px;
+  }
 
   .pure-u-footer-menu a {
     padding: 1%;
@@ -823,10 +832,6 @@ a.hashtag {
     padding: 6px 12px;
   }
 
-  .cloud-element span:first-child {
-    padding-left: 18px;
-  }
-
   .cloud-element img {
     height: 36px;
     width: 36px;
@@ -844,13 +849,15 @@ a.hashtag {
   }
 
   .name h2 {
-      font-size: 24px;
-      padding-bottom: 5px;
-    }
+    font-size: 24px;
+    padding-bottom: 5px;
+    line-height: normal;
+  }
 
   .intro {
     font-size: 15px;
     padding-top: 8px;
+    line-height: 24px;
   }
 
   .name,
@@ -901,7 +908,7 @@ a.hashtag {
 
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1279px) {
     .search-on .pure-u-logo,
     .search-on .pure-u-menu,
     .pure-u-search  {

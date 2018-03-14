@@ -59,7 +59,7 @@
   height: auto;
   padding: 0 8px;
   margin-bottom: 25px;
-  color: #c7bcbf;
+  color: #5c4d51;
 }
 
 .onboard .main {
@@ -201,7 +201,7 @@
   display: block;
   cursor: pointer;
   border-top: 1px solid #c7bcbf;
-  color: #5C4D51;
+  color: #5c4d51;
   position: relative;
   text-decoration: none;
   padding: 10px 20px;
@@ -274,7 +274,7 @@
 label[for="hashtag"],
 label[for="link-input"] {
   font-size: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 input#hashtag-input.open {
@@ -303,7 +303,7 @@ input#hashtag-input.open {
   border-top: 1px solid #c7bcbf;
   font-size: 20px;
   padding: 15px 20px;
-  color: #5C4D51;
+  color: #5c4d51;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .newHashtag {
   font-weight: 400;
@@ -336,7 +336,7 @@ input#hashtag-input.open {
   width: 1em;
   text-align: center;
   cursor: pointer;
-  color: #5C4D51;
+  color: #5c4d51;
   font-weight: 300;
 }
 
@@ -425,7 +425,8 @@ input#hashtag-input.open {
   font-weight: 600;
   padding: 5px 12px;
   margin: 0 -10px 0 0;
-  min-width: 40px;
+  width: 14vw;
+  max-width: 60px;
   box-sizing: border-box;
   text-align: center;
   border-radius: 20px 20px 0 0;
@@ -494,12 +495,15 @@ li#facebook-selector.selected {
   display: none;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 639px) {
   #type-selector li span {
     display: inline;
   }
 
   #type-selector li {
+    width: auto;
+    min-width: 60px;
+    max-width: none;
     padding: 5px 20px;
   }
 
@@ -508,7 +512,7 @@ li#facebook-selector.selected {
   }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1279px) {
   .onboard-welcome .main {
     background-size: 75vh;
   }

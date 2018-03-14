@@ -58,7 +58,7 @@
     width: 100%;
 }
 
-@media screen and (min-width: 640px) {
+@media screen and (min-width: 639px) {
     .pure-u-md-1,
     .pure-u-md-1-1,
     .pure-u-md-1-2,
@@ -120,7 +120,7 @@
     }
 }
 
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1279px) {
     .pure-u-xl-1,
     .pure-u-xl-1-1,
     .pure-u-xl-1-2,

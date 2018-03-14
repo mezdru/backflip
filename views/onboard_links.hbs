@@ -19,7 +19,7 @@
             <i class="fa fa-link" aria-hidden="true"></i><span> {{__ "Link"}}</span>
           </li>
         </ul>
-        <a id="plus-button" class="fa fa-plus" aria-hidden="true"></a>
+        <a id="plus-button" class="fa fa-arrow-down" aria-hidden="true"></a>
         <input id="link-input" class="pure-input-1 search-input" type="text" placeholder="{{__ 'Add contact'}}" autofocus>
       </div>
     </div>
@@ -175,8 +175,8 @@
   })
 $('#plus-button').click(addLinkToCloud)
 
-  $( document ).ready(function() {
-    $('#phone-selector').click();
-  });
+$( document ).ready(function() {
+  $('#phone-selector').click();
+});
 
 </script>
