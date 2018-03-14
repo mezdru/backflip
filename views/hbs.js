@@ -78,6 +78,12 @@ hbs.registerHelper('pictureUrl', function(picture, type) {
 	}
 });
 
+hbs.registerHelper('picture', function(item) {
+  if (item.picture && item.picture.path)
+    return '<img src="/images'+item.picture.path+'">';
+  else return null;
+});
+
 hbs.registerHelper('error', function(status, elem) {
   error = errors.find(error => error.status == status || error.status == 500);
   return this.__(error[elem]);

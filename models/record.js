@@ -287,6 +287,10 @@ recordSchema.statics.cleanTag = function(tag, type) {
   return prefix + body;
 };
 
+recordSchema.methods.makeTag = function() {
+  this.tag = this.model('Record').cleanTag(this.tag, this.type);
+};
+
 recordSchema.statics.getTypeFromTag = function(tag) {
   if (tag.charAt(0) === '@') return 'person';
   else return 'hashtag';

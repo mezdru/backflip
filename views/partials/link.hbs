@@ -1,15 +1,12 @@
-{{! WARNING DUPLICATED IN AUTOCOMPLETE JS : addLinkToCloud() !!!}}
+{{! WARNING DUPLICATED IN JS : addLinkToCloud() !!!}}
 {{#if editable}}
 <li class="cloud-element link">
-  <a class="js-remove">x</a>
   <input type="hidden" name="links[values]" value="{{value}}" />
   <input type="hidden" name="links[types]" value="{{type}}" />
-  <i class="fa {{linkIcon this}}" aria-hidden="true"></i>
-  {{linkDisplay this}}
+  <i class="fa {{linkIcon this}}" aria-hidden="true"></i><span>{{linkDisplay this}}</span><a class="js-remove">x</a>
 </li>
 {{else}}
 <a href="{{linkUrl this}}" class="cloud-element link" target="_blank">
-  <i class="fa {{linkIcon this}}" aria-hidden="true"></i>
-  {{linkDisplay this}}
+  <i class="fa {{linkIcon this}}" aria-hidden="true"></i><span>{{linkDisplay this}}</span>
 </a>
 {{/if}}

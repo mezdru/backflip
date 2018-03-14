@@ -89,11 +89,13 @@
 
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element link added">' +
-      '<a class="js-remove">x</a>' +
       '<input type="hidden" name="links[values]" value="' + value + '" />' +
       '<input type="hidden" name="links[types]" value="' + type + '" />' +
-      linkIcon(type) + ' ' +
+      linkIcon(type) +
+      '<span>' +
       value +
+      '</span>' +
+      '<a class="js-remove">x</a>' +
       '</li>'
     );
     linkInput.value = ''

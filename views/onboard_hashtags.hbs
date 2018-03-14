@@ -76,10 +76,12 @@
   function addHashtagToCloud(event, suggestion, dataset) {
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element hashtag added">' +
-      '<img src="' + getPictureUrl(suggestion) + '">' +
-      '<a class="js-remove">x</a>' +
       '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+
+      getHashtagPictureHtml(suggestion) +
+      '<span>' +
       (suggestion.name || suggestion.tag) +
+      '</span>' +
+      '<a class="js-remove">x</a>' +
       '</li>'
     );
     search.autocomplete.setVal('');

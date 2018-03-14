@@ -13,6 +13,15 @@ function getPictureUrl(item) {
 	}
 }
 
+function getHashtagPictureHtml(item) {
+	if (item.picture && item.picture.path) {
+		return '<img src="' + getPictureUrl(item) + '">';
+	} else {
+		return '';
+	}
+}
+
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");

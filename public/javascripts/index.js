@@ -8,11 +8,11 @@
 
 // The length of the Description Snippet depends on the screen width.
 // @todo make it responsive dynamically (or not?)
-var introSnippetLength = 6;
-var extraLinkLimit = 4;
+var introSnippetLength = 7;
+var extraLinkLimit = 3;
 if (window.matchMedia('(min-width: 720px)').matches) {
-		introSnippetLength = 15;
-		extraLinkLimit = 9;
+		introSnippetLength = 20;
+		extraLinkLimit = 4;
 }
 
 var search = instantsearch({
@@ -21,6 +21,10 @@ var search = instantsearch({
 	indexName: 'world',
 	urlSync: true,
 	searchParameters: {
+		attributesToSnippet: [
+    	"description:"+introSnippetLength,
+    	"description:"+introSnippetLength
+		],
 		facetFilters: getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person']
 	}
 });
@@ -34,8 +38,25 @@ transformItem = function (item) {
 	return item;
 };
 
+function addPictureHtml(item) {
+	item.pictureHtml = getHashtagPictureHtml(item);
+}
+
 function transformImagePath(item) {
-	item.picture = {url: getPictureUrl(item)};
+	if (item.picture && item.picture.url) {
+			item.picture.url = item.picture.url;
+	} else if (item.picture && item.picture.path) {
+		item.picture.url = "/images" + item.picture.path;
+		//@todo remove this last if once the refacto URI > URL is done
+	} else if (item.picture && item.picture.uri) {
+		item.picture.url = item.picture.uri;
+	} else {
+		switch (item.type) {
+			case 'team' : transformIncludes(item); item.picture = { url: "/images/placeholder_team.png"}; break;
+			case 'hashtag' : transformIncludes(item); item.picture = { url: "/images/placeholder_hashtag.png"}; break;
+			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
+		}
+	}
 }
 
 function transformIntro(item) {
@@ -116,7 +137,7 @@ function makeLinkUrl(link) {
 }
 
 function addUrl(item) {
-	var path = 'id/'+item.objectID+'/';
+	var path = item.tag.replace('#', '');
 	item.url = makeUrl(null, path);
 }
 
@@ -126,7 +147,7 @@ transformHashtags = function(item) {
 	item.hashtags = item.hashtags.concat(item.within);
 	makeHightlighted(item);
 	item.hashtags.forEach(function(item) {
-		transformImagePath(item);
+		addPictureHtml(item);
 	});
 };
 
