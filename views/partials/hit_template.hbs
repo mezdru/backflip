@@ -13,6 +13,7 @@
       </div>
       {{/links.length}}
       <a href="{{url}}" class="name">
+        {{#showTag}}<h3>{{{tag}}}</h3>{{/showTag}}
         <h2>{{{_highlightResult.name.value}}}</h2>
       </a>
       <p class="intro">{{{_snippetResult.intro.value}}}</p>

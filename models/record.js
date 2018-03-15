@@ -288,7 +288,10 @@ recordSchema.statics.cleanTag = function(tag, type) {
 };
 
 recordSchema.methods.makeTag = function() {
-  this.tag = this.model('Record').cleanTag(this.tag, this.type);
+  if (this.type === 'person' && this.firstEmail)
+    this.tag = this.model('Record').getTagFromEmail(this.firstEmail);
+  else
+    this.tag = this.model('Record').cleanTag(this.tag, this.type);
 };
 
 recordSchema.statics.getTypeFromTag = function(tag) {

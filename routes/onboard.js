@@ -257,6 +257,7 @@ router.post('/intro', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {
+    res.locals.record.makeTag();
     res.locals.record.makeWithin(res.locals.organisation, function(err, records) {
       if (err) return next(err);
       res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {

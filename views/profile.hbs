@@ -7,6 +7,7 @@
           <img src="{{pictureUrl record.picture record.type}}" alt="">
         </div>
         <div class="name">
+          <h3>{{{record.tag}}}</h3>
           <h1>{{{record.name}}}</h1>
         </div>
       </div>
@@ -17,7 +18,6 @@
       </div>
       {{/if}}
     </div>
-    {{#if record.links}}
     <div class="pure-u-1 pure-u-md-1-3">
       <div class="grid-box">
         {{#if canEdit}}
@@ -26,6 +26,7 @@
         {{#if canDelete}}
         <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
         {{/if}}
+        {{#if record.links}}
         <h2>{{__ "Contact me"}}</h2>
         <div class="cloud cloud-list">
           {{#record.links}}
@@ -33,9 +34,9 @@
           {{/record.links}}
         </div>
         <p class="cloud-howto">{{__ "By order of preference."}}</p>
+        {{/if}}
       </div>
     </div>
-    {{/if}}
   </div>
   {{#if record.hashtags}}
   <div class="pure-g">

@@ -541,6 +541,11 @@ a.cloud-element:hover {
   margin: 0;
 }
 
+.name h3 {
+  text-align: center;
+  color: #c7bcbf;
+}
+
 .intro {
   font-size: 12px;
   padding: 5px 0;

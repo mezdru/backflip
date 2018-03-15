@@ -35,8 +35,13 @@ transformItem = function (item) {
 	transformIntro(item);
 	transformLinks(item);
 	addUrl(item);
+	addTag(item);
 	return item;
 };
+
+function addTag(item) {
+	item.showTag = getParameterByName('hashtags');
+}
 
 function addPictureHtml(item) {
 	item.pictureHtml = getHashtagPictureHtml(item);
@@ -52,8 +57,8 @@ function transformImagePath(item) {
 		item.picture.url = item.picture.uri;
 	} else {
 		switch (item.type) {
-			case 'team' : transformIncludes(item); item.picture = { url: "/images/placeholder_team.png"}; break;
-			case 'hashtag' : transformIncludes(item); item.picture = { url: "/images/placeholder_hashtag.png"}; break;
+			case 'team' : item.picture = { url: "/images/placeholder_team.png"}; break;
+			case 'hashtag' : item.picture = { url: "/images/placeholder_hashtag.png"}; break;
 			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
 		}
 	}
