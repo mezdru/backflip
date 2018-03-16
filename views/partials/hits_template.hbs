@@ -1,5 +1,6 @@
-<script type="text/template" id="hit-template">
+<script type="text/template" id="hits-template">
   {{{{raw}}}}
+  {{#hits}}
   <div class="record pure-g">
     <div class="pure-u-1 pure-u-intro">
       <a href="{{url}}" class="picture">
@@ -25,7 +26,7 @@
       <div class="hashtags-box">
         <div class="hashtags scroll">
           {{#hashtags}}
-          <a onclick="setSearch('{{tag}}')" class="cloud-element hashtag {{class}}">
+          <a data-value="{{tag}}" class="cloud-element hashtag {{class}}">
             {{{pictureHtml}}}<span>{{name}}</span>
           </a>
           {{/hashtags}}
@@ -34,5 +35,6 @@
     </div>
     {{/hashtags.length}}
   </div>
+  {{/hits}}
   {{{{/raw}}}}
 </script>

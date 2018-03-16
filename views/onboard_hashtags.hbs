@@ -7,7 +7,7 @@
         <div class="search-input-box" class="grid-box">
           <label for="hashtag">{{__ "What are you good at? What do you love? Where do you belong?"}}</label>
           <i class="fa fa-arrow-down" aria-hidden="true"></i>
-          <input class="pure-input-1 search-input" id="hashtag-input" type="text" placeholder="{{__ 'Add hashtag'}}" autofocus>
+          <input class="pure-input-1 search-input" id="search-input" type="text" placeholder="{{__ 'Add hashtag'}}" autofocus>
         </div>
         <div class="grid-box">
           <ul class="cloud" id="hashtag-cloud">
@@ -63,7 +63,7 @@
 <script>
   var cloudUl = document.getElementById('hashtag-cloud');
   var suggestionsUl = document.getElementById('hashtag-suggestions');
-  var hashtagInput = document.getElementById('hashtag-input');
+  var searchInput = document.getElementById('search-input');
   var modalLayer = document.getElementById('modal-layer');
 </script>
 <script>
@@ -108,7 +108,7 @@
   var client = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
   var index = client.initIndex(ALGOLIA_INDEX_NAME);
   var hitsSource = autocomplete.sources.hits(index, {facetFilters: 'type:hashtag', hitsPerPage: NB_RESULTS_DISPLAYED });
-  var search = autocomplete('#hashtag-input', { hint: false, autoselect: true, autoselectOnBlur: true}, [
+  var search = autocomplete('#search-input', { hint: false, autoselect: true, autoselectOnBlur: true}, [
     {
       source: function(query, callback) {
         hitsSource(query, function(suggestions) {
@@ -123,12 +123,12 @@
     }
   ]).on('autocomplete:selected', addHashtagToCloud)
   .on('autocomplete:shown', function() {
-    hashtagInput.classList.add('open');
-    modalLayer.style.display = 'block';
+    searchInput.classList.add('open');
+    modalLayer.classList.add('show');
   })
   .on('autocomplete:closed', function() {
-    hashtagInput.classList.remove('open');
-    modalLayer.style.display = 'none';
+    searchInput.classList.remove('open');
+    modalLayer.classList.remove('show');
   });
 </script>
 

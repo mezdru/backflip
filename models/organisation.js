@@ -66,7 +66,7 @@ organisationSchema.statics.getTheAllOrganisationId = function() {
 };
 
 organisationSchema.statics.getTheWings = function(req, res, next) {
-  Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#wings" }, function(err, wingRecord) {
+  Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#Wings" }, function(err, wingRecord) {
     if (err) return next(err);
     if (!wingRecord) return next(new Error('Cannot get the Wings'));
     Record.find({organisation: Organisation.getTheAllOrganisationId(), within: wingRecord._id }, function(err, records) {
@@ -75,18 +75,6 @@ organisationSchema.statics.getTheWings = function(req, res, next) {
       res.locals.wings = records;
       return next();
     }.bind(this));
-  }.bind(this));
-};
-
-
-organisationSchema.statics.getTheWings2 = function(callback) {
-  Record.findOne({organisation: this.getTheAllOrganisationId(), tag: "#wings" }, function(err, wingRecord) {
-    if (err) return callback(err);
-    Record.find({organisation: this.getTheAllOrganisationId(), within: wingRecord._id }, function(err, records) {
-      if (err) return callback(err);
-      records = records.filter(record => !record._id.equals(wingRecord._id));
-      return callback(null, records);
-    });
   }.bind(this));
 };
 

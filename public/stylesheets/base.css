@@ -316,10 +316,61 @@ header a:hover {
   transition: none;
 }
 
+#search-input.open {
+  border-bottom: none;
+  border-radius: 30px 30px 0 0;
+}
+
+.algolia-autocomplete {
+  width: 100%;
+}
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 100%;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 100%;
+  background-color: #f6f4f4;
+  border: 2px solid #dd362e;
+  border-radius: 0 0 30px 30px;
+  border-top: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 100;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  border-top: 1px solid #c7bcbf;
+  font-size: 20px;
+  padding: 15px 20px;
+  color: #5c4d51;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .newHashtag {
+  font-weight: 400;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion img {
+  float: left;
+  height: 30px;
+  width: 30px;
+  margin: 0 20px 0 0;
+  border-radius: 15px;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #dd362e;
+  color: #ffffff;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: 800;
+  font-style: normal;
+  background: none;
+  color: inherit;
+}
+
+
 .pure-form input[type="email"],
 .pure-form input[type="text"],
 .pure-form input[type="url"],
-.pure-form input[type="tel"] {
+.pure-form input[type="tel"],
+.selectize-input {
   width: 100%;
   box-sizing: border-box;
   padding: 15px 20px;
@@ -333,17 +384,38 @@ header a:hover {
   box-shadow: none;
 }
 
-.pure-form input.search-input {
+#search input,
+#search-input,
+header .pure-form input.search-input,
+.selectize-input {
   z-index: 100;
   font-weight: 700;
   border-color: #dd362e;
   color: #33374C;
 }
 
-.search-input::placeholder {
-  color: #c7bcbf;
-  opacity: 1;
+.selectize-input input[type="text"] {
+  height: 30px;
+  border: none;
 }
+
+
+#modal-layer {
+  position: fixed;
+  width: 100vw;
+  height: 100vw;
+  background-color: #ffffff;
+  z-index: 50;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s ease;
+}
+
+#modal-layer.show {
+  visibility: visible;
+  opacity: 0.9;
+}
+
 
 /* FOOTER */
 footer {
@@ -458,8 +530,17 @@ a.cloud-element:hover {
   padding: 10px 15px;
 }
 
-/* PROFILE */
+/* SEARCH */
+.search header {
+  border-bottom: none;
+}
 
+.search .main {
+  padding-top: 120px;
+  background-color: #ffffff;
+}
+
+/* PROFILE */
 .profile #intro {
    font-size: 18px;
 }
@@ -549,6 +630,8 @@ a.cloud-element:hover {
 .intro {
   font-size: 12px;
   padding: 5px 0;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .name,
@@ -892,6 +975,7 @@ a.hashtag {
     font-size: 15px;
     padding-top: 8px;
     line-height: 24px;
+    max-height: 90px;
   }
 
   .name,

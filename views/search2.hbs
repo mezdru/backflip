@@ -1,0 +1,41 @@
+<div class="main">
+  <form class="pure-form pure-form-stacked" action="{{onboard.hashtagsAction}}" method="post">
+    <input type="hidden" name="_id" value="{{record._id}}" />
+    {{> form_errors}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="search-input-box grid-box">
+          <div id="search">
+            <input type="text" placeholder="{{__ 'Search'}}">
+          </div>
+          <div id="search-input-icon"></div>
+        </div>
+        <div class="grid-box">
+          <h2>Suggestions</h2>
+          <div id="hashtags"></div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="main org-{{organisation.tag}}" id="search-results">
+</div>
+<div id="modal-layer">
+</div>
+{{> hits_template}}
+<script type="text/template" id="hashtags-template">
+  {{{{raw}}}}
+    {{#values}}
+      <a href="" class="hashtag add-tag" data-value="{{tag}}">{{name}}</a>
+    {{/values}}
+  {{{{/raw}}}}
+</script>
+<script>
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+  var isProduction = {{{json isProduction}}};
+</script>
+{{> jquery}}
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/hogan.js/3.0.2/hogan.min.common.js"></script>
+<script src="/javascripts/selectize.min.js"></script>
+<script src="/javascripts/search.js"></script>
