@@ -525,7 +525,7 @@ recordSchema.plugin(mongooseAlgolia, {
   appId: process.env.ALGOLIA_APPLICATION_ID,
   apiKey: process.env.ALGOLIA_WRITE_KEY,
   indexName: 'world',
-  selector: '-_id -created -updated -google -deleted -hidden_links',
+  selector: '-_id -created -updated -google -deleted -hidden_links -fullcontact_updated',
   // @todo remove the populate part for performance (we don't want another request to get the included/within records)
   populate: [{
     path: 'hashtags',

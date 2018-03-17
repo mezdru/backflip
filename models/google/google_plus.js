@@ -56,7 +56,7 @@ class GooglePlus {
     if (this.profile.urls) this.profile.urls.forEach(url => this.record.addLink(LinkHelper.makeLink(url.value, 'hyperlink')));
     if (this.profile.placesLived) {
       let primaryPlace = undefsafe(this.profile.placesLived.find(place => place.primary), 'value');
-      if (primaryPlace) this.record.addLink(primaryPlace, 'address');
+      if (primaryPlace) this.record.addLink(LinkHelper.makeLink(primaryPlace, 'address'));
     }
     return this.record.links;
   }

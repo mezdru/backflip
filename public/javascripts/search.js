@@ -1,5 +1,27 @@
 /* global $, Hogan, algoliasearch */
+Selectize.define( 'preserve_on_blur', function( options ) {
+    var self = this;
 
+    options.text = options.text || function(option) {
+        return option[this.settings.labelField];
+    };
+
+    this.onBlur = ( function( e ) {
+        var original = self.onBlur;
+
+        return function( e ) {
+            // Capture the current input value
+            var $input = this.$control_input;
+            var inputValue = $input.val();
+
+            // Do the default actions
+            original.apply( this, e );
+
+            // Set the value back
+            this.setTextboxValue( inputValue );
+        };
+    } )();
+} );
 $(document).ready(function () {
 
   var ALGOLIA_APPID = 'RSXBUBL0PB';
@@ -17,17 +39,57 @@ $(document).ready(function () {
   // Selectize
   var selectizeHashtags = '';
   var $selectize = $searchInput.selectize({
-    plugins: ['remove_button'],
-    choices: null,
-    delimiter: ',',
+    valueField: 'tag',
+    labelField: 'name',
+    searchField: 'name',
+    maxOptions: 3,
+    highlight: false,
+    plugins: ['remove_button', 'preserve_on_blur'],
     persist: false,
     create: true,
+    openOnFocus: false,
+    createOnBlur: false,
+    closeAfterSelect: true,
+    hideSelected: true,
     onBlur: function () {
       toggleIconEmptyInput();
     },
+    load: function(query, callback) {
+        this.lastQuery = query;
+        algolia.search([{
+          indexName: 'world',
+          query: query,
+          params: {
+            hitsPerPage: 3
+          }
+        }],
+        function(err, content) {
+          if (err) {
+            console.error(err);
+          }
+          callback(content.results[0].hits);
+        });
+    },
+    render: {
+        option: function(item, escape) {
+            return '<div class="aa-suggestion">' +
+            getHashtagPictureHtml(item) +
+            '<span>' +
+            escape(item.name || item.tag) +
+            '</span>' +
+            '</div>';
+        }
+    },
+    score: function() { return function() { return 1; }; },
     onChange: function (value) {
       selectizeHashtags = value;
       search();
+    },
+    onOptionAdd: function(value, data) {
+      console.log(value);
+    },
+    onItemAdd(value, $item) {
+      console.log(value);
     }
   })[0].selectize;
 
@@ -47,18 +109,19 @@ $(document).ready(function () {
     var queries = [
       {
         indexName: 'world',
-        query: query,
+        query: '',
         params: {
-          facetFilters: 'type:hashtag'
+          facetFilters: 'type:hashtag',
+          hitsPerPage: 5
         }
       },
       {
         indexName: 'world',
         query: query + ' ' + tags,
         params: {
-          facetFilters: 'type:person'
-        },
-        transformData: transformItem
+          facetFilters: 'type:person',
+          hitsPerPage: 30
+        }
       }
     ];
     algolia.search(queries, searchCallback);
@@ -91,7 +154,6 @@ $(document).ready(function () {
   }
 
   function renderHits(content) {
-    console.log(content.hits[0]);
     content.hits.forEach(transformItem);
     $hits.html(hitsTemplate.render(content));
   }

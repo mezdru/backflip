@@ -58,7 +58,8 @@
 <script>
   var algoliaPublicKey = {{{json algoliaPublicKey}}};
   var newHashtagSentence = '{{__ "Create new hashtag"}}';
-  var notFoundSentence = '{{__ "There is no matching hashtag... yet!"}}'
+  var notFoundSentence = '{{__ "There is no matching hashtag... yet!"}}';
+  var isProduction = {{{json isProduction}}};
 </script>
 <script>
   var cloudUl = document.getElementById('hashtag-cloud');
@@ -108,7 +109,7 @@
   var client = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
   var index = client.initIndex(ALGOLIA_INDEX_NAME);
   var hitsSource = autocomplete.sources.hits(index, {facetFilters: 'type:hashtag', hitsPerPage: NB_RESULTS_DISPLAYED });
-  var search = autocomplete('#search-input', { hint: false, autoselect: true, autoselectOnBlur: true}, [
+  var search = autocomplete('#search-input', { hint: false, autoselect: true, autoselectOnBlur: true, debug: !isProduction}, [
     {
       source: function(query, callback) {
         hitsSource(query, function(suggestions) {
