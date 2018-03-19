@@ -53,7 +53,7 @@ organisationSchema.methods.addEmailDomain = function(domain, callback) {
 organisationSchema.methods.populateRecords = function(callback) {
   if (this.records) return callback(null, this);
   Record.find({organisation: [this._id, this.model('Organisation').getTheAllOrganisationId()] })
-    .select('_id organisation tag type name description picture links within updated created')
+    .select('_id organisation tag type name intro description picture links hashtags within updated created')
     .exec(function(err, records) {
       if (err) return callback(err);
       this.records = records;
