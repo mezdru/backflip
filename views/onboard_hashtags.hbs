@@ -69,12 +69,6 @@
   var modalLayer = document.getElementById('modal-layer');
 </script>
 <script>
-  function getPictureUrl(suggestion) {
-    var pictureUrl = '/images/placeholder_hashtag.png';
-    if (suggestion.picture && suggestion.picture.url) pictureUrl = suggestion.picture.url;
-    return pictureUrl;
-  }
-
   function addHashtagToCloud(event, suggestion, dataset) {
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element hashtag added">' +
@@ -97,7 +91,7 @@
       suggestion.tag +
       '</em>';
     } else {
-      return '<img src="' + getPictureUrl(suggestion) + '">' +
+      return getHashtagPictureHtml(suggestion) +
       suggestion._highlightResult.name.value;
     }
   }
