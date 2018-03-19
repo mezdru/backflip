@@ -1,4 +1,3 @@
-/* global $, Hogan, algoliasearch */
 Selectize.define( 'preserve_on_blur', function( options ) {
     var self = this;
 
@@ -22,6 +21,27 @@ Selectize.define( 'preserve_on_blur', function( options ) {
         };
     } )();
 } );
+
+Selectize.define( 'soft_clear_options', function( options ) {
+    var self = this;
+
+    this.softClearOptions = ( function() {
+        var original = self.onBlur;
+
+        return function( e ) {
+            // Capture the current input value
+            var $input = this.$control_input;
+            var inputValue = $input.val();
+
+            // Do the default actions
+            original.apply( this, e );
+
+            // Set the value back
+            this.setTextboxValue( inputValue );
+        };
+    } )();
+} );
+
 $(document).ready(function () {
 
   var ALGOLIA_APPID = 'RSXBUBL0PB';
@@ -55,7 +75,7 @@ $(document).ready(function () {
       toggleIconEmptyInput();
     },
     load: function(query, callback) {
-        this.lastQuery = query;
+        clearOptions();
         algolia.search([{
           indexName: 'world',
           query: query,
@@ -80,16 +100,15 @@ $(document).ready(function () {
             '</div>';
         }
     },
-    score: function() { return function() { return 1; }; },
     onChange: function (value) {
       selectizeHashtags = value;
       search();
     },
     onOptionAdd: function(value, data) {
-      console.log(value);
+      //console.log(value);
     },
     onItemAdd(value, $item) {
-      console.log(value);
+      //console.log(value);
     }
   })[0].selectize;
 
@@ -156,6 +175,12 @@ $(document).ready(function () {
   function renderHits(content) {
     content.hits.forEach(transformItem);
     $hits.html(hitsTemplate.render(content));
+  }
+
+  function clearOptions() {
+    $selectize.options.forEach(function(option) {
+      if ($selectize.items.hasOwnProperty())
+    });
   }
 
   // EVENTS BINDING

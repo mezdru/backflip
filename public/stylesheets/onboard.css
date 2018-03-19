@@ -2,19 +2,6 @@
   position: absolute;
 }
 
-.oiseaux {
-    position: absolute;
-    left: 0;
-    top: 200px;
-    z-index: 1000;
-    background-image: url('/images/oiseaux.png');
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: 200px;
-    width: 200px;
-    height: 400px;
-}
-
 .onboard .pure-u-menu img {
   max-height: 50px;
 }
@@ -24,8 +11,21 @@
 }
 
 .pure-u-menu a.step {
-  color: #dd362e;
+  color: #c7bcbf;
   margin-left: 0;
+}
+
+.pure-u-menu > div > div {
+  position: relative;
+  bottom: 20px;
+  font-size: 12px;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.pure-u-menu img {
+  height: 60px;
 }
 
 .pure-u-menu .fa-long-arrow-right {
@@ -464,4 +464,19 @@ li#facebook-selector.selected {
   .onboard-welcome .main {
     background-size: 75vh;
   }
+
+  .illustration {
+      position: absolute;
+      left: 0;
+      bottom: 40px;
+      z-index: 1;
+      background-position: bottom left;
+      background-repeat: no-repeat;
+      background-size: 320px;
+      width: 320px;
+      height: 320px;
+  }
+  .cat {background-image: url('/images/cat.png'); right: 0; left: auto;}
+  .birds {background-image: url('/images/birds.png'); height: 640px;}
+  .tea {background-image: url('/images/tea.png'); top: 100px; bottom: auto;}
 }
