@@ -1,7 +1,7 @@
 {{! WARNING DUPLICATED IN AUTOCOMPLETE JS : addHashtagToCloud() !!!}}
 {{#if editable}}
 <li class="cloud-element hashtag{{#if added}} added{{/if}}">
-  {{{picture this}}}<span>{{name}}</span><a class="js-remove">x</a>
+  {{{picture this}}}<span>{{name}}</span><a class="js-remove">&times;</a>
   <input type="hidden" name="hashtags" value="{{_id}}" />
 </li>
 {{else}}

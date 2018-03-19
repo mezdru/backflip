@@ -22,22 +22,26 @@ Selectize.define( 'preserve_on_blur', function( options ) {
     } )();
 } );
 
-Selectize.define( 'soft_clear_options', function( options ) {
+Selectize.define( 'has_item', function( options ) {
     var self = this;
 
+    this.hasItem = ( function(value) {
+
+        return function(value) {
+          for (var i = 0; i < self.items.length; i++) {
+            if (self.items[i] === value) return true;
+          }
+          return false;
+      };
+    } )();
+} );
+
+Selectize.define( 'soft_clear_options', function( options ) {
     this.softClearOptions = ( function() {
-        var original = self.onBlur;
-
-        return function( e ) {
-            // Capture the current input value
-            var $input = this.$control_input;
-            var inputValue = $input.val();
-
-            // Do the default actions
-            original.apply( this, e );
-
-            // Set the value back
-            this.setTextboxValue( inputValue );
+        return function() {
+          for (var value in this.options) {
+            if (!this.hasItem(value)) this.removeOption(value, true);
+          }
         };
     } )();
 } );
@@ -64,9 +68,9 @@ $(document).ready(function () {
     searchField: 'name',
     maxOptions: 3,
     highlight: false,
-    plugins: ['remove_button', 'preserve_on_blur'],
+    plugins: ['remove_button', 'preserve_on_blur', 'soft_clear_options', 'has_item'],
     persist: false,
-    create: true,
+    create: false,
     openOnFocus: false,
     createOnBlur: false,
     closeAfterSelect: true,
@@ -75,7 +79,7 @@ $(document).ready(function () {
       toggleIconEmptyInput();
     },
     load: function(query, callback) {
-        clearOptions();
+        this.softClearOptions();
         algolia.search([{
           indexName: 'world',
           query: query,
@@ -91,24 +95,37 @@ $(document).ready(function () {
         });
     },
     render: {
-        option: function(item, escape) {
+        option: function(option, escape) {
             return '<div class="aa-suggestion">' +
-            getHashtagPictureHtml(item) +
+            getHashtagPictureHtml(option) +
             '<span>' +
-            escape(item.name || item.tag) +
+            escape(option.name || option.tag) +
             '</span>' +
+            '</div>';
+        },
+        item: function(item, escape) {
+          console.log(item);
+          return '<div class="cloud-element hashtag">' +
+              '<span>' +
+                escape(item.name || item.tag) +
+              '</span>' +
             '</div>';
         }
     },
+    score: function() {
+      return function() {
+        return 1;
+      };
+    },
     onChange: function (value) {
       selectizeHashtags = value;
+      toggleIconEmptyInput();
       search();
     },
-    onOptionAdd: function(value, data) {
-      //console.log(value);
-    },
-    onItemAdd(value, $item) {
-      //console.log(value);
+    onType(str) {
+      console.log('here');
+      toggleIconEmptyInput();
+      search();
     }
   })[0].selectize;
 
@@ -117,10 +134,7 @@ $(document).ready(function () {
 
   // SEARCH ALL
   // ==========
-  $selectize.$control_input.on('keyup', function () {
-    toggleIconEmptyInput();
-    search();
-  });
+
   function search() {
     var query = $selectize.$control_input.val();
     var tags = selectizeHashtags;
@@ -152,7 +166,6 @@ $(document).ready(function () {
     if (err) {
       throw new Error(err);
     }
-
     renderHashtags(content.results[0].hits);
     renderHits(content.results[1]);
   }
@@ -177,18 +190,19 @@ $(document).ready(function () {
     $hits.html(hitsTemplate.render(content));
   }
 
-  function clearOptions() {
-    $selectize.options.forEach(function(option) {
-      if ($selectize.items.hasOwnProperty())
-    });
-  }
-
   // EVENTS BINDING
   // ==============
+  $selectize.$control_input.on('keyup', function () {
+    toggleIconEmptyInput();
+    search();
+  });
   $(document).on('click', '.hashtag', function (e) {
     e.preventDefault();
-    $selectize.createItem($(this).data('value'), function () {});
-    search();
+    $selectize.addOption({
+      tag: $(this).data('tag'),
+      name: $(this).data('name'),
+    });
+    $selectize.addItem($(this).data('tag'), false);
   });
   $searchInputIcon.on('click', function (e) {
     e.preventDefault();

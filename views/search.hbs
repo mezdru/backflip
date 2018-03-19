@@ -28,7 +28,6 @@
 </script>
 <script>
   function doSearch(event, suggestion, dataset) {
-    console.log(suggestion.tag);
   }
 
   function suggestionTemplate(suggestion) {
@@ -70,8 +69,6 @@
     }
   ]).on('autocomplete:selected', doSearch)
   .on('autocomplete:shown', function() {
-    console.log('here');
-    console.log(searchInput);
     searchInput.classList.add('open');
     modalLayer.classList.add('show');
   })

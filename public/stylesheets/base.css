@@ -316,7 +316,8 @@ header a:hover {
   transition: none;
 }
 
-#search-input.open {
+#search-input.open,
+.selectize-input.dropdown-active {
   border-bottom: none;
   border-radius: 30px 30px 0 0;
 }
@@ -377,7 +378,7 @@ header a:hover {
   margin: 0;
   border-radius: 30px;
   font-size: 20px;
-  height: 60px;
+  min-height: 60px;
   border: 2px solid #c7bcbf;
   color: #1d1f1a;
   background: #ffffff;
@@ -394,9 +395,16 @@ header .pure-form input.search-input,
   color: #33374C;
 }
 
-.selectize-input input[type="text"] {
-  height: 30px;
+.selectize-input > input[type="text"] {
+  vertical-align: top;
+  height: 30px !important;
+  margin: 10px !important;
+  padding: 5px !important;
   border: none;
+}
+
+.selectize-input {
+  padding: 10px;
 }
 
 .selectize-input.focus {
@@ -486,7 +494,8 @@ p.cloud {
   min-height:inherit;
 }
 
-.cloud-element {
+.cloud-element,
+.selectize-control.multi .selectize-input > div.item {
   display: inline-block;
   box-sizing: border-box;
   border-radius: 15px;
@@ -531,6 +540,25 @@ a.cloud-element:hover {
   font-size: 10px;
   color: #5C4D51;
   padding: 10px 15px;
+}
+
+.js-remove,
+.remove {
+  display: inline-block;
+  vertical-align: top;
+  padding: 6px 10px 6px 0;
+  width: 1em;
+  text-align: center;
+  cursor: pointer;
+  color: #5c4d51;
+  font-weight: 300;
+}
+
+.js-remove:hover,
+.remove:hover {
+  font-weight: 800;
+  color: #dde03a;
+  text-decoration: none;
 }
 
 /* SEARCH */
@@ -960,6 +988,13 @@ a.hashtag {
   .cloud-element .fa {
     padding: 6px 0 6px 12px;
     font-size: 24px;
+  }
+  .selectize-input > input[type="text"] {
+    vertical-align: top;
+    height: 36px !important;
+    margin: 10px !important;
+    padding: 6px !important;
+    border: none;
   }
 
   .name {

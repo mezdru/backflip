@@ -273,23 +273,6 @@ label[for="link-input"] {
   cursor: move;
 }
 
-.js-remove {
-  display: inline-block;
-  vertical-align: top;
-  padding: 4px 10px 8px 0;
-  width: 1em;
-  text-align: center;
-  cursor: pointer;
-  color: #5c4d51;
-  font-weight: 300;
-}
-
-.js-remove:hover {
-  font-weight: 800;
-  color: #dde03a;
-  text-decoration: none;
-}
-
 .pure-u-suggestions {
   position: relative;
 }
