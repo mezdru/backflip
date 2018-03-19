@@ -263,6 +263,7 @@ recordSchema.methods.cleanIntro = function() {
 };
 
 var uppercamelcase = require('uppercamelcase');
+var slug = require('slug');
 var decamelize = require('decamelize');
 recordSchema.statics.cleanTag = function(tag, type) {
   var prefix = '';
@@ -279,10 +280,10 @@ recordSchema.statics.cleanTag = function(tag, type) {
 
   if (type === 'hashtag') {
     prefix = '#';
-    body = uppercamelcase(body);
+    body = slug(uppercamelcase(body));
   } else if (type === 'person') {
     prefix = '@';
-    body = uppercamelcase(body);
+    body = slug(uppercamelcase(body));
   }
   return prefix + body;
 };
@@ -391,23 +392,6 @@ recordSchema.methods.makeStructure = function(organisation) {
   structureHelper = new StructureHelper(this.within, organisation.tree);
   structureHelper.build();
   this.structure = structureHelper.structure;
-};
-
-recordSchema.methods.makeRanking = function(organisation) {
-  switch (this.type) {
-    case 'person' : this.ranking = 1000; break;
-    case 'hashtag' : case 'team' : this.ranking = 2000; break;
-    //case 'team' : this.ranking = 3000; break;
-  }
-  if (organisation.tree) this.ranking += this.getStructureRanking(organisation.tree);
-};
-
-recordSchema.methods.getStructureRanking = function(tree) {
-  let branches = tree.filter(function (branch) {
-    return branch[branch.length-1] == this.tag;
-  }, this);
-  var shortestBranchLength = branches.reduce((acc, cur) => Math.min(acc, cur.length), 10);
-  return 1000 - shortestBranchLength*100;
 };
 
 recordSchema.methods.countIncludes = function(callback) {

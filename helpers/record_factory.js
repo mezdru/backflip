@@ -51,7 +51,6 @@ var RecordFactory = class RecordFactory {
         var within = record.makeWithin(this.organisation);
         this.output = this.output.concat(within);
         record.makeStructure(this.organisation);
-        record.makeRanking(this.organisation);
       }, this
     );
   }
@@ -60,7 +59,6 @@ var RecordFactory = class RecordFactory {
     this.output.forEach(
       function(record) {
         record.makeStructure(this.organisation);
-        record.makeRanking(this.organisation);
         record.makeIncludes(this.organisation);
       }, this
     );

@@ -46,7 +46,6 @@ router.get('/remake', function(req, res, next) {
   var countup = 0;
   res.locals.organisation.records.forEach (function (record) {
     record.makeStructure(res.locals.organisation);
-    record.makeRanking(res.locals.organisation);
     record.makeIncludes(res.locals.organisation);
     record.save(function(err, record, numAffected) {
       countup += numAffected;

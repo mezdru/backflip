@@ -52,6 +52,7 @@
     "parse-domain": "^1.1.0",
     "randomstring": "^1.1.5",
     "serve-favicon": "~2.3.2",
+    "slug": "^0.9.1",
     "undefsafe": "^2.0.1",
     "uploadcare": "^0.4.5",
     "uppercamelcase": "^3.0.0",
