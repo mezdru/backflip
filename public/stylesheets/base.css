@@ -682,6 +682,10 @@ a.hashtag {
   border-top-left-radius: 28px;
 }
 
+.record .pure-u-intro:last-child .picture {
+  border-bottom-left-radius: 28px;
+}
+
 /* HASHTAGS */
 
 .pure-u-hashtags {

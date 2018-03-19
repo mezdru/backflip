@@ -322,7 +322,8 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   tag = this.cleanTag(tag);
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
-  .populate('within hashtags')
+  .populate('within', '_id organisation tag type name picture')
+  .populate('hashtags', '_id organisation tag type name picture')
   .exec(callback);
 };
 
@@ -330,7 +331,8 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findById = function(id, organisationId, callback) {
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
-  .populate('within hashtags')
+  .populate('within', '_id organisation tag type name picture')
+  .populate('hashtags', '_id organisation tag type name picture')
   .exec(callback);
 };
 

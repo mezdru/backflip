@@ -58,6 +58,7 @@ router.use(function(req, res, next) {
       err.status = 404;
       return next(err);
     }
+    console.log(record);
     if (res.locals.user.ownsRecord(record._id) ||
     res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
       res.locals.record = record;
@@ -186,6 +187,7 @@ router.use(function(req, res, next) {
 router.all('/intro', Organisation.getTheWings);
 
 router.all('/intro', function(req, res, next) {
+  console.log(res.locals.record.hashtags);
   res.locals.record.hashtags.forEach(function(hashtag) {
       var wing = res.locals.wings.find(wing => wing._id.equals(hashtag._id));
       if (wing) wing.checked = true;
@@ -339,7 +341,6 @@ router.post('/links', function(req, res, next) {
     if (err) return next(err);
     res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
       if (err) console.error(err);
-      console.log('i am here');
       return res.redirect(new UrlHelper(res.locals.organisation.tag, null, `?q=${res.locals.record.name}`, req.getLocale()).getUrl());
     });
   });
