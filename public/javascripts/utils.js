@@ -219,8 +219,6 @@ function addUrl(item) {
 
 transformHashtags = function(item) {
 	if (!item.hashtags) item.hashtags = [];
-	if (!item.within) item.within = [];
-	item.hashtags = item.hashtags.concat(item.within);
 	makeHightlighted(item);
 	item.hashtags.forEach(function(item) {
 		addPictureHtml(item);
@@ -229,8 +227,6 @@ transformHashtags = function(item) {
 
 makeHightlighted = function(item) {
 	if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];
-	if (!item._highlightResult.within) item._highlightResult.within = [];
-	item._highlightResult.hashtags = item._highlightResult.hashtags.concat(item._highlightResult.within);
 	item._highlightResult.hashtags.forEach(function(hashtag, index) {
 		if (hashtag.tag && hashtag.tag.fullyHighlighted) item.hashtags[index].class = 'highlighted';
 	});

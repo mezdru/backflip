@@ -55,6 +55,7 @@ organisationSchema.methods.populateRecords = function(callback) {
   Record.find({organisation: [this._id, this.model('Organisation').getTheAllOrganisationId()] })
     .select('_id organisation tag type name intro description picture links hashtags within updated created')
     .populate('hashtags', '_id organisation tag type name picture')
+    .populate('within', '_id organisation tag type name picture')
     .exec(function(err, records) {
       if (err) return callback(err);
       this.records = records;

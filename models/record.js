@@ -206,10 +206,10 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
   });
 };
 
-//@todo I don't understand why only id is pushed...
+//@todo Using concat to avoid casting to oid on push seems hacky
 recordSchema.methods.pushHashtag = function(newRecord) {
   if (!this.hashtags.find((oldRecord) => getId(oldRecord).equals(getId(newRecord))))
-    this.hashtags.push(this.model('Record').shallowCopy(newRecord));
+    this.hashtags = this.hashtags.concat([newRecord]);
 };
 
 // We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
@@ -240,13 +240,17 @@ recordSchema.methods.makeWithin = function(organisation, callback) {
 // Otherwise there are tons of level of reference (even loops)
 // @todo not sure we need it if we already handle shallow records ;)
 recordSchema.statics.shallowCopy = function(record) {
-  return this({
+  return {
     _id: record.id,
     name: record.name,
     tag: record.tag,
     type: record.type,
     picture: record.picture
-  });
+  };
+};
+
+recordSchema.statics.shallowCopies = function(records) {
+  return records.map(record => this.shallowCopy(record));
 };
 
 //@todo Does not match person (@) yet
@@ -322,8 +326,8 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   tag = this.cleanTag(tag);
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
-  .populate('within', '_id organisation tag type name picture')
-  .populate('hashtags', '_id organisation tag type name picture')
+  .populate('hashtags', '_id tag type name picture')
+  .populate('within', '_id tag type name picture')
   .exec(callback);
 };
 
@@ -331,8 +335,8 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findById = function(id, organisationId, callback) {
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
-  .populate('within', '_id organisation tag type name picture')
-  .populate('hashtags', '_id organisation tag type name picture')
+  .populate('hashtags', '_id tag type name picture')
+  .populate('within', '_id tag type name picture')
   .exec(callback);
 };
 
@@ -463,6 +467,35 @@ recordSchema.methods.getUploadcareUrl = function() {
 };
 
 
+var algolia = require('algoliasearch')(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_WRITE_KEY);
+var index = algolia.initIndex('world');
+
+recordSchema.methods.algoliaSync = function(doc) {
+  if (this.deleted) {
+    index.deleteObject(this._id.toString(), function(err, doc) {
+      if (err) return console.error(err);
+      console.log(`Deleted ${doc.objectID} with Algolia`);
+    });
+  } else {
+    this.hashtags = this.hashtags || [];
+    this.within = this.within || [];
+    index.saveObject({
+      objectID: this._id.toString(),
+      organisation: getId(this.organisation),
+      type: this.type,
+      name: this.name,
+      intro: this.intro,
+      description: this.description,
+      picture: this.picture,
+      links: this.links,
+      hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within))
+    }, function(err, doc) {
+      if (err) return console.error(err);
+      console.log(`Synced ${doc.objectID} with Algolia`);
+    });
+  }
+};
+
 recordSchema.statics.getValidationSchema = function(res) {
   return {
     name: {
@@ -495,38 +528,16 @@ recordSchema.pre('save', function(next) {
   next();
 });
 
+recordSchema.post('save', function(doc) {
+  this.algoliaSync();
+});
+
 recordSchema.plugin(mongooseDelete, {
   deletedAt : true,
   deletedBy : true,
   overrideMethods: 'all',
   validateBeforeDelete: false,
   indexFields: 'all'
-});
-
-
-var mongooseAlgolia = require('mongoose-algolia');
-
-// @todo we need our own sync logic, this one is too hard to control & very expensive for bulk
-recordSchema.plugin(mongooseAlgolia, {
-  appId: process.env.ALGOLIA_APPLICATION_ID,
-  apiKey: process.env.ALGOLIA_WRITE_KEY,
-  indexName: 'world',
-  selector: '-_id -created -updated -google -deleted -hidden_links -fullcontact_updated',
-  // @todo remove the populate part for performance (we don't want another request to get the included/within records)
-  populate: [{
-    path: 'hashtags',
-    select: 'name tag type picture'
-  },{
-    path: 'includes',
-    select: 'name tag type picture'
-  },{
-    path: 'within',
-    select: 'name tag type picture'
-  }],
-  filter: function(doc) {
-    return !doc.deleted;
-  },
-  debug: true
 });
 
 /*

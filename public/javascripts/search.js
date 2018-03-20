@@ -124,7 +124,7 @@ $(document).ready(function () {
       toggleIconEmptyInput();
     },
     onDropdownOpen($dropdown) {
-            toggleIconEmptyInput();
+      toggleIconEmptyInput();
       $modalLayer.addClass('show');
     },
     onDropdownClose($dropdown) {
@@ -141,7 +141,7 @@ $(document).ready(function () {
   // ==========
 
   function search() {
-    var facetKey = 'within';
+    var facetKey = 'hashtags';
     var query = $selectize.$control_input.val();
     var tags = $selectize.$input.val();
     var facetFilters = ['type:person'];
@@ -181,8 +181,12 @@ $(document).ready(function () {
         availableHits.push(hit);
       }
     }
-    $hashtags.html(hashtagsTemplate.render({hashtags: availableHits}));
-    $subheader.css("display", "block");
+    if (availableHits.length) {
+      $hashtags.html(hashtagsTemplate.render({hashtags: availableHits}));
+      $subheader.css("display", "block");
+    } else {
+      $subheader.css("display", "none");
+    }
   }
 
   function renderHits(content) {
@@ -206,7 +210,9 @@ $(document).ready(function () {
   $searchInputIcon.on('click', function (e) {
     e.preventDefault();
     $selectize.clear(false);
-    $searchInput.val('').keyup().focus();
+    $selectize.$control_input.val('');
+    search();
+    toggleIconEmptyInput();
   });
 
   // HELPERS
