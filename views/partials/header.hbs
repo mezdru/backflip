@@ -8,7 +8,8 @@
   </a>
   <div class="pure-u-search pure-u-1 pure-u-xl-1-2">
     <div id="search" class="search-input-box pure-form">
-      <i class="fa fa-search" aria-hidden="true"></i>
+      {{#if searchInput}}<input type="text" placeholder="{{__ 'Search'}}">{{/if}}
+      <i id="search-input-icon" class="fa fa-search scale" aria-hidden="true"></i>
     </div>
   </div>
   <div class="pure-u-menu pure-u-xl-1-4">

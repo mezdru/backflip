@@ -162,28 +162,14 @@
 .selectize-dropdown {
   position: absolute;
   z-index: 10;
-  border: 1px solid #d0d0d0;
-  background: #ffffff;
   margin: -1px 0 0 0;
-  border-top: 0 none;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  -webkit-border-radius: 0 0 3px 3px;
-  -moz-border-radius: 0 0 3px 3px;
-  border-radius: 0 0 3px 3px;
 }
 .selectize-dropdown [data-selectable] {
   cursor: pointer;
   overflow: hidden;
-}
-.selectize-dropdown [data-selectable] .highlight {
-  background: rgba(125, 168, 208, 0.2);
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  border-radius: 1px;
 }
 .selectize-dropdown [data-selectable],
 .selectize-dropdown .optgroup-header {
@@ -210,7 +196,6 @@
 .selectize-dropdown-content {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 200px;
   -webkit-overflow-scrolling: touch;
 }
 .selectize-control.single .selectize-input,

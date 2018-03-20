@@ -96,7 +96,6 @@ h3 {
   padding: 5px 10px;
   letter-spacing: 0.3px;
   font-weight: 600;
-  height: 30px;
   box-sizing: border-box;
   color: #1d1f1a;
 }
@@ -236,7 +235,7 @@ a.cloud-element {
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
-  padding-top: 145px;
+  padding-top: 105px;
   padding-bottom: 60px;
   flex-grow: 1;
 }
@@ -246,15 +245,48 @@ a.cloud-element {
   padding-bottom: 80px;
 }
 
+#subheader {
+  display: none;
+  background: url('/images/subheader_bg.png') bottom;
+  margin-bottom: 30px;
+  z-index: 49;
+}
+#subheader .suggestions-box {
+  height: 45px;
+  padding: 5px 0;
+}
+#subheader  #hashtag-suggestions .cloud-element {
+  color: #c7bcbf;
+  background: #ffffff;
+  height: 24px;
+  margin: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+#subheader #hashtag-suggestions .cloud-element span {
+  padding: 4px 8px;
+}
+#subheader .scroll-right,
+#subheader .scroll-left {
+  color: #ffffff;
+  font-size: 20px;
+  right: -10px;
+  top: 13px;
+}
+#subheader .scroll-left {
+  right: auto;
+  left: -10px;
+}
+
 /* HEADER */
 
 header {
-	height: 120px;
+	min-height: 100px;
   width: 100%;
   border-top: 10px solid #dd362e;
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 50;
   background: url('/images/header_bg.png') bottom;
 }
 
@@ -281,39 +313,39 @@ header a:hover {
 
 .pure-u-menu > div {
   width: 100%;
-  padding: 40px 30px;
+  padding: 36px 30px;
   text-align: right;
   box-sizing: border-box;
   font-size: 30px;
 }
 
 .pure-u-menu a {
-  margin-left: 30px;
+  margin: 10px 0 0 30px;
 }
 
 #search {
   width: 100%;
 }
 
-#subheader {
- display: none;
-}
-
 /* INPUTS */
 
 .search-input-box {
   position: relative;
-  padding: 30px 15px 15px;
+  padding: 27px 15px 15px;
 }
 
 .search-input-box > .fa {
   position: absolute;
   z-index: 101;
-  padding: 10px;
+  padding: 15px;
   right: 20px;
   font-size: 40px;
   color: #dd362e;
-  transition: none;
+}
+
+#search.search-input-box > .fa {
+  top: 17px;
+  cursor: pointer;
 }
 
 #search-input.open,
@@ -328,7 +360,8 @@ header a:hover {
 .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
   width: 100%;
 }
-.algolia-autocomplete .aa-dropdown-menu {
+.algolia-autocomplete .aa-dropdown-menu,
+.selectize-dropdown {
   width: 100%;
   background-color: #f6f4f4;
   border: 2px solid #dd362e;
@@ -338,7 +371,8 @@ header a:hover {
   overflow: hidden;
   z-index: 100;
 }
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion,
+.selectize-dropdown [data-selectable] {
   cursor: pointer;
   border-top: 1px solid #c7bcbf;
   font-size: 20px;
@@ -348,18 +382,21 @@ header a:hover {
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .newHashtag {
   font-weight: 400;
 }
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion img {
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion img,
+.selectize-dropdown .aa-suggestion img  {
   float: left;
   height: 30px;
   width: 30px;
   margin: 0 20px 0 0;
   border-radius: 15px;
 }
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor,
+.selectize-dropdown .active {
   background-color: #dd362e;
   color: #ffffff;
 }
-.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em,
+.selectize-dropdown [data-selectable] em {
   font-weight: 800;
   font-style: normal;
   background: none;
@@ -376,7 +413,7 @@ header a:hover {
   box-sizing: border-box;
   padding: 15px 20px;
   margin: 0;
-  border-radius: 30px;
+  border-radius: 36px;
   font-size: 20px;
   min-height: 60px;
   border: 2px solid #c7bcbf;
@@ -387,37 +424,51 @@ header a:hover {
 
 #search input,
 #search-input,
+#link-input,
 header .pure-form input.search-input,
 .selectize-input {
-  z-index: 100;
   font-weight: 700;
+  min-height: 54px;
   border-color: #dd362e;
   color: #33374C;
+  z-index: 40;
+}
+
+.selectize-input {
+  padding: 5px;
+  font-size: 0;
+  z-index: 100;
+}
+
+.selectize-input.dropdown-active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
 }
 
 .selectize-input > input[type="text"] {
   vertical-align: top;
+  font-size: 17px;
   height: 30px !important;
-  margin: 10px !important;
+  margin: 5px !important;
   padding: 5px !important;
   border: none;
 }
 
-.selectize-input {
-  padding: 10px;
+.selectize-input .cloud-element {
+  margin: 5px;
 }
 
 .selectize-input.focus {
   box-shadow: none;
 }
 
-
 #modal-layer {
   position: fixed;
   width: 100vw;
   height: 100vw;
   background-color: #ffffff;
-  z-index: 50;
+  z-index: 30;
   visibility: hidden;
   opacity: 0;
   transition: all .3s ease;
@@ -536,6 +587,25 @@ a.cloud-element:hover {
   border-radius: 15px 0 0 15px;
 }
 
+.cloud-element.person {
+  color: #1d1f1a;
+  background: none;
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 0;
+}
+
+.cloud-element.person span {
+  color: #33374C;
+  background: none;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.cloud-element.person .remove {
+  display: none;
+}
+
 .cloud-howto {
   font-size: 10px;
   color: #5C4D51;
@@ -543,11 +613,12 @@ a.cloud-element:hover {
 }
 
 .js-remove,
-.remove {
+.remove,
+.count {
   display: inline-block;
   vertical-align: top;
   padding: 6px 10px 6px 0;
-  width: 1em;
+  min-width: 1em;
   text-align: center;
   cursor: pointer;
   color: #5c4d51;
@@ -564,11 +635,6 @@ a.cloud-element:hover {
 /* SEARCH */
 .search header {
   border-bottom: none;
-}
-
-.search .main {
-  padding-top: 120px;
-  background-color: #ffffff;
 }
 
 /* PROFILE */
@@ -755,6 +821,32 @@ a.hashtag {
   left: -30px;
 }
 
+.pure-u-suggestions {
+  position: relative;
+}
+
+.suggestions-box {
+  height: 70px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#hashtag-suggestions {
+  padding: 0;
+  min-height: 100px;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
+#hashtag-suggestions .cloud-element {
+  margin: 0 20px 20px 0;
+}
+
+.added {
+	animation: added 1.5s;
+}
+
+
 /* CONTACTS */
 .contacts {
   float: right;
@@ -802,6 +894,19 @@ a.hashtag {
 .fa-phone, .fa-phone:hover{color:#007F3F;}
 .fa-map-marker, .fa-map-marker:hover{color:#DC4A3E;}
 .fa-folder, .fa-folder:hover, .fa-file, .fa-file:hover{color:#4285F4;}
+
+/* NOONE */
+.noone img {
+  width: 100%;
+}
+
+.noone h2 {
+  text-align: center;
+}
+
+.noone p {
+  margin-bottom: 30px;
+}
 
 /* SIGNIN PAGE */
 
@@ -953,6 +1058,14 @@ a.hashtag {
 
 @media screen and (min-width: 639px) {
 
+  header {
+  	min-height: 120px;
+  }
+
+  .main {
+    padding-top: 130px;
+  }
+
   .cloud,
   .record {
     min-height: 84px;
@@ -975,6 +1088,10 @@ a.hashtag {
     margin: 12px;
   }
 
+  .selectize-input .cloud-element {
+    margin: 10px;
+  }
+
   .cloud-element span {
     padding: 6px 12px;
   }
@@ -989,12 +1106,25 @@ a.hashtag {
     padding: 6px 0 6px 12px;
     font-size: 24px;
   }
+  .selectize-input {
+    min-height: 70px;
+  }
+
   .selectize-input > input[type="text"] {
     vertical-align: top;
+    font-size: 20px;
     height: 36px !important;
     margin: 10px !important;
-    padding: 6px !important;
+    padding: 5px !important;
     border: none;
+  }
+
+  #search.search-input-box > .fa {
+    top: 27px;
+  }
+
+  #subheader .suggestions-box {
+    padding: 5px 15px;
   }
 
   .name {

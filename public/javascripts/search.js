@@ -15,7 +15,6 @@ Selectize.define( 'preserve_on_blur', function( options ) {
 
             // Do the default actions
             original.apply( this, e );
-
             // Set the value back
             this.setTextboxValue( inputValue );
         };
@@ -51,61 +50,61 @@ $(document).ready(function () {
   var ALGOLIA_APPID = 'RSXBUBL0PB';
   var ALGOLIA_SEARCH_APIKEY = algoliaPublicKey.value;
   var algolia = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
+  var world = algolia.initIndex('world');
 
   // DOM and Templates binding
   var $searchInput = $('#search input');
   var $searchInputIcon = $('#search-input-icon');
-  var $hashtags = $('#hashtags');
+  var $subheader = $('#subheader');
+  var $hashtags = $('#hashtag-suggestions');
   var $hits = $('#search-results');
+  var $modalLayer = $('#modal-layer');
   var hashtagsTemplate = Hogan.compile($('#hashtags-template').text());
   var hitsTemplate = Hogan.compile($('#hits-template').text());
+  var nooneTemplate = Hogan.compile($('#noone-template').text());
 
   // Selectize
   var selectizeHashtags = '';
   var $selectize = $searchInput.selectize({
     valueField: 'tag',
     labelField: 'name',
+    loadThrottle: null,
     searchField: 'name',
-    maxOptions: 3,
+    maxOptions: 5,
     highlight: false,
     plugins: ['remove_button', 'preserve_on_blur', 'soft_clear_options', 'has_item'],
     persist: false,
     create: false,
+    addPrecedence: true,
     openOnFocus: false,
     createOnBlur: false,
     closeAfterSelect: true,
     hideSelected: true,
-    onBlur: function () {
-      toggleIconEmptyInput();
-    },
     load: function(query, callback) {
         this.softClearOptions();
-        algolia.search([{
-          indexName: 'world',
+        world.search({
           query: query,
-          params: {
-            hitsPerPage: 3
-          }
-        }],
+          hitsPerPage: 5
+        },
         function(err, content) {
           if (err) {
             console.error(err);
           }
-          callback(content.results[0].hits);
+          callback(content.hits);
         });
     },
     render: {
-        option: function(option, escape) {
+        option: function(option) {
+            let highlighted = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
             return '<div class="aa-suggestion">' +
             getHashtagPictureHtml(option) +
             '<span>' +
-            escape(option.name || option.tag) +
+            highlighted +
             '</span>' +
             '</div>';
         },
         item: function(item, escape) {
-          console.log(item);
-          return '<div class="cloud-element hashtag">' +
+          return '<div class="cloud-element ' + item.type + '">' +
               '<span>' +
                 escape(item.name || item.tag) +
               '</span>' +
@@ -118,89 +117,89 @@ $(document).ready(function () {
       };
     },
     onChange: function (value) {
-      selectizeHashtags = value;
       toggleIconEmptyInput();
       search();
     },
     onType(str) {
-      console.log('here');
       toggleIconEmptyInput();
+    },
+    onDropdownOpen($dropdown) {
+            toggleIconEmptyInput();
+      $modalLayer.addClass('show');
+    },
+    onDropdownClose($dropdown) {
+      $modalLayer.removeClass('show');
       search();
     }
   })[0].selectize;
 
   // Initial search
+  toggleIconEmptyInput();
   search();
 
   // SEARCH ALL
   // ==========
 
   function search() {
+    var facetKey = 'within';
     var query = $selectize.$control_input.val();
-    var tags = selectizeHashtags;
+    var tags = $selectize.$input.val();
+    var facetFilters = ['type:person'];
+    $selectize.items.forEach((item) => {
+      if(item.charAt(0) === '#')
+        facetFilters.push(facetKey + '.tag:' + item);
+      else
+        query = query + ',' + item;
+    });
 
-    var queries = [
-      {
-        indexName: 'world',
-        query: '',
-        params: {
-          facetFilters: 'type:hashtag',
-          hitsPerPage: 5
-        }
-      },
-      {
-        indexName: 'world',
-        query: query + ' ' + tags,
-        params: {
-          facetFilters: 'type:person',
-          hitsPerPage: 30
-        }
-      }
-    ];
-    algolia.search(queries, searchCallback);
+    world.search({
+      query: query,
+      facetFilters: facetFilters,
+      hitsPerPage: 30
+    }, function(err, content) {
+      if (err) throw new Error(err);
+      renderHits(content);
+  });
+
+    world.searchForFacetValues({
+      facetName: facetKey + '.tag',
+      facetQuery: '',
+      facetFilters: facetFilters,
+    }, function(err, content) {
+      if (err) throw new Error(err);
+      renderHashtags(content.facetHits);
+  });
   }
 
   // RENDER HASHTAGS + RESULTS
   // =========================
-  function searchCallback(err, content) {
-    if (err) {
-      throw new Error(err);
-    }
-    renderHashtags(content.results[0].hits);
-    renderHits(content.results[1]);
-  }
-
   function renderHashtags(hits) {
-    var uniqueTags = selectizeHashtags.split(',');
-    var values = [];
-    var i;
-    // Hits of dribbble_tags index
-    for (i = 0; i < hits.length; ++i) {
+    availableHits = [];
+    for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
-      if ($.inArray(hit.name, uniqueTags) === -1) {
-        values.push({name: hit.name, tag: hit.tag});
-        uniqueTags.push(hit.name);
+      if ($.inArray(hit.value, $selectize.items) === -1) {
+        availableHits.push(hit);
       }
     }
-    $hashtags.html(hashtagsTemplate.render({values: values.slice(0, 20)}));
+    $hashtags.html(hashtagsTemplate.render({hashtags: availableHits}));
+    $subheader.css("display", "block");
   }
 
   function renderHits(content) {
+    if (content.hits.length === 0)
+      return $hits.html(nooneTemplate.render(content));
     content.hits.forEach(transformItem);
     $hits.html(hitsTemplate.render(content));
   }
 
   // EVENTS BINDING
   // ==============
-  $selectize.$control_input.on('keyup', function () {
-    toggleIconEmptyInput();
-    search();
-  });
   $(document).on('click', '.hashtag', function (e) {
     e.preventDefault();
     $selectize.addOption({
       tag: $(this).data('tag'),
       name: $(this).data('name'),
+      type: 'hashtag'
     });
     $selectize.addItem($(this).data('tag'), false);
   });
@@ -213,7 +212,13 @@ $(document).ready(function () {
   // HELPERS
   // =======
   function toggleIconEmptyInput() {
-    var query = $selectize.$control_input.val() + selectizeHashtags;
-    $searchInputIcon.toggleClass('empty', query.trim() !== '');
+    var query = $selectize.$control_input.val() + $selectize.$input.val();
+    if (query.trim() === '') {
+      $searchInputIcon.addClass('fa-search');
+      $searchInputIcon.removeClass('fa-times');
+    } else {
+      $searchInputIcon.removeClass('fa-search');
+      $searchInputIcon.addClass('fa-times');
+    }
   }
 });

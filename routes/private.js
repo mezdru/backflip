@@ -29,7 +29,7 @@ router.get('/search', function(req, res, next) {
   //@todo deduplicate these next 10 lines with private.js / public.js
   res.locals.isProduction = req.app.get('env') == 'production';
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.render('search2', {bodyClass: 'search'});
+  res.render('search2', {bodyClass: 'search', search: true, searchInput: true});
 });
 
 module.exports = router;

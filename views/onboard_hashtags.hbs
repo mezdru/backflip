@@ -21,11 +21,11 @@
       </div>
     </div>
     <div class="pure-g">
+      <h3 class="suggested">{{__ "Suggested"}}</h3>
       <div class="pure-u-1 pure-u-suggestions">
         <a onclick="goRight(this)" class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
         <a onclick="goLeft(this)" class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
         <div class="grid-box suggestions-box">
-          <h3>{{__ "Suggested"}}</h3>
           <ul id="hashtag-suggestions" class="scroll">
             {{#hashtagSuggestions}}
             {{> hashtag}}

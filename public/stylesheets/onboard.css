@@ -268,38 +268,13 @@ label[for="link-input"] {
   margin-bottom: 50px;
 }
 
+.suggested {
+  padding: 30px 30px 0;
+}
+
 .onboard .hashtag,
 .onboard .link {
   cursor: move;
-}
-
-.pure-u-suggestions {
-  position: relative;
-}
-
-.pure-u-suggestions .scroll-right,
-.pure-u-suggestions .scroll-left {
-  top: 48px;
-}
-
-.suggestions-box {
-  height: 90px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-#hashtag-suggestions {
-  padding: 0;
-  white-space: nowrap;
-  overflow-x: scroll;
-}
-
-#hashtag-suggestions .hashtag {
-  margin: 0 20px 20px 0;
-}
-
-.added {
-	animation: added 1.5s;
 }
 
 .sortable-drag {
@@ -381,6 +356,10 @@ label[for="link-input"] {
 
 #type-selector li.selected .fa {
   color: #ffffff;
+}
+
+#plus-button {
+  cursor: pointer;
 }
 
 #link-input.twitter {
