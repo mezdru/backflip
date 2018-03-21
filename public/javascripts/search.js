@@ -84,6 +84,8 @@ $(document).ready(function () {
         this.softClearOptions();
         world.search({
           query: query,
+          attributesToRetrieve: ['name', 'tag','picture'],
+          restrictSearchableAttributes: ['name', 'tag'],
           hitsPerPage: 5
         },
         function(err, content) {
