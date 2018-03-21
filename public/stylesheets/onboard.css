@@ -439,6 +439,6 @@ li#facebook-selector.selected {
       height: 320px;
   }
   .cat {background-image: url('/images/cat.png'); right: 0; left: auto;}
-  .birds {background-image: url('/images/birds.png'); height: 640px;}
-  .tea {background-image: url('/images/tea.png'); top: 100px; bottom: auto;}
+  .birds {background-image: url('/images/birds.png'); height: 640px; top: 100px; bottom: auto;}
+  .tea {background-image: url('/images/tea.png'); top: 200px; bottom: auto;}
 }
