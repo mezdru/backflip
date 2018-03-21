@@ -106,7 +106,7 @@ $(document).ready(function () {
         item: function(item, escape) {
           return '<div class="cloud-element ' + item.type + '">' +
               '<span>' +
-                escape(item.name || item.tag) +
+                escape(item.tag) +
               '</span>' +
             '</div>';
         }
@@ -177,7 +177,7 @@ $(document).ready(function () {
     availableHits = [];
     for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
-      if ($.inArray(hit.value, $selectize.items) === -1) {
+      if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 1) {
         availableHits.push(hit);
       }
     }
@@ -192,7 +192,7 @@ $(document).ready(function () {
   function renderHits(content) {
     if (content.hits.length === 0)
       return $hits.html(nooneTemplate.render(content));
-    content.hits.forEach(transformItem);
+    content.hits.forEach(hit => transformItem(hit, $selectize.items));
     $hits.html(hitsTemplate.render(content));
   }
 

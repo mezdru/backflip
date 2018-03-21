@@ -100,9 +100,9 @@ function goLeft(child) {
 
 
 
-transformItem = function (item) {
+transformItem = function (item, facets) {
 	transformImagePath(item);
-	transformHashtags(item);
+	transformHashtags(item, facets);
 	transformIntro(item);
 	transformLinks(item);
 	addUrl(item);
@@ -217,19 +217,36 @@ function addUrl(item) {
 	item.url = makeUrl(null, path);
 }
 
-transformHashtags = function(item) {
+transformHashtags = function(item, facets) {
 	if (!item.hashtags) item.hashtags = [];
-	makeHightlighted(item);
+	makeHightlighted(item, facets);
+	orderHashtags(item);
 	item.hashtags.forEach(function(item) {
 		addPictureHtml(item);
 	});
 };
 
-makeHightlighted = function(item) {
-	if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];
-	item._highlightResult.hashtags.forEach(function(hashtag, index) {
-		if (hashtag.tag && hashtag.tag.fullyHighlighted) item.hashtags[index].class = 'highlighted';
+makeHightlighted = function(item, facets) {
+	if (!facets) {
+		if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];
+		item._highlightResult.hashtags.forEach(function(hashtag, index) {
+			if (hashtag.tag && hashtag.tag.fullyHighlighted) item.hashtags[index].class = 'highlighted';
+		});
+	} else {
+		item.hashtags.forEach(function(hashtag, index) {
+			if (hashtag.tag && facets.includes(hashtag.tag)) item.hashtags[index].class = 'highlighted';
+		});
+	}
+};
+
+orderHashtags = function(item) {
+	var highlighted = [];
+	var notHighlighted = [];
+	item.hashtags.forEach(function(hashtag) {
+		if (hashtag.class === 'highlighted') highlighted.push(hashtag);
+		else notHighlighted.push(hashtag);
 	});
+	item.hashtags = highlighted.concat(notHighlighted);
 };
 
 

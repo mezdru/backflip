@@ -89,6 +89,30 @@ router.get('/remakeTags', function(req, res, next) {
   });
 });
 
+//@todo Fix pyramid of death, async fail & performance issues.
+router.get('/remakeTeams', function(req, res, next) {
+  var countdown = res.locals.organisation.records.length;
+  var countup = 0;
+  res.locals.organisation.records.forEach (function (record) {
+    record.makeTeamIntoHashtags();
+    record.save(function(err, record, numAffected) {
+      countup += numAffected;
+      countdown--;
+      if (err) console.error(err);
+      if (countdown === 0) {
+        logMemory(`Make Team Into Hashatags by ${res.locals.user._id}`);
+        res.render('index',
+          {
+            title: 'Teams have been made Hashtags',
+            details: `${countup} of ${res.locals.organisation.records.length} records have been transformed.`,
+            content: res.locals.organisation.records
+          }
+        );
+      }
+    });
+  });
+});
+
 router.get('/delete/:recordId', function(req, res, next) {
   Record.findOneWithDeleted({_id:req.params.recordId, organisation:res.locals.organisation._id}, function(err, record) {
     if (err) return next(err);

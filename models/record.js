@@ -254,11 +254,13 @@ recordSchema.statics.shallowCopies = function(records) {
 };
 
 //@todo Does not match person (@) yet
-const tagRegex = /([#][^\s@#\,\.\!\?\;\(\)]+)/g;
+const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 recordSchema.methods.cleanDescription = function() {
   this.description = this.description || '';
+  console.log(this.description);
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
+  console.log(this.description);
 };
 
 recordSchema.methods.cleanIntro = function() {
@@ -299,8 +301,15 @@ recordSchema.methods.makeTag = function() {
     this.tag = this.model('Record').cleanTag(this.tag, this.type);
 };
 
+recordSchema.methods.makeTeamIntoHashtags = function() {
+  if (this.type === 'team') {
+    this.type =  'hashtag';
+    this.tag = this.model('Record').cleanTag(this.tag, 'hashtag');
+  }
+};
+
 recordSchema.statics.getTypeFromTag = function(tag) {
-  if (tag.charAt(0) === '@') return 'person';
+  if (tag.charAt(0) === '@') return 'hashtag';
   else return 'hashtag';
 };
 
@@ -482,6 +491,7 @@ recordSchema.methods.algoliaSync = function(doc) {
     index.saveObject({
       objectID: this._id.toString(),
       organisation: getId(this.organisation),
+      tag: this.tag,
       type: this.type,
       name: this.name,
       intro: this.intro,

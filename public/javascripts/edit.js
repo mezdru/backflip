@@ -13,7 +13,7 @@ $('.desc-input').textcomplete([
     // #4 - Function called at every new keystroke
     search: function(query, callback) {
       lastQuery = query;
-      index.search(lastQuery, { hitsPerPage: NB_RESULTS_DISPLAYED, filters:'(type:team OR type:hashtag)' })
+      index.search(lastQuery, { hitsPerPage: NB_RESULTS_DISPLAYED, filters:'type:hashtag' })
         .then(function searchSuccess(content) {
           if (content.query === lastQuery) {
             callback(content.hits);
