@@ -566,6 +566,20 @@ a.cloud-element:hover {
   transform: scale(1.2);
 }
 
+.profile a.cloud-element:hover {
+  transform: none;
+}
+
+.profile a.cloud-element .fa {
+  width: 1.5em;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.profile a.cloud-element:hover .fa {
+  transform: scale(1.5);
+}
+
 .cloud-element .fa {
   vertical-align: top;
   padding: 5px 0 5px 10px;
@@ -637,6 +651,10 @@ a.cloud-element:hover {
 }
 
 /* PROFILE */
+.profile .main .pure-g {
+  max-width: 960px;
+}
+
 .profile #intro {
    font-size: 18px;
 }
@@ -742,8 +760,8 @@ a.cloud-element:hover {
 
 .profile .name {
   margin-right: 0;
-  height: 18vw;
-  max-height: 135px;
+  height: 16vw;
+  max-height: 110px;
 }
 
 .profile .name h1 {

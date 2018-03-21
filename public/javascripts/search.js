@@ -194,6 +194,7 @@ $(document).ready(function () {
       return $hits.html(nooneTemplate.render(content));
     content.hits.forEach(hit => transformItem(hit, $selectize.items));
     $hits.html(hitsTemplate.render(content));
+  	window.scrollTo(0,0);
   }
 
   // EVENTS BINDING
