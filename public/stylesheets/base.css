@@ -312,10 +312,10 @@ header a:hover {
 
 .pure-u-menu > div {
   width: 100%;
-  padding: 36px 30px;
+  padding: 24px 20px;
   text-align: right;
   box-sizing: border-box;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .pure-u-menu a {
@@ -434,7 +434,7 @@ header .pure-form input.search-input,
 }
 
 .selectize-input {
-  padding: 5px;
+  padding: 5px 15px 5px 20px;
   font-size: 0;
   z-index: 100;
 }
@@ -449,13 +449,14 @@ header .pure-form input.search-input,
   vertical-align: top;
   font-size: 17px;
   height: 30px !important;
-  margin: 5px !important;
-  padding: 5px !important;
+  margin: 5px 5px 5px 0 !important;
+  padding: 5px 0 !important;
   border: none;
 }
 
 .selectize-input .cloud-element {
-  margin: 5px;
+  margin: 5px 5px 5px 0;
+  margin-right: 0;
 }
 
 .selectize-input.focus {
@@ -597,25 +598,25 @@ a.cloud-element:hover {
   vertical-align: top;
   height: 30px;
   width: 30px;
-  border-radius: 15px 0 0 15px;
 }
 
-.cloud-element.person {
-  color: #1d1f1a;
+.selectize-input .cloud-element.person,
+.selectize-input .cloud-element.unknown {
   background: none;
-  font-size: 20px;
-  font-weight: 700;
-  margin-right: 0;
 }
 
-.cloud-element.person span {
+.selectize-input .cloud-element.person span,
+.selectize-input .cloud-element.unknown span {
   color: #33374C;
   background: none;
   font-size: 20px;
   font-weight: 700;
+  padding-right: 0;
+  padding-left: 0;
 }
 
-.cloud-element.person .remove {
+.selectize-input .cloud-element.person .remove,
+.selectize-input .cloud-element.unknown .remove {
   display: none;
 }
 
@@ -1110,7 +1111,7 @@ a.hashtag {
   }
 
   .selectize-input .cloud-element {
-    margin: 10px;
+    margin: 10px 10px 10px 0;
   }
 
   .cloud-element span {
@@ -1120,7 +1121,6 @@ a.hashtag {
   .cloud-element img {
     height: 36px;
     width: 36px;
-    border-radius: 18px 0 0 18px;
   }
 
   .cloud-element .fa {
@@ -1135,8 +1135,8 @@ a.hashtag {
     vertical-align: top;
     font-size: 20px;
     height: 36px !important;
-    margin: 10px !important;
-    padding: 5px !important;
+    margin: 10px 10px 10px 0 !important;
+    padding: 5px 0 !important;
     border: none;
   }
 

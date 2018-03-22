@@ -25,11 +25,11 @@ router.get('/', function(req, res, next) {
   res.render('directory', {search: true});
 });
 
-router.get('/search', function(req, res, next) {
+router.get('/search/:query?', function(req, res, next) {
   //@todo deduplicate these next 10 lines with private.js / public.js
   res.locals.isProduction = req.app.get('env') == 'production';
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.render('search2', {bodyClass: 'search', search: true, searchInput: true});
+  res.render('search2', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });
 
 module.exports = router;

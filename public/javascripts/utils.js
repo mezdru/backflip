@@ -12,19 +12,17 @@ function getPictureUrl(item) {
 			return item.picture.url;
 	} else if (item.picture && item.picture.path) {
 		return "/images" + item.picture.path;
-		//@todo remove this last if once the refacto URI > URL is done
+	} else if (item.type === 'person') {
+		return "/images/placeholder_person.png";
 	} else {
-		switch (item.type) {
-			case 'team' : return "/images/placeholder_team.png";
-			case 'hashtag' : return "/images/placeholder_hashtag.png";
-			default: case 'person': return "/images/placeholder_person.png";
-		}
+		return null;
 	}
 }
 
-function getHashtagPictureHtml(item) {
-	if (item.picture && item.picture.path) {
-		return '<img src="' + getPictureUrl(item) + '">';
+function getPictureHtml(item) {
+	var url = getPictureUrl(item);
+	if (url) {
+		return '<img src="' + url + '">';
 	} else {
 		return '';
 	}
@@ -90,14 +88,15 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-function goRight(child) {
-  child.parentElement.getElementsByClassName('scroll')[0].scrollLeft += 200;
+function goRight(event) {
+	var interval = window.setInterval(function() {event.target.parentElement.getElementsByClassName('scroll')[0].scrollLeft += 2;}, 5);
+	event.target.addEventListener('mouseup', function() {clearInterval(interval);});
 }
 
-function goLeft(child) {
-  child.parentElement.getElementsByClassName('scroll')[0].scrollLeft -= 200;
+function goLeft(event) {
+	var interval = window.setInterval(function() {event.target.parentElement.getElementsByClassName('scroll')[0].scrollLeft -= 2;}, 5);
+	event.target.addEventListener('mouseup', function() {clearInterval(interval);});
 }
-
 
 
 transformItem = function (item, facets) {
@@ -115,7 +114,7 @@ function addTag(item) {
 }
 
 function addPictureHtml(item) {
-	item.pictureHtml = getHashtagPictureHtml(item);
+	item.pictureHtml = getPictureHtml(item);
 }
 
 function transformImagePath(item) {

@@ -67,45 +67,50 @@ $(document).ready(function () {
   var selectizeHashtags = '';
   var $selectize = $searchInput.selectize({
     valueField: 'tag',
-    labelField: 'name',
+    labelField: 'tag',
     loadThrottle: null,
-    searchField: 'name',
-    maxOptions: 5,
+    maxOptions: 3,
     highlight: false,
     plugins: ['remove_button', 'preserve_on_blur', 'soft_clear_options', 'has_item'],
     persist: false,
     create: false,
-    addPrecedence: true,
     openOnFocus: false,
     createOnBlur: false,
     closeAfterSelect: true,
     hideSelected: true,
     load: function(query, callback) {
-        this.softClearOptions();
         world.search({
           query: query,
-          attributesToRetrieve: ['name', 'tag','picture'],
+          attributesToRetrieve: ['type','name', 'tag','picture'],
           restrictSearchableAttributes: ['name', 'tag'],
-          hitsPerPage: 5
+          hitsPerPage: 3
         },
         function(err, content) {
           if (err) {
             console.error(err);
           }
+          if (content.hits && content.hits.length) {
+            this.softClearOptions();
+          }
           callback(content.hits);
-        });
+        }.bind(this));
     },
     render: {
         option: function(option) {
             let highlighted = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
             return '<div class="aa-suggestion">' +
-            getHashtagPictureHtml(option) +
+            getPictureHtml(option) +
             '<span>' +
             highlighted +
             '</span>' +
             '</div>';
         },
         item: function(item, escape) {
+          if (!item.type) switch (item.tag.charAt(0)) {
+            case '@': item.type = 'person'; break;
+            case '#': item.type = 'hashtag'; break;
+            default: item.type = 'unknown'; break;
+          }
           return '<div class="cloud-element ' + item.type + '">' +
               '<span>' +
                 escape(item.tag) +
@@ -143,20 +148,24 @@ $(document).ready(function () {
   // ==========
 
   function search() {
-    var facetKey = 'hashtags';
     var query = $selectize.$control_input.val();
     var tags = $selectize.$input.val();
     var facetFilters = ['type:person'];
+    var tagFilters = '';
     $selectize.items.forEach((item) => {
       if(item.charAt(0) === '#')
-        facetFilters.push(facetKey + '.tag:' + item);
-      else
-        query = query + ',' + item;
+        facetFilters.push('hashtags.tag:' + item);
+      else if(item.charAt(0) === '@')
+        tagFilters = (tagFilters ? tagFilters + ' OR ' : '' ) + 'tag:' + item;
+      else {
+        query = (query ? query + ',' : '' ) + item;
+      }
     });
 
     world.search({
       query: query,
       facetFilters: facetFilters,
+      filters: tagFilters,
       hitsPerPage: 30
     }, function(err, content) {
       if (err) throw new Error(err);
@@ -164,9 +173,11 @@ $(document).ready(function () {
   });
 
     world.searchForFacetValues({
-      facetName: facetKey + '.tag',
+      facetName: 'hashtags.tag',
       facetQuery: '',
+      query: query,
       facetFilters: facetFilters,
+      filters: tagFilters,
     }, function(err, content) {
       if (err) throw new Error(err);
       renderHashtags(content.facetHits);
@@ -217,6 +228,9 @@ $(document).ready(function () {
     search();
     toggleIconEmptyInput();
   });
+  // HORIZONTAL SCROLLERS
+  $(document).on('mousedown', '.scroll-right', goRight);
+  $(document).on('mousedown', '.scroll-left', goLeft);
 
   // HELPERS
   // =======

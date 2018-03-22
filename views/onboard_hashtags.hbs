@@ -23,8 +23,8 @@
     <div class="pure-g">
       <h3 class="suggested">{{__ "Suggested"}}</h3>
       <div class="pure-u-1 pure-u-suggestions">
-        <a onclick="goRight(this)" class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
-        <a onclick="goLeft(this)" class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
+        <a onclick="goRight" class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
+        <a onclick="goLeft" class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
         <div class="grid-box suggestions-box">
           <ul id="hashtag-suggestions" class="scroll">
             {{#hashtagSuggestions}}
@@ -73,7 +73,7 @@
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element hashtag added">' +
       '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+
-      getHashtagPictureHtml(suggestion) +
+      getPictureHtml(suggestion) +
       '<span>' +
       (suggestion.name || suggestion.tag) +
       '</span>' +
@@ -91,7 +91,7 @@
       suggestion.tag +
       '</em>';
     } else {
-      return getHashtagPictureHtml(suggestion) +
+      return getPictureHtml(suggestion) +
       suggestion._highlightResult.name.value;
     }
   }
