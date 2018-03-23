@@ -112,6 +112,7 @@ hbs.registerHelper('profileUrl', function(user, organisation) {
 });
 
 hbs.registerHelper('myEditUrl', function(organisation) {
+  if (!organisation || !organisation.tag) return null;
   return new UrlHelper(organisation.tag, 'onboard/intro', null, this.getLocale()).getUrl();
 });
 
