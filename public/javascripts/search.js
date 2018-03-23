@@ -97,14 +97,15 @@ $(document).ready(function () {
     },
     render: {
         option: function(option) {
-            let highlighted = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
-            return '<div class="aa-suggestion">' +
+            let highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
+            let highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
+            return '<div class="aa-suggestion ' + option.type + '">' +
             '<span class="tag">' +
-            option._highlightResult.tag.value +
+            highlightedTag +
             '</span>' +
-            getPictureHtml(option) +
+            getPictureHtml(option, true) +
             '<span>' +
-            highlighted +
+            highlightedName +
             '</span>' +
             '</div>';
         },

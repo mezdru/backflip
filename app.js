@@ -224,6 +224,7 @@ app.use('/admin/record', recordAdmin);
 var userAdmin = require('./routes/user/user_admin.js');
 app.use('/admin/user', userAdmin);
 
+// profile is at the end because it catches all pathes
 var profile = require('./routes/profile.js');
 app.use('/', profile);
 

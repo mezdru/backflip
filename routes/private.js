@@ -15,19 +15,22 @@ router.get('/google/app', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  //@todo deduplicate these next 10 lines with private.js / public.js
-  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.locals.orgTree = res.locals.organisation.tree;
-  res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
-  res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
-  res.locals.isProduction = req.app.get('env') == 'production';
-  res.locals.isMyOrg = true;
-  res.render('directory', {search: true});
+  res.redirect('/search');
+});
+
+router.use('/search/:query?', function(req, res, next) {
+  if (!res.locals.organisation) {
+    err = new Error('Subdomain required');
+    err.status = 403;
+    return next(err);
+  }
+  return next();
 });
 
 router.get('/search/:query?', function(req, res, next) {
   //@todo deduplicate these next 10 lines with private.js / public.js
   res.locals.isProduction = req.app.get('env') == 'production';
+  res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.render('search2', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });

@@ -71,15 +71,26 @@ hbs.registerHelper('pictureUrl', function(picture, type) {
 		return picture.uri;
 	} else {
 		switch (type) {
-			case 'team' : return "/images/placeholder_team.png";
 			case 'hashtag' : return "/images/placeholder_hashtag.png";
 			default: case 'person' : return "/images/placeholder_person.png";
 		}
 	}
 });
 
+hbs.registerHelper('profilePicture', function(user, organisation) {
+  if(!user || !organisation || !organisation._id) return hbs.handlebars.helpers.picture.apply(this, {type: 'person', picture: {}});
+  return hbs.handlebars.helpers.picture.apply(this, [user.getRecord(organisation._id)]);
+});
+
 hbs.registerHelper('picture', function(item) {
-  if (item.picture && item.picture.path)
+  if (!item) item = {picture: {}, type: person};
+  var url = hbs.handlebars.helpers.pictureUrl.apply(this, [item.picture || {}, item.type || 'person']);
+  if (url) return '<img src="'+url+'">';
+  else return null;
+});
+
+hbs.registerHelper('icon', function(item) {
+  if (item && item.picture && item.picture.path)
     return '<img src="/images'+item.picture.path+'">';
   else return null;
 });
@@ -93,23 +104,38 @@ hbs.registerHelper('tagLink', function(tag) {
   return `<a href="/?q=${tag}">${tag}</a>`;
 });
 
+hbs.registerHelper('profileUrl', function(user, organisation) {
+  if (!organisation || !user || !organisation._id) return null;
+  recordId = user.getRecordIdByOrgId(organisation._id);
+  if (!recordId) return null;
+  return new UrlHelper(organisation.tag, `id/${recordId}`, null, this.getLocale()).getUrl();
+});
+
+hbs.registerHelper('myEditUrl', function(organisation) {
+  return new UrlHelper(organisation.tag, 'onboard/intro', null, this.getLocale()).getUrl();
+});
+
 hbs.registerHelper('profileLink', function(user, organisation) {
-  if (!organisation || !user) return null;
+  if (!organisation || !user || !organisation._id) return null;
   recordId = user.getRecordIdByOrgId(organisation._id);
   if (!recordId) return null;
   url = new UrlHelper(organisation.tag, `id/${recordId}`, null, this.getLocale()).getUrl();
   //What about using the refresh icon instrad of the arrow-up?
-  return `<a id="profileLink" title="${this.__('Profile')}" class="fa fa-user-circle profile" href="${url}" aria-hidden="true"></a>`;
+  return `<a title="${this.__('Profile')}" class="pure-menu-link profile-link" href="${url}">${this.__('Profile')}</a>`;
+});
+
+hbs.registerHelper('adminUrl', function(organisation) {
+  return new UrlHelper(organisation.tag, `admin/`, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {
-  if (!organisation || !user || !user.isAdminToOrganisation(organisation._id)) return null;
+  if (!organisation || !user || !organisation._id || !user.isAdminToOrganisation(organisation._id)) return null;
   url = new UrlHelper(organisation.tag, `admin/`, null, this.getLocale()).getUrl();
-  return `<a title="${this.__('Administration')}" class="fa fa-cog admin" href="${url}" aria-hidden="true"></a>`;
+  return `<a title="${this.__('Administration')}" class="pure-menu-link admin-link" href="${url}">${this.__('Administration')}</a>`;
 });
 
 hbs.registerHelper('addLink', function(user, organisation) {
-  if (!organisation || !user || !user.belongsToOrganisation(organisation._id)) return null;
+  if (!organisation || !user || !organisation._id || !user.belongsToOrganisation(organisation._id)) return null;
   url = new UrlHelper(organisation.tag, `edit/add/`, null, this.getLocale()).getUrl();
   return `<a id="addLink" title="${this.__('Add new record')}" class="fa fa-plus-circle" href="${url}" aria-hidden="true"></a>`;
 });
@@ -130,7 +156,7 @@ hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
 });
 
 hbs.registerHelper('homeUrl', function(organisation) {
-  if (organisation) return new UrlHelper(organisation.tag, null, null, this.getLocale()).getUrl();
+  if (organisation && organisation.tag) return new UrlHelper(organisation.tag, 'search', null, this.getLocale()).getUrl();
   else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
 });
 

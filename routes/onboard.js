@@ -339,7 +339,7 @@ router.post('/links', function(req, res, next) {
     if (err) return next(err);
     res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
       if (err) console.error(err);
-      return res.redirect(new UrlHelper(res.locals.organisation.tag, null, `?q=${res.locals.record.name}`, req.getLocale()).getUrl());
+      return res.redirect(new UrlHelper(res.locals.organisation.tag, 'search', null, req.getLocale()).getUrl());
     });
   });
 });

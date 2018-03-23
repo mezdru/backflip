@@ -15,7 +15,7 @@ function getPictureUrl(item, iconOnly) {
 	} else if (item.type === 'person') {
 		return "/images/placeholder_person.png";
 	} else {
-		return null;
+		return "/images/placeholder_hashtag.png";
 	}
 }
 
@@ -145,7 +145,14 @@ function transformString(input, hashtags) {
 		input = input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
 			record = getRecord(cleanMatch, hashtags);
-			return '<a title="' + record.name + '" class="link-' + record.type + '" onclick="setSearch(\'' + ( record.type == 'team' ? '' : cleanMatch ) + '\', \'' + ( record.type == 'team' ? cleanMatch : '' ) + '\')">' + match + '</a>';
+			return '<a ' +
+				'title="' + record.name + '" ' +
+				'class="' + record.type + '" ' +
+				'data-tag="' + record.tag + '" ' +
+				'data-name="' + record.name + '" ' +
+				'>' +
+				match +
+				'</a>';
 		});
 		return input;
 }

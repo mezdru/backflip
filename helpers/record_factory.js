@@ -17,8 +17,6 @@ var RecordFactory = class RecordFactory {
 
   makeOutput() {
     this.makeOutputFromInput();
-    this.makeOutputFromOutputTags();
-    this.makeTheRest();
   }
 
   // First we take all the Objects in the input and convert them to Records
@@ -39,27 +37,6 @@ var RecordFactory = class RecordFactory {
           this.organisation.records.push(outputRecord);
         }
         this.output.push(outputRecord);
-      }, this
-    );
-  }
-
-  // Second we parse the description to create the Within Array
-  // And convert it to record too.
-  makeOutputFromOutputTags() {
-    this.output.forEach(
-      function(record) {
-        var within = record.makeWithin(this.organisation);
-        this.output = this.output.concat(within);
-        record.makeStructure(this.organisation);
-      }, this
-    );
-  }
-
-  makeTheRest() {
-    this.output.forEach(
-      function(record) {
-        record.makeStructure(this.organisation);
-        record.makeIncludes(this.organisation);
       }, this
     );
   }

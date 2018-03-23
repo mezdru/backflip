@@ -48,9 +48,13 @@ userSchema.virtual('loginEmail').get(function() {
 });
 
 userSchema.methods.getName = function (organisationId) {
-  if (this.name) return this.name;
   var orgAndRecord = this.getOrgAndRecord(organisationId);
   return undefsafe(orgAndRecord, 'record.name') || '';
+};
+
+userSchema.methods.getRecord = function(organisationId) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  return undefsafe(orgAndRecord, 'record') || {};
 };
 
 userSchema.methods.touchLogin = function (callback) {

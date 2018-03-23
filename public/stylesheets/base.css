@@ -132,9 +132,6 @@ ul.errors li {
   padding: 15px;
 }
 
-/*@todo change <a><i>...</i></a> (eg in actions menu ) into <a>*/
-footer a:hover img,
-header a:hover img,
 a.fa:hover {
   transform: scale(1.5);
   text-decoration: none;
@@ -235,7 +232,7 @@ a.cloud-element {
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
-  padding-top: 105px;
+  padding-top: 95px;
   padding-bottom: 60px;
   flex-grow: 1;
 }
@@ -277,73 +274,24 @@ a.cloud-element {
   left: -10px;
 }
 
-/* HEADER */
-
-header {
-	min-height: 100px;
-  width: 100%;
-  border-top: 10px solid #dd362e;
-  position: fixed;
-  top: 0;
-  z-index: 50;
-  background: url('/images/header_bg.png') bottom;
-}
-
-.signin header {
-  position: absolute;
-}
-
-header a {
-  color: #c7bcbf;
-  font-weight: bolder;
-}
-
-header a:hover {
-  text-decoration: none;
-}
-
-.pure-u-logo > div {
-  padding: 30px;
-}
-
-.pure-u-logo img {
-  max-height: 60px;
-}
-
-.pure-u-menu > div {
-  width: 100%;
-  padding: 24px 20px;
-  text-align: right;
-  box-sizing: border-box;
-  font-size: 20px;
-}
-
-.pure-u-menu a {
-  margin: 10px 0 0 30px;
-}
-
-#search {
-  width: 100%;
-}
-
 /* INPUTS */
 
 .search-input-box {
   position: relative;
-  padding: 27px 15px 15px;
+  padding: 15px;
 }
 
 .search-input-box > .fa {
   position: absolute;
   z-index: 101;
-  padding: 15px;
+  padding: 10px;
   right: 20px;
-  font-size: 40px;
+  font-size: 30px;
   color: #dd362e;
 }
 
 #search.search-input-box > .fa {
-  top: 17px;
+  top: 15px;
   cursor: pointer;
 }
 
@@ -360,7 +308,8 @@ header a:hover {
   width: 100%;
 }
 .algolia-autocomplete .aa-dropdown-menu,
-.selectize-dropdown {
+.selectize-dropdown,
+.pure-menu-children {
   width: 100%;
   background-color: #f6f4f4;
   border: 2px solid #dd362e;
@@ -368,27 +317,36 @@ header a:hover {
   border-top: none;
   box-sizing: border-box;
   overflow: hidden;
-  z-index: 100;
+  z-index: 39;
+  box-shadow: 0 2px 10px rgba(0,0,0,.2)
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion,
-.selectize-dropdown [data-selectable] {
+.selectize-dropdown [data-selectable],
+.pure-menu-children .pure-menu-link {
   cursor: pointer;
   border-top: 1px solid #c7bcbf;
-  font-size: 20px;
-  padding: 15px 20px;
+  font-size: 17px;
+  padding: 10px 15px;
+  font-weight: 600;
   color: #5c4d51;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .newHashtag {
   font-weight: 400;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion img,
-.selectize-dropdown .aa-suggestion img  {
+.selectize-dropdown .aa-suggestion img,
+.pure-menu-children .pure-menu-link img {
   float: left;
   height: 30px;
   width: 30px;
   margin: 0 20px 0 0;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.person img,
+.selectize-dropdown .aa-suggestion.person img,
+.pure-menu-children .pure-menu-link.person img {
   border-radius: 15px;
 }
+
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .tag,
 .selectize-dropdown .aa-suggestion .tag {
   float:right;
@@ -396,10 +354,15 @@ header a:hover {
   margin-left: 20px;
   line-height: 27px;
   font-weight: 300;
+  display: none;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor,
 .selectize-dropdown .active {
   background-color: #dd362e;
+  color: #ffffff;
+}
+.pure-menu-children .pure-menu-link:hover {
+  background-color: #c7bcbf;
   color: #ffffff;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em,
@@ -420,7 +383,7 @@ header a:hover {
   box-sizing: border-box;
   padding: 15px 20px;
   margin: 0;
-  border-radius: 36px;
+  border-radius: 27px;
   font-size: 20px;
   min-height: 60px;
   border: 2px solid #c7bcbf;
@@ -439,18 +402,18 @@ header .pure-form input.search-input,
   border-color: #dd362e;
   color: #33374C;
   z-index: 40;
+  font-size: 17px;
 }
 
 .selectize-input {
   padding: 5px 15px 5px 20px;
   font-size: 0;
-  z-index: 100;
 }
 
 .selectize-input.dropdown-active {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  border-bottom: none;
+  border-bottom: 1px solid #c7bcbf;
 }
 
 .selectize-input > input[type="text"] {
@@ -459,16 +422,16 @@ header .pure-form input.search-input,
   height: 30px !important;
   margin: 5px 5px 5px 0 !important;
   padding: 5px 0 !important;
+  min-width: 100px !important;
   border: none;
 }
 
 .selectize-input .cloud-element {
   margin: 5px 5px 5px 0;
-  margin-right: 0;
 }
 
-.selectize-input.focus {
-  box-shadow: none;
+.selectize-input .cloud-element.hashtag:first-child {
+  margin-left: -8px;
 }
 
 #modal-layer {
@@ -486,6 +449,96 @@ header .pure-form input.search-input,
   visibility: visible;
   opacity: 0.9;
 }
+
+/* HEADER */
+
+header {
+	min-height: 70px;
+  width: 100%;
+  border-top: 10px solid #dd362e;
+  position: fixed;
+  top: 0;
+  z-index: 50;
+  background: url('/images/header_bg.png') bottom;
+}
+
+.signin header {
+  position: absolute;
+}
+
+header a:hover {
+  text-decoration: none;
+}
+
+.pure-u-logo > div {
+  padding: 15px;
+}
+
+.pure-u-logo img {
+  max-height: 40px;
+}
+
+.pure-u-menu > div {
+  padding: 15px 15px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pure-menu-horizontal .pure-menu-has-children > .pure-menu-link::after {
+  content: none;
+}
+
+.pure-menu-horizontal .pure-menu-children {
+  left: auto;
+  top: 10px;
+  right: 10px;
+  border: 2px solid #c7bcbf;
+  border-radius: 20px 0 20px 20px;
+  background: #ffffff;
+}
+
+.pure-menu-children .pure-menu-item:first-child .pure-menu-link {
+  border-top: none;
+}
+
+.pure-u-menu .pure-menu-horizontal {
+  text-align: right;
+}
+
+.pure-menu-children .pure-menu-item .pure-menu-link {
+  text-align: left;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 15px 30px;
+}
+
+.pure-menu-picture {
+  padding: 0 0 15px 15px;
+}
+
+.pure-menu-picture:hover {
+  background: none;
+}
+
+.pure-menu-picture img {
+  width: 40px;
+  max-height: 40px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  border: 2px solid #ffffff;
+  z-index: 101;
+  position: relative;
+  transition: none;
+}
+
+.pure-menu-allow-hover:hover > .pure-menu-picture img {
+  border: 2px solid #c7bcbf;
+}
+
+#search {
+  width: 100%;
+}
+
 
 
 /* FOOTER */
@@ -567,7 +620,6 @@ p.cloud {
   color: #ffffff;
   background: #c7bcbf;
   word-break: break-all;
-  overflow: hidden;
 }
 
 a.cloud-element:hover {
@@ -617,7 +669,7 @@ a.cloud-element:hover {
 .selectize-input .cloud-element.unknown span {
   color: #33374C;
   background: none;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   padding-right: 0;
   padding-left: 0;
@@ -660,10 +712,6 @@ a.cloud-element:hover {
 }
 
 /* PROFILE */
-.profile .main .pure-g {
-  max-width: 960px;
-}
-
 .profile #intro {
    font-size: 18px;
 }
@@ -708,7 +756,7 @@ a.cloud-element:hover {
 
 /* SEARCH RESULTS */
 #search-results {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 #search-results .pure-g-box {
@@ -743,10 +791,13 @@ a.cloud-element:hover {
 .name h1 {
   font-size: 18px;
   line-height: 1em;
-  position: absolute;
-  bottom: 0;
   padding: 0;
   margin: 0;
+}
+
+.name h2 {
+  position: absolute;
+  bottom: 0;
 }
 
 .name h3 {
@@ -769,15 +820,14 @@ a.cloud-element:hover {
 
 .profile .name {
   margin-right: 0;
-  height: 16vw;
-  max-height: 110px;
+  height: auto;
+  max-height: none;
 }
 
 .profile .name h1 {
   font-size: 24px;
 }
 
-.link-hashtag,
 a.hashtag {
   cursor: pointer;
 }
@@ -1092,6 +1142,18 @@ a.hashtag {
   	min-height: 120px;
   }
 
+  .pure-u-logo > div {
+    padding: 30px 15px;
+  }
+
+  .pure-u-logo img {
+    max-height: 60px;
+  }
+
+  .pure-u-menu > div {
+    padding: 40px 15px 0;
+  }
+
   .main {
     padding-top: 130px;
   }
@@ -1122,6 +1184,27 @@ a.hashtag {
     margin: 10px 10px 10px 0;
   }
 
+  .selectize-input .cloud-element.person span,
+  .selectize-input .cloud-element.unknown span {
+    font-size: 20px;
+  }
+
+  .selectize-input .cloud-element.hashtag:first-child {
+    margin-left: -5px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .tag,
+  .selectize-dropdown .aa-suggestion .tag {
+    display: block;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion,
+  .selectize-dropdown [data-selectable],
+  .pure-menu-children .pure-menu-link {
+    font-size: 20px;
+    padding: 15px 20px;
+  }
+
   .cloud-element span {
     padding: 6px 12px;
   }
@@ -1135,8 +1218,14 @@ a.hashtag {
     padding: 6px 0 6px 12px;
     font-size: 24px;
   }
+  #search input,
+  #search-input,
+  #link-input,
+  header .pure-form input.search-input,
   .selectize-input {
     min-height: 70px;
+    border-radius: 35px;
+    font-size: 20px;
   }
 
   .selectize-input > input[type="text"] {
@@ -1148,8 +1237,17 @@ a.hashtag {
     border: none;
   }
 
+  .search-input-box {
+    padding: 27px 15px 15px;
+  }
+
   #search.search-input-box > .fa {
     top: 27px;
+  }
+
+  .search-input-box > .fa {
+    padding: 15px;
+    font-size: 40px;
   }
 
   #subheader .suggestions-box {
@@ -1240,5 +1338,9 @@ a.hashtag {
 
     header .pure-g {
       max-width: 1280px;
+    }
+
+    .profile .main .pure-g {
+      max-width: 960px;
     }
 }

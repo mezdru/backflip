@@ -7,12 +7,28 @@
     {{/if}}
   {{else}}
     {{#if user}}
-    {{#if canAdd}}{{{addLink user organisation}}}{{/if}}
-    {{{profileLink user organisation}}}
-    {{{adminLink user organisation}}}
-      <a title="{{__ "Sign out"}}" class="fa fa-sign-out" href="{{logoutUrl}}" aria-hidden="true"></a>
+      <div class="pure-menu pure-menu-horizontal">
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            <a title="{{__ 'Menu'}}" href="{{profileUrl user organisation}}" class="pure-menu-link pure-menu-picture">{{{profilePicture user organisation}}}</a>
+            <ul class="pure-menu-children">
+              <li class="pure-menu-item">
+                <a title="{{__ 'Edit Profile'}}" class="pure-menu-link profile-link" href="{{{myEditUrl organisation}}}">{{__ 'Edit Profile'}}</a>
+              </li>
+              {{#if isAdmin}}
+              <li class="pure-menu-item">
+                <a title="{{__ 'Team Setup'}}" class="pure-menu-link profile-link" href="{{{adminUrl organisation}}}">{{__ 'Team Setup'}}</a>
+              </li>
+              {{/if}}
+              <li class="pure-menu-item">
+                <a title="{{__ 'Sign out'}}" class="pure-menu-link logout-link" href="{{logoutUrl}}">{{__ "Sign out"}}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     {{else}}
-      <a title="{{__ "Sign in"}}" class="fa fa-sign-in" href="{{signinUrl}}" aria-hidden="true"></a>
+      <a title="{{__ "Sign in"}}" class="fa fa-sign-in" href="{{signinUrl}}" aria-hidden="true"> {{__ "Sign in"}}</a>
     {{/if}}
   {{/if}}
 </div>

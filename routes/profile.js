@@ -8,7 +8,7 @@ var Record = require('../models/record.js');
 router.use(function(req, res, next) {
   if (!res.locals.organisation) {
     err = new Error('Subdomain required');
-    err.status = 400;
+    err.status = 403;
     return next(err);
   }
   return next();
