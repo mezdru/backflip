@@ -7,8 +7,8 @@ if (window.matchMedia('(min-width: 720px)').matches) {
 		extraLinkLimit = 4;
 }
 
-function getPictureUrl(item) {
-	if (item.picture && item.picture.url) {
+function getPictureUrl(item, iconOnly) {
+	if (item.picture && item.picture.url && !iconOnly) {
 			return item.picture.url;
 	} else if (item.picture && item.picture.path) {
 		return "/images" + item.picture.path;
@@ -19,8 +19,8 @@ function getPictureUrl(item) {
 	}
 }
 
-function getPictureHtml(item) {
-	var url = getPictureUrl(item);
+function getPictureHtml(item, iconOnly) {
+	var url = getPictureUrl(item, iconOnly);
 	if (url) {
 		return '<img src="' + url + '">';
 	} else {
@@ -114,7 +114,7 @@ function addTag(item) {
 }
 
 function addPictureHtml(item) {
-	item.pictureHtml = getPictureHtml(item);
+	item.pictureHtml = getPictureHtml(item, true);
 }
 
 function transformImagePath(item) {

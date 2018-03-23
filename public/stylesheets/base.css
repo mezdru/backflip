@@ -389,6 +389,14 @@ header a:hover {
   margin: 0 20px 0 0;
   border-radius: 15px;
 }
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .tag,
+.selectize-dropdown .aa-suggestion .tag {
+  float:right;
+  font-size: 15px;
+  margin-left: 20px;
+  line-height: 27px;
+  font-weight: 300;
+}
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor,
 .selectize-dropdown .active {
   background-color: #dd362e;

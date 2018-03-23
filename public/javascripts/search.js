@@ -99,6 +99,9 @@ $(document).ready(function () {
         option: function(option) {
             let highlighted = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
             return '<div class="aa-suggestion">' +
+            '<span class="tag">' +
+            option._highlightResult.tag.value +
+            '</span>' +
             getPictureHtml(option) +
             '<span>' +
             highlighted +
