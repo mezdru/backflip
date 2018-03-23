@@ -83,7 +83,7 @@ hbs.registerHelper('profilePicture', function(user, organisation) {
 });
 
 hbs.registerHelper('picture', function(item) {
-  if (!item) item = {picture: {}, type: person};
+  if (!item) item = {picture: {}, type: 'person'};
   var url = hbs.handlebars.helpers.pictureUrl.apply(this, [item.picture || {}, item.type || 'person']);
   if (url) return '<img src="'+url+'">';
   else return null;
