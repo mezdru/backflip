@@ -2,35 +2,56 @@
   position: absolute;
 }
 
-.onboard .pure-u-menu img {
-  max-height: 50px;
-}
-
 .onboard-welcome header {
   border-bottom: none;
 }
 
-.pure-u-menu a.step {
-  color: #c7bcbf;
+.onboard .pure-u-menu > div {
+  padding: 20px 15px 0;
+  text-align: right;
+}
+
+a.step {
+  display: inline-block;
   margin-left: 0;
 }
 
-.pure-u-menu > div > div {
-  position: relative;
-  bottom: 20px;
+a.step.active {
+  transform: scale(1.2);
+}
+
+a.step span {
+  display: none;
+  text-align: center;
   font-size: 12px;
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-
-.pure-u-menu img {
-  height: 60px;
-}
-
-.pure-u-menu .fa-long-arrow-right {
-  margin-left: 0;
   color: #c7bcbf;
+  font-weight: 600;
+}
+
+a.step span > strong {
+  font-weight: 300;
+  margin-right: 5px;
+}
+
+a.step img {
+  display: block;
+  height: 30px;
+  width: 30px;
+}
+
+a.step img:first-child {
+  position: absolute;
+  opacity: 0;
+}
+
+a.step.active img:first-child,
+a.step:hover img:first-child {
+  opacity: 1;
+}
+
+a.step.active span,
+a.step:hover span {
+  color: #dd362e;
 }
 
 .onboard h1 {
@@ -419,6 +440,28 @@ li#facebook-selector.selected {
 
   .onboard h2 {
     font-size: 22.5px;
+  }
+
+  .onboard .pure-u-menu > div {
+    padding: 30px 15px 0;
+    text-align: right;
+  }
+
+  a.step {
+    margin-left: 20px;
+  }
+
+  a.step span {
+    display: block;
+  }
+
+  a.step img {
+    height: 50px;
+    width: 50px;
+  }
+
+  a.step span > strong {
+    display: none;
   }
 }
 
