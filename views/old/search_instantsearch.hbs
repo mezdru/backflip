@@ -1,0 +1,79 @@
+<div class="main">
+  <form class="pure-form pure-form-stacked" action="{{onboard.hashtagsAction}}" method="post">
+    <input type="hidden" name="_id" value="{{record._id}}" />
+    {{> form_errors}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="search-input-box" class="grid-box">
+          <label for="search-input">{{__ "Search %s" organisation.name}}</label>
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <input id="search-input" class="pure-input-1 search-input" type="text" placeholder="{{__ 'Search'}}" autofocus>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="modal-layer">
+</div>
+
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script>
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+  var isProduction = {{{json isProduction}}};
+</script>
+<script>
+  var searchInput = document.getElementById('search-input');
+  var modalLayer = document.getElementById('modal-layer');
+</script>
+<script>
+  function doSearch(event, suggestion, dataset) {
+  }
+
+  function suggestionTemplate(suggestion) {
+    if (suggestion.type === 'newHashtag') {
+      return ' <span class="newHashtag">' +
+      newHashtagSentence +
+      ' </span><em><i class="fa fa-hashtag" aria-hidden="true"></i>' +
+      suggestion.tag +
+      '</em>';
+    } else {
+      return '<img src="' + getPictureUrl(suggestion) + '">' +
+      suggestion._highlightResult.name.value;
+    }
+  }
+</script>
+<script>
+  var ALGOLIA_APPID = 'RSXBUBL0PB';
+  var ALGOLIA_SEARCH_APIKEY = algoliaPublicKey.value;
+  var ALGOLIA_INDEX_NAME = 'world';
+  var NB_RESULTS_DISPLAYED = 3;
+  var client = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
+  var index = client.initIndex(ALGOLIA_INDEX_NAME);
+  var hitsSource = autocomplete.sources.hits(index, {hitsPerPage: NB_RESULTS_DISPLAYED });
+  var search = autocomplete('#search-input', { openOnFocus: true, hint: false, autoselect: false, autoselectOnBlur: false, debug: !isProduction}, [
+    {
+      source: function(query, callback) {
+        hitsSource(query, function(suggestions) {
+          callback(suggestions);
+        });
+      },
+      displayKey: function(suggestion) {
+        return suggestion.tag;
+      },
+      name: 'search-suggestions',
+      templates: {
+        suggestion: suggestionTemplate,
+        empty: 'Press enter to search'
+      }
+    }
+  ]).on('autocomplete:selected', doSearch)
+  .on('autocomplete:shown', function() {
+    searchInput.classList.add('open');
+    modalLayer.classList.add('show');
+  })
+  .on('autocomplete:closed', function() {
+    searchInput.classList.remove('open');
+    modalLayer.classList.remove('show');
+  });
+</script>

@@ -32,7 +32,7 @@ router.get('/search/:query?', function(req, res, next) {
   res.locals.isProduction = req.app.get('env') == 'production';
   res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.render('search2', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
+  res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });
 
 module.exports = router;

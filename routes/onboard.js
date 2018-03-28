@@ -43,7 +43,7 @@ router.use(function(req, res, next) {
 //@todo record the datetime of clic on "I am ready" on the welcome page to validate tos
 //@todo we could do some asynchronous mining here to save time loading onbaord/intro
 router.get('/welcome', function(req, res, next) {
-  res.render('onboard_welcome', {
+  res.render('onboard/welcome', {
     bodyClass: 'onboard onboard-welcome'
   });
 });
@@ -352,7 +352,7 @@ router.all('/intro', function(req, res, next) {
 router.all('/intro', function(req, res, next) {
   res.locals.onboard.step = "intro";
   res.locals.onboard.intro = true;
-  res.render('onboard_intro', {
+  res.render('onboard/intro', {
     bodyClass: 'onboard onboard-intro'
   });
 });
@@ -362,7 +362,7 @@ router.all('/hashtags', function(req, res, next) {
   res.locals.onboard.hashtags = true;
   res.locals.record.hashtags.forEach(hashtag => hashtag.editable = true);
   res.locals.hashtagSuggestions.forEach(hashtag => hashtag.editable = true);
-  res.render('onboard_hashtags', {
+  res.render('onboard/hashtags', {
     bodyClass: 'onboard onboard-hashtags'
   });
 });
@@ -371,7 +371,7 @@ router.all('/links', function(req, res, next) {
   res.locals.onboard.step = "links";
   res.locals.onboard.links = true;
   res.locals.record.links.forEach(link => link.editable = true);
-  res.render('onboard_links', {
+  res.render('onboard/links', {
     bodyClass: 'onboard onboard-links'
   });
 });

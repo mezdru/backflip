@@ -43,10 +43,6 @@ router.get('/', function(req, res, next) {
   }
 });
 
-router.get('/oldpage', function(req, res, next) {
-return res.render('homepage');
-});
-
 router.get('/product', function(req, res, next) {
   res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home product'});
 });

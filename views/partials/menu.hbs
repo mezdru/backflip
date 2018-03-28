@@ -1,10 +1,6 @@
 <div>
   {{#if onboard}}
-    {{#if onboard.step}}
-      {{> onboard_steps}}
-    {{else}}
-      <a title="{{__ "Learn more"}}" class="fa fa-question-circle" href="{{url "why" null}}" aria-hidden="true"></a>
-    {{/if}}
+    {{> onboard_steps}}
   {{else}}
     {{#if user}}
       <div class="pure-menu pure-menu-horizontal">
