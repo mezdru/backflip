@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
       return next();
     }
   } else {
-    res.render('home/homepage', {layout: 'home/layout_home', bodyClass: 'home homepage'});
+    res.render('home/home', {bodyClass: 'home', googleSignin: true, emailSignin: true, home: true});
   }
 });
 

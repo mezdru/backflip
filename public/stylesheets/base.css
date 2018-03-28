@@ -238,11 +238,6 @@ a.cloud-element {
   flex-grow: 1;
 }
 
-.home .main {
-  padding-top: 0px;
-  padding-bottom: 80px;
-}
-
 #subheader {
   display: none;
   background: url('/images/subheader_bg.png') bottom;
@@ -384,7 +379,7 @@ a.cloud-element {
   box-sizing: border-box;
   padding: 15px 20px;
   margin: 0;
-  border-radius: 27px;
+  border-radius: 30px;
   font-size: 20px;
   min-height: 60px;
   border: 2px solid #c7bcbf;

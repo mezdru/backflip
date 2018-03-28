@@ -1,0 +1,162 @@
+
+/* GENERIC */
+
+.home header {
+  position: relative;
+  background: #ffffff;
+}
+
+.home footer {
+  background: #c7bcbf;
+}
+
+.home .main {
+  padding: 0;
+  font-size: 20px;
+  background: #ffffff;
+  border-bottom: 3px solid #ffffff;
+}
+
+.home .pure-g {
+  max-width: 1280px;
+}
+
+.home h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 48px;
+  margin-top: 45px;
+}
+
+.home .epic h1 {
+  color: #dd362e;
+}
+
+.home h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 32px;
+  padding: 0;
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.home h3 {
+  text-align: center;
+  font-size: 24px;
+  padding: 0;
+  text-align: center;
+}
+
+/* EPIC */
+.home .epic {
+  min-height: 67vw;
+  box-sizing: border-box;
+  padding: 45px 0 120px;
+  background-image: url('/images/home/epic.jpg');
+  background-position: left 0px;
+  background-repeat: no-repeat;
+  background-size: 50vw auto;
+  margin-bottom: 120px;
+}
+
+img.wingzy-full {
+  display: block;
+  margin: 0 auto;
+  max-width: 60%;
+}
+
+/* SIGNIN */
+.home .pure-g-signin,
+.home .pure-g-anyone {
+  max-width: 500px;
+}
+
+/* WINGS */
+.home .wings {
+  padding: 120px 0;
+  margin-top: 120px;
+  background-image: url('/images/home/wings.jpg');
+  background-color: #f2f2f2;
+  background-position: 5vw bottom;
+  background-repeat: no-repeat;
+  background-size: 45vw auto;
+}
+
+.home .screenshot {
+  display: block;
+  margin: 0 auto;
+  max-width: 80%;
+  border: 5px solid #c7bcbf;
+  border-radius: 5px;
+}
+
+.home .wings .screenshot {
+  margin-top: 45px;
+}
+
+.home .screenshot.placeholder {
+  width: 500px;
+  height: 300px;
+  box-sizing: border-box;
+  background: #c7bcbf;
+  color: #ffffff;
+  text-align: center;
+  padding: 45px;
+}
+
+/* SEARCH */
+.home .search {
+  padding: 120px 0 180px;
+  position: relative;
+}
+
+.home .search img.screenshot {
+  margin-top: 0;
+}
+
+.home .books {
+  position: absolute;
+  bottom: -80px;
+  left: 90px;
+  height: 236px;
+  width: 640px;
+  background-image: url('/images/home/books.jpg');
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* AVAILABILITY */
+.home .availability {
+  background-color: #f2f2f2;
+  padding: 120px 0 180px;
+  position: relative;
+}
+
+.home .coffee {
+  position: absolute;
+  bottom: -97px;
+  right: 90px;
+  height: 233px;
+  width: 640px;
+  background-image: url('/images/home/coffee.jpg');
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* MORE */
+.home .more {
+  padding: 120px 0;
+  background: #d4c3ca;
+}
+
+@media screen and (min-width: 639px) {
+
+
+}
+
+@media screen and (min-width: 1279px) {
+
+}
