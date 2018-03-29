@@ -32,7 +32,8 @@ router.get('/', function(req, res, next) {
         res.locals.myRecordId = false;
         res.locals.isMyOrg = false;
       }
-      res.render('directory', {search: true});
+      //@todo handle searchQuery
+      res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
     } else if (!res.locals.user) {
       res.render('signin', {googleSignin: undefsafe(res.locals.organisation, 'google.hd'), emailSignin:undefsafe(res.locals.organisation, 'email.domains'), bodyClass: 'signin'});
     } else {

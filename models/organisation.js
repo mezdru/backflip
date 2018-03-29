@@ -49,6 +49,12 @@ organisationSchema.methods.addEmailDomain = function(domain, callback) {
   if(callback) this.save(callback);
 };
 
+organisationSchema.methods.makePublic = function(callback) {
+  this.public = true;
+  if(callback) this.save(callback);
+};
+
+
 // We populate ALL the records in the Organisation AND IN THE "ALL" ORGANISATION
 organisationSchema.methods.populateRecords = function(callback) {
   if (this.records) return callback(null, this);

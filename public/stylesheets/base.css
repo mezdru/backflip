@@ -541,7 +541,7 @@ header a:hover {
 footer {
   width: 100%;
   min-height: 90px;
-  background-image: url('/images/footer_bg.png');
+  background: #c7bcbf;
   z-index: 100;
   padding: 15px 0 60px;
 }

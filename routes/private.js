@@ -6,6 +6,7 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var plus = google.plus('v1');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
+var UrlHelper = require('../helpers/url_helper.js');
 
 router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {
@@ -15,7 +16,7 @@ router.get('/google/app', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  res.redirect('/search');
+  res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'search', null, req.getLocale()));
 });
 
 router.use('/search/:query?', function(req, res, next) {

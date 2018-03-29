@@ -35,4 +35,13 @@ router.post('/tree', function(req, res, next) {
   }
 });
 
+router.get('/makePublic', function(req, res, next) {
+  res.locals.organisation.makePublic(function(err, organisation) {
+    res.render('index', {
+      title: 'Organisation made Public',
+      content: organisation
+    });
+  });
+});
+
 module.exports = router;

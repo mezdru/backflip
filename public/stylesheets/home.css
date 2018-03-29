@@ -25,22 +25,21 @@
   text-align: center;
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 48px;
-  margin-top: 45px;
+  font-size: 44px;
 }
-
-.home .epic h1 {
-  color: #dd362e;
-}
-
 .home h2 {
   text-align: center;
   text-transform: uppercase;
-  font-size: 32px;
+  margin: auto;
+  color: #c7bcbf;
+  font-size: 28px;
   padding: 0;
   text-align: center;
   font-weight: 400;
-  margin-bottom: 15px;
+}
+.home h2 strong {
+  color: #1d1f1a;
+  font-weight: 400;
 }
 
 .home h3 {
@@ -51,16 +50,42 @@
 }
 
 /* EPIC */
-.home .epic {
-  min-height: 67vw;
-  box-sizing: border-box;
-  padding: 45px 0 120px;
+.home .epic .epic-placeholder {
+  min-height: 135vw;
   background-image: url('/images/home/epic.jpg');
+  background-size: 100% auto;
   background-position: left 0px;
   background-repeat: no-repeat;
-  background-size: 50vw auto;
-  margin-bottom: 120px;
+  box-sizing: border-box;
+  margin-bottom: 60px;
 }
+
+.home .epic h1 {
+  color: #dd362e;
+  margin: auto;
+  font-size: 44px;
+  line-height: 1em;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.home .epic h1 span {
+  width: 5em;
+  display: none;
+}
+
+.home .epic h3 {
+  box-sizing: border-box;
+  margin: auto;
+}
+
+.home .epic p {
+  font-size: 24px;
+  margin-top: 15px;
+  text-align: right;
+}
+
 
 img.wingzy-full {
   display: block;
@@ -74,15 +99,25 @@ img.wingzy-full {
   max-width: 500px;
 }
 
+.home .pure-g-anyone {
+  margin-top: 120px;
+}
+
 /* WINGS */
 .home .wings {
   padding: 120px 0;
   margin-top: 120px;
   background-image: url('/images/home/wings.jpg');
   background-color: #f2f2f2;
-  background-position: 5vw bottom;
+  background-position: 5vw 5vw;
   background-repeat: no-repeat;
-  background-size: 45vw auto;
+  background-size: 90vw auto;
+}
+
+
+.home .wings .wings-placeholder {
+  min-height: 65vw;
+  box-sizing: border-box;
 }
 
 .home .screenshot {
@@ -99,7 +134,7 @@ img.wingzy-full {
 
 .home .screenshot.placeholder {
   width: 500px;
-  height: 300px;
+  height: 250px;
   box-sizing: border-box;
   background: #c7bcbf;
   color: #ffffff;
@@ -119,11 +154,12 @@ img.wingzy-full {
 
 .home .books {
   position: absolute;
-  bottom: -80px;
-  left: 90px;
-  height: 236px;
-  width: 640px;
+  bottom: -40px;
+  left: 40px;
+  height: 118px;
+  width: 320px;
   background-image: url('/images/home/books.jpg');
+  background-size: 320px 118px;
   background-repeat: no-repeat;
   z-index: 1;
 }
@@ -137,11 +173,12 @@ img.wingzy-full {
 
 .home .coffee {
   position: absolute;
-  bottom: -97px;
-  right: 90px;
-  height: 233px;
-  width: 640px;
+  bottom: -48px;
+  right: 40px;
+  height: 116px;
+  width: 320px;
   background-image: url('/images/home/coffee.jpg');
+  background-size: 320px 116px;
   background-repeat: no-repeat;
   z-index: 1;
 }
@@ -149,14 +186,86 @@ img.wingzy-full {
 /* MORE */
 .home .more {
   padding: 120px 0;
-  background: #d4c3ca;
+}
+
+.home .more .more-item {
+  font-size: 24px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.second-signin {
+  margin-top: 120px;
 }
 
 @media screen and (min-width: 639px) {
+  .home .epic .epic-placeholder {
+    min-height: 45vw;
+    margin-bottom: 0;
+  }
+  .home .epic h1 {
+    font-size: 42px;
+    margin-top: 12%;
+    margin-bottom: 12%;
+  }
+  .home .epic h1 span {
+    display: inline-block;
+  }
+  .home .epic h3 {
+    max-width: 80%;
+  }
+  .home .wings {
+    background-position: -10vw bottom;
+    background-size: 65vw auto;
+  }
 
+  .home .wings .wings-placeholder {
+    min-height: inherit;
+  }
 
+  .second-signin {
+    margin-top: 0;
+  }
 }
 
 @media screen and (min-width: 1279px) {
-
+  .home h1 {
+    margin-top: 30px;
+    font-size: 48px;
+  }
+  .home h2 {
+    font-size: 32px;
+  }
+  .home .epic {
+    min-height: 80vh;
+    background-image: url('/images/home/epic.jpg');
+    background-size: auto 80vh;
+    background-position: left 0px;
+    background-repeat: no-repeat;
+  }
+  .home .epic .epic-placeholder {
+    background: none;
+  }
+  .home .epic h1 {
+    font-size: 80px;
+    margin-top: 90px;
+    margin-bottom: 90px;
+  }
+  .home .epic h3 {
+    max-width: 60%;
+  }
+  .home .books {
+    bottom: -80px;
+    left: 80px;
+    height: 236px;
+    width: 640px;
+    background-size: 640px 236px;
+  }
+  .home .coffee {
+    bottom: -96px;
+    right: 80px;
+    height: 232px;
+    width: 640px;
+    background-size: 640px 232px;
+  }
 }

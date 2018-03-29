@@ -1,5 +1,9 @@
 var UrlHelper = class UrlHelper {
 
+  static makeUrl(subdomains, path, query, locale) {
+    return new UrlHelper(subdomains, path, query, locale).getUrl();
+  }
+
   constructor(subdomains, path, query, locale) {
     this.subdomains = subdomains || '';
     this.path = path || '';
