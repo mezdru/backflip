@@ -24,7 +24,7 @@ a.step span {
   display: none;
   text-align: center;
   font-size: 12px;
-  color: #c7bcbf;
+  color: #a4c5cb;
   font-weight: 600;
 }
 
@@ -138,7 +138,7 @@ a.step:hover span {
   text-align: center;
   font-size: 20px;
   white-space: normal;
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
   color: #ffffff;
 }
 
@@ -147,7 +147,7 @@ a.step:hover span {
 .uploadcare--widget button:focus {
   font-weight: 700;
   font-size: 20px;
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
   color: #ffffff;
   cursor: pointer;
 }
@@ -164,7 +164,7 @@ a.step:hover span {
 .uploadcare--widget button.uploadcare--widget__button_type_remove:hover,
 .uploadcare--widget button.uploadcare--widget__button_type_remove:active,
 .uploadcare--widget button.uploadcare--widget__button_type_remove:focus {
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
   opacity: 0.7;
 }
 
@@ -211,7 +211,7 @@ a.step:hover span {
 .dropdown-menu .textcomplete-item a {
   display: block;
   cursor: pointer;
-  border-top: 1px solid #c7bcbf;
+  border-top: 1px solid #a4c5cb;
   color: #5c4d51;
   position: relative;
   text-decoration: none;
@@ -327,13 +327,13 @@ label[for="link-input"] {
 
 @keyframes added {
 	0% {
-    background-color: #c7bcbf;
+    background-color: #a4c5cb;
   }
 	30% {
     background-color: #dd362e;
   }
 	100% {
-    background-color: #c7bcbf;
+    background-color: #a4c5cb;
   }
 }
 
@@ -356,9 +356,9 @@ label[for="link-input"] {
   box-sizing: border-box;
   text-align: center;
   border-radius: 20px 20px 0 0;
-  border: 2px solid #c7bcbf;
+  border: 2px solid #a4c5cb;
   color: #ffffff;
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
   border-bottom: none;
   cursor: pointer;
 }

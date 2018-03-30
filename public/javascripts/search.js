@@ -154,7 +154,7 @@ $(document).ready(function () {
   function search() {
     var query = $selectize.$control_input.val();
     var tags = $selectize.$input.val();
-    var facetFilters = ['type:person'];
+    var facetFilters = getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person'];
     var tagFilters = '';
     $selectize.items.forEach((item) => {
       if(item.charAt(0) === '#')

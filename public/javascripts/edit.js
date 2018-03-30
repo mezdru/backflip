@@ -13,7 +13,8 @@ $('.desc-input').textcomplete([
     // #4 - Function called at every new keystroke
     search: function(query, callback) {
       lastQuery = query;
-      index.search(lastQuery, { hitsPerPage: NB_RESULTS_DISPLAYED, filters:'type:hashtag' })
+      index.search(lastQuery, { hitsPerPage: NB_RESULTS_DISPLAYED, filters:'type:hashtag',
+      attributesToRetrieve: ['type','name', 'tag','picture'] })
         .then(function searchSuccess(content) {
           if (content.query === lastQuery) {
             callback(content.hits);
@@ -27,7 +28,7 @@ $('.desc-input').textcomplete([
     // #5 - Template used to display each result obtained by the Algolia API
     template: function (hit) {
       // Returns the highlighted version of the name attribute
-      return  hit._highlightResult.tag.value;
+      return  hit._highlightResult.tag ? hit._highlightResult.tag.value : hit.tag;
     },
     // #6 - Template used to display the selected result in the textarea
     replace: function (hit) {

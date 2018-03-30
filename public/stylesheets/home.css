@@ -7,7 +7,7 @@
 }
 
 .home footer {
-  background: #c7bcbf;
+  background: #a4c5cb;
 }
 
 .home .main {
@@ -29,22 +29,20 @@
 }
 .home h2 {
   text-align: center;
-  text-transform: uppercase;
   margin: auto;
-  color: #c7bcbf;
-  font-size: 28px;
+  color: #1d1f1a;
+  font-size: 24px;
   padding: 0;
   text-align: center;
-  font-weight: 400;
+  font-weight: 300;
 }
 .home h2 strong {
-  color: #1d1f1a;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .home h3 {
   text-align: center;
-  font-size: 24px;
+  font-size: 22.5px;
   padding: 0;
   text-align: center;
 }
@@ -76,12 +74,11 @@
 }
 
 .home .epic h3 {
-  box-sizing: border-box;
   margin: auto;
 }
 
 .home .epic p {
-  font-size: 24px;
+  font-size: 22.5px;
   margin-top: 15px;
   text-align: right;
 }
@@ -96,6 +93,7 @@ img.wingzy-full {
 /* SIGNIN */
 .home .pure-g-signin,
 .home .pure-g-anyone {
+  box-sizing: border-box;
   max-width: 500px;
 }
 
@@ -108,12 +106,15 @@ img.wingzy-full {
   padding: 120px 0;
   margin-top: 120px;
   background-image: url('/images/home/wings.jpg');
-  background-color: #f2f2f2;
+  background-color: #a4c5cb;
   background-position: 5vw 5vw;
   background-repeat: no-repeat;
   background-size: 90vw auto;
 }
 
+.home .wings h1 {
+  margin-top: 0;
+}
 
 .home .wings .wings-placeholder {
   min-height: 65vw;
@@ -124,8 +125,6 @@ img.wingzy-full {
   display: block;
   margin: 0 auto;
   max-width: 80%;
-  border: 5px solid #c7bcbf;
-  border-radius: 5px;
 }
 
 .home .wings .screenshot {
@@ -136,7 +135,7 @@ img.wingzy-full {
   width: 500px;
   height: 250px;
   box-sizing: border-box;
-  background: #c7bcbf;
+  border: 2px solid #ffffff;
   color: #ffffff;
   text-align: center;
   padding: 45px;
@@ -154,33 +153,39 @@ img.wingzy-full {
 
 .home .books {
   position: absolute;
-  bottom: -40px;
-  left: 40px;
-  height: 118px;
+  bottom: -90px;
+  left: 0;
+  height: 180px;
   width: 320px;
-  background-image: url('/images/home/books.jpg');
-  background-size: 320px 118px;
+  background-image: url('/images/home/books.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.home .coffee {  position: absolute;
+  bottom: -68px;
+  right: 0;
+  height: 135px;
+  width: 240px;
+  background-image: url('/images/home/coffee.png');
+  background-size: cover;
   background-repeat: no-repeat;
   z-index: 1;
 }
 
 /* AVAILABILITY */
 .home .availability {
-  background-color: #f2f2f2;
+  background-color: #a4c5cb;
   padding: 120px 0 180px;
   position: relative;
 }
 
-.home .coffee {
-  position: absolute;
-  bottom: -48px;
-  right: 40px;
-  height: 116px;
-  width: 320px;
-  background-image: url('/images/home/coffee.jpg');
-  background-size: 320px 116px;
-  background-repeat: no-repeat;
-  z-index: 1;
+.home .availability h1,
+.home .availability h2,
+.home .wings h1,
+.home .wings h2 {
+  color: #ffffff;
 }
 
 /* MORE */
@@ -189,7 +194,7 @@ img.wingzy-full {
 }
 
 .home .more .more-item {
-  font-size: 24px;
+  font-size: 22.5px;
   margin-top: 30px;
   text-align: center;
 }
@@ -215,7 +220,7 @@ img.wingzy-full {
     max-width: 80%;
   }
   .home .wings {
-    background-position: -10vw bottom;
+    background-position: left -10vw bottom -2vw;
     background-size: 65vw auto;
   }
 
@@ -226,6 +231,19 @@ img.wingzy-full {
   .second-signin {
     margin-top: 0;
   }
+  .home .books {
+    bottom: -135px;
+    left: 40px;
+    height: 270px;
+    width: 480px;
+  }
+
+  .home .coffee {  position: absolute;
+    bottom: -90px;
+    right: 40px;
+    height: 180px;
+    width: 320px;
+  }
 }
 
 @media screen and (min-width: 1279px) {
@@ -234,7 +252,7 @@ img.wingzy-full {
     font-size: 48px;
   }
   .home h2 {
-    font-size: 32px;
+    font-size: 30px;
   }
   .home .epic {
     min-height: 80vh;
@@ -245,6 +263,7 @@ img.wingzy-full {
   }
   .home .epic .epic-placeholder {
     background: none;
+    min-height:inherit;
   }
   .home .epic h1 {
     font-size: 80px;
@@ -253,19 +272,22 @@ img.wingzy-full {
   }
   .home .epic h3 {
     max-width: 60%;
+    font-size: 30px;
+  }
+  .home .wings {
+    background-position: left 0 bottom -2vw;
+    background-size: 50vw auto;
   }
   .home .books {
-    bottom: -80px;
-    left: 80px;
-    height: 236px;
+    right: 80px;
+    bottom: -180px;
+    height: 360px;
     width: 640px;
-    background-size: 640px 236px;
   }
   .home .coffee {
-    bottom: -96px;
     right: 80px;
-    height: 232px;
-    width: 640px;
-    background-size: 640px 232px;
+    bottom: -120px;
+    height: 240px;
+    width: 427px;
   }
 }

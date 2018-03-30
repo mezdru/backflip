@@ -248,7 +248,7 @@ a.cloud-element {
   padding: 5px 0;
 }
 #subheader  #hashtag-suggestions .cloud-element {
-  color: #c7bcbf;
+  color: #a4c5cb;
   background: #ffffff;
   height: 24px;
   margin: 6px;
@@ -320,7 +320,7 @@ a.cloud-element {
 .selectize-dropdown [data-selectable],
 .pure-menu-children .pure-menu-link {
   cursor: pointer;
-  border-top: 1px solid #c7bcbf;
+  border-top: 1px solid #a4c5cb;
   font-size: 17px;
   padding: 10px 15px;
   font-weight: 600;
@@ -358,7 +358,7 @@ a.cloud-element {
   color: #ffffff;
 }
 .pure-menu-children .pure-menu-link:hover {
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
   color: #ffffff;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em,
@@ -382,7 +382,7 @@ a.cloud-element {
   border-radius: 30px;
   font-size: 20px;
   min-height: 60px;
-  border: 2px solid #c7bcbf;
+  border: 2px solid #a4c5cb;
   color: #1d1f1a;
   background: #ffffff;
   box-shadow: none;
@@ -409,7 +409,7 @@ header .pure-form input.search-input,
 .selectize-input.dropdown-active {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  border-bottom: 1px solid #c7bcbf;
+  border-bottom: 1px solid #a4c5cb;
 }
 
 .selectize-input > input[type="text"] {
@@ -488,7 +488,7 @@ header a:hover {
   left: auto;
   top: 10px;
   right: 10px;
-  border: 2px solid #c7bcbf;
+  border: 2px solid #a4c5cb;
   border-radius: 20px 0 20px 20px;
   background: #ffffff;
 }
@@ -528,7 +528,7 @@ header a:hover {
 }
 
 .pure-menu-allow-hover:hover > .pure-menu-picture img {
-  border: 2px solid #c7bcbf;
+  border: 2px solid #a4c5cb;
 }
 
 #search {
@@ -541,7 +541,7 @@ header a:hover {
 footer {
   width: 100%;
   min-height: 90px;
-  background: #c7bcbf;
+  background: #a4c5cb;
   z-index: 100;
   padding: 15px 0 60px;
 }
@@ -614,13 +614,17 @@ p.cloud {
   font-weight: 600;
   letter-spacing: 0.4px;
   color: #ffffff;
-  background: #c7bcbf;
+  background: #a4c5cb;
   word-break: break-all;
 }
 
 a.cloud-element:hover {
   text-decoration: none;
   transform: scale(1.2);
+}
+
+.profile .main > .pure-g:first-child {
+  padding-top: 30px;
 }
 
 .profile a.cloud-element:hover {
@@ -714,7 +718,7 @@ a.cloud-element:hover {
 
 .profile h2 {
   padding-left: 15px;
-  color: #c7bcbf;
+  color: #5C4D51;
   font-weight: 300;
 }
 
@@ -798,7 +802,7 @@ a.cloud-element:hover {
 
 .name h3 {
   text-align: center;
-  color: #c7bcbf;
+  color: #a4c5cb;
 }
 
 .intro {
@@ -1021,7 +1025,7 @@ a.hashtag {
   padding: 15px;
   text-align: center;
   font-weight: 700;
-  color: #c7bcbf;
+  color: #a4c5cb;
 }
 
 #email-input {
@@ -1038,7 +1042,7 @@ a.hashtag {
 }
 
 .signin .pure-button {
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
 }
 
 .google-signin img {
@@ -1110,7 +1114,7 @@ a.hashtag {
 
 .error-code, .error-detail {
   text-align: center;
-  color: #c7bcbf;
+  color: #a4c5cb;
 }
 
 .youtube-player iframe {
@@ -1336,7 +1340,8 @@ a.hashtag {
       max-width: 1280px;
     }
 
-    .profile .main .pure-g {
+    .profile .main .pure-g,
+    .profile footer .pure-g {
       max-width: 960px;
     }
 }
