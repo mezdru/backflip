@@ -157,7 +157,7 @@ hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
 });
 
 hbs.registerHelper('homeUrl', function(organisation, locale) {
-  locale = locale || this.getLocale();
+  locale = typeof locale === 'string' ? locale : this.getLocale();
   if (organisation && organisation.tag) return new UrlHelper(organisation.tag, 'search', null, locale).getUrl();
   else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
 });
