@@ -147,7 +147,8 @@ a span,
 a .fa,
 a.fa,
 .scale,
-a.cloud-element {
+a.cloud-element,
+.pure-menu a {
   transition: all .3s ease-out;
 }
 
@@ -240,7 +241,7 @@ a.cloud-element {
 
 #subheader {
   display: none;
-  background: url('/images/subheader_bg.png') bottom;
+  background: #f2f2f2;
   z-index: 49;
 }
 #subheader .suggestions-box {
@@ -455,7 +456,7 @@ header {
   position: fixed;
   top: 0;
   z-index: 50;
-  background: url('/images/header_bg.png') bottom;
+  background: #ffffff;
 }
 
 .signin header {
@@ -480,6 +481,34 @@ header a:hover {
   box-sizing: border-box;
 }
 
+.pure-u-menu .pure-menu-horizontal {
+  text-align: right;
+}
+
+.pure-menu-horizontal > .pure-menu-list > .pure-menu-item {
+  line-height: 40px;
+  font-size: 17px;
+  font-weight: 600;
+  margin-left: 45px;
+}
+
+.pure-menu-horizontal .pure-menu-item-product {
+  display: none;
+}
+
+.pure-menu-list > .pure-menu-item > a:hover,
+.pure-menu-list > .pure-menu-item > a:active,
+.pure-menu-list > .pure-menu-item > a:focus {
+  color: #a4c5cb;
+  background: none;
+}
+
+/* Dropdown */
+
+.pure-menu .pure-menu-link {
+  padding: 0;
+}
+
 .pure-menu-horizontal .pure-menu-has-children > .pure-menu-link::after {
   content: none;
 }
@@ -497,14 +526,8 @@ header a:hover {
   border-top: none;
 }
 
-.pure-u-menu .pure-menu-horizontal {
-  text-align: right;
-}
-
 .pure-menu-children .pure-menu-item .pure-menu-link {
   text-align: left;
-  font-size: 17px;
-  font-weight: 600;
   padding: 15px 30px;
 }
 
@@ -525,6 +548,7 @@ header a:hover {
   z-index: 101;
   position: relative;
   transition: none;
+  vertical-align: top;
 }
 
 .pure-menu-allow-hover:hover > .pure-menu-picture img {
@@ -534,8 +558,6 @@ header a:hover {
 #search {
   width: 100%;
 }
-
-
 
 /* FOOTER */
 footer {
@@ -995,8 +1017,7 @@ a.hashtag {
 }
 
 .signin .main {
-  padding-top: 120px;
-  padding-bottom: 150px;
+  padding-bottom: 450px;
   background-image: url('/images/chat.png');
   background-position: center 225px;
   background-repeat: no-repeat;
@@ -1041,7 +1062,7 @@ a.hashtag {
   display: none;
 }
 
-.signin .pure-button {
+.pure-g-signin .pure-button {
   background-color: #a4c5cb;
 }
 
@@ -1144,6 +1165,7 @@ a.hashtag {
 
   .pure-u-logo > div {
     padding: 30px 15px;
+    line-height: 0;
   }
 
   .pure-u-logo img {
@@ -1152,6 +1174,10 @@ a.hashtag {
 
   .pure-u-menu > div {
     padding: 40px 15px 0;
+  }
+
+  .pure-menu-horizontal .pure-menu-item-product {
+    display: inherit;
   }
 
   .main {
