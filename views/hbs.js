@@ -156,8 +156,9 @@ hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
   return new UrlHelper(organisationTag, page, null, this.getLocale()).getUrl();
 });
 
-hbs.registerHelper('homeUrl', function(organisation) {
-  if (organisation && organisation.tag) return new UrlHelper(organisation.tag, 'search', null, this.getLocale()).getUrl();
+hbs.registerHelper('homeUrl', function(organisation, locale) {
+  locale = locale || this.getLocale();
+  if (organisation && organisation.tag) return new UrlHelper(organisation.tag, 'search', null, locale).getUrl();
   else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
 });
 
@@ -165,6 +166,13 @@ const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 hbs.registerHelper('cleanShortDesc', function(description) {
   return description.substring(0, 160).replace(tagRegex, `<span style="color:#7F8C8D;">$&</span>`).replace(/(?:\r\n|\r|\n)/g, '<br />') + '...';
+});
+
+hbs.registerHelper('ifEqual', function(v1, v2, options) {
+  if(v1 === v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
 });
 
 hbs.registerPartials(__dirname + '/partials');

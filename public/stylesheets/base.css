@@ -211,6 +211,10 @@ a.cloud-element,
     animation-fill-mode: forwards;
   }
 
+.hidden {
+  display: none;
+}
+
   @-moz-keyframes fadeOut { 0% { opacity: 0; visibility: visible; }  30% { opacity: 1; visibility: visible; }  100% { opacity: 0; visibility: hidden; }}
   @-webkit-keyframes fadeOut { 0% { opacity: 0; visibility: visible; }  30% { opacity: 1; visibility: visible; }  100% { opacity: 0; visibility: hidden; }}
   @-ms-keyframes fadeOut { 0% { opacity: 0; visibility: visible; }  30% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; }}
@@ -325,6 +329,7 @@ a.cloud-element,
   font-size: 17px;
   padding: 10px 15px;
   font-weight: 600;
+  line-height: normal;
   color: #5c4d51;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .newHashtag {
@@ -529,6 +534,13 @@ header a:hover {
 .pure-menu-children .pure-menu-item .pure-menu-link {
   text-align: left;
   padding: 15px 30px;
+}
+
+.pure-menu-children .pure-menu-item-org .pure-menu-link{
+  font-size: 0.8em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 400;
 }
 
 .pure-menu-picture {
@@ -1064,6 +1076,10 @@ a.hashtag {
 
 .pure-g-signin .pure-button {
   background-color: #a4c5cb;
+}
+
+.pure-g-signin .pure-button.google-signin {
+  background-color: #dd362e;
 }
 
 .google-signin img {
