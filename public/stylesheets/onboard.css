@@ -89,7 +89,7 @@ a.step:hover span {
 
 /** WELCOME **/
 .onboard-welcome .main {
-  background-image: url('/spread_your_wings.jpg');
+  background-image: url('/images/wings.jpg');
   background-position: center 220px;
   background-repeat: no-repeat;
   background-size: 60vh;

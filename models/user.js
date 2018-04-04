@@ -72,7 +72,7 @@ userSchema.methods.welcome = function(callback) {
 };
 
 userSchema.methods.needsWelcomingToOrganisation = function(organisationId) {
-  if (this.isSuperAdmin()) return false;
+  //if (this.isSuperAdmin()) return false;
   return this.orgsAndRecords.some(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)) && !orgAndRecord.welcomed);
 };
 
