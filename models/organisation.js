@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Record = require('./record.js');
+var undefsafe = require('undefsafe');
 
 var organisationSchema = mongoose.Schema({
   name: String,
@@ -44,9 +45,17 @@ organisationSchema.methods.addGoogleHD = function(hd, callback) {
   if(callback) this.save(callback);
 };
 
+organisationSchema.methods.canGoogleSignin = function() {
+  return undefsafe(this, 'google.hd');
+};
+
 organisationSchema.methods.addEmailDomain = function(domain, callback) {
   this.email.domains.push(domain);
   if(callback) this.save(callback);
+};
+
+organisationSchema.methods.canEmailSignin = function() {
+  return undefsafe(this, 'email.domains');
 };
 
 organisationSchema.methods.makePublic = function(callback) {

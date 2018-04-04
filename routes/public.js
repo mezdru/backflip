@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
       //@todo handle searchQuery
       res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
     } else if (!res.locals.user) {
-      res.render('signin', {googleSignin: undefsafe(res.locals.organisation, 'google.hd'), emailSignin:undefsafe(res.locals.organisation, 'email.domains'), bodyClass: 'signin'});
+      res.render('signin', {googleSignin: res.locals.organisation.canGoogleSignin(), emailSignin:res.locals.organisation.canEmailSignin(), bodyClass: 'signin'});
     } else {
       return next();
     }

@@ -20,7 +20,13 @@ router.use('/login', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true});
+  var googleSignin = true;
+  var emailSignin = true;
+  if (res.locals.organisation) {
+    googleSignin = res.locals.organisation.canGoogleSignin();
+    emailSignin = res.locals.organisation.canEmailSignin();
+  }
+  res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 
 // Catch all login callbacks and touch the user
