@@ -24,7 +24,6 @@ router.get('/', function(req, res, next) {
       if (res.locals.user) {
         res.locals.isMyOrg = res.locals.user.belongsToOrganisation(res.locals.organisation._id);
         res.locals.myRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
-        res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
         res.locals.isCreator = true;
       } else {
         res.locals.isAdmin = false;

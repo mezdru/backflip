@@ -29,6 +29,12 @@ router.use(function(req, res, next) {
 });
 
 
+router.use(function(req, res, next) {
+  res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
+  return next();
+});
+
+
 // We don't want non admin users to access a directory that is not ready (needsWelcoming)
 router.use(function(req, res, next) {
   if (res.locals.organisation && res.locals.organisation.needsWelcoming() && !res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) return res.render('error', {status: 204});
