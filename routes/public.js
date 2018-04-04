@@ -19,7 +19,6 @@ router.get('/', function(req, res, next) {
       //@todo deduplicate these next 10 lines with private.js / public.js
       res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
       res.locals.orgTree = res.locals.organisation.tree;
-      res.locals.isProduction = req.app.get('env') == 'production';
       res.locals.beta = true;
       if (res.locals.organisation.tag === 'demo') res.locals.intro = {auto: true};
       if (res.locals.user) {

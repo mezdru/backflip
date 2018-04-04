@@ -142,10 +142,13 @@ app.use(function(req, res, next) {
 });
 
 
-// Activate tracking when interested
+// Production only settings
 app.use(function(req, res, next) {
+  res.locals.track = false;
+  res.locals.isProduction = false;
   if (req.app.get('env') === 'production') {
     res.locals.track = true;
+    res.locals.isProduction = true;
   }
   return next();
 });

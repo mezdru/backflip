@@ -29,9 +29,7 @@ router.use('/search/:query?', function(req, res, next) {
 });
 
 router.get('/search/:query?', function(req, res, next) {
-  //@todo deduplicate these next 10 lines with private.js / public.js
-  res.locals.isProduction = req.app.get('env') == 'production';
-  res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
+  //@todo deduplicate these next lines with private.js / public.js
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });

@@ -4,6 +4,15 @@ var UrlHelper = require('../helpers/url_helper.js');
 var Organisation = require('../models/organisation.js');
 
 
+
+//Catch the error thrown when setup organisation : the subdomain is wrong
+//(we still wen't through auth but need to display the error now)
+router.use(function(req, res, next) {
+  if (req.organisationError) return next(req.organisationError);
+  return next();
+});
+
+
 // Check if user needs Welcoming
 //@todo avoid this double redirect on login.
 router.get('/', function(req, res, next) {

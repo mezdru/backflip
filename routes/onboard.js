@@ -178,7 +178,6 @@ router.post(function(req, res, next) {
 router.use(function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
-  res.locals.isProduction = req.app.get('env') == 'production';
   next();
 });
 
