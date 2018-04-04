@@ -23,22 +23,12 @@ var organisationSchema = mongoose.Schema({
   tree: [[String]],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  welcomed: { type: Boolean, default: false },
   public: { type: Boolean, default: false }
 });
 
 organisationSchema.virtual('host').get(function() {
   return this.tag + '.' + process.env.HOST;
 });
-
-organisationSchema.methods.needsWelcoming = function () {
-  return !this.welcomed;
-};
-
-organisationSchema.methods.welcome = function(callback) {
-  this.welcomed = true;
-  if(callback) this.save(callback);
-};
 
 organisationSchema.methods.addGoogleHD = function(hd, callback) {
   this.google.hd.push(hd);

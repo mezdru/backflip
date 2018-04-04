@@ -126,26 +126,6 @@ router.get('/organisation/:orgTag/makeadmin/:userEmail', function(req, res, next
   });
 });
 
-router.get('/organisation/:orgTag/welcome', function(req, res, next) {
-  Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
-    if (err) return next(err);
-    if (!organisation) {
-      err = new Error('No organisation found');
-      err.status = 400;
-      return next(err);
-    }
-    organisation.welcome(function(err, organisation) {
-      if (err) return next(err);
-      res.render('index',
-        {
-          title: 'Welcome Organisation',
-          details: `${organisation.tag} is now welcomed.`,
-          content: organisation
-        });
-    });
-  });
-});
-
 router.get('/organisation/:orgTag/addGoogleHD/:hd', function(req, res, next) {
   Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
     if (err) return next(err);
