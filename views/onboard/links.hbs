@@ -19,7 +19,7 @@
             <i class="fa fa-link" aria-hidden="true"></i><span> {{__ "Link"}}</span>
           </li>
         </ul>
-        <a id="plus-button" class="fa fa-arrow-down" aria-hidden="true"></a>
+        <a id="plus-button" class="fa fa-share" aria-hidden="true"></a>
         <input id="link-input" class="pure-input-1 search-input" type="text" placeholder="{{__ 'Add contact'}}" autofocus>
       </div>
     </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="pure-u-1-2 pure-u-md-2-3">
           <div class="grid-box">
-            <button type="submit" class="pure-button scale">{{{__ "Done"}}}</button>
+            <button id="submit-button" type="submit" class="pure-button scale">{{{__ "Done"}}}</button>
           </div>
         </div>
       </div>
@@ -83,11 +83,11 @@
   var linkInput = document.getElementById("link-input");
   var plusButton = document.getElementById("plus-button");
 
-  function addLinkToCloud() {
+  function addLinkToCloud(stay) {
     var type = linkInput.dataset.type
     var value = linkInput.value
     //@todo some validation should come here
-    if (!value) return goNext(true);
+    if (!value) return;
 
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element link added">' +
@@ -101,7 +101,7 @@
       '</li>'
     );
     linkInput.value = ''
-    return goNext()
+    return stay || goNext()
   }
 
   function goNext(loop) {
@@ -140,6 +140,8 @@
 </script>
 <script>
   $('#type-selector li').click(function () {
+    addLinkToCloud(true);
+
     // Toggle between type tabs
     $('#type-selector li').removeClass('selected');
     $(this).addClass('selected');
@@ -175,7 +177,8 @@
         }
     return true;
   })
-$('#plus-button').click(addLinkToCloud)
+$('#plus-button').click(function() { addLinkToCloud(); })
+$('#submit-button').click(function() { addLinkToCloud(); })
 
 $( document ).ready(function() {
   $('#phone-selector').click();

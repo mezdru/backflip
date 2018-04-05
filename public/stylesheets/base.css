@@ -291,6 +291,14 @@ a.cloud-element,
   color: #dd362e;
 }
 
+.search-input-box > .fa-share {
+  transform: rotate(135deg);
+}
+
+.search-input-box > .fa-share:hover {
+  transform: scale(1.3) rotate(135deg);
+}
+
 #search.search-input-box > .fa {
   top: 15px;
   cursor: pointer;
@@ -650,6 +658,7 @@ p.cloud {
   color: #ffffff;
   background: #a4c5cb;
   word-break: break-all;
+  white-space: nowrap;
 }
 
 a.cloud-element:hover {
@@ -827,16 +836,8 @@ a.cloud-element:hover {
   line-height: 1em;
   padding: 0;
   margin: 0;
-}
-
-.name h2 {
   position: absolute;
   bottom: 0;
-}
-
-.name h3 {
-  text-align: center;
-  color: #a4c5cb;
 }
 
 .intro {
@@ -854,8 +855,7 @@ a.cloud-element:hover {
 
 .profile .name {
   margin-right: 0;
-  height: auto;
-  max-height: none;
+  min-height: 16vw;
 }
 
 .profile .name h1 {
@@ -1029,11 +1029,11 @@ a.hashtag {
 }
 
 .signin .main {
-  padding-bottom: 450px;
-  background-image: url('/images/chat.png');
-  background-position: center 225px;
+  padding-bottom: 320px;
+  background-image: url('/images/wings.jpg');
+  background-position: center 170px;
   background-repeat: no-repeat;
-  background-size: 40vh;
+  background-size: 50vh;
   background-color: #ffffff;
 }
 
@@ -1074,12 +1074,19 @@ a.hashtag {
   display: none;
 }
 
-.pure-g-signin .pure-button {
+
+.grid-box-signin {
+  box-sizing: border-box;
+  max-width: 500px;
+  margin: auto;
+}
+
+.grid-box-signin .pure-button {
   background-color: #a4c5cb;
 }
 
-.pure-g-signin .pure-button.google-signin {
-  background-color: #dd362e;
+.grid-box-signin h3 {
+  color: #a4c5cb;
 }
 
 .google-signin img {
@@ -1308,6 +1315,10 @@ a.hashtag {
     line-height: normal;
   }
 
+  .profile .name {
+    min-height: 120px;
+  }
+
   .profile .name h1 {
     font-size: 30px;
   }
@@ -1375,7 +1386,8 @@ a.hashtag {
     }
 
     .signin .main {
-      background-size: 75vh;
+      background-size: 60vh;
+      background-position: center 230px;
     }
 
     header .pure-g {

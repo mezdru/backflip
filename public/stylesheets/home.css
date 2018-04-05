@@ -57,7 +57,7 @@
   margin-bottom: 60px;
 }
 
-.home .epic h1 {
+.home .tagline {
   color: #dd362e;
   margin: auto;
   font-size: 44px;
@@ -67,37 +67,20 @@
   text-align: center;
 }
 
-.home .epic h1 span {
+.home .tagline span {
   width: 5em;
   display: none;
 }
 
-.home .epic h3 {
+.home .pitch {
   margin: auto;
+  margin-bottom: 30px;
 }
-
-.home .epic p {
-  font-size: 22.5px;
-  margin-top: 15px;
-  text-align: right;
-}
-
 
 img.wingzy-full {
   display: block;
   margin: 0 auto;
   max-width: 60%;
-}
-
-/* SIGNIN */
-.home .pure-g-signin,
-.home .pure-g-anyone {
-  box-sizing: border-box;
-  max-width: 500px;
-}
-
-.home .pure-g-anyone {
-  margin-top: 120px;
 }
 
 /* WINGS */
@@ -207,16 +190,17 @@ img.wingzy-full {
     min-height: 45vw;
     margin-bottom: 0;
   }
-  .home .epic h1 {
+  .home .tagline {
     font-size: 42px;
     margin-top: 12%;
     margin-bottom: 12%;
   }
-  .home .epic h1 span {
+  .home .tagline span {
     display: inline-block;
   }
-  .home .epic h3 {
+  .home .pitch {
     max-width: 80%;
+    margin-bottom: 12%;
   }
   .home .wings {
     background-position: left -10vw bottom -2vw;
@@ -264,14 +248,15 @@ img.wingzy-full {
     background: none;
     min-height:inherit;
   }
-  .home .epic h1 {
+  .home .tagline {
     font-size: 80px;
     margin-top: 90px;
     margin-bottom: 90px;
   }
-  .home .epic h3 {
+  .home .pitch {
     max-width: 60%;
     font-size: 30px;
+    margin-bottom: 90px;
   }
   .home .wings {
     background-position: left 0 bottom -2vw;

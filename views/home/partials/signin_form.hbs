@@ -1,21 +1,17 @@
-<div class="pure-g pure-g-signin">
-  <div class="pure-u-1">
-    <div class="grid-box">
-      <form action="{{emailSigninUrl}}" method="post" class="pure-form signin-form">
-        {{#if googleSignin}}
-          <a class="google-signin pure-button scale" href="{{googleSigninUrl}}"><img src="/images/google.svg"> {{__ "Sign in with Google"}}</a>
-          {{#if emailSignin}}
-          <p class="signin-or">{{__ "or"}}</p>
-          {{/if}}
-        {{/if}}
-        {{#if emailSignin}}
-        <input id="email-input" class="pure-input-1" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
-        <input id="jeSuisHumain" class="pure-input-1" type="text" name="jeSuisHumain">
-        <button id="email-submit" type="submit" class="pure-button scale">{{__ "Sign in with your email"}}</button>
-        {{/if}}
-      </form>
-    </div>
-  </div>
+<div class="grid-box grid-box-signin">
+  <form action="{{emailSigninUrl}}" method="post" class="pure-form signin-form">
+    {{#if googleSignin}}
+    <a class="google-signin pure-button scale" href="{{googleSigninUrl}}"><img src="/images/google.svg"> {{__ "Sign in with Google"}}</a>
+    {{#if emailSignin}}
+    <p class="signin-or">{{__ "or"}}</p>
+    {{/if}}
+    {{/if}}
+    {{#if emailSignin}}
+    <input id="email-input" class="pure-input-1" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
+    <input id="jeSuisHumain" class="pure-input-1" type="text" name="jeSuisHumain">
+    <button id="email-submit" type="submit" class="pure-button scale">{{__ "Sign in with your email"}}</button>
+    {{/if}}
+  </form>
 </div>
 {{> form_errors}}
 <script>

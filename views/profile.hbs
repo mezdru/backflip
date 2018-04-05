@@ -7,7 +7,6 @@
           <img src="{{pictureUrl record.picture record.type}}" alt="">
         </div>
         <div class="name">
-          <h3>{{{record.tag}}}</h3>
           <h1>{{{record.name}}}</h1>
         </div>
       </div>
@@ -33,7 +32,6 @@
           {{> link}}
           {{/record.links}}
         </div>
-        <p class="cloud-howto">{{__ "By order of preference."}}</p>
         {{/if}}
       </div>
     </div>
@@ -48,7 +46,6 @@
           {{> hashtag}}
           {{/record.hashtags}}
         </ul>
-        <p class="cloud-howto">{{__ "By order of importance."}}</p>
       </div>
     </div>
   </div>

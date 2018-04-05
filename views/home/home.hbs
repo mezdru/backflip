@@ -5,20 +5,18 @@
       </div>
       <div class="pure-u-1 pure-u-md-2-3 pure-u-xl-2-3">
         <div class="grid-box">
-          <h1>{{{__ 'Spread<span></span><br>your Wings'}}}</h1>
-          <h3>{{{__ 'Wingzy is the obvious app to find the coworkers you need by revealing skills and passions'}}}</h3>
+          <h1 class="tagline">{{{__ 'Spread<span></span><br>your Wings'}}}</h1>
+          <h3 class="pitch">{{{__ 'Wingzy is the obvious app to find the coworkers you need by revealing skills and passions'}}}</h3>
         </div>
+        {{#unless user}}
+        <div class="grid-box grid-box-signin">
+          <h3>{{__ 'Try Wingzy in your Organisation for free'}}</h3>
+        </div>
+        {{> signin_form}}
+        {{/unless}}
       </div>
     </div>
   </div>
-  <div class="pure-g pure-g-anyone">
-    <div class="pure-u-1">
-      <div class="grid-box">
-        <h3>{{__ 'Try Wingzy in your Organisation for free'}}</h3>
-      </div>
-    </div>
-  </div>
-  {{> signin_form}}
   <div class="wings" id="wings">
     <div class="pure-g">
       <div class="pure-u-1 pure-u-md-1-2 wings-placeholder">
@@ -77,10 +75,12 @@
         </div>
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
-        <div class="grid-box second-signin">
+        {{#unless user}}
+        <div class="grid-box grid-box-signin second-signin">
           <h3>{{__ 'Try Wingzy in your Organisation for free'}}</h3>
         </div>
         {{> signin_form}}
+        {{/unless}}
       </div>
     </div>
   </div>

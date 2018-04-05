@@ -102,6 +102,7 @@ a.step:hover span {
 
 /** INTRO **/
 .onboard-intro .picture {
+  float: none;
   margin: auto;
   position: relative;
   height: 40vw;
@@ -110,10 +111,6 @@ a.step:hover span {
 
 .onboard-intro .picture img {
   width: 40vw;
-}
-
-.onboard form .picture-box {
-  padding-top: 17px;
 }
 
 .uploadcare--widget {
@@ -255,7 +252,6 @@ a.step:hover span {
 }
 
 .wings-label > div {
-  background-color: #f6f4f4;
   max-width: 120px;
   margin: auto;
   border-radius: 50%;
