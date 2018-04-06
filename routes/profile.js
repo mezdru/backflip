@@ -47,6 +47,7 @@ router.use(function(req, res, next) {
     error.status = 404;
     return next(error);
   }
+  return next();
 });
 
 router.get('*', function(req, res, next) {
