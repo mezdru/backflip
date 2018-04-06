@@ -565,6 +565,7 @@ header a:hover {
   border-radius: 20px;
   box-sizing: border-box;
   border: 2px solid #ffffff;
+  background: #a4c5cb;
   z-index: 101;
   position: relative;
   transition: none;

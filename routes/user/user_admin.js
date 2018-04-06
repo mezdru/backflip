@@ -3,11 +3,36 @@ var router = express.Router();
 var undefsafe = require('undefsafe');
 
 var User = require('../../models/user.js');
+var Record = require('../../models/record.js');
 var EmailUser = require('../../models/email/email_user.js');
+
+router.get('/:userId/attach/:recordId', function(req, res, next) {
+  User.findOne({_id: req.params.userId, 'orgsAndRecords.organisation': res.locals.organisation._id})
+  .populate('orgsAndRecords.record')
+  .populate('orgsAndRecords.organisation', 'name picture tag')
+  .exec(function(err, user) {
+    if (err) return next(err);
+    if (!user) return next(new Error('User not found'));
+    Record.findOne({_id: req.params.recordId, organisation: res.locals.organisation._id, type: 'person'}, function(err, record) {
+      if (err) return next(err);
+      if (!record) return next(new Error('Record not found'));
+      user.attachOrgAndRecord(res.locals.organisation, record, function(err, user) {
+        if (err) return next(err);
+        res.render('index',
+          {
+            title: 'Attached Record to User',
+            details: `Attached record ${record.tag} to user ${user.loginEmail} in org ${res.locals.organisation.name}.`,
+            content: user
+          }
+        );
+      });
+    });
+  });
+});
 
 router.get('/list', function(req, res, next) {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
-  .select('created updated last_login last_action email.value google.email google.hd')
+  .select('created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords')
   .sort('-created')
   .exec(function(err, users) {
     if (err) return next(err);
