@@ -34,16 +34,16 @@ router.use( function(req, res, next) {
   }
 });
 
-router.get('/impersonate/:googleEmail', function(req, res, next) {
-  User.findOne({'google.email': req.params.googleEmail})
-  .populate('orgsAndRecords.organisation', 'name picture tag')
-  .exec(function(err, user) {
+router.get('/impersonate/:userEmail', function(req, res, next) {
+  User.findOneByEmail(req.params.userEmail, function(err, user) {
     if (err) return next(err);
     if (!user) {
       err = new Error('No user found');
       err.status = 400;
       return next(err);
     }
+    user.populate('orgsAndRecords.record', 'name picture tag');
+    user.populate('orgsAndRecords.organisation', 'name picture tag');
     req.session.impersonator = new User(req.session.user);
     req.session.user = user;
     res.locals.impersonator = req.session.impersonator;

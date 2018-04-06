@@ -30,7 +30,8 @@ router.use(function(req, res, next) {
 
 
 router.use(function(req, res, next) {
-  res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
+  if (res.locals.organisation)
+    res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
   return next();
 });
 

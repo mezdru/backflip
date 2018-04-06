@@ -41,6 +41,14 @@ router.get('/id/:id', function(req, res, next) {
   });
 });
 
+router.use(function(req, res, next) {
+  if (!res.locals.record) {
+    let error = new Error('Profile not found');
+    error.status = 404;
+    return next(error);
+  }
+});
+
 router.get('*', function(req, res, next) {
   if (res.locals.user.ownsRecord(res.locals.record._id) ||
     res.locals.user.isAdminToOrganisation(res.locals.organisation._id)
