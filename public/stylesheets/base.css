@@ -831,6 +831,10 @@ a.cloud-element:hover {
   max-width: 610px;
 }
 
+#show-more {
+  display: none;
+}
+
 .record {
   padding: 0;
 }
@@ -1312,7 +1316,7 @@ a.hashtag {
     border: none;
   }
 
-  .search-input-box {cheers
+  .search-input-box {
     padding: 27px 15px 15px;
   }
 

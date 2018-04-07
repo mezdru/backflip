@@ -58,6 +58,7 @@ $(document).ready(function () {
   var $subheader = $('#subheader');
   var $hashtags = $('#hashtag-suggestions');
   var $hits = $('#search-results');
+  var $showMore = $('#show-more');
   var $modalLayer = $('#modal-layer');
   var hashtagsTemplate = Hogan.compile($('#hashtags-template').text());
   var hitsTemplate = Hogan.compile($('#hits-template').text());
@@ -150,12 +151,14 @@ $(document).ready(function () {
 
   // SEARCH ALL
   // ==========
+  var query, tags, facetFilters, tagFilters, page;
 
   function search() {
-    var query = $selectize.$control_input.val();
-    var tags = $selectize.$input.val();
-    var facetFilters = getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person'];
-    var tagFilters = '';
+    page = 0;
+    query = $selectize.$control_input.val();
+    tags = $selectize.$input.val();
+    facetFilters = getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person'];
+    tagFilters = '';
     $selectize.items.forEach((item) => {
       if(item.charAt(0) === '#')
         facetFilters.push('hashtags.tag:' + item);
@@ -166,16 +169,24 @@ $(document).ready(function () {
       }
     });
 
+    searchForHits();
+    searchForSuggestions();
+  }
+
+  function searchForHits() {
     world.search({
       query: query,
       facetFilters: facetFilters,
       filters: tagFilters,
-      hitsPerPage: 30
+      hitsPerPage: 10,
+      page: page
     }, function(err, content) {
       if (err) throw new Error(err);
       renderHits(content);
-  });
+    });
+  }
 
+  function searchForSuggestions() {
     world.searchForFacetValues({
       facetName: 'hashtags.tag',
       facetQuery: '',
@@ -185,7 +196,7 @@ $(document).ready(function () {
     }, function(err, content) {
       if (err) throw new Error(err);
       renderHashtags(content.facetHits);
-  });
+    });
   }
 
   // RENDER HASHTAGS + RESULTS
@@ -207,11 +218,18 @@ $(document).ready(function () {
   }
 
   function renderHits(content) {
-    if (content.hits.length === 0)
+    if (content.hits.length === 0) {
+      $showMore.css("display", "none");
       return $hits.html(nooneTemplate.render(content));
+    }
     content.hits.forEach(hit => transformItem(hit, $selectize.items));
-    $hits.html(hitsTemplate.render(content));
-  	window.scrollTo(0,0);
+    if (page === 0) {
+      $hits.empty();
+      window.scrollTo(0,0);
+    }
+    if (content.nbPages > content.page + 1) $showMore.css("display", "block");
+    else $showMore.css("display", "none");
+    $hits.append(hitsTemplate.render(content));
   }
 
   // EVENTS BINDING
@@ -229,8 +247,11 @@ $(document).ready(function () {
     e.preventDefault();
     $selectize.clear(false);
     $selectize.$control_input.val('');
-    search();
     toggleIconEmptyInput();
+  });
+  $showMore.on('click', function (e) {
+    page ++;
+    searchForHits();
   });
   // HORIZONTAL SCROLLERS
   $(document).on('mousedown', '.scroll-right', goRight);
