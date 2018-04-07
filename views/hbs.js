@@ -104,6 +104,11 @@ hbs.registerHelper('tagLink', function(tag) {
   return `<a href="/?q=${tag}">${tag}</a>`;
 });
 
+hbs.registerHelper('tagUrl', function(tag) {
+  tag = tag.replace('#', '%23');
+  return '/search/' + tag;
+});
+
 hbs.registerHelper('profileUrl', function(user, organisation) {
   if (!organisation || !user || !organisation._id) return null;
   recordId = user.getRecordIdByOrgId(organisation._id);

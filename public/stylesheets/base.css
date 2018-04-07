@@ -243,7 +243,7 @@ a.cloud-element,
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
-  padding-top: 95px;
+  padding-top: 85px;
   padding-bottom: 60px;
   flex-grow: 1;
 }
@@ -744,13 +744,16 @@ a.cloud-element:hover {
 
 /* PROFILE */
 .profile .main .pure-g {
-  max-width: 100%;
+  max-width: 640px;
 }
 
 .profile .left-panel {
   background: #ffffff;
   min-height: 100%;
   position: relative;
+  padding-bottom: 140px;
+  border-radius: 0 0 30px 30px;
+  overflow: hidden;
 }
 
 .profile .left-panel .action-buttons {
@@ -767,9 +770,15 @@ a.cloud-element:hover {
 }
 
 .profile h2 {
-  padding-left: 15px;
-  color: #5C4D51;
+  padding: 0 15px;
+  color: #dd362e;
   font-weight: 300;
+}
+
+.profile #description {
+  padding: 0 15px;
+  font-size: 18px;
+  letter-spacing: 1px;
 }
 
 .profile #edit-button,
@@ -777,6 +786,11 @@ a.cloud-element:hover {
   margin: 0 0 15px;
   font-size: 18px;
   padding: 5px 15px;
+}
+
+
+.profile #delete-button {
+  margin-bottom: 0;
 }
 
 .cloud.cloud-list {
@@ -804,13 +818,21 @@ a.cloud-element:hover {
   padding: 0 0 0 30px;
 }
 
-.profile a.cloud-element:hover {
+.profile a.cloud-element.link {
+  padding: 10px 0;
+}
+
+.profile .links a.cloud-element:hover {
   transform: none;
+}
+
+.profile .links a.cloud-element span {
+  line-height: 28px;
 }
 
 .profile a.cloud-element .fa {
   width: 1.5em;
-  padding-right: 20px;
+  padding-right: 10px;
   text-align: center;
 }
 
@@ -880,7 +902,7 @@ a.cloud-element:hover {
 
 .profile h1 {
   font-size: 24px;
-  padding: 10px 0;
+  padding-top: 15px;
 }
 
 a.hashtag {
@@ -1409,6 +1431,10 @@ a.hashtag {
     .search-on .pure-u-menu,
     .pure-u-search  {
       display: inherit;
+    }
+
+    .profile .main .pure-g {
+      max-width: 1280px;
     }
 
     .signin .main {
