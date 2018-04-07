@@ -43,31 +43,31 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('home/product', {layout: 'home/layout_home', bodyClass: 'home product'});
+  res.redirect(UrlHelper.makeUrl(null, '#wings', null, req.getLocale()));
 });
 
 router.get('/why', function(req, res, next) {
-  res.render('home/why', {layout: 'home/layout_home', bodyClass: 'home why'});
+  res.redirect(UrlHelper.makeUrl(null, '#wings', null, req.getLocale()));
 });
 
 router.get('/pricing', function(req, res, next) {
-  res.render('home/pricing', {layout: 'home/layout_home', bodyClass: 'home pricing'});
+  res.redirect(UrlHelper.makeUrl(null, null, null, req.getLocale()));
 });
 
 router.get('/privacy', function(req, res, next) {
-  res.render('home/privacy', {layout: 'home/layout_home', bodyClass: 'home privacy'});
+  res.render('home/privacy', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/terms', function(req, res, next) {
-  res.render('home/privacy', {layout: 'home/layout_home', bodyClass: 'home privacy'});
+  res.render('home/privacy', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/security', function(req, res, next) {
-  res.render('home/privacy', {layout: 'home/layout_home', bodyClass: 'home privacy'});
+  res.render('home/privacy', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/cheers', function(req, res, next) {
-  res.render('home/cheers', {layout: 'home/layout_home', bodyClass: 'home cheers', email: undefsafe(res.locals, 'user.google.email') || ''});
+  res.render('home/cheers', {bodyClass: 'home cheers', email: undefsafe(res.locals, 'user.google.email') || '', home: true});
 });
 
 router.post('/cheers', function(req, res, next) {

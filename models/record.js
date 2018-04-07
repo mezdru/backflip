@@ -21,6 +21,12 @@ var recordSchema = mongoose.Schema({
     type: {type: String},
     uuid: String
   },
+  banner: {
+    url: String,
+    path: String,
+    type: {type: String},
+    uuid: String
+  },
   links: [linkSchema],
   within: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}

@@ -16,7 +16,6 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  background-image: url("/images/subtle_white_feathers.png");
   background-color: #f2f2f2;
 }
 
@@ -139,6 +138,12 @@ a.fa:hover {
 
 .scale:hover {
   transform: scale(1.2);
+}
+
+.pure-button:hover,
+.pure-button:active,
+.pure-button:focus {
+  box-shadow: none;
   background-image: none;
 }
 
@@ -667,24 +672,6 @@ a.cloud-element:hover {
   transform: scale(1.2);
 }
 
-.profile .main > .pure-g:first-child {
-  padding-top: 30px;
-}
-
-.profile a.cloud-element:hover {
-  transform: none;
-}
-
-.profile a.cloud-element .fa {
-  width: 1.5em;
-  padding-right: 20px;
-  text-align: center;
-}
-
-.profile a.cloud-element:hover .fa {
-  transform: scale(1.5);
-}
-
 .cloud-element .fa {
   vertical-align: top;
   padding: 5px 0 5px 10px;
@@ -756,6 +743,25 @@ a.cloud-element:hover {
 }
 
 /* PROFILE */
+.profile .main .pure-g {
+  max-width: 100%;
+}
+
+.profile .left-panel {
+  background: #ffffff;
+  min-height: 100%;
+  position: relative;
+}
+
+.profile .left-panel .action-buttons {
+  position: absolute;
+  bottom: 0;
+}
+
+.profile .picture {
+  float: none;
+}
+
 .profile #intro {
    font-size: 18px;
 }
@@ -796,6 +802,20 @@ a.cloud-element:hover {
 .cloud-list .cloud-element span {
   display: block;
   padding: 0 0 0 30px;
+}
+
+.profile a.cloud-element:hover {
+  transform: none;
+}
+
+.profile a.cloud-element .fa {
+  width: 1.5em;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.profile a.cloud-element:hover .fa {
+  transform: scale(1.5);
 }
 
 /* SEARCH RESULTS */
@@ -854,13 +874,9 @@ a.cloud-element:hover {
   margin-right: 40px;
 }
 
-.profile .name {
-  margin-right: 0;
-  min-height: 16vw;
-}
-
-.profile .name h1 {
+.profile h1 {
   font-size: 24px;
+  padding: 10px 0;
 }
 
 a.hashtag {
@@ -1075,6 +1091,10 @@ a.hashtag {
   display: none;
 }
 
+.cheers .main .pure-button {
+  margin-top: 30px;
+}
+
 
 .grid-box-signin {
   box-sizing: border-box;
@@ -1083,16 +1103,21 @@ a.hashtag {
 }
 
 .grid-box-signin .pure-button {
-  background-color: #a4c5cb;
+  background: #a4c5cb;
+}
+
+.grid-box-signin .pure-button.google-signin {
+  background: #dd362e;
 }
 
 .grid-box-signin h3 {
   color: #a4c5cb;
 }
 
-.google-signin img {
+.google-signin .fa {
   float: left;
-  height: 30px;
+  font-size: 30px;
+  color: #ffffff;
 }
 
 .bottom-buttons  {
@@ -1287,7 +1312,7 @@ a.hashtag {
     border: none;
   }
 
-  .search-input-box {
+  .search-input-box {cheers
     padding: 27px 15px 15px;
   }
 
@@ -1316,11 +1341,7 @@ a.hashtag {
     line-height: normal;
   }
 
-  .profile .name {
-    min-height: 120px;
-  }
-
-  .profile .name h1 {
+  .profile h1 {
     font-size: 30px;
   }
 
@@ -1393,10 +1414,5 @@ a.hashtag {
 
     header .pure-g {
       max-width: 1280px;
-    }
-
-    .profile .main .pure-g,
-    .profile footer .pure-g {
-      max-width: 960px;
     }
 }
