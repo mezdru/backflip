@@ -257,7 +257,7 @@ app.use(function(err, req, res, next) {
 // generic error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  return res.render('error');
+  return res.render('error', {bodyClass: 'error'});
 });
 
 module.exports = app;

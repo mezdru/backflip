@@ -1,13 +1,7 @@
 {{#if errors}}
-<div class="pure-g">
-  <div class="pure-u-1">
-    <div class="grid-box">
-      <ul class="errors">
-        {{#errors}}
-        <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
-        {{/errors}}
-      </ul>
-    </div>
-  </div>
-</div>
+<ul class="errors">
+{{#errors}}
+  <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> {{msg}}</li>
+{{/errors}}
+</ul>
 {{/if}}

@@ -123,6 +123,7 @@ ul.errors {
   list-style-type: none;
   background-color: #dde03a;
   border-radius: 30px;
+  margin: 15px 0;
   padding: 20px;
   font-size: 20px;
 }
@@ -1072,12 +1073,7 @@ a.hashtag {
 }
 
 .signin .main {
-  padding-bottom: 320px;
-  background-image: url('/images/wings.jpg');
-  background-position: center 170px;
-  background-repeat: no-repeat;
-  background-size: 50vh;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 .signin h1 {
@@ -1085,7 +1081,6 @@ a.hashtag {
   margin: 0;
   font-size: 22.5px;
   font-weight: 700;
-  padding: 0 30px 15px;
 }
 
 .signin h2 {
@@ -1093,7 +1088,6 @@ a.hashtag {
   margin: 0;
   font-size: 15px;
   font-weight: 400;
-  padding: 0 30px 30px;
 }
 
 .signin-or {
@@ -1257,6 +1251,10 @@ a.hashtag {
 
   .main {
     padding-top: 130px;
+  }
+
+  .error .main .pure-g:first-child {
+    margin-top: 30px;
   }
 
   .cloud,

@@ -1,15 +1,5 @@
 [
   {
-    "status": 204,
-    "icon": "fa-diamond",
-    "name": "Work in progress.",
-    "description": "Thank you for joining Lenom, we now need some time to build a friendly directory for you and your coworkers. We will let you know by email when we are ready.",
-    "quote": "We dig dig dig dig dig dig dig dig.",
-    "reference": "The 7 dwarves",
-    "youtubeId": "HI0x0KYChq4?t=7s",
-    "url": "https://youtu.be/HI0x0KYChq4?t=7s"
-  },
-  {
     "status": 400,
     "icon": "fa-cube",
     "name": "Pardon?",
@@ -48,16 +38,6 @@
     "reference": "Liam Neeson - Taken",
     "youtubeId": "jZOywn1qArI?t=35s",
     "url": "https://youtu.be/jZOywn1qArI??start=35s"
-  },
-  {
-    "status": 418,
-    "icon": "fa-coffee",
-    "name": "That's sad.",
-    "description": "Thank you for joining. Sadly, your account does not belong to any Organisation. It won't work with Lenom at the moment.",
-    "quote": "I'm a poor lonesome cowboy.",
-    "reference": "Lucky Luke theme song",
-    "youtubeId": "1EpfwaSPBB8?t=41s",
-    "url": "https://youtu.be/1EpfwaSPBB8?t=41s"
   },
   {
     "status": 500,

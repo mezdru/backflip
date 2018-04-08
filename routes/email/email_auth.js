@@ -38,7 +38,7 @@ router.post('/login', function(req, res, next) {
 
       EmailUser.sendLoginEmail(user, res.locals.organisation, res, function(err, user) {
         if (err) return next(err);
-        return res.render('home/signin_success', {layout: 'home/layout_home', bodyClass: 'home signin', email: req.body.email});
+        return res.render('signin_success', {bodyClass: 'signin', email: req.body.email});
       });
     });
   } else {

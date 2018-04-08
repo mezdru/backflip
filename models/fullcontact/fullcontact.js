@@ -116,9 +116,12 @@ class FullContact {
         this.enrichChats();
         this.enrichWebsites();
         this.touch();
-        this.record.addPictureByUrl(this.record.picture.url, function(err, record) {
-          return record.save(callback);
-        });
+
+        if (undefsafe(this.record, 'picture.url'))
+          this.record.addPictureByUrl(this.record.picture.url, function(err, record) {
+            return record.save(callback);
+          });
+        else return this.record.save(callback);
       }.bind(this));
     }
 
