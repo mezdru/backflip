@@ -16,12 +16,7 @@ class FullContact {
           websites: [],
           fullName: null
         },
-        socialProfiles: [],
-        demographics: {
-          locationDeduced: {
-            normalizedLocation: null
-          }
-        }
+        socialProfiles: []
       };
     }
 
@@ -54,7 +49,6 @@ class FullContact {
       this.data.contactInfo.websites = this.data.contactInfo.websites.concat(undefsafe(data, 'contactInfo.websites') || []);
       //@todo instead of picking the first one, what about picking the most likely ?
       this.data.contactInfo.fullName = this.data.contactInfo.fullName || undefsafe(data, 'contactInfo.fullName');
-      this.data.demographics.locationDeduced.normalizedLocation = this.data.demographics.locationDeduced.normalizedLocation || undefsafe(data, 'demographics.locationDeduced.normalizedLocation');
       this.data.socialProfiles = this.data.socialProfiles.concat(undefsafe(data, 'socialProfiles') || []);
     }
 
@@ -111,7 +105,6 @@ class FullContact {
         if (err) return callback(err);
         this.enrichIntro();
         this.enrichPicture();
-        this.enrichAddress();
         this.enrichSocialProfiles();
         this.enrichChats();
         this.enrichWebsites();
@@ -168,13 +161,6 @@ class FullContact {
       this.data.contactInfo.websites.forEach(function(website) {
         this.record.addLink(LinkHelper.makeLink(website.url, 'hyperlink'));
       }, this);
-    }
-
-    enrichAddress() {
-      var address = undefsafe(this.data, 'demographics.locationDeduced.normalizedLocation');
-      if (address) {
-        this.record.addLink(LinkHelper.makeLink(address, 'address'));
-      }
     }
 
     touch() {

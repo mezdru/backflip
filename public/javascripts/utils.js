@@ -100,12 +100,12 @@ function goLeft(event) {
 
 
 transformItem = function (item, facets) {
+	addUrl(item);
+	addTag(item);
 	transformImagePath(item);
 	transformHashtags(item, facets);
 	transformIntro(item);
 	transformLinks(item);
-	addUrl(item);
-	addTag(item);
 	return item;
 };
 
@@ -135,16 +135,16 @@ function transformImagePath(item) {
 }
 
 function transformIntro(item) {
-	if (item._snippetResult && item._snippetResult.intro && item._snippetResult.intro.value) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item.hashtags);
-	else if (item._snippetResult && item._snippetResult.description && item._snippetResult.description.value ) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item.hashtags)};
+	if (item._snippetResult && item._snippetResult.intro && item._snippetResult.intro.value) item._snippetResult.intro.value = transformString(item._snippetResult.intro.value, item);
+	else if (item._snippetResult && item._snippetResult.description && item._snippetResult.description.value ) item._snippetResult.intro = {value: transformString(item._snippetResult.description.value, item)};
 }
 
-function transformString(input, hashtags) {
+function transformString(input, item) {
 		// Does not match person (@) yet
 		var regex = /([#][^\s@#\,\.\!\?\;\(\)]+)/g;
 		input = input.replace(regex, function(match, offset, string) {
 			var cleanMatch = match.replace(/<\/?em>/g, '');
-			record = getRecord(cleanMatch, hashtags);
+			record = getRecord(cleanMatch, item.hashtags);
 			return '<a ' +
 				'title="' + record.name + '" ' +
 				'class="' + record.type + '" ' +
@@ -154,6 +154,7 @@ function transformString(input, hashtags) {
 				match +
 				'</a>';
 		});
+		input = input.replace('…', '<a href="'+item.url+'">…</a>');
 		return input;
 }
 
@@ -233,12 +234,11 @@ transformHashtags = function(item, facets) {
 };
 
 makeHightlighted = function(item, facets) {
-	if (!facets) {
-		if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];
-		item._highlightResult.hashtags.forEach(function(hashtag, index) {
-			if (hashtag.tag && hashtag.tag.fullyHighlighted) item.hashtags[index].class = 'highlighted';
-		});
-	} else {
+	if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];
+	item._highlightResult.hashtags.forEach(function(hashtag, index) {
+		if (hashtag.tag && hashtag.tag.fullyHighlighted) item.hashtags[index].class = 'highlighted';
+	});
+	if (facets) {
 		item.hashtags.forEach(function(hashtag, index) {
 			if (hashtag.tag && facets.includes(hashtag.tag)) item.hashtags[index].class = 'highlighted';
 		});

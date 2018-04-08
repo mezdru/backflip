@@ -10,20 +10,23 @@
             <ul class="pure-menu-children">
               {{#if organisation}}
               <li class="pure-menu-item">
-                <a title="{{__ 'Profile'}}" class="pure-menu-link profile-link" href="{{{profileUrl user organisation}}}">{{__ 'Profile'}}</a>
+                <a title="{{__ 'Profile'}}" class="pure-menu-link" href="{{{profileUrl user organisation}}}">{{__ 'Profile'}}</a>
+              </li>
+              <li class="pure-menu-item">
+                <a title="{{__ 'Edit Profile'}}" class="pure-menu-link edit-link" href="{{{myEditUrl organisation}}}">{{__ 'Edit Profile'}}</a>
               </li>
               {{/if}}
               {{#if isAdmin}}
               <li class="pure-menu-item">
-                <a title="{{__ 'Setup Org'}}" class="pure-menu-link profile-link" href="{{{adminUrl organisation}}}">{{__ 'Setup Org'}}</a>
+                <a title="{{__ 'Setup Org'}}" class="pure-menu-link" href="{{{adminUrl organisation}}}">{{__ 'Setup Org'}}</a>
               </li>
               {{/if}}
               <li class="pure-menu-item">
-                <a title="{{__ 'Sign out'}}" class="pure-menu-link logout-link" href="{{logoutUrl}}">{{__ "Sign out"}}</a>
+                <a title="{{__ 'Sign out'}}" class="pure-menu-link" href="{{logoutUrl}}">{{__ "Sign out"}}</a>
               </li>
               {{#user.orgsAndRecords}}
               <li class="pure-menu-item pure-menu-item-org {{#ifEqual organisation.tag ../organisation.tag}}hidden{{/ifEqual}}">
-                <a title="{{organisation.name}}" class="pure-menu-link logout-link" href="{{homeUrl organisation ../locale}}">{{organisation.name}}</a>
+                <a title="{{organisation.name}}" class="pure-menu-link" href="{{homeUrl organisation ../locale}}">{{organisation.name}}</a>
               </li>
               {{/user.orgsAndRecords}}
             </ul>

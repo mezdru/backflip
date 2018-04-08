@@ -1,7 +1,3 @@
-.onboard header {
-  position: absolute;
-}
-
 .onboard-welcome header {
   border-bottom: none;
 }
@@ -24,7 +20,7 @@ a.step span {
   display: none;
   text-align: center;
   font-size: 12px;
-  color: #c7bcbf;
+  color: #a4c5cb;
   font-weight: 600;
 }
 
@@ -44,13 +40,11 @@ a.step img:first-child {
   opacity: 0;
 }
 
-a.step.active img:first-child,
-a.step:hover img:first-child {
+a.step.active img:first-child {
   opacity: 1;
 }
 
-a.step.active span,
-a.step:hover span {
+a.step.active span {
   color: #dd362e;
 }
 
@@ -85,6 +79,7 @@ a.step:hover span {
 
 .onboard .main {
   padding-bottom: 180px;
+  background-color: #f2f2f2;
 }
 
 /** WELCOME **/
@@ -367,7 +362,7 @@ label[for="link-input"] {
   color: #ffffff;
   background-color: #dd362e;
   border-color: #dd362e;
-  z-index: 100;
+  z-index: 30;
 }
 
 #type-selector li.selected .fa {

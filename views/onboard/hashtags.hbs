@@ -70,6 +70,7 @@
 </script>
 <script>
   function addHashtagToCloud(event, suggestion, dataset) {
+    suggestion.tag = suggestion.tag.replace('#','');
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element hashtag added">' +
       '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+
@@ -85,6 +86,7 @@
 
   function suggestionTemplate(suggestion) {
     if (suggestion.type === 'newHashtag') {
+      suggestion.tag = suggestion.tag.replace('#','');
       return ' <span class="newHashtag">' +
       newHashtagSentence +
       ' </span><em><i class="fa fa-hashtag" aria-hidden="true"></i>' +
@@ -108,7 +110,7 @@
     {
       source: function(query, callback) {
         hitsSource(query, function(suggestions) {
-          suggestions.push({type:'newHashtag', tag: query, name: query})
+          suggestions.push({type:'newHashtag', tag: query})
           callback(suggestions);
         });
       },
