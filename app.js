@@ -177,6 +177,10 @@ app.use('/', authRedirect);
 var publicPages = require('./routes/public.js');
 app.use('/', publicPages);
 
+// Super admin
+var superadmin = require('./routes/superadmin.js');
+app.use('/superadmin', superadmin);
+
 /*
 * Restricted routes
 */
@@ -197,10 +201,6 @@ app.use('/edit', edit);
 var onboard = require('./routes/onboard.js');
 app.use('/onboard', onboard);
 
-
-// Super admin
-var superadmin = require('./routes/superadmin.js');
-app.use('/superadmin', superadmin);
 
 // restricting admin access
 var restrictAdmin = require('./routes/restrict_admin.js');
