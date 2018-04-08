@@ -315,7 +315,7 @@ recordSchema.methods.makeTeamIntoHashtags = function() {
 };
 
 recordSchema.statics.getTypeFromTag = function(tag) {
-  if (tag.charAt(0) === '@') return 'hashtag';
+  if (tag.charAt(0) === '@') return 'person';
   else return 'hashtag';
 };
 

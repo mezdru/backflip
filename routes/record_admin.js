@@ -134,6 +134,18 @@ router.get('/delete/:recordId', function(req, res, next) {
   });
 });
 
+router.get('/create/:recordTag', function(req, res, next) {
+  Record.makeFromTag(req.params.recordTag, res.locals.organisation._id, function(err, record) {
+    if (err) return next(err);
+    res.render('index',
+      {
+        title: 'Record has been created',
+        details: `You created the record ${record._id} with tag ${record.tag}`,
+        content: record
+      });
+  });
+});
+
 router.get('/restore/:recordId', function(req, res, next) {
   Record.findOneWithDeleted({_id:req.params.recordId, organisation:res.locals.organisation._id}, function(err, record) {
     if (err) return next(err);
