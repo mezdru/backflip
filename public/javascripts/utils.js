@@ -220,8 +220,8 @@ function makeLinkUrl(link) {
 }
 
 function addUrl(item) {
-	var path = 'id/' + item.objectID;
-	item.url = makeUrl(null, path);
+	var cleanTag = item.tag.replace('#', '%23');
+	item.url = makeUrl(null, cleanTag);
 }
 
 transformHashtags = function(item, facets) {

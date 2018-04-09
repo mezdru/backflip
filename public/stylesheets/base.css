@@ -943,6 +943,10 @@ a.hashtag {
 }
 
 .record .pure-u-intro:last-child .picture {
+  border-bottom-right-radius: 0;
+}
+
+.record .pure-u-intro:last-child .picture {
   border-bottom-left-radius: 28px;
 }
 

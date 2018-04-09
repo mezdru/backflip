@@ -264,9 +264,7 @@ const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 recordSchema.methods.cleanDescription = function() {
   this.description = this.description || '';
-  console.log(this.description);
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
-  console.log(this.description);
 };
 
 recordSchema.methods.cleanIntro = function() {
@@ -452,25 +450,34 @@ var urlParse = require('url-parse');
 var uploadcare = require('uploadcare')(process.env.UPLOADCARE_PUBLIC_KEY, process.env.UPLOADCARE_PRIVATE_KEY);
 
 recordSchema.methods.addPictureByUrl = function(url, callback) {
+  this.model('Record').addFileByUrl(url, function(err, file) {
+    if (err) return callback(err);
+    this.picture = file;
+    return callback(null, this);
+  }.bind(this));
+};
+
+recordSchema.statics.addFileByUrl = function(url, callback) {
   url = urlParse(url, true);
+  fileObject = {};
   if (!url.hostname) return callback(new Error('Picture url invalid'));
   if (url.hostname === 'ucarecdn.com') {
-    this.picture.url = url.toString();
-    this.picture.uuid = url.pathname.split('/')[1];
-    return callback(null, this);
+    fileObject.url = url.toString();
+    fileObject.uuid = url.pathname.split('/')[1];
+    return callback(null, fileObject);
   } else {
     uploadcare.file.fromUrl(url.toString(), function(err, file) {
       if (err || !file) {
-        this.picture.url = url.toString();
+        fileObject.url = url.toString();
         console.error(err || 'No file returned from UploadCare for record '+this._id);
-        return callback(null, this);
+        return callback(null, fileObject);
       }
-      this.picture.uuid = file.uuid;
+      fileObject.uuid = file.uuid;
       var newUrl = urlParse('https://ucarecdn.com/');
       newUrl.set('pathname', this.picture.uuid + '/-/resize/180x180/');
-      this.picture.url = newUrl.toString();
-      return callback(null, this);
-    }.bind(this));
+      fileObject.url = newUrl.toString();
+      return callback(null, fileObject);
+    });
   }
 };
 
