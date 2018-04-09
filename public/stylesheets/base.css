@@ -1185,6 +1185,17 @@ a.hashtag {
 
 /* Error page */
 
+.admin h1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 44px;
+}
+
+.admin .main .pure-g {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 .reward {
   margin: 0;
   font-size: 5em;

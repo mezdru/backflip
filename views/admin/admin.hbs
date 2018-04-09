@@ -1,12 +1,21 @@
-<div class="main admin">
+<div class="main">
   <div class="pure-g">
     <div class="pure-u-1">
-      <h1 class="tagline">{{organisation.name}} Administration</h1>
+      <h1>{{organisation.name}} Setup</h1>
     </div>
   </div>
   <div class="pure-g">
     <div class="pure-u-1-6 pure-u-md-1-6">
       <h1 class="reward"><i class="fa fa-user-circle-o" aria-hidden="true"></i></h1>
+    </div>
+    <div class="pure-u-5-6">
+      <h2>Users</h2>
+      <p><a href="{{url "admin/user/invite/" organisation.tag}}"><i class="fa fa-plus-circle" aria-hidden="true"></i> Invite</a></strong> Invite new user by email.</p>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1-6 pure-u-md-1-6">
+      <h1 class="reward"><i class="fa fa-hashtag" aria-hidden="true"></i></h1>
     </div>
     <div class="pure-u-5-6">
       <h2>Records</h2>
@@ -17,18 +26,6 @@
         <p><a href="{{url "admin/record/remake/" organisation.tag}}" onclick="return confirm('This action can break your directory. Are you sure?')"><i class="fa fa-refresh" aria-hidden="true"></i> Remake</a> Rebuild every records in your directory and update search engine.</p>
       </div>
     </div>
-  </div>
-  <div class="pure-g">
-    <div class="pure-u-1-6 pure-u-md-1-6">
-      <h1 class="reward"><i class="fa fa-umbrella" aria-hidden="true"></i></h1>
-    </div>
-    <div class="pure-u-5-6">
-      <h2>Organisation</h2>
-      <p><a href="{{url "admin/organisation/tree/" organisation.tag}}"><i class="fa fa-tree" aria-hidden="true"></i> Tree</a></strong> Edit your organisation teams' tree.</p>
-      <p><a href="{{url "admin/fullcontact/enrichall/" organisation.tag}}"><i class="fa fa-plus" aria-hidden="true"></i> Enrich</a></strong> Enrich links of every person's record automatically.</p>
-      <p><a href="{{url "admin/fullcontact/enrichable/" organisation.tag}}"><i class="fa fa-pencil-square-" aria-hidden="true"></i> Enrichable</a></strong> List enrichable Records.</p>
-
-  </div>
   </div>
   <div class="pure-g">
     <div class="pure-u-1-6 pure-u-md-1-6">

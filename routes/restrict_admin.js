@@ -14,7 +14,7 @@ router.use(function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  res.render('admin/admin');
+  res.render('admin/admin', {bodyClass: 'admin'});
 });
 
 module.exports = router;

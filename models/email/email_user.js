@@ -24,6 +24,16 @@ EmailUser.makeHash = function (user) {
   user.email.hash = user.email.hash || md5(user.email.value);
 };
 
+EmailUser.newFromEmail = function (email) {
+  user = new User({
+    email: {
+      value: email,
+    }
+  });
+  EmailUser.makeHash(user);
+  return user;
+};
+
 EmailUser.generateToken = function (user, callback) {
   if (!user.email.value) {
     err = new Error('Email authentification not activated for user');
@@ -133,12 +143,7 @@ EmailUser.addByEmail = function(email, organisation, record, callback) {
   this.getByEmail(email, function(err, user) {
     if (err) return callback(err);
     if (!user) {
-      user = new User({
-        email: {
-          value: email,
-          hash: md5(email)
-        }
-      });
+      user = EmailUser.newFromEmail(email);
     }
     /*if (!record) {
       record = Record.makeFromEmail(email, organisation._id);

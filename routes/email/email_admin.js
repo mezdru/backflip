@@ -9,7 +9,7 @@ var EmailUser = require('../../models/email/email_user.js');
 
 var UrlHelper = require('../../helpers/url_helper.js');
 
-
+//@todo the following email/invite logic can be removed in favor of user/invite
 router.use('/invite', function(req, res, next) {
   res.locals.formAction = new UrlHelper(req.organisationTag, 'admin/email/invite/', null, req.getLocale()).getUrl();
   return next();
