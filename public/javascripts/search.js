@@ -104,7 +104,7 @@ $(document).ready(function () {
             '<span class="tag">' +
             highlightedTag +
             '</span>' +
-            getPictureHtml(option, true) +
+            getPictureHtml(option) +
             '<span>' +
             highlightedName +
             '</span>' +
