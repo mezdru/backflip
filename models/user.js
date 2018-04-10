@@ -158,6 +158,18 @@ userSchema.methods.isSuperAdmin = function() {
   return this.superadmin === true;
 };
 
+userSchema.pre('save', function (next) {
+    this.wasNew = this.isNew;
+    next();
+});
+
+var slack = require('slack-notify')('https://hooks.slack.com/services/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');
+userSchema.post('save', function (user) {
+  if (this.wasNew) {
+    slack.note(`We have a new user: ${user.loginEmail} _${user._id}_`);
+  }
+});
+
 /*
 * We have submodels within User (oransiation, record...)
 * Sometime these are populated (fetched by mongoose), sometime not.

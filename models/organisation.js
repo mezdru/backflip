@@ -85,6 +85,19 @@ organisationSchema.statics.getTheWings = function(req, res, next) {
   }.bind(this));
 };
 
+
+organisationSchema.pre('save', function (next) {
+    this.wasNew = this.isNew;
+    next();
+});
+
+var slack = require('slack-notify')('https://hooks.slack.com/services/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');
+organisationSchema.post('save', function (organisation) {
+  if (this.wasNew) {
+    slack.success(`We have a new organisation: *${organisation.tag}* _${organisation._id}_`);
+  }
+});
+
 var Organisation = mongoose.model('Organisation', organisationSchema);
 
 

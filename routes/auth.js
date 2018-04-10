@@ -8,8 +8,13 @@ var UrlHelper = require('../helpers/url_helper.js');
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if (err) return next(err);
-    return res.redirect(new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());
+    return res.redirect(UrlHelper.makeUrl(req.organisationTag, null, null, req.getLocale()));
   });
+});
+
+router.get('/login', function(req, res, next) {
+  if (res.locals.user) return res.redirect(UrlHelper.makeUrl(req.organisationTag, null, null, req.getLocale()));
+  next();
 });
 
 router.get('/login', function(req, res, next) {
