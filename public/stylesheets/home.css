@@ -117,7 +117,9 @@ img.wingzy-full {
   height: 250px;
   box-sizing: border-box;
   border: 2px solid #ffffff;
-  color: #ffffff;
+  color: #a4c5cb;
+  background: #ffffff;
+  font-size: 60px;
   text-align: center;
   padding: 45px;
 }
