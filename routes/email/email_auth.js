@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');
 
+var User = require('../../models/user.js');
 var EmailUser = require('../../models/email/email_user.js');
 
 var Organisation = require('../../models/organisation.js');
@@ -27,16 +28,23 @@ router.post('/login', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array() || [];
   if (errors.isEmpty()) {
-    EmailUser.getByEmail(req.body.email, function(err, user) {
+    User.findOneByEmail(req.body.email, function(err, user) {
       if (err) return next(err);
-      errors = [];
-      if (!user) res.locals.errors.push({msg:res.__('Email not found')});
-      else if (res.locals.organisation && !user.belongsToOrganisation(res.locals.organisation._id)) res.locals.errors.push({msg:res.__('This email does not belong to this organisation')});
-      else if (EmailUser.tooSoon(user)) res.locals.errors.push({msg: res.__('Email already sent, check your inbox!')});
+      var organisation = res.locals.organisation;
+      if (!user) {
+        user = EmailUser.newFromEmail(req.body.email);
+        organisation = null;
+      } else if (undefsafe(user, 'google.email') === req.body.email) {
+        res.locals.errors.push({msg:res.__('Please sign in with Google.')});
+      } else if (organisation && !user.belongsToOrganisation(organisation._id)) {
+        organisation = null;
+      } else if (EmailUser.tooSoon(user)) {
+        res.locals.errors.push({msg: res.__('Email already sent, check your inbox!')});
+      }
 
       if (res.locals.errors.length > 0) return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});
 
-      EmailUser.sendLoginEmail(user, res.locals.organisation, res, function(err, user) {
+      EmailUser.sendLoginEmail(user, organisation, res, function(err, user) {
         if (err) return next(err);
         return res.render('signin_success', {bodyClass: 'signin', email: req.body.email});
       });

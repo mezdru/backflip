@@ -23,8 +23,8 @@
     <div class="pure-g">
       <h3 class="suggested">{{__ "Suggested"}}</h3>
       <div class="pure-u-1 pure-u-suggestions">
-        <a onclick="goRight" class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
-        <a onclick="goLeft" class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
+        <a class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
+        <a class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
         <div class="grid-box suggestions-box">
           <ul id="hashtag-suggestions" class="scroll">
             {{#hashtagSuggestions}}
@@ -166,4 +166,9 @@
       }
     }
   );
+</script>
+{{>jquery}}
+<script>
+  $(document).on('mousedown', '.scroll-right', goRight);
+  $(document).on('mousedown', '.scroll-left', goLeft);
 </script>

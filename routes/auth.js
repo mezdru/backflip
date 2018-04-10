@@ -12,19 +12,15 @@ router.get('/logout', function(req, res, next) {
   });
 });
 
-// Generic login page
-//@todo deduplicate the /login logic found in auth.js and email_auth.js
-router.use('/login', function(req, res, next) {
-  res.locals.formAction = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
-  return next();
-});
-
 router.get('/login', function(req, res, next) {
-  var googleSignin = true;
-  var emailSignin = true;
+  var googleSignin, emailSignin;
   if (res.locals.organisation) {
     googleSignin = res.locals.organisation.canGoogleSignin();
     emailSignin = res.locals.organisation.canEmailSignin();
+  }
+  if (!googleSignin && !emailSignin) {
+    googleSignin = true;
+    emailSignin = true;
   }
   res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });

@@ -18,7 +18,7 @@ var organisationSchema = mongoose.Schema({
     domains: [String]
   },
   colors: {
-    primary: [String]
+    primary: String
   },
   tree: [[String]],
   created: { type: Date, default: Date.now },
@@ -36,7 +36,7 @@ organisationSchema.methods.addGoogleHD = function(hd, callback) {
 };
 
 organisationSchema.methods.canGoogleSignin = function() {
-  return undefsafe(this, 'google.hd');
+  return this.google.hd.length > 0;
 };
 
 organisationSchema.methods.addEmailDomain = function(domain, callback) {
@@ -45,7 +45,7 @@ organisationSchema.methods.addEmailDomain = function(domain, callback) {
 };
 
 organisationSchema.methods.canEmailSignin = function() {
-  return undefsafe(this, 'email.domains');
+  return this.email.domains.length > 0;
 };
 
 organisationSchema.methods.makePublic = function(callback) {

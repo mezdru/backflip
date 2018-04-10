@@ -193,14 +193,9 @@ app.use('/', restrict);
 var privatePages = require('./routes/private.js');
 app.use('/', privatePages);
 
-// edit
-var edit = require('./routes/edit.js');
-app.use('/edit', edit);
-
 // onboarding
 var onboard = require('./routes/onboard.js');
 app.use('/onboard', onboard);
-
 
 // restricting admin access
 var restrictAdmin = require('./routes/restrict_admin.js');

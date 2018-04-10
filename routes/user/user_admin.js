@@ -77,7 +77,7 @@ router.post('/invite', function(req, res, next) {
     User.findOneByEmail(req.body.email, function(err, user) {
       if (err) return next(err);
       if (!user) {
-        user = EmailUser.makeFromEmail(req.body.email);
+        user = EmailUser.newFromEmail(req.body.email);
       }
       user.attachOrgAndRecord(res.locals.organisation, null, function(err, user) {
         if (err) return next(err);
