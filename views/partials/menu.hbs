@@ -8,7 +8,7 @@
           <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
             <a title="{{__ 'Menu'}}" href="{{profileUrl user organisation}}" class="pure-menu-link pure-menu-picture">{{{profilePicture user organisation}}}</a>
             <ul class="pure-menu-children">
-              {{#if organisation}}
+              {{#if isMyOrg}}
               <li class="pure-menu-item">
                 <a title="{{__ 'Profile'}}" class="pure-menu-link" href="{{{profileUrl user organisation}}}">{{__ 'Profile'}}</a>
               </li>

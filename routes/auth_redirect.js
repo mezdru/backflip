@@ -23,11 +23,12 @@ router.get('/search', function(req, res, next) {
 });
 
 // Find the best organisationTag to redirect to.
+// @todo
 router.get('*/login/callback', function(req, res, next) {
-  req.redirectionTag = req.redirectionTag ||
-    req.organisationTag ||
-    req.session.user.getFirstOrgTag() ||
-    null;
+  req.redirectionTag = req.session.user.getFirstOrgTag() ||
+      req.redirectionTag ||
+      req.organisationTag ||
+      null;
   var path = req.redirectionTag ? 'search' : 'cheers';
   return res.redirect(new UrlHelper(req.redirectionTag, path, null, req.session.locale || req.getLocale()).getUrl());
 });

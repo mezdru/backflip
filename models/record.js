@@ -474,7 +474,7 @@ recordSchema.statics.addFileByUrl = function(url, callback) {
       }
       fileObject.uuid = file.uuid;
       var newUrl = urlParse('https://ucarecdn.com/');
-      newUrl.set('pathname', this.picture.uuid + '/-/resize/180x180/');
+      newUrl.set('pathname', fileObject.uuid + '/-/resize/180x180/');
       fileObject.url = newUrl.toString();
       return callback(null, fileObject);
     });
