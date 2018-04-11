@@ -53,13 +53,32 @@ router.get('/impersonate/:userEmail', function(req, res, next) {
   });
 });
 
-router.get('/user/list', function(req, res, next) {
+//@todo filter on query, not after o.O
+router.get('/user/list/:filter?', function(req, res, next) {
   User.find()
   .select('created updated last_login last_action email.value google.email google.hd orgsAndRecords')
   .sort('-created')
   .populate('orgsAndRecords.organisation', 'tag')
   .exec(function(err, users) {
     if (err) return next(err);
+    users = users.filter(user => {
+      switch (req.params.filter) {
+        case 'login':
+          return user.last_login;
+        case 'loginOrphans':
+          return user.last_login && user.orgsAndRecords.length === 0;
+        case 'activeMonth':
+          return user.last_action > Date.now() - 30*24*3600*1000;
+        case 'activeWeek':
+          return user.last_action > Date.now() - 7*24*3600*1000;
+        case 'activeDay':
+          return user.last_action > Date.now() - 1*24*3600*1000;
+        case 'activeDay':
+          return user.last_action > Date.now() - 1*24*3600*1000;
+        default:
+          return true;
+      }
+    });
     res.render('index',
       {
         title: 'Users list',
