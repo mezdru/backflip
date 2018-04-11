@@ -19,7 +19,10 @@ router.post('/login',
 router.post('/login',
   body('email').isEmail().withMessage((value, {req}) => {
     return req.__('Please provide a valid Email Address');
-  })
+  }),
+  body('jeSuisHumain')
+    .custom(value => value === 'Oui!')
+    .withMessage((value, {req}) => req.__('Please enable Javascript and retry'))
 );
 
 
@@ -46,7 +49,7 @@ router.post('/login', function(req, res, next) {
 
       EmailUser.sendLoginEmail(user, organisation, res, function(err, user) {
         if (err) return next(err);
-        return res.render('signin_success', {bodyClass: 'signin', email: req.body.email});
+        return res.render('signin_success', {bodyClass: 'home signin', email: req.body.email, home: true});
       });
     });
   } else {
