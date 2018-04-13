@@ -75,8 +75,10 @@ router.get('/user/list/:filter?', function(req, res, next) {
           return user.last_action > Date.now() - 1*24*3600*1000;
         case 'activeDay':
           return user.last_action > Date.now() - 1*24*3600*1000;
-        default:
+        case 'all':
           return true;
+        default:
+          return false;
       }
     });
     res.render('index',
