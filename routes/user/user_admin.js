@@ -57,7 +57,7 @@ router.use('/invite', function(req, res, next) {
 });
 
 router.get('/invite', function(req, res, next) {
-  res.render('admin/invite');
+  res.render('invite');
 });
 
 router.post('/invite',

@@ -197,15 +197,16 @@ app.use('/', privatePages);
 var onboard = require('./routes/onboard.js');
 app.use('/onboard', onboard);
 
+// onboarding
+var invite = require('./routes/invite.js');
+app.use('/invite', invite);
+
 // restricting admin access
 var restrictAdmin = require('./routes/restrict_admin.js');
 app.use('/admin', restrictAdmin);
 
 var googleAdmin = require('./routes/google/google_admin.js');
 app.use('/admin/google', googleAdmin);
-
-var emailAdmin = require('./routes/email/email_admin.js');
-app.use('/admin/email', emailAdmin);
 
 var fullContactAdmin = require('./routes/fullcontact/fullcontact_admin.js');
 app.use('/admin/fullcontact', fullContactAdmin);

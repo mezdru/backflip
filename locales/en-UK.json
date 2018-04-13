@@ -28,7 +28,6 @@
 	"Sign in to Lenom": "Sign in to Lenom",
 	"Hello %s! We are happy to welcome you back to Lenom.": "Hello %s! We are happy to welcome you back to Lenom.",
 	"Connect and share": "Connect and share",
-	"This green button can be used to securely access Lenom for 30 days.": "This green button can be used to securely access Lenom for 30 days.",
 	"Success!": "Success!",
 	"Now please check your emails": "Now please check your emails",
 	"We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.": "We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.",
@@ -115,5 +114,9 @@
 	"Get Started with Google": "Get Started with Google",
 	"Please sign in with Google.": "Please sign in with Google.",
 	"Please provide a valid Email Address": "Please provide a valid Email Address",
-	"Please enable Javascript and retry": "Please enable Javascript and retry"
+	"Please enable Javascript and retry": "Please enable Javascript and retry",
+	"Join us on Wingzy": "Join us on Wingzy",
+	"Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.": "Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.",
+	"This red button can be used to securely access Wingzy for 30 days.": "This red button can be used to securely access Wingzy for 30 days.",
+	"Invite Coworker": "Invite Coworker"
 }

@@ -67,7 +67,7 @@ var EmailHelper = {
             "intro": res.__("Hello %s! We are happy to welcome you back to Lenom.", name),
             "url": url || defaultLink,
             "button": res.__("Connect and share"),
-            "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
+            "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
           }
         });
       request
@@ -76,24 +76,25 @@ var EmailHelper = {
           console.log(err);
         });
     },
-    emailInvite: function(email, name, inviterName, organisationName, url, res) {
+    emailInvite: function(email, inviterName, organisationName, url, res) {
+      console.log('EmailHelper');
       const request = mailjet
         .post("send")
         .request({
           "FromEmail": defaultEmitter,
           "FromName": inviterName || defaultEmitterName,
-          "Subject": res.__("Join %s on Lenom", organisationName),
+          "Subject": res.__("Join us on Wingzy"),
           "MJ-TemplateID": "200696",
           "MJ-TemplateLanguage": true,
           "Recipients": [
             { "Email": email }
           ],
           "Vars": {
-            "intro": res.__("Hello %s, we are building a tool to find, discover and reach each other within %s. We would love for you to share who you are here!", name, organisationName),
+            "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.", organisationName),
             "inviterName": inviterName || defaultEmitterName,
-            "button": res.__("Connect and share"),
+            "button": res.__("Join us"),
             "url": url || defaultLink,
-            "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
+            "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
           }
         });
       request
@@ -120,7 +121,7 @@ var EmailHelper = {
             "extract": extract || '',
             "button": res.__("Connect and share"),
             "url": url || defaultLink,
-            "outro": res.__("This green button can be used to securely access Lenom for 30 days.")
+            "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
           }
         });
       request
