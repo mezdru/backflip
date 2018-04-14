@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
         if (err) return next(err);
         EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
           if (err) return next(err);
-          return res.render('invite', {successes: [{msg: req.__('An invitation has been sent to $s', req.body.email)}]});
+          return res.render('invite', {successes: [{msg: req.__('An invitation has been sent to {{email}}', {email: req.body.email})}]});
         });
       });
     });

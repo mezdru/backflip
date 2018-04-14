@@ -229,6 +229,7 @@ $(document).ready(function () {
     content.hits.forEach(hit => transformItem(hit, $selectize.items));
     if (page === 0) {
       $hits.empty();
+      content.hits.splice(3, 0, {invitation:true});
       window.scrollTo(0,0);
     }
     if (content.nbPages > content.page + 1) $showMore.css("display", "block");

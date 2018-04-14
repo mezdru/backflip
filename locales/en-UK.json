@@ -120,6 +120,8 @@
 	"This red button can be used to securely access Wingzy for 30 days.": "This red button can be used to securely access Wingzy for 30 days.",
 	"Invite Coworker": "Invite Coworker",
 	"Invite coworker to join": "Invite coworker to join",
-	"An invitation has been sent to $s": "An invitation has been sent to $s",
-	"Press enter to search": "Press enter to search"
+	"Discover what we are good at and love doing": "Discover what we are good at and love doing",
+	"Help others share what they are good at and love doing": "Help others share what they are good at and love doing",
+	"Help others spread their Wings": "Help others spread their Wings",
+	"An invitation has been sent to {{email}}": "An invitation has been sent to {{email}}"
 }
