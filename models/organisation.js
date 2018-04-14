@@ -26,6 +26,9 @@ var organisationSchema = mongoose.Schema({
   public: { type: Boolean, default: false }
 });
 
+organisationSchema.index({'google.hd': 1});
+organisationSchema.index({'email.domains': 1});
+
 organisationSchema.virtual('host').get(function() {
   return this.tag + '.' + process.env.HOST;
 });
@@ -83,6 +86,20 @@ organisationSchema.statics.getTheWings = function(req, res, next) {
       return next();
     }.bind(this));
   }.bind(this));
+};
+
+organisationSchema.statics.findByEmail = function(email, callback) {
+  var domain = email.split('@')[1];
+  console.log('domain='+domain);
+  return this.findByDomain(domain, callback);
+};
+
+//@todo handle multiple Wingzy per domain
+organisationSchema.statics.findByDomain = function(domain, callback) {
+  this.find({'email.domains':domain}, function(err, organisations) {
+    if (err) return callback(err);
+    return callback(null, organisations);
+  });
 };
 
 

@@ -4,6 +4,7 @@ var md5 = require('md5');
 var randomstring = require('randomstring');
 
 var Record = require('../record.js');
+var Organisation = require('../organisation.js');
 var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper.js');
 
@@ -25,13 +26,15 @@ EmailUser.makeHash = function (user) {
 };
 
 EmailUser.newFromEmail = function (email) {
-  user = new User({
-    email: {
-      value: email,
-    }
-  });
+  user = new User();
+  return EmailUser.addStrategy(email, user);
+};
+
+EmailUser.addStrategy = function(email, user, callback) {
+  user.email.value = email;
   EmailUser.makeHash(user);
-  return user;
+  if (callback) return user.save(callback);
+  else return user;
 };
 
 EmailUser.generateToken = function (user, callback) {
@@ -138,6 +141,7 @@ EmailUser.tokenStillValid = function(generated) {
 };
 
 //@todo this is as dodgy as an aligator wearing a kilt asking for the spare change
+//@todo can be removed once edit.js is removed
 EmailUser.addByEmail = function(email, organisation, record, callback) {
   this.getByEmail(email, function(err, user) {
     if (err) return callback(err);

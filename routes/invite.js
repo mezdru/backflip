@@ -38,6 +38,9 @@ router.post('/', function(req, res, next) {
       if (!user) {
         user = EmailUser.newFromEmail(req.body.email);
       }
+      if (!user.canEmailSignin()) {
+        EmailUser.addStrategy(req.body.email, user);
+      }
       user.attachOrgAndRecord(res.locals.organisation, null, function(err, user) {
         if (err) return next(err);
         EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {

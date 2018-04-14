@@ -57,14 +57,14 @@ var EmailHelper = {
         .request({
           "FromEmail": defaultEmitter,
           "FromName": defaultEmitterName,
-          "Subject": res.__("Sign in to Lenom"),
+          "Subject": res.__("Sign in to Wingzy"),
           "MJ-TemplateID": "197497",
           "MJ-TemplateLanguage": true,
           "Recipients": [
             { "Email": email }
           ],
           "Vars": {
-            "intro": res.__("Hello %s! We are happy to welcome you back to Lenom.", name),
+            "intro": res.__("Hello %s! We are happy to welcome you back on Wingzy.", name),
             "url": url || defaultLink,
             "button": res.__("Connect and share"),
             "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
@@ -115,7 +115,7 @@ var EmailHelper = {
             { "Email": email }
           ],
           "Vars": {
-            "intro": res.__("Hello %s, we are now %s people from %s on Lenom. Come have a look at who we are and share a bit more about yourself!", name, userCount, organisationName),
+            "intro": res.__("Hello %s, we are now %s people from %s on Wingzy. Come have a look at who we are and share a bit more about yourself!", name, userCount, organisationName),
             "inviterName": inviterName || defaultEmitterName,
             "extract": extract || '',
             "button": res.__("Connect and share"),

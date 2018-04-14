@@ -25,12 +25,9 @@
 	"Sign in with your email": "Sign in with your email",
 	"Sign in": "Sign in",
 	"Welcome to Wingzy": "Welcome to Wingzy",
-	"Sign in to Lenom": "Sign in to Lenom",
-	"Hello %s! We are happy to welcome you back to Lenom.": "Hello %s! We are happy to welcome you back to Lenom.",
 	"Connect and share": "Connect and share",
 	"Success!": "Success!",
 	"Now please check your emails": "Now please check your emails",
-	"We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.": "We just sent you an email at %s. To securely access Lenom for 30 days, go to your inbox, open this email and click the green button.",
 	"Product": "Product",
 	"Pricing": "Pricing",
 	"Join us": "Join us",
@@ -123,5 +120,8 @@
 	"Discover what we are good at and love doing": "Discover what we are good at and love doing",
 	"Help others share what they are good at and love doing": "Help others share what they are good at and love doing",
 	"Help others spread their Wings": "Help others spread their Wings",
-	"An invitation has been sent to {{email}}": "An invitation has been sent to {{email}}"
+	"An invitation has been sent to {{email}}": "An invitation has been sent to {{email}}",
+	"Sign in to Wingzy": "Sign in to Wingzy",
+	"Hello %s! We are happy to welcome you back on Wingzy.": "Hello %s! We are happy to welcome you back on Wingzy.",
+	"We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button.": "We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button."
 }

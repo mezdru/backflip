@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var undefsafe = require('undefsafe');
+var Organisation = require('./organisation.js');
 
 var userSchema = mongoose.Schema({
   orgsAndRecords: [
@@ -46,6 +47,14 @@ userSchema.statics.findOneByEmail = function (email, callback) {
 userSchema.virtual('loginEmail').get(function() {
   return this.google.email || this.email.value;
 });
+
+userSchema.methods.canEmailSignin = function() {
+  return this.email.value;
+};
+
+userSchema.methods.canGoogleSignin = function() {
+  return this.google.email;
+};
 
 userSchema.methods.getName = function (organisationId) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
@@ -124,7 +133,7 @@ userSchema.methods.addToOrganisation = function(organisationId, callback) {
 //@todo addToOrganisation does the same as attachOrgAndRecord...
 userSchema.methods.attachOrgAndRecord = function(organisation, record, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisation._id);
-  if (orgAndRecord) {
+  if (orgAndRecord && record) {
     orgAndRecord.record = record;
   } else {
     this.orgsAndRecords.push({organisation: organisation, record: record});
@@ -157,6 +166,19 @@ userSchema.methods.ownsRecord = function(recordId) {
 userSchema.methods.isSuperAdmin = function() {
   return this.superadmin === true;
 };
+
+userSchema.pre('save', function(next) {
+  if (this.isNew && this.canEmailSignin()) {
+    Organisation.findByEmail(this.email.value, function(err, organisations) {
+      if(err) {
+        console.error('Cannot find Organisations by user email');
+        return next();
+      }
+      organisations.forEach(organisation => this.attachOrgAndRecord(organisation, null));
+      next();
+    }.bind(this));
+  } else next();
+});
 
 userSchema.pre('save', function (next) {
     this.wasNew = this.isNew;

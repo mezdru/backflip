@@ -36,13 +36,14 @@ router.post('/login', function(req, res, next) {
       var organisation = res.locals.organisation;
       if (!user) {
         user = EmailUser.newFromEmail(req.body.email);
-        organisation = null;
-      } else if (undefsafe(user, 'google.email') === req.body.email) {
-        res.locals.errors.push({msg:res.__('Please sign in with Google.')});
-      } else if (organisation && !user.belongsToOrganisation(organisation._id)) {
-        organisation = null;
+      } else if (!user.canEmailSignin()) {
+        EmailUser.addStrategy(req.body.email, user);
       } else if (EmailUser.tooSoon(user)) {
         res.locals.errors.push({msg: res.__('Email already sent, check your inbox!')});
+      }
+
+      if (organisation && !user.belongsToOrganisation(organisation._id)) {
+       organisation = null;
       }
 
       if (res.locals.errors.length > 0) return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});

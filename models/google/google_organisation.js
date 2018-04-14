@@ -3,7 +3,7 @@ var EmailHelper = require('../../helpers/email_helper.js');
 
 var GoogleOrganisation = {};
 
-//@todo handle multi domain per organisation
+//@todo handle multi wingzy per domain
 GoogleOrganisation.getByDomain = function (domain, user, callback) {
   Organisation.findOne({'google.hd': domain}, function(err, organisation) {
     if (err) return callback(err);
