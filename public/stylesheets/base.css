@@ -124,13 +124,29 @@ em a {
   word-break: break-all;
 }
 
-ul.errors {
+ul.errors,
+ul.successes {
   list-style-type: none;
-  background-color: #dde03a;
+  background-color: #ffb400;
+  color: #ffffff;
   border-radius: 30px;
-  margin: 15px 0;
+  margin: 30px 0;
   padding: 20px;
   font-size: 20px;
+}
+
+ul.successes {
+  background-color: #76cfe7;
+}
+
+ul.errors:first-child,
+ul.successes:first-child {
+  margin-top: 0;
+}
+
+ul.errors:last-child,
+ul.successes:last-child {
+  margin-bottom: 0;
 }
 
 ul.errors li {

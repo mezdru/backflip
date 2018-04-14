@@ -63,7 +63,6 @@ EmailUser.tooSoon = function (user, callback) {
 
 //@todo fails if user.orgsAndRecords not populated
 EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback) {
-  console.log('EmailUser');  
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
     EmailHelper.public.emailInvite(

@@ -38,14 +38,11 @@ router.post('/', function(req, res, next) {
       if (!user) {
         user = EmailUser.newFromEmail(req.body.email);
       }
-      console.log('Invite1');
       user.attachOrgAndRecord(res.locals.organisation, null, function(err, user) {
         if (err) return next(err);
-        console.log('Invite2');
         EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
-          console.log('Invite3');
           if (err) return next(err);
-          return res.render('index', {title: "User Invited", details: `The person with email ${user.loginEmail} can now sign in to ${res.locals.organisation.name}`});
+          return res.render('invite', {successes: [{msg: req.__('An invitation has been sent to $s', req.body.email)}]});
         });
       });
     });

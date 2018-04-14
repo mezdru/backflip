@@ -3,14 +3,8 @@
     <div class="pure-g">
       <div class="pure-u-1">
         <div class="grid-box">
-          <h1 class="tagline">Invite new user to join {{organisation.name}}</h1>
-        </div>
-      </div>
-    </div>
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box">
-          <input name="email" type="email" class="pure-input-1" placeholder="{{__ "Invitee Work Email"}}" value="{{email}}">
+          {{> form_successes}}
+          <h1>{{__ 'Invite coworker to join'}}</h1>
         </div>
       </div>
     </div>
@@ -18,9 +12,23 @@
       <div class="pure-u-1">
         <div class="grid-box">
           {{> form_errors}}
+          <input name="email" type="email" class="pure-input-1" placeholder="{{__ "Invitee Work Email"}}" value="{{email}}">
+        </div>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
           <input type=submit class="pure-button button-success save-input scale" value="Invite"></input>
         </div>
       </div>
     </div>
   </form>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <img class="pure-img" src="/images/cat.png">
+      </div>
+    </div>
+  </div>
 </div>

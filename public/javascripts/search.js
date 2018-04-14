@@ -135,6 +135,10 @@ $(document).ready(function () {
     onType(str) {
       toggleIconEmptyInput();
     },
+    onLoad(data) {
+      if(data.length === 0)
+        search();
+    },
     onDropdownOpen($dropdown) {
       toggleIconEmptyInput();
       $modalLayer.addClass('show');
@@ -245,9 +249,10 @@ $(document).ready(function () {
   });
   $searchInputIcon.on('click', function (e) {
     e.preventDefault();
-    $selectize.clear(false);
+    $selectize.clear(true);
     $selectize.$control_input.val('');
     toggleIconEmptyInput();
+    search();
   });
   $showMore.on('click', function (e) {
     page ++;

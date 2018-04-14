@@ -77,7 +77,6 @@ var EmailHelper = {
         });
     },
     emailInvite: function(email, inviterName, organisationName, url, res) {
-      console.log('EmailHelper');
       const request = mailjet
         .post("send")
         .request({
@@ -92,7 +91,7 @@ var EmailHelper = {
           "Vars": {
             "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.", organisationName),
             "inviterName": inviterName || defaultEmitterName,
-            "button": res.__("Join us"),
+            "button": res.__("Spread your wings"),
             "url": url || defaultLink,
             "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
           }
