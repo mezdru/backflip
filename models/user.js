@@ -167,10 +167,11 @@ userSchema.methods.isSuperAdmin = function() {
   return this.superadmin === true;
 };
 
+//@todo there's an implementation asymetry between google and email signin
 userSchema.pre('save', function(next) {
   if (this.isNew && this.canEmailSignin()) {
     Organisation.findByEmail(this.email.value, function(err, organisations) {
-      if(err) {
+      if (err) {
         console.error('Cannot find Organisations by user email');
         return next();
       }

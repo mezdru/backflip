@@ -90,7 +90,6 @@ organisationSchema.statics.getTheWings = function(req, res, next) {
 
 organisationSchema.statics.findByEmail = function(email, callback) {
   var domain = email.split('@')[1];
-  console.log('domain='+domain);
   return this.findByDomain(domain, callback);
 };
 
