@@ -96,12 +96,12 @@ a.step.active span {
   float: none;
   margin: auto;
   position: relative;
-  height: 40vw;
-  width: 40vw;
+  height: 180px;
+  width: 180px;
 }
 
 .onboard-intro .picture img {
-  width: 40vw;
+  width: 180px;
 }
 
 .uploadcare--widget {

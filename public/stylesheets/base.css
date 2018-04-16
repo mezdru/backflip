@@ -14,13 +14,11 @@ body {
   color: #1d1f1a;
   font-size: 15px;
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
 
 body.search,
 body.profile {
-  background-image: url(/images/subtle_white_feathers.png);
   background-color: #f2f2f2;
 }
 
@@ -402,10 +400,6 @@ a.cloud-element,
   background-color: #dd362e;
   color: #ffffff;
 }
-.pure-menu-children .pure-menu-link:hover {
-  background-color: #a4c5cb;
-  color: #ffffff;
-}
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em,
 .selectize-dropdown [data-selectable] em {
   font-weight: 800;
@@ -451,6 +445,16 @@ header .pure-form input.search-input,
   font-size: 0;
 }
 
+
+
+.pure-menu-children .pure-menu-item-org .pure-menu-link {
+  font-weight: 300;
+  color: #a4c5cb;
+}
+.pure-menu-children .pure-menu-link:hover {
+  background-color: #a4c5cb;
+  color: #ffffff;
+}
 .selectize-input.dropdown-active {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -461,7 +465,17 @@ header .pure-form input.search-input,
   vertical-align: top;
   font-size: 17px;
   height: 30px !important;
-  margin: 5px 5px 5px 0 !important;
+  margin: 5px 5px 5px 0 !impor
+
+
+.pure-menu-children .pure-menu-item-org .pure-menu-link {
+  font-weight: 300;
+  color: #a4c5cb;
+}
+.pure-menu-children .pure-menu-link:hover {
+  background-color: #a4c5cb;
+  color: #ffffff;
+}tant;
   padding: 5px 0 !important;
   min-width: 100px !important;
   border: none;
@@ -564,8 +578,6 @@ header a:hover {
   background: none;
 }
 
-
-
 /* Dropdown */
 
 .pure-menu .pure-menu-link {
@@ -583,7 +595,7 @@ header a:hover {
   border: 2px solid #a4c5cb;
   border-radius: 20px 0 20px 20px;
   background: #ffffff;
-  z-index: 50;
+  z-index: 60;
 }
 
 .pure-menu-children .pure-menu-item:first-child .pure-menu-link {
@@ -597,11 +609,6 @@ header a:hover {
 
 .pure-menu-children .pure-menu-item .edit-link {
   color: #dd362e;
-}
-
-.pure-menu-children .pure-menu-item-org .pure-menu-link{
-  font-weight: 300;
-  color: #a4c5cb;
 }
 
 .pure-menu-link.pure-menu-picture {
@@ -627,6 +634,15 @@ header a:hover {
 
 .pure-menu-allow-hover:hover > .pure-menu-picture img {
   border: 2px solid #a4c5cb;
+}
+
+.pure-menu-children .pure-menu-item-org .pure-menu-link {
+  font-weight: 300;
+  color: #a4c5cb;
+}
+.pure-menu-children .pure-menu-link:hover {
+  background-color: #a4c5cb;
+  color: #ffffff;
 }
 
 #search {
@@ -791,26 +807,57 @@ a.cloud-element:hover {
 }
 
 /* PROFILE */
+
+.profile header {
+  position: relative;
+  min-height: 50vh;
+  background-color: none;
+  background-image: url('https://www.urlaubsguru.de/wp-content/uploads/2016/04/iStock-96318973.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.profile .main {
+  padding: 0;
+  min-height: 50vh;
+}
+
 .profile .main .pure-g {
-  max-width: 640px;
+  max-width: 100%;
 }
 
 .profile .left-panel {
   background: #ffffff;
   min-height: 100%;
   position: relative;
+  box-sizing: border-box;
+}
+
+.profile .left-panel.editable {
   padding-bottom: 140px;
-  border-radius: 0 0 30px 30px;
-  overflow: hidden;
+}
+
+.profile .left-panel .grid-box:first-child {
+  padding-top: 0;
+}
+
+.profile .right-panel {
+  background: #f2f2f2;
 }
 
 .profile .left-panel .action-buttons {
   position: absolute;
   bottom: 0;
+  padding: 30px;
 }
 
 .profile .picture {
   float: none;
+  margin: -95px auto 0;
+  position: relative;
+  z-index: 55;
+  border: 5px solid #ffffff;
 }
 
 .profile #intro {
@@ -959,6 +1006,17 @@ a.hashtag {
 
 /* PICTURE */
 .picture {
+  height: 180px;
+  width: 180px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.picture img {
+  width: 180px;
+}
+
+.record .picture {
   float: left;
   height: 28vw;
   width: 28vw;
@@ -966,18 +1024,13 @@ a.hashtag {
   max-width: 180px;
   min-height: 100px;
   min-width: 100px;
-  overflow: hidden;
-  border-radius: 50%;
+  border-radius: 30px 0 30px 0;
 }
 
-.picture img {
+.record .picture img {
   width: 28vw;
   max-width: 180px;
   min-width: 100px;
-}
-
-.record .picture {
-  border-radius: 30px 0 30px 0;
 }
 
 .record .pure-u-intro:last-child .picture {
@@ -1423,6 +1476,14 @@ a.hashtag {
     font-size: 30px;
   }
 
+  .profile .left-panel {
+    min-height: 50vh;
+  }
+
+  .profile .left-panel .grid-box {
+    padding: 15px 30px;
+  }
+
   .intro {
     font-size: 15px;
     padding-top: 8px;
@@ -1485,10 +1546,6 @@ a.hashtag {
 @media screen and (min-width: 1279px) {
     .pure-u-search  {
       display: inherit;
-    }
-
-    .profile .main .pure-g {
-      max-width: 1280px;
     }
 
     .signin .main {
