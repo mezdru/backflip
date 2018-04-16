@@ -20,6 +20,10 @@
   max-width: 1280px;
 }
 
+.home header .pure-g {
+  max-width: 100%;
+}
+
 .home h1 {
   text-align: center;
   font-weight: 600;
