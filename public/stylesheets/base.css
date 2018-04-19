@@ -301,7 +301,6 @@ a.cloud-element,
 }
 
 /* INPUTS */
-
 .search-input-box {
   position: relative;
   padding: 15px;
@@ -408,11 +407,11 @@ a.cloud-element,
   color: inherit;
 }
 
-
 .pure-form input[type="email"],
 .pure-form input[type="text"],
 .pure-form input[type="url"],
 .pure-form input[type="tel"],
+.pure-form textarea,
 .selectize-input {
   width: 100%;
   box-sizing: border-box;
@@ -445,16 +444,6 @@ header .pure-form input.search-input,
   font-size: 0;
 }
 
-
-
-.pure-menu-children .pure-menu-item-org .pure-menu-link {
-  font-weight: 300;
-  color: #a4c5cb;
-}
-.pure-menu-children .pure-menu-link:hover {
-  background-color: #a4c5cb;
-  color: #ffffff;
-}
 .selectize-input.dropdown-active {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -469,15 +458,6 @@ header .pure-form input.search-input,
   padding: 5px 0 !important;
   min-width: 100px !important;
   border: none;
-}
-
-.pure-menu-children .pure-menu-item-org .pure-menu-link {
-  font-weight: 300;
-  color: #a4c5cb;
-}
-.pure-menu-children .pure-menu-link:hover {
-  background-color: #a4c5cb;
-  color: #ffffff;
 }
 
 .selectize-input .cloud-element {
@@ -503,6 +483,41 @@ header .pure-form input.search-input,
 #modal-layer.show {
   visibility: visible;
   opacity: 0.9;
+}
+
+/* Hashtag autocomplete in intro & about me*/
+.dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 15px 15px 15px;
+  background-color: #ffffff;
+  border: 2px solid #dd362e;
+  background-color: #f6f4f4;
+  overflow: hidden;
+}
+
+.dropdown-menu .textcomplete-item a {
+  display: block;
+  cursor: pointer;
+  border-top: 1px solid #a4c5cb;
+  color: #5c4d51;
+  position: relative;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+.dropdown-menu .textcomplete-item:first-child a {
+  border-top: none;
+}
+
+.dropdown-menu .textcomplete-item a em {
+  font-weight: 800;
+}
+
+.dropdown-menu .textcomplete-item.active a {
+  color: #ffffff;
+  background: #dd362e;
 }
 
 /* HEADER */
@@ -595,6 +610,15 @@ header a:hover {
   border-radius: 20px 0 20px 20px;
   background: #ffffff;
   z-index: 60;
+}
+
+.pure-menu-children .pure-menu-item-org .pure-menu-link {
+  font-weight: 300;
+  color: #a4c5cb;
+}
+.pure-menu-children .pure-menu-link:hover {
+  background-color: #a4c5cb;
+  color: #ffffff;
 }
 
 .pure-menu-children .pure-menu-item:first-child .pure-menu-link {
@@ -808,7 +832,8 @@ a.cloud-element:hover {
 /* PROFILE */
 
 .profile header,
-.cover-edit header {
+.cover-edit header,
+.about-edit header {
   position: relative;
   min-height: 50vh;
   background-color: none;
@@ -819,7 +844,8 @@ a.cloud-element:hover {
 }
 
 .profile .main,
-.cover-edit .main {
+.cover-edit .main,
+.about-edit .main {
   padding: 0;
   min-height: 50vh;
 }
@@ -873,13 +899,14 @@ a.cloud-element:hover {
 
 .profile #description {
   padding: 0 15px;
-  font-size: 18px;
+  font-size: 21px;
   letter-spacing: 1px;
 }
 
 .profile #edit-button,
 .profile #delete-button,
-.profile #cover-button {
+.profile #cover-button,
+.profile #about-button {
   margin: 0 0 15px;
   font-size: 18px;
   padding: 5px 15px;
@@ -892,8 +919,19 @@ a.cloud-element:hover {
   width: auto;
 }
 
+.profile #hashtags-button {
+  width: auto;
+  background-color: #dd362e;
+  line-height: normal;
+}
+
 .profile #delete-button {
   margin-bottom: 0;
+}
+
+.profile #about-button {
+  float: right;
+  width: auto;
 }
 
 .cloud.cloud-list {
@@ -944,13 +982,10 @@ a.cloud-element:hover {
 }
 
 /* COVER EDIT */
-.cover-edit .main {
+.cover-edit .main,
+.about-edit .main {
   padding-top: 0;
   padding-bottom: 90px;
-}
-
-.cover-edit header {
-  background-color: #c7bcbf;
 }
 
 .cover-edit #uploadcare,
@@ -967,7 +1002,7 @@ a.cloud-element:hover {
   font-weight: 600;
   border: none;
   border-radius: 30px;
-  background-color: #c7bcbf;
+  background-color: #a4c5cb;
   color: #ffffff;
   transition: all .3s ease-out;
 }
@@ -993,10 +1028,11 @@ a.cloud-element:hover {
   color: #dd362e;
 }
 
-.cover-edit h2 {
+.cover-edit h2,
+.about-edit h2 {
   text-align: center;
   margin: auto;
-  color: #1d1f1a;
+  color: #a4c5cb;
   font-size: 24px;
   padding: 0;
   text-align: center;
@@ -1308,7 +1344,7 @@ a.hashtag {
 }
 
 .bottom-buttons .grid-box {
-  padding: 60px 15px;
+  padding: 30px 15px;
 }
 
 .bottom-buttons a.pure-u-1-2 {
@@ -1615,8 +1651,13 @@ a.hashtag {
     bottom: 30px;
   }
 
-  .cover-edit .main {
+  .cover-edit .main,
+  .about-edit .main {
     padding-bottom: 180px;
+  }
+
+  .bottom-buttons .grid-box {
+    padding: 60px 15px;
   }
 
 }

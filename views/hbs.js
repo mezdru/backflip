@@ -163,8 +163,9 @@ hbs.registerHelper('url', function(path, organisationTag, query) {
   return new UrlHelper(organisationTag, path, null, this.getLocale()).getUrl();
 });
 
-hbs.registerHelper('editUrl', function(recordId, organisationTag) {
-  page = 'onboard/intro';
+hbs.registerHelper('editUrl', function(recordId, organisationTag, step) {
+  step = step || 'intro';
+  page = 'onboard/'+step;
   query = '?recordId='+recordId;
   return new UrlHelper(organisationTag, page, query, this.getLocale()).getUrl();
 });

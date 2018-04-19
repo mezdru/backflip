@@ -166,10 +166,10 @@ router.post('/welcome', function(req, res, next) {
 });
 
 // On post we always expect an _id field matching the record for the current user/organisation
-router.post(function(req, res, next) {
-  if (req.body._id != res.locals.record._id) {
+router.post('*', function(req, res, next) {
+  if (!res.locals.record._id.equals(req.body._id)) {
     err = new Error('Record Mismatch');
-    err.status = 500;
+    err.status = 403;
     return next(err);
   }
   return next();

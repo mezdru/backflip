@@ -1,18 +1,12 @@
 <div class="main">
-  <div class="pure-g">
-  </div>
-  <form class="pure-form pure-form-stacked" action="{{coverAction}}" method="post">
+  <form class="pure-form pure-form-stacked" action="{{aboutAction}}" method="post">
     <input type="hidden" name="_id" value="{{record._id}}" />
     <div class="pure-g">
       <div class="pure-u-1">
         <div class="grid-box">
-          <div id="uploadcare" class="">
-            <input id="uploadcare" type="hidden" role="uploadcare-uploader" name="picture[url]" data-crop="1280x960 upscale" data-image-shrink="1280x1280" data-images-only="true"  value="{{uploadcareUrl}}"/>
-          </div>
-        </div>
-        <div class="grid-box">
+          <h2>{{__ "Tell us about you"}}</h2>
           {{> form_errors}}
-          <h2>{{__ "Everybody at %s will see your cover picture when visiting your profile" organisation.name}}</h2>
+          <textarea class="pure-input-1 desc-input" id="about" name="about" rows="6">{{{record.description}}}</textarea>
         </div>
       </div>
     </div>
@@ -25,7 +19,7 @@
         </div>
         <div class="pure-u-1-2 pure-u-md-2-3">
           <div class="grid-box">
-            <button type="submit" class="pure-button scale">{{{__ "Change Cover"}}}</button>
+            <button type="submit" class="pure-button scale">{{{__ "Save"}}}</button>
           </div>
         </div>
       </div>
@@ -33,4 +27,7 @@
   </form>
 </div>
 {{> jquery}}
-{{> uploadcare_script}}
+<script src="/javascripts/jquery.textcomplete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script>var algoliaPublicKey = {{{json algoliaPublicKey}}};</script>
+<script src="/javascripts/edit.js"></script>

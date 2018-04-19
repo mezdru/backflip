@@ -122,5 +122,15 @@
 	"We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button.": "We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button.",
 	"Everybody at %s will see your cover picture when visiting your profile": "Everybody at %s will see your cover picture when visiting your profile",
 	"Save": "Save",
-	"Change Cover": "Change Cover"
+	"Change Cover": "Change Cover",
+	"fa-cube": "fa-cube",
+	"Pardon?": "Pardon?",
+	"We cannot understand your request. Please try something else.": "We cannot understand your request. Please try something else.",
+	"JOWw5OaaZf8?t=1m3s": "JOWw5OaaZf8?t=1m3s",
+	"S'il vous plaît, dessine-moi un mouton.": "S'il vous plaît, dessine-moi un mouton.",
+	"Le petit prince": "Le petit prince",
+	"Add Wings": "Add Wings",
+	"Tell us about you": "Tell us about you",
+	"Please provide a valid https:// URL.": "Please provide a valid https:// URL.",
+	"Edit": "Edit"
 }

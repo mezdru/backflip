@@ -201,6 +201,9 @@ app.use('/onboard', onboard);
 var cover = require('./routes/cover.js');
 app.use('/cover', cover);
 
+var about = require('./routes/about.js');
+app.use('/about', about);
+
 // onboarding
 var invite = require('./routes/invite.js');
 app.use('/invite', invite);

@@ -177,47 +177,6 @@ a.step.active span {
   color: #dd362e;
 }
 
-/* Edit description autocomplete */
-#description a {
-  text-decoration: none;
-  font-weight: normal;
-  color: #181818;
-}
-
-.dropdown-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-radius: 0 15px 15px 15px;
-  background-color: #ffffff;
-  border: 2px solid #dd362e;
-  background-color: #f6f4f4;
-  overflow: hidden;
-}
-
-.dropdown-menu .textcomplete-item a {
-  display: block;
-  cursor: pointer;
-  border-top: 1px solid #a4c5cb;
-  color: #5c4d51;
-  position: relative;
-  text-decoration: none;
-  padding: 10px 20px;
-}
-
-.dropdown-menu .textcomplete-item:first-child a {
-  border-top: none;
-}
-
-.dropdown-menu .textcomplete-item a em {
-  font-weight: 800;
-}
-
-.dropdown-menu .textcomplete-item.active a {
-  color: #ffffff;
-  background: #dd362e;
-}
-
 .onboard form .wings-checkboxes-label {
   padding-bottom: 0;
 }

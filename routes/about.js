@@ -4,6 +4,7 @@ var router = express.Router();
 var Record = require('../models/record.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var undefsafe = require('undefsafe');
+var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 
 
 const { body,validationResult } = require('express-validator/check');
@@ -46,11 +47,15 @@ router.use(function(req, res, next) {
 });
 
 router.use(function(req, res, next) {
-  res.locals.coverAction = UrlHelper.makeUrl(req.organisationTag, 'cover/id/'+res.locals.record._id, null, req.getLocale());
+  res.locals.aboutAction = UrlHelper.makeUrl(req.organisationTag, 'about/id/'+res.locals.record._id, null, req.getLocale());
   res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, res.locals.record.tag, null, req.getLocale());
-  res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
   res.locals.coverUrl = undefsafe(res.locals.record, 'cover.url') || true;
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   return next();
+});
+
+router.get('/id/:id', function(req, res, next) {
+  res.render('about', { bodyClass: 'about-edit'});
 });
 
 // On post we always expect an _id field matching the record for the current user/organisation
@@ -64,27 +69,35 @@ router.post('*', function(req, res, next) {
 });
 
 router.post('/id/:id',
-  body('picture.url').optional({checkFalsy: true}).isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
-    return req.__('Please provide a valid https:// URL.');
+  sanitizeBody('about').trim().escape().stripLow(true)
+);
+
+router.post('/id/:id',
+  body('about').isLength({ max: 16384 }).withMessage((value, {req}) => {
+    return req.__('Please write an intro no larger than 16384 characters.');
   })
 );
 
+// Load the whole organisation records, we'll need those for further use
+// Duplicate in google_admin && fullcontact_admin && record_admin
+// @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.post('/id/:id', function(req, res, next) {
-  var errors = validationResult(req);
-  res.locals.errors = errors.array();
-  if (errors.isEmpty()) {
-    res.locals.record.addCoverByUrl(req.body.picture.url, function(err, record) {
-      if(err) return next(err);
-      record.save(function(err, record) {
-        if(err) return next(err);
-        res.redirect(res.locals.backUrl);
-      });
-    });
-  } else next();
+  if (res.locals.organisation.records) return next();
+  res.locals.organisation.populateRecords(function(err, organisation) {
+    if (err) return next(err);
+    else return next();
+  });
 });
 
-router.all('/id/:id', function(req, res, next) {
-  res.render('cover', { bodyClass: 'cover-edit'});
+router.post('/id/:id', function(req, res, next) {
+  res.locals.record.description = req.body.about;
+  res.locals.record.makeWithin(res.locals.organisation, function(err, newRecords) {
+    if(err) return next(err);
+    res.locals.record.save(function(err, record) {
+      if(err) return next(err);
+      res.redirect(res.locals.backUrl);
+    });
+  });
 });
 
 module.exports = router;

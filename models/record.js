@@ -237,7 +237,7 @@ recordSchema.methods.makeWithin = function(organisation, callback) {
         return this.model('Record').shallowCopy(outputRecord);
       }, this
     );
-    //@todo use insertMany instead of create (implies rewriting mongoose-Algolia to use the insertMany middleware too).
+    //@todo use insertMany instead of create (implies rewriting the algolia post save synchro to use the insertMany middleware too).
     if (callback) return this.model('Record').create(newRecords, callback);
     else return newRecords;
 };
@@ -440,6 +440,10 @@ recordSchema.virtual('firstEmail').get(function () {
   return undefsafe(this, 'google.primaryEmail') || undefsafe(this, 'email.value') || undefsafe(this.links.find(link => link.type === 'email'), 'value');
 });
 
+recordSchema.virtual('allHashtags').get(function () {
+  return this.hashtags.concat(this.within);
+});
+
 recordSchema.methods.hasPicture = function() {
   return undefsafe(this, 'picture.url') || undefsafe(this, 'picture.path');
 };
@@ -527,6 +531,7 @@ recordSchema.methods.algoliaSync = function(doc) {
   }
 };
 
+//@todo remove
 recordSchema.statics.getValidationSchema = function(res) {
   return {
     name: {
