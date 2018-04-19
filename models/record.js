@@ -21,7 +21,7 @@ var recordSchema = mongoose.Schema({
     type: {type: String},
     uuid: String
   },
-  banner: {
+  cover: {
     url: String,
     path: String,
     type: {type: String},
@@ -453,6 +453,14 @@ recordSchema.methods.addPictureByUrl = function(url, callback) {
   this.model('Record').addFileByUrl(url, function(err, file) {
     if (err) return callback(err);
     this.picture = file;
+    return callback(null, this);
+  }.bind(this));
+};
+
+recordSchema.methods.addCoverByUrl = function(url, callback) {
+  this.model('Record').addFileByUrl(url, function(err, file) {
+    if (err) return callback(err);
+    this.cover = file;
     return callback(null, this);
   }.bind(this));
 };

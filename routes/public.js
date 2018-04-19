@@ -37,7 +37,10 @@ router.use('/search/:query?', function(req, res, next) {
 router.get('/search/:query?', function(req, res, next) {
   if (res.locals.organisation.public === true) {
     //@todo deduplicate with restrict.js
-    if (res.locals.user) res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
+    if (res.locals.user) {
+      res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
+      res.locals.isMyOrg = res.locals.user.belongsToOrganisation(res.locals.organisation._id);
+    }
     res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
     res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
   } else {

@@ -465,8 +465,11 @@ header .pure-form input.search-input,
   vertical-align: top;
   font-size: 17px;
   height: 30px !important;
-  margin: 5px 5px 5px 0 !impor
-
+  margin: 5px 5px 5px 0 !important;
+  padding: 5px 0 !important;
+  min-width: 100px !important;
+  border: none;
+}
 
 .pure-menu-children .pure-menu-item-org .pure-menu-link {
   font-weight: 300;
@@ -475,10 +478,6 @@ header .pure-form input.search-input,
 .pure-menu-children .pure-menu-link:hover {
   background-color: #a4c5cb;
   color: #ffffff;
-}tant;
-  padding: 5px 0 !important;
-  min-width: 100px !important;
-  border: none;
 }
 
 .selectize-input .cloud-element {
@@ -808,17 +807,19 @@ a.cloud-element:hover {
 
 /* PROFILE */
 
-.profile header {
+.profile header,
+.cover-edit header {
   position: relative;
   min-height: 50vh;
   background-color: none;
-  background-image: url('https://www.urlaubsguru.de/wp-content/uploads/2016/04/iStock-96318973.jpg');
+  background-image: url('/images/ibises.jpg');
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-.profile .main {
+.profile .main,
+.cover-edit .main {
   padding: 0;
   min-height: 50vh;
 }
@@ -877,12 +878,19 @@ a.cloud-element:hover {
 }
 
 .profile #edit-button,
-.profile #delete-button {
+.profile #delete-button,
+.profile #cover-button {
   margin: 0 0 15px;
   font-size: 18px;
   padding: 5px 15px;
 }
 
+.profile #cover-button {
+  position: absolute;
+  right: 15px;
+  top: 85px;
+  width: auto;
+}
 
 .profile #delete-button {
   margin-bottom: 0;
@@ -933,6 +941,66 @@ a.cloud-element:hover {
 
 .profile a.cloud-element:hover .fa {
   transform: scale(1.5);
+}
+
+/* COVER EDIT */
+.cover-edit .main {
+  padding-top: 0;
+  padding-bottom: 90px;
+}
+
+.cover-edit header {
+  background-color: #c7bcbf;
+}
+
+.cover-edit #uploadcare,
+.cover-edit .uploadcare--widget {
+  display: block;
+}
+
+.cover-edit .uploadcare--widget button {
+  width: 100%;
+  margin: auto;
+  font-size: 22.5px;
+  line-height: 30px;
+  padding: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  background-color: #c7bcbf;
+  color: #ffffff;
+  transition: all .3s ease-out;
+}
+
+.cover-edit .uploadcare--widget__text {
+  display: none;
+}
+
+.cover-edit .uploadcare--widget button:hover,
+.cover-edit .uploadcare--widget button:active,
+.cover-edit .uploadcare--widget button:focus {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.uploadcare--widget__progress {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+}
+
+.onboard-intro .uploadcare--progress_type_canvas {
+  color: #dd362e;
+}
+
+.cover-edit h2 {
+  text-align: center;
+  margin: auto;
+  color: #1d1f1a;
+  font-size: 24px;
+  padding: 0;
+  text-align: center;
+  font-weight: 300;
 }
 
 /* SEARCH RESULTS */
@@ -1239,7 +1307,7 @@ a.hashtag {
   width: 100%;
 }
 
-.onboard .bottom-buttons .grid-box {
+.bottom-buttons .grid-box {
   padding: 60px 15px;
 }
 
@@ -1539,6 +1607,16 @@ a.hashtag {
 
   .pure-menu-horizontal > .pure-menu-list > .pure-menu-item {
     line-height: 54px;
+  }
+
+  .profile #cover-button {
+    right: 30px;
+    top: auto;
+    bottom: 30px;
+  }
+
+  .cover-edit .main {
+    padding-bottom: 180px;
   }
 
 }

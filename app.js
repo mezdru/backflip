@@ -197,6 +197,10 @@ app.use('/', privatePages);
 var onboard = require('./routes/onboard.js');
 app.use('/onboard', onboard);
 
+// edit
+var cover = require('./routes/cover.js');
+app.use('/cover', cover);
+
 // onboarding
 var invite = require('./routes/invite.js');
 app.use('/invite', invite);

@@ -119,5 +119,8 @@
 	"An invitation has been sent to {{email}}": "An invitation has been sent to {{email}}",
 	"Sign in to Wingzy": "Sign in to Wingzy",
 	"Hello %s! We are happy to welcome you back on Wingzy.": "Hello %s! We are happy to welcome you back on Wingzy.",
-	"We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button.": "We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button."
+	"We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button.": "We just sent you an email at %s. To securely access Wingzy for 30 days, go to your inbox, open this email and click the red button.",
+	"Everybody at %s will see your cover picture when visiting your profile": "Everybody at %s will see your cover picture when visiting your profile",
+	"Save": "Save",
+	"Change Cover": "Change Cover"
 }

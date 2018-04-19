@@ -26,6 +26,19 @@ hbs.registerHelper('textfieldJson', function(context) {
   return text;
 });
 
+hbs.registerHelper('coverStyle', function(coverUrl) {
+  var html = '';
+  if(coverUrl) {
+    html += 'class="image-preview-single"';
+    if (coverUrl !== true) {
+      html += 'style="background-image:url(' +
+        coverUrl +
+        ')"';
+    }
+  }
+  return html;
+});
+
 // @todo find somewhere to put & deduplicate the transformLinks (public/js/index.js + views/hbs.js) logic.
 hbs.registerHelper('linkDisplay', function(link) {
   return link.display || link.value;

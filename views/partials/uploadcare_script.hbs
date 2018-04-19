@@ -8,16 +8,12 @@
 </script>
 <script src="https://ucarecdn.com/libs/widget/3.2.2/uploadcare.min.js" charset="utf-8"></script>
 <script>
-function installWidgetPreviewSingle(widget, img) {
+function installWidgetPreviewSingle(widget, div) {
   widget.onChange(function(file) {
-    img.css('visibility', 'hidden');
-    img.attr('src', '');
     if (file) {
       file.done(function(fileInfo) {
-        var size = '' + (img.width() * 2) + 'x' + (img.height() * 2);
         var previewUrl = fileInfo.cdnUrl;
-        img.attr('src', previewUrl);
-        img.css('visibility', 'visible');
+        div.css('background-image', 'url("'+previewUrl+'")');
       });
     }
   });
@@ -25,8 +21,8 @@ function installWidgetPreviewSingle(widget, img) {
 $(function() {
   $('.image-preview-single').each(function() {
     installWidgetPreviewSingle(
-      uploadcare.SingleWidget($(this).children('input')),
-      $(this).children('img')
+      uploadcare.SingleWidget($('#uploadcare').children('input')),
+      $(this)
     );
   });
 });

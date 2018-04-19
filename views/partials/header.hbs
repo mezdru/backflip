@@ -1,4 +1,4 @@
-<header>
+<header {{{coverStyle coverUrl}}}>
 {{#if search}}
 <div class="pure-g search-on">
   <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-md-1-6 pure-u-xl-1-4" href="{{homeUrl organisation}}">
@@ -27,5 +27,8 @@
     {{> menu}}
   </div>
 </div>
+{{/if}}
+{{#if editCoverUrl}}
+  <a id="cover-button" href="{{editCoverUrl}}" class="pure-button scale">{{{__ "Change Cover"}}}</a>
 {{/if}}
 </header>

@@ -98,10 +98,9 @@ a.step.active span {
   position: relative;
   height: 180px;
   width: 180px;
-}
-
-.onboard-intro .picture img {
-  width: 180px;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .uploadcare--widget {

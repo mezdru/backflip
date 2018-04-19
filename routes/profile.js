@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var undefsafe = require('undefsafe');
 
 var Record = require('../models/record.js');
+var UrlHelper = require('../helpers/url_helper.js');
 
 // First we check there is an organisation.
 // If there is an org, we now the user belongs there from restrict.js
@@ -62,6 +64,14 @@ router.get('*', function(req, res, next) {
 router.get('*', function(req, res, next) {
   if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
     res.locals.canDelete = true;
+  }
+  next();
+});
+
+router.get('*', function(req, res, next) {
+  res.locals.coverUrl = undefsafe(res.locals.record, 'cover.url');
+  if (res.locals.canEdit) {
+    res.locals.editCoverUrl =  UrlHelper.makeUrl(req.organisationTag, 'cover/id/'+res.locals.record._id, null, req.getLocale());
   }
   next();
 });
