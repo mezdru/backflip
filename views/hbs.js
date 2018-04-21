@@ -105,7 +105,7 @@ hbs.registerHelper('picture', function(item) {
 hbs.registerHelper('icon', function(item) {
   if (item && item.picture && item.picture.path)
     return '<img src="/images'+item.picture.path+'">';
-  else return null;
+  else return '<img src="/images/placeholder_hashtag.png">';
 });
 
 hbs.registerHelper('error', function(status, elem) {
@@ -164,7 +164,7 @@ hbs.registerHelper('url', function(path, organisationTag, query) {
 });
 
 hbs.registerHelper('editUrl', function(recordId, organisationTag, step) {
-  step = step || 'intro';
+  if (!['intro','hashtags','links'].includes(step)) step = 'intro';
   page = 'onboard/'+step;
   query = '?recordId='+recordId;
   return new UrlHelper(organisationTag, page, query, this.getLocale()).getUrl();
@@ -179,6 +179,10 @@ hbs.registerHelper('homeUrl', function(organisation, locale) {
   locale = typeof locale === 'string' ? locale : this.getLocale();
   if (organisation && organisation.tag) return new UrlHelper(organisation.tag, 'search', null, locale).getUrl();
   else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
+});
+
+hbs.registerHelper('nl2br', function(string) {
+  return string.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 });
 
 const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;

@@ -5,24 +5,30 @@
         <div class="picture">
           <img src="{{pictureUrl record.picture record.type}}" alt="">
         </div>
+        {{#if canEdit}}
+          <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Edit"}}}</a>
+        {{/if}}
         <h1>{{{record.name}}}</h1>
         {{#if record.intro}}
         <p id="intro">{{{record.intro}}}</p>
         {{/if}}
       </div>
-      {{#if record.links}}
       <div class="grid-box cloud-list links">
         {{#record.links}}
         {{> link}}
         {{/record.links}}
-      </div>
-      {{/if}}
-      <div class="grid-box action-buttons">
         {{#if canEdit}}
-        <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale">{{{__ "Edit Profile"}}}</a>
+        <a id="contacts-button" href="{{editUrl record._id organisation.tag 'links'}}" class="cloud-element link">
+          <i class="fa fa-plus" aria-hidden="true"></i><span>{{__ "Add"}}</span>
+        </a>
+        {{/if}}
+      </div>
+      <div class="grid-box action-buttons">
+        {{#if editCoverUrl}}
+          <a id="cover-button-left" href="{{editCoverUrl}}" class="pure-button scale back-button">{{{__ "Change Cover"}}}</a>
         {{/if}}
         {{#if canDelete}}
-        <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
+          <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
         {{/if}}
       </div>
     </div>
@@ -37,12 +43,14 @@
           {{/if}}
         </ul>
       </div>
-      <div class="grid-box">
-        {{#if editAboutUrl}}
-          <a id="about-button" href="{{editAboutUrl}}" class="pure-button scale"><span>{{__ "Edit"}}</span></a>
-        {{/if}}
-        <h2>{{__ 'About me'}}</h2>
-        <p id="description">{{{record.description}}}</p>
+      <div class="pure-u-1 pure-u-xl-2-3">
+        <div class="grid-box">
+          {{#if editAboutUrl}}
+            <a id="about-button" href="{{editAboutUrl}}" class="pure-button scale back-button"><span>{{__ "Edit"}}</span></a>
+          {{/if}}
+          <h2>{{__ 'About me'}}</h2>
+          <p id="description">{{{nl2br record.description}}}</p>
+        </div>
       </div>
     </div>
   </div>

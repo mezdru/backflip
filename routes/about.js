@@ -10,6 +10,8 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
+//@todo "about" is still called "description" in the record model
+
 // First we check there is an organisation.
 // If there is an org, we now the user belongs there from restrict.js
 router.use(function(req, res, next) {
