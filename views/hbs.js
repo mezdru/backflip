@@ -124,9 +124,9 @@ hbs.registerHelper('tagUrl', function(tag) {
 
 hbs.registerHelper('profileUrl', function(user, organisation) {
   if (!organisation || !user || !organisation._id) return null;
-  recordId = user.getRecordIdByOrgId(organisation._id);
-  if (!recordId) return null;
-  return new UrlHelper(organisation.tag, `id/${recordId}`, null, this.getLocale()).getUrl();
+  recordTag = user.getRecordTagByOrgId(organisation._id);
+  if (!recordTag) return null;
+  return new UrlHelper(organisation.tag, `${recordTag}`, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('myEditUrl', function(organisation) {

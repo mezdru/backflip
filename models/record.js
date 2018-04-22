@@ -187,23 +187,10 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
       this.model('Record').findByTag(hashtag, organisationId, (err, record) => {
         if (err) return reject(err);
         if (record) return resolve(record);
-        //@todo did not find a way to differenciate for sure between recordId and tag, so we need to do a second query to find the record by id.
-        // All this because mongoose.Types.ObjectId.isValid(hashtag) does not work (ie. led zeppelin is a valid ObjectId)
-        if (mongoose.Types.ObjectId.isValid(hashtag)) {
-          this.model('Record').findById(hashtag, organisationId, (err, record) => {
-            if (err) return reject(err);
-            if (record) return resolve(record);
-            this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
-              if (err) return reject(err);
-              return resolve(record);
-            });
-          });
-        } else {
-          this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
-            if (err) return reject(err);
-            return resolve(record);
-          });
-        }
+        this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
+          if (err) return reject(err);
+          return resolve(record);
+        });
       });
     } else {
       err = new Error('Not a valid hashtag');

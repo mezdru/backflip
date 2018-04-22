@@ -73,7 +73,7 @@
     suggestion.tag = suggestion.tag.replace('#','');
     cloudUl.insertAdjacentHTML('beforeend',
       '<li class="cloud-element hashtag added">' +
-      '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+
+      '<input type="hidden" name="hashtags" value="' + (suggestion.tag) + '" />'+
       getPictureHtml(suggestion) +
       '<span>' +
       (suggestion.name || suggestion.tag) +
