@@ -47,9 +47,12 @@ $(document).ready(function () {
 
   // DOM and Templates binding
   var $searchInput = $('#search input');
-  var $hashtags = $('#hashtag-suggestions');
+  var $hashtags = $('#wings-suggestions');
   var $modalLayer = $('#modal-layer');
   var hashtagsTemplate = Hogan.compile($('#hashtags-template').text());
+
+  // Hashtags Bank
+  var hashtagsBank = {};
 
   // Selectize
   var selectizeHashtags = '';
@@ -79,7 +82,6 @@ $(document).ready(function () {
         world.search({
           query: query,
           attributesToRetrieve: ['type','name', 'tag','picture'],
-          restrictSearchableAttributes: ['name', 'tag'],
           facetFilters: ['type:hashtag'],
           hitsPerPage: 5
         },
@@ -88,6 +90,7 @@ $(document).ready(function () {
             console.error(err);
           }
           if (content.hits && content.hits.length) {
+            addHashtagsToBank(content.hits);
             this.softClearOptions();
           }
           callback(content.hits);
@@ -152,11 +155,22 @@ $(document).ready(function () {
   function search() {
     page = 0;
     query = $selectize.$control_input.val();
-    facetFilters = [[],'type:hashtag'];
-    $selectize.items.forEach((item) => {
-      facetFilters[0].push('hashtags.tag:' + item);
-    });
+    facetFilters = ['type:person'];
+    if($selectize.items.length)
+      facetFilters.push('hashtags.tag:' + $selectize.items[$selectize.items.length-1]);
+    searchForHashtags();
     searchForSuggestions();
+  }
+
+  function searchForHashtags() {
+    world.search({
+      facetFilters: ['type:hashtag'],
+      attributesToRetrieve: ['type','name', 'tag','picture'],
+      hitsPerPage: 100,
+    }, function(err, content) {
+      if (err) throw new Error(err);
+      addHashtagsToBank(content.hits);
+    });
   }
 
   function searchForSuggestions() {
@@ -186,9 +200,20 @@ $(document).ready(function () {
     }
   }
 
+  function addHashtagsToBank(hits) {
+    hits.forEach(function(hit) {
+      hashtagsBank[hit.tag] = {
+        tag: hit.tag,
+        type: hit.type,
+        name: hit.name,
+        picture: hit.picture
+      };
+    });
+  }
+
   // EVENTS BINDING
   // ==============
-  $(document).on('click', '.hashtag', function (e) {
+  $(document).on('click', '.add-tag', function (e) {
     e.preventDefault();
     $selectize.addOption({
       tag: $(this).data('tag'),

@@ -188,6 +188,7 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
         if (err) return reject(err);
         if (record) return resolve(record);
         this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
+          console.log(record);
           if (err) return reject(err);
           return resolve(record);
         });

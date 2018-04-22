@@ -1195,10 +1195,6 @@ a.hashtag {
   position: relative;
 }
 
-.onboard-hashtags .pure-u-suggestions {
-  display: none;
-}
-
 .suggestions-box {
   height: 70px;
   box-sizing: border-box;

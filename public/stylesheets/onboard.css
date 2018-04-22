@@ -237,7 +237,7 @@ label[for="link-input"] {
   padding: 30px 30px 0;
 }
 
-.onboard .hashtag,
+.plugin-drag_drop .hashtag,
 .onboard .link {
   cursor: move;
 }

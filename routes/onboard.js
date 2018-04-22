@@ -280,6 +280,7 @@ router.post('/hashtags',
 
 router.post('/hashtags', function(req, res, next) {
   var hashtagsArray = req.body.hashtags.split(',');
+  hashtagsArray = hashtagsArray.filter(tag => tag.length > 1);
   res.locals.record.makeHashtags(hashtagsArray, res.locals.organisation._id, function(err, records) {
     if (err) return next(err);
     res.locals.record.save(function(err, record) {
