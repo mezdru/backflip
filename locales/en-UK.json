@@ -134,5 +134,6 @@
 	"Please provide a valid https:// URL.": "Please provide a valid https:// URL.",
 	"Edit": "Edit",
 	"Add": "Add",
+	"Please write a name (no larger than 64 characters).": "Please write a name (no larger than 64 characters).",
 	"Wings": "Wings"
 }

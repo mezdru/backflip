@@ -159,6 +159,12 @@ userSchema.methods.getRecordIdByOrgId = function(organisationId) {
   else return getId(orgAndRecord.record);
 };
 
+userSchema.methods.getRecordTagByOrgId = function(organisationId) {
+  var orgAndRecord = this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
+  if (!orgAndRecord || !orgAndRecord.record) return null;
+  else return undefsafe(orgAndRecord.record, 'tag');
+};
+
 userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
 };

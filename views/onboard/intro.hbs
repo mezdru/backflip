@@ -34,12 +34,12 @@
     <div id="wings-checkboxes" class="pure-g">
       {{#wings}}
         <div class="pure-u-1-2 pure-u-md-1-3">
-          <label for="{{_id}}" class="wings-label">
+          <label for="{{tag}}" class="wings-label">
             <div>
               <img src="{{pictureUrl picture type}}" class="wings-img">
             </div>
             {{tag}}
-            <input id="{{_id}}" type="checkbox" name="wings" value="{{_id}}" {{#checked}}checked{{/checked}}>
+            <input id="{{tag}}" type="checkbox" name="wings" value="{{tag}}" {{#checked}}checked{{/checked}}>
           </label>
         </div>
       {{/wings}}
