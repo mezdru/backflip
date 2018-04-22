@@ -3,34 +3,21 @@
     <input type="hidden" name="_id" value="{{record._id}}" />
     <div class="pure-g">
       <div class="pure-u-1">
-        <div class="search-input-box" class="grid-box">
-          {{> form_errors}}
-          <label for="hashtag">{{__ "What are you good at? What do you love? Where do you belong?"}}</label>
-          <i class="fa fa-share" aria-hidden="true"></i>
-          <input class="pure-input-1 search-input" id="search-input" type="text" placeholder="{{__ 'Add hashtag'}}" autofocus>
-        </div>
         <div class="grid-box">
-          <ul class="cloud" id="hashtag-cloud">
-            {{#record.hashtags}}
-            {{> hashtag}}
-            {{/record.hashtags}}
-          </ul>
-          <input type="hidden" name="hashtags" value="end_of_hashtag_cloud" />
-          <p class="cloud-howto">{{__ "The first three will be displayed in search results. Drag to add and reorder."}}</p>
+          {{> form_errors}}
+          <label for="wings">{{__ "What are you good at? What do you love? Where do you belong?"}}</label>
+        </div>
+        <div id="search" class="search-input-box grid-box pure-form">
+          <input id="wings" name="hashtags" type="text" placeholder="{{__ 'Add hashtag'}}" value="{{hashtagsAsString}}">
         </div>
       </div>
     </div>
     <div class="pure-g">
-      <h3 class="suggested">{{__ "Suggested"}}</h3>
       <div class="pure-u-1 pure-u-suggestions">
         <a class="fa fa-chevron-right scroll-right" aria-hidden="true"></a>
         <a class="fa fa-chevron-left scroll-left" aria-hidden="true"></a>
         <div class="grid-box suggestions-box">
-          <ul id="hashtag-suggestions" class="scroll">
-            {{#hashtagSuggestions}}
-            {{> hashtag}}
-            {{/hashtagSuggestions}}
-          </ul>
+          <div id="hashtag-suggestions" class="scroll"></div>
         </div>
       </div>
     </div>
@@ -54,121 +41,26 @@
 </div>
 <div id="modal-layer">
 </div>
-<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
-<script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script type="text/template" id="hashtags-template">
+  {{{{raw}}}}
+    {{#hashtags}}
+      <a href="" class="cloud-element hashtag add-tag" data-tag="{{value}}" data-name="{{value}}"><span>{{value}}</span><span class="count">{{count}}</span></a>
+    {{/hashtags}}
+  {{{{/raw}}}}
+</script>
 <script>
   var algoliaPublicKey = {{{json algoliaPublicKey}}};
-  var newHashtagSentence = '{{__ "Create new hashtag"}}';
-  var notFoundSentence = '{{__ "There is no matching hashtag... yet!"}}';
   var isProduction = {{{json isProduction}}};
 </script>
 <script>
-  var cloudUl = document.getElementById('hashtag-cloud');
-  var suggestionsUl = document.getElementById('hashtag-suggestions');
-  var searchInput = document.getElementById('search-input');
-  var modalLayer = document.getElementById('modal-layer');
-</script>
-<script>
-  function addHashtagToCloud(event, suggestion, dataset) {
-    suggestion.tag = suggestion.tag.replace('#','');
-    cloudUl.insertAdjacentHTML('beforeend',
-      '<li class="cloud-element hashtag added">' +
-      '<input type="hidden" name="hashtags" value="' + (suggestion.objectID || suggestion.tag) + '" />'+
-      getPictureHtml(suggestion) +
-      '<span>' +
-      (suggestion.name || suggestion.tag) +
-      '</span>' +
-      '<a class="js-remove">x</a>' +
-      '</li>'
-    );
-    search.autocomplete.setVal('');
-  }
-
-  function suggestionTemplate(suggestion) {
-    if (suggestion.type === 'newHashtag') {
-      suggestion.tag = suggestion.tag.replace('#','');
-      return ' <span class="newHashtag">' +
-      newHashtagSentence +
-      ' </span><em><i class="fa fa-hashtag" aria-hidden="true"></i>' +
-      suggestion.tag +
-      '</em>';
-    } else {
-      return getPictureHtml(suggestion) +
-      suggestion._highlightResult.name.value;
-    }
-  }
-</script>
-<script>
-  var ALGOLIA_APPID = 'RSXBUBL0PB';
-  var ALGOLIA_SEARCH_APIKEY = algoliaPublicKey.value;
-  var ALGOLIA_INDEX_NAME = 'world';
-  var NB_RESULTS_DISPLAYED = 3;
-  var client = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
-  var index = client.initIndex(ALGOLIA_INDEX_NAME);
-  var hitsSource = autocomplete.sources.hits(index, {facetFilters: 'type:hashtag', hitsPerPage: NB_RESULTS_DISPLAYED });
-  var search = autocomplete('#search-input', { hint: false, autoselect: true, autoselectOnBlur: true, debug: !isProduction}, [
-    {
-      source: function(query, callback) {
-        hitsSource(query, function(suggestions) {
-          suggestions.push({type:'newHashtag', tag: query})
-          callback(suggestions);
-        });
-      },
-      name: 'hashtag-suggestions',
-      templates: {
-        suggestion: suggestionTemplate
-      }
-    }
-  ]).on('autocomplete:selected', addHashtagToCloud)
-  .on('autocomplete:shown', function() {
-    searchInput.classList.add('open');
-    modalLayer.classList.add('show');
-  })
-  .on('autocomplete:closed', function() {
-    searchInput.classList.remove('open');
-    modalLayer.classList.remove('show');
-  });
-</script>
-
-<script src="/javascripts/Sortable.min.js"></script>
-<script>
-  var animationSpeed = 200;
-  var cloud = Sortable.create(
-    cloudUl,
-    {
-      group: {name: "hashtags", pull: false, put: true},
-      animation: animationSpeed,
-      draggable: '.hashtag',
-      filter: ".js-remove",
-      onFilter: function (evt) {
-      	var item = evt.item, ctrl = evt.target;
-
-      	if (Sortable.utils.is(ctrl, ".js-remove")) {  // Click on remove button
-      		item.parentNode.removeChild(item); // remove sortable item
-      	}
-      }
-    }
-  );
-  var suggestions = Sortable.create(
-    suggestionsUl,
-    {
-      group: {name: "hashtags", pull: true, put: false},
-      sort: false,
-      animation: animationSpeed,
-      draggable: '.hashtag',
-      filter: ".js-remove",
-      onFilter: function (evt) {
-      	var item = evt.item, ctrl = evt.target;
-
-      	if (Sortable.utils.is(ctrl, ".js-remove")) {  // Click on remove button
-      		item.parentNode.removeChild(item); // remove sortable item
-      	}
-      }
-    }
-  );
+  var algoliaPublicKey = {{{json algoliaPublicKey}}};
+  var isProduction = {{{json isProduction}}};
+  var newHashtagSentence = '{{__ "Create new hashtag"}}';
+  var notFoundSentence = '{{__ "There is no matching hashtag... yet!"}}';
 </script>
 {{>jquery}}
-<script>
-  $(document).on('mousedown', '.scroll-right', goRight);
-  $(document).on('mousedown', '.scroll-left', goLeft);
-</script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/hogan.js/3.0.2/hogan.min.common.js"></script>
+<script src="/javascripts/jquery-ui.min.js"></script>
+<script src="/javascripts/selectize.min.js"></script>
+<script src="/javascripts/wings.js"></script>

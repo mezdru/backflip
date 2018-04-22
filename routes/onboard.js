@@ -192,26 +192,6 @@ router.all('/intro', function(req, res, next) {
   next();
 });
 
-router.all('/hashtags', function(req, res, next) {
-  Record.find({organisation: res.locals.organisation._id, type: 'hashtag'})
-  .limit(10)
-  .exec(function(err, records) {
-    if (err) return next(err);
-    res.locals.hashtagSuggestions = records;
-    next();
-  });
-});
-
-// To blink the wings (css class 'added') when arriving on hashtags
-router.all('/hashtags', Organisation.getTheWings);
-router.all('/hashtags', function(req, res, next) {
-  res.locals.record.hashtags.forEach(function(hashtag) {
-    if (res.locals.wings.some(wing => wing._id.equals(hashtag._id)))
-      hashtag.added = true;
-  });
-  next();
-});
-
 // Load the whole organisation records, we'll need those for further use
 // Duplicate in google_admin && fullcontact_admin && record_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
@@ -282,25 +262,14 @@ router.post('/intro', function(req, res, next) {
   }
 });
 
-//@todo should be in sanitizer
+//@todo escaping will happen in the record model, is it really a good idea not to do it here ?
 router.post('/hashtags',
-  body('hashtags').custom((value, { req }) => {
-    if (!Array.isArray(value)) {
-      if (!value) value = [];
-      else value = [value];
-    }
-    req.body.hashtags = value;
-    return true;
-  }),
-  body('hashtags').custom((value, { req }) => {
-    var endIndex = value.findIndex(hashtag => hashtag === "end_of_hashtag_cloud");
-    req.body.hashtags.splice(endIndex);
-    return true;
-  })
+  sanitizeBody('hashtags').trim().stripLow(false)
 );
 
 router.post('/hashtags', function(req, res, next) {
-  res.locals.record.makeHashtags(req.body.hashtags, res.locals.organisation._id, function(err, records) {
+  var hashtagsArray = req.body.hashtags.split(',');
+  res.locals.record.makeHashtags(hashtagsArray, res.locals.organisation._id, function(err, records) {
     if (err) return next(err);
     res.locals.record.save(function(err, record) {
       if (err) return next(err);
@@ -359,8 +328,8 @@ router.all('/intro', function(req, res, next) {
 router.all('/hashtags', function(req, res, next) {
   res.locals.onboard.step = "hashtags";
   res.locals.onboard.hashtags = true;
-  res.locals.record.hashtags.forEach(hashtag => hashtag.editable = true);
-  res.locals.hashtagSuggestions.forEach(hashtag => hashtag.editable = true);
+  res.locals.hashtagsAsString = req.body.hashtags || res.locals.record.hashtags.reduce((string, hashtag) => string + ',' + hashtag.tag, '').substring(1);
+  console.log(res.locals.hashtagsAsString);
   res.render('onboard/hashtags', {
     bodyClass: 'onboard onboard-hashtags'
   });

@@ -820,7 +820,7 @@ a.cloud-element:hover {
 .js-remove:hover,
 .remove:hover {
   font-weight: 800;
-  color: #dde03a;
+  color: #ffb400;
   text-decoration: none;
 }
 
@@ -1193,6 +1193,10 @@ a.hashtag {
 
 .pure-u-suggestions {
   position: relative;
+}
+
+.onboard-hashtags .pure-u-suggestions {
+  display: none;
 }
 
 .suggestions-box {

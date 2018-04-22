@@ -1,26 +1,3 @@
-Selectize.define( 'preserve_on_blur', function( options ) {
-    var self = this;
-
-    options.text = options.text || function(option) {
-        return option[this.settings.labelField];
-    };
-
-    this.onBlur = ( function( e ) {
-        var original = self.onBlur;
-
-        return function( e ) {
-            // Capture the current input value
-            var $input = this.$control_input;
-            var inputValue = $input.val();
-
-            // Do the default actions
-            original.apply( this, e );
-            // Set the value back
-            this.setTextboxValue( inputValue );
-        };
-    } )();
-} );
-
 Selectize.define( 'has_item', function( options ) {
     var self = this;
 
@@ -45,6 +22,22 @@ Selectize.define( 'soft_clear_options', function( options ) {
     } )();
 } );
 
+Selectize.define('create_on_enter', function () {
+    if (this.settings.mode !== 'multi')
+        return;
+    var self = this;
+    this.onKeyUp = (function (e) {
+        var original = self.onKeyUp;
+        return function (e) {
+            if (e.keyCode === 13 && this.$control_input.val().trim() !== '') {
+                self.createItem(this.$control_input.val());
+            }
+            return original.apply(this, arguments);
+        };
+    })();
+});
+
+
 $(document).ready(function () {
 
   var ALGOLIA_APPID = 'RSXBUBL0PB';
@@ -54,15 +47,9 @@ $(document).ready(function () {
 
   // DOM and Templates binding
   var $searchInput = $('#search input');
-  var $searchInputIcon = $('#search-input-icon');
-  var $subheader = $('#subheader');
   var $hashtags = $('#hashtag-suggestions');
-  var $hits = $('#search-results');
-  var $showMore = $('#show-more');
   var $modalLayer = $('#modal-layer');
   var hashtagsTemplate = Hogan.compile($('#hashtags-template').text());
-  var hitsTemplate = Hogan.compile($('#hits-template').text());
-  var nooneTemplate = Hogan.compile($('#noone-template').text());
 
   // Selectize
   var selectizeHashtags = '';
@@ -72,11 +59,20 @@ $(document).ready(function () {
     loadThrottle: null,
     maxOptions: 5,
     highlight: false,
-    plugins: ['remove_button', 'preserve_on_blur', 'soft_clear_options', 'has_item'],
+    plugins: ['drag_drop', 'remove_button', 'soft_clear_options', 'has_item', 'create_on_enter'],
     persist: false,
-    create: false,
+    create: function(input) {
+      if(input.charAt(0) !== '#') input = '#' + input;
+      return {
+        'value':input,
+        'tag':input,
+        'name':input.replace('#',''),
+        type:'hashtag',
+        $score:1
+      };
+    },
     openOnFocus: false,
-    createOnBlur: false,
+    createOnBlur: true,
     closeAfterSelect: true,
     hideSelected: true,
     load: function(query, callback) {
@@ -84,6 +80,7 @@ $(document).ready(function () {
           query: query,
           attributesToRetrieve: ['type','name', 'tag','picture'],
           restrictSearchableAttributes: ['name', 'tag'],
+          facetFilters: ['type:hashtag'],
           hitsPerPage: 5
         },
         function(err, content) {
@@ -111,16 +108,22 @@ $(document).ready(function () {
             '</div>';
         },
         item: function(item, escape) {
-          if (!item.type) switch (item.tag.charAt(0)) {
-            case '@': item.type = 'person'; break;
-            case '#': item.type = 'hashtag'; break;
-            default: item.type = 'unknown'; break;
-          }
-          return '<div class="cloud-element ' + item.type + '">' +
+          return '<div class="cloud-element hashtag">' +
               '<span>' +
                 escape(item.tag) +
               '</span>' +
             '</div>';
+        },
+        option_create: function(data) {
+          if (data.input.charAt(0) !== '#') data.input = '#' + data.input;
+          return '<div class="aa-suggestion create-hashtag">' +
+          '<span class="tag"><em>' +
+          data.input +
+          '</em></span>' +
+          '<span>' +
+          newHashtagSentence +
+          '</span>' +
+          '</div>';
         }
     },
     score: function() {
@@ -129,65 +132,31 @@ $(document).ready(function () {
       };
     },
     onChange: function (value) {
-      toggleIconEmptyInput();
       search();
     },
-    onType(str) {
-      toggleIconEmptyInput();
-    },
-    onLoad(data) {
-      if(data.length === 0)
-        search();
-    },
     onDropdownOpen($dropdown) {
-      toggleIconEmptyInput();
       $modalLayer.addClass('show');
     },
     onDropdownClose($dropdown) {
       $modalLayer.removeClass('show');
-      search();
     }
   })[0].selectize;
 
   // Initial search
-  toggleIconEmptyInput();
   search();
 
   // SEARCH ALL
   // ==========
-  var query, tags, facetFilters, tagFilters, page;
+  var query, facetFilters, page;
 
   function search() {
     page = 0;
     query = $selectize.$control_input.val();
-    tags = $selectize.$input.val();
-    facetFilters = getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person'];
-    tagFilters = '';
+    facetFilters = [[],'type:hashtag'];
     $selectize.items.forEach((item) => {
-      if(item.charAt(0) === '#')
-        facetFilters.push('hashtags.tag:' + item);
-      else if(item.charAt(0) === '@')
-        tagFilters = (tagFilters ? tagFilters + ' OR ' : '' ) + 'tag:' + item;
-      else {
-        query = (query ? query + ',' : '' ) + item;
-      }
+      facetFilters[0].push('hashtags.tag:' + item);
     });
-
-    searchForHits();
     searchForSuggestions();
-  }
-
-  function searchForHits() {
-    world.search({
-      query: query,
-      facetFilters: facetFilters,
-      filters: tagFilters,
-      hitsPerPage: 10,
-      page: page
-    }, function(err, content) {
-      if (err) throw new Error(err);
-      renderHits(content);
-    });
   }
 
   function searchForSuggestions() {
@@ -196,7 +165,6 @@ $(document).ready(function () {
       facetQuery: '',
       query: query,
       facetFilters: facetFilters,
-      filters: tagFilters,
     }, function(err, content) {
       if (err) throw new Error(err);
       renderHashtags(content.facetHits);
@@ -215,26 +183,7 @@ $(document).ready(function () {
     }
     if (availableHits.length) {
       $hashtags.html(hashtagsTemplate.render({hashtags: availableHits}));
-      $subheader.css("display", "block");
-    } else {
-      $subheader.css("display", "none");
     }
-  }
-
-  function renderHits(content) {
-    if (content.hits.length === 0) {
-      $showMore.css("display", "none");
-      return $hits.html(nooneTemplate.render(content));
-    }
-    content.hits.forEach(hit => transformItem(hit, $selectize.items));
-    if (page === 0) {
-      $hits.empty();
-      content.hits.splice(3, 0, {invitation:true});
-      window.scrollTo(0,0);
-    }
-    if (content.nbPages > content.page + 1) $showMore.css("display", "block");
-    else $showMore.css("display", "none");
-    $hits.append(hitsTemplate.render(content));
   }
 
   // EVENTS BINDING
@@ -248,31 +197,14 @@ $(document).ready(function () {
     });
     $selectize.addItem($(this).data('tag'), false);
   });
-  $searchInputIcon.on('click', function (e) {
-    e.preventDefault();
-    $selectize.clear(true);
-    $selectize.$control_input.val('');
-    toggleIconEmptyInput();
-    search();
-  });
-  $showMore.on('click', function (e) {
-    page ++;
-    searchForHits();
+  $selectize.$control_input.keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
   });
   // HORIZONTAL SCROLLERS
   $(document).on('mousedown', '.scroll-right', goRight);
   $(document).on('mousedown', '.scroll-left', goLeft);
 
-  // HELPERS
-  // =======
-  function toggleIconEmptyInput() {
-    var query = $selectize.$control_input.val() + $selectize.$input.val();
-    if (query.trim() === '') {
-      $searchInputIcon.addClass('fa-search');
-      $searchInputIcon.removeClass('fa-times');
-    } else {
-      $searchInputIcon.removeClass('fa-search');
-      $searchInputIcon.addClass('fa-times');
-    }
-  }
 });

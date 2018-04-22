@@ -88,6 +88,8 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+
+// HORIZONTAL SCROLLERS
 function goRight(event) {
 	var interval = window.setInterval(function() {event.target.parentElement.getElementsByClassName('scroll')[0].scrollLeft += 2;}, 5);
 	event.target.addEventListener('mouseup', function() {clearInterval(interval);});
@@ -97,7 +99,6 @@ function goLeft(event) {
 	var interval = window.setInterval(function() {event.target.parentElement.getElementsByClassName('scroll')[0].scrollLeft -= 2;}, 5);
 	event.target.addEventListener('mouseup', function() {clearInterval(interval);});
 }
-
 
 transformItem = function (item, facets) {
 	addUrl(item);
