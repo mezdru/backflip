@@ -1,16 +1,26 @@
 <div class="main">
   <div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-2  pure-u-xl-1-4 left-panel {{#if canEdit}}editable{{/if}}">
+    <div class="pure-u-1 pure-u-md-1-2  pure-u-xl-1-4 left-panel">
       <div class="grid-box">
         <div class="picture">
           <img src="{{pictureUrl record.picture record.type}}" alt="">
         </div>
-        {{#if canEdit}}
-          <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Edit"}}}</a>
-        {{/if}}
-        <h1>{{{record.name}}}</h1>
+        <h1>
+          {{{record.name}}}
+        </h1>
         {{#if record.intro}}
         <p id="intro">{{{record.intro}}}</p>
+        {{/if}}
+        {{#if canEdit}}
+        <p id="edit-buttons" class="hide">
+          <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Edit profile"}}}</a>
+          {{#if editCoverUrl}}
+            <a id="cover-button-left" href="{{editCoverUrl}}" class="pure-button scale back-button">{{{__ "Change Cover"}}}</a>
+          {{/if}}
+          {{#if canDelete}}
+            <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
+          {{/if}}
+        </p>
         {{/if}}
       </div>
       <div class="grid-box cloud-list links">
@@ -18,17 +28,9 @@
         {{> link}}
         {{/record.links}}
         {{#if canEdit}}
-        <a id="contacts-button" href="{{editUrl record._id organisation.tag 'links'}}" class="cloud-element link">
+        <a id="contacts-button" href="{{editUrl record._id organisation.tag 'links'}}" class="cloud-element link hide">
           <i class="fa fa-plus" aria-hidden="true"></i><span>{{__ "Add"}}</span>
         </a>
-        {{/if}}
-      </div>
-      <div class="grid-box action-buttons">
-        {{#if editCoverUrl}}
-          <a id="cover-button-left" href="{{editCoverUrl}}" class="pure-button scale back-button">{{{__ "Change Cover"}}}</a>
-        {{/if}}
-        {{#if canDelete}}
-          <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
         {{/if}}
       </div>
     </div>
@@ -44,11 +46,12 @@
         </ul>
       </div>
       <div class="pure-u-1 pure-u-xl-2-3">
-        <div class="grid-box">
-          {{#if editAboutUrl}}
-            <a id="about-button" href="{{editAboutUrl}}" class="pure-button scale back-button"><span>{{__ "Edit"}}</span></a>
-          {{/if}}
-          <h2>{{__ 'About me'}}</h2>
+        <div class="grid-box about-box">
+          <h2>
+            {{#if editAboutUrl}}
+              <a id="about-button" href="{{editAboutUrl}}" class="pure-button scale back-button hide"><span>{{__ "Edit about me"}}</span></a>
+            {{/if}}
+          </h2>
           <p id="description">{{{nl2br record.description}}}</p>
         </div>
       </div>

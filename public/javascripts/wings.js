@@ -45,6 +45,8 @@ $(document).ready(function () {
   var algolia = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
   var world = algolia.initIndex('world');
 
+  searchForHashtags();
+
   // DOM and Templates binding
   var $searchInput = $('#search input');
   var $hashtags = $('#wings-suggestions');
@@ -53,6 +55,7 @@ $(document).ready(function () {
 
   // Hashtags Bank
   var hashtagsBank = {};
+  addHashtagsToBank(hashtagsForBank);
 
   // Selectize
   var selectizeHashtags = '';
@@ -65,14 +68,7 @@ $(document).ready(function () {
     plugins: ['drag_drop', 'remove_button', 'soft_clear_options', 'has_item', 'create_on_enter'],
     persist: false,
     create: function(input) {
-      if(input.charAt(0) !== '#') input = '#' + input;
-      return {
-        'value':input,
-        'tag':input,
-        'name':input.replace('#',''),
-        type:'hashtag',
-        $score:1
-      };
+      return getHashtag(input);
     },
     openOnFocus: false,
     createOnBlur: true,
@@ -104,18 +100,14 @@ $(document).ready(function () {
             '<span class="tag">' +
             highlightedTag +
             '</span>' +
-            getPictureHtml(option) +
+            getPictureHtml(option, true) +
             '<span>' +
             highlightedName +
             '</span>' +
             '</div>';
         },
         item: function(item, escape) {
-          return '<div class="cloud-element hashtag">' +
-              '<span>' +
-                escape(item.tag) +
-              '</span>' +
-            '</div>';
+            return hashtagsTemplate.render(getHashtag(item));
         },
         option_create: function(data) {
           if (data.input.charAt(0) !== '#') data.input = '#' + data.input;
@@ -136,6 +128,10 @@ $(document).ready(function () {
     },
     onChange: function (value) {
       search();
+    },
+    onItemAdd(value, $item) {
+      $('.selectize-input .added').removeClass('added');
+      $item.addClass('added');
     },
     onDropdownOpen($dropdown) {
       $modalLayer.addClass('show');
@@ -158,19 +154,7 @@ $(document).ready(function () {
     facetFilters = ['type:person'];
     if($selectize.items.length)
       facetFilters.push('hashtags.tag:' + $selectize.items[$selectize.items.length-1]);
-    searchForHashtags();
     searchForSuggestions();
-  }
-
-  function searchForHashtags() {
-    world.search({
-      facetFilters: ['type:hashtag'],
-      attributesToRetrieve: ['type','name', 'tag','picture'],
-      hitsPerPage: 100,
-    }, function(err, content) {
-      if (err) throw new Error(err);
-      addHashtagsToBank(content.hits);
-    });
   }
 
   function searchForSuggestions() {
@@ -179,24 +163,44 @@ $(document).ready(function () {
       facetQuery: '',
       query: query,
       facetFilters: facetFilters,
+      maxFacetHits: 6
     }, function(err, content) {
       if (err) throw new Error(err);
-      renderHashtags(content.facetHits);
+      renderSuggestions(content.facetHits);
     });
   }
 
-  // RENDER HASHTAGS + RESULTS
+  function searchForHashtags() {
+    world.search({
+      facetFilters: ['type:hashtag'],
+      attributesToRetrieve: ['type','name', 'tag','picture'],
+      hitsPerPage: 100
+    }, function(err, content) {
+      if (err) throw new Error(err);
+      addHashtagsToBank(content.hits);
+    });
+  }
+
+  // RENDER SUGGESTIONS
   // =========================
-  function renderHashtags(hits) {
-    availableHits = [];
+  function renderSuggestions(hits) {
+    var notEnough = 12;
+    var suggestedTags = [];
+    $hashtags.empty();
     for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
       if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 1) {
-        availableHits.push(hit);
+        $hashtags.append(hashtagsTemplate.render(getHashtag(hit.value)));
+        suggestedTags.push(hit.value);
+        notEnough--;
       }
     }
-    if (availableHits.length) {
-      $hashtags.html(hashtagsTemplate.render({hashtags: availableHits}));
+    for (var prop in hashtagsBank) {
+      if (notEnough > 0 && getRandomInt(3) === 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
+        $hashtags.append(hashtagsTemplate.render(getHashtag(prop)));
+        suggestedTags.push(prop);
+        notEnough = notEnough-1;
+      }
     }
   }
 
@@ -211,13 +215,33 @@ $(document).ready(function () {
     });
   }
 
+  function getHashtag(hashtag) {
+    if (typeof hashtag === "string") {
+      if(hashtag.charAt(0) !== '#') hashtag = '#' + hashtag;
+      hashtag = {tag: hashtag};
+    }
+    if (hashtagsBank[hashtag.tag]) {
+      hashtag = hashtagsBank[hashtag.tag];
+    }
+    if (!hashtag.type) hashtag.type = 'hashtag';
+    if (!hashtag.name) hashtag.name = hashtag.tag.replace('#','');
+    hashtag.picture = {
+      url: getPictureUrl(hashtag, true)
+    };
+    hashtag.$score = 1;
+    return hashtag;
+  }
+
   // EVENTS BINDING
   // ==============
-  $(document).on('click', '.add-tag', function (e) {
+  $('#wings-suggestions').on('click', '.hashtag', function (e) {
     e.preventDefault();
     $selectize.addOption({
       tag: $(this).data('tag'),
       name: $(this).data('name'),
+      picture: {
+        url: $(this).data('picture-url')
+      },
       type: 'hashtag'
     });
     $selectize.addItem($(this).data('tag'), false);
@@ -228,8 +252,5 @@ $(document).ready(function () {
       return false;
     }
   });
-  // HORIZONTAL SCROLLERS
-  $(document).on('mousedown', '.scroll-right', goRight);
-  $(document).on('mousedown', '.scroll-left', goLeft);
 
 });

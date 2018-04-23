@@ -39,20 +39,17 @@
 </div>
 <script type="text/template" id="hashtags-template">
   {{{{raw}}}}
-    {{#hashtags}}
-      <a href="" class="cloud-element hashtag add-tag" data-tag="{{value}}" data-name="{{value}}"><span>{{value}}</span><span class="count">{{count}}</span></a>
-    {{/hashtags}}
+    <div href="" class="cloud-element hashtag" data-tag="{{tag}}" data-name="{{name}}" data-picture-url="{{picture.url}}">
+      <img src="{{picture.url}}">
+      <span>{{name}}</span>
+    </div>
   {{{{/raw}}}}
 </script>
 <script>
   var algoliaPublicKey = {{{json algoliaPublicKey}}};
   var isProduction = {{{json isProduction}}};
-</script>
-<script>
-  var algoliaPublicKey = {{{json algoliaPublicKey}}};
-  var isProduction = {{{json isProduction}}};
+  var hashtagsForBank = {{{json record.hashtags}}}
   var newHashtagSentence = '{{__ "Create new hashtag"}}';
-  var notFoundSentence = '{{__ "There is no matching hashtag... yet!"}}';
 </script>
 {{>jquery}}
 <script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>

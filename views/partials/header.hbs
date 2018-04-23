@@ -20,7 +20,11 @@
 <div class="pure-g">
   <a title="{{__ 'Go back home'}}" class="pure-u-logo pure-u-1-2" href="{{homeUrl organisation}}">
     <div>
+      {{#if home}}
         <img src="/wingzy_line.png" alt="Wingzy">
+      {{else}}
+        <img src="/wingzy.png" alt="Wingzy">
+      {{/if}}
     </div>
   </a>
   <div class="pure-u-menu pure-u-1-2">
@@ -29,6 +33,6 @@
 </div>
 {{/if}}
 {{#if editCoverUrl}}
-  <a id="cover-button" href="{{editCoverUrl}}" class="pure-button scale">{{{__ "Change Cover"}}}</a>
+  <a id="cover-button" href="{{editCoverUrl}}" class="pure-button scale hide">{{{__ "Change Cover"}}}</a>
 {{/if}}
 </header>

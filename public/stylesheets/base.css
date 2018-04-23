@@ -862,7 +862,7 @@ a.cloud-element:hover {
 }
 
 .profile .left-panel.editable {
-  padding-bottom: 50px;
+  padding-bottom: 60px;
 }
 
 .profile .left-panel .grid-box:first-child {
@@ -872,12 +872,6 @@ a.cloud-element:hover {
 .profile .right-panel {
   background: #f2f2f2;
   padding-bottom: 60px;
-}
-
-.profile .left-panel .action-buttons {
-  position: absolute;
-  bottom: 0;
-  padding: 15px;
 }
 
 .profile .picture {
@@ -899,22 +893,34 @@ a.cloud-element:hover {
   line-height: 1.8em;
 }
 
+.profile #edit-buttons {
+  min-width: 60px;
+  text-align: center;
+  margin-bottom: -30px;
+}
+
 .profile #edit-button,
 .profile #delete-button,
 .profile #cover-button-left,
 .profile #cover-button,
 .profile #about-button {
+  display: block;
   margin: 0;
   font-size: 18px;
-  padding: 5px 15px;
+  width: auto;
+  padding: 5px 10px;
+}
+
+.profile #about-button {
+  padding: 0 10px;
 }
 
 .profile #cover-button {
   display: none;
   position: absolute;
-  right: 15px;
-  bottom: 15px;
-  width: auto;
+  right: 30px;
+  bottom: 30px;
+  padding: 5px 15px;
 }
 
 .profile #hashtags-button {
@@ -925,21 +931,6 @@ a.cloud-element:hover {
 
 .profile #contacts-button {
   color: #dd362e;
-}
-
-.profile #delete-button {
-  display: none;
-  margin-bottom: 0;
-}
-
-.profile #about-button,
-.profile #edit-button {
-  float: right;
-  width: auto;
-  padding: 5px 0;
-}
-.profile #edit-button {
-  margin-top: 15px;
 }
 
 .cloud.cloud-list {
@@ -1039,10 +1030,11 @@ a.cloud-element:hover {
 .cover-edit h2,
 .about-edit h2,
 .profile h2 {
-  color: #a4c5cb;
+  color: #5C4D51;
   font-size: 24px;
   padding: 0 15px;
-  font-weight: 300;
+  font-weight: 600;
+  text-align: center;
 }
 
 /* SEARCH RESULTS */
@@ -1214,6 +1206,18 @@ a.hashtag {
 
 .added {
 	animation: added 1.5s;
+}
+
+@keyframes added {
+	0% {
+    background-color: #a4c5cb;
+  }
+	30% {
+    background-color: #dd362e;
+  }
+	100% {
+    background-color: #a4c5cb;
+  }
 }
 
 
@@ -1650,19 +1654,22 @@ a.hashtag {
     padding: 60px 15px;
   }
 
-  .profile #delete-button {
-    display: block;
-  }
-
-  .profile #edit-button {
-    margin-top: 20px;
-  }
-
   .profile #description {
     padding: 0 15px;
     font-size: 21px;
     letter-spacing: 1px;
     line-height: 1.8em;
+  }
+
+  .profile .hide,
+  header .hide {
+    opacity: 0;
+    transition: all .3s ease-out;
+  }
+  .profile .left-panel:hover .hide,
+  header:hover .hide,
+  .about-box:hover .hide {
+    opacity: 1;
   }
 
 }

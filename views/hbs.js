@@ -182,7 +182,8 @@ hbs.registerHelper('homeUrl', function(organisation, locale) {
 });
 
 hbs.registerHelper('nl2br', function(string) {
-  return string.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+  if (string)
+    return string.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 });
 
 const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
