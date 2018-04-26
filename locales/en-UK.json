@@ -137,5 +137,8 @@
 	"Please write a name (no larger than 64 characters).": "Please write a name (no larger than 64 characters).",
 	"Wings": "Wings",
 	"Edit profile": "Edit profile",
-	"Edit about me": "Edit about me"
+	"Edit about me": "Edit about me",
+	"Select an Emoji for %s": "Select an Emoji for %s",
+	"Change Emoji": "Change Emoji",
+	"Please provide a valid emoji.": "Please provide a valid emoji."
 }

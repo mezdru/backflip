@@ -2,9 +2,13 @@
   <div class="pure-g">
     <div class="pure-u-1 pure-u-md-1-2  pure-u-xl-1-4 left-panel">
       <div class="grid-box">
-        <div class="picture">
-          <img src="{{pictureUrl record.picture record.type}}" alt="">
-        </div>
+        {{#if record.picture.emoji}}
+          <div class="emoji-box">{{record.picture.emoji}}</div>
+        {{else}}
+          <div class="picture">
+            <img src="{{pictureUrl record.picture record.type}}" alt="">
+          </div>
+        {{/if}}
         <h1>
           {{{record.name}}}
         </h1>
@@ -58,3 +62,11 @@
     </div>
   </div>
 </div>
+{{> jquery}}
+<script>
+  $('.emoji-box').html(
+    function() {
+      return twemoji.parse($(this).text().trim(), {ext: '.svg', folder: 'svg',});
+    }
+  );
+</script>

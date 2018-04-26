@@ -774,8 +774,9 @@ a.cloud-element:hover {
 .cloud-element img {
   display: inline-block;
   vertical-align: top;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
+  margin: -5px -5px 0 -5px;
 }
 
 .selectize-input .cloud-element.person,
@@ -874,12 +875,18 @@ a.cloud-element:hover {
   padding-bottom: 60px;
 }
 
-.profile .picture {
+.profile .picture,
+.profile .emoji-box {
   float: none;
   margin: -95px auto 0;
   position: relative;
   z-index: 55;
   border: 5px solid #ffffff;
+}
+
+.profile .emoji-box {
+  border: none;
+  text-align: center;
 }
 
 .profile #intro {
@@ -1107,18 +1114,27 @@ a.hashtag {
 }
 
 /* PICTURE */
-.picture {
+.picture,
+.emoji-box {
   height: 180px;
   width: 180px;
   overflow: hidden;
   border-radius: 50%;
 }
 
-.picture img {
+.emoji-box {
+  border-radius: 0;
+  font-size: 180px;
+  line-height: 180px;
+}
+
+.picture img,
+.emoji-box img {
   width: 180px;
 }
 
-.record .picture {
+.record .picture,
+.record .emoji-box {
   float: left;
   height: 28vw;
   width: 28vw;
@@ -1129,7 +1145,8 @@ a.hashtag {
   border-radius: 30px 0 30px 0;
 }
 
-.record .picture img {
+.record .picture img,
+.record .emoji-box img {
   width: 28vw;
   max-width: 180px;
   min-width: 100px;
@@ -1530,8 +1547,9 @@ a.hashtag {
   }
 
   .cloud-element img {
-    height: 36px;
-    width: 36px;
+    height: 48px;
+    width: 48px;
+    margin: -6px -6px 0 -6px;
   }
 
   .cloud-element .fa {

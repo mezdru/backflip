@@ -8,18 +8,21 @@ if (window.matchMedia('(min-width: 720px)').matches) {
 }
 
 function getPictureUrl(item, iconOnly) {
-	if (item.picture && item.picture.url && !iconOnly) {
-			return item.picture.url;
-	} else if (item.picture && item.picture.path) {
+	if (item.picture && item.picture.path) {
 		return "/images" + item.picture.path;
+	} else if (item.picture && item.picture.url && !iconOnly) {
+			return item.picture.url;
 	} else if (item.type === 'person') {
 		return "/images/placeholder_person.png";
 	} else {
-		return "/images/placeholder_hashtag.png";
+		return "";
 	}
 }
 
 function getPictureHtml(item, iconOnly) {
+	if (item.picture && item.picture.emoji) {
+		return twemoji.parse(item.picture.emoji, {ext: '.svg', folder: 'svg',});
+	}
 	var url = getPictureUrl(item, iconOnly);
 	if (url) {
 		return '<img src="' + url + '">';
@@ -103,7 +106,7 @@ function goLeft(event) {
 transformItem = function (item, facets) {
 	addUrl(item);
 	addTag(item);
-	transformImagePath(item);
+	addPictureHtml(item);
 	transformHashtags(item, facets);
 	transformIntro(item);
 	transformLinks(item);
@@ -114,25 +117,8 @@ function addTag(item) {
 	item.showTag = getParameterByName('hashtags');
 }
 
-function addPictureHtml(item) {
-	item.pictureHtml = getPictureHtml(item, true);
-}
-
-function transformImagePath(item) {
-	if (item.picture && item.picture.url) {
-			item.picture.url = item.picture.url;
-	} else if (item.picture && item.picture.path) {
-		item.picture.url = "/images" + item.picture.path;
-		//@todo remove this last if once the refacto URI > URL is done
-	} else if (item.picture && item.picture.uri) {
-		item.picture.url = item.picture.uri;
-	} else {
-		switch (item.type) {
-			case 'team' : item.picture = { url: "/images/placeholder_team.png"}; break;
-			case 'hashtag' : item.picture = { url: "/images/placeholder_hashtag.png"}; break;
-			default: case 'person' : item.picture = { url: "/images/placeholder_person.png"}; break;
-		}
-	}
+function addPictureHtml(item, iconOnly) {
+	item.pictureHtml = getPictureHtml(item, iconOnly);
 }
 
 function transformIntro(item) {
@@ -230,7 +216,7 @@ transformHashtags = function(item, facets) {
 	makeHightlighted(item, facets);
 	orderHashtags(item);
 	item.hashtags.forEach(function(item) {
-		addPictureHtml(item);
+		addPictureHtml(item, true);
 	});
 };
 

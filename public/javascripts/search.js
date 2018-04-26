@@ -161,7 +161,7 @@ $(document).ready(function () {
     page = 0;
     query = $selectize.$control_input.val();
     tags = $selectize.$input.val();
-    facetFilters = getParameterByName('hashtags') ? [['type:hashtag','type:person']] : ['type:person'];
+    facetFilters = getParameterByName('hashtags') ? ['type:hashtag'] : ['type:person'];
     tagFilters = '';
     $selectize.items.forEach((item) => {
       if(item.charAt(0) === '#')

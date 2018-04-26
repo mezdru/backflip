@@ -17,6 +17,8 @@ var UrlHelper = class UrlHelper {
   }
 
   makeUrl() {
+    this.query = this.query.replace('#', '%23');
+    this.path = this.path.replace('#', '%23');
     if (this.isProd()) {
       this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
     } else {

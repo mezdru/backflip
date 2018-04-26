@@ -102,10 +102,14 @@ hbs.registerHelper('picture', function(item) {
   else return null;
 });
 
+var twemoji = require('twemoji');
 hbs.registerHelper('icon', function(item) {
+  if (item && item.picture && item.picture.emoji)
+    return twemoji.parse(item.picture.emoji, {ext: '.svg', folder: 'svg',});
   if (item && item.picture && item.picture.path)
     return '<img src="/images'+item.picture.path+'">';
-  else return '<img src="/images/placeholder_hashtag.png">';
+  else return '';
+  //else return '<img src="/images/placeholder_hashtag.png">';
 });
 
 hbs.registerHelper('error', function(status, elem) {

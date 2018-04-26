@@ -53,6 +53,7 @@
     "serve-favicon": "~2.3.2",
     "slack-notify": "^0.1.6",
     "slug": "^0.9.1",
+    "twemoji": "^2.5.1",
     "undefsafe": "^2.0.1",
     "uploadcare": "^0.4.5",
     "uppercamelcase": "^3.0.0",

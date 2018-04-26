@@ -18,6 +18,7 @@ var recordSchema = mongoose.Schema({
   picture: {
     url: String,
     path: String,
+    emoji: String,
     type: {type: String},
     uuid: String
   },
@@ -486,6 +487,11 @@ recordSchema.methods.getUploadcareUrl = function() {
   var url = urlParse(this.picture.url, true);
   if (url.pathname && url.hostname === 'ucarecdn.com') return this.picture.url;
   else return false;
+};
+
+recordSchema.methods.setEmoji = function(emoji, callback) {
+  this.picture.emoji = emoji;
+  if (callback) this.save(callback);
 };
 
 

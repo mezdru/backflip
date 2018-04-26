@@ -204,6 +204,9 @@ app.use('/cover', cover);
 var about = require('./routes/about.js');
 app.use('/about', about);
 
+var emoji = require('./routes/emoji.js');
+app.use('/emoji', emoji);
+
 // onboarding
 var invite = require('./routes/invite.js');
 app.use('/invite', invite);
