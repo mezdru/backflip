@@ -24,7 +24,7 @@ router.get('/depersonate', function(req, res, next) {
 });
 
 router.use( function(req, res, next) {
-  if (res.locals.user.isSuperAdmin()) {
+  if (res.locals.user && res.locals.user.isSuperAdmin()) {
     return next();
   }
   else {

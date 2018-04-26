@@ -53,6 +53,7 @@ router.use(function(req, res, next) {
 });
 
 router.get('*', function(req, res, next) {
+  if (!res.locals.user) return next();
   if (res.locals.user.ownsRecord(res.locals.record._id) ||
     res.locals.user.isAdminToOrganisation(res.locals.organisation._id)
   ) {
@@ -62,6 +63,7 @@ router.get('*', function(req, res, next) {
 });
 
 router.get('*', function(req, res, next) {
+  if (!res.locals.user) return next();
   if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
     res.locals.canDelete = true;
   }

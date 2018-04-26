@@ -130,7 +130,7 @@ hbs.registerHelper('profileUrl', function(user, organisation) {
   if (!organisation || !user || !organisation._id) return null;
   recordTag = user.getRecordTagByOrgId(organisation._id);
   if (!recordTag) return null;
-  return new UrlHelper(organisation.tag, `${recordTag}`, null, this.getLocale()).getUrl();
+  return new UrlHelper(organisation.tag, `profile/${recordTag}`, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('myEditUrl', function(organisation) {

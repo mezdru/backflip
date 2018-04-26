@@ -203,7 +203,7 @@ function makeLinkUrl(link) {
 
 function addUrl(item) {
 	var cleanTag = item.tag.replace('#', '%23');
-	item.url = makeUrl(null, cleanTag);
+	item.url = makeUrl(null, 'profile/'+cleanTag);
 }
 
 transformHashtags = function(item, facets) {

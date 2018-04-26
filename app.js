@@ -193,6 +193,13 @@ app.use('/', restrict);
 var privatePages = require('./routes/private.js');
 app.use('/', privatePages);
 
+var profile = require('./routes/profile.js');
+app.use('/profile', profile);
+
+// restricting
+var block = require('./routes/block.js');
+app.use('/', block);
+
 // onboarding
 var onboard = require('./routes/onboard.js');
 app.use('/onboard', onboard);
@@ -232,10 +239,6 @@ app.use('/admin/record', recordAdmin);
 
 var userAdmin = require('./routes/user/user_admin.js');
 app.use('/admin/user', userAdmin);
-
-// profile is at the end because it catches all pathes
-var profile = require('./routes/profile.js');
-app.use('/', profile);
 
 
 // catch 404 and forward to error handler
