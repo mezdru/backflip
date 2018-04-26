@@ -173,7 +173,8 @@ a .fa,
 a.fa,
 .scale,
 a.cloud-element,
-.pure-menu a {
+.pure-menu a,
+#wings-suggestions .cloud-element {
   transition: all .3s ease-out;
 }
 
@@ -277,7 +278,7 @@ a.cloud-element,
   height: 45px;
   padding: 5px 0;
 }
-#subheader  #hashtag-suggestions .cloud-element {
+#subheader #hashtag-suggestions .cloud-element {
   color: #a4c5cb;
   background: #ffffff;
   height: 24px;
@@ -463,10 +464,6 @@ header .pure-form input.search-input,
 .selectize-input .cloud-element {
   line-height: normal;
   margin: 5px 5px 5px 0;
-}
-
-.selectize-input .cloud-element.hashtag:first-child {
-  margin-left: -8px;
 }
 
 #modal-layer {
@@ -728,6 +725,10 @@ footer p {
   box-sizing: border-box;
 }
 
+.record.hashtag .pure-u-hashtags {
+  display: none;
+}
+
 div.cloud {
   font-size: 0;
 }
@@ -754,7 +755,13 @@ p.cloud {
   white-space: nowrap;
 }
 
-a.cloud-element:hover {
+#wings-suggestions .cloud-element {
+  color: #a4c5cb;
+  background: #ffffff;
+}
+
+a.cloud-element:hover,
+#wings-suggestions .cloud-element:hover {
   text-decoration: none;
   transform: scale(1.2);
 }
@@ -1065,6 +1072,18 @@ a.cloud-element:hover {
   padding: 0;
 }
 
+.record.pure-g-hashtag {
+  background: #a4c5cb;
+  height: 60px;
+  max-height: 60px;
+  min-height: 60px;
+}
+
+.pure-g-hashtag .pure-u-hashtags,
+.pure-g-hashtag .intro {
+  display: none;
+}
+
 .pure-u-intro {
   height: 28vw;
   max-height: 180px;
@@ -1072,13 +1091,27 @@ a.cloud-element:hover {
   overflow: hidden;
 }
 
+.pure-g-hashtag .pure-u-intro {
+  height: 60px;
+  max-height: 60px;
+  min-height: 60px;
+  overflow: visible;
+}
+
 .name {
   display: block;
   position: relative;
-  min-height: 12vw;
+  height: 60px;
+  max-height: 60px;
+  min-height: 60px;
   padding: 0;
   margin: 0;
   color: #1d1f1a;
+}
+
+.pure-g-hashtag .name {
+  min-height: 6vw;
+  color: #ffffff;
 }
 
 .name h2,
@@ -1089,6 +1122,12 @@ a.cloud-element:hover {
   margin: 0;
   position: absolute;
   bottom: 0;
+}
+
+.pure-g-hashtag .name h2,
+.pure-g-hashtag .name h1 {
+  bottom: 50%;
+  transform: translateY(50%);
 }
 
 .intro {
@@ -1102,6 +1141,10 @@ a.cloud-element:hover {
 .intro {
   margin-left: 32vw;
   margin-right: 40px;
+}
+
+.pure-g-hashtag .name {
+  margin-left: 80px;
 }
 
 .profile h1 {
@@ -1145,11 +1188,24 @@ a.hashtag {
   border-radius: 30px 0 30px 0;
 }
 
-.record .picture img,
-.record .emoji-box img {
-  width: 28vw;
-  max-width: 180px;
-  min-width: 100px;
+.record.pure-g-hashtag .picture,
+.record.pure-g-hashtag .emoji-box {
+  float: left;
+  height: 80px;
+  width: 80px;
+  max-height: 80px;
+  max-width: 80px;
+  min-height: 80px;
+  min-width: 80px;
+  border-radius: 0;
+  margin: -10px -10px 0 -10px;
+}
+
+.record.pure-g-hashtag .picture img,
+.record.pure-g-hashtag .emoji-box img {
+  width: 80px;
+  max-width: 80px;
+  min-width: 80px;
 }
 
 .record .pure-u-intro:last-child .picture {
@@ -1248,6 +1304,10 @@ a.hashtag {
   overflow: hidden;
 }
 
+.pure-g-hashtag .contacts {
+  width: 120px;
+}
+
 .contacts a {
   font-size: 18px;
   padding: 5px;
@@ -1257,6 +1317,10 @@ a.hashtag {
   vertical-align: middle;
   box-sizing: border-box;
   color: #d5c6cb;
+}
+
+.pure-g-hashtag .contacts a {
+color: #e6e6e6;
 }
 
 .contacts .extraLink {
@@ -1518,16 +1582,12 @@ a.hashtag {
   }
 
   .selectize-input .cloud-element {
-    margin: 10px 10px 10px 0;
+    margin: 10px 20px 10px 0;
   }
 
   .selectize-input .cloud-element.person span,
   .selectize-input .cloud-element.unknown span {
     font-size: 20px;
-  }
-
-  .selectize-input .cloud-element.hashtag:first-child {
-    margin-left: -5px;
   }
 
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .tag,
@@ -1597,6 +1657,12 @@ a.hashtag {
     box-sizing: border-box;
   }
 
+  .pure-g-hashtag .name {
+    height: 60px;
+    min-height: 60px;
+    max-height: 60px;
+  }
+
   .name h2,
   .name h1 {
     font-size: 24px;
@@ -1629,11 +1695,21 @@ a.hashtag {
     margin-right: 60px;
   }
 
+  .pure-g-hashtag .name {
+    margin-left: 80px;
+    margin-right: 160px;
+  }
+
   .contacts {
     width: 60px;
     padding: 10px;
     box-sizing: border-box;
     overflow: hidden;
+  }
+
+  .pure-g-hashtag .contacts {
+    width: 180px;
+    text-align: right;
   }
 
   .contacts a {

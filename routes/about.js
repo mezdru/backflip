@@ -56,10 +56,6 @@ router.use(function(req, res, next) {
   return next();
 });
 
-router.get('/id/:id', function(req, res, next) {
-  res.render('about', { bodyClass: 'about-edit'});
-});
-
 // On post we always expect an _id field matching the record for the current user/organisation
 router.post('*', function(req, res, next) {
   if (!res.locals.record._id.equals(req.body._id)) {
@@ -93,13 +89,21 @@ router.post('/id/:id', function(req, res, next) {
 
 router.post('/id/:id', function(req, res, next) {
   res.locals.record.description = req.body.about;
-  res.locals.record.makeWithin(res.locals.organisation, function(err, newRecords) {
-    if(err) return next(err);
-    res.locals.record.save(function(err, record) {
+  var errors = validationResult(req);
+  res.locals.errors = errors.array();
+  if (errors.isEmpty()) {
+    res.locals.record.makeWithin(res.locals.organisation, function(err, newRecords) {
       if(err) return next(err);
-      res.redirect(res.locals.backUrl);
+      res.locals.record.save(function(err, record) {
+        if(err) return next(err);
+        res.redirect(res.locals.backUrl);
+      });
     });
-  });
+  } else next();
+});
+
+router.all('/id/:id', function(req, res, next) {
+  res.render('about', { bodyClass: 'about-edit'});
 });
 
 module.exports = router;

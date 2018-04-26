@@ -73,6 +73,9 @@ router.get('*', function(req, res, next) {
   if (res.locals.canEdit) {
     res.locals.editCoverUrl =  UrlHelper.makeUrl(req.organisationTag, 'cover/id/'+res.locals.record._id, null, req.getLocale());
     res.locals.editAboutUrl =  UrlHelper.makeUrl(req.organisationTag, 'about/id/'+res.locals.record._id, null, req.getLocale());
+    if (res.locals.record.type === 'hashtag') {
+      res.locals.editEmojiUrl =  UrlHelper.makeUrl(req.organisationTag, 'emoji/id/'+res.locals.record._id, null, req.getLocale());
+    }
   }
   next();
 });

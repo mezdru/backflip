@@ -105,17 +105,12 @@ function goLeft(event) {
 
 transformItem = function (item, facets) {
 	addUrl(item);
-	addTag(item);
 	addPictureHtml(item);
 	transformHashtags(item, facets);
 	transformIntro(item);
 	transformLinks(item);
 	return item;
 };
-
-function addTag(item) {
-	item.showTag = getParameterByName('hashtags');
-}
 
 function addPictureHtml(item, iconOnly) {
 	item.pictureHtml = getPictureHtml(item, iconOnly);

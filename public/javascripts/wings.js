@@ -129,10 +129,6 @@ $(document).ready(function () {
     onChange: function (value) {
       search();
     },
-    onItemAdd(value, $item) {
-      $('.selectize-input .added').removeClass('added');
-      $item.addClass('added');
-    },
     onDropdownOpen($dropdown) {
       $modalLayer.addClass('show');
     },
@@ -225,9 +221,7 @@ $(document).ready(function () {
     }
     if (!hashtag.type) hashtag.type = 'hashtag';
     if (!hashtag.name) hashtag.name = hashtag.tag.replace('#','');
-    hashtag.picture = {
-      url: getPictureUrl(hashtag, true)
-    };
+    hashtag.pictureHtml = getPictureHtml(hashtag, true);
     hashtag.$score = 1;
     return hashtag;
   }
@@ -240,7 +234,8 @@ $(document).ready(function () {
       tag: $(this).data('tag'),
       name: $(this).data('name'),
       picture: {
-        url: $(this).data('picture-url')
+        emoji: $(this).data('picture-emoji'),
+        path: $(this).data('picture-path')
       },
       type: 'hashtag'
     });
