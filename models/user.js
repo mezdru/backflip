@@ -135,7 +135,7 @@ userSchema.methods.attachOrgAndRecord = function(organisation, record, callback)
   var orgAndRecord = this.getOrgAndRecord(organisation._id);
   if (orgAndRecord && record) {
     orgAndRecord.record = record;
-  } else {
+  } else if (!orgAndRecord) {
     this.orgsAndRecords.push({organisation: organisation, record: record});
   }
   if (callback) this.save(callback);

@@ -1787,5 +1787,6 @@ color: #e6e6e6;
 
     .pure-menu-horizontal .pure-menu-item-product {
       display: inherit;
+      margin-right: 45px;
     }
 }

@@ -19,7 +19,7 @@ router.get('/login', function(req, res, next) {
 
 router.get('/login', function(req, res, next) {
   var googleSignin, emailSignin;
-  if (res.locals.organisation) {
+  if (res.locals.organisation && res.locals.organisation.public !== true) {
     googleSignin = res.locals.organisation.canGoogleSignin();
     emailSignin = res.locals.organisation.canEmailSignin();
   }

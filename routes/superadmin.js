@@ -90,6 +90,46 @@ router.get('/user/list/:filter?', function(req, res, next) {
   });
 });
 
+//@todo filter on query, not after o.O
+router.get('/user/fixDoubleOrg', function(req, res, next) {
+  User.find()
+  .exec(function(err, users) {
+    if (err) return next(err);
+    usersWithManyOrgs = users.filter(user => user.orgsAndRecords.length > 1);
+    var userUpdated = 0;
+    var newUsers = [];
+    usersWithManyOrgs.forEach(user => {
+      var newOrgsAndRecords = [];
+      user.orgsAndRecords.forEach(orgAndRecord => {
+        index = newOrgsAndRecords.findIndex(newOrgAndRecord => orgAndRecord.organisation.equals(newOrgAndRecord.organisation));
+        if (index >= 0) {
+          if(orgAndRecord.record) {
+            newOrgsAndRecords[index] = orgAndRecord;
+            userUpdated ++;
+          }
+        } else newOrgsAndRecords.push(orgAndRecord);
+      });
+      user.orgsAndRecords = newOrgsAndRecords;
+      newUsers.push(user);
+    });
+    var savedCount = 0;
+    newUsers.forEach(user => {
+      user.save((err, user) => {
+        if (err) return next(err);
+        savedCount++;
+        if (savedCount === newUsers.length) {
+          res.render('index',
+            {
+              title: 'fixDoubleOrg',
+              details: `${userUpdated} fixed  of ${savedCount} saved users updated`,
+              content: newUsers
+            });
+          }
+        });
+      });
+    });
+});
+
 router.get('/organisation/list', function(req, res, next) {
   Organisation.find().select('tag created google.hd').sort('-created').exec(function(err, organisations) {
     if (err) return next(err);
