@@ -129,6 +129,9 @@ $(document).ready(function () {
       };
     },
     onChange: function (value) {
+      if($selectize.items.length > 1 && $selectize.items[0].charAt(0) === '@') {
+        $selectize.removeItem($selectize.items[0], true);
+      }
       toggleIconEmptyInput();
       search();
     },
