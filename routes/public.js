@@ -8,11 +8,9 @@ var Application = require('../models/application.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
 router.get('/', function(req, res, next) {
-  console.log('plop');
   if (res.locals.organisation) {
     return next();
   } else {
-    console.log('plop');
     res.render('home/home', {bodyClass: 'home', googleSignin: true, emailSignin: true, home: true});
   }
 });

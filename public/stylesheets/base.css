@@ -558,7 +558,7 @@ header a:hover {
 }
 
 .pure-u-menu > div {
-  padding: 15px 15px 0 0;
+  padding: 20px 15px 0 0;
   width: 100%;
   box-sizing: border-box;
 }
@@ -569,16 +569,12 @@ header a:hover {
 
 .pure-menu-horizontal > .pure-menu-list > .pure-menu-item {
   line-height: 40px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
-  margin-left: 45px;
 }
 
-.pure-menu-horizontal > .pure-menu-list > .pure-menu-item:first-child {
-  margin-left: 0;
-}
-
-.pure-menu-horizontal .pure-menu-item-product {
+.pure-menu-horizontal .pure-menu-item-product,
+.pure-menu-horizontal .hide-signin {
   display: none;
 }
 
@@ -1188,6 +1184,13 @@ a.hashtag {
   border-radius: 30px 0 30px 0;
 }
 
+.record .picture img,
+.record .emoji-box img {
+  width: 28vw;
+  max-width: 180px;
+  min-width: 100px;
+}
+
 .record.pure-g-hashtag .picture,
 .record.pure-g-hashtag .emoji-box {
   float: left;
@@ -1547,8 +1550,12 @@ color: #e6e6e6;
     padding: 36px 30px 0 0;
   }
 
-  .pure-menu-horizontal .pure-menu-item-product {
-    display: inherit;
+  .pure-menu-horizontal .fa {
+    display: none;
+  }
+
+  .pure-menu-horizontal .hide-signin {
+    display: inline;
   }
 
   .main {
@@ -1776,5 +1783,9 @@ color: #e6e6e6;
     .signin .main {
       background-size: 60vh;
       background-position: center 230px;
+    }
+
+    .pure-menu-horizontal .pure-menu-item-product {
+      display: inherit;
     }
 }

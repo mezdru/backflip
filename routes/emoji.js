@@ -57,7 +57,7 @@ router.use(function(req, res, next) {
 
 router.use(function(req, res, next) {
   res.locals.emojiAction = UrlHelper.makeUrl(req.organisationTag, 'emoji/id/'+res.locals.record._id, null, req.getLocale());
-  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, res.locals.record.tag, null, req.getLocale());
+  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, 'profile/'+res.locals.record.tag, null, req.getLocale());
   return next();
 });
 

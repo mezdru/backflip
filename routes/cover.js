@@ -47,7 +47,7 @@ router.use(function(req, res, next) {
 
 router.use(function(req, res, next) {
   res.locals.coverAction = UrlHelper.makeUrl(req.organisationTag, 'cover/id/'+res.locals.record._id, null, req.getLocale());
-  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, res.locals.record.tag, null, req.getLocale());
+  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, 'profile/'+res.locals.record.tag, null, req.getLocale());
   res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
   res.locals.coverUrl = undefsafe(res.locals.record, 'cover.url') || true;
   return next();
