@@ -19,10 +19,13 @@
         <p id="edit-buttons" class="hide">
           <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Edit profile"}}}</a>
           {{#if editEmojiUrl}}
-            <a id="emoji-button-left" href="{{editEmojiUrl}}" class="pure-button scale back-button">{{{__ "Change Emoji"}}}</a>
+            <a id="emoji-button" href="{{editEmojiUrl}}" class="pure-button scale back-button">{{{__ "Change Emoji"}}}</a>
           {{/if}}
           {{#if editCoverUrl}}
             <a id="cover-button-left" href="{{editCoverUrl}}" class="pure-button scale back-button">{{{__ "Change Cover"}}}</a>
+          {{/if}}
+          {{#if promoteUrl}}
+            <a id="promote-button" href="{{promoteUrl}}" class="pure-button scale back-button">{{{__ "Make Public"}}}</a>
           {{/if}}
           {{#if canDelete}}
             <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>

@@ -59,7 +59,7 @@ router.use(function(req, res, next) {
       return next(err);
     }
     if (res.locals.user.ownsRecord(record._id) ||
-    res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+    res.locals.user.isAdminToOrganisation(record.organisation)) {
       res.locals.record = record;
       return next();
     } else {

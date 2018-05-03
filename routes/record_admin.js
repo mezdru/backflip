@@ -118,7 +118,7 @@ router.get('/delete/:recordId', function(req, res, next) {
     if (err) return next(err);
     if (!record) {
       err = new Error('No record to delete');
-      err.status = 500;
+      err.status = 400;
       return next(err);
     }
     record.delete(res.locals.user._id, function(err) {

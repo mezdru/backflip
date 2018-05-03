@@ -549,6 +549,15 @@ recordSchema.statics.getValidationSchema = function(res) {
   };
 };
 
+recordSchema.methods.promoteToAll = function(callback) {
+  this.organisation = this.model('Record').getTheAllOrganisationId();
+  if(callback) this.save(callback);
+};
+
+recordSchema.methods.isInTheAllOrganisation = function() {
+  return this.organisation.equals(this.model('Record').getTheAllOrganisationId());
+};
+
 recordSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
 };

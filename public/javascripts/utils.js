@@ -50,6 +50,7 @@ function makeUrl(subdomains, path, query, locale) {
   var url;
   subdomains = subdomains || getSubdomain();
   path = path || '';
+ 	path = path.replace('#', '%23');
   query = query || '';
   locale = locale || getLocale();
   if (isProduction) {
@@ -202,8 +203,7 @@ function makeLinkUrl(link) {
 }
 
 function addUrl(item) {
-	var cleanTag = item.tag.replace('#', '%23');
-	item.url = makeUrl(null, 'profile/'+cleanTag);
+	item.url = makeUrl(null, 'profile/'+item.tag);
 }
 
 transformHashtags = function(item, facets) {

@@ -244,12 +244,16 @@ $(document).ready(function () {
   // ==============
   $(document).on('click', '.hashtag', function (e) {
     e.preventDefault();
-    $selectize.addOption({
-      tag: $(this).data('tag'),
-      name: $(this).data('name'),
-      type: 'hashtag'
-    });
-    $selectize.addItem($(this).data('tag'), false);
+    if (e.ctrlKey) {
+      window.open(makeUrl(null, 'profile/'+$(this).data('tag')), '_blank');
+    } else {
+      $selectize.addOption({
+        tag: $(this).data('tag'),
+        name: $(this).data('name'),
+        type: 'hashtag'
+      });
+      $selectize.addItem($(this).data('tag'), false);
+    }
   });
   $searchInputIcon.on('click', function (e) {
     e.preventDefault();

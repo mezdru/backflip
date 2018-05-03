@@ -914,7 +914,9 @@ a.cloud-element:hover,
 .profile #delete-button,
 .profile #cover-button-left,
 .profile #cover-button,
-.profile #about-button {
+.profile #about-button,
+.profile #promote-button,
+.profile #emoji-button {
   display: block;
   margin: 0;
   font-size: 18px;

@@ -240,6 +240,30 @@ router.get('/record/clear_deleted', function(req, res, next) {
   });
 });
 
+router.get('/record/promote/:id', function(req, res, next) {
+  if (!res.locals.organisation) {
+    let error = new Error('organisation required');
+    error.status = 400;
+    return next(error);
+  }
+  Record.findById(req.params.id, res.locals.organisation._id, function(err, record) {
+    if (err) return next(err);
+    if (!record) {
+      let error = new Error('Record not found');
+      error.status = 404;
+      return next(error);
+    }
+    record.promoteToAll(function(err, record) {
+      res.render('index',
+        {
+          title: 'Record made public',
+          details: `${record.name} is now available to All`,
+          content: record
+        });
+    });
+  });
+});
+
 router.get('/application/list', function(req, res, next) {
   Application.find().sort('-created').exec(function(err, applications) {
     if (err) return next(err);

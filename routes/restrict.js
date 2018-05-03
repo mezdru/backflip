@@ -33,6 +33,12 @@ router.use(function(req, res, next) {
   return next();
 });
 
+router.use(function(req, res, next) {
+  if (res.locals.organisation)
+    res.locals.hasProfile = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
+  return next();
+});
+
 
 router.use(function(req, res, next) {
   if (res.locals.organisation && res.locals.user)

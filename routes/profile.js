@@ -55,7 +55,7 @@ router.use(function(req, res, next) {
 router.get('*', function(req, res, next) {
   if (!res.locals.user) return next();
   if (res.locals.user.ownsRecord(res.locals.record._id) ||
-    res.locals.user.isAdminToOrganisation(res.locals.organisation._id)
+    res.locals.user.isAdminToOrganisation(res.locals.record.organisation)
   ) {
     res.locals.canEdit = true;
   }
@@ -64,7 +64,7 @@ router.get('*', function(req, res, next) {
 
 router.get('*', function(req, res, next) {
   if (!res.locals.user) return next();
-  if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+  if (res.locals.user.isAdminToOrganisation(res.locals.record.organisation)) {
     res.locals.canDelete = true;
   }
   next();
@@ -78,6 +78,13 @@ router.get('*', function(req, res, next) {
     if (res.locals.record.type === 'hashtag') {
       res.locals.editEmojiUrl =  UrlHelper.makeUrl(req.organisationTag, 'emoji/id/'+res.locals.record._id, null, req.getLocale());
     }
+  }
+  next();
+});
+
+router.get('*', function(req, res, next) {
+  if (res.locals.user.isSuperAdmin && !res.locals.record.isInTheAllOrganisation() && res.locals.record.type === 'hashtag') {
+    res.locals.promoteUrl =  UrlHelper.makeUrl(req.organisationTag, 'superadmin/record/promote/'+res.locals.record._id, null, req.getLocale());
   }
   next();
 });
