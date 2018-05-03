@@ -98,8 +98,8 @@ $(document).ready(function () {
     },
     render: {
         option: function(option) {
-            let highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
-            let highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
+            var highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
+            var highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
             return '<div class="aa-suggestion ' + option.type + '">' +
             '<span class="tag">' +
             highlightedTag +
@@ -135,18 +135,18 @@ $(document).ready(function () {
       toggleIconEmptyInput();
       search();
     },
-    onType(str) {
+    onType: function (str) {
       toggleIconEmptyInput();
     },
-    onLoad(data) {
+    onLoad: function (data) {
       if(data.length === 0)
         search();
     },
-    onDropdownOpen($dropdown) {
+    onDropdownOpen: function($dropdown) {
       toggleIconEmptyInput();
       $modalLayer.addClass('show');
     },
-    onDropdownClose($dropdown) {
+    onDropdownClose: function($dropdown) {
       $modalLayer.removeClass('show');
       search();
     }
@@ -166,7 +166,7 @@ $(document).ready(function () {
     tags = $selectize.$input.val();
     facetFilters = getParameterByName('hashtags') ? ['type:hashtag'] : ['type:person'];
     tagFilters = '';
-    $selectize.items.forEach((item) => {
+    $selectize.items.forEach(function(item) {
       if(item.charAt(0) === '#')
         facetFilters.push('hashtags.tag:' + item);
       else if(item.charAt(0) === '@')
@@ -229,7 +229,7 @@ $(document).ready(function () {
       $showMore.css("display", "none");
       return $hits.html(nooneTemplate.render(content));
     }
-    content.hits.forEach(hit => transformItem(hit, $selectize.items));
+    content.hits.forEach(function(hit) { transformItem(hit, $selectize.items);});
     if (page === 0) {
       $hits.empty();
       content.hits.splice(3, 0, {invitation:true});

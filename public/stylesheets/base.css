@@ -738,6 +738,7 @@ p.cloud {
 .selectize-control.multi .selectize-input > div.item {
   display: inline-block;
   box-sizing: border-box;
+  vertical-align: bottom;
   border-radius: 15px;
   height: 30px;
   padding: 0;

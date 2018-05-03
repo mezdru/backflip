@@ -191,6 +191,7 @@ a.step.active span {
 }
 
 #wings-checkboxes .wings-label {
+  display: block;
   font-size: 15px;
   font-weight: 600;
   text-align: center;
@@ -198,6 +199,10 @@ a.step.active span {
   transition: all .3s ease-out;
   margin: 0;
   padding: 15px;
+}
+
+#wings-checkboxes .wings-label img{
+    pointer-events: none;
 }
 
 .wings-label > div {
@@ -246,6 +251,10 @@ label[for="link-input"] {
 }
 
 /* Links */
+
+#link-cloud .link {
+  cursor: move;
+}
 
 #type-selector {
   margin: 0;

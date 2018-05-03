@@ -160,7 +160,7 @@
       linkInput.classList.add(type);
     }
   });
-  linkInput.addEventListener('keypress', (event) => {
+  linkInput.addEventListener('keypress', function(event) {
     if (event.which == 13 || event.keyCode == 13) {
             event.preventDefault();
             addLinkToCloud();
@@ -169,7 +169,7 @@
     return true;
   })
 
-  linkInput.addEventListener('keypress', (event) => {
+  linkInput.addEventListener('keypress', function(event) {
     if (event.which == 9 || event.keyCode == 9) {
             event.preventDefault();
             goNext(true);

@@ -94,8 +94,8 @@ $(document).ready(function () {
     },
     render: {
         option: function(option) {
-            let highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
-            let highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
+            var highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
+            var highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
             return '<div class="aa-suggestion ' + option.type + '">' +
             '<span class="tag">' +
             highlightedTag +
@@ -129,10 +129,10 @@ $(document).ready(function () {
     onChange: function (value) {
       search();
     },
-    onDropdownOpen($dropdown) {
+    onDropdownOpen: function($dropdown) {
       $modalLayer.addClass('show');
     },
-    onDropdownClose($dropdown) {
+    onDropdownClose: function($dropdown) {
       $modalLayer.removeClass('show');
     }
   })[0].selectize;
