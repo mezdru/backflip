@@ -142,6 +142,13 @@ userSchema.methods.attachOrgAndRecord = function(organisation, record, callback)
   else return this;
 };
 
+userSchema.methods.detachOrg = function(organisationId, callback) {
+  this.orgsAndRecords = this.orgsAndRecords.filter(orgAndRecord => {
+    return !organisationId.equals(getId(orgAndRecord.organisation));
+  });
+  if (callback) this.save(callback);
+};
+
 userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
   if (orgAndRecord) {

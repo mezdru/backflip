@@ -29,9 +29,14 @@ router.use('/search/:query?', function(req, res, next) {
 });
 
 router.get('/search/:query?', function(req, res, next) {
-  //@todo deduplicate these next lines with private.js / public.js
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
+});
+
+router.get('/leave', function(req, res, next) {
+  res.locals.user.detachOrg(res.locals.organisation._id, function(err, user) {
+    res.redirect(UrlHelper.makeUrl());
+  });
 });
 
 module.exports = router;
