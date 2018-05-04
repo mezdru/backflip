@@ -34,7 +34,7 @@ router.use(function(req, res, next) {
 });
 
 router.use(function(req, res, next) {
-  if (res.locals.organisation)
+  if (res.locals.organisation && res.locals.user)
     res.locals.hasProfile = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
   return next();
 });
