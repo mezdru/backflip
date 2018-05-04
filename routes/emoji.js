@@ -76,7 +76,7 @@ router.post('/id/:id',
 );
 
 router.post('/id/:id',
-  body('emoji').isLength({ max: 1 }).withMessage((value, {req}) => {
+  body('emoji').isLength({ max: 2 }).withMessage((value, {req}) => {
     return req.__('Please provide a valid emoji.');
   })
 );
