@@ -244,7 +244,7 @@ $(document).ready(function () {
   // ==============
   $(document).on('click', '.hashtag', function (e) {
     e.preventDefault();
-    if (e.ctrlKey) {
+    if (e.ctrlKey || e.metaKey) {
       window.open(makeUrl(null, 'profile/'+$(this).data('tag')), '_blank');
     } else {
       $selectize.addOption({

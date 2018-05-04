@@ -68,6 +68,7 @@ $(document).ready(function () {
     plugins: ['drag_drop', 'remove_button', 'soft_clear_options', 'has_item', 'create_on_enter'],
     persist: false,
     create: function(input) {
+      console.log(input);
       return getHashtag(input);
     },
     openOnFocus: false,
@@ -111,7 +112,7 @@ $(document).ready(function () {
         },
         option_create: function(data) {
           if (data.input.charAt(0) !== '#') data.input = '#' + data.input;
-          return '<div class="aa-suggestion create-hashtag">' +
+          return '<div class="create aa-suggestion hashtag" data-selectable="">' +
           '<span class="tag"><em>' +
           data.input +
           '</em></span>' +

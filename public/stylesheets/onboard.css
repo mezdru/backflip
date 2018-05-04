@@ -238,7 +238,7 @@ label[for="link-input"] {
   margin-bottom: 50px;
 }
 
-#search .plugin-drag_drop .hashtag {
+#search .ui-sortable > .hashtag {
   cursor: move;
 }
 
