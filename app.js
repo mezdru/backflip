@@ -99,7 +99,7 @@ morgan.token('fullurl', function getFullUrl(req) {
   return req.hostname + req.originalUrl;
 });
 morgan.token('user', function user(req) {
-  return undefsafe(req, 'session.user.loginEmail') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  return undefsafe(req, 'session.user._id') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 });
 app.use(morgan(':method :fullurl :status - :res[content-length] b in :response-time ms - :user'));
 

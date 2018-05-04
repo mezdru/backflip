@@ -341,7 +341,6 @@ router.all('/hashtags', function(req, res, next) {
   res.locals.onboard.step = "hashtags";
   res.locals.onboard.hashtags = true;
   res.locals.hashtagsAsString = req.body.hashtags || res.locals.record.hashtags.reduce((string, hashtag) => string + ',' + hashtag.tag, '').substring(1);
-  console.log(res.locals.hashtagsAsString);
   res.render('onboard/hashtags', {
     bodyClass: 'onboard onboard-hashtags'
   });

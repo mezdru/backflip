@@ -189,7 +189,6 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
         if (err) return reject(err);
         if (record) return resolve(record);
         this.model('Record').makeFromTag(hashtag, organisationId, (err, record) => {
-          console.log(record);
           if (err) return reject(err);
           return resolve(record);
         });
@@ -248,6 +247,8 @@ recordSchema.statics.shallowCopies = function(records) {
   return records.map(record => this.shallowCopy(record));
 };
 
+const validator = require('validator');
+
 //@todo Does not match person (@) yet
 const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
@@ -255,6 +256,7 @@ recordSchema.methods.cleanDescription = function() {
   this.description = this.description || '';
   this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
 };
+
 
 recordSchema.methods.cleanIntro = function() {
   this.intro = this.intro || '';
@@ -312,13 +314,13 @@ recordSchema.methods.getWithin = function(organisation) {
 
 recordSchema.methods.getWithinFromIntro = function() {
   this.cleanIntro();
-  var tags = this.intro.match(tagRegex);
+  var tags = validator.unescape(this.intro).match(tagRegex);
   return tags || [];
 };
 
 recordSchema.methods.getWithinFromDescription = function(organisation) {
   this.cleanDescription();
-  var tags = this.description.match(tagRegex);
+  var tags = validator.unescape(this.description).match(tagRegex);
   return unique(tags || []);
 };
 
