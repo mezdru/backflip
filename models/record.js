@@ -247,20 +247,22 @@ recordSchema.statics.shallowCopies = function(records) {
   return records.map(record => this.shallowCopy(record));
 };
 
+//@todo there are a lot of escaping/unescaping going on (because escaping creates special chars with # that are interpreted as Wings), change this.
 const validator = require('validator');
-
 //@todo Does not match person (@) yet
 const tagRegex = /([@#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 recordSchema.methods.cleanDescription = function() {
   this.description = this.description || '';
-  this.description = this.description.replace(tagRegex, this.model('Record').cleanTag);
+  this.description = validator.unescape(this.description).replace(tagRegex, this.model('Record').cleanTag);
+  this.description = validator.escape(this.description);
 };
 
 
 recordSchema.methods.cleanIntro = function() {
   this.intro = this.intro || '';
-  this.intro = this.intro.replace(tagRegex, this.model('Record').cleanTag);
+  this.intro = validator.unescape(this.intro).replace(tagRegex, this.model('Record').cleanTag);
+  this.intro = validator.escape(this.intro);
 };
 
 var uppercamelcase = require('uppercamelcase');
@@ -311,6 +313,7 @@ recordSchema.statics.getTypeFromTag = function(tag) {
 recordSchema.methods.getWithin = function(organisation) {
   return unique(this.getWithinFromIntro().concat(this.getWithinFromDescription()));
 };
+
 
 recordSchema.methods.getWithinFromIntro = function() {
   this.cleanIntro();
