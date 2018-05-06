@@ -253,6 +253,7 @@ label[for="link-input"] {
 
 #wings-suggestions .hashtag {
   cursor:pointer;
+  animation: fadeIn 0.5s;
 }
 
 #modal-layer {

@@ -37,6 +37,26 @@ Selectize.define('create_on_enter', function () {
     })();
 });
 
+var emptySpeed = 100;
+var fillSpeed = 100;
+
+$.fn.emptyFaded = function() {
+  this.children().each(function() {
+    $(this).fadeOut(emptySpeed, function() {
+      $(this).remove();
+    });
+  });
+};
+
+$.fn.fillFaded = function($newHashtags) {
+  var container = this;
+  $newHashtags.children().each(function(index) {
+    var that = this;
+    setTimeout(function() {
+      container.append($(that));
+    }, emptySpeed+(index+1)*fillSpeed);
+  });
+};
 
 $(document).ready(function () {
 
@@ -155,6 +175,7 @@ $(document).ready(function () {
   }
 
   function searchForSuggestions() {
+    $hashtags.emptyFaded();
     world.searchForFacetValues({
       facetName: 'hashtags.tag',
       facetQuery: '',
@@ -183,22 +204,23 @@ $(document).ready(function () {
   function renderSuggestions(hits) {
     var notEnough = 12;
     var suggestedTags = [];
-    $hashtags.empty();
+    var $newHashtags = $('<div></div>');
     for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
       if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 1) {
-        $hashtags.append(hashtagsTemplate.render(getHashtag(hit.value)));
+        $newHashtags.append(hashtagsTemplate.render(getHashtag(hit.value)));
         suggestedTags.push(hit.value);
         notEnough--;
       }
     }
     for (var prop in hashtagsBank) {
       if (notEnough > 0 && getRandomInt(3) === 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
-        $hashtags.append(hashtagsTemplate.render(getHashtag(prop)));
+        $newHashtags.append(hashtagsTemplate.render(getHashtag(prop)));
         suggestedTags.push(prop);
-        notEnough = notEnough-1;
+        notEnough--;
       }
     }
+    $hashtags.fillFaded($newHashtags);
   }
 
   function addHashtagsToBank(hits) {
@@ -229,7 +251,7 @@ $(document).ready(function () {
 
   // EVENTS BINDING
   // ==============
-  $('#wings-suggestions').on('click', '.hashtag', function (e) {
+  $hashtags.on('click', '.hashtag', function (e) {
     e.preventDefault();
     $selectize.addOption({
       tag: $(this).data('tag'),

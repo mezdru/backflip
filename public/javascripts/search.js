@@ -45,6 +45,27 @@ Selectize.define( 'soft_clear_options', function( options ) {
     } )();
 } );
 
+var emptySpeed = 100;
+var fillSpeed = 100;
+
+$.fn.emptyFaded = function() {
+  this.children().each(function() {
+    $(this).fadeOut(emptySpeed, function() {
+      $(this).remove();
+    });
+  });
+};
+
+$.fn.fillFaded = function($new) {
+  var container = this;
+  $new.each(function(index) {
+    var that = this;
+    setTimeout(function() {
+      container.append($(that));
+    }, emptySpeed+(index+1)*fillSpeed);
+  });
+};
+
 $(document).ready(function () {
 
   var ALGOLIA_APPID = 'RSXBUBL0PB';
@@ -55,7 +76,7 @@ $(document).ready(function () {
   // DOM and Templates binding
   var $searchInput = $('#search input');
   var $searchInputIcon = $('#search-input-icon');
-  var $subheader = $('#subheader');
+  var $subheader = $('#subheader .pure-g');
   var $hashtags = $('#hashtag-suggestions');
   var $hits = $('#search-results');
   var $showMore = $('#show-more');
@@ -225,19 +246,18 @@ $(document).ready(function () {
   }
 
   function renderHits(content) {
+    $showMore.fadeOut(fillSpeed);
     if (content.hits.length === 0) {
-      $showMore.css("display", "none");
       return $hits.html(nooneTemplate.render(content));
     }
     content.hits.forEach(function(hit) { transformItem(hit, $selectize.items);});
     if (page === 0) {
-      $hits.empty();
+      $hits.emptyFaded();
       content.hits.splice(3, 0, {invitation:true});
       window.scrollTo(0,0);
     }
-    if (content.nbPages > content.page + 1) $showMore.css("display", "block");
-    else $showMore.css("display", "none");
-    $hits.append(hitsTemplate.render(content));
+    $hits.fillFaded($(hitsTemplate.render(content)));
+    if (content.nbPages > content.page + 1) $showMore.delay(1000).fadeIn(fillSpeed);
   }
 
   // EVENTS BINDING

@@ -67,6 +67,7 @@ a:hover {
   margin: auto;
   display: block;
   margin-top: 45px;
+
 }
 
 .ais-infinite-hits--showmore button:disabled {
@@ -270,9 +271,13 @@ a.cloud-element,
 }
 
 #subheader {
-  display: none;
+  height: 45px;
   background: #f2f2f2;
   z-index: 49;
+}
+#subheader .pure-g {
+  display: none;
+  animation: fadeIn 0.5s;
 }
 #subheader .suggestions-box {
   height: 45px;
@@ -1060,6 +1065,7 @@ a.cloud-element:hover,
 }
 
 #search-results .pure-g {
+  animation: fadeIn 0.5s;
   max-width: 610px;
 }
 
@@ -1296,6 +1302,15 @@ a.hashtag {
   }
 	100% {
     background-color: #a4c5cb;
+  }
+}
+
+@keyframes fadeIn {
+	0% {
+    opacity: 0;
+  }
+	100% {
+    opacity: 1;
   }
 }
 

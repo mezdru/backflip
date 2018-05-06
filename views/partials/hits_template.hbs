@@ -1,7 +1,6 @@
 <script type="text/template" id="hits-template">
   {{{{raw}}}}
-  {{#hits}}
-  <div class="pure-g-box">
+  {{#hits}}<div class="pure-g-box">
     {{^invitation}}
     <div class="record pure-g pure-g-{{type}}">
       <div class="pure-u-1 pure-u-intro">
@@ -53,7 +52,6 @@
     </div>
     {{{{raw}}}}
     {{/invitation}}
-  </div>
-  {{/hits}}
+  </div>{{/hits}}
   {{{{/raw}}}}
 </script>
