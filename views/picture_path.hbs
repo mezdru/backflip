@@ -1,13 +1,13 @@
 <div class="main">
   <div class="pure-g">
   </div>
-  <form class="pure-form pure-form-stacked" action="{{emojiAction}}" method="post">
+  <form class="pure-form pure-form-stacked" action="{{picturePathAction}}" method="post">
     <input type="hidden" name="_id" value="{{record._id}}" />
     <div class="pure-g">
       <div class="pure-u-1">
         <div class="grid-box">
-          <h2>{{__ 'Select an Emoji for %s' record.tag}}</h2>
-          <input class="pure-input-1" type="text" id="emoji" name="emoji" value="{{record.picture.emoji}}"/>
+          <h2>{{__ 'Input a picture path for %s' record.tag}}</h2>
+          <input class="pure-input-1" type="text" id="picture-path" name="picturePath" value="{{record.picture.path}}"/>
           {{> form_errors}}
         </div>
       </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="pure-u-1-2 pure-u-md-2-3">
           <div class="grid-box">
-            <button type="submit" class="pure-button scale">{{{__ "Change Emoji"}}}</button>
+            <button type="submit" class="pure-button scale">{{{__ "Change Picture Path"}}}</button>
           </div>
         </div>
       </div>

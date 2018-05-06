@@ -499,6 +499,11 @@ recordSchema.methods.setEmoji = function(emoji, callback) {
   if (callback) this.save(callback);
 };
 
+recordSchema.methods.setPicturePath = function(picturePath, callback) {
+  this.picture.path = picturePath;
+  if (callback) this.save(callback);
+};
+
 
 var algolia = require('algoliasearch')(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_WRITE_KEY);
 var index = algolia.initIndex('world');

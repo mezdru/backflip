@@ -214,6 +214,9 @@ app.use('/about', about);
 var emoji = require('./routes/emoji.js');
 app.use('/emoji', emoji);
 
+var picturePath = require('./routes/picture_path.js');
+app.use('/picturePath', picturePath);
+
 // onboarding
 var invite = require('./routes/invite.js');
 app.use('/invite', invite);

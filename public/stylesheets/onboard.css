@@ -182,7 +182,7 @@ a.step.active span {
 }
 
 #wings-checkboxes {
-  padding: 0 25px;
+  padding-left: 30px;
   box-sizing: border-box;
 }
 
@@ -190,45 +190,54 @@ a.step.active span {
   display: none;
 }
 
-#wings-checkboxes .wings-label {
+#wings-checkboxes label.wings-label {
   display: block;
-  font-size: 15px;
+  position: relative;
+  height: 60px;
+  font-size: 20px;
   font-weight: 600;
-  text-align: center;
   margin-bottom: 30px;
   transition: all .3s ease-out;
   margin: 0;
-  padding: 15px;
-}
-
-#wings-checkboxes .wings-label img{
-    pointer-events: none;
-}
-
-.wings-label > div {
-  max-width: 120px;
-  margin: auto;
-  border-radius: 50%;
-  line-height: 0;
-  transition: all .3s ease-out;
-}
-
-.wings-label.checked {
-  color: #dd362e;
-}
-
-.wings-label.checked > div {
-  background-color: #dd362e;
-}
-
-.wings-label img {
+  padding: 0;
+  color: #a4c5cb;
+  background: #ffffff;
   transition: all .3s ease;
-  max-width: 100%;
+  border-radius: 30px;
 }
 
-.wings-label:hover img,
-.wings-label.checked img {
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  #wings-checkboxes .wings-label img {
+      pointer-events: none;
+  }
+}
+
+#wings-checkboxes label.wings-label > img {
+  float: left;
+  vertical-align: top;
+  width: 120px;
+  height: 120px;
+  margin: -30px -30px 0 -30px;
+}
+
+#wings-checkboxes label.wings-label > div {
+  position: absolute;
+  padding-left: 90px;
+  padding-right: 10px;
+  bottom: 50%;
+  transform: translateY(50%);
+}
+
+#wings-checkboxes label.wings-label.checked {
+  color: #ffffff;
+  background: #a4c5cb;
+}
+
+#wings-checkboxes label.wings-label:hover,
+#wings-checkboxes label.wings-label.checked {
+  cursor: pointer;
   transform: scale(1.2);
+  z-index: 1;
 }
 
 /* HASHTAGS */
