@@ -33,11 +33,11 @@
     </div>
     <div id="wings-checkboxes" class="pure-g">
       {{#wings}}
-        <div class="pure-u-1 pure-u-md-1-2">
+        <div class="pure-u-1-2 pure-u-md-1-3">
           <div class="grid-box">
             <label for="{{tag}}" class="wings-label">
-              <img src="{{pictureUrl picture type}}" class="wings-img">
-              <div>{{name}}</div>
+              <div class="wings-label-img"><img src="{{pictureUrl picture type}}" class="wings-img"></div>
+              <div class="wings-label-name">{{name}}</div>
               <input id="{{tag}}" type="checkbox" name="wings" value="{{tag}}" {{#checked}}checked{{/checked}}>
             </label>
           </div>

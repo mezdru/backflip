@@ -182,7 +182,6 @@ a.step.active span {
 }
 
 #wings-checkboxes {
-  padding-left: 30px;
   box-sizing: border-box;
 }
 
@@ -191,19 +190,12 @@ a.step.active span {
 }
 
 #wings-checkboxes label.wings-label {
+  cursor: pointer;
   display: block;
   position: relative;
-  height: 60px;
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 30px;
-  transition: all .3s ease-out;
   margin: 0;
   padding: 0;
-  color: #a4c5cb;
-  background: #ffffff;
   transition: all .3s ease;
-  border-radius: 30px;
 }
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
@@ -212,32 +204,45 @@ a.step.active span {
   }
 }
 
-#wings-checkboxes label.wings-label > img {
-  float: left;
+#wings-checkboxes label.wings-label .wings-label-img {
+  display: block;
   vertical-align: top;
-  width: 120px;
-  height: 120px;
-  margin: -30px -30px 0 -30px;
+  width: 100%;
+  line-height: 0;
+  border-radius: 50%;
+  transition: all .3s ease;
 }
 
-#wings-checkboxes label.wings-label > div {
-  position: absolute;
-  padding-left: 90px;
-  padding-right: 10px;
-  bottom: 50%;
-  transform: translateY(50%);
+#wings-checkboxes label.wings-label .wings-label-img img {
+  transition: all .3s ease;
+  width: 100%;
 }
 
-#wings-checkboxes label.wings-label.checked {
+#wings-checkboxes label.wings-label .wings-label-name {
+  height: 30px;
+  box-sizing: border-box;
+  color: #a4c5cb;
+  background: #ffffff;
+  border-radius: 15px;
+  transition: all .3s ease;
+  font-size: 15px;
+  padding: 5px 10px;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  margin-top: -20px;
+  z-index: 1;
+}
+
+#wings-checkboxes label.wings-label.checked .wings-label-name,
+#wings-checkboxes label.wings-label.checked .wings-label-img {
   color: #ffffff;
   background: #a4c5cb;
 }
 
-#wings-checkboxes label.wings-label:hover,
-#wings-checkboxes label.wings-label.checked {
-  cursor: pointer;
+#wings-checkboxes label.wings-label:hover .wings-label-img img,
+#wings-checkboxes label.wings-label.checked .wings-label-img img {
   transform: scale(1.2);
-  z-index: 1;
 }
 
 /* HASHTAGS */
@@ -251,9 +256,18 @@ label[for="link-input"] {
   cursor: move;
 }
 
+#wings-suggestions {
+  min-height: 240px;
+}
+
 #wings-suggestions .hashtag {
+  opacity: 0;
+  transition: all .3s ease;
   cursor:pointer;
-  animation: fadeIn 0.5s;
+}
+
+#wings-suggestions .hashtag.show {
+  opacity: 1;
 }
 
 #modal-layer {
@@ -353,6 +367,12 @@ li#facebook-selector.selected {
 }
 
 @media screen and (min-width: 639px) {
+  #wings-checkboxes label.wings-label .wings-label-name {
+    height: 36px;
+    border-radius: 18px;
+    font-size: 18px;
+    padding: 6px 12px;
+  }
   #type-selector li span {
     display: inline;
   }

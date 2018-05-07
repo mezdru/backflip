@@ -42,19 +42,22 @@ var fillSpeed = 100;
 
 $.fn.emptyFaded = function() {
   this.children().each(function() {
-    $(this).fadeOut({duration:emptySpeed, easing:'linear'}, function() {
+    $(this).fadeOut(emptySpeed, 'linear', function() {
       $(this).remove();
     });
   });
 };
 
-$.fn.fillFaded = function($newHashtags) {
+$.fn.fillFaded = function($new) {
   var container = this;
-  $newHashtags.children().each(function(index) {
+  $new.children().each(function(index) {
     var that = this;
     setTimeout(function() {
       container.append($(that));
-    }, emptySpeed+(index+1)*fillSpeed);
+      setTimeout(function() {
+        $(that).addClass('show');
+      }, index*fillSpeed);
+    }, emptySpeed+fillSpeed);
   });
 };
 

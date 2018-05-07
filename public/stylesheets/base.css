@@ -1062,10 +1062,15 @@ a.cloud-element:hover,
 
 #search-results .pure-g-box {
   padding: 15px;
+  opacity: 0;
+  transition: all .3s ease;
+}
+
+#search-results .pure-g-box.show {
+  opacity: 1;
 }
 
 #search-results .pure-g {
-  animation: fadeIn 0.5s;
   max-width: 610px;
 }
 

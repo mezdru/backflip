@@ -50,7 +50,7 @@ var fillSpeed = 100;
 
 $.fn.emptyFaded = function() {
   this.children().each(function() {
-    $(this).fadeOut({duration:emptySpeed, easing:'linear'}, function() {
+    $(this).fadeOut(emptySpeed, 'linear', function() {
       $(this).remove();
     });
   });
@@ -60,8 +60,9 @@ $.fn.fillFaded = function($new) {
   var container = this;
   $new.each(function(index) {
     var that = this;
+    container.append($(that));
     setTimeout(function() {
-      container.append($(that));
+      $(that).addClass('show');
     }, emptySpeed+(index+1)*fillSpeed);
   });
 };
@@ -103,6 +104,7 @@ $(document).ready(function () {
     load: function(query, callback) {
         world.search({
           query: query,
+          facetFilters: hashtagsFilters,
           attributesToRetrieve: ['type','name', 'tag','picture'],
           restrictSearchableAttributes: ['name', 'tag'],
           hitsPerPage: 5
@@ -179,22 +181,24 @@ $(document).ready(function () {
 
   // SEARCH ALL
   // ==========
-  var query, tags, facetFilters, tagFilters, page;
+  var query, tags, facetFilters, hashtagsFilters, tagFilters, page;
 
   function search() {
     page = 0;
     query = $selectize.$control_input.val();
     tags = $selectize.$input.val();
     facetFilters = getParameterByName('hashtags') ? ['type:hashtag'] : ['type:person'];
+    hashtagsFilters = [];
     tagFilters = '';
     $selectize.items.forEach(function(item) {
       if(item.charAt(0) === '#')
-        facetFilters.push('hashtags.tag:' + item);
+        hashtagsFilters.push('hashtags.tag:' + item);
       else if(item.charAt(0) === '@')
         tagFilters = (tagFilters ? tagFilters + ' OR ' : '' ) + 'tag:' + item;
       else {
         query = (query ? query + ',' : '' ) + item;
       }
+      facetFilters = facetFilters.concat(hashtagsFilters);
     });
 
     searchForHits();
