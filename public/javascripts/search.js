@@ -45,12 +45,12 @@ Selectize.define( 'soft_clear_options', function( options ) {
     } )();
 } );
 
-var emptySpeed = 100;
+var emptySpeed = 200;
 var fillSpeed = 100;
 
 $.fn.emptyFaded = function() {
   this.children().each(function() {
-    $(this).fadeOut(emptySpeed, function() {
+    $(this).fadeOut({duration:emptySpeed, easing:'linear'}, function() {
       $(this).remove();
     });
   });

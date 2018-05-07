@@ -37,12 +37,12 @@ Selectize.define('create_on_enter', function () {
     })();
 });
 
-var emptySpeed = 100;
+var emptySpeed = 200;
 var fillSpeed = 100;
 
 $.fn.emptyFaded = function() {
   this.children().each(function() {
-    $(this).fadeOut(emptySpeed, function() {
+    $(this).fadeOut({duration:emptySpeed, easing:'linear'}, function() {
       $(this).remove();
     });
   });
