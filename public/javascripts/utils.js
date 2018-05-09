@@ -163,7 +163,7 @@ function makeLinkIcon(link) {
 		case 'email':
 			link.icon = 'envelope-o';
 			break;
-		case 'address':
+		case 'address': case 'location':
 			link.icon = 'map-marker';
 			break;
 		case 'hyperlink':

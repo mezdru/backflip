@@ -216,6 +216,8 @@ a.step.active span {
 #wings-checkboxes label.wings-label .wings-label-img img {
   transition: all .3s ease;
   width: 100%;
+  max-width: 180px;
+  margin: auto;
 }
 
 #wings-checkboxes label.wings-label .wings-label-name {

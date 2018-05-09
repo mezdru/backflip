@@ -891,6 +891,7 @@ a.cloud-element:hover,
   position: relative;
   z-index: 55;
   border: 5px solid #ffffff;
+  background: #ffffff;
 }
 
 .profile .emoji-box {
