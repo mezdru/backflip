@@ -133,5 +133,18 @@
 	"Tell us about you": "crwdns1064:0crwdne1064:0",
 	"Please provide a valid https:// URL.": "crwdns1065:0crwdne1065:0",
 	"Edit": "crwdns1066:0crwdne1066:0",
-	"Add": "crwdns1067:0crwdne1067:0"
+	"Add": "crwdns1067:0crwdne1067:0",
+	"Please write a name (no larger than 64 characters).": "crwdns1068:0crwdne1068:0",
+	"Wings": "crwdns1069:0crwdne1069:0",
+	"Edit profile": "crwdns1070:0crwdne1070:0",
+	"Edit about me": "crwdns1071:0crwdne1071:0",
+	"Select an Emoji for %s": "crwdns1072:0%scrwdne1072:0",
+	"Change Emoji": "crwdns1073:0crwdne1073:0",
+	"Please provide a valid emoji.": "crwdns1074:0crwdne1074:0",
+	"Please write an intro no larger than 16384 characters.": "crwdns1075:0crwdne1075:0",
+	"Promote to All": "crwdns1076:0crwdne1076:0",
+	"Make Public": "crwdns1077:0crwdne1077:0",
+	"Input a picture path for %s": "crwdns1078:0%scrwdne1078:0",
+	"Change Picture Path": "crwdns1079:0crwdne1079:0",
+	"Suggestions": "crwdns1080:0crwdne1080:0"
 }
