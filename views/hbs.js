@@ -53,6 +53,8 @@ hbs.registerHelper('linkIcon', function(link) {
 			return 'fa-map-marker';
     case 'hyperlink':
       return 'fa-link';
+    case 'location':
+      return 'fa-map-marker';
 		default:
 			return 'fa-'+link.type;
 	}

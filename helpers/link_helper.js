@@ -141,9 +141,9 @@ var LinkHelper = class LinkHelper {
 
   makeHyperlink () {
     var domain = parseDomain(this.value);
+    if (!domain) return this.makeLocation();
     this.cleanUrl();
     this.setUsername();
-    if (!domain) return this.makeError();
     switch (domain.domain) {
       case 'slack': this.type = 'slack'; this.display = 'Slack'; return;
       case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; return;
@@ -198,6 +198,14 @@ var LinkHelper = class LinkHelper {
     this.display = undefined;
     this.url = undefined;
   }
+
+
+    makeLocation () {
+      this.type = 'location';
+      this.username = undefined;
+      this.display = undefined;
+      this.url = 'https://www.google.com/maps?q='+this.value;
+    }
 
 };
 
