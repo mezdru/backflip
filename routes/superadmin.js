@@ -149,13 +149,7 @@ router.get('/organisation/create/:orgTag', function(req, res, next) {
   });
   organisation.save(function(err, organisation) {
     if (err) return next(err);
-    var url = new UrlHelper(organisation.tag).getUrl();
-    res.render('index',
-      {
-        title: 'New organisation created',
-        details: `<a href="${url}">${organisation.host}</a> has been created.`,
-        content: organisation
-      });
+    res.redirect(UrlHelper.makeUrl(organisation.tag, 'admin/organisation/', null, req.getLocale()));
   });
 });
 

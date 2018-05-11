@@ -1500,9 +1500,8 @@ color: #e6e6e6;
   font-size: 44px;
 }
 
-.admin .main .pure-g {
-  margin-top: 15px;
-  margin-bottom: 15px;
+.admin .main {
+  padding-bottom: 180px;
 }
 
 .reward {

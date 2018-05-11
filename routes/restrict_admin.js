@@ -13,7 +13,7 @@ router.use(function(req, res, next) {
   } else return next();
 });
 
-router.get('/', function(req, res, next) {
+router.get('/advanced', function(req, res, next) {
   res.render('admin/admin', {bodyClass: 'admin'});
 });
 

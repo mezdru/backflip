@@ -162,7 +162,7 @@ hbs.registerHelper('profileLink', function(user, organisation) {
 });
 
 hbs.registerHelper('adminUrl', function(organisation) {
-  return new UrlHelper(organisation.tag, `admin/`, null, this.getLocale()).getUrl();
+  return new UrlHelper(organisation.tag, `admin/organisation/`, null, this.getLocale()).getUrl();
 });
 
 hbs.registerHelper('adminLink', function(user, organisation) {

@@ -10,7 +10,7 @@ var organisationSchema = mongoose.Schema({
   logo: {
     url: String,
   },
-  tag: {type: String, index: true, unique: true},
+  tag: {type: String, required: true, index: true, unique: true},
   google: {
     hd: [String],
   },
