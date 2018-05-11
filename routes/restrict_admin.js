@@ -6,11 +6,16 @@ router.use(function(req, res, next) {
     err = new Error('Subdomain required');
     err.status = 403;
     return next(err);
-  } else if (!res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
-    err = new Error('Must be Admin');
-    err.status = 403;
-    return next(err);
-  } else return next();
+  }
+
+  if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id) ||
+  res.locals.user.isSuperAdmin()) {
+    return next();
+  }
+
+  err = new Error('Must be Admin');
+  err.status = 403;
+  return next(err);
 });
 
 router.get('/advanced', function(req, res, next) {

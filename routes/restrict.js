@@ -21,6 +21,7 @@ router.use(function(req, res, next) {
 // Check if the user can access the organisation
 router.use(function(req, res, next) {
   if (res.locals.organisation && res.locals.organisation.public === true) return next();
+  if (res.locals.user.isSuperAdmin()) return next();
   if (res.locals.organisation) {
     if (!res.locals.user.belongsToOrganisation(res.locals.organisation._id)) {
       err = new Error('Forbidden Organisation');
@@ -42,7 +43,7 @@ router.use(function(req, res, next) {
 
 router.use(function(req, res, next) {
   if (res.locals.organisation && res.locals.user)
-    res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id);
+    res.locals.isAdmin = res.locals.user.isAdminToOrganisation(res.locals.organisation._id) || res.locals.user.isSuperAdmin();
   return next();
 });
 

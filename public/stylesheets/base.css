@@ -18,7 +18,8 @@ body {
 }
 
 body.search,
-body.profile {
+body.profile,
+body.admin {
   background-color: #f2f2f2;
 }
 
