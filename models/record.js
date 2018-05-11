@@ -5,7 +5,6 @@ var undefsafe = require('undefsafe');
 var unique = require('array-unique');
 var randomstring = require('randomstring');
 var LinkHelper = require('../helpers/link_helper.js');
-var StructureHelper = require('../helpers/structure_helper.js');
 
 
 var recordSchema = mongoose.Schema({
@@ -43,7 +42,6 @@ var recordSchema = mongoose.Schema({
     team: Number,
     hashtag: Number
   },
-  structure: {},
   ranking: {type: Number, default: 0},
   hidden_links: [linkSchema],
   google: {
@@ -398,13 +396,6 @@ recordSchema.statics.getNameFromTag = function(tag) {
 	});
   return list.join(' ');
 
-};
-
-// @todo what if Record.within is not populated ? You're screwed aren't you ?
-recordSchema.methods.makeStructure = function(organisation) {
-  structureHelper = new StructureHelper(this.within, organisation.tree);
-  structureHelper.build();
-  this.structure = structureHelper.structure;
 };
 
 recordSchema.methods.countIncludes = function(callback) {

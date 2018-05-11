@@ -20,7 +20,6 @@ var organisationSchema = mongoose.Schema({
   colors: {
     primary: String
   },
-  tree: [[String]],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   public: { type: Boolean, default: false }

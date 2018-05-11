@@ -211,7 +211,11 @@ $(document).ready(function () {
       facetFilters: facetFilters,
       filters: tagFilters,
       hitsPerPage: 10,
-      page: page
+      page: page,
+      attributesToSnippet: [
+        "intro:"+introSnippetLength,
+        "description:"+introSnippetLength
+      ]
     }, function(err, content) {
       if (err) throw new Error(err);
       renderHits(content);

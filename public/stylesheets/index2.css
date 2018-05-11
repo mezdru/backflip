@@ -832,11 +832,6 @@ footer .pure-g {
   display: none;
 }
 
-/* Admin Tree input */
-.tree-input {
-  font-family: mono;
-}
-
 /* IMPERSONATE FOOTER */
 .impersonate {
   position: fixed;
