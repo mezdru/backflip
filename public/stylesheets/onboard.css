@@ -81,10 +81,21 @@ a.step.active span {
 /** WELCOME **/
 .onboard-welcome .main {
   background-image: url('/images/wings.jpg');
-  background-position: center 250px;
+  background-position: center 260px;
   background-repeat: no-repeat;
   background-size: 60vh;
   background-color: #ffffff;
+}
+
+.onboard.onboard-welcome h2 {
+  font-size: 18px;
+  background: #ffffff;
+  padding-bottom: 5px;
+}
+
+.onboard-welcome h1 img {
+  max-width: 100%;
+  max-height: 90px;
 }
 
 .onboard-welcome .bottom-buttons .grid-box {

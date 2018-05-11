@@ -104,6 +104,18 @@ hbs.registerHelper('picture', function(item) {
   else return null;
 });
 
+hbs.registerHelper('logo', function(organisation) {
+  if (organisation) {
+    if (organisation.logo && organisation.logo.url) {
+      return  `<img src="${organisation.logo.url}" alt="${organisation.name}">`;
+    } else {
+      return '<img src="/wingzy.png" alt="${organisation.name}">';
+    }
+  } else {
+    return '<img src="/wingzy.png" alt="Wingzy">';
+  }
+});
+
 var twemoji = require('twemoji');
 hbs.registerHelper('icon', function(item) {
   if (item && item.picture && item.picture.emoji)

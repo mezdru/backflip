@@ -33,6 +33,13 @@ organisationSchema.virtual('host').get(function() {
   return this.tag + '.' + process.env.HOST;
 });
 
+organisationSchema.virtual('orgsIdsToTags').get(function() {
+  var orgsIdsToTags = {};
+  orgsIdsToTags[this._id] = this.tag;
+  orgsIdsToTags[this.model('Organisation').getTheAllOrganisationId()] = 'all';
+  return orgsIdsToTags;
+});
+
 organisationSchema.methods.addGoogleHD = function(hd, callback) {
   this.google.hd.push(hd);
   if(callback) this.save(callback);

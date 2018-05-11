@@ -1,8 +1,14 @@
 <div class="main">
   <div class="pure-g">
     <div class="pure-u-1">
-      <h1>{{__ "Welcome to %s!" organisation.name}}</h1>
-      <h2>{{{__ 'Wingzy is the obvious app to find the coworkers you need by revealing skills and passions'}}}</h2>
+      <h1>
+        {{#if organisation.picture.url}}
+          <img src="{{organisation.picture.url}}" alt="{{organisation.name}}">
+        {{else}}
+          {{organisation.name}}
+        {{/if}}
+      </h1>
+      <h2>{{{__ 'Wingzy is the app to share what we are good at and love doing' organisation.name}}}</h2>
     </div>
   </div>
   <div class="bottom-buttons">

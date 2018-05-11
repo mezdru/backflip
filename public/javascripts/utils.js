@@ -202,8 +202,14 @@ function makeLinkUrl(link) {
 	}
 }
 
+function getOrgTag(item) {
+	if (orgsIdsToTags && item.organisation) {
+		return orgsIdsToTags[item.organisation];
+	} else return null;
+}
+
 function addUrl(item) {
-	item.url = makeUrl(null, 'profile/'+item.tag);
+	item.url = makeUrl(getOrgTag(item), 'profile/'+item.tag);
 }
 
 transformHashtags = function(item, facets) {
