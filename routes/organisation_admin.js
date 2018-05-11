@@ -41,7 +41,7 @@ router.post('/',
 
 //@todo tag validation is far from good
 router.post('/',
-  body('tag').isAscii().withMessage((value, {req}) => {
+  body('tag').matches(/^[a-z0-9\-]*$/).withMessage((value, {req}) => {
     return req.__('Please provide a valid tag.');
   }),
   body('name').isLength({ min: 3 }).withMessage((value, {req}) => {
@@ -58,7 +58,7 @@ router.post('/',
 router.post('/', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
-  res.locals.organisation.tag = req.body.tag.toLowerCase();
+  res.locals.organisation.tag = req.body.tag;
   res.locals.organisation.name = req.body.name;
   res.locals.organisation.logo.url = req.body.logo.url;
   res.locals.organisation.picture.url = req.body.picture.url;
