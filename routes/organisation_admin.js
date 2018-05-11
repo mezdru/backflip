@@ -39,9 +39,9 @@ router.post('/',
   sanitizeBody('picture').trim().escape().stripLow(true)
 );
 
-
+//@todo tag validation is far from good
 router.post('/',
-  body('tag').isAlphanumeric().withMessage((value, {req}) => {
+  body('tag').isAscii().withMessage((value, {req}) => {
     return req.__('Please provide a valid tag.');
   }),
   body('name').isLength({ min: 3 }).withMessage((value, {req}) => {
