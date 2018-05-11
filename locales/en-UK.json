@@ -155,5 +155,7 @@
 	"Invite Coworker by email": "Invite Coworker by email",
 	"Please provide a valid tag.": "Please provide a valid tag.",
 	"Please provide a valid Logo URL.": "Please provide a valid Logo URL.",
-	"Please provide a valid Picture URL.": "Please provide a valid Picture URL."
+	"Please provide a valid Picture URL.": "Please provide a valid Picture URL.",
+	"Picture": "Picture",
+	"Profile Picture": "Profile Picture"
 }
