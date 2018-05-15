@@ -30,6 +30,7 @@ router.use('/search/:query?', function(req, res, next) {
 
 router.get('/search/:query?', function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+  res.locals.canInvite = res.locals.organisation.canInvite;
   res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });
 

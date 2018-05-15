@@ -10,6 +10,14 @@ var Record = require('../models/record.js');
 var EmailUser = require('../models/email/email_user.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
+router.use(function(req, res, next) {
+  if (res.locals.organisation.canInvite || res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) return next();
+
+  err = new Error('Invitation Forbidden');
+  err.status = 403;
+  return next(err);
+});
+
 router.use('/', function(req, res, next) {
   res.locals.formAction = new UrlHelper(req.organisationTag, 'invite', null, req.getLocale()).getUrl();
   return next();

@@ -39,7 +39,6 @@ router.post('/',
   sanitizeBody('picture').trim().escape().stripLow(true)
 );
 
-//@todo tag validation is far from good
 router.post('/',
   body('tag').matches(/^[a-z0-9\-]*$/).withMessage((value, {req}) => {
     return req.__('Please provide a valid tag.');
@@ -47,10 +46,10 @@ router.post('/',
   body('name').isLength({ min: 3 }).withMessage((value, {req}) => {
     return req.__('Please provide a valid name.');
   }),
-  body('logo.url').isURL().withMessage((value, {req}) => {
+  body('logo.url').isURL().optional({checkFalsy:true}).withMessage((value, {req}) => {
     return req.__('Please provide a valid Logo URL.');
   }),
-  body('picture.url').isURL().withMessage((value, {req}) => {
+  body('picture.url').isURL().optional({checkFalsy:true}).withMessage((value, {req}) => {
     return req.__('Please provide a valid Picture URL.');
   })
 );
@@ -62,6 +61,7 @@ router.post('/', function(req, res, next) {
   res.locals.organisation.name = req.body.name;
   res.locals.organisation.logo.url = req.body.logo.url;
   res.locals.organisation.picture.url = req.body.picture.url;
+  res.locals.organisation.canInvite = req.body.canInvite;
   if (errors.isEmpty()) {
     res.locals.organisation.save(function(err, organisation) {
       if(err) return next(err);

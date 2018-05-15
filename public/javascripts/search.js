@@ -261,7 +261,7 @@ $(document).ready(function () {
     content.hits.forEach(function(hit) { transformItem(hit, $selectize.items);});
     if (page === 0) {
       $hits.emptyFaded();
-      content.hits.splice(3, 0, {invitation:true});
+      if (canInvite) content.hits.splice(3, 0, {invitation:true});
       window.scrollTo(0,0);
     }
     $hits.fillFaded($(hitsTemplate.render(content)));

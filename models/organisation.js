@@ -22,7 +22,8 @@ var organisationSchema = mongoose.Schema({
   },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  public: { type: Boolean, default: false }
+  public: { type: Boolean, default: false },
+  canInvite: { type: Boolean, default: false }
 });
 
 organisationSchema.index({'google.hd': 1});
@@ -38,6 +39,7 @@ organisationSchema.virtual('orgsIdsToTags').get(function() {
   orgsIdsToTags[this.model('Organisation').getTheAllOrganisationId()] = 'all';
   return orgsIdsToTags;
 });
+
 
 organisationSchema.methods.addGoogleHD = function(hd, callback) {
   this.google.hd.push(hd);
@@ -62,6 +64,10 @@ organisationSchema.methods.makePublic = function(callback) {
   if(callback) this.save(callback);
 };
 
+organisationSchema.methods.makeCanInvite = function(callback) {
+  this.canInvite = true;
+  if (callback) this.save(callback);
+};
 
 // We populate ALL the records in the Organisation AND IN THE "ALL" ORGANISATION
 organisationSchema.methods.populateRecords = function(callback) {
