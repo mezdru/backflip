@@ -70,9 +70,15 @@ organisationSchema.methods.makeCanInvite = function(callback) {
 };
 
 // We populate ALL the records in the Organisation AND IN THE "ALL" ORGANISATION
-organisationSchema.methods.populateRecords = function(callback) {
+organisationSchema.methods.populateRecords = function(includeAll, callback) {
+  if (!callback) {
+    callback = includeAll;
+    includeAll = false;
+  }
+  var organisation = includeAll ? [this._id, this.model('Organisation').getTheAllOrganisationId()] : this._id;
+
   if (this.records) return callback(null, this);
-  Record.find({organisation: [this._id, this.model('Organisation').getTheAllOrganisationId()] })
+  Record.find({organisation: organisation})
     .select('_id organisation tag type name intro description picture links hashtags within updated created')
     .populate('hashtags', '_id organisation tag type name picture')
     .populate('within', '_id organisation tag type name picture')

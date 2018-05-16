@@ -208,7 +208,7 @@ router.all('/hashtags', function(req, res, next) {
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.post('/intro', function(req, res, next) {
   if (res.locals.organisation.records) return next();
-  res.locals.organisation.populateRecords(function(err, organisation) {
+  res.locals.organisation.populateRecords(true,function(err, organisation) {
     if (err) return next(err);
     else return next();
   });

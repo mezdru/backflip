@@ -5,10 +5,8 @@
     <input type="hidden" name="_id" value="{{record._id}}" />
     <div class="pure-g">
       <div class="pure-u-1">
-        <div class="grid-box">
-          <div id="uploadcare" class="">
-            <input id="uploadcare" type="hidden" role="uploadcare-uploader" name="picture[url]" data-crop="1280x960 upscale" data-image-shrink="1280x1280" data-images-only="true"  value="{{uploadcareUrl}}"/>
-          </div>
+        <div class="grid-box uploadcare-box">
+          <input id="uploadcare" type="hidden" role="uploadcare-uploader" name="picture[url]" data-crop="1280x960 upscale" data-image-shrink="1280x1280" data-images-only="true"  value="{{uploadcareUrl}}"/>
         </div>
         <div class="grid-box">
           {{> form_errors}}

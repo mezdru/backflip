@@ -1007,12 +1007,11 @@ a.cloud-element:hover,
   padding-bottom: 90px;
 }
 
-.cover-edit #uploadcare,
-.cover-edit .uploadcare--widget {
+.uploadcare-box .uploadcare--widget {
   display: block;
 }
 
-.cover-edit .uploadcare--widget button {
+.uploadcare-box .uploadcare--widget button {
   width: 100%;
   margin: auto;
   font-size: 22.5px;
@@ -1026,13 +1025,18 @@ a.cloud-element:hover,
   transition: all .3s ease-out;
 }
 
-.cover-edit .uploadcare--widget__text {
+.uploadcare-box .uploadcare--widget__text {
   display: none;
 }
 
-.cover-edit .uploadcare--widget button:hover,
-.cover-edit .uploadcare--widget button:active,
-.cover-edit .uploadcare--widget button:focus {
+.uploadcare--widget__text,
+.uploadcare--widget__button {
+  display: block;
+}
+
+.uploadcare-box .uploadcare--widget button:hover,
+.uploadcare-box .uploadcare--widget button:active,
+.uploadcare-box .uploadcare--widget button:focus {
   transform: scale(1.2);
   cursor: pointer;
 }
@@ -1045,6 +1049,10 @@ a.cloud-element:hover,
 
 .onboard-intro .uploadcare--progress_type_canvas {
   color: #dd362e;
+}
+
+.uploadcare--button {
+  border-radius: 30px;
 }
 
 .cover-edit h2,
@@ -1403,6 +1411,11 @@ color: #e6e6e6;
   font-weight: 700;
 }
 
+.signin h1 img {
+  max-width: 100%;
+  max-height: 180px;
+}
+
 .signin h2 {
   text-align: center;
   margin: 0;
@@ -1751,6 +1764,10 @@ color: #e6e6e6;
 
   .scroll-right, .scroll-left {
     display: block;
+  }
+
+  .signin h1 {
+    font-size: 36px;
   }
 
   .signin h2 {

@@ -20,12 +20,16 @@
       </div>
     </div>
     <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box">
+      <div class="pure-u-1-2">
+        <div class="grid-box uploadcare-box">
           <label for="logo">{{__ "Small square logo"}}</label>
-          <input class="pure-input-1" id="logo" name="logo[url]" type="url" value="{{organisation.logo.url}}">
+          <input id="logo" type="hidden" role="uploadcare-uploader" name="logo[url]" data-crop="120x120 minimum" value="{{organisation.logo.url}}"/>
+        </div>
+      </div>
+      <div class="pure-u-1-2">
+        <div class="grid-box uploadcare-box">
           <label for="picture">{{__ "Large logo"}}</label>
-          <input class="pure-input-1" id="picture" name="picture[url]" type="url" value="{{organisation.picture.url}}">
+          <input id="picture" type="hidden" role="uploadcare-uploader" name="picture[url]" data-crop="640x320 minimum" value="{{organisation.picture.url}}"/>
         </div>
       </div>
     </div>
@@ -61,6 +65,6 @@
       </div>
     </div>
   </div>
-  <div class="illustration cat">
-  </div>
+  {{> jquery}}
+  {{> uploadcare_script}}
 </div>

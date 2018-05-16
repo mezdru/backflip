@@ -71,6 +71,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.all('/', function(req, res, next) {
+  res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
   res.render('admin/organisation', { bodyClass: 'admin'});
 });
 

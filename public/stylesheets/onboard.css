@@ -397,6 +397,11 @@ li#facebook-selector.selected {
     padding: 5px 20px;
   }
 
+
+  .onboard h1 {
+    font-size: 36px;
+  }
+
   .onboard h2 {
     font-size: 22.5px;
   }

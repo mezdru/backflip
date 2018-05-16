@@ -11,7 +11,7 @@ var EmailUser = require('../models/email/email_user.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
 router.use(function(req, res, next) {
-  if (res.locals.organisation.canInvite || res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) return next();
+  if (res.locals.organisation.canInvite || res.locals.user.isAdminToOrganisation(res.locals.organisation._id) || res.locals.user.isSuperAdmin()) return next();
 
   err = new Error('Invitation Forbidden');
   err.status = 403;
