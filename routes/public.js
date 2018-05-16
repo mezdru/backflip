@@ -28,15 +28,19 @@ router.get('/pricing', function(req, res, next) {
 });
 
 router.get('/privacy', function(req, res, next) {
+  res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
+});
+
+router.get('/dodos', function(req, res, next) {
   res.render('home/privacy', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/terms', function(req, res, next) {
-  res.render('home/privacy', {bodyClass: 'home privacy', home: true});
+  res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/security', function(req, res, next) {
-  res.render('home/privacy', {bodyClass: 'home privacy', home: true});
+  res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/cheers', function(req, res, next) {
