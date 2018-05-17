@@ -211,6 +211,10 @@ img.wingzy-full {
   color: #76cfe7;
 }
 
+.privacy .main p {
+  margin-bottom: 10px;
+}
+
 .privacy a.right {
   display: inline-block;
   color: #ffffff;
