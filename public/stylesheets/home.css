@@ -201,6 +201,26 @@ img.wingzy-full {
   font-size: 20px;
 }
 
+.privacy .main h2,
+.privacy .main strong {
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.privacy .main a {
+  color: #76cfe7;
+}
+
+.privacy a.right {
+  display: inline-block;
+  color: #ffffff;
+  background: #dd362e;
+  border-radius: 1em;
+  padding: 0px 10px;
+  font-weight: 600;
+  margin: 3px;
+}
+
 @media screen and (min-width: 639px) {
   .home .epic .epic-placeholder {
     min-height: 45vw;
