@@ -34,6 +34,14 @@ var userSchema = mongoose.Schema({
   },
   last_login: { type: Date },
   last_action: {type: Date},
+  invitations: [
+    {
+      _id: false,
+      organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
+      user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
+      created: { type: Date, default: Date.now }
+    }
+  ],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false },
@@ -47,6 +55,16 @@ userSchema.statics.findOneByEmail = function (email, callback) {
 userSchema.virtual('loginEmail').get(function() {
   return this.google.email || this.email.value;
 });
+
+userSchema.methods.addInvitation = function(organisation, user, callback) {
+  var invitation = {
+    organisation: organisation,
+    user: user,
+    created: Date.now(),
+  };
+  this.invitations.push(invitation);
+  if(callback) return this.save(callback);
+};
 
 userSchema.methods.canEmailSignin = function() {
   return this.email.value;
