@@ -1029,6 +1029,12 @@ a.cloud-element:hover,
   display: none;
 }
 
+.admin .uploadcare-box .uploadcare--widget__text {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+}
+
 .uploadcare--widget__text,
 .uploadcare--widget__button {
   display: block;
