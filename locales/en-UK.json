@@ -159,5 +159,7 @@
 	"Picture": "Picture",
 	"Profile Picture": "Profile Picture",
 	"People can invite others": "People can invite others",
-	"Wingzy is the app to share what we are good at and love doing within %s": "Wingzy is the app to share what we are good at and love doing within %s"
+	"Wingzy is the app to share what we are good at and love doing within %s": "Wingzy is the app to share what we are good at and love doing within %s",
+	"Profile Suspended": "Profile Suspended",
+	"Your Profile {{profileName}} in the Organisation {{organisationName}} has been suspended. The following data cannot be used anymore and will be deleted within 1 year.": "Your Profile {{profileName}} in the Organisation {{organisationName}} has been suspended. The following data cannot be used anymore and will be deleted within 1 year."
 }

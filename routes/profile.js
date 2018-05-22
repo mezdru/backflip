@@ -17,6 +17,16 @@ router.use(function(req, res, next) {
 });
 
 // Get the record
+router.get('/:tag?', function(req, res, next) {
+  if (!req.params.tag && res.locals.user) {
+    var tag = res.locals.user.getRecordTagByOrgId(res.locals.organisation._id);
+    var query = req.query.json ? '?json=true' : null;
+    if (tag) return res.redirect(UrlHelper.makeUrl(req.organisationTag, 'profile/'+tag, query, req.getLocale()));
+  }
+  return next();
+});
+
+// Get the record
 router.get('/:tag', function(req, res, next) {
   Record.findByTag(req.params.tag, res.locals.organisation._id, function(err, record) {
     if (err) return next(err);
@@ -92,10 +102,14 @@ router.get('*', function(req, res, next) {
 });
 
 router.get('*', function(req, res, next) {
-  res.render('profile', {
-    title: res.locals.record.name,
-    bodyClass: 'profile'
-  });
+  if (req.query.json) {
+    return res.json(res.locals.record);
+  } else {
+    res.render('profile', {
+      title: res.locals.record.name,
+      bodyClass: 'profile'
+    });
+  }
 });
 
 module.exports = router;

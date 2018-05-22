@@ -115,6 +115,7 @@ router.use(function(req, res, next) {
 
   var plus = new googlePlus(req.googleOAuth);
   plus.makeRecord(res.locals.organisation._id, function(err, record) {
+    if(err) return next(err);
     record.save(function(err, record) {
       if (err) return next(err);
       res.locals.record = record;

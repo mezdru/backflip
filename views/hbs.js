@@ -140,23 +140,40 @@ hbs.registerHelper('tagUrl', function(tag) {
   return '/search/' + tag;
 });
 
-hbs.registerHelper('profileUrl', function(user, organisation) {
-  if (!organisation || !user || !organisation._id) return null;
-  recordTag = user.getRecordTagByOrgId(organisation._id);
-  if (!recordTag) return null;
-  return new UrlHelper(organisation.tag, `profile/${recordTag}`, null, this.getLocale()).getUrl();
+hbs.registerHelper('suspendUrl', function(organisation, user, json) {
+  if (!organisation || !organisation._id) return null;
+  var recordTag = '';
+  if (user) recordId = user.getRecordIdByOrgId(organisation._id) || '';
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return new UrlHelper(organisation.tag, `suspend/id/${recordId}`, null, locale).getUrl();
+});
+
+hbs.registerHelper('profileUrl', function(organisation, user, json) {
+  if (!organisation || !organisation._id) return null;
+  var recordTag = '';
+  if (user) recordTag = user.getRecordTagByOrgId(organisation._id) || '';
+  var query = null;
+  if (json === 'json') query = '?json=true';
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return new UrlHelper(organisation.tag, `profile/${recordTag}`, query, locale).getUrl();
 });
 
 hbs.registerHelper('myEditUrl', function(organisation) {
   if (!organisation || !organisation.tag) return null;
-  return new UrlHelper(organisation.tag, 'onboard/intro', null, this.getLocale()).getUrl();
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return new UrlHelper(organisation.tag, 'onboard/intro', null, locale).getUrl();
 });
 
 hbs.registerHelper('profileLink', function(user, organisation) {
   if (!organisation || !user || !organisation._id) return null;
   recordId = user.getRecordIdByOrgId(organisation._id);
   if (!recordId) return null;
-  url = new UrlHelper(organisation.tag, `id/${recordId}`, null, this.getLocale()).getUrl();
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  url = new UrlHelper(organisation.tag, `id/${recordId}`, null, locale).getUrl();
   //What about using the refresh icon instrad of the arrow-up?
   return `<a title="${this.__('Profile')}" class="pure-menu-link profile-link" href="${url}">${this.__('Profile')}</a>`;
 });
@@ -194,9 +211,10 @@ hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
 });
 
 hbs.registerHelper('homeUrl', function(organisation, locale) {
-  locale = typeof locale === 'string' ? locale : this.getLocale();
+  locale = typeof locale === 'string' ? locale : null;
+  if (!locale && this.getLocale) locale = this.getLocale();
   if (organisation && organisation.tag) return new UrlHelper(organisation.tag, 'search', null, locale).getUrl();
-  else return new UrlHelper(null, null, null, this.getLocale()).getUrl();
+  else return new UrlHelper(null, null, null, locale).getUrl();
 });
 
 hbs.registerHelper('nl2br', function(string) {

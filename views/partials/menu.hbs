@@ -10,7 +10,7 @@
             <ul class="pure-menu-children">
               {{#if hasProfile}}
               <li class="pure-menu-item">
-                <a title="{{__ 'Profile'}}" class="pure-menu-link edit-link" href="{{{profileUrl user organisation}}}">{{__ 'Profile'}}</a>
+                <a title="{{__ 'Profile'}}" class="pure-menu-link edit-link" href="{{{profileUrl organisation user}}}">{{__ 'Profile'}}</a>
               </li>
               {{/if}}
               {{#if isAdmin}}
@@ -37,9 +37,7 @@
             <a title="{{__ "Learn more"}}" href="{{url null null}}" class="pure-menu-link">{{__ "Learn more"}}</a>
           </li>
           <li class="pure-menu-item">
-            <a title="{{__ "Sign in"}}" href="{{signinUrl}}" class="pure-menu-link">
-              <i class="fa fa-sign-in" aria-hidden="true"></i><span class="hide-signin"> {{__ "Sign in"}}</span>
-            </a>
+            <a title="{{__ "Sign in"}}" href="{{signinUrl}}" class="pure-menu-link">{{__ "Sign in"}}</a>
           </li>
         <ul>
       </div>

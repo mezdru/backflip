@@ -203,8 +203,7 @@ img.wingzy-full {
 
 .privacy .main h2,
 .privacy .main strong {
-  text-transform: uppercase;
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .privacy .main a {
@@ -213,6 +212,10 @@ img.wingzy-full {
 
 .privacy .main p {
   margin-bottom: 10px;
+}
+
+.privacy .main h3 {
+  text-align: left;
 }
 
 .privacy a.right {

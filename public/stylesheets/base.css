@@ -579,8 +579,7 @@ header a:hover {
   font-weight: 600;
 }
 
-.pure-menu-horizontal .pure-menu-item-product,
-.pure-menu-horizontal .hide-signin {
+.pure-menu-horizontal .pure-menu-item-product {
   display: none;
 }
 

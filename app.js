@@ -217,6 +217,9 @@ app.use('/emoji', emoji);
 var picturePath = require('./routes/picture_path.js');
 app.use('/picturePath', picturePath);
 
+var suspend = require('./routes/suspend.js');
+app.use('/suspend', suspend);
+
 // onboarding
 var invite = require('./routes/invite.js');
 app.use('/invite', invite);
