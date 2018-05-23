@@ -10,6 +10,7 @@ router.use(function(req, res, next) {
 
   if (res.locals.user.isAdminToOrganisation(res.locals.organisation._id) ||
   res.locals.user.isSuperAdmin()) {
+    res.locals.isSuperAdmin = res.locals.user.isSuperAdmin();
     return next();
   }
 

@@ -13,7 +13,7 @@
         <div class="grid-box">
           {{> form_errors}}
           <label for="tag">{{__ "Tag"}}</label>
-          <input class="pure-input-1" id="tag" name="tag" type="text" value="{{organisation.tag}}">
+          <input class="pure-input-1" id="tag" name="tag" type="text" value="{{organisation.tag}}" {{#unless isSuperAdmin}}disabled=""{{/unless}}>
           <label for="name">{{__ "Name"}}</label>
           <input class="pure-input-1" id="name" name="name" type="text" value="{{organisation.name}}">
         </div>
@@ -39,6 +39,14 @@
           <label for="canInvite">
             <input id="canInvite" name="canInvite" type="checkbox" {{#if organisation.canInvite}}checked{{/if}}> {{__ "People can invite others"}}
           </label>
+        </div>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <label for="css">{{__ "Custom CSS"}}</label>
+          <textarea id="css" name="css" class="pure-input-1"></textarea>
         </div>
       </div>
     </div>

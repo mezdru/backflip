@@ -36,7 +36,8 @@ router.post('/',
   sanitizeBody('tag').trim().escape().stripLow(true),
   sanitizeBody('name').trim().escape().stripLow(true),
   sanitizeBody('logo').trim().escape().stripLow(true),
-  sanitizeBody('picture').trim().escape().stripLow(true)
+  sanitizeBody('picture').trim().escape().stripLow(true),
+  sanitizeBody('css').trim().escape().stripLow(true)
 );
 
 router.post('/',
@@ -45,6 +46,9 @@ router.post('/',
   }),
   body('name').isLength({ min: 3 }).withMessage((value, {req}) => {
     return req.__('Please provide a valid name.');
+  }),
+  body('css').isLength({ max: 1280 }).withMessage((value, {req}) => {
+    return req.__('{{field}} Cannot be longer than {{length}} characters', {field: 'CSS', length: 1280});
   }),
   body('logo.url').isURL().optional({checkFalsy:true}).withMessage((value, {req}) => {
     return req.__('Please provide a valid Logo URL.');
@@ -57,11 +61,12 @@ router.post('/',
 router.post('/', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
-  res.locals.organisation.tag = req.body.tag;
+  if (res.locals.user.isSuperAdmin()) res.locals.organisation.tag = req.body.tag;
   res.locals.organisation.name = req.body.name;
   res.locals.organisation.logo.url = req.body.logo.url;
   res.locals.organisation.picture.url = req.body.picture.url;
   res.locals.organisation.canInvite = req.body.canInvite;
+  res.locals.organisation.style.css = req.body.css;
   if (errors.isEmpty()) {
     res.locals.organisation.save(function(err, organisation) {
       if(err) return next(err);

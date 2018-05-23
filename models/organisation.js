@@ -17,8 +17,8 @@ var organisationSchema = mongoose.Schema({
   email: {
     domains: [String]
   },
-  colors: {
-    primary: String
+  style: {
+    css: String
   },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
