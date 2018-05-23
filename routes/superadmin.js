@@ -270,4 +270,43 @@ router.get('/application/list', function(req, res, next) {
   });
 });
 
+//@todo this should be a DB command
+router.get('/updateLocationsForLabRH', function(req, res, next) {
+  if (res.locals.organisation.tag !== 'vivalabrh') {
+    let error = new Error('Only works for vivalabrh');
+    error.status = 400;
+    return next(error);
+  }
+  res.locals.organisation.populateRecords(function(err, organisation) {
+    var length = res.locals.organisation.records.length;
+    var linksUpdated = 0;
+    var recordsUpdated = 0;
+    res.locals.organisation.records.forEach(record => {
+      var recordUpdated = 0;
+      record.links.forEach(link => {
+        if (link.type === 'location') {
+          link.url = 'https://aralifi.fr/lelabrh/salonvivatech.html';
+          linksUpdated ++;
+          recordUpdated = 1;
+        }
+      });
+      recordsUpdated += recordUpdated;
+      if (recordUpdated) {
+        record.save(function(err, record) {
+          length --;
+          if (length === 0) {
+            res.render('index',
+              {
+                title: 'Updated Records Links Locations Urls',
+                details: `Updated ${linksUpdated} links in ${recordsUpdated} records from a total of ${res.locals.organisation.records.length} records`,
+                content: res.locals.organisation.records
+              }
+            );
+          }
+        });
+      } else length --;
+    });
+  });
+});
+
 module.exports = router;

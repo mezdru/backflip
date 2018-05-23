@@ -199,13 +199,12 @@ var LinkHelper = class LinkHelper {
     this.url = undefined;
   }
 
-
-    makeLocation () {
-      this.type = 'location';
-      this.username = undefined;
-      this.display = undefined;
-      this.url = 'https://www.google.com/maps?q='+this.value;
-    }
+  makeLocation () {
+    this.type = 'location';
+    this.username = undefined;
+    this.display = undefined;
+    this.url = 'https://www.google.com/maps?q='+this.value;
+  }
 
 };
 
