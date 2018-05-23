@@ -163,5 +163,8 @@
 	"Profile Suspended": "Profile Suspended",
 	"Your Profile {{profileName}} in the Organisation {{organisationName}} has been suspended. The following data cannot be used anymore and will be deleted within 1 year.": "Your Profile {{profileName}} in the Organisation {{organisationName}} has been suspended. The following data cannot be used anymore and will be deleted within 1 year.",
 	"CSS": "CSS",
-	"Custom CSS": "Custom CSS"
+	"Custom CSS": "Custom CSS",
+	"Default Cover": "Default Cover",
+	"Square logo": "Square logo",
+	"Please provide a valid {{field}} URL.": "Please provide a valid {{field}} URL."
 }

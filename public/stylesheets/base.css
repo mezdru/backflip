@@ -846,8 +846,7 @@ a.cloud-element:hover,
 .about-edit header {
   position: relative;
   min-height: 50vh;
-  background-color: none;
-  background-image: url('/images/ibises.jpg');
+  background-color: #c5ced1;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
