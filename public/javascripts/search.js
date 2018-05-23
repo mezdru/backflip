@@ -210,7 +210,7 @@ $(document).ready(function () {
       query: query,
       facetFilters: facetFilters,
       filters: tagFilters,
-      hitsPerPage: 10,
+      hitsPerPage: 50,
       page: page,
       attributesToSnippet: [
         "intro:"+introSnippetLength,

@@ -11,6 +11,7 @@ var userSchema = mongoose.Schema({
       // Can be populated or not, use getId to get Id.
       record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null},
       admin: Boolean,
+      monthly: { type: Boolean, default: true },
       welcomed: { type: Boolean, default: false }
     }
   ],

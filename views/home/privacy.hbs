@@ -133,12 +133,23 @@
         <p>Sur Wingzy, comme PARTOUT, vous avez les droits suivants sur vos Dodos de Profil&nbsp;:</p>
         {{#user.orgsAndRecords}}
         <h3><a href="{{homeUrl organisation}}">{{organisation.name}}</a></h3>
-        <p><a href="{{profileUrl organisation ../user}}" class="right">Consulter</a>
+        <p>
+          <a href="{{profileUrl organisation ../user}}" class="right">Consulter</a>
           <a href="{{myEditUrl organisation}}" class="right">Modifier</a>
           <a href="{{profileUrl organisation ../user 'json'}}" class="right">Exporter</a>
           <a href="{{suspendUrl organisation ../user}}" class="right">Suspendre</a>
           <a class="right">Supprimer</a>
+        </p>
         {{/user.orgsAndRecords}}
+        {{#unless user}}
+        <p>
+          <a href="{{profileUrl organisation ../user}}" class="right">Consulter</a>
+          <a href="{{myEditUrl organisation}}" class="right">Modifier</a>
+          <a href="{{profileUrl organisation ../user 'json'}}" class="right">Exporter</a>
+          <a href="{{suspendUrl organisation ../user}}" class="right">Suspendre</a>
+          <a class="right">Supprimer</a>
+        </p>
+        {{/unless}}
         </p>
       </div>
     </div>

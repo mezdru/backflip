@@ -5,7 +5,6 @@ var Record = require('../models/record.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var undefsafe = require('undefsafe');
 
-
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
