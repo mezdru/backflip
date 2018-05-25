@@ -28,11 +28,15 @@ router.get('/pricing', function(req, res, next) {
 });
 
 router.get('/privacy', function(req, res, next) {
-  res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
+  res.redirect(UrlHelper.makeUrl(null, 'protecting_data', null, req.getLocale()));
+});
+
+router.get('/protecting_data', function(req, res, next) {
+  res.render('home/protecting_data', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/dodos', function(req, res, next) {
-  res.render('home/privacy', {bodyClass: 'home privacy', home: true});
+  res.redirect(UrlHelper.makeUrl(null, 'protecting_data', null, req.getLocale()));
 });
 
 router.get('/terms', function(req, res, next) {
