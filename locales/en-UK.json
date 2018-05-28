@@ -167,5 +167,9 @@
 	"Default Cover": "Default Cover",
 	"Square logo": "Square logo",
 	"Please provide a valid {{field}} URL.": "Please provide a valid {{field}} URL.",
-	"Protecting your Data": "Protecting your Data"
+	"Protecting your Data": "Protecting your Data",
+	"You will no longer receive the monthly information emails about your coworkers, your organisation and Wingzy.": "You will no longer receive the monthly information emails about your coworkers, your organisation and Wingzy.",
+	"Monthly email deactivated for {{organisationName}}": "Monthly email deactivated for {{organisationName}}",
+	"Monthly email activated for {{organisationName}}": "Monthly email activated for {{organisationName}}",
+	"You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.": "You will now receive the monthly information emails about your coworkers, your organisation and Wingzy."
 }

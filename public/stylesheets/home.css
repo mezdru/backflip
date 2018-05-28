@@ -228,6 +228,15 @@ img.wingzy-full {
   margin: 3px;
 }
 
+.privacy a.right.inactive {
+  background: #1d1f1a;
+  cursor:default;
+}
+
+.privacy a.right.inactive:hover {
+  text-decoration: none;
+}
+
 @media screen and (min-width: 639px) {
   .home .epic .epic-placeholder {
     min-height: 45vw;

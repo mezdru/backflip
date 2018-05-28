@@ -1,6 +1,8 @@
 var hbs = require('hbs');
 var errors = require('./errors.json');
 var UrlHelper = require('../helpers/url_helper.js');
+var User = require('../models/user.js');
+var Organisation = require('../models/organisation.js');
 
 hbs.registerHelper('__', function () {
   return this.__.apply(this, arguments);
@@ -143,6 +145,7 @@ hbs.registerHelper('tagUrl', function(tag) {
 hbs.registerHelper('suspendUrl', function(organisation, user, json) {
   if (!organisation || !organisation._id) return null;
   var recordTag = '';
+  recordId = '';
   if (user) recordId = user.getRecordIdByOrgId(organisation._id) || '';
   var locale = null;
   if (this.getLocale) locale = this.getLocale();
@@ -195,7 +198,60 @@ hbs.registerHelper('addLink', function(user, organisation) {
 });
 
 hbs.registerHelper('url', function(path, organisationTag, query) {
-  return new UrlHelper(organisationTag, path, null, this.getLocale()).getUrl();
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return new UrlHelper(organisationTag, path, null, locale).getUrl();
+});
+
+hbs.registerHelper('dataRightLink', function(type, organisation, user) {
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+
+  var text = '';
+  switch (type) {
+    case 'policy':
+      if (organisation instanceof Organisation) text = organisation.name;
+      else text = 'Protégeons vos Dodos';
+      url = UrlHelper.makeUrl(null, 'protectingYourData', null, locale);
+    break;
+    case 'access': text = 'Consulter';break;
+    case 'export': text = 'Exporter';break;
+    case 'change': text = 'Modifier';  break;
+    case 'suspend': text = 'Suspendre'; break;
+    case 'erase': text = 'Effacer'; break;
+    case 'toggleMonthly': text = 'Désactiver'; break;
+  }
+
+  var url = '';
+  if (organisation instanceof Organisation && user instanceof User) {
+    switch (type)   {
+      case 'policy':
+        url = UrlHelper.makeUrl(organisation.tag, 'protectingYourData', null, locale);
+        break;
+      case 'access':
+        url = UrlHelper.makeUrl(organisation.tag, 'profile', null, locale);
+        break;
+      case 'export':
+        url = UrlHelper.makeUrl(organisation.tag, 'profile', '?json=true', locale);
+        break;
+      case 'change':
+        url = UrlHelper.makeUrl(organisation.tag, 'onboard/intro', null, locale);
+        break;
+      case 'suspend':
+        var recordId = user.getRecordIdByOrgId(organisation._id);
+        if (recordId) url = UrlHelper.makeUrl(organisation.tag, `suspend/id/${recordId}`, null, locale);
+        else url = '';
+        break;
+      case 'erase': break;
+      case 'toggleMonthly':
+        text = user.getMonthly(organisation) ? 'Désactiver' : 'Activer';
+        url = UrlHelper.makeUrl(organisation.tag, 'toggleMonthly', null, locale);
+        break;
+    }
+  }
+  var cssClass = 'inactive';
+  if (url) cssClass = '';
+  return `<a class="right ${cssClass}" href=${url}>${text}</a>`;
 });
 
 hbs.registerHelper('editUrl', function(recordId, organisationTag, step) {

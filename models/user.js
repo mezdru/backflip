@@ -199,6 +199,17 @@ userSchema.methods.isSuperAdmin = function() {
   return this.superadmin === true;
 };
 
+userSchema.methods.getMonthly = function(organisationId) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  return orgAndRecord.monthly;
+};
+
+userSchema.methods.toggleMonthly = function(organisationId, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  orgAndRecord.monthly = !orgAndRecord.monthly;
+  if(callback) return this.save(callback);
+};
+
 //@todo there's an implementation asymetry between google and email signin
 userSchema.pre('save', function(next) {
   if (this.isNew && this.canEmailSignin()) {

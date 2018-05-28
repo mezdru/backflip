@@ -40,4 +40,27 @@ router.get('/leave', function(req, res, next) {
   });
 });
 
+router.get('/toggleMonthly', function(req, res, next) {
+  if (!res.locals.organisation) {
+    err = new Error('Subdomain required');
+    err.status = 403;
+    return next(err);
+  }
+  res.locals.user.toggleMonthly(res.locals.organisation._id, function(err, user) {
+    if (err) return next(err);
+    var title = res.__('Monthly email deactivated for {{organisationName}}', {organisationName: res.locals.organisation.name});
+    var details = res.__('You will no longer receive the monthly information emails about your coworkers, your organisation and Wingzy.');
+    if (user.getMonthly(res.locals.organisation._id)) {
+      title = res.__('Monthly email activated for {{organisationName}}', {organisationName: res.locals.organisation.name});
+      details = res.__('You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.');
+    }
+    res.render('index',
+      {
+        title: title,
+        details: details
+      }
+    );
+  });
+});
+
 module.exports = router;
