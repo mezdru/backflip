@@ -208,6 +208,7 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
   if (this.getLocale) locale = this.getLocale();
 
   var text = '';
+  var manual = false;
   var url = '';
   switch (type) {
     case 'policy':
@@ -221,9 +222,11 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
     break;
     case 'accessProfile': case 'accessAccount': text = 'Consulter';break;
     case 'exportProfile': case 'exportAccount': text = 'Exporter';break;
-    case 'changeProfile': case 'changeAccount': text = 'Modifier';  break;
-    case 'suspendProfile': case 'suspendAccount': text = 'Suspendre'; break;
-    case 'eraseProfile': case 'eraseAccount': text = 'Effacer'; break;
+    case 'changeProfile': text = 'Modifier';  break;
+    case 'changeAccount': text = 'Modifier'; manual=true;  break;
+    case 'suspendProfile':  text = 'Suspendre'; break;
+    case 'suspendAccount': text = 'Suspendre'; manual=true; break;
+    case 'eraseProfile': case 'eraseAccount': text = 'Effacer'; manual = true; break;
     case 'accessCookies': text = 'Voir'; break;
     case 'toggleMonthly': text = 'Désactiver'; break;
   }
@@ -246,7 +249,6 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
           break;
         case 'suspendProfile':
           if (recordId) url = UrlHelper.makeUrl(organisation.tag, `suspend/id/${recordId}`, null, locale);
-          else url = '';
           break;
         case 'toggleMonthly':
           text = user.getMonthly(organisation) ? 'Désactiver' : 'Activer';
@@ -275,11 +277,11 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
     cssClass = 'right scale';
     href = `href="${url}"`;
   } else {
-    if (user instanceof User) {
+    if (manual) {
       onclick = `onclick="alert('Pour faire cette action, contactez-nous, merci !')"`;
       cssClass = 'right inactive';
     } else {
-      onclick = `onclick="alert('Pour faire cette action, connectez-vous et choisissez une Organisation, merci !')"`;
+      onclick = `onclick="alert('Pour faire cette action, vous devez être connecté-e, dans une Organisation, avec un profil.')"`;
       cssClass = 'right scale';
     }
   }
