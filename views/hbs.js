@@ -208,50 +208,82 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
   if (this.getLocale) locale = this.getLocale();
 
   var text = '';
+  var url = '';
   switch (type) {
     case 'policy':
-      if (organisation instanceof Organisation) text = organisation.name;
-      else text = 'Protégeons vos Dodos';
-      url = UrlHelper.makeUrl(null, 'protectingYourData', null, locale);
+      if (organisation instanceof Organisation) {
+        text = organisation.name;
+        url = UrlHelper.makeUrl(organisation.tag, 'protectingYourData', null, locale);
+      } else {
+        text = 'Protégeons vos Dodos';
+        url = UrlHelper.makeUrl(null, 'protectingYourData', null, locale);
+      }
     break;
-    case 'access': text = 'Consulter';break;
-    case 'export': text = 'Exporter';break;
-    case 'change': text = 'Modifier';  break;
-    case 'suspend': text = 'Suspendre'; break;
-    case 'erase': text = 'Effacer'; break;
+    case 'accessProfile': case 'accessAccount': text = 'Consulter';break;
+    case 'exportProfile': case 'exportAccount': text = 'Exporter';break;
+    case 'changeProfile': case 'changeAccount': text = 'Modifier';  break;
+    case 'suspendProfile': case 'suspendAccount': text = 'Suspendre'; break;
+    case 'eraseProfile': case 'eraseAccount': text = 'Effacer'; break;
+    case 'accessCookies': text = 'Voir'; break;
     case 'toggleMonthly': text = 'Désactiver'; break;
   }
 
-  var url = '';
+  var recordId = '';
   if (organisation instanceof Organisation && user instanceof User) {
-    switch (type)   {
-      case 'policy':
-        url = UrlHelper.makeUrl(organisation.tag, 'protectingYourData', null, locale);
-        break;
-      case 'access':
-        url = UrlHelper.makeUrl(organisation.tag, 'profile', null, locale);
-        break;
-      case 'export':
-        url = UrlHelper.makeUrl(organisation.tag, 'profile', '?json=true', locale);
-        break;
-      case 'change':
-        url = UrlHelper.makeUrl(organisation.tag, 'onboard/intro', null, locale);
-        break;
-      case 'suspend':
-        var recordId = user.getRecordIdByOrgId(organisation._id);
-        if (recordId) url = UrlHelper.makeUrl(organisation.tag, `suspend/id/${recordId}`, null, locale);
-        else url = '';
-        break;
-      case 'erase': break;
-      case 'toggleMonthly':
-        text = user.getMonthly(organisation) ? 'Désactiver' : 'Activer';
-        url = UrlHelper.makeUrl(organisation.tag, 'toggleMonthly', null, locale);
-        break;
+    recordId = user.getRecordIdByOrgId(organisation._id);
+      switch (type)   {
+        case 'policy':
+          if (recordId) url = UrlHelper.makeUrl(organisation.tag, 'protectingYourData', null, locale);
+          break;
+        case 'accessProfile':
+          if (recordId) url = UrlHelper.makeUrl(organisation.tag, 'profile', null, locale);
+          break;
+        case 'exportProfile':
+          if (recordId) url = UrlHelper.makeUrl(organisation.tag, 'profile', '?json=true', locale);
+          break;
+        case 'changeProfile':
+          if (recordId) url = UrlHelper.makeUrl(organisation.tag, 'onboard/intro', null, locale);
+          break;
+        case 'suspendProfile':
+          if (recordId) url = UrlHelper.makeUrl(organisation.tag, `suspend/id/${recordId}`, null, locale);
+          else url = '';
+          break;
+        case 'toggleMonthly':
+          text = user.getMonthly(organisation) ? 'Désactiver' : 'Activer';
+          url = UrlHelper.makeUrl(organisation.tag, 'toggleMonthly', null, locale);
+          break;
+      }
+    }
+    if (user instanceof User) {
+        switch (type)   {
+        case 'eraseProfile': case 'eraseAccount': break;
+        case 'accessAccount':
+          url = UrlHelper.makeUrl(null, 'account', null, locale);
+          break;
+        case 'exportAccount':
+          url = UrlHelper.makeUrl(null, 'account',  '?json=true', locale);
+          break;
+        case 'accessCookies':
+          url = UrlHelper.makeUrl(null, 'cookies',  null, locale);
+          break;
+      }
+  }
+  var cssClass = 'right inactive';
+  var href = '';
+  var onclick = '';
+  if (url) {
+    cssClass = 'right scale';
+    href = `href="${url}"`;
+  } else {
+    if (user instanceof User) {
+      onclick = `onclick="alert('Pour faire cette action, contactez-nous, merci !')"`;
+      cssClass = 'right inactive';
+    } else {
+      onclick = `onclick="alert('Pour faire cette action, connectez-vous et choisissez une Organisation, merci !')"`;
+      cssClass = 'right scale';
     }
   }
-  var cssClass = 'inactive';
-  if (url) cssClass = '';
-  return `<a class="right ${cssClass}" href=${url}>${text}</a>`;
+  return `<a class="${cssClass}" ${onclick} ${href}>${text}</a>`;
 });
 
 hbs.registerHelper('editUrl', function(recordId, organisationTag, step) {

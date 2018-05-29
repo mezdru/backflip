@@ -160,6 +160,7 @@ a.fa:hover {
 
 .scale:hover {
   transform: scale(1.2);
+  text-decoration: none;
 }
 
 .pure-button:hover,

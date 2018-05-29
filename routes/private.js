@@ -19,6 +19,30 @@ router.get('/', function(req, res, next) {
   res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'search', null, req.getLocale()));
 });
 
+router.get('/account', function(req, res, next) {
+  if (req.query.json) {
+    return res.json(res.locals.user);
+  } else {
+    res.render('index',
+      {
+        title : res.__('Your Account Data'),
+        details: res.__('You will find below ALL the Data we have about you'),
+        content: res.locals.user
+      }
+    );
+  }
+});
+
+router.get('/cookies', function(req, res, next) {
+    res.render('index',
+      {
+        title : res.__('Your Cookies Data'),
+        details: res.__('You will find below ALL the Cookies we have on your device'),
+        content: req.cookies
+      }
+    );
+});
+
 router.use('/search/:query?', function(req, res, next) {
   if (!res.locals.organisation) {
     err = new Error('Subdomain required');

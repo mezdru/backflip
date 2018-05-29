@@ -171,5 +171,10 @@
 	"You will no longer receive the monthly information emails about your coworkers, your organisation and Wingzy.": "You will no longer receive the monthly information emails about your coworkers, your organisation and Wingzy.",
 	"Monthly email deactivated for {{organisationName}}": "Monthly email deactivated for {{organisationName}}",
 	"Monthly email activated for {{organisationName}}": "Monthly email activated for {{organisationName}}",
-	"You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.": "You will now receive the monthly information emails about your coworkers, your organisation and Wingzy."
+	"You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.": "You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.",
+	"Your Account Data": "Your Account Data",
+	"You will find below ALL the Data we process for you": "You will find below ALL the Data we process for you",
+	"You will find below ALL the Data we have about you": "You will find below ALL the Data we have about you",
+	"Your Cookies Data": "Your Cookies Data",
+	"You will find below ALL the Cookies we have on your device": "You will find below ALL the Cookies we have on your device"
 }

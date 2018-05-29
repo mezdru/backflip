@@ -84,7 +84,7 @@
         {{#if user.orgsAndRecords.length}}
           <p>Sélectionner un Wingzy
           {{#user.orgsAndRecords}}
-            <a href="{{url 'protectingYourData' organisation.tag}}" class="right">{{organisation.name}}</a>
+            {{{dataRightLink 'policy' organisation}}}
           {{/user.orgsAndRecords}}
           </p>
         {{/if}}
@@ -118,13 +118,19 @@
     <div class="pure-u-1-1">
       <div class="grid-box">
         <h2>D'où viennent vos Dodos de Profil&nbsp;?</h2>
-        <p><strong>Vous</strong> saisissez, modifiez ou supprimez ces Dodos librement et à tout moment, c'est juste essentiel&nbsp;!</p>
+        <p>
+          <strong>Vous</strong> saisissez, modifiez ou supprimez ces Dodos librement et à tout moment, c'est juste essentiel&nbsp;!
+          {{{dataRightLink 'changeProfile' organisation user}}}
+        </p>
         <p><strong>Vos Collègues</strong> et <strong>votre Organisation</strong> peuvent vous suggérer ces Dodos.</p>
         <p><strong>Nous</strong> utilisons aussi certains Services Tiers comme <a href="https://www.fullcontact.com/">Fullcontact</a>, <a href="https://www.linkedin.com/">LinkedIn</a>, <a href="https://twitter.com/">Twitter</a>, <a href="https://www.facebook.com/">Facebook</a> ou <a href="https://plus.google.com/">Google Plus</a> pour vous suggérer ces Dodos.</p>
       </div>
       <div class="grid-box">
         <h2>Où vont vos Dodos de Profil&nbsp;?</h2>
-        <p><strong>Vous</strong> accédez à TOUTES ces Dodos à tout moment sur nos <a href="https://fr.wikipedia.org/wiki/Application_(informatique)">Apps</a> et nos <a href="https://fr.wikipedia.org/wiki/Interface_de_programmation">APIs</a>.</p>
+        <p>
+          <strong>Vous</strong> accédez à TOUTES ces Dodos à tout moment sur nos <a href="https://fr.wikipedia.org/wiki/Application_(informatique)">Apps</a> et nos <a href="https://fr.wikipedia.org/wiki/Interface_de_programmation">APIs</a>.
+          {{{dataRightLink 'accessProfile' organisation user}}}
+          {{{dataRightLink 'exportProfile' organisation user}}}</p>
         <p><strong>Vos Collègues</strong> et <strong>votre Organisation </strong> accèdent à ces Dodos de la même manière.</p>
         <p><strong>Nous</strong> utilisons ces Dodos pour identifier les nouveautés qui peuvent vous intéresser à propos de vos Collègues, votre Organisation et Wingzy. Nous vous envoyons ainsi un email sur mesure par mois. {{{dataRightLink 'toggleMonthly' organisation user}}}</p>
         <p><strong>Nous</strong> accédons aussi à ces Dodos pour répondre à vos demandes de support et pour modérer, protéger et améliorer Wingzy.</p>
@@ -143,12 +149,11 @@
         <p><strong>Nous</strong> conservons vos Dodos de Profil tant que vous restez utilisateur-trice de Wingzy.</p>
         <p>Sur Wingzy, comme PARTOUT, vous avez les droits suivants sur vos Dodos de Profil&nbsp;:</p>
         <p>
-          {{{dataRightLink 'access' organisation user}}}
-          {{{dataRightLink 'change' organisation user}}}
-          {{{dataRightLink 'export' organisation user}}}
-          {{{dataRightLink 'suspend' organisation user}}}
-          {{{dataRightLink 'erase' organisation user}}}
-        </p>
+          {{{dataRightLink 'accessProfile' organisation user}}}
+          {{{dataRightLink 'exportProfile' organisation user}}}
+          {{{dataRightLink 'changeProfile' organisation user}}}
+          {{{dataRightLink 'suspendProfile' organisation user}}}
+          {{{dataRightLink 'eraseProfile' organisation user}}}
         </p>
       </div>
     </div>
@@ -164,9 +169,12 @@
     <div class="pure-u-1-1 pure-u-md-1-2">
       <div class="grid-box">
         <img src="/images/home/identification.jpg" class="pure-img">
-        <h2>Vos Dodos d'authentification</h2>
+        <h2>Vos Dodos d'Authentification</h2>
         <p>Vos identifiants de comptes pour vos services connectés à Wingzy (email, google, linkedin, facebook...), votre IP, votre ville, vos navigateurs, systèmes d'exploitation et appareils.</p>
-        <p><strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi authentifier votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie d'authentification</a>.</p>
+        <p>
+          <strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi authentifier votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie d'authentification</a>.
+          {{{dataRightLink 'accessCookies' organisation user}}}
+        </p>
       </div>
     </div>
     <div class="pure-u-1-1 pure-u-md-1-2">
@@ -174,7 +182,10 @@
         <img src="/images/home/suivi.jpg" class="pure-img">
         <h2>Vos Dodos de Suivi</h2>
         <p>Nous enregistrons de façon ?subdomains=demo<strong>anonyme</strong> les actions que vous faites sur Wingzy&nbsp;: par exemple les clics ou les recherches que vous faites.</p>
-        <p><strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi suivre votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie de suivi</a>.</p>
+        <p>
+          <strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi suivre votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie de suivi</a>.
+          {{{dataRightLink 'accessCookies' organisation user}}}
+        </p>
       </div>
     </div>
   </div>
@@ -204,9 +215,16 @@
       <div class="grid-box">
         <h2>Important&nbsp;!</h2>
         <p><strong>Nous</strong> traitons vos Dodos Techniques comme décrit ci-dessus car cela est dans notre intérêt légitime.</p>
-        <p><strong>Nous</strong> conservons vos Dodos Techniques pendant 1 an au maximum.</p>
+        <p><strong>Nous</strong> conservons vos Dodos de Suivi pendant 1 an au maximum.</p>
+        <p><strong>Nous</strong> conservons vos Dodos d'Authentification' tant que vous restez utilisateur-trice de Wingzy.</p>
         <p>Sur Wingzy, comme PARTOUT, vous avez les droits suivants sur vos Dodos Techniques&nbsp;:</p>
-        <p> <a class="right">Consulter</a> <a class="right">Modifier</a> <a class="right">Exporter</a> <a class="right">Suspendre</a> <a class="right">Supprimer</a></p>
+        <p>
+          {{{dataRightLink 'accessAccount' organisation user}}}
+          {{{dataRightLink 'exportAccount' organisation user}}}
+          {{{dataRightLink 'changeAccount' organisation user}}}
+          {{{dataRightLink 'suspendAccount' organisation user}}}
+          {{{dataRightLink 'eraseAccount' organisation user}}}
+        </p>
       </div>
     </div>
   </div>
