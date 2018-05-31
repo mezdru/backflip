@@ -755,7 +755,6 @@ p.cloud {
   color: #ffffff;
   background: #a4c5cb;
   word-break: break-all;
-  white-space: nowrap;
 }
 
 #wings-suggestions .cloud-element {
@@ -974,7 +973,7 @@ a.cloud-element:hover,
 
 .cloud-list .cloud-element span {
   display: block;
-  padding: 0 0 0 30px;
+  padding: 0 0 0 35px;
 }
 
 .profile a.cloud-element.link {
@@ -990,7 +989,7 @@ a.cloud-element:hover,
 }
 
 .profile a.cloud-element .fa {
-  width: 1.5em;
+  width: 1em;
   padding-right: 10px;
   text-align: center;
 }
