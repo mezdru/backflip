@@ -27,7 +27,7 @@ router.get('/pricing', function(req, res, next) {
   res.redirect(UrlHelper.makeUrl(null, null, null, req.getLocale()));
 });
 
-router.get('/privacy', function(req, res, next) {
+router.get(/privacy|dodos|security/, function(req, res, next) {
   res.redirect(UrlHelper.makeUrl(null, 'protectingYourData', null, req.getLocale()));
 });
 
@@ -35,15 +35,7 @@ router.get('/protectingYourData', function(req, res, next) {
   res.render('home/protecting_data', {bodyClass: 'home privacy', home: true});
 });
 
-router.get('/dodos', function(req, res, next) {
-  res.redirect(UrlHelper.makeUrl(null, 'protectingYourData', null, req.getLocale()));
-});
-
 router.get('/terms', function(req, res, next) {
-  res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
-});
-
-router.get('/security', function(req, res, next) {
   res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
 });
 
