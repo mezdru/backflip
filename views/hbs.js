@@ -200,6 +200,7 @@ hbs.registerHelper('addLink', function(user, organisation) {
 hbs.registerHelper('url', function(path, organisationTag, query) {
   var locale = null;
   if (this.getLocale) locale = this.getLocale();
+  if (!(organisationTag instanceof String)) organisationTag = null;
   return new UrlHelper(organisationTag, path, null, locale).getUrl();
 });
 
@@ -216,7 +217,7 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
         text = organisation.name;
         url = UrlHelper.makeUrl(organisation.tag, 'protectingYourData', null, locale);
       } else {
-        text = 'Protégeons vos Dodos';
+        text = 'Charte de Protection des Dodos';
         url = UrlHelper.makeUrl(null, 'protectingYourData', null, locale);
       }
     break;
@@ -327,5 +328,6 @@ hbs.registerHelper('ifEqual', function(v1, v2, options) {
 
 hbs.registerPartials(__dirname + '/partials');
 hbs.registerPartials(__dirname + '/home/partials');
+hbs.registerPartials(__dirname + '/legal/partials');
 
 module.exports = hbs;

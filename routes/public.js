@@ -24,7 +24,7 @@ router.get('/why', function(req, res, next) {
 });
 
 router.get('/pricing', function(req, res, next) {
-  res.redirect(UrlHelper.makeUrl(null, null, null, req.getLocale()));
+  res.render('home/pricing', {bodyClass: 'home pricing', home: true});
 });
 
 router.get(/privacy|dodos|security/, function(req, res, next) {
@@ -32,11 +32,11 @@ router.get(/privacy|dodos|security/, function(req, res, next) {
 });
 
 router.get('/protectingYourData', function(req, res, next) {
-  res.render('home/protecting_data', {bodyClass: 'home privacy', home: true});
+  res.render('legal/protecting_data', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/terms', function(req, res, next) {
-  res.render('home/privacy_temp', {bodyClass: 'home privacy', home: true});
+  res.render('legal/terms', {bodyClass: 'home privacy', home: true});
 });
 
 router.get('/cheers', function(req, res, next) {

@@ -173,8 +173,21 @@
 	"Monthly email activated for {{organisationName}}": "Monthly email activated for {{organisationName}}",
 	"You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.": "You will now receive the monthly information emails about your coworkers, your organisation and Wingzy.",
 	"Your Account Data": "Your Account Data",
-	"You will find below ALL the Data we process for you": "You will find below ALL the Data we process for you",
 	"You will find below ALL the Data we have about you": "You will find below ALL the Data we have about you",
 	"Your Cookies Data": "Your Cookies Data",
-	"You will find below ALL the Cookies we have on your device": "You will find below ALL the Cookies we have on your device"
+	"You will find below ALL the Cookies we have on your device": "You will find below ALL the Cookies we have on your device",
+	"0€": "0€",
+	"free forever": "free forever",
+	"Try the service for free and help us improve it": "Try the service for free and help us improve it",
+	"<p>Unlimited Coworkers</p><p>Unlimited Wings</p><p>Up to 1000 Searches per month</p>": "<p>Unlimited Coworkers</p><p>Unlimited Wings</p><p>Up to 1000 Searches per month</p>",
+	"unlimited searches for associations and non-profit": "unlimited searches for associations and non-profit",
+	"2€": "2€",
+	"per monthly active user": "per monthly active user",
+	"<p>Unlimited Coworkers</p><p>Unlimited Wings</p><p>Unlimited Search</p>": "<p>Unlimited Coworkers</p><p>Unlimited Wings</p><p>Unlimited Search</p>",
+	"also available at <strong>15€</strong> per year per user": "also available at <strong>15€</strong> per year per user",
+	"Custom": "Custom",
+	"for enterprise and administration": "for enterprise and administration",
+	"Tailored service for high-end needs": "Tailored service for high-end needs",
+	"<p>Please <a href=\"mailto:support@wingzy.io\">Contact us</a> to get a detailed quote</p>": "<p>Please <a href=\"mailto:support@wingzy.io\">Contact us</a> to get a detailed quote</p>",
+	"Unlimited Premium Features to spread your wings at work": "Unlimited Premium Features to spread your wings at work"
 }
