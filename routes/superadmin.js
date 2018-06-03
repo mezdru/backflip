@@ -53,6 +53,29 @@ router.get('/impersonate/:userEmail', function(req, res, next) {
   });
 });
 
+router.get('/user/:userEmail/setName/:userName', function(req, res, next) {
+  User.findOneByEmail(req.params.userEmail, function(err, user) {
+    if (err) return next(err);
+    if (!user) {
+      err = new Error('No user found');
+      err.status = 400;
+      return next(err);
+    }
+
+    user.name = req.params.userName;
+    user.save(function(err, user) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Username Set',
+          details: `User ${user._id} has now name ${user.name}`,
+          content: user
+        }
+      );
+    });
+  });
+});
+
 //@todo filter on query, not after o.O
 router.get('/user/list/:filter?', function(req, res, next) {
   User.find()
@@ -86,7 +109,8 @@ router.get('/user/list/:filter?', function(req, res, next) {
         title: 'Users list',
         details: `${users.length} users`,
         content: users
-      });
+      }
+    );
   });
 });
 

@@ -16,6 +16,7 @@ var userSchema = mongoose.Schema({
     }
   ],
   locale: {type: String, default: 'en' },
+  name: String,
   google: {
     id: {type: String, index: true, unique: true, sparse: true},
     //@todo rename to primaryEmail
@@ -77,7 +78,7 @@ userSchema.methods.canGoogleSignin = function() {
 
 userSchema.methods.getName = function (organisationId) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
-  return undefsafe(orgAndRecord, 'record.name') || '';
+  return undefsafe(orgAndRecord, 'record.name') || this.name || '';
 };
 
 userSchema.methods.getRecord = function(organisationId) {
