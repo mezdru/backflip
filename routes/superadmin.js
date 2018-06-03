@@ -53,7 +53,7 @@ router.get('/impersonate/:userEmail', function(req, res, next) {
   });
 });
 
-router.get('/user/:userEmail/setName/:userName', function(req, res, next) {
+router.get('/user/:userEmail/setName/:name', function(req, res, next) {
   User.findOneByEmail(req.params.userEmail, function(err, user) {
     if (err) return next(err);
     if (!user) {
@@ -62,7 +62,30 @@ router.get('/user/:userEmail/setName/:userName', function(req, res, next) {
       return next(err);
     }
 
-    user.name = req.params.userName;
+    user.name = req.params.name;
+    user.save(function(err, user) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'Username Set',
+          details: `User ${user._id} has now name ${user.name}`,
+          content: user
+        }
+      );
+    });
+  });
+});
+
+router.get('/user/:userEmail/setSenderEmail/:senderEmail', function(req, res, next) {
+  User.findOneByEmail(req.params.userEmail, function(err, user) {
+    if (err) return next(err);
+    if (!user) {
+      err = new Error('No user found');
+      err.status = 400;
+      return next(err);
+    }
+
+    user.senderEmail = req.params.senderEmail;
     user.save(function(err, user) {
       if (err) return next(err);
       res.render('index',

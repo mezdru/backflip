@@ -65,13 +65,14 @@ EmailUser.tooSoon = function (user, callback) {
 };
 
 //@todo fails if user.orgsAndRecords not populated
-EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback) {
-  user.addInvitation(organisation, inviter);
+EmailUser.sendInviteEmail = function (user, sender, organisation, res, callback) {
+  user.addInvitation(organisation, sender);
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
     EmailHelper.public.emailInvite(
       user.email.value,
-      inviter.getName(organisation._id),
+      sender.getName(organisation._id),
+      sender.senderEmail,
       organisation.name,
       EmailUser.getLoginUrl(user, organisation, res.getLocale()),
       res);
@@ -81,13 +82,13 @@ EmailUser.sendInviteEmail = function (user, inviter, organisation, res, callback
 
 //@todo this should not be here as the logic is shared with other login strategies.
 //@todo rewrite to allow all login strategies
-EmailUser.sendMonthlyEmail = function(user, inviter, organisation, userCount, extract, res, callback) {
+EmailUser.sendMonthlyEmail = function(user, sender, organisation, userCount, extract, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
     EmailHelper.public.emailMonthly(
       user.loginEmail,
       user.getName(organisation._id).split(' ')[0],
-      inviter.getName(organisation._id),
+      sender.getName(organisation._id),
       organisation.name,
       userCount,
       EmailUser.getLoginUrl(user, organisation, res.getLocale()),

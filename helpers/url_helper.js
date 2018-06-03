@@ -30,7 +30,7 @@ var UrlHelper = class UrlHelper {
       if (this.isStaging()) {
         this.url = `https://wingzy-staging.herokuapp.com/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
       } else {
-        this.url = `/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+        this.url = `http://${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
       }
     }
   }

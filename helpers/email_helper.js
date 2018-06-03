@@ -1,7 +1,7 @@
 const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 const defaultReciepient = 'hear-me@wingzy.io';
 const defaultReciepientName = 'Hear me';
-const defaultEmitter = 'aurore@wingzy.io';
+const defaultEmitter = 'bonjour@wingzy.io';
 const defaultEmitterName = 'Wingzy';
 const defaultLink = 'https://wingzy.io';
 
@@ -76,12 +76,12 @@ var EmailHelper = {
           console.log(err);
         });
     },
-    emailInvite: function(email, inviterName, organisationName, url, res) {
+    emailInvite: function(email, senderName, senderEmail, organisationName, url, res) {
       const request = mailjet
         .post("send")
         .request({
-          "FromEmail": defaultEmitter,
-          "FromName": inviterName || defaultEmitterName,
+          "FromEmail": senderEmail || defaultEmitter,
+          "FromName": senderName || defaultEmitterName,
           "Subject": res.__("Join us on Wingzy"),
           "MJ-TemplateID": "200696",
           "MJ-TemplateLanguage": true,
@@ -90,7 +90,7 @@ var EmailHelper = {
           ],
           "Vars": {
             "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.", organisationName),
-            "inviterName": inviterName || defaultEmitterName,
+            "inviterName": senderName || defaultEmitterName,
             "button": res.__("Spread your wings"),
             "url": url || defaultLink,
             "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
