@@ -200,8 +200,9 @@ hbs.registerHelper('addLink', function(user, organisation) {
 hbs.registerHelper('url', function(path, organisationTag, query) {
   var locale = null;
   if (this.getLocale) locale = this.getLocale();
-  if (!(organisationTag instanceof String)) organisationTag = null;
-  return new UrlHelper(organisationTag, path, null, locale).getUrl();
+  if (typeof organisationTag !== 'string') organisationTag = null;
+  if (typeof query !== 'string') query = null;
+  return new UrlHelper(organisationTag, path, query, locale).getUrl();
 });
 
 hbs.registerHelper('dataRightLink', function(type, organisation, user) {
