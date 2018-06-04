@@ -12,6 +12,19 @@ Selectize.define( 'has_item', function( options ) {
     } )();
 } );
 
+Selectize.define( 'keep_placeholder', function( options ) {
+    var self = this;
+
+    this.updatePlaceholder = ( function() {
+
+        return function() {
+          var $input = self.$control_input;
+          if (this.settings.placeholder) $input.attr('placeholder', this.settings.placeholder);
+          $input.triggerHandler('update', {force: true});
+      };
+    } )();
+} );
+
 Selectize.define( 'soft_clear_options', function( options ) {
     this.softClearOptions = ( function() {
         return function() {
@@ -88,7 +101,7 @@ $(document).ready(function () {
     loadThrottle: null,
     maxOptions: 5,
     highlight: false,
-    plugins: ['drag_drop', 'remove_button', 'soft_clear_options', 'has_item', 'create_on_enter'],
+    plugins: ['drag_drop', 'remove_button', 'soft_clear_options', 'has_item', 'create_on_enter', 'keep_placeholder'],
     persist: false,
     create: function(input) {
       console.log(input);

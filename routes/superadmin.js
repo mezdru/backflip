@@ -90,8 +90,8 @@ router.get('/user/:userEmail/setSenderEmail/:senderEmail', function(req, res, ne
       if (err) return next(err);
       res.render('index',
         {
-          title: 'Username Set',
-          details: `User ${user._id} has now name ${user.name}`,
+          title: 'Sender Email Set',
+          details: `User ${user._id} has now sender email ${user.senderEmail}`,
           content: user
         }
       );
