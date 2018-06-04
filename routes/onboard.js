@@ -228,8 +228,8 @@ router.post('/intro',
   body('intro').isLength({ max: 256 }).withMessage((value, {req}) => {
     return req.__('Please write an intro no larger than 256 characters.');
   }),
-  body('picture.url').optional({checkFalsy: true}).isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
-    return req.__('Please provide a valid https:// URL.');
+  body('picture.url').isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
+    return req.__('Please provide a profile picture');
   }),
   //@todo should be in sanitizer
   body('wings').custom((value, { req }) => {

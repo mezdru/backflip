@@ -103,6 +103,14 @@ a.step.active span {
 }
 
 /** INTRO **/
+label[for="uploadcare"]::after,
+label[for="name"]::after,
+label[for="intro"]::after {
+  content: "*";
+  color: #dd362e;
+}
+
+
 .onboard-intro .picture {
   float: none;
   margin: auto;
