@@ -196,8 +196,7 @@ $(document).ready(function () {
       facetName: 'hashtags.tag',
       facetQuery: '',
       query: query,
-      facetFilters: facetFilters,
-      maxFacetHits: 6
+      facetFilters: facetFilters
     }, function(err, content) {
       if (err) throw new Error(err);
       renderSuggestions(content.facetHits);
@@ -223,14 +222,14 @@ $(document).ready(function () {
     var $newHashtags = $('<div></div>');
     for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
-      if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 1) {
+      if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 1 && getRandomInt(3) === 0 ) {
         $newHashtags.append(hashtagsTemplate.render(getHashtag(hit.value)));
         suggestedTags.push(hit.value);
         notEnough--;
       }
     }
     for (var prop in hashtagsBank) {
-      if (notEnough > 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
+      if (notEnough > 0 && getRandomInt(3) === 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
         $newHashtags.append(hashtagsTemplate.render(getHashtag(prop)));
         suggestedTags.push(prop);
         notEnough--;
@@ -279,6 +278,9 @@ $(document).ready(function () {
       type: 'hashtag'
     });
     $selectize.addItem($(this).data('tag'), false);
+  });
+  $('.reload').on('click', function(e) {
+    searchForSuggestions();
   });
   $selectize.$control_input.keydown(function(event){
     if(event.keyCode == 13) {

@@ -278,7 +278,7 @@ label[for="link-input"] {
 }
 
 #wings-suggestions {
-  min-height: 240px;
+  min-height: 300px;
 }
 
 #wings-suggestions .hashtag {
@@ -289,6 +289,14 @@ label[for="link-input"] {
 
 #wings-suggestions .hashtag.show {
   opacity: 1;
+}
+
+.reload {
+  cursor: pointer;
+  margin-left: 6px;
+  font-size: 24px;
+  float: right;
+  color: #dd362e;
 }
 
 #modal-layer {
