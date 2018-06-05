@@ -15,7 +15,12 @@
         </div>
         {{/links.length}}
         <a href="{{url}}" class="name">
-          <h2>{{{_highlightResult.name.value}}}</h2>
+          <h2>
+            {{{_highlightResult.name.value}}}
+            {{#hashtag}}
+              <span>{{includes_count.person}}</span>
+            {{/hashtag}}
+          </h2>
         </a>
         <p class="intro">{{{_snippetResult.intro.value}}}</p>
       </div>

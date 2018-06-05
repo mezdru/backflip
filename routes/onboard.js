@@ -194,17 +194,6 @@ router.all('/intro', function(req, res, next) {
   next();
 });
 
-// To blink the wings (css class 'added') when arriving on hashtags
-//@todo implement frontend or remove this logic
-router.all('/hashtags', Organisation.getTheWings);
-router.all('/hashtags', function(req, res, next) {
-  res.locals.record.hashtags.forEach(function(hashtag) {
-    if (res.locals.wings.some(wing => wing._id.equals(hashtag._id)))
-      hashtag.added = true;
-  });
-  next();
-});
-
 // Load the whole organisation records, we'll need those for further use
 // Duplicate in google_admin && fullcontact_admin && record_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment

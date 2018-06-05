@@ -1138,6 +1138,11 @@ a.cloud-element:hover,
   color: #ffffff;
 }
 
+.pure-g-hashtag .name span {
+  font-weight: 300;
+  font-size: 18px;
+}
+
 .name h2,
 .name h1 {
   font-size: 18px;

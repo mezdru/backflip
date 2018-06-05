@@ -230,7 +230,7 @@ $(document).ready(function () {
       }
     }
     for (var prop in hashtagsBank) {
-      if (notEnough > 0 && getRandomInt(3) === 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
+      if (notEnough > 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
         $newHashtags.append(hashtagsTemplate.render(getHashtag(prop)));
         suggestedTags.push(prop);
         notEnough--;

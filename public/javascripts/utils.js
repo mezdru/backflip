@@ -110,6 +110,7 @@ transformItem = function (item, facets) {
 	transformHashtags(item, facets);
 	transformIntro(item);
 	transformLinks(item);
+	item[item.type] = true;
 	return item;
 };
 

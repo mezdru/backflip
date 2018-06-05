@@ -398,8 +398,31 @@ recordSchema.statics.getNameFromTag = function(tag) {
 
 };
 
-recordSchema.methods.countIncludes = function(callback) {
-  this.model('Record').count({within:this._id}, callback);
+//@todo Rename, this does not count but returns a promise.
+recordSchema.methods.countPersons = function() {
+  return new Promise((resolve, reject) =>
+    {
+      this
+      .model('Record')
+      .count(
+        {
+          $or:[{within:this._id},{hashtags:this._id}],
+          type: 'person'
+        },
+      (err, count) =>
+        {
+          if (err) return reject(err);
+          this.includes_count.person = count;
+          this.save((err, record) =>
+            {
+              if (err) return reject(err);
+              return resolve(record);
+            }
+          );
+        }
+      );
+    }
+  );
 };
 
 recordSchema.methods.makeIncludes = function(organisation) {
@@ -518,6 +541,7 @@ recordSchema.methods.algoliaSync = function(doc) {
       description: this.description,
       picture: this.picture,
       links: this.links,
+      includes_count: this.includes_count,
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within))
     }, function(err, doc) {
       if (err) return console.error(err);

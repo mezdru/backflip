@@ -37,6 +37,21 @@ router.get('/clear', function(req, res, next) {
   });
 });
 
+router.get('/recount', function(req, res, next) {
+  queue = res.locals.organisation.records.filter((record) => record.type === 'hashtag').map((record) => record.countPersons());
+  Promise.all(queue).then((records) =>
+    {
+      res.render('index',
+        {
+          title: 'Records have been counted',
+          details: 'Records Include Counts have been updated',
+          content: records
+        }
+      );
+    }
+  );
+});
+
 //@todo Fix pyramid of death, async fail & performance issues.
 router.get('/remake', function(req, res, next) {
   res.locals.organisation.records.forEach( function(record) {
