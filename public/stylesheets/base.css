@@ -376,6 +376,9 @@ a.cloud-element,
   line-height: normal;
   color: #5c4d51;
 }
+.selectize-dropdown .create {
+  color: #dd362e;
+}
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .newHashtag {
   font-weight: 400;
 }
