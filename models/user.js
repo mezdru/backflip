@@ -202,7 +202,8 @@ userSchema.methods.isSuperAdmin = function() {
 
 userSchema.methods.getMonthly = function(organisationId) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
-  return orgAndRecord.monthly;
+  if (orgAndRecord) return orgAndRecord.monthly;
+  else return false;
 };
 
 userSchema.methods.toggleMonthly = function(organisationId, callback) {
