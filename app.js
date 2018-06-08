@@ -20,6 +20,14 @@ db.once('open', function() {
   console.log('Connected to DB!');
 });
 
+// Forest admin
+app.use(require('forest-express-mongoose').init({
+  modelsDir: __dirname + '/models',
+  envSecret: process.env.FOREST_ENV_SECRET,
+  authSecret: process.env.FOREST_AUTH_SECRET,
+  mongoose: require('mongoose')
+}));
+
 // Views
 app.set('views', path.join(__dirname, 'views'));
 var hbs = require('./views/hbs.js');

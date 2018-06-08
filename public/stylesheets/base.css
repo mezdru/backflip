@@ -406,7 +406,8 @@ a.cloud-element,
   display: none;
 }
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor,
-.selectize-dropdown .hashtag.active {
+.selectize-dropdown .hashtag.active,
+.selectize-dropdown .person.active {
   background-color: #dd362e;
   color: #ffffff;
 }
