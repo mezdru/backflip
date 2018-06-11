@@ -150,6 +150,30 @@ router.get('/convertAts', function(req, res, next) {
   });
 });
 
+//@todo Fix pyramid of death, async fail & performance issues.
+router.get('/copyDescToIntro', function(req, res, next) {
+  var countdown = res.locals.organisation.records.length;
+  var countup = 0;
+  res.locals.organisation.records.forEach (function (record) {
+    record.copyDescToIntro();
+    record.save(function(err, record, numAffected) {
+      countup += numAffected;
+      countdown--;
+      if (err) console.error(err);
+      if (countdown === 0) {
+        logMemory(`Descriptions copied to intros by ${res.locals.user._id}`);
+        res.render('index',
+          {
+            title: 'Descriptions copied to intros',
+            details: `${countup} of ${res.locals.organisation.records.length} records have been changed.`,
+            content: res.locals.organisation.records
+          }
+        );
+      }
+    });
+  });
+});
+
 router.get('/delete/:recordId', function(req, res, next) {
   Record.findOneWithDeleted({_id:req.params.recordId, organisation:res.locals.organisation._id}, function(err, record) {
     if (err) return next(err);

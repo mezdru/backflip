@@ -308,6 +308,10 @@ recordSchema.methods.convertAts = function() {
   if (this.intro) this.intro = this.intro.replace(/@/g, '#');
 };
 
+recordSchema.methods.copyDescToIntro = function() {
+  if (this.description) this.intro = this.description.split("\n")[0].substr(0,256);
+};
+
 recordSchema.statics.getTypeFromTag = function(tag) {
   if (tag.charAt(0) === '@') return 'person';
   else return 'hashtag';
