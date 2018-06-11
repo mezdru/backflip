@@ -117,14 +117,16 @@ router.use(function(req, res, next) {
   var plus = new googlePlus(req.googleOAuth);
   plus.makeRecord(res.locals.organisation._id, function(err, record) {
     if(err) return next(err);
-    record.save(function(err, record) {
-      if (err) return next(err);
-      res.locals.record = record;
-      res.locals.user.attachOrgAndRecord(res.locals.organisation, record, function(err, user) {
+    if(record) {
+      record.save(function(err, record) {
         if (err) return next(err);
-        return next();
+        res.locals.record = record;
+        res.locals.user.attachOrgAndRecord(res.locals.organisation, record, function(err, user) {
+          if (err) return next(err);
+          return next();
+        });
       });
-    });
+    } else return next();
   });
 });
 

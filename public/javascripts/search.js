@@ -195,7 +195,6 @@ $(document).ready(function () {
     } else {
       facetFilters = ['type:person'];
     }
-    console.log(facetFilters);
     hashtagsFilters = [];
     tagFilters = '';
     $selectize.items.forEach(function(item) {

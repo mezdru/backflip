@@ -119,6 +119,20 @@ userSchema.methods.welcomeToOrganisation = function(organisationId, callback) {
   }
 };
 
+userSchema.methods.unwelcomeToOrganisation = function(organisationId, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisationId);
+  if (orgAndRecord) {
+    orgAndRecord.welcomed = false;
+    if (callback) this.save(callback);
+    else return this;
+  } else {
+    err = new Error('Organisation not found');
+    err.status = 404;
+    if (callback) callback(err);
+    else return err;
+  }
+};
+
 userSchema.methods.hasOrganisation = function() {
   return this.orgsAndRecords.length > 0;
 };

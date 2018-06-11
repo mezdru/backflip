@@ -35,6 +35,48 @@ router.get('/:userId/attach/:recordId', function(req, res, next) {
   });
 });
 
+router.get('/:userId/unwelcome', function(req, res, next) {
+  User.findOne({_id: req.params.userId, 'orgsAndRecords.organisation': res.locals.organisation._id})
+  .exec(function(err, user) {
+    if (err) return next(err);
+    if (!user) return next(new Error('User not found'));
+    user.unwelcomeToOrganisation(res.locals.organisation._id, function(err, user) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: 'User Unwelcomed',
+          details: `User ${user.loginEmail} must reonboard to ${res.locals.organisation.name}.`,
+          content: user
+        }
+      );
+    });
+  });
+});
+
+router.get('/unwelcomeAll', function(req, res, next) {
+  User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
+  .exec(function(err, users) {
+    if (err) return next(err);
+    var saved = 0;
+    users.forEach(user => {
+      user.unwelcomeToOrganisation(res.locals.organisation._id, function(err, user) {
+        if (err) return next(err);
+        saved++;
+        if (saved === users.length) {
+          res.render('index',
+            {
+              title: 'Users Unwelcomed',
+              details: `Unwelcomed ${users.length} users in ${res.locals.organisation.name}.`,
+              content: users
+            }
+          );
+        }
+      });
+    });
+  });
+});
+
+
 router.get('/list', function(req, res, next) {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
   .select('created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords')

@@ -15,7 +15,10 @@ class GooglePlus {
 
   makeRecord(organisationId, callback) {
     this.getProfile(function(err, profile) {
-      if (err) return callback(err);
+      if (err) {
+        console.log(err);
+        return callback(null, null);
+      }
       this.profile = profile;
       this.record = new Record({
         organisation: organisationId,
