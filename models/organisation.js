@@ -43,6 +43,14 @@ organisationSchema.virtual('orgsIdsToTags').get(function() {
   return orgsIdsToTags;
 });
 
+organisationSchema.virtual('orgsTagsToIds').get(function() {
+  var orgsTagsToIds = {};
+  orgsTagsToIds[this.tag] = this._id;
+  orgsTagsToIds.all = this.model('Organisation').getTheAllOrganisationId();
+  return orgsTagsToIds;
+});
+
+
 
 organisationSchema.methods.addGoogleHD = function(hd, callback) {
   this.google.hd.push(hd);

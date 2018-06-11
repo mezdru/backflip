@@ -187,7 +187,15 @@ $(document).ready(function () {
     page = 0;
     query = $selectize.$control_input.val();
     tags = $selectize.$input.val();
-    facetFilters = getParameterByName('hashtags') ? ['type:hashtag'] : ['type:person'];
+    if (getParameterByName('hashtags')) {
+      facetFilters = ['type:hashtag'];
+      if (getParameterByName('hashtags') !== 'all') {
+        facetFilters = ['type:hashtag', 'organisation:'+getOrgId()];
+      }
+    } else {
+      facetFilters = ['type:person'];
+    }
+    console.log(facetFilters);
     hashtagsFilters = [];
     tagFilters = '';
     $selectize.items.forEach(function(item) {

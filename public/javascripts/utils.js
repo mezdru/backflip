@@ -209,6 +209,13 @@ function getOrgTag(item) {
 	} else return null;
 }
 
+function getOrgId(orgTag) {
+	if (!orgTag) orgTag	= getSubdomain();
+	if (orgsTagsToIds) {
+		return orgsTagsToIds[orgTag];
+	} else return null;
+}
+
 function addUrl(item) {
 	item.url = makeUrl(getOrgTag(item), 'profile/'+item.tag);
 }

@@ -113,7 +113,7 @@ router.get('/remakeTeams', function(req, res, next) {
       countdown--;
       if (err) console.error(err);
       if (countdown === 0) {
-        logMemory(`Make Team Into Hashatags by ${res.locals.user._id}`);
+        logMemory(`Make Team Into Hashtags by ${res.locals.user._id}`);
         res.render('index',
           {
             title: 'Teams have been made Hashtags',
