@@ -107,7 +107,7 @@ router.get('/remakeTeams', function(req, res, next) {
   var countdown = res.locals.organisation.records.length;
   var countup = 0;
   res.locals.organisation.records.forEach (function (record) {
-    record.makeTeamIntoHashtags();
+    record.makeTeamsIntoHashtags();
     record.save(function(err, record, numAffected) {
       countup += numAffected;
       countdown--;
@@ -118,6 +118,30 @@ router.get('/remakeTeams', function(req, res, next) {
           {
             title: 'Teams have been made Hashtags',
             details: `${countup} of ${res.locals.organisation.records.length} records have been transformed.`,
+            content: res.locals.organisation.records
+          }
+        );
+      }
+    });
+  });
+});
+
+//@todo Fix pyramid of death, async fail & performance issues.
+router.get('/convertAts', function(req, res, next) {
+  var countdown = res.locals.organisation.records.length;
+  var countup = 0;
+  res.locals.organisation.records.forEach (function (record) {
+    record.convertAts();
+    record.save(function(err, record, numAffected) {
+      countup += numAffected;
+      countdown--;
+      if (err) console.error(err);
+      if (countdown === 0) {
+        logMemory(`Convert @ into # by ${res.locals.user._id}`);
+        res.render('index',
+          {
+            title: '@ are now #',
+            details: `${countup} of ${res.locals.organisation.records.length} records have been converted.`,
             content: res.locals.organisation.records
           }
         );

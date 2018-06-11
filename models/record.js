@@ -296,11 +296,16 @@ recordSchema.methods.makeTag = function() {
     this.tag = this.model('Record').cleanTag(this.tag, this.type);
 };
 
-recordSchema.methods.makeTeamIntoHashtags = function() {
+recordSchema.methods.makeTeamsIntoHashtags = function() {
   if (this.type === 'team') {
     this.type =  'hashtag';
     this.tag = this.model('Record').cleanTag(this.tag, 'hashtag');
   }
+};
+
+recordSchema.methods.convertAts = function() {
+  if (this.description) this.description = this.description.replace('@', '#');
+  if (this.intro) this.intro = this.intro.replace('@', '#');
 };
 
 recordSchema.statics.getTypeFromTag = function(tag) {
