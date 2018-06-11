@@ -304,8 +304,8 @@ recordSchema.methods.makeTeamsIntoHashtags = function() {
 };
 
 recordSchema.methods.convertAts = function() {
-  if (this.description) this.description = this.description.replace('@', '#');
-  if (this.intro) this.intro = this.intro.replace('@', '#');
+  if (this.description) this.description = this.description.replace(/@/g, '#');
+  if (this.intro) this.intro = this.intro.replace(/@/g, '#');
 };
 
 recordSchema.statics.getTypeFromTag = function(tag) {
