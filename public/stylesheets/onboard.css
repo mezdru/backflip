@@ -267,10 +267,13 @@ label[for="intro"]::after {
 }
 
 /* HASHTAGS */
-label[for="hashtag"],
+label[for="wings"],
+label[for="wings-selectized"] {
+  font-size: 25px;
+}
 label[for="link-input"] {
   font-size: 25px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 #search .ui-sortable > .hashtag {

@@ -36,6 +36,10 @@ organisationSchema.virtual('host').get(function() {
   return this.tag + '.' + process.env.HOST;
 });
 
+organisationSchema.virtual('domain').get(function() {
+  return undefsafe(this, 'google.hd.0') || undefsafe(this, 'email.domain.0') || 'maboite.com';
+});
+
 organisationSchema.virtual('orgsIdsToTags').get(function() {
   var orgsIdsToTags = {};
   orgsIdsToTags[this._id] = this.tag;

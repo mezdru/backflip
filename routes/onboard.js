@@ -19,6 +19,8 @@ router.use(function(req, res, next) {
   var query = null;
   if (req.query.recordId) {
     query = `?recordId=${req.query.recordId}`;
+  } else if (req.query.first) {
+    query = `?first=true`;
   }
   res.locals.onboard = {
     welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', query, req.getLocale()).getUrl(),
@@ -153,6 +155,11 @@ router.use(function(req, res, next) {
   return next(err);
 });
 
+router.use(function(req, res, next) {
+  res.locals.onboard.returnUrl = UrlHelper.makeUrl(req.organisationTag, `profile/${res.locals.record.tag}`, null, req.getLocale());
+  next();
+});
+
 // We try our luck with fullcontact to help user fill her profile.
 // That can be done after rendering the page ;)
 router.post('/welcome', function(req, res, next) {
@@ -250,13 +257,15 @@ router.post('/intro', function(req, res, next) {
             if (err) return next(err);
             res.locals.record.save(function(err, record) {
               if(err) return next(err);
-              res.redirect(res.locals.onboard.hashtagsAction);
+              if (req.query.first) return res.redirect(res.locals.onboard.hashtagsAction);
+              else return res.redirect(res.locals.onboard.returnUrl);
             });
           });
         } else {
           res.locals.record.save(function(err, record) {
-            if(err) return next(err);
-            res.redirect(res.locals.onboard.hashtagsAction);
+            if (err) return next(err);
+            if (req.query.first) return res.redirect(res.locals.onboard.hashtagsAction);
+            else return res.redirect(res.locals.onboard.returnUrl);
           });
         }
       });
@@ -278,7 +287,8 @@ router.post('/hashtags', function(req, res, next) {
     if (err) return next(err);
     res.locals.record.save(function(err, record) {
       if (err) return next(err);
-      res.redirect(res.locals.onboard.linksAction);
+      if (req.query.first) return res.redirect(res.locals.onboard.linksAction);
+      else return res.redirect(res.locals.onboard.returnUrl);
     });
   });
 });
@@ -310,10 +320,15 @@ router.post('/links', function(req, res, next) {
   res.locals.record.makeLinks(links);
   res.locals.record.save(function(err, record) {
     if (err) return next(err);
-    res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
-      if (err) console.error(err);
-      return res.redirect(new UrlHelper(res.locals.organisation.tag, 'search', null, req.getLocale()).getUrl());
-    });
+    if (req.query.first) {
+      res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
+        if (err) console.error(err);
+        if (res.locals.organisation.canInvite) return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale()));
+        else return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, null, null, req.getLocale()));
+      });
+    } else {
+      return res.redirect(res.locals.onboard.returnUrl);
+    }
   });
 });
 

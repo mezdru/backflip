@@ -17,7 +17,7 @@ router.use(function(req, res, next) {
 //@todo avoid this double redirect on login.
 router.get('/search', function(req, res, next) {
   if (res.locals.user && res.locals.organisation && res.locals.user.needsWelcomingToOrganisation(res.locals.organisation._id)) {
-    return res.redirect(new UrlHelper(res.locals.organisation.tag, 'onboard/welcome', null, req.session.locale).getUrl());
+    return res.redirect(new UrlHelper(res.locals.organisation.tag, 'onboard/welcome', '?first=true', req.session.locale).getUrl());
   }
   return next();
 });
