@@ -77,10 +77,11 @@ router.get('/unwelcomeAll', function(req, res, next) {
 });
 
 
-router.get('/list', function(req, res, next) {
+router.get('/list/:sort?', function(req, res, next) {
+  var sort = req.params.sort || '-created';
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
   .select('created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords')
-  .sort('-created')
+  .sort(sort)
   .exec(function(err, users) {
     if (err) return next(err);
     res.render('index',

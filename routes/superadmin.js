@@ -100,10 +100,11 @@ router.get('/user/:userEmail/setSenderEmail/:senderEmail', function(req, res, ne
 });
 
 //@todo filter on query, not after o.O
-router.get('/user/list/:filter?', function(req, res, next) {
+router.get('/user/list/:filter?/:sort?', function(req, res, next) {
+  var sort = req.params.sort || '-created';
   User.find()
   .select('created updated last_login last_action email.value google.email google.hd orgsAndRecords')
-  .sort('-created')
+  .sort(sort)
   .populate('orgsAndRecords.organisation', 'tag')
   .exec(function(err, users) {
     if (err) return next(err);
@@ -121,10 +122,8 @@ router.get('/user/list/:filter?', function(req, res, next) {
           return user.last_action > Date.now() - 1*24*3600*1000;
         case 'activeDay':
           return user.last_action > Date.now() - 1*24*3600*1000;
-        case 'all':
+        default: case 'all':
           return true;
-        default:
-          return false;
       }
     });
     res.render('index',
