@@ -1866,4 +1866,20 @@ color: #e6e6e6;
       display: inherit;
       margin-right: 45px;
     }
+
+    .illustration {
+        position: absolute;
+        left: 0;
+        bottom: 40px;
+        z-index: 1;
+        background-position: bottom left;
+        background-repeat: no-repeat;
+        background-size: 320px;
+        width: 320px;
+        height: 320px;
+    }
+    .cat {background-image: url('/images/cat.png'); right: 0; left: auto;}
+    .birds {background-image: url('/images/birds.png'); height: 640px; top: 100px; bottom: auto;}
+    .tea {background-image: url('/images/tea.png'); top: 200px; bottom: auto;}
+    .butterfly {background-image: url('/images/butterfly.png'); height: 640px; top: 150px; bottom: auto;}
 }
