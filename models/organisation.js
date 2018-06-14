@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Record = require('./record.js');
+var User = require('./user.js');
 var undefsafe = require('undefsafe');
 
 var organisationSchema = mongoose.Schema({
@@ -23,6 +24,7 @@ var organisationSchema = mongoose.Schema({
   style: {
     css: String
   },
+  creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   public: { type: Boolean, default: false },
@@ -143,7 +145,7 @@ organisationSchema.pre('save', function (next) {
 var slack = require('slack-notify')('https://hooks.slack.com/services/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');
 organisationSchema.post('save', function (organisation) {
   if (this.wasNew) {
-    slack.success(`We have a new organisation: *${organisation.tag}* _${organisation._id}_`);
+    slack.success(`We have a new organisation: *${organisation.tag}* _${organisation._id}_ created by _${organisation.creator}_`);
   }
 });
 

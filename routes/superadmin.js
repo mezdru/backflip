@@ -191,7 +191,8 @@ router.get('/organisation/list', function(req, res, next) {
 router.get('/organisation/create/:orgTag', function(req, res, next) {
   var organisation = new Organisation({
     name: req.params.orgTag,
-    tag: req.params.orgTag.replace(/\W/g,'').toLowerCase()
+    tag: req.params.orgTag.replace(/\W/g,'').toLowerCase(),
+    creator: res.locals.user._id
   });
   organisation.save(function(err, organisation) {
     if (err) return next(err);
@@ -214,7 +215,7 @@ router.get('/organisation/:orgTag/makeadmin/:userEmail', function(req, res, next
         err.status = 400;
         return next(err);
       }
-      user.makeAdminToOrganisation(organisation._id, function(err, user) {
+      user.makeAdminToOrganisation(organisation, function(err, user) {
         if (err) return next(err);
         res.render('index',
           {

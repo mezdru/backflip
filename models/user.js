@@ -183,12 +183,12 @@ userSchema.methods.detachOrg = function(organisationId, callback) {
   if (callback) this.save(callback);
 };
 
-userSchema.methods.makeAdminToOrganisation = function(organisationId, callback) {
-  var orgAndRecord = this.getOrgAndRecord(organisationId);
+userSchema.methods.makeAdminToOrganisation = function(organisation, callback) {
+  var orgAndRecord = this.getOrgAndRecord(organisation._id);
   if (orgAndRecord) {
     orgAndRecord.admin = true;
   } else {
-    this.orgsAndRecords.push({organisation: organisationId, admin: true});
+    this.orgsAndRecords.push({organisation: organisation, admin: true});
   }
   if (callback) this.save(callback);
   else return this;

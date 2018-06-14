@@ -189,6 +189,10 @@ app.use('/', publicPages);
 var superadmin = require('./routes/superadmin.js');
 app.use('/superadmin', superadmin);
 
+// Create new Wingzy
+var newWingzy = require('./routes/new_wingzy.js');
+app.use('/new', newWingzy);
+
 /*
 * Restricted routes
 */

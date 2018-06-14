@@ -1,0 +1,52 @@
+<div class="main">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <h1>{{__ 'Create a new Wingzy'}}</h1>
+      </div>
+    </div>
+  </div>
+  <form class="pure-form pure-form-stacked" action="{{formAction}}" method="post">
+    <input type="hidden" name="_id" value="{{organisation._id}}" />
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          {{> form_errors}}
+          <label for="name">{{__ "What is the name of your organisation?"}}</label>
+          <input class="pure-input-1" id="name" name="name" type="text" value="{{organisation.name}}">
+          <label for="tag">{{__ "Where should we put your Wingzy?"}}</label>
+          <p class="wingzy-url">
+            <input class="pure-input-1" id="tag" name="tag" type="text" value="{{organisation.tag}}">
+            <span>.wingzy.io</span>
+          <span>
+        </div>
+      </div>
+    </div>
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box uploadcare-box">
+          <label for="logo">{{__ "Do you have a beautiful logo?"}}</label>
+          <input id="logo" type="hidden" role="uploadcare-uploader" name="logo[url]" data-crop="120x120 minimum" value="{{organisation.logo.url}}"/>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-buttons">
+      <div class="pure-g">
+        <div class="pure-u-1-2 pure-u-md-1-3">
+          <div class="grid-box">
+            <a class="pure-button scale back-button" href="{{backUrl}}">{{{__ "Cancel"}}}</a>
+          </div>
+        </div>
+        <div class="pure-u-1-2 pure-u-md-2-3">
+          <div class="grid-box">
+            <button type="submit" class="pure-button scale">{{{__ "Create"}}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="illustration epic">
+  </div>
+  {{> jquery}}
+  {{> uploadcare_script}}
+</div>

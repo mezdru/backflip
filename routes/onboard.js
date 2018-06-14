@@ -336,7 +336,7 @@ router.post('/links', function(req, res, next) {
     if (req.query.first) {
       res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
         if (err) console.error(err);
-        if (res.locals.organisation.canInvite) return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale()));
+        if (res.locals.organisation.canInvite || res.locals.user.isAdminToOrganisation(res.locals.organisation)) return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale()));
         else return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, null, null, req.getLocale()));
       });
     } else {

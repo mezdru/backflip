@@ -868,6 +868,32 @@ a.cloud-element:hover,
   border-bottom: none;
 }
 
+/* NEW WINGZY */
+.new-wingzy .main {
+    padding-bottom: 180px;
+}
+
+.new-wingzy .uploadcare-box .uploadcare--widget__text {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+}
+
+.new-wingzy input#name {
+  margin-bottom: 30px;
+}
+
+.new-wingzy input#tag {
+  display: inline-block;
+  width: 50%;
+}
+
+.wingzy-url span {
+  color: #a4c5cb;
+  font-size: 36px;
+  vertical-align: middle;
+}
+
 /* PROFILE */
 
 .profile header,
@@ -1875,7 +1901,7 @@ color: #e6e6e6;
         z-index: 1;
         background-position: bottom left;
         background-repeat: no-repeat;
-        background-size: 320px;
+        background-size: 100%;
         width: 320px;
         height: 320px;
     }
@@ -1883,4 +1909,5 @@ color: #e6e6e6;
     .birds {background-image: url('/images/birds.png'); height: 640px; top: 100px; bottom: auto;}
     .tea {background-image: url('/images/tea.png'); top: 200px; bottom: auto;}
     .butterfly {background-image: url('/images/butterfly.png'); height: 640px; top: 150px; bottom: auto;}
+    .epic {background-image: url('/images/home/epic.jpg'); position: fixed; width: 25vw; height: 100vw; bottom: 50px;}
 }
