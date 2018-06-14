@@ -839,7 +839,8 @@ a.cloud-element:hover,
 .cloud-howto {
   font-size: 10px;
   color: #5C4D51;
-  padding: 10px 15px;
+  padding: 10px;
+  text-align: center;
 }
 
 .js-remove,

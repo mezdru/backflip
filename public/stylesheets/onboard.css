@@ -276,6 +276,11 @@ label[for="link-input"] {
   margin-bottom: 25px;
 }
 
+.onboard-hashtags .search-input-box {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 #search .ui-sortable > .hashtag {
   cursor: move;
 }
@@ -310,6 +315,10 @@ label[for="link-input"] {
 
 #link-cloud .link {
   cursor: move;
+}
+
+.onboard-links .search-input-box {
+  padding-top: 15px;
 }
 
 #link-cloud .cloud-element span {

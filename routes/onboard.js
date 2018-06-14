@@ -226,7 +226,7 @@ router.post('/intro',
   body('intro').isLength({ max: 256 }).withMessage((value, {req}) => {
     return req.__('Please write an intro no larger than 256 characters.');
   }),
-  body('picture.url').isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
+  body('picture.url').optional({checkFalsy:true}).isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
     return req.__('Please provide a profile picture');
   }),
   //@todo should be in sanitizer
@@ -240,11 +240,24 @@ router.post('/intro',
 })
 );
 
+function getRandomInt(max) {
+  return Math.round(Math.random() * Math.floor(max));
+}
+
 router.post('/intro', function(req, res, next) {
   res.locals.record.name = req.body.name;
   res.locals.record.intro = req.body.intro;
-  res.locals.record.picture.url = req.body.picture.url || res.locals.record.picture.url;
-  req.body.wings.forEach((wingTag) => {res.locals.wings.find(record => record.tagEquals(wingTag)).checked = true;});
+  req.body.wings.forEach((wingTag) => {
+    res.locals.wings.find(record => record.tagEquals(wingTag)).checked = true;
+  });
+  if (!req.body.picture.url) {
+    var firstWings = res.locals.wings.filter(record => record.checked && record.picture.url);
+
+    if (firstWings.length > 0) res.locals.record.picture.url = firstWings[getRandomInt(firstWings.length-1)].picture.url;
+    else res.locals.record.picture.url = null;
+  } else {
+    res.locals.record.picture.url = req.body.picture.url;
+  }
   var errors = validationResult(req);
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {

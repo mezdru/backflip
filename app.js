@@ -20,14 +20,6 @@ db.once('open', function() {
   console.log('Connected to DB!');
 });
 
-// Forest admin
-app.use(require('forest-express-mongoose').init({
-  modelsDir: __dirname + '/models',
-  envSecret: process.env.FOREST_ENV_SECRET,
-  authSecret: process.env.FOREST_AUTH_SECRET,
-  mongoose: require('mongoose')
-}));
-
 // Views
 app.set('views', path.join(__dirname, 'views'));
 var hbs = require('./views/hbs.js');
@@ -45,6 +37,14 @@ if (app.get('env') === 'production') {
     if (req.subdomains.length > 0) req.organisationTag = req.subdomains[0];
     return next();
   });
+
+  // Forest admin
+  app.use(require('forest-express-mongoose').init({
+    modelsDir: __dirname + '/models',
+    envSecret: process.env.FOREST_ENV_SECRET,
+    authSecret: process.env.FOREST_AUTH_SECRET,
+    mongoose: require('mongoose')
+  }));
 
 } else if (app.get('env') === 'staging') {
   // Setup organisationTag
