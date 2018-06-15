@@ -1908,6 +1908,6 @@ color: #e6e6e6;
     .cat {background-image: url('/images/cat.png'); right: 0; left: auto;}
     .birds {background-image: url('/images/birds.png'); height: 640px; top: 100px; bottom: auto;}
     .tea {background-image: url('/images/tea.png'); top: 200px; bottom: auto;}
-    .butterfly {background-image: url('/images/butterfly.png'); height: 640px; top: 150px; bottom: auto;}
-    .epic {background-image: url('/images/home/epic.jpg'); position: fixed; width: 25vw; height: 100vw; bottom: 50px;}
+    .butterfly {background-image: url('/images/butterfly.png'); background-position: top left; height: 640px; top: 150px; bottom: auto;}
+    .fresque {background-image: url('/images/home/epic.jpg'); position: fixed; width: 22vw; height: 100vw; bottom: 50px;}
 }
