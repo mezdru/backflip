@@ -47,9 +47,14 @@ router.post('/', function(req, res, next) {
   if (errors.isEmpty()) {
     res.locals.organisation.save(function(err, organisation) {
       if(err) return next(err);
-      res.locals.user.makeAdminToOrganisation(organisation, function(err, user) {
-        res.redirect(UrlHelper.makeUrl(organisation.tag, null, null, req.getLocale()));
-      });
+      if (res.locals.user.isSuperAdmin()) {
+        res.redirect(UrlHelper.makeUrl(organisation.tag, 'admin/organisation', null, req.getLocale()));
+      } else {
+        res.locals.user.makeAdminToOrganisation(organisation, function(err, user) {
+          if(err) return next(err);
+          res.redirect(UrlHelper.makeUrl(organisation.tag, null, null, req.getLocale()));
+        });
+      }
     });
   } else next();
 });
