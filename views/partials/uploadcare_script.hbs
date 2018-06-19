@@ -21,7 +21,7 @@ function installWidgetPreviewSingle(widget, div) {
 $(function() {
   $('.image-preview-single').each(function() {
     installWidgetPreviewSingle(
-      uploadcare.SingleWidget($('#uploadcare').children('input')),
+      uploadcare.SingleWidget($('#uploadcare')),
       $(this)
     );
   });

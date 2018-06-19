@@ -158,10 +158,6 @@ label[for="intro"]::after {
   cursor: pointer;
 }
 
-.image-preview-single img {
-  z-index: 50;
-}
-
 .uploadcare--widget button.uploadcare--widget__button_type_remove {
   background: none;
   opacity: 0;
