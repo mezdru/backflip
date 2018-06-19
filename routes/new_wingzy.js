@@ -59,6 +59,30 @@ router.post('/', function(req, res, next) {
   } else next();
 });
 
+router.get('/', function(req, res, next) {
+  if (undefsafe(res.locals, 'user.google.hd')) {
+    res.locals.organisation = new Organisation({
+      name: res.locals.user.google.hd.split('.')[0].charAt(0).toUpperCase() + res.locals.user.google.hd.split('.')[0].slice(1),
+      tag: res.locals.user.google.hd.split('.')[0]
+    });
+  }
+  next();
+});
+
+const all = require('email-providers/all.json');
+router.get('/', function(req, res, next) {
+  if (undefsafe(res.locals, 'user.email.value')) {
+    var domain = res.locals.user.email.value.split('@')[1];
+    if (!all.includes(domain)) {
+      res.locals.organisation = new Organisation({
+        name: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1),
+        tag: domain.split('.')[0]
+      });
+    }
+  }
+  next();
+});
+
 router.all('/', function(req, res, next) {
   res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
   res.render('new_wingzy', {
