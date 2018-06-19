@@ -141,6 +141,10 @@ userSchema.methods.belongsToOrganisation = function(organisationId) {
   return this.orgsAndRecords.some(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
 };
 
+userSchema.methods.belongsToOrganisationByTag = function(organisationTag) {
+  return this.orgsAndRecords.some(orgAndRecord => organisationTag === orgAndRecord.organisation.tag);
+};
+
 userSchema.methods.isAdminToOrganisation = function(organisationId) {
   return this.orgsAndRecords.some(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)) && orgAndRecord.admin === true);
 };

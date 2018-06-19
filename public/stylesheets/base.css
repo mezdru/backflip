@@ -883,6 +883,18 @@ a.cloud-element:hover,
   display: none;
 }
 
+.new-wingzy h1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 44px;
+}
+
+.new-wingzy h2 {
+  text-align: center;
+  font-weight: 300;
+  font-size: 20px;
+}
+
 .new-wingzy input#name {
   margin-bottom: 30px;
 }

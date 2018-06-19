@@ -59,16 +59,18 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
     },
   });
 
+  return user.save(callback);
+
   // if there is no domain, we cannot find or create an organisation
-  if (!user.google.hd) return user.save(callback);
+  //if (!user.google.hd) return user.save(callback);
 
   // if there is a domain, we find the user's organisation and the user Record
   //@todo inherit admin from Google (careful with 204 redirect not happening due to restrict.js L44)
   //@todo fetch record not only on user creation (imagine this is the first user)
-  GoogleOrganisation.getByDomain(user.google.hd, user, function(err, organisation) {
+  /*GoogleOrganisation.getByDomain(user.google.hd, user, function(err, organisation) {
     if (err) return callback(err);
     GoogleUser.attachOrgAndRecord(user, organisation, callback);
-  });
+  });*/
 };
 
 GoogleUser.attachOrgAndRecord = function(user, organisation, callback) {

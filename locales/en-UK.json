@@ -198,8 +198,10 @@
 	"What is the name of your organisation?": "What is the name of your organisation?",
 	"Where should we put your Wingzy?": "Where should we put your Wingzy?",
 	"Cancel": "Cancel",
-	"Create a new Wingzy": "Create a new Wingzy",
-	"Do you have a beautiful logo?": "Do you have a beautiful logo?",
 	"Create": "Create",
-	"Please provide a valid name.": "Please provide a valid name."
+	"Please provide a valid name.": "Please provide a valid name.",
+	"Create your Wingzy!": "Create your Wingzy!",
+	"We are going to build a new Wingzy for your organisation": "We are going to build a new Wingzy for your organisation",
+	"We are going to build a new Wingzy for you and your coworkers": "We are going to build a new Wingzy for you and your coworkers",
+	"Got a logo?": "Got a logo?"
 }
