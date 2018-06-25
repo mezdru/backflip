@@ -90,6 +90,22 @@ router.use(function(req, res, next) {
   });
 });
 
+// Get the record by loginEmail
+router.use(function(req, res, next) {
+  if (res.locals.record) return next();
+  if (!res.locals.user.loginEmail) return next();
+
+  Record.findByEmail(res.locals.user.loginEmail, res.locals.organisation._id, function(err, record) {
+    if (err) return next(err);
+    if (!record) return next();
+    res.locals.record = record;
+    res.locals.user.attachOrgAndRecord(res.locals.organisation, record, function(err, user) {
+      if (err) return next(err);
+      return next();
+    });
+  });
+});
+
 // No Record ? If the user is logged in with Google, we have a chance to find the record by Google Id
 var GoogleRecord = require('../models/google/google_record.js');
 router.use(function(req, res, next) {

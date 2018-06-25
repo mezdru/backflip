@@ -354,6 +354,15 @@ recordSchema.statics.findById = function(id, organisationId, callback) {
   .exec(callback);
 };
 
+// We look for tags in the org AND IN THE "ALL" ORGANISATION !
+//@Todo create the corresponding index with the right collation.
+recordSchema.statics.findByEmail = function(email, organisationId, callback) {
+  this.findOne({organisation: organisationId, 'links': { $elemMatch: { value: email, type: 'email' }}})
+  .populate('hashtags', '_id tag type name picture')
+  .populate('within', '_id tag type name picture')
+  .exec(callback);
+};
+
 recordSchema.statics.makeFromEmail = function(email, organisationId) {
   let type = 'person';
   let tag = this.getTagFromEmail(email);
