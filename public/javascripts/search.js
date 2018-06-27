@@ -104,7 +104,6 @@ $(document).ready(function () {
     load: function(query, callback) {
         world.search({
           query: query,
-          facetFilters: hashtagsFilters,
           attributesToRetrieve: ['type','name', 'tag','picture'],
           restrictSearchableAttributes: ['name', 'tag'],
           hitsPerPage: 5
