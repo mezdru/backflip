@@ -103,9 +103,10 @@ router.get('/user/:userEmail/setSenderEmail/:senderEmail', function(req, res, ne
 router.get('/user/list/:filter?/:sort?', function(req, res, next) {
   var sort = req.params.sort || '-created';
   User.find()
-  .select('created updated last_login last_action email.value google.email google.hd orgsAndRecords')
+  .select('created updated last_login last_action email.value google.email google.hd orgsAndRecords invitations')
   .sort(sort)
   .populate('orgsAndRecords.organisation', 'tag')
+  .populate('invitations.organisation', 'tag')
   .exec(function(err, users) {
     if (err) return next(err);
     users = users.filter(user => {
