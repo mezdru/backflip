@@ -25,8 +25,15 @@ router.get('/search', function(req, res, next) {
 // Find the best organisationTag to redirect to.
 router.get('*/login/callback', function(req, res, next) {
   req.redirectionTag = req.redirectionTag || req.organisationTag;
-  if (req.session.user.belongsToOrganisationByTag(req.redirectionTag)) return res.redirect(UrlHelper.makeUrl(req.redirectionTag, 'search', null, req.session.locale || req.getLocale()));
-  if (req.session.user.getFirstOrgTag()) return res.redirect(UrlHelper.makeUrl(req.session.user.getFirstOrgTag(), 'search', null, req.session.locale || req.getLocale()));
+
+  if (req.session.user.belongsToOrganisationByTag(req.redirectionTag)) {
+    return res.redirect(UrlHelper.makeUrl(req.redirectionTag, 'search', null, req.session.locale || req.getLocale()));
+  }
+
+  if (req.session.user.getFirstOrgTag()) {
+    return res.redirect(UrlHelper.makeUrl(req.session.user.getFirstOrgTag(), 'search', null, req.session.locale || req.getLocale()));
+  }
+
   return res.redirect(new UrlHelper(req.redirectionTag, 'new', null, req.session.locale || req.getLocale()).getUrl());
 });
 

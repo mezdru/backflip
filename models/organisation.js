@@ -38,6 +38,7 @@ organisationSchema.virtual('host').get(function() {
   return this.tag + '.' + process.env.HOST;
 });
 
+//@todo WTF 'maboite.com' ??? probably some placeholder for front... in the model :(
 organisationSchema.virtual('domain').get(function() {
   return undefsafe(this, 'google.hd.0') || undefsafe(this, 'email.domain.0') || 'maboite.com';
 });
@@ -55,8 +56,6 @@ organisationSchema.virtual('orgsTagsToIds').get(function() {
   orgsTagsToIds.all = this.model('Organisation').getTheAllOrganisationId();
   return orgsTagsToIds;
 });
-
-
 
 organisationSchema.methods.addGoogleHD = function(hd, callback) {
   this.google.hd.push(hd);
@@ -128,7 +127,6 @@ organisationSchema.statics.findByEmail = function(email, callback) {
   return this.findByDomain(domain, callback);
 };
 
-//@todo handle multiple Wingzy per domain
 organisationSchema.statics.findByDomain = function(domain, callback) {
   this.find({'email.domains':domain}, function(err, organisations) {
     if (err) return callback(err);
@@ -136,6 +134,12 @@ organisationSchema.statics.findByDomain = function(domain, callback) {
   });
 };
 
+organisationSchema.statics.findByGoogleHd = function(hd, callback) {
+  this.find({'google.hd':hd}, function(err, organisations) {
+    if (err) return callback(err);
+    return callback(null, organisations);
+  });
+};
 
 organisationSchema.pre('save', function (next) {
     this.wasNew = this.isNew;

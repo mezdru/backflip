@@ -230,7 +230,11 @@ userSchema.methods.toggleMonthly = function(organisationId, callback) {
   if(callback) return this.save(callback);
 };
 
-//@todo there's an implementation asymetry between google and email signin
+userSchema.pre('save', function (next) {
+    this.wasNew = this.isNew;
+    next();
+});
+
 userSchema.pre('save', function(next) {
   if (this.isNew && this.canEmailSignin()) {
     Organisation.findByEmail(this.email.value, function(err, organisations) {
@@ -244,9 +248,17 @@ userSchema.pre('save', function(next) {
   } else next();
 });
 
-userSchema.pre('save', function (next) {
-    this.wasNew = this.isNew;
-    next();
+userSchema.pre('save', function(next) {
+  if (this.isNew && this.canGoogleSignin()) {
+    Organisation.findByGoogleHd(this.google.hd, function(err, organisations) {
+      if (err) {
+        console.error('Cannot find Organisations by user google email');
+        return next();
+      }
+      organisations.forEach(organisation => this.attachOrgAndRecord(organisation, null));
+      next();
+    }.bind(this));
+  } else next();
 });
 
 var slack = require('slack-notify')('https://hooks.slack.com/services/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');

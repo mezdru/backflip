@@ -5,9 +5,9 @@
       <div class="grid-box">
         <h1>
           {{#if organisation.picture.url}}
-            <img src="{{organisation.picture.url}}" alt="{{organisation.name}}">
+            <img src="{{organisation.picture.url}}" alt="{{{organisation.name}}}">
           {{else}}
-            {{organisation.name}}
+            {{{organisation.name}}}
           {{/if}}
         </h1>
         <h2>{{{__ 'Wingzy is the app to share what we are good at and love doing within %s' organisation.name}}}</h2>
