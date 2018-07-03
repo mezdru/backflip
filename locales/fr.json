@@ -107,7 +107,7 @@
 	"Please provide a valid Email Address": "Merci d'entrer une adresse email valide.",
 	"Please enable Javascript and retry": "Merci d'activer Javascript et de réessayer",
 	"Join us on Wingzy": "Nous rejoindre sur Wingzy",
-	"Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.": "Hello!<br>Je suis sur le Wingzy de <strong>%s</strong>, une app simple pour nous trouver en fonction de nos compétences et passions.<br>Nous sommes convaincus que partager ce que nous savons et aimons faire, c'est nécessaire pour mieux travailler ensemble.",
+	"Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.": "Hello!<br>Je suis sur le Wingzy de <strong>%s</strong>, une app simple pour nous trouver en fonction de nos compétences et passions.<br>Nous sommes convaincu·es que partager ce que nous savons et aimons faire, c'est nécessaire pour mieux travailler ensemble.",
 	"This red button can be used to securely access Wingzy for 30 days.": "Ce bouton rouge permet un accès sécurisé à Wingzy pendant 30 jours, ne le transférez à personne !",
 	"Invite Coworker": "Invitez vos collègues",
 	"Invite coworker to join": "Inviter vos collègues",
@@ -203,5 +203,8 @@
 	"Create your Wingzy!": "Créez votre Wingzy",
 	"We are going to build a new Wingzy for your organisation": "Nous allons construire un nouveau Wingzy pour vous et vos collègues",
 	"We are going to build a new Wingzy for you and your coworkers": "Nous allons construire un nouveau Wingzy pour vous et vos collègues",
-	"Got a logo?": "Vous avez un logo ?"
+	"Got a logo?": "Vous avez un logo ?",
+	"Welcome in the Wingzy of": "Bienvenue sur le Wingzy de",
+	"Join %s on Wingzy": "Rejoigner %s sur Wingzy",
+	"Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.": "Bonjour !<br>Je suis sur le Wingzy <strong>%s</strong>, une app simple pour nous trouver en fonction de ce qu'on aime et sait faire !"
 }

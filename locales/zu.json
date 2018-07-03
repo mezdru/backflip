@@ -203,5 +203,8 @@
 	"Create your Wingzy!": "crwdns1142:0crwdne1142:0",
 	"We are going to build a new Wingzy for your organisation": "crwdns1143:0crwdne1143:0",
 	"We are going to build a new Wingzy for you and your coworkers": "crwdns1144:0crwdne1144:0",
-	"Got a logo?": "crwdns1145:0crwdne1145:0"
+	"Got a logo?": "crwdns1145:0crwdne1145:0",
+	"Welcome in the Wingzy of": "crwdns1146:0crwdne1146:0",
+	"Join %s on Wingzy": "crwdns1147:0%scrwdne1147:0",
+	"Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.": "crwdns1148:0%scrwdne1148:0"
 }
