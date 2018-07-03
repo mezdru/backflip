@@ -80,22 +80,33 @@ a.step.active span {
 
 /** WELCOME **/
 .onboard-welcome .main {
-  background-image: url('/images/wings.jpg');
-  background-position: center 260px;
-  background-repeat: no-repeat;
-  background-size: 60vh;
   background-color: #ffffff;
 }
 
 .onboard.onboard-welcome h2 {
   font-size: 18px;
   background: #ffffff;
-  padding-bottom: 5px;
+  padding: 0;
 }
 
-.onboard-welcome h1 img {
-  max-width: 100%;
-  max-height: 90px;
+.onboard-welcome h1 {
+  padding: 0;
+  font-size: 36px;
+}
+
+.onboard-welcome h3 {
+  font-size: 24px;
+  text-align: center;
+}
+
+
+.onboard-welcome .video-box {
+  width: 80vw;
+  height: 45vw;
+  max-width: 610px;
+  max-height: 343px;
+  background: #000000;
+  margin: auto;
 }
 
 .onboard-welcome .bottom-buttons .grid-box {
@@ -429,9 +440,12 @@ li#facebook-selector.selected {
     padding: 5px 20px;
   }
 
-
   .onboard h1 {
     font-size: 36px;
+  }
+
+  .onboard-welcome h1 {
+    font-size: 48px;
   }
 
   .onboard h2 {
@@ -462,7 +476,4 @@ li#facebook-selector.selected {
 }
 
 @media screen and (min-width: 1279px) {
-  .onboard-welcome .main {
-    background-size: 75vh;
-  }
 }
