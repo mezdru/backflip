@@ -1,16 +1,40 @@
 <div class="main">
+  <div class="fly-away">
+    <div class="pure-g">
+      <div class="pure-u-1 pure-u-xl-2-3">
+      </div>
+      <div class="pure-u-1 pure-u-xl-1-3">
+        <div class="grid-box">
+          <h1 class="tagline">{{{__ 'Spread your&nbsp;Wings at&nbsp;work'}}}</span></h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pure-g video">
+    <div class="pure-u-1">
+      <div class="video-box">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/kOCg8575_E0?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="pure-box">
+        <h3 class="pitch">{{{__ 'Wingzy is the obvious app to find the coworkers you need by revealing skills and passions'}}}</h3>
+      </div>
+    </div>
+  </div>
   <div class="epic">
     <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-3 pure-u-xl-1-3 epic-placeholder">
+      <div class="pure-u-1 pure-u-md-1-2 epic-placeholder">
       </div>
-      <div class="pure-u-1 pure-u-md-2-3 pure-u-xl-2-3">
+      <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
-          <h1 class="tagline">{{{__ 'Spread<span></span><br>your Wings'}}}</h1>
-          <h3 class="pitch">{{{__ 'Wingzy is the obvious app to find the coworkers you need by revealing skills and passions'}}}</h3>
+          <h3>{{__ 'Deploy Wingzy'}}</h3>
+          <p>{{__ 'in your company within 2 minutes'}}</p>
         </div>
         {{#unless user}}
         <div class="grid-box grid-box-signin">
-          <h3>{{__ 'Try Wingzy in your Organisation for free'}}</h3>
         </div>
         {{> signin_form}}
         {{/unless}}
@@ -25,12 +49,11 @@
         <div class="grid-box">
           <h1>{{__ 'Reveal'}}</h1>
           <h2>{{{__ '<strong>Your skills and passions</strong><br>with IA powered hashtags'}}}</h2>
-          <img class="screenshot" src="/images/home/wings.gif">
         </div>
       </div>
     </div>
   </div>
-  <div class="search">
+  <div class="search" id="search">
     <div class="pure-g">
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
@@ -38,49 +61,57 @@
           <h2>{{{__ '<strong>The coworker you need</strong><br>with a clever search engine'}}}</h2>
         </div>
       </div>
-      <div class="pure-u-1 pure-u-md-1-2">
-        <div class="grid-box">
-          <img class="screenshot" src="/images/home/search.gif">
-        </div>
+      <div class="pure-u-1 pure-u-md-1-2 search-placeholder">
       </div>
     </div>
     <div class="books">
     </div>
   </div>
-  <div class="availability">
+  <div class="trust" id="trust">
     <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-2">
+      <div class="pure-u-1">
         <div class="grid-box">
           <h1>{{__ 'Protect'}}</h1>
-          <h2>{{{__ '<strong>Your time and focus</strong><br>with one click on the availability switch'}}}</h2>
         </div>
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
-          <div class="screenshot placeholder">COMING SOON</div>
+          <h2>{{{__ '<strong>Your account</strong><br>with Google and Email integrations'}}}</h2>
+        </div>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-2">
+        <div class="grid-box">
+          <h2>{{{__ '<strong>Your data</strong><br>with our model <a href="/protectingYourData">privacy policy</a>'}}}</h2>
         </div>
       </div>
     </div>
     <div class="coffee">
     </div>
   </div>
-  <div class="more">
+  <div class="social" id="social">
     <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-2">
+      <div class="pure-u-1">
         <div class="grid-box">
-          <h1>{{__ 'More Wingzy'}}</h1>
-          <p class="more-item"><a title="{{__ "Privacy Policy"}}" href="{{url "protectingYourData" organisation.tag}}">{{__ 'Protecting your personal data'}}</a></p>
-          <p class="more-item">{{__ 'Integration with Google, Slack and Office 365'}}</p>
-          <p class="more-item">{{__ 'Shaping the Future of Work'}}</p>
+          <h1>{{__ 'Join us'}}</h1>
         </div>
       </div>
-      <div class="pure-u-1 pure-u-md-1-2">
-        {{#unless user}}
-        <div class="grid-box grid-box-signin second-signin">
-          <h3>{{__ 'Try Wingzy in your Organisation for free'}}</h3>
-        </div>
-        {{> signin_form}}
-        {{/unless}}
+      <div class="pure-u-1 pure-u-md-1-3">
+        <a class="grid-box" href="https://www.youtube.com/watch?v=kOCg8575_E0">
+          <h2><strong>{{{__ 'On Youtube'}}}</strong></h2>
+          <img src="/images/home/manu_youtube.jpg" class="pure-img">
+        </a>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <a class="grid-box" href="https://www.facebook.com/pg/wingzy.io/photos/?tab=album&album_id=630384904010951">
+          <h2><strong>{{{__ 'On Facebook'}}}</strong></h2>
+          <img src="/images/home/bd_facebook.jpg" class="pure-img">
+        </a>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <a class="grid-box" href="https://twitter.com/Wingzy_io/status/1009438255115309057">
+          <h2><strong>{{{__ 'On Twitter'}}}</strong></h2>
+          <img src="/images/home/twitter.jpg" class="pure-img">
+        </a>
       </div>
     </div>
   </div>
