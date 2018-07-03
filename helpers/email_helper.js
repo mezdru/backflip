@@ -82,14 +82,14 @@ var EmailHelper = {
         .request({
           "FromEmail": senderEmail || defaultEmitter,
           "FromName": senderName || defaultEmitterName,
-          "Subject": res.__("Join us on Wingzy"),
+          "Subject": res.__("Join %s on Wingzy", organisationName),
           "MJ-TemplateID": "200696",
           "MJ-TemplateLanguage": true,
           "Recipients": [
             { "Email": email }
           ],
           "Vars": {
-            "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.<br>We believe that sharing what we are good at and love doing is a great way to work better together.", organisationName),
+            "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.", organisationName),
             "inviterName": senderName || defaultEmitterName,
             "button": res.__("Spread your wings"),
             "url": url || defaultLink,
