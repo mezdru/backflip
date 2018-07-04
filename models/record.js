@@ -248,7 +248,7 @@ recordSchema.statics.shallowCopies = function(records) {
 //@todo there are a lot of escaping/unescaping going on (because escaping creates special chars with # that are interpreted as Wings), change this.
 const validator = require('validator');
 //@todo Does not match person (@) yet
-const tagRegex = /([#@][^\s@#\,\.\!\?\;\(\)]+)/g;
+const tagRegex = /([#][^\s@#\,\.\!\?\;\(\)]+)/g;
 
 recordSchema.methods.cleanDescription = function() {
   this.description = this.description || '';

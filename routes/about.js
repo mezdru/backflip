@@ -39,7 +39,8 @@ router.use('/id/:id', function(req, res, next) {
 //@todo deduplicate in profile.js and onboard.js
 router.use(function(req, res, next) {
   if (res.locals.user.ownsRecord(res.locals.record._id) ||
-    res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+    res.locals.user.isAdminToOrganisation(res.locals.organisation._id) ||
+    res.locals.user.isSuperAdmin()) {
     return next();
   } else {
     let err = new Error('Forbidden Record');
@@ -68,7 +69,10 @@ router.post('*', function(req, res, next) {
 });
 
 router.post('/id/:id',
-  sanitizeBody('about').trim().escape().stripLow(true)
+  sanitizeBody('about').trim().escape().stripLow(true),
+  sanitizeBody('about').customSanitizer(value => {
+    return value.substr(0, 16384);
+  })
 );
 
 router.post('/id/:id',
