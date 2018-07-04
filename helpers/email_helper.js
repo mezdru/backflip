@@ -89,7 +89,7 @@ var EmailHelper = {
             { "Email": email }
           ],
           "Vars": {
-            "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, a simple app to find each other based on our skills and passions.", organisationName),
+            "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, an intuitive app to find each other according to what we love and know.", organisationName),
             "inviterName": senderName || defaultEmitterName,
             "button": res.__("Spread your wings"),
             "url": url || defaultLink,
