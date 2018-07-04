@@ -178,7 +178,7 @@ a.fa,
 a.cloud-element,
 .pure-menu a,
 #wings-suggestions .cloud-element {
-  transition: all 1s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .image-preview-single {

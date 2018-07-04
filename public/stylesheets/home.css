@@ -52,7 +52,7 @@
 .home.landing header {
   position: fixed;
   background: none;
-  transition: all .3s ease-out;
+  transition: all 1s ease-out;
 }
 
 .home.landing header.opaque {
