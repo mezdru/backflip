@@ -232,7 +232,10 @@ router.post('/intro', function(req, res, next) {
 
 router.post('/intro',
   sanitizeBody('name').trim().escape().stripLow(true),
-  sanitizeBody('intro').trim().escape().stripLow(true)
+  sanitizeBody('intro').trim().escape().stripLow(true),
+  sanitizeBody('intro').customSanitizer(value => {
+    return value.substr(0, 256);
+  })
 );
 
 router.post('/intro',

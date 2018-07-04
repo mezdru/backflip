@@ -36,7 +36,8 @@ router.use('/id/:id', function(req, res, next) {
 //@todo deduplicate in profile.js and onboard.js
 router.use(function(req, res, next) {
   if (res.locals.user.ownsRecord(res.locals.record._id) ||
-    res.locals.user.isAdminToOrganisation(res.locals.organisation._id)) {
+    res.locals.user.isAdminToOrganisation(res.locals.organisation._id) ||
+    res.locals.user.isSuperAdmin()) {
     return next();
   } else {
     let err = new Error('Forbidden Record');
@@ -64,8 +65,8 @@ router.post('*', function(req, res, next) {
 });
 
 router.post('/id/:id',
-  body('picture.url').optional({checkFalsy: true}).isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
-    return req.__('Please provide a valid https:// URL.');
+  body('picture.url').isURL({ protocols: ['https'] }).withMessage((value, {req}) => {
+    return req.__('Please provide a cover picture');
   })
 );
 

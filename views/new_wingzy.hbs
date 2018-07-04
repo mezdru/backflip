@@ -2,8 +2,9 @@
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="grid-box">
-        <h1>{{__ 'Create your Wingzy!'}}</h1>
-        <h2>{{__ 'We are going to build a new Wingzy for you and your coworkers'}}</h2>
+        <h1>{{__ 'Create your Wingzy'}}</h1>
+        <h2>{{__ 'for you and your coworkers'}}</h2>
+        <img src="/images/new_wingzy.jpg" class="pure-img">
       </div>
     </div>
   </div>
@@ -15,7 +16,7 @@
           {{> form_errors}}
           <label for="name">{{__ "What is the name of your organisation?"}}</label>
           <input class="pure-input-1" id="name" name="name" type="text" value="{{organisation.name}}">
-          <label for="tag">{{__ "Where should we put your Wingzy?"}}</label>
+          <label for="tag">{{__ "Where should we host your Wingzy?"}}</label>
           <p class="wingzy-url">
             <input class="pure-input-1" id="tag" name="tag" type="text" value="{{organisation.tag}}">
             <span>.wingzy.io</span>
@@ -49,8 +50,6 @@
       </div>
     </div>
   </form>
-  <div class="illustration fresque">
-  </div>
   {{> jquery}}
   {{> uploadcare_script}}
 </div>

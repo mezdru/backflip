@@ -12,6 +12,13 @@ var UrlHelper = require('../helpers/url_helper.js');
 var LinkHelper = require('../helpers/link_helper.js');
 
 router.use(function(req, res, next) {
+  if (!res.locals.user) {
+    return res.redirect(UrlHelper.makeUrl(req.organisationTag, 'login', null, req.getLocale()));
+  } else return next();
+  return next();
+});
+
+router.use(function(req, res, next) {
   res.locals.formAction = UrlHelper.makeUrl(null, 'new', null, req.getLocale());
   res.locals.backUrl = UrlHelper.makeUrl(null, 'cheers', null, req.getLocale());
   return next();
@@ -46,7 +53,13 @@ router.post('/', function(req, res, next) {
   res.locals.organisation.logo.url = req.body.logo.url;
   if (errors.isEmpty()) {
     res.locals.organisation.save(function(err, organisation) {
-      if(err) return next(err);
+      if(err) {
+        if (err.code === 11000) {
+          res.locals.errors.push({msg: req.__('Aha! There is already a Wingzy at %s, maybe you should ask for an invitation?', req.body.tag + '.' + process.env.HOST)});
+          return next();
+        }
+        return next(err);
+      }
       if (res.locals.user.isSuperAdmin()) {
         res.redirect(UrlHelper.makeUrl(organisation.tag, 'admin/organisation', null, req.getLocale()));
       } else {

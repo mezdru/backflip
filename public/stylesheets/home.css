@@ -48,7 +48,80 @@
   text-align: center;
 }
 
+/* LANDING */
+.home.landing header {
+  position: fixed;
+  background: none;
+  transition: all 1s ease-out;
+}
+
+.home.landing header.opaque {
+  background: #ffffff;
+}
+
+.home .fly-away {
+  position: relative;
+  min-height: 75vh;
+  background-image: url('/images/home/fly_away.jpg');
+  background-color: #e0eaf6;
+  background-position: left center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.home .fly-away .pure-g {
+  max-width: 100vw;
+}
+
+.home .fly-away .grid-box {
+  padding: 70px 15px 0 60px;
+}
+
+.home .tagline {
+  color: #dd362e;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2em;
+  letter-spacing: 3px;
+  text-align: left;
+  margin: 0;
+}
+
+.home .video {
+  position: relative;
+  height: 45vw;
+  max-height: 480px;
+}
+
+.home .video .pure-u-1 {
+  position: absolute;
+  top: -90px;
+}
+
+.home .video-box {
+  width: 80vw;
+  height: 45vw;
+  max-width: 854px;
+  max-height: 480px;
+  box-shadow: 0 0 30px #cccccc;
+  margin: auto;
+  background: #000000;
+}
+
+.home .pitch {
+  width: 80vw;
+  max-width: 854px;
+  text-align: center;
+  font-weight: 500;
+  margin: auto;
+}
+
 /* EPIC */
+
+.home .epic {
+  margin-top: 120px;
+}
+
 .home .epic .epic-placeholder {
   min-height: 135vw;
   background-image: url('/images/home/epic.jpg');
@@ -59,24 +132,16 @@
   margin-bottom: 60px;
 }
 
-.home .tagline {
-  color: #dd362e;
-  margin: auto;
-  font-size: 44px;
-  line-height: 1em;
-  letter-spacing: 3px;
-  margin-bottom: 30px;
+.home .epic h3 {
+  font-size: 48px;
   text-align: center;
+  margin-top: 60px;
 }
 
-.home .tagline span {
-  width: 5em;
-  display: none;
-}
-
-.home .pitch {
-  margin: auto;
-  margin-bottom: 30px;
+.home .epic p {
+  font-size: 24px;
+  text-align: center;
+  padding: 15px;
 }
 
 img.wingzy-full {
@@ -91,9 +156,10 @@ img.wingzy-full {
   margin-top: 120px;
   background-image: url('/images/home/wings.jpg');
   background-color: #a4c5cb;
-  background-position: 5vw 5vw;
+  background-position: center 5vh;
   background-repeat: no-repeat;
-  background-size: 90vw auto;
+  background-size: auto 70vh;
+  position: relative;
 }
 
 .home .wings h1 {
@@ -101,39 +167,23 @@ img.wingzy-full {
 }
 
 .home .wings .wings-placeholder {
-  min-height: 65vw;
   box-sizing: border-box;
-}
-
-.home .screenshot {
-  display: block;
-  margin: 0 auto;
-  max-width: 80%;
-}
-
-.home .wings .screenshot {
-  margin-top: 45px;
-}
-
-.home .placeholder {
-  height: 250px;
-  box-sizing: border-box;
-  border: 2px solid #e6e6e6;
-  color: #a4c5cb;
-  background: #e6e6e6;
-  font-size: 60px;
-  text-align: center;
-  padding: 45px;
+  min-height: 60vh;
 }
 
 /* SEARCH */
 .home .search {
-  padding: 120px 0 180px;
+  padding: 120px 0;
+  background-image: url('/images/home/search.jpg');
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 70vh auto;
   position: relative;
 }
 
-.home .search img.screenshot {
-  margin-top: 0;
+.home .search .search-placeholder {
+  box-sizing: border-box;
+  min-height: 70vh;
 }
 
 .home .books {
@@ -160,32 +210,27 @@ img.wingzy-full {
 }
 
 /* AVAILABILITY */
-.home .availability {
+.home .trust {
   background-color: #a4c5cb;
   padding: 120px 0 180px;
   position: relative;
 }
 
-.home .availability h1,
-.home .availability h2,
+.home .trust h1,
+.home .trust h2,
 .home .wings h1,
 .home .wings h2 {
   color: #ffffff;
 }
 
-/* MORE */
-.home .more {
-  padding: 120px 0;
+/** SOCIAL **/
+
+.social {
+  padding: 90px 0 90px;
 }
 
-.home .more .more-item {
-  font-size: 22.5px;
-  margin-top: 30px;
-  text-align: center;
-}
-
-.second-signin {
-  margin-top: 120px;
+.social .grid-box {
+  padding: 30px;
 }
 
 /** PRIVACY **/
@@ -269,6 +314,7 @@ img.wingzy-full {
 
 .pricing.home h3:last-child {
   padding-top: 15px;
+  border-radius: 0 0 30px 30px;
 }
 
 .pricing p.subtitle {
@@ -287,26 +333,22 @@ img.wingzy-full {
     margin-bottom: 0;
   }
   .home .tagline {
-    font-size: 42px;
-    margin-top: 12%;
-    margin-bottom: 12%;
+    font-size: 24px;
   }
-  .home .tagline span {
-    display: inline-block;
-  }
-  .home .pitch {
-    max-width: 80%;
-    margin-bottom: 12%;
+  .home .fly-away .grid-box {
+    padding: 100px;
   }
   .home .wings {
     background-position: left -10vw bottom -2vw;
     background-size: 65vw auto;
   }
-
-  .home .wings .wings-placeholder {
-    min-height: inherit;
+  .home .searh {
+    background-size: 65vw auto;
   }
-
+  .home .wings h1,
+  .home .search h1{
+    padding-top: 20vh;
+  }
   .second-signin {
     margin-top: 0;
   }
@@ -317,7 +359,8 @@ img.wingzy-full {
     width: 480px;
   }
 
-  .home .coffee {  position: absolute;
+  .home .coffee {
+    position: absolute;
     bottom: -90px;
     right: 40px;
     height: 180px;
@@ -344,18 +387,26 @@ img.wingzy-full {
     background: none;
     min-height:inherit;
   }
+  .home .fly-away .pure-g {
+    position: relative;
+    width: inherit;
+  }
   .home .tagline {
-    font-size: 80px;
-    margin-top: 90px;
-    margin-bottom: 90px;
+    font-size: 48px;
+    text-align: center;
+  }
+
+  .home .fly-away .grid-box {
+    padding: 15vh 60px 0 0;
   }
   .home .pitch {
-    max-width: 60%;
-    font-size: 30px;
-    margin-bottom: 90px;
+    font-size: 48px;
   }
   .home .wings {
     background-position: left 0 bottom -2vw;
+    background-size: 50vw auto;
+  }
+  .home .searh {
     background-size: 50vw auto;
   }
   .home .books {

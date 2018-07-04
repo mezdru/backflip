@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
   if (res.locals.organisation) {
     return next();
   } else {
-    res.render('home/home', {bodyClass: 'home', googleSignin: true, emailSignin: true, home: true});
+    res.render('home/home', {bodyClass: 'home landing', googleSignin: true, emailSignin: true, home: true});
   }
 });
 
