@@ -175,15 +175,15 @@ img.wingzy-full {
 .home .search {
   padding: 120px 0;
   background-image: url('/images/home/search.jpg');
-  background-position: right bottom;
+  background-position: center bottom 20vh;
   background-repeat: no-repeat;
-  background-size: 70vh auto;
+  background-size: auto 60vh;
   position: relative;
 }
 
 .home .search .search-placeholder {
   box-sizing: border-box;
-  min-height: 70vh;
+  min-height: 60vh;
 }
 
 .home .books {
@@ -342,12 +342,15 @@ img.wingzy-full {
     background-position: left -10vw bottom -2vw;
     background-size: 65vw auto;
   }
-  .home .searh {
-    background-size: 65vw auto;
+  .home .search {
+    background-size: 60vw auto;
+    background-position: right -10vw center;
   }
-  .home .wings h1,
-  .home .search h1{
+  .home .wings h1 {
     padding-top: 20vh;
+  }
+  .home .search h1 {
+    padding-top: 10vh;
   }
   .second-signin {
     margin-top: 0;
@@ -406,8 +409,9 @@ img.wingzy-full {
     background-position: left 0 bottom -2vw;
     background-size: 50vw auto;
   }
-  .home .searh {
-    background-size: 50vw auto;
+  .home .search {
+    background-size: 60vw auto;
+    background-position: right -10vw center;
   }
   .home .books {
     right: 80px;
