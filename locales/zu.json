@@ -175,5 +175,6 @@
 	"Profile removed": "crwdns1176:0crwdne1176:0",
 	"The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.": "crwdns1177:0{{name}}crwdnd1177:0{{name}}crwdne1177:0",
 	"Invite users": "crwdns1178:0crwdne1178:0",
-	"Setup your Wingzy": "crwdns1179:0crwdne1179:0"
+	"Setup your Wingzy": "crwdns1179:0crwdne1179:0",
+	"Why Wingzy?": "crwdns1180:0crwdne1180:0"
 }
