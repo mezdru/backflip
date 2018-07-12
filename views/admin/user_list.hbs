@@ -1,0 +1,53 @@
+<div class="main">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <h2>{{title}}</h2>
+        <p>{{{details}}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="pure-g pure-g-table">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <table class="pure-table pure-table-horizontal">
+          <thead>
+            <tr>
+              <th>{{__ 'Email'}}</th>
+              <th>{{__ 'Created'}}</th>
+              <th>{{__ 'Last Action'}}</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {{#users}}
+            <tr>
+                <td>{{loginEmail}}</td>
+                <td>{{formatDate created day="numeric" month="long" year="numeric"}}</td>
+                <td>{{#if last_action}}{{formatDate last_action day="numeric" month="long" year="numeric"}}{{/if}}</td>
+                <td><a href="{{profileUrl ../organisation this}}"><i class="fa fa-user-circle" aria-hidden="true"></i> PROFILE</a></td>
+                <td><a href="{{banUrl _id ../organisation.tag}}"><i class="fa fa-times-circle-o" aria-hidden="true"></i> BAN</a></td>
+            </tr>
+          {{/users}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <a class="pure-button scale" href="{{url 'invite' organisation.tag}}">{{__ "Invite Coworker by email"}}</a>
+      </div>
+    </div>
+  </div>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <img class="pure-img" src="/images/cat.png">
+      </div>
+    </div>
+  </div>
+</div>

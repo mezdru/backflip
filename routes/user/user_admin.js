@@ -53,6 +53,24 @@ router.get('/:userId/unwelcome', function(req, res, next) {
   });
 });
 
+router.get('/:userId/ban', function(req, res, next) {
+  User.findOne({_id: req.params.userId, 'orgsAndRecords.organisation': res.locals.organisation._id})
+  .exec(function(err, user) {
+    if (err) return next(err);
+    if (!user) return next(new Error('User not found'));
+    user.detachOrg(res.locals.organisation._id, function(err, user) {
+      if (err) return next(err);
+      res.render('index',
+        {
+          title: req.__('User banned'),
+          details:  req.__('The user {{loginEmail}} has been banned from {{{organisation}}}.<br/>If you want to remove his/her record from this Wingzy, please go to <strong>profile > remove</strong>.', {loginEmail: user.loginEmail, organisation: res.locals.organisation.name}),
+          content: res.locals.user.isSuperAdmin() ? user : null
+        }
+      );
+    });
+  });
+});
+
 router.get('/unwelcomeAll', function(req, res, next) {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
   .exec(function(err, users) {
@@ -81,14 +99,16 @@ router.get('/list/:sort?', function(req, res, next) {
   var sort = req.params.sort || '-created';
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
   .select('created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords')
+  .populate('orgsAndRecords.record')
   .sort(sort)
   .exec(function(err, users) {
     if (err) return next(err);
-    res.render('index',
+    res.render('admin/user_list',
       {
-        title: 'Users List',
-        details: `Found ${users.length} users in ${res.locals.organisation.name}.`,
-        content: users
+        title: req.__('List of users'),
+        details: req.__('Woaw, there are {{{count}}} users in {{{organisation}}} !', {count: users.length, organisation: res.locals.organisation.name}),
+        users: users,
+        bodyClass: 'user-list'
       }
     );
   });

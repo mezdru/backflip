@@ -4,7 +4,9 @@
       <div class="grid-box">
         <h2>{{title}}</h2>
         <p>{{{details}}}</p>
+        {{#if content}}
         <pre>{{json content}}</pre>
+        {{/if}}
       </div>
     </div>
   </div>

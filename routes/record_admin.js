@@ -186,9 +186,9 @@ router.get('/delete/:recordId', function(req, res, next) {
       if (err) return next(err);
       res.render('index',
         {
-          title: 'Record has been deleted',
-          details: `You deleted the record ${record._id}`,
-          content: record
+          title: req.__('Profile removed'),
+          details: req.__('The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.', {name:record.name}),
+          content: res.locals.user.isSuperAdmin() ? record : null
         }
       );
     });

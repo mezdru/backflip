@@ -1512,6 +1512,13 @@ color: #e6e6e6;
   font-weight: 400;
 }
 
+.signin h3 {
+  text-align: center;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+}
+
 .signin-or {
   font-size: 15px;
   padding: 15px;
@@ -1596,6 +1603,14 @@ color: #e6e6e6;
 }
 
 /* Error page */
+
+.pure-g-table.pure-g {
+  max-width: 960px;
+}
+
+.pure-table {
+  margin: auto;
+}
 
 .admin h1 {
   text-align: center;
@@ -1861,6 +1876,10 @@ color: #e6e6e6;
 
   .signin h2 {
     font-size: 22.5px;
+  }
+
+  .signin h3 {
+    font-size: 18px;
   }
 
   .pure-menu-picture img {

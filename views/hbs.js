@@ -297,6 +297,12 @@ hbs.registerHelper('editUrl', function(recordId, organisationTag, step) {
   return new UrlHelper(organisationTag, page, query, this.getLocale()).getUrl();
 });
 
+hbs.registerHelper('banUrl', function(userId, organisationTag) {
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return UrlHelper.makeUrl(organisationTag, 'admin/user/'+userId+'/ban', null, locale);
+});
+
 hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
   page = 'admin/record/delete/'+recordId;
   return new UrlHelper(organisationTag, page, null, this.getLocale()).getUrl();
@@ -326,6 +332,9 @@ hbs.registerHelper('ifEqual', function(v1, v2, options) {
   }
   return options.inverse(this);
 });
+
+var HandlebarsIntl = require('handlebars-intl');
+HandlebarsIntl.registerWith(hbs);
 
 hbs.registerPartials(__dirname + '/partials');
 hbs.registerPartials(__dirname + '/home/partials');
