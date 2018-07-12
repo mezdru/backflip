@@ -33,9 +33,14 @@
     {{else}}
       <div class="pure-menu pure-menu-horizontal">
         <ul class="pure-menu-list">
+          {{#if isPublic}}
+          <li class="pure-menu-item pure-menu-item-why">
+            <a title="{{__ "Why Wingzy?"}}" href="{{url null null}}" class="pure-menu-link">{{__ "Why Wingzy?"}}</a>
+          </li>
           <li class="pure-menu-item pure-menu-item-pricing">
             <a title="{{__ "Pricing"}}" href="{{url 'pricing' null}}" class="pure-menu-link">{{__ "Pricing"}}</a>
           </li>
+          {{/if}}
           <li class="pure-menu-item">
             <a title="{{__ "Sign in"}}" href="{{signinUrl}}" class="pure-menu-link">{{__ "Sign in"}}</a>
           </li>

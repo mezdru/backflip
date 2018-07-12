@@ -615,7 +615,9 @@ header a:hover {
   font-weight: 600;
 }
 
-.pure-menu-horizontal .pure-menu-item-pricing {
+.pure-menu-horizontal .pure-menu-item-pricing,
+.pure-menu-horizontal .pure-menu-item-why
+ {
   display: none;
 }
 
@@ -1930,14 +1932,15 @@ color: #e6e6e6;
     opacity: 1;
   }
 
-  .pure-menu-horizontal .pure-menu-item-pricing {
-    display: inherit;
-    margin-right: 45px;
-  }
-
 }
 
 @media screen and (min-width: 1279px) {
+    .pure-menu-horizontal .pure-menu-item-pricing,
+    .pure-menu-horizontal .pure-menu-item-why {
+      display: inherit;
+      margin-right: 30px;
+    }
+
     .pure-u-search  {
       display: inherit;
     }

@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
   if (res.locals.organisation) {
     return next();
   } else {
-    res.render('home/home', {bodyClass: 'home landing', googleSignin: true, emailSignin: true, home: true});
+    res.render('home/home', {bodyClass: 'home landing', googleSignin: true, emailSignin: true, home: true, isPublic: true});
   }
 });
 
@@ -24,7 +24,7 @@ router.get('/why', function(req, res, next) {
 });
 
 router.get('/pricing', function(req, res, next) {
-  res.render('home/pricing', {bodyClass: 'home pricing', home: true});
+  res.render('home/pricing', {bodyClass: 'home pricing', home: true, isPublic: true});
 });
 
 router.get(/privacy|dodos|security/, function(req, res, next) {
@@ -32,15 +32,15 @@ router.get(/privacy|dodos|security/, function(req, res, next) {
 });
 
 router.get('/protectingYourData', function(req, res, next) {
-  res.render('legal/protecting_data', {bodyClass: 'home privacy', home: true});
+  res.render('legal/protecting_data', {bodyClass: 'home privacy', home: true, isPublic: true});
 });
 
 router.get('/terms', function(req, res, next) {
-  res.render('legal/terms', {bodyClass: 'home privacy', home: true});
+  res.render('legal/terms', {bodyClass: 'home privacy', home: true, isPublic: true});
 });
 
 router.get('/cheers', function(req, res, next) {
-  res.render('home/cheers', {bodyClass: 'home cheers', email: undefsafe(res.locals, 'user.loginEmail') || '', home: true});
+  res.render('home/cheers', {bodyClass: 'home cheers', email: undefsafe(res.locals, 'user.loginEmail') || '', home: true, isPublic: true});
 });
 
 
