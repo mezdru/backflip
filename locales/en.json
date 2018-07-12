@@ -175,5 +175,6 @@
 	"Profile removed": "Profile removed",
 	"The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.": "The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.",
 	"Invite users": "Invite users",
-	"Setup your Wingzy": "Setup your Wingzy"
+	"Setup your Wingzy": "Setup your Wingzy",
+	"Why Wingzy?": "Why Wingzy?"
 }
