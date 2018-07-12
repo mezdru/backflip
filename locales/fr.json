@@ -164,5 +164,16 @@
 	"You need to be connected to access the page you requested.": "Vous devez être connecté.e pour accéder à la page que vous demandez.",
 	"cV0tCphFMr8?t=1m18s": "cV0tCphFMr8?t=1m18s",
 	"What... is your name?": "What... is your name?",
-	"The keeper of the Bridge of Death": "The keeper of the Bridge of Death"
+	"The keeper of the Bridge of Death": "The keeper of the Bridge of Death",
+	"List of users": "List of users",
+	"Created": "Created",
+	"Last Action": "Last Action",
+	"Last Login": "Last Login",
+	"Woaw, there are {{{count}}} users in {{{organisation}}} !": "Woaw, there are {{{count}}} users in {{{organisation}}} !",
+	"User banned": "User banned",
+	"The user {{loginEmail}} has been banned from {{{organisation}}}.<br/>If you want to remove his/her record from this Wingzy, please go to <strong>profile > remove</strong>.": "The user {{loginEmail}} has been banned from {{{organisation}}}.<br/>If you want to remove his/her record from this Wingzy, please go to <strong>profile > remove</strong>.",
+	"Profile removed": "Profile removed",
+	"The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.": "The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.",
+	"Invite users": "Invite users",
+	"Setup your Wingzy": "Setup your Wingzy"
 }
