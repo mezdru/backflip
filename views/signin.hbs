@@ -3,14 +3,11 @@
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="grid-box">
+        <h2>{{{__ 'Welcome in the Wingzy of'}}}</h2>
         <h1>
-          {{#if organisation.picture.url}}
-            <img src="{{organisation.picture.url}}" alt="{{{organisation.name}}}">
-          {{else}}
-            {{{organisation.name}}}
-          {{/if}}
+          {{{organisation.name}}}
         </h1>
-        <h2>{{{__ 'Wingzy is an intuitive app to find the coworkers you need within %s according to what they love and know' organisation.name}}}</h2>
+        <h3>{{{__ 'Wingzy is an intuitive app to find the coworkers you need within %s according to what they love and know' organisation.name}}}</h3>
       </div>
     </div>
   </div>
