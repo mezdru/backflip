@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var UrlHelper = require('../helpers/url_helper.js');
-var UrlHelper = require('../helpers/url_helper.js');
 var undefsafe = require('undefsafe');
 
 const { body,validationResult } = require('express-validator/check');
@@ -13,6 +12,28 @@ router.get('/makePublic', function(req, res, next) {
       title: 'Organisation made Public',
       content: organisation
     });
+  });
+});
+
+router.get('/createLink', function(req, res, next) {
+  res.locals.organisation.addCode(null, null, res.locals.user, function(err, organisation) {
+    if (err) return next(err);
+    var code = organisation.codes[0].value;
+    var endDate = organisation.codes[0].ends;
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return res.render('index',
+      {
+        title: req.__('Invitation code created'),
+        details:  req.__('Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.',
+          {
+            organisation: res.locals.organisation.name,
+            link: UrlHelper.makeUrl(organisation.tag, 'login', '?code='+code, req.getLocale()),
+            endDate: new Intl.DateTimeFormat(req.getLocale(), options).format(endDate)
+          }
+        ),
+        content: res.locals.user.isSuperAdmin() ? organisation : null
+      }
+    );
   });
 });
 

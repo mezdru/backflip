@@ -141,11 +141,8 @@ var flash = require('express-flash');
 app.use(flash());
 
 app.use(function(req, res, next) {
-  res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', null, req.getLocale()).getUrl();
-  res.locals.googleSigninUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();
   res.locals.logoutUrl = new UrlHelper(req.organisationTag, 'logout', null, req.getLocale()).getUrl();
   res.locals.signinUrl = new UrlHelper(req.organisationTag, 'login', null, req.getLocale()).getUrl();
-
   return next();
 });
 

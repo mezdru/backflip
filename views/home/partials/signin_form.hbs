@@ -12,6 +12,7 @@
     {{#if emailSignin}}
     <input id="email-input" class="pure-input-1" type="email" name="email" value="{{email}}" placeholder="{{__ "Your work email"}}">
     <input id="jeSuisHumain" class="pure-input-1" type="text" name="jeSuisHumain">
+    <input id="invitationCode" class="pure-input-1" type="hidden" name="invitationCode" value={{invitationCode}}>
     <button id="email-submit" type="submit" class="pure-button scale">{{__ "Sign in with your email"}}</button>
     {{/if}}
   </form>

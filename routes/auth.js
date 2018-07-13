@@ -17,6 +17,12 @@ router.get('/login', function(req, res, next) {
   next();
 });
 
+router.use(function(req, res, next) {
+  res.locals.googleSigninUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();
+  res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', req.query.code ? '?code='+req.query.code : null, req.getLocale()).getUrl();
+  next();
+});
+
 router.get('/login', function(req, res, next) {
   var googleSignin, emailSignin;
   if (res.locals.organisation && res.locals.organisation.public !== true) {
@@ -27,6 +33,7 @@ router.get('/login', function(req, res, next) {
     googleSignin = true;
     emailSignin = true;
   }
+
   res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 

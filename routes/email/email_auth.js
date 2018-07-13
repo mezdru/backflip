@@ -42,6 +42,10 @@ router.post('/login', function(req, res, next) {
         res.locals.errors.push({msg: res.__('Email already sent, check your inbox!')});
       }
 
+      if (req.query.code && res.locals.organisation.validateCode(req.query.code)) {
+        user.attachOrgAndRecord(res.locals.organisation, null);
+      }
+
       if (organisation && !user.belongsToOrganisation(organisation._id)) {
        organisation = null;
       }

@@ -41,6 +41,7 @@ var userSchema = mongoose.Schema({
       _id: false,
       organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
       user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
+      code: String,
       created: { type: Date, default: Date.now }
     }
   ],
@@ -59,10 +60,11 @@ userSchema.virtual('loginEmail').get(function() {
   return this.google.email || this.email.value;
 });
 
-userSchema.methods.addInvitation = function(organisation, user, callback) {
+userSchema.methods.addInvitation = function(organisation, user, code, callback) {
   var invitation = {
     organisation: organisation,
     user: user,
+    code: code,
     created: Date.now(),
   };
   this.invitations.push(invitation);

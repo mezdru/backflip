@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Record = require('./record.js');
 var User = require('./user.js');
 var undefsafe = require('undefsafe');
+var randomstring = require('randomstring');
 
 var organisationSchema = mongoose.Schema({
   name: String,
@@ -24,6 +25,15 @@ var organisationSchema = mongoose.Schema({
   style: {
     css: String
   },
+  codes: [
+    {
+      _id: false,
+      value: String,
+      creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
+      starts: { type: Date, default: Date.now },
+      ends: { type: Date, default: Date.now }
+    }
+  ],
   creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
@@ -83,6 +93,26 @@ organisationSchema.methods.makePublic = function(callback) {
 organisationSchema.methods.makeCanInvite = function(callback) {
   this.canInvite = true;
   if (callback) this.save(callback);
+};
+
+organisationSchema.methods.addCode = function(starts, ends, creator, callback) {
+  var code = {
+    value: randomstring.generate(16),
+    creator: creator,
+    starts: starts || Date.now(),
+    ends: ends || Date.now() + 30*24*60*60*1000,
+    created: Date.now(),
+  };
+  this.codes.unshift(code);
+  if(callback) return this.save(callback);
+};
+
+organisationSchema.methods.validateCode = function(codeToValidate) {
+  return this.codes.some(code => {
+    return codeToValidate == code.value &&
+    code.starts.getTime() < Date.now() &&
+    code.ends.getTime() > Date.now();
+  });
 };
 
 // We populate ALL the records in the Organisation AND IN THE "ALL" ORGANISATION
