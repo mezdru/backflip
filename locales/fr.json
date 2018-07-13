@@ -176,5 +176,10 @@
 	"The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.": "The profile {{name}} has been removed, BUT NOT the user.<br/>If you want to ban {{name}} from this Wingzy, please go to <strong>setup > users</strong>.",
 	"Invite users": "Invite users",
 	"Setup your Wingzy": "Setup your Wingzy",
-	"Why Wingzy?": "Why Wingzy?"
+	"Why Wingzy?": "Why Wingzy?",
+	"Email already sent, check your inbox!": "Email already sent, check your inbox!",
+	"Please provide a valid Email Address": "Please provide a valid Email Address",
+	"Invitation code created": "Invitation code created",
+	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.": "Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.",
+	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}."
 }
