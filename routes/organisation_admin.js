@@ -20,7 +20,7 @@ router.get('/createLink', function(req, res, next) {
     if (err) return next(err);
     var code = organisation.codes[0].value;
     var endDate = organisation.codes[0].ends;
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return res.render('index',
       {
         title: req.__('Invitation code created'),
