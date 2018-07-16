@@ -57,7 +57,6 @@ router.post('/',
   sanitizeBody('tag').trim().escape().stripLow(true),
   sanitizeBody('name').trim().escape().stripLow(true),
   sanitizeBody('logo').trim().escape().stripLow(true),
-  sanitizeBody('picture').trim().escape().stripLow(true),
   sanitizeBody('cover').trim().escape().stripLow(true),
   sanitizeBody('css').trim().escape().stripLow(true)
 );
@@ -75,9 +74,6 @@ router.post('/',
   body('logo.url').isURL().optional({checkFalsy:true}).withMessage((value, {req}) => {
     return req.__('Please provide a valid {{field}} URL.', {field: 'Logo'});
   }),
-  body('picture.url').isURL().optional({checkFalsy:true}).withMessage((value, {req}) => {
-    return req.__('Please provide a valid {{field}} URL.', {field: 'Picture'});
-  }),
   body('cover.url').isURL().optional({checkFalsy:true}).withMessage((value, {req}) => {
     return req.__('Please provide a valid {{field}} URL.', {field: 'Cover'});
   })
@@ -89,7 +85,6 @@ router.post('/', function(req, res, next) {
   if (res.locals.user.isSuperAdmin()) res.locals.organisation.tag = req.body.tag;
   res.locals.organisation.name = req.body.name;
   res.locals.organisation.logo.url = req.body.logo.url;
-  res.locals.organisation.picture.url = req.body.picture.url;
   res.locals.organisation.cover.url = req.body.cover.url;
   res.locals.organisation.canInvite = req.body.canInvite;
   res.locals.organisation.style.css = req.body.css;
