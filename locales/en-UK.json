@@ -181,5 +181,8 @@
 	"Please provide a valid Email Address": "Please provide a valid Email Address",
 	"Invitation code created": "Invitation code created",
 	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.": "Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.",
-	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}."
+	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.",
+	"Change Emoji": "Change Emoji",
+	"Make Public": "Make Public",
+	"Select an Emoji for %s": "Select an Emoji for %s"
 }
