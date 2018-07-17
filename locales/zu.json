@@ -181,5 +181,8 @@
 	"Please provide a valid Email Address": "crwdns1182:0crwdne1182:0",
 	"Invitation code created": "crwdns1183:0crwdne1183:0",
 	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.": "crwdns1184:0{{{organisation}}}crwdnd1184:0{{link}}crwdne1184:0",
-	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "crwdns1185:0{{{organisation}}}crwdnd1185:0{{link}}crwdnd1185:0{{endDate}}crwdne1185:0"
+	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "crwdns1185:0{{{organisation}}}crwdnd1185:0{{link}}crwdnd1185:0{{endDate}}crwdne1185:0",
+	"Change Emoji": "crwdns1186:0crwdne1186:0",
+	"Make Public": "crwdns1187:0crwdne1187:0",
+	"Select an Emoji for %s": "crwdns1188:0%scrwdne1188:0"
 }
