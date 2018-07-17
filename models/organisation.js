@@ -165,8 +165,10 @@ organisationSchema.statics.findByDomain = function(domain, callback) {
 };
 
 organisationSchema.statics.findByGoogleHd = function(hd, callback) {
+  console.log(hd);
   this.find({'google.hd':hd}, function(err, organisations) {
     if (err) return callback(err);
+    console.log(organisations);
     return callback(null, organisations);
   });
 };

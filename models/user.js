@@ -238,7 +238,7 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.pre('save', function(next) {
-  if (this.isNew && this.canEmailSignin()) {
+  if (this.isNew && this.email.value) {
     Organisation.findByEmail(this.email.value, function(err, organisations) {
       if (err) {
         console.error('Cannot find Organisations by user email');
@@ -251,7 +251,7 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.pre('save', function(next) {
-  if (this.isNew && this.canGoogleSignin()) {
+  if (this.isNew && this.google.hd) {
     Organisation.findByGoogleHd(this.google.hd, function(err, organisations) {
       if (err) {
         console.error('Cannot find Organisations by user google email');
