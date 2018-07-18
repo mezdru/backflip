@@ -176,12 +176,19 @@ recordSchema.methods.addHashtags = function(hashtags, organisationId, callback) 
 };
 
 //@todo Rename: this does not really add the hashtag, it just creates a promise that returns the hashtag
+//@todo When Wings (=hashtag) is not in current org, we make a new naked one from tag. We should copy emoji and other parameters.
 recordSchema.methods.addHashtag = function(hashtag, organisationId) {
   return new Promise((resolve, reject) =>
   {
     if (hashtag instanceof Record) {
-      if (!hashtag.belongsToOrganisation(organisationId)) return reject(new Error('Hashtag Record not in this organisation'));
-      return resolve(hashtag);
+      if (hashtag.belongsToOrganisation(organisationId)) {
+        return resolve(hashtag);
+      } else {
+        this.model('Record').makeFromTag(hashtag.tag, organisationId, (err, record) => {
+          if (err) return reject(err);
+          return resolve(record);
+        });
+      }
     } else if (typeof hashtag === "string") {
       this.model('Record').findByTag(hashtag, organisationId, (err, record) => {
         if (err) return reject(err);
@@ -226,6 +233,18 @@ recordSchema.methods.makeWithin = function(organisation, callback) {
     //@todo use insertMany instead of create (implies rewriting the algolia post save synchro to use the insertMany middleware too).
     if (callback) return this.model('Record').create(newRecords, callback);
     else return newRecords;
+};
+
+// WE NEED ALL THE ORGS RECORDS TO BE THERE !
+recordSchema.methods.changeOrganisation = function(organisation, callback) {
+  this.organisation = organisation;
+  this.makeWithin(organisation, function(err, records) {
+    if (err) return next(err);
+    this.makeHashtags(this.hashtags, organisation._id, function(err, records) {
+      if (err) return next(err);
+      this.save(callback);
+    }.bind(this));
+  }.bind(this));
 };
 
 // We need this because we don't want our local Records to reference to each other

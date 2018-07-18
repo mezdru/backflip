@@ -269,6 +269,39 @@ router.get('/organisation/:orgTag/addEmailDomain/:domain', function(req, res, ne
   });
 });
 
+router.get('/bigMove/organisation/:orgTag/user/:userId/record/:recordId', function(req, res, next) {
+  Organisation.findOne({tag: req.params.orgTag}, function(err, organisation) {
+    if (err) return next(err);
+    if (!organisation) return next(new Error('Organisation not found'));
+    organisation.populateRecords(true, function(err, organisation) {
+      if (err) return next(err);
+      User.findById(req.params.userId)
+      .populate('orgsAndRecords.record')
+      .populate('orgsAndRecords.organisation', 'name picture tag')
+      .exec(function(err, user) {
+        if (err) return next(err);
+        if (!user) return next(new Error('User not found'));
+        Record.findOne({_id: req.params.recordId, type: 'person'}, function(err, record) {
+          if (err) return next(err);
+          if (!record) return next(new Error('Record not found'));
+          record.changeOrganisation(organisation, function(err, record) {
+            user.attachOrgAndRecord(organisation, record, function(err, user) {
+              if (err) return next(err);
+              res.render('index',
+                {
+                  title: 'Attached Org and Record to User',
+                  details: `Attached org ${organisation.name} and record ${record.tag} to user ${user.loginEmail}.`,
+                  content: user
+                }
+              );
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
 router.get('/record/clear_deleted', function(req, res, next) {
   Record.deleteMany({deleted: true}, function(err, result) {
     if (err) return next(err);
