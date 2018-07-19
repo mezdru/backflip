@@ -266,14 +266,14 @@ app.use(function(req, res, next) {
 // generic error setter
 app.use(function(err, req, res, next) {
   res.locals.error = err || {};
-    // only providing stacktrace in development
-  res.locals.error.stack = req.app.get('env') === 'production' ? null : err.stack;
   res.locals.status = (err.status || 500);
   res.locals.error.date = new Date().toISOString();
 
   // During early Beta log verbose 500 errors to Heroku console
-  // @todo remove
   if (res.locals.status >= 500) console.error(err);
+
+  // only print stacktrace in development
+  res.locals.error.stack = req.app.get('env') === 'production' ? null : err.stack;
 
   next(err);
 });

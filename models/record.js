@@ -239,9 +239,9 @@ recordSchema.methods.makeWithin = function(organisation, callback) {
 recordSchema.methods.changeOrganisation = function(organisation, callback) {
   this.organisation = organisation;
   this.makeWithin(organisation, function(err, records) {
-    if (err) return next(err);
+    if (err) return callback(err);
     this.makeHashtags(this.hashtags, organisation._id, function(err, records) {
-      if (err) return next(err);
+      if (err) return callback(err);
       this.save(callback);
     }.bind(this));
   }.bind(this));
