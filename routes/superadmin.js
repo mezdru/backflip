@@ -285,6 +285,7 @@ router.get('/bigMove/organisation/:orgTag/user/:userId/record/:recordId', functi
           if (err) return next(err);
           if (!record) return next(new Error('Record not found'));
           record.changeOrganisation(organisation, function(err, record) {
+            if (err) return next(err);
             user.attachOrgAndRecord(organisation, record, function(err, user) {
               if (err) return next(err);
               res.render('index',
