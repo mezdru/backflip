@@ -281,7 +281,10 @@ router.get('/bigMove/organisation/:orgTag/user/:userId/record/:recordId', functi
       .exec(function(err, user) {
         if (err) return next(err);
         if (!user) return next(new Error('User not found'));
-        Record.findOne({_id: req.params.recordId, type: 'person'}, function(err, record) {
+        Record.findOne({_id: req.params.recordId, type: 'person'})
+        .populate('within')
+        .populate('hashtags')
+        .exec(function(err, record) {
           if (err) return next(err);
           if (!record) return next(new Error('Record not found'));
           record.changeOrganisation(organisation, function(err, record) {

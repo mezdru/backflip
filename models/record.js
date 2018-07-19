@@ -184,12 +184,11 @@ recordSchema.methods.addHashtag = function(hashtag, organisationId) {
       if (hashtag.belongsToOrganisation(organisationId)) {
         return resolve(hashtag);
       } else {
-        this.model('Record').makeFromTag(hashtag.tag, organisationId, (err, record) => {
-          if (err) return reject(err);
-          return resolve(record);
-        });
+        hashtag = hashtag.tag;
       }
-    } else if (typeof hashtag === "string") {
+    }
+
+    if (typeof hashtag === "string") {
       this.model('Record').findByTag(hashtag, organisationId, (err, record) => {
         if (err) return reject(err);
         if (record) return resolve(record);
@@ -397,6 +396,8 @@ recordSchema.statics.makeFromEmail = function(email, organisationId) {
   return this.makeFromInputObject(inputObject);
 };
 
+
+//@todo bad naming, it checks if belongs to the All Org too !
 recordSchema.methods.belongsToOrganisation = function(organisationId) {
   return getId(this.organisation).equals(organisationId) || getId(this.organisation).equals(this.model('Record').getTheAllOrganisationId());
 };
