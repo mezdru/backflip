@@ -90,6 +90,7 @@ userSchema.methods.getRecord = function(organisationId) {
 };
 
 userSchema.methods.touchLogin = function (callback) {
+  if (!this.last_login) this.notifyNew();
   this.last_login = Date.now();
   this.save(callback);
 };
@@ -264,11 +265,11 @@ userSchema.pre('save', function(next) {
 });
 
 var slack = require('slack-notify')('https://hooks.slack.com/services/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');
-userSchema.post('save', function (user) {
-  if (this.wasNew) {
-    slack.note(`We have a new user: ${user.loginEmail} _${user._id}_`);
-  }
-});
+userSchema.methods.notifyNew = function() {
+  var wingzies = 'no Wingzy yet';
+  if (this.orgsAndRecords.length > 0) wingzies = this.orgsAndRecords.map(orgAndRecord => orgAndRecord.organisation.name).join(', ');
+  slack.note(`We have a new user: *${this.loginEmail}* _${this._id}_ in ${wingzies}`);
+};
 
 /*
 * We have submodels within User (oransiation, record...)

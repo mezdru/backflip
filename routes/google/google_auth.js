@@ -75,6 +75,7 @@ router.get('/login/callback', function(req, res, next) {
       if (err) return next(err);
       if (!organisation) return next();
       if (organisation.validateCode(req.invitationCode)) {
+        req.session.user.addInvitation(organisation, organisation.codes.find(code => code.value === req.invitationCode).creator, req.invitationCode);
         req.session.user.attachOrgAndRecord(organisation, null, function(err, user) {
           if (err) return next(err);
           return next();

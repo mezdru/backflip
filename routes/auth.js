@@ -32,19 +32,6 @@ router.get('/login', function(req, res, next) {
   res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 
-// Catch all login callbacks and touch the user
-router.get('*/login/callback', function(req, res, next) {
-  if (!req.session.user) {
-    err = new Error('Authentification failed');
-    err.status = 500;
-    return next(err);
-  }
-  req.session.user.touchLogin(function(err) {
-    if (err) return console.error(err);
-    return next();
-  });
-});
-
 // Setup User depending on Auth
 //@todo avoid re-fetching the user on login
 router.use(function(req, res, next) {
@@ -63,6 +50,19 @@ router.use(function(req, res, next) {
     res.locals.user = false;
     return next();
   }
+});
+
+// Catch all login callbacks and touch the user
+router.get('*/login/callback', function(req, res, next) {
+  if (!req.session.user) {
+    err = new Error('Authentification failed');
+    err.status = 500;
+    return next(err);
+  }
+  req.session.user.touchLogin(function(err) {
+    if (err) return console.error(err);
+    return next();
+  });
 });
 
 

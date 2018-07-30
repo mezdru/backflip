@@ -46,6 +46,7 @@ router.post('/login', function(req, res, next) {
 
       //@todo this logic should be shared through all auth strategies
       if (req.query.code && res.locals.organisation.validateCode(req.query.code)) {
+        user.addInvitation(res.locals.organisation, res.locals.organisation.codes.find(code => code.value === req.query.code).creator, req.query.code);
         user.attachOrgAndRecord(res.locals.organisation, null);
       }
 
