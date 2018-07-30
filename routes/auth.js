@@ -12,13 +12,8 @@ router.get('/logout', function(req, res, next) {
   });
 });
 
-router.get('/login', function(req, res, next) {
-  if (res.locals.user) return res.redirect(UrlHelper.makeUrl(req.organisationTag, null, null, req.getLocale()));
-  next();
-});
-
 router.use(function(req, res, next) {
-  res.locals.googleSigninUrl = new UrlHelper(req.organisationTag, 'google/login', null, req.getLocale()).getUrl();
+  res.locals.googleSigninUrl = new UrlHelper(req.organisationTag, 'google/login',  req.query.code ? '?code='+req.query.code : null, req.getLocale()).getUrl();
   res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', req.query.code ? '?code='+req.query.code : null, req.getLocale()).getUrl();
   next();
 });

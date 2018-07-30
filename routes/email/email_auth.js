@@ -42,6 +42,9 @@ router.post('/login', function(req, res, next) {
         res.locals.errors.push({msg: res.__('Email already sent, check your inbox!')});
       }
 
+      if (res.locals.errors.length > 0) return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});
+
+      //@todo this logic should be shared through all auth strategies
       if (req.query.code && res.locals.organisation.validateCode(req.query.code)) {
         user.attachOrgAndRecord(res.locals.organisation, null);
       }
@@ -49,8 +52,6 @@ router.post('/login', function(req, res, next) {
       if (organisation && !user.belongsToOrganisation(organisation._id)) {
        organisation = null;
       }
-
-      if (res.locals.errors.length > 0) return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});
 
       EmailUser.sendLoginEmail(user, organisation, res, function(err, user) {
         if (err) return next(err);
