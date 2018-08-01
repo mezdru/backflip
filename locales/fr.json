@@ -180,9 +180,9 @@
 	"Email already sent, check your inbox!": "Email déjà envoyé, vérifiez votre boite de réception.",
 	"Please provide a valid Email Address": "Veuillez renseigner une adresse valide",
 	"Invitation code created": "Code d'invitation créé",
-	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.": "N'importe qui peut maintenant rejoindre {{{organisation}}} avec <br/><strong>{{link}}</strong>",
 	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "N'importe qui peut maintenant rejoindre {{{organisation}}} avec le lien<br/><strong>{{link}}</strong><br/>Il est valide jusqu'au {{endDate}}.",
 	"Change Emoji": "Changez l'Emoji",
 	"Make Public": "Rendre publique",
-	"Select an Emoji for %s": "Sélectionnez un Emoji pour %s"
+	"Select an Emoji for %s": "Sélectionnez un Emoji pour %s",
+	"Anyone with an email @%s can join": "Anyone with an email @%s can join"
 }
