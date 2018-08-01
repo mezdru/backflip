@@ -45,14 +45,18 @@ router.post('/',
 router.post('/', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
-  res.locals.organisation = new Organisation({
+  res.locals.newOrganisation = new Organisation({
     tag: req.body.tag,
     name: req.body.name,
     creator: res.locals.user._id
   });
-  res.locals.organisation.logo.url = req.body.logo.url;
+  res.locals.newOrganisation.logo.url = req.body.logo.url;
+  if (req.body.activateDomainLogin && req.body.domainForLogin) {
+    res.locals.newOrganisation.addEmailDomain(req.body.domainForLogin);
+    if (req.body.googleForLogin) res.locals.newOrganisation.addGoogleHD(req.body.domainForLogin);
+  }
   if (errors.isEmpty()) {
-    res.locals.organisation.save(function(err, organisation) {
+    res.locals.newOrganisation.save(function(err, organisation) {
       if(err) {
         if (err.code === 11000) {
           res.locals.errors.push({msg: req.__('Aha! There is already a Wingzy at %s, maybe you should ask for an invitation?', req.body.tag + '.' + process.env.HOST)});
@@ -72,25 +76,28 @@ router.post('/', function(req, res, next) {
   } else next();
 });
 
-router.get('/', function(req, res, next) {
+router.all('/', function(req, res, next) {
   if (undefsafe(res.locals, 'user.google.hd')) {
-    res.locals.organisation = new Organisation({
+    res.locals.newOrganisation = new Organisation({
       name: res.locals.user.google.hd.split('.')[0].charAt(0).toUpperCase() + res.locals.user.google.hd.split('.')[0].slice(1),
       tag: res.locals.user.google.hd.split('.')[0]
     });
+    res.locals.domainForLogin = res.locals.user.google.hd;
+    res.locals.googleForLogin = true;
   }
   next();
 });
 
-const all = require('email-providers/all.json');
-router.get('/', function(req, res, next) {
+const allEmailProviders = require('email-providers/all.json');
+router.all('/', function(req, res, next) {
   if (undefsafe(res.locals, 'user.email.value')) {
     var domain = res.locals.user.email.value.split('@')[1];
-    if (!all.includes(domain)) {
-      res.locals.organisation = new Organisation({
+    if (!allEmailProviders.includes(domain)) {
+      res.locals.newOrganisation = new Organisation({
         name: domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1),
         tag: domain.split('.')[0]
       });
+      res.locals.domainForLogin = domain;
     }
   }
   next();

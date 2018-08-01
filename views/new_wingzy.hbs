@@ -9,16 +9,16 @@
     </div>
   </div>
   <form class="pure-form pure-form-stacked" action="{{formAction}}" method="post">
-    <input type="hidden" name="_id" value="{{organisation._id}}" />
+    <input type="hidden" name="_id" value="{{newOrganisation._id}}" />
     <div class="pure-g">
       <div class="pure-u-1">
         <div class="grid-box">
           {{> form_errors}}
           <label for="name">{{__ "What is the name of your organisation?"}}</label>
-          <input class="pure-input-1" id="name" name="name" type="text" value="{{organisation.name}}">
+          <input class="pure-input-1" id="name" name="name" type="text" value="{{newOrganisation.name}}">
           <label for="tag">{{__ "Where should we host your Wingzy?"}}</label>
           <p class="wingzy-url">
-            <input class="pure-input-1" id="tag" name="tag" type="text" value="{{organisation.tag}}">
+            <input class="pure-input-1" id="tag" name="tag" type="text" value="{{newOrganisation.tag}}">
             <span>.wingzy.io</span>
           <span>
         </div>
@@ -28,13 +28,26 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box uploadcare-box">
           <label for="uploadcare">{{__ "Got a logo?"}}</label>
-          <input id="uploadcare" type="hidden" role="uploadcare-uploader" name="logo[url]" data-crop="120x120 minimum" value="{{organisation.logo.url}}"/>
+          <input id="uploadcare" type="hidden" role="uploadcare-uploader" name="logo[url]" data-crop="120x120 minimum" value="{{newOrganisation.logo.url}}"/>
         </div>
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="image-preview-single"></div>
       </div>
     </div>
+    {{#if domainForLogin}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <label for="activateDomainLogin">
+            <input id="activateDomainLogin" name="activateDomainLogin" type="checkbox" checked> {{__ "Anyone with an email @%s can join" domainForLogin}}
+          </label>
+          <input type="hidden" name="domainForLogin" value="{{domainForLogin}}" />
+          <input type="hidden" name="googleForLogin" value="{{googleForLogin}}" />
+        </div>
+      </div>
+    </div>
+    {{/if}}
     <div class="bottom-buttons">
       <div class="pure-g">
         <div class="pure-u-1-2 pure-u-md-1-3">
