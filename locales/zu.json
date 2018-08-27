@@ -189,5 +189,8 @@
 	"Email Domains:": "crwdns1191:0crwdne1191:0",
 	"None": "crwdns1192:0crwdne1192:0",
 	"Google Domains:": "crwdns1193:0crwdne1193:0",
-	"People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>.": "crwdns1194:0crwdne1194:0"
+	"People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>.": "crwdns1194:0crwdne1194:0",
+	"fa-clock-o": "crwdns1195:0crwdne1195:0",
+	"Too late!": "crwdns1196:0crwdne1196:0",
+	"The invitation link you used does not work anymore. Please ask for another one.": "crwdns1197:0crwdne1197:0"
 }
