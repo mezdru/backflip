@@ -180,9 +180,17 @@
 	"Email already sent, check your inbox!": "crwdns1181:0crwdne1181:0",
 	"Please provide a valid Email Address": "crwdns1182:0crwdne1182:0",
 	"Invitation code created": "crwdns1183:0crwdne1183:0",
-	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong>.": "crwdns1184:0{{{organisation}}}crwdnd1184:0{{link}}crwdne1184:0",
 	"Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.": "crwdns1185:0{{{organisation}}}crwdnd1185:0{{link}}crwdnd1185:0{{endDate}}crwdne1185:0",
 	"Change Emoji": "crwdns1186:0crwdne1186:0",
 	"Make Public": "crwdns1187:0crwdne1187:0",
-	"Select an Emoji for %s": "crwdns1188:0%scrwdne1188:0"
+	"Select an Emoji for %s": "crwdns1188:0%scrwdne1188:0",
+	"Anyone with an email @%s can join": "crwdns1189:0%scrwdne1189:0",
+	"Authorized Domains": "crwdns1190:0crwdne1190:0",
+	"Email Domains:": "crwdns1191:0crwdne1191:0",
+	"None": "crwdns1192:0crwdne1192:0",
+	"Google Domains:": "crwdns1193:0crwdne1193:0",
+	"People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>.": "crwdns1194:0crwdne1194:0",
+	"fa-clock-o": "crwdns1195:0crwdne1195:0",
+	"Too late!": "crwdns1196:0crwdne1196:0",
+	"The invitation link you used does not work anymore. Please ask for another one.": "crwdns1197:0crwdne1197:0"
 }
