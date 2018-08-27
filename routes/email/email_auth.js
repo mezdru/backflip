@@ -44,10 +44,17 @@ router.post('/login', function(req, res, next) {
 
       if (res.locals.errors.length > 0) return res.render('signin', {bodyClass: 'signin', googleSignin:true, emailSignin:true, email: req.body.email});
 
-      //@todo this logic should be shared through all auth strategies
-      if (req.query.code && res.locals.organisation.validateCode(req.query.code)) {
-        user.addInvitation(res.locals.organisation, res.locals.organisation.codes.find(code => code.value === req.query.code).creator, req.query.code);
-        user.attachOrgAndRecord(res.locals.organisation, null);
+      //@todo this logic should be shared through all auth strategies (duplicate in google_auth)
+      if (req.query.code) {
+        if (res.locals.organisation.validateCode(req.query.code)) {
+          user.addInvitation(res.locals.organisation, res.locals.organisation.codes.find(code => code.value === req.query.code).creator, req.query.code);
+          user.attachOrgAndRecord(res.locals.organisation, null);
+        } else {
+          //@todo error is thrown while login email is sent
+          let err = new Error('Invitation expired');
+          err.status = 402;
+          next(err);
+        }
       }
 
       if (organisation && !user.belongsToOrganisation(organisation._id)) {

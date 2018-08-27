@@ -20,6 +20,16 @@
     "url": "https://youtu.be/cV0tCphFMr8?t=1m18s"
   },
   {
+    "status": 402,
+    "icon": "fa-clock-o",
+    "name": "Too late!",
+    "description": "The invitation link you used does not work anymore. Please ask for another one.",
+    "quote": "What... is your name?",
+    "reference": "The keeper of the Bridge of Death",
+    "youtubeId": "cV0tCphFMr8?t=1m18s",
+    "url": "https://youtu.be/cV0tCphFMr8?t=1m18s"
+  },
+  {
     "status": 403,
     "icon": "fa-hand-paper-o",
     "name": "This is forbidden",

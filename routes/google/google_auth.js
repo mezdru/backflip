@@ -74,12 +74,18 @@ router.get('/login/callback', function(req, res, next) {
     Organisation.findOne({tag:req.redirectionTag}, function(err, organisation) {
       if (err) return next(err);
       if (!organisation) return next();
+      //@todo this logic should be shared through all auth strategies (duplicate in email_auth)
       if (organisation.validateCode(req.invitationCode)) {
         req.session.user.addInvitation(organisation, organisation.codes.find(code => code.value === req.invitationCode).creator, req.invitationCode);
         req.session.user.attachOrgAndRecord(organisation, null, function(err, user) {
           if (err) return next(err);
           return next();
         });
+      } else {
+        //@todo error is thrown before auth is finished
+        let err = new Error('Invitation expired');
+        err.status = 402;
+        next(err);
       }
     });
   } else next();
