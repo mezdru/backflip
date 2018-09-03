@@ -113,7 +113,7 @@
 	"Aha! There is already a Wingzy at %s, maybe you should ask for an invitation?": "Aha ! Il y a déjà un Wingzy sur %s, vous devriez peut-être demander une invitation?",
 	"Please provide a valid name.": "Zut, on a besoin d'un nom valide",
 	"You joined the Beta !": "Vous avez rejoint Wingzy !",
-	"Great to have you on board. We'll contact you by email as soon as a spot is available.": "Nous sommes heureux de vous compter parmi nos premiers utilisateur-trices. Nous vous recontactons très rapidement pour créer votre compte.",
+	"Great to have you on board. We'll contact you by email as soon as a spot is available.": "Nous sommes heureux-ses de vous compter parmi nos premiers utilisateur-trices. Nous vous recontactons très rapidement pour créer votre compte.",
 	"Got 2 minutes more?": "Mieux vous connaître !",
 	"Please, help us understand your needs better by taking this poll about your work environment.": "Nous aimerions vous poser 5 questions à propos de vous, vos collègues, afin de déployer ensemble nos ailes. Ça prend 2 minutes ! ",
 	"https://lenom.typeform.com/to/Tc45CX?email=%s": "https://lenom.typeform.com/to/NPHsIN?email=%s",
@@ -133,7 +133,7 @@
 	"Sign in with your email": "Connexion par email",
 	"Privacy Policy": "Vie privée",
 	"Sign in to Wingzy": "Se connecter à Wingzy",
-	"Hello %s! We are happy to welcome you back on Wingzy.": "Bonjour %s, nous sommes heureux de vous accueillir sur Wingzy.",
+	"Hello %s! We are happy to welcome you back on Wingzy.": "Bonjour %s, nous sommes heureux·ses de vous accueillir sur Wingzy.",
 	"Connect and share": "Se connecter",
 	"Success!": "Super !",
 	"Now please check your emails": "Vérifiez vos Emails svp",
@@ -192,5 +192,5 @@
 	"People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>.": "Les personnes qui ont un compte email ou google avec ces domaines peuvent rejoindre votre Wingzy. <a href='mailto:contact@wingzy.io'>Contactez-nous pour modifier cela</a>.",
 	"fa-clock-o": "fa-clock-o",
 	"Too late!": "Trop tard !",
-	"The invitation link you used does not work anymore. Please ask for another one.": "The invitation link you used does not work anymore. Please ask for another one."
+	"The invitation link you used does not work anymore. Please ask for another one.": "Le lien d'invitation que vous avez suivi ne fonctionne plus. Demandez-en un autre !"
 }
