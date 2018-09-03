@@ -17,8 +17,12 @@ EmailUser.getByEmail = function (email, callback) {
   exec(callback);
 };
 
+// @todo move to main model, we got a nasty bug because population was not the same
 EmailUser.getByHash = function (hash, callback) {
-  User.findOne({'email.hash': hash}, callback);
+  User.findOne({'email.hash': hash})
+  .populate('orgsAndRecords.record', 'name picture tag')
+  .populate('orgsAndRecords.organisation', 'name picture tag')
+  .exec(callback);
 };
 
 EmailUser.makeHash = function (user) {
@@ -59,9 +63,9 @@ EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   });
 };
 
-//if we generated a token less than 15 minutes ago
+//if we generated a token less than 60 sec ago
 EmailUser.tooSoon = function (user, callback) {
-  return user.email.generated > Date.now() - 15*60*1000;
+  return user.email.generated > Date.now() - 60*1000;
 };
 
 //@todo fails if user.orgsAndRecords not populated

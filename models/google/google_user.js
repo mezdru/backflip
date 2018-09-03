@@ -8,9 +8,10 @@ var GoogleUser = {};
 
 GoogleUser.getByTokens = function (tokens, oAuth, callback) {
   tokens.id_payload = GoogleUser.decodeIdToken(tokens.id_token);
-  User.findOne({'google.id': tokens.id_payload.sub}).
-  populate('orgsAndRecords.record').
-  exec( function(err, user) {
+  User.findOne({'google.id': tokens.id_payload.sub})
+  .populate('orgsAndRecords.record', 'name picture tag')
+  .populate('orgsAndRecords.organisation', 'name picture tag')
+  .exec( function(err, user) {
     if (err) return callback(err);
     //if no user is returned, create a new user
     if (!user) {
