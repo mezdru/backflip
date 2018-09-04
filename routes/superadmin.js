@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var undefsafe = require('undefsafe');
 
 var google = require('googleapis');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
@@ -8,6 +9,7 @@ var Organisation = require('../models/organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var Application = require('../models/application.js');
+var EmailUser = require('../models/email/email_user.js');
 
 var UrlHelper = require('../helpers/url_helper.js');
 
@@ -352,6 +354,35 @@ router.get('/application/list', function(req, res, next) {
         details: `${applications.length} applications`,
         content: applications
       });
+  });
+});
+
+var normalizeEmail = require('express-validator/node_modules/validator/lib/normalizeEmail.js');
+
+router.get('/normalizeEmails', function(req, res, next) {
+  User.find({}, function(err, users) {
+    if (err) return next(err);
+    users.forEach(user => {
+      if (undefsafe(user, 'email.value')) {
+        user.email.value = normalizeEmail(user.email.value,
+          {
+            gmail_remove_subaddress:false,
+            outlookdotcom_remove_subaddress:false,
+            yahoo_remove_subaddress:false,
+            icloud_remove_subaddress:false
+          }
+        );
+          EmailUser.makeHash(user, true);
+        }
+    });
+    User.create(users, function (err, users) {
+      if (err) return next(err);
+      res.render('index', {
+        title: 'Emails normalization',
+        details: `${users.length} users email normalized`,
+        content: users
+      });
+    });
   });
 });
 

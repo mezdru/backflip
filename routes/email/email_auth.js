@@ -13,7 +13,12 @@ const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
 router.post('/login',
-  sanitizeBody('email').trim().escape().stripLow(true)
+  sanitizeBody('email').trim().normalizeEmail({
+    gmail_remove_subaddress:false,
+    outlookdotcom_remove_subaddress:false,
+    yahoo_remove_subaddress:false,
+    icloud_remove_subaddress:false
+  })
 );
 
 router.post('/login',

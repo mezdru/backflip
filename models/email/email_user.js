@@ -25,7 +25,8 @@ EmailUser.getByHash = function (hash, callback) {
   .exec(callback);
 };
 
-EmailUser.makeHash = function (user) {
+EmailUser.makeHash = function (user, force) {
+  if (force) user.email.hash = null;
   user.email.hash = user.email.hash || md5(user.email.value);
 };
 
