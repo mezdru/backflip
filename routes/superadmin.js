@@ -390,16 +390,17 @@ router.get('/normalizeEmails', function(req, res, next) {
 var Olduser = require('../models/olduser.js');
 
 router.get('/fixBigMistake', function(req, res, next) {
-  var emails = [];
+  var changes = [];
   User.find({}, function(err, users) {
     if(err) return next(err);
     users.forEach(user => {
       Olduser.findById(user._id, function(err, olduser) {
         if (err) return next(err);
+        console.log(`Found ${olduser._id}`);
         if (olduser &&
           undefsafe(user, 'email.value') &&
           user.email.value !== olduser.email.value) {
-            emails.push({
+            changes.push({
               _id: user._id,
               value: user.email.value,
               oldvalue: olduser.email.value
@@ -417,8 +418,8 @@ router.get('/fixBigMistake', function(req, res, next) {
     res.render('index',
       {
         title: 'Users list',
-        details: `${emails.length} users to rewrite`,
-        content: emails
+        details: `${changes.length} users to rewrite`,
+        content: changes
       }
     );
   });
