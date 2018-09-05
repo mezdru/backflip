@@ -399,7 +399,7 @@ router.get('/fixBigMistake', function(req, res, next) {
       Olduser.findById(user._id, function(err, olduser) {
         if (err) return console.error(err);
         if (!olduser) {
-          console.log(`Not Found ${olduser._id}`);
+          console.log(`Not Found ${user._id}`);
         } else if (!undefsafe(user, 'email.value')) {
           //console.log(`No Email Auth for ${olduser._id}`);
         } else if (user.email.value === olduser.email.value) {
