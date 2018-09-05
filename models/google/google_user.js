@@ -33,6 +33,7 @@ GoogleUser.addStrategy = function(tokens, user, callback) {
   user.google = {
     id: tokens.id_payload.sub,
     email: tokens.id_payload.email,
+    normalized: User.normalizeEmail(tokens.id_payload.email),
     hd: tokens.id_payload.hd,
     tokens: {
       id_token: tokens.id_token,
@@ -52,6 +53,7 @@ GoogleUser.newByTokens = function(tokens, oAuth, callback) {
     google: {
       id: tokens.id_payload.sub,
       email: tokens.id_payload.email,
+      normalized: User.normalizeEmail(tokens.id_payload.email),
       hd: tokens.id_payload.hd,
       tokens: {
         id_token: tokens.id_token,

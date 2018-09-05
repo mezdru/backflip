@@ -12,9 +12,14 @@ var EmailUser = {};
 
 //@todo look for user with a google email too
 EmailUser.getByEmail = function (email, callback) {
-  User.findOne({'email.value': email}).
+  User.findOne({'email.normalized': User.normalizeEmail(email)}).
   populate('orgsAndRecords.record').
   exec(callback);
+};
+
+EmailUser.makeNormalized = function(user, force) {
+  if (force) user.email.normalized = null;
+  user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
 };
 
 // @todo move to main model, we got a nasty bug because population was not the same
@@ -27,7 +32,8 @@ EmailUser.getByHash = function (hash, callback) {
 
 EmailUser.makeHash = function (user, force) {
   if (force) user.email.hash = null;
-  user.email.hash = user.email.hash || md5(user.email.value);
+  if (!user.email.normalized) EmailUser.makeNormalized(user);
+  user.email.hash = user.email.hash || md5(user.email.normalized);
 };
 
 EmailUser.newFromEmail = function (email) {
@@ -37,6 +43,7 @@ EmailUser.newFromEmail = function (email) {
 
 EmailUser.addStrategy = function(email, user, callback) {
   user.email.value = email;
+  EmailUser.makeNormalized(user);
   EmailUser.makeHash(user);
   if (callback) return user.save(callback);
   else return user;

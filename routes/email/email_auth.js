@@ -15,6 +15,7 @@ const { sanitizeBody } = require('express-validator/filter');
 router.post('/login',
   sanitizeBody('email').trim().normalizeEmail({
     gmail_remove_subaddress:false,
+    gmail_remove_dots: false,
     outlookdotcom_remove_subaddress:false,
     yahoo_remove_subaddress:false,
     icloud_remove_subaddress:false

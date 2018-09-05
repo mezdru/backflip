@@ -105,7 +105,7 @@ router.get('/user/:userEmail/setSenderEmail/:senderEmail', function(req, res, ne
 router.get('/user/list/:filter?/:sort?', function(req, res, next) {
   var sort = req.params.sort || '-created';
   User.find()
-  .select('created updated last_login last_action email.value google.email google.hd orgsAndRecords invitations')
+  .select('created updated last_login last_action email.value google.email google.value google.hd orgsAndRecords invitations')
   .sort(sort)
   .populate('orgsAndRecords.organisation', 'tag')
   .populate('invitations.organisation', 'tag')
@@ -364,16 +364,12 @@ router.get('/normalizeEmails', function(req, res, next) {
     if (err) return next(err);
     users.forEach(user => {
       if (undefsafe(user, 'email.value')) {
-        user.email.value = normalizeEmail(user.email.value,
-          {
-            gmail_remove_subaddress:false,
-            outlookdotcom_remove_subaddress:false,
-            yahoo_remove_subaddress:false,
-            icloud_remove_subaddress:false
-          }
-        );
+          EmailUser.makeNormalized(user, true);
           EmailUser.makeHash(user, true);
         }
+      if (undefsafe(user, 'google.email')) {
+        user.google.normalized = EmailUser.normalize(user.google.email);
+      }
     });
     User.create(users, function (err, users) {
       if (err) return next(err);
@@ -383,6 +379,48 @@ router.get('/normalizeEmails', function(req, res, next) {
         content: users
       });
     });
+  });
+});
+
+
+// I've overwritten all the emails like Clement.Dietschy@gmail.com with the normalized version clementdietschy@gmail.com
+// This is good to fix typos when users do CLEMENT.DIETSCHY@gmail.com
+// BUT Gmail displays "alias" like clementdietschy@gmail.com weirdly.
+// So, I loaded yesterday's backup of users into users_old, and we're retreiving the original emails.
+var Olduser = require('../models/olduser.js');
+
+router.get('/fixBigMistake', function(req, res, next) {
+  User.find({}, function(err, users) {
+    if(err) return next(err);
+    var emails = [];
+    users.forEach(user => {
+      Olduser.findById(user._id, function(err, olduser) {
+        if (err) return next(err);
+        if (olduser &&
+          undefsafe(user, 'email.value') &&
+          user.email.value !== olduser.email.value) {
+            emails.push({
+              _id: user._id,
+              value: user.email.value,
+              oldvalue: olduser.email.value
+            });
+            if (req.query.write) {
+              user.email.value = olduser.email.value;
+              user.save(function(err, user) {
+                if(err) return console.error(err);
+                console.log(`Saved ${user._id}`);
+              });
+            }
+        }
+      });
+    });
+    res.render('index',
+      {
+        title: 'Users list',
+        details: `${emails.length} users to rewrite`,
+        content: emails
+      }
+    );
   });
 });
 
