@@ -390,38 +390,45 @@ router.get('/normalizeEmails', function(req, res, next) {
 var Olduser = require('../models/olduser.js');
 
 router.get('/fixBigMistake', function(req, res, next) {
-  var changes = [];
+  var usersToBeUpdated = [];
+  var usersToBeUpdatedCounter = 0;
   User.find({}, function(err, users) {
     if(err) return next(err);
+    usersLength = users.length;
     users.forEach(user => {
       Olduser.findById(user._id, function(err, olduser) {
-        if (err) return next(err);
-        console.log(`Found ${olduser._id}`);
-        if (olduser &&
-          undefsafe(user, 'email.value') &&
-          user.email.value !== olduser.email.value) {
-            changes.push({
-              _id: user._id,
-              value: user.email.value,
-              oldvalue: olduser.email.value
-            });
-            if (req.query.write) {
-              user.email.value = olduser.email.value;
-              user.save(function(err, user) {
+        if (err) return console.error(err);
+        if (!olduser) {
+          console.log(`Not Found ${olduser._id}`);
+        } else if (!undefsafe(user, 'email.value')) {
+          //console.log(`No Email Auth for ${olduser._id}`);
+        } else if (user.email.value === olduser.email.value) {
+          //console.log(`Same value for ${olduser._id}`);
+        } else {
+          usersToBeUpdated.push({
+            _id: user._id,
+            value: user.email.value,
+            oldvalue: olduser.email.value
+          });
+          if (req.query.write) {
+            user.email.value = olduser.email.value;
+            user.save(function(err, user) {
                 if(err) return console.error(err);
-                console.log(`Saved ${user._id}`);
-              });
-            }
+                console.log(`SAVED ${user._id}`);
+            });
+          }
+        }
+        usersLength--;
+        if (usersLength === 0) {
+          res.render('index',
+          {
+            title: 'Users list',
+            details: `${usersToBeUpdated.length} users to rewrite`,
+            content: usersToBeUpdated
+          });
         }
       });
     });
-    res.render('index',
-      {
-        title: 'Users list',
-        details: `${changes.length} users to rewrite`,
-        content: changes
-      }
-    );
   });
 });
 
