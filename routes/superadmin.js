@@ -368,7 +368,7 @@ router.get('/normalizeEmails', function(req, res, next) {
           EmailUser.makeHash(user, true);
         }
       if (undefsafe(user, 'google.email')) {
-        user.google.normalized = EmailUser.normalize(user.google.email);
+        user.google.normalized = User.normalizeEmail(user.google.email);
       }
     });
     User.create(users, function (err, users) {
