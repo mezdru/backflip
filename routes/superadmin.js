@@ -390,9 +390,9 @@ router.get('/normalizeEmails', function(req, res, next) {
 var Olduser = require('../models/olduser.js');
 
 router.get('/fixBigMistake', function(req, res, next) {
+  var emails = [];
   User.find({}, function(err, users) {
     if(err) return next(err);
-    var emails = [];
     users.forEach(user => {
       Olduser.findById(user._id, function(err, olduser) {
         if (err) return next(err);
