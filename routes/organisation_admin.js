@@ -98,6 +98,8 @@ router.post('/', function(req, res, next) {
 
 router.all('/', function(req, res, next) {
   res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
+  res.locals.activeCodes = res.locals.organisation.codes.filter(code => res.locals.organisation.validateCode(code.value));
+  res.locals.activeCodes.forEach(activeCode => activeCode.link = UrlHelper.makeUrl(res.locals.organisation.tag, 'login', '?code='+activeCode.value, req.getLocale()));
   res.render('admin/organisation', { bodyClass: 'admin'});
 });
 

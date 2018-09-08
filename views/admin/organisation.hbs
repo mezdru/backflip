@@ -54,10 +54,38 @@
         </div>
       </div>
     </div>
+    {{#if activeCodes.length}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <h2>{{__ "Invitation Links"}}</h2>
+          <p>{{{__ "Share these links to invite people to join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to create a link</a>."}}}</p>
+          <table class="pure-table pure-table-horizontal">
+            <thead>
+              <tr>
+                <th>{{__ 'Link'}}</th>
+                <th>{{__ 'Expires'}}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {{#activeCodes}}
+              <tr>
+                  <td>{{link}}</td>
+                  <td>{{formatDate ends day="numeric" month="long" year="numeric"}}</td>
+              </tr>
+            {{/activeCodes}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {{/if}}
     <div class="pure-g">
       <div class="pure-u-1">
         <div class="grid-box">
           <h2>{{__ "Authorized Domains"}}</h2>
+          <p>{{{__ "People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>."}}}</p>
           <ul>
             <li>
               <strong>{{__ "Email Domains:"}}</strong>
@@ -76,7 +104,6 @@
               {{/if}}
             </li>
           </ul>
-          <p>{{{__ "People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>."}}}</p>
         </div>
       </div>
     </div>
