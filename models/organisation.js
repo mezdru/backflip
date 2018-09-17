@@ -179,7 +179,10 @@ organisationSchema.pre('save', function (next) {
 var slack = require('slack-notify')('https://hooks.slack.com/services/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');
 organisationSchema.post('save', function (organisation) {
   if (this.wasNew) {
-    slack.success(`We have a new organisation: *${organisation.tag}* _${organisation._id}_ created by _${organisation.creator}_`);
+    slack.send({
+      channel : (process.env.NODE_ENV === "production") ? "#alerts" : "#alerts-dev",
+      text : `We have a new organisation: *${organisation.tag}* _${organisation._id}_ created by _${organisation.creator}_`
+    });
   }
 });
 

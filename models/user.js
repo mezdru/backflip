@@ -283,7 +283,10 @@ var slack = require('slack-notify')('https://hooks.slack.com/services/T438ZEJE6/
 userSchema.methods.notifyNew = function() {
   var wingzies = 'no Wingzy yet';
   if (this.orgsAndRecords.length > 0) wingzies = this.orgsAndRecords.map(orgAndRecord => orgAndRecord.organisation.name).join(', ');
-  slack.note(`We have a new user: *${this.loginEmail}* _${this._id}_ in ${wingzies}`);
+  slack.send({
+    channel : (process.env.NODE_ENV === "production") ? "#alerts" : "#alerts-dev",
+    text : `We have a new user: *${this.loginEmail}* _${this._id}_ in ${wingzies}`
+  });
 };
 
 /*
