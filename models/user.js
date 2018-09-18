@@ -296,8 +296,9 @@ userSchema.methods.notifyNew = function() {
 var Hubspot = require('hubspot');
 var hubspot = new Hubspot({ apiKey: process.env.HUBSPOT_HAPIKEY});
 userSchema.methods.createHubspotContact = function() {
-  hubspot.contacts.create(
-    {properties: [{property: "email", value: this.loginEmail}, {property: "lifecycleStage",value: "lead"}]},
+  hubspot.contacts.createOrUpdate(
+    this.loginEmail,
+    {properties: [{property: "email", value: this.loginEmail}, {property: "lifecycleStage",value: "lead"}, {property: "reference", value:"Wingzy Website Sign-in"}]},
     function(err, results) {
       if (err) { 
         console.error(err);
