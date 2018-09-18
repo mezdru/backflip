@@ -105,7 +105,10 @@ userSchema.methods.getRecord = function(organisationId) {
 };
 
 userSchema.methods.touchLogin = function (callback) {
-  if (!this.last_login) this.notifyNew();
+  if (!this.last_login){
+    this.notifyNew();
+    this.createHubspotContact();
+  } 
   this.last_login = Date.now();
   this.save(callback);
 };
@@ -286,6 +289,20 @@ userSchema.methods.notifyNew = function() {
   slack.send({
     channel : (process.env.NODE_ENV === "production") ? "#alerts" : "#alerts-dev",
     text : `We have a new user: *${this.loginEmail}* _${this._id}_ in ${wingzies}`
+  });
+};
+
+// create Hubspot Contact on new user
+var Hubspot = require('hubspot');
+var hubspot = new Hubspot({ apiKey: process.env.HUBSPOT_HAPIKEY});
+userSchema.methods.createHubspotContact = function() {
+  hubspot.contacts.create(
+    {properties: [{property: "email", value: this.loginEmail}, {property: "lifecycleStage",value: "lead"}]},
+    function(err, results) {
+      if (err) { 
+        console.error(err);
+        slack.send({channel : "#errors-quentin", text : "createHubspotContact error : " + err});
+      }
   });
 };
 
