@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var Record = require('./record.js');
-var User = require('./user.js');
 var undefsafe = require('undefsafe');
 var randomstring = require('randomstring');
+
 
 var organisationSchema = mongoose.Schema({
   name: String,

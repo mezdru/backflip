@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var undefsafe = require('undefsafe');
 var Organisation = require('./organisation.js');
+var HubspotHelper = require('../helpers/hubspot_helper');
 
 var userSchema = mongoose.Schema({
   orgsAndRecords: [
@@ -107,7 +108,8 @@ userSchema.methods.getRecord = function(organisationId) {
 userSchema.methods.touchLogin = function (callback) {
   if (!this.last_login){
     this.notifyNew();
-    this.createHubspotContact();
+    //@todo modify logic to respect microservice pattern : this part should be listen modification on user
+    HubspotHelper.createOrUpdateContactStatus(this, "signin");
   } 
   this.last_login = Date.now();
   this.save(callback);
@@ -197,6 +199,10 @@ userSchema.methods.attachOrgAndRecord = function(organisation, record, callback)
   } else if (!orgAndRecord) {
     this.orgsAndRecords.push({organisation: organisation, record: record});
   }
+  // Update Hubspot status to indicate that the user has joined an org
+  //@todo modify logic to respect microservice pattern : this part should be listen modification on user
+  HubspotHelper.createOrUpdateContactStatus(this, "signinAndJoin");
+  HubspotHelper.updateContactWingzyList(this,organisation._id,false);
   if (callback) this.save(callback);
   else return this;
 };
@@ -208,11 +214,16 @@ userSchema.methods.detachOrg = function(organisationId, callback) {
   if (callback) this.save(callback);
 };
 
+// @Description make someone admin in an organisation.
 userSchema.methods.makeAdminToOrganisation = function(organisation, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisation._id);
   if (orgAndRecord) {
     orgAndRecord.admin = true;
   } else {
+    // Update Hubspot status to indicate that the user is an Admin
+    //@todo modify logic to respect microservice pattern : this part should be listen modification on user
+    HubspotHelper.createOrUpdateContactStatus(this, "signinAndAdmin");
+    HubspotHelper.updateContactWingzyList(this,organisation._id,true);
     this.orgsAndRecords.push({organisation: organisation, admin: true});
   }
   if (callback) this.save(callback);
@@ -292,20 +303,6 @@ userSchema.methods.notifyNew = function() {
   });
 };
 
-// create Hubspot Contact on new user
-var Hubspot = require('hubspot');
-var hubspot = new Hubspot({ apiKey: process.env.HUBSPOT_HAPIKEY});
-userSchema.methods.createHubspotContact = function() {
-  hubspot.contacts.createOrUpdate(
-    this.loginEmail,
-    {properties: [{property: "email", value: this.loginEmail}, {property: "lifecycleStage",value: "lead"}, {property: "reference", value:"Wingzy Website Sign-in"}]},
-    function(err, results) {
-      if (err) { 
-        console.error(err);
-        slack.send({channel : "#errors-quentin", text : "createHubspotContact error : " + err});
-      }
-  });
-};
 
 /*
 * We have submodels within User (oransiation, record...)
