@@ -176,6 +176,10 @@ userSchema.methods.getOrgAndRecord = function(organisationId) {
   return this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
 };
 
+userSchema.methods.getOrgAndRecordByRecord = function(recordId){
+  return this.orgsAndRecords.find(orgAndRecord => recordId.equals(getId(orgAndRecord.record)));
+}
+
 userSchema.methods.getFirstOrgTag = function() {
   return undefsafe(this, 'orgsAndRecords.0.organisation.tag');
 };

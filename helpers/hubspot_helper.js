@@ -27,7 +27,7 @@ class HubspotHelper {
             if (err) { 
                 HubspotHelper.printError(err, 28);
             }
-        });
+        });        
     }
 
     // @Description Update Wingzy Org List for which the user is linked.
@@ -43,7 +43,8 @@ class HubspotHelper {
                     hubspot.contacts.createOrUpdate(
                         this.userEmail,
                         {properties: [{property: "email", value: this.userEmail}, 
-                                      {property: this.orgListParam,value: this.prefixListOrg+currentOrg.tag+'.'+process.env.HOST }]},
+                                      {property: this.orgListParam,value: this.prefixListOrg+currentOrg.tag+'.'+process.env.HOST },
+                                      {property: 'lastname', value: HubspotHelper.getUserRecordName(user)}]},
                         function(err, results) {
                             if (err) { 
                                 HubspotHelper.printError(err, 48);
@@ -56,7 +57,6 @@ class HubspotHelper {
                 HubspotHelper.printError(err, 54);
             }
         });
-
     }
 
     // @Description Get Hubspot Contact data, fetch by email.
@@ -85,6 +85,15 @@ class HubspotHelper {
     static printError(err, line){
         console.error(FILENAME + ' - line:'+ line +' - '+ err);
         slack.send({channel : "#errors-quentin", text : FILENAME + 'line:'+line+ ' - ' + err});
+    }
+
+    static getUserRecordName(user){
+         for(let orgAndRecord of user.orgsAndRecords){
+             if(orgAndRecord.record !== null){
+                 return ((user.getOrgAndRecordByRecord(orgAndRecord.record)).record.name);
+             }
+         }
+         return null;
     }
 }
 
