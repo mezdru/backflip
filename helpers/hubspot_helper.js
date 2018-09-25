@@ -10,6 +10,7 @@ class HubspotHelper {
 
     // @Description Update status_wingzy_com in Hubspot Contact.
     static createOrUpdateContactStatus(user, action){
+        if(process.env.NODE_ENV !== "production") return;
         this.userEmail = HubspotHelper.getUserEmail(user);
         HubspotHelper.getContactByEmail(this.userEmail)
         .then((results) => {
@@ -32,6 +33,7 @@ class HubspotHelper {
 
     // @Description Update Wingzy Org List for which the user is linked.
     static updateContactWingzyList(user, organisationId, admin){
+        if(process.env.NODE_ENV !== "production") return;
         this.userEmail = HubspotHelper.getUserEmail(user);
         this.orgListParam = admin?'admin_wingzy_com':'org_wingzy_com';
         Organisation.findById(organisationId).exec()
@@ -61,6 +63,7 @@ class HubspotHelper {
 
     // @Description Get Hubspot Contact data, fetch by email.
     static getContactByEmail(email){
+        if(process.env.NODE_ENV !== "production") return;
         return new Promise((resolve, reject) => {
             hubspot.contacts.getByEmail(email, function( err, results){
                 if(err) resolve(null);
