@@ -15,7 +15,7 @@ var organisationSchema = mongoose.Schema({
   cover: {
     url: String,
   },
-  tag: {type: String, required: true, index: true, unique: true},
+  tag: {type: String, required: true, index: true, unique: true, set: cleanOrgTag},
   google: {
     hd: [String],
   },
@@ -41,6 +41,17 @@ var organisationSchema = mongoose.Schema({
   premium: { type: Boolean, default: false },
   canInvite: { type: Boolean, default: true }
 });
+
+/**
+ * @description SET tag : Replace UpperCase by LowerCase in tag value.
+ * @param {string} tag 
+ */
+function cleanOrgTag(tag){
+  if(typeof(tag) !== "undefined"){
+    return tag.toLowerCase();
+  }
+  return null;
+}
 
 organisationSchema.index({'google.hd': 1});
 organisationSchema.index({'email.domains': 1});
