@@ -82,9 +82,13 @@ $(document).ready(function () {
   var $hits = $('#search-results');
   var $showMore = $('#show-more');
   var $modalLayer = $('#modal-layer');
+  var $premium = $('#premium');
   var hashtagsTemplate = Hogan.compile($('#hashtags-template').text());
   var hitsTemplate = Hogan.compile($('#hits-template').text());
   var nooneTemplate = Hogan.compile($('#noone-template').text());
+
+  // Global variable
+  let currentEmailList = [];
 
   // Selectize
   var selectizeHashtags = '';
@@ -260,11 +264,15 @@ $(document).ready(function () {
   }
 
   function renderHits(content) {
+    currentEmailList = [];
     $showMore.fadeOut(fillSpeed);
     if (content.hits.length === 0) {
-      return $hits.html(nooneTemplate.render(content));
+      return $hits.html(nooneTemplate.render(content)); 
     }
-    content.hits.forEach(function(hit) { transformItem(hit, $selectize.items);});
+    content.hits.forEach(function(hit) { 
+      transformItem(hit, $selectize.items);
+      currentEmailList = addHitEmailsToTab(hit, currentEmailList);
+    });
     if (page === 0) {
       $hits.emptyFaded();
       if (canInvite) content.hits.splice(3, 0, {invitation:true});
@@ -304,6 +312,18 @@ $(document).ready(function () {
   $(document).on('mousedown', '.scroll-right', goRight);
   $(document).on('mousedown', '.scroll-left', goLeft);
 
+  // Display user's email on click after a search
+  $(document).on('click', '#copy-emails-feature-action', function(e){
+    $('#copy-emails-feature div').css('display', 'block');
+    let emails = $('#copy-emails-feature-popup-text');
+    emails.val(createEmailsList(currentEmailList));
+    emails.select();
+    document.execCommand('copy');
+  });
+  $(document).on('click','#copy-emails-feature-blackBack', function(e){
+    $('#copy-emails-feature div').css('display', 'none');
+  });
+
   // HELPERS
   // =======
   function toggleIconEmptyInput() {
@@ -315,5 +335,24 @@ $(document).ready(function () {
       $searchInputIcon.removeClass('fa-search');
       $searchInputIcon.addClass('fa-times');
     }
+  }
+
+  function createEmailsList(emails){
+    let text = '';
+    emails.forEach(function(email){
+      if(text === '')
+        text += email
+      else
+        text += ',\r\n'+email;
+    });
+    return text;
+  }
+  function addHitEmailsToTab(hit, tab){
+    hit.links.forEach(function(link){
+      if(link.type === 'email'){
+        tab.push(link.value);
+      }
+    });
+    return tab;
   }
 });
