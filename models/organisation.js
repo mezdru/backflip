@@ -38,6 +38,7 @@ var organisationSchema = mongoose.Schema({
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   public: { type: Boolean, default: false },
+  premium: { type: Boolean, default: false },
   canInvite: { type: Boolean, default: true }
 });
 

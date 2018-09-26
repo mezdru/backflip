@@ -1970,3 +1970,49 @@ color: #e6e6e6;
     .butterfly {background-image: url('/images/butterfly.png'); background-position: top left; height: 640px; top: 150px; bottom: auto;}
     .fresque {background-image: url('/images/home/epic.jpg'); width: 22vw; height: 100vw; bottom: 50px;}
 }
+
+@media screen and (max-width: 1024px) {
+  #hubspot-messages-iframe-container iframe {
+    visibility: hidden !important;
+  }
+}
+
+/* BANNER ON FREE */
+
+#banner_on_free {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: 30px;
+  background: #FFD700;
+  z-index: 100;
+  padding: 2px 0 40px ;
+  height: 100vh;
+}
+
+#banner_on_free:hover {
+  background-color: #E6BE00;
+}
+
+.banner {
+  color: #000000;
+  font-size: 2vh;
+  padding:  22px 0 40px;
+  max-height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.banner a {
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
+
+
