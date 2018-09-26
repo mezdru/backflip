@@ -192,5 +192,15 @@
 	"People who have an email or google account in these domain can join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to change them</a>.": "Les personnes qui ont un compte email ou google avec ces domaines peuvent rejoindre votre Wingzy. <a href='mailto:contact@wingzy.io'>Contactez-nous pour modifier cela</a>.",
 	"fa-clock-o": "fa-clock-o",
 	"Too late!": "Trop tard !",
-	"The invitation link you used does not work anymore. Please ask for another one.": "Le lien d'invitation que vous avez suivi ne fonctionne plus. Demandez-en un autre !"
+	"The invitation link you used does not work anymore. Please ask for another one.": "Le lien d'invitation que vous avez suivi ne fonctionne plus. Demandez-en un autre !",
+	"Invitation Links": "Liens d'invitation",
+	"Share these links to invite people to join your Wingzy. <a href='mailto:contact@wingzy.io'>Contact us to create a link</a>.": "Partagez ces liens pour inviter vos collègues sur votre Wingzy. <a href='mailto:contact@wingzy.io'>Contactez-nous pour créer un lien</a>.",
+	"Expires": "Expire",
+	"Please provide a valid tag.": "Zut, on a besoin d'une adresse valide pour le Wingzy",
+	"Start now !": "C'est parti !",
+	"Send an email to all !": "Envoyer un email à tou·tes",
+	"Premium": "Premium",
+	"Hop ! It's copied !": "Hop ! Emails copiés !",
+	"You only need to past into your email recipients ;)": "Les emails de vos collègues sont dans votre presse-papier, collez les adresses dans votre messagerie pour les contacter.",
+	"You are on a free Wingzy, you can only do 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "Vous êtes sur un Wingzy gratuit, vous ne pouvez faire que 1000 recherches par mois. Pour passer à Wingzy Premium, <a href='mailto:premium@wingzy.io'>contactez-nous</a> !"
 }
