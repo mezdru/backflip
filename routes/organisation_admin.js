@@ -86,7 +86,7 @@ router.post('/', function(req, res, next) {
   res.locals.organisation.name = req.body.name;
   res.locals.organisation.logo.url = req.body.logo.url;
   res.locals.organisation.cover.url = req.body.cover.url;
-  res.locals.organisation.canInvite = req.body.canInvite;
+  res.locals.organisation.canInvite = (req.body.canInvite) ? true : false;
   res.locals.organisation.style.css = req.body.css;
   if (errors.isEmpty()) {
     res.locals.organisation.save(function(err, organisation) {
