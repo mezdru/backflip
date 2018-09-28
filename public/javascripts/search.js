@@ -343,7 +343,7 @@ $(document).ready(function () {
       if(text === '')
         text += email
       else
-        text += ',\r\n'+email;
+        text += '\r\n'+email;
     });
     return text;
   }

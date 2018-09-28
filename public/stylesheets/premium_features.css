@@ -109,6 +109,15 @@
     right:0;
     margin:auto;
 }
+.disabled{
+    background: rgb(230,230,230);
+    border: none;
+    cursor: initial;
+}
+.disabled:hover{
+    background: rgb(230,230,230);
+    color:#E6BE00;
+}
 
 @media screen and (max-width: 1280px){
     #premium{
