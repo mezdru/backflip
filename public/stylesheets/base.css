@@ -211,6 +211,10 @@ a.cloud-element,
   box-shadow: 0 0 20px 1px rgb(220,220,220);
 }
 
+/* Call to action invite other */
+.invite-button:hover{
+  border-radius: 50px 10px;
+}
 /* FLASH */
 .flash {
   z-index: 200;
