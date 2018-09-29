@@ -11,13 +11,13 @@
         {{/if}}
         <h1>
           {{{record.name}}}
+          <a class="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button" title="{{{__ 'Edit profile'}}}"><img src="/wingzy_plume.png"/></a>
         </h1>
         {{#if record.intro}}
         <p id="intro">{{{record.intro}}}</p>
         {{/if}}
         {{#if canEdit}}
-        <p id="edit-buttons" class="hide">
-          <a id="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Edit profile"}}}</a>
+        <p id="edit-buttons">
           {{#if editEmojiUrl}}
             <a id="emoji-button" href="{{editEmojiUrl}}" class="pure-button scale back-button">{{{__ "Change Emoji"}}}</a>
           {{/if}}
@@ -27,9 +27,6 @@
           {{#if promoteUrl}}
             <a id="promote-button" href="{{promoteUrl}}" class="pure-button scale back-button">{{{__ "Make Public"}}}</a>
           {{/if}}
-          {{#if canDelete}}
-            <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button scale back-button">{{{__ "Delete profile"}}}</a>
-          {{/if}}
         </p>
         {{/if}}
       </div>
@@ -38,9 +35,12 @@
         {{> link}}
         {{/record.links}}
         {{#if canEdit}}
-        <a id="contacts-button" href="{{editUrl record._id organisation.tag 'links'}}" class="cloud-element link hide">
+        <a id="contacts-button" href="{{editUrl record._id organisation.tag 'links'}}" class="cloud-element link">
           <i class="fa fa-plus" aria-hidden="true"></i><span>{{__ "Add"}}</span>
         </a>
+        {{/if}}
+        {{#if canDelete}}
+           <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button back-button">{{{__ "Delete profile"}}}</a>
         {{/if}}
       </div>
     </div>
@@ -59,10 +59,14 @@
         <div class="grid-box about-box">
           <h2>
             {{#if editAboutUrl}}
-              <a id="about-button" href="{{editAboutUrl}}" class="pure-button scale back-button hide"><span>{{__ "Edit about me"}}</span></a>
+                <span>{{__ "About me"}}</span><a class="edit-button" href="{{editAboutUrl}}" class="pure-button scale back-button" title="{{{__ 'Edit about me'}}}"><img src="/wingzy_plume.png"/></a>
             {{/if}}
           </h2>
-          <p id="description">{{{nl2br record.description}}}</p>
+            {{#if record.description}}
+                <p id="description">{{{nl2br record.description}}}</p>
+            {{else}}
+                <p id="about_placehoolder">{{{__ "Who am I ..."}}}</p>
+            {{/if}}
         </div>
       </div>
     </div>
