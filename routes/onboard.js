@@ -13,7 +13,7 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var FullContact = require('../models/fullcontact/fullcontact.js');
 var LinkHelper = require('../helpers/link_helper.js');
-
+var ErrorsMonitoringHelper = require('../helpers/errors_monitoring_helper');
 
 router.use(function(req, res, next) {
   var query = null;
@@ -169,6 +169,34 @@ router.use(function(req, res, next) {
   var err = new Error('No record found');
   err.status = 400;
   return next(err);
+});
+
+/**
+ * @description populate fields in order to make it easy to create a second (or more) profil in another org.
+ */
+router.use(function(req, res, next){
+  if( (!(res.locals.record && req.query.first)) || (req.query.recordId) || res.locals.user.orgsAndRecords.length === 1) return next();
+
+  res.locals.user.findLatestRecord(res.locals.record._id).then(latestRecord=>{
+    Record.findById(latestRecord._id, latestRecord.organisation, function(err, sourceRecord){
+      if(err) return next();
+
+      // Prefill new record with source one.
+      var fieldsToUpdate = {name: sourceRecord.name, picture: sourceRecord.picture, links: sourceRecord.links, hashtags:sourceRecord.hashtags};
+      for (var attrname in fieldsToUpdate) { res.locals.record[attrname] = fieldsToUpdate[attrname]; }
+
+      // Inform user that record is prepopulate from older one.
+      Organisation.findById(sourceRecord.organisation).then(sourceOrganisation=>{
+        res.locals.errors = [{msg: 
+          req.__("Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!", 
+                                        {targetOrg: res.locals.organisation.name, sourceOrg:sourceOrganisation.name})}]; 
+        return next();
+      });
+    });
+  }).catch(error=>{
+    ErrorsMonitoringHelper.printError(error, 261, 'quentin', 'models/user.js');
+    return next();
+  });
 });
 
 router.use(function(req, res, next) {

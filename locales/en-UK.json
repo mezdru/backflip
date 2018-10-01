@@ -198,6 +198,7 @@
 	"Expires": "Expires",
 	"Please provide a valid tag.": "Please provide a valid tag.",
 	"You are on a free Wingzy, you can only do 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "You are on a free Wingzy, you can only do 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !",
+	"Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!": "Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!",
 	"About me": "About me",
 	"Who are you ...": "Who are you ...",
 	"Who am I ...": "Who am I ...",

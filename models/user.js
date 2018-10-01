@@ -246,6 +246,25 @@ userSchema.methods.getRecordTagByOrgId = function(organisationId) {
   else return undefsafe(orgAndRecord.record, 'tag');
 };
 
+userSchema.methods.populateRecords = function(){
+  return this.populate('orgsAndRecords.record').execPopulate();
+}
+
+/**
+ * @description find the latest used record of an user.
+ * @param {*} exeptRecordId optionnal
+ */
+userSchema.methods.findLatestRecord = function(exeptRecordId = ''){
+  if(exeptRecordId !== '') exeptRecordId = mongoose.Types.ObjectId(exeptRecordId);
+  return new Promise((resolve, reject)=>{
+    this.populateRecords().then(user=>{
+      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId)  
+                      && (currentRecord.record.updated.getTime() > minRecord.record.updated.getTime())) ? currentRecord : minRecord;
+      resolve(user.orgsAndRecords.reduce(reducer).record);
+    }).catch(error=>reject(error));
+  });
+}
+
 userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
 };
