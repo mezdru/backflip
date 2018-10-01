@@ -1,35 +1,42 @@
-<div id="premium">
-  <div class="pure-menu pure-menu-horizontal">
-    <ul class="">
-      <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-        <a title={{#if organisation.premium}}"{{{__ "Premium"}}}"{{else}}"{{{__ "Contact us to go Premium !"}}}"{{/if}} class="premium-btn">{{{__ "Premium"}}}</a>
-        <ul class="premium-btn-children">
-          {{#if organisation.premium}}
-          <li class="premium-btn-children-item" id="copy-emails-feature-action">
-            {{{__ "Send an email to all !"}}}
-          </li>
-          {{else}}
-            <li class="premium-btn-children-item disabled" title="{{{__ "Contact us to go Premium !"}}}">
-              {{{__ "Send an email to all !"}}}<br/>
-            </li>
-          {{/if}}
-        </ul>
-      </li>
-    </ul>
-  </div>
-</div>
+{{#if showPremium}}
+  <div id="premium">
+    <div class="pure-menu pure-menu-horizontal">
+      <ul class="">
+        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
 
-{{#if organisation.premium}}
-<div id="copy-emails-feature">
-    <div class="message-popup">
-        <div class="message-popup-logo"><img src="/wingzy.png" alt="Wingzy"/></div>
-        <div class="message-popup-title">
-          <h2>{{{__ "Hop ! It's copied !"}}}</h2>
-          <h3>{{{__ "You only need to past into your email recipients ;)"}}}</h3>
-        </div>
-        
-        <textarea class="message-popup-text" id="copy-emails-feature-popup-text"  rows="3" readonly>{{{emailList}}}</textarea>
+          {{#if usePremiumFeatures}}
+            <a title="{{{__ "Premium"}}}" class="premium-btn">{{{__ "Premium"}}}</a>
+            <ul class="premium-btn-children">
+              <li class="premium-btn-children-item" id="copy-emails-feature-action">
+                {{{__ "Send an email to all !"}}}
+              </li>
+            </ul>
+          {{else}}
+            <a title="{{{__ "Contact us to go Premium !"}}}" class="premium-btn">{{{__ "Premium"}}}</a>
+            <ul class="premium-btn-children">
+              <li class="premium-btn-children-item disabled" title="{{{__ "Contact us to go Premium !"}}}">
+                {{{__ "Send an email to all !"}}}
+              </li>
+            </ul>
+          {{/if}}
+
+        </li>
+      </ul>
     </div>
-    <div class="message-popup-blackBack" id="copy-emails-feature-blackBack"></div>
-</div>
+  </div>
+
+  {{#if usePremiumFeatures}}
+    <div id="copy-emails-feature">
+        <div class="message-popup">
+            <div class="message-popup-logo"><img src="/wingzy.png" alt="Wingzy"/></div>
+            <div class="message-popup-title">
+              <h2>{{{__ "Hop ! It's copied !"}}}</h2>
+              <h3>{{{__ "You only need to past into your email recipients ;)"}}}</h3>
+            </div>
+            
+            <textarea class="message-popup-text" id="copy-emails-feature-popup-text"  rows="3" readonly>{{{emailList}}}</textarea>
+        </div>
+        <div class="message-popup-blackBack" id="copy-emails-feature-blackBack"></div>
+    </div>
+  {{/if}}
 {{/if}}

@@ -20,6 +20,8 @@ router.use(function(req, res, next) {
 
 // Check if the user can access the organisation
 router.use(function(req, res, next) {
+  res.locals.showPremium = (res.locals.organisation && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id));
+  res.locals.usePremiumFeatures = (res.locals.showPremium && (res.locals.user.isSuperAdmin() || res.locals.organisation.premium));
   if (res.locals.organisation && res.locals.organisation.public === true) return next();
   if (res.locals.user.isSuperAdmin()) return next();
   if (res.locals.organisation) {
