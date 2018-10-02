@@ -1600,13 +1600,15 @@ color: #e6e6e6;
 }
 
 .grid-box-signin .pure-button.google-signin {
-  background: #dd362e;
+  background: #ffffff;
+  color: #777;
+  border: 2px solid #777;
+  padding: 13px;
 }
 
-.google-signin .fa {
+.google-signin img {
   float: left;
-  font-size: 30px;
-  color: #ffffff;
+  height: 30px;
 }
 
 .bottom-buttons  {
@@ -2057,7 +2059,3 @@ color: #e6e6e6;
   font-weight: bold;
   text-decoration: none;
 }
-
-
-
-
