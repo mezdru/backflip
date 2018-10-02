@@ -1027,20 +1027,22 @@ a.cloud-element:hover,
 .profile .edit-button img {
   width: 30px;
   padding-left: 5px;
+  transition: transform .2s ;
 }
 
 .profile .edit-button img:hover {
-
+  transform: scale(1.2);
 }
 
 .profile #delete-button{
-  position: absolute;
   text-align: left;
   font-size: 15px;
   bottom: 0;
   padding-bottom: 0;
   left: 5px;
+  margin-top: 30px;
 }
+
 .profile #cover-button-left,
 .profile #cover-button,
 .profile #about-button,
@@ -1865,6 +1867,11 @@ color: #e6e6e6;
 
   .profile h1 {
     font-size: 30px;
+  }
+
+  .profile #delete-button{
+    position: absolute;
+    margin-top: 30px;
   }
 
   .profile .left-panel {

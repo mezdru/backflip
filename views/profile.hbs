@@ -11,7 +11,7 @@
         {{/if}}
         <h1>
           {{{record.name}}}
-          <a class="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button" title="{{{__ 'Edit profile'}}}"><img src="/wingzy_plume.png"/></a>
+          <a class="edit-button" href="{{editUrl record._id organisation.tag}}" class="pure-button scale back-button" title="{{{__ 'Edit profile'}}}"><img src="/plume.png"/></a>
         </h1>
         {{#if record.intro}}
         <p id="intro">{{{record.intro}}}</p>
@@ -40,7 +40,7 @@
         </a>
         {{/if}}
         {{#if canDelete}}
-           <a id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button back-button">{{{__ "Delete profile"}}}</a>
+           <a  onclick="delete_alert()" id="delete-button" href="{{deleteUrl record._id organisation.tag}}" class="pure-button back-button">{{{__ "Delete profile"}}}</a>
         {{/if}}
       </div>
     </div>
@@ -59,7 +59,7 @@
         <div class="grid-box about-box">
           <h2>
             {{#if editAboutUrl}}
-                <span>{{__ "About me"}}</span><a class="edit-button" href="{{editAboutUrl}}" class="pure-button scale back-button" title="{{{__ 'Edit about me'}}}"><img src="/wingzy_plume.png"/></a>
+                <span>{{__ "About me"}}</span><a class="edit-button" href="{{editAboutUrl}}" class="pure-button scale back-button" title="{{{__ 'Edit about me'}}}"><img src="/plume.png"/></a>
             {{/if}}
           </h2>
             {{#if record.description}}
@@ -79,4 +79,7 @@
       return twemoji.parse($(this).text().trim(), {ext: '.svg', folder: 'svg',});
     }
   );
+  var delete_alert = function () {
+    window.alert("{{{__ "Do you really want to delete this awesome profile ?"}}}")
+  }
 </script>
