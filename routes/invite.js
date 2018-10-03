@@ -24,7 +24,7 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next) {
   res.locals.formAction = UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale());
   res.locals.skipUrl = UrlHelper.makeUrl(res.locals.organisation.tag, null, null, req.getLocale());
-  res.locals.textPlaceholder = res.__("Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)", 
+  res.locals.textPlaceholder = res.__("Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)",
                         res.locals.organisation.name);
   return next();
 });
@@ -41,7 +41,7 @@ router.post('/', function(req, res, next){
 router.post('/',
   body('emails').isEmail().withMessage((value, {req}) => {
     return req.__('{{email}} does not seem right, could you try again please?', {email: value});
-  }),
+  })
 );
 
 router.post('/', function(req, res, next) {
@@ -63,7 +63,7 @@ router.post('/', function(req, res, next) {
           }
           user.attachOrgAndRecord(res.locals.organisation, null, function(err, user) {
             if (err) return next(err);
-            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, 
+            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation,
             req.body.customMessage.length > CUSTOM_MESSAGE_LENGTH_MIN ? req.body.customMessage : null, res, function(err, user) {
               if (err) return next(err);
               res.locals.successes.push(
