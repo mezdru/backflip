@@ -8,6 +8,7 @@ const { sanitizeBody } = require('express-validator/filter');
 var User = require('../../models/user.js');
 var Record = require('../../models/record.js');
 var EmailUser = require('../../models/email/email_user.js');
+var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper.js');
 
 
@@ -114,49 +115,77 @@ router.get('/list/:sort?', function(req, res, next) {
   });
 });
 
-//@todo only works for email users because the email logic is bound to the email auth at the moment
-router.get('/monthly/:action?', function(req, res, next) {
+router.all('/email/spread', function(req, res, next) {
+  res.locals.spreadAction = UrlHelper.makeUrl(req.organisationTag, 'admin/user/email/spread/', null, req.getLocale());
+  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, 'admin/', null, req.getLocale());
+  next();
+});
+
+router.all('/email/spread', function(req, res, next) {
   User.find({
-    'orgsAndRecords.organisation': res.locals.organisation._id,
-    //@todo this next line should not be, this logic should work for all login strategies, plus it responds a false count
-    'email.value': {$exists: true}
+    'orgsAndRecords.organisation': res.locals.organisation._id
     })
-  .sort({date: -1})
   .populate('orgsAndRecords.record')
   .exec(function(err, users) {
     if (err) return next(err);
-    var extractLength = 0;
-    var senderRecordId = res.locals.user.getRecordIdByOrgId(res.locals.organisation._id);
-    var records = users
-      .map(user => user.orgsAndRecords.find(orgAndRecord => res.locals.organisation._id.equals(orgAndRecord.organisation)).record)
-      .filter(record => record &&
-        !record._id.equals(senderRecordId) &&
-        record.description.length > 36 &&
-        extractLength++ < 3 );
-    res.render('emails/monthly_extract', {layout: false, records: records}, function(err, html) {
-      if (req.params.action !== 'send') users = [res.locals.user];
-      users.
-      forEach(user => EmailUser.sendMonthlyEmail(
-        user,
-        res.locals.user,
-        res.locals.organisation,
-        users.length,
-        html,
-        res,
-        function(err, user) {
-          if (err) return next(err);
-          return console.log(`MONTHLY ${res.locals.user.loginEmail} <${res.locals.user._id}> sent the monthly email to ${user.loginEmail} <${user._id}> from ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
-        }
-      ));
-      return res.render('index',
-        {
-          title: 'Monthly',
-          details: `Sending ${users.length} emails in ${res.locals.organisation.name}.`,
-          content: users.map(user => user.loginEmail)
-        }
-      );
-    });
+    res.locals.recipientUsers = users;
+    res.locals.recipientsUsersRecords = res.locals.recipientUsers
+      .map(user => user.getRecord(res.locals.organisation._id))
+      .filter(record => record && record != {});
+    return next();
   });
 });
+
+
+
+router.post('/email/spread',
+  sanitizeBody('text').trim().escape().stripLow(true)
+);
+
+router.post('/email/spread',
+  body('text').isLength({ max: 1280 }).withMessage((value, {req}) => {
+    return req.__('{{field}} Cannot be longer than {{length}} characters', {field: 'Text', length: 1280});
+  })
+);
+
+router.post('/email/spread', function(req, res, next) {
+  var errors = validationResult(req);
+  res.locals.errors = errors.array();
+  if (errors.isEmpty()) {
+    res.locals.recipientUsers.forEach(user => EmailHelper.public.emailSpread(
+      user.getName(res.locals.organisation._id).split(' ')[0],
+      user.loginEmail,
+      res.locals.user.getName(res.locals.organisation._id),
+      res.locals.user.loginEmail,
+      res.locals.organisation.name,
+      UrlHelper.makeUrl(res.locals.organisation.tag, 'invite'),
+      req.body.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2'),
+      res
+    ));
+    return res.render('index',
+      {
+        title: req.__('Sent'),
+        details: req.__('The email was sent to {{recipientsCount}} people', {recipientsCount: res.locals.recipientUsers.length}),
+        content: res.locals.recipientUsers.map(user => user.loginEmail)
+      }
+    );
+  }
+});
+
+//@todo only works for email users because the email logic is bound to the email auth at the moment
+router.get('/email/spread', function(req, res, next) {
+    return res.render('admin/user_email_spread',
+      {
+        text: req.__(
+          "Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...",
+          {
+            organisationName: res.locals.organisation.name,
+            recordsCount: res.locals.recipientsUsersRecords.length,
+          }),
+        recipients: res.locals.recipientUsers.map(user => user.loginEmail)
+      }
+    );
+});
+
 
 module.exports = router;

@@ -53,7 +53,6 @@ router.use(function(req, res, next) {
   res.locals.aboutAction = UrlHelper.makeUrl(req.organisationTag, 'about/id/'+res.locals.record._id, null, req.getLocale());
   res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, 'profile/'+res.locals.record.tag, null, req.getLocale());
   res.locals.coverUrl = undefsafe(res.locals.record, 'cover.url') || undefsafe(res.locals.organisation, 'cover.url') || true;
-  console.log(res.locals.coverUrl);
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   return next();
 });
