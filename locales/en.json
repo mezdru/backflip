@@ -198,6 +198,7 @@
 	"Expires": "Expires",
 	"Please provide a valid tag.": "Damn, we need a valid address for your Wingzy",
 	"You are on a free Wingzy, you can only do 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "You are on a free Wingzy, you can only do 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !",
+	"Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!": "Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!",
 	"About me": "About me",
 	"Who are you ...": "Who you are...",
 	"Who am I ...": "Who I am...",
@@ -206,5 +207,17 @@
 	"Premium": "Premium",
 	"Hop ! It's copied !": "Great! Emails copied!",
 	"You only need to past into your email recipients ;)": "The emails of your coworkers are in your clipboard, paste these addresses in your mailbox to contact them.",
-	"Contact us to go Premium !": "Contact us to go Premium!"
+	"Contact us to go Premium !": "Contact us to go Premium!",
+	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile?",
+	"Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...": "Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...",
+	"Spread your Wingzy": "Spread your Wingzy",
+	"This email will be sent to %s people": "This email will be sent to %s people",
+	"Send %s emails": "Send %s emails",
+	"Sent": "Sent",
+	"The email was sent to {{recipientsCount}} people": "The email was sent to {{recipientsCount}} people",
+	"{{field}} Cannot be longer than {{length}} characters": "{{field}} Cannot be longer than {{length}} characters",
+	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)": "Hello!\n \nI am on the Wingzy for %s, the app to find each other through our Wings: our talents, skills and passions.\n\nIt's fast & easy, if you got 3 minutes, you should spread your Wings with us!\n \n ",
+	"(Optional) Personalise your email.": "Your invitation",
+	"Invite a coworker to join your Wingzy !": "Invite to join Wingzy",
+	"{{email}} does not seem right, could you try again please?": "{{email}} does not seem right, could you try again please?"
 }

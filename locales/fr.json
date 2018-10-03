@@ -198,6 +198,8 @@
 	"Expires": "Expire",
 	"Please provide a valid tag.": "Zut, on a besoin d'une adresse valide pour le Wingzy",
 	"You are on a free Wingzy, you can only do 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "Vous êtes sur un Wingzy gratuit, vous ne pouvez faire que 1000 recherches par mois. Pour passer à Wingzy Premium, <a href='mailto:premium@wingzy.io'>contactez-nous</a> !",
+	"Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!": "Bonjour, pour vous aider à créer votre profile dans {{targetOrg}}, nous venons de copier quelques infos depuis votre profile dans {{sourceOrg}}. N'hésitez pas à les modifier !",
+
 	"About me": "À propos de moi",
 	"Who are you ...": "Qui tu es...",
 	"Who am I ...": "Qui je suis...",
@@ -206,5 +208,17 @@
 	"Premium": "Premium",
 	"Hop ! It's copied !": "Hop ! Emails copiés !",
 	"You only need to past into your email recipients ;)": "Les emails de vos collègues sont dans votre presse-papier, collez les adresses dans votre messagerie pour les contacter.",
-	"Contact us to go Premium !": "Contactez-nous pour passer Premium !"
+	"Contact us to go Premium !": "Contactez-nous pour passer Premium !",
+	"Do you really want to delete this awesome profile ?": "Voulez-vous vraiment supprimer ce superbe profil ?",
+	"Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...": "Chèr·e Ambassadeur·drice,\n\nVous êtes déjà {{recordsCount}} sur le Wingzy de {{organisationName}}.\n\nPourquoi ne pas inviter plus de membres de {{organisationName}} à déployer leurs ailes ? Plus vous êtes sur Wingzy, le plus utile elle devient... ",
+	"Spread your Wingzy": "Déployez votre Wingzy",
+	"This email will be sent to %s people": "Cet email sera envoyé à %s personnes",
+	"Send %s emails": "Envoyer %s emails",
+	"Sent": "Envoyé",
+	"The email was sent to {{recipientsCount}} people": "Cet email a été envoyé à {{recipientsCount}} personnes",
+	"{{field}} Cannot be longer than {{length}} characters": "{{field}} ne peut pas être plus long que {{length}} caractères",
+	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)": "Bonjour ! \n\nJe suis sur le Wingzy de %s, l'app pour se trouver à travers nos Wings : nos talents, compétences et passions.\n\nC'est simple et rapide, si tu as 3 minutes, viens déployer tes ailes !",
+	"(Optional) Personalise your email.": "Votre invitation",
+	"Invite a coworker to join your Wingzy !": "Inviter à rejoindre votre Wingzy",
+	"{{email}} does not seem right, could you try again please?": "L'adresse {{email}} n'a pas l'air juste, pouvez-vous réessayer ?"
 }
