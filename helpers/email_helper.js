@@ -76,7 +76,7 @@ var EmailHelper = {
           console.log(err);
         });
     },
-    emailInvite: function(email, senderName, senderEmail, organisationName, url, res) {
+    emailInvite: function(email, senderName, senderEmail, organisationName, customMessage, url, res) {
       const request = mailjet
         .post("send")
         .request({
@@ -89,8 +89,8 @@ var EmailHelper = {
             { "Email": email }
           ],
           "Vars": {
-            "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, an intuitive app to find each other according to what we love and know.", organisationName),
-            "inviterName": senderName || defaultEmitterName,
+            "intro": customMessage ? customMessage : res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, an intuitive app to find each other according to what we love and know.", organisationName),
+            "inviterName": (senderName || defaultEmitterName) +' ('+organisationName+')',
             "button": res.__("Spread your wings"),
             "url": url || defaultLink,
             "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")

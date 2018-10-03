@@ -175,7 +175,7 @@ router.post('/:context/:recordId?', function(req, res, next) {
               err.status = 500;
               return next(err);
             }
-            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
+            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, null, res, function(err, user) {
               if (err) return next(err);
               console.log(`INVITE ${res.locals.user.google.email || res.locals.user.email.value} <${res.locals.user._id}> invited ${user.email.value} <${user._id}> in ${res.locals.organisation.tag} <${res.locals.organisation._id}>`);
               return res.redirect(new UrlHelper(req.organisationTag, null, null, req.getLocale()).getUrl());

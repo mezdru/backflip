@@ -77,7 +77,7 @@ EmailUser.tooSoon = function (user, callback) {
 };
 
 //@todo fails if user.orgsAndRecords not populated
-EmailUser.sendInviteEmail = function (user, sender, organisation, res, callback) {
+EmailUser.sendInviteEmail = function (user, sender, organisation, customMessage = null, res, callback) {
   user.addInvitation(organisation, sender);
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
@@ -86,6 +86,7 @@ EmailUser.sendInviteEmail = function (user, sender, organisation, res, callback)
       sender.getName(organisation._id),
       sender.senderEmail,
       organisation.name,
+      customMessage,
       EmailUser.getLoginUrl(user, organisation, res.getLocale()),
       res);
     return callback(null, user);

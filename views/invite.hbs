@@ -12,10 +12,10 @@
         <div class="grid-box">
           {{> form_successes}}
           {{> form_errors}}
-          <label for="email">{{__ "You can invite up to 3 people on Wingzy"}}</label>
-          <input id="email" name="emails[0]" type="email" class="pure-input-1" placeholder="simone@{{organisation.domain}}" value="{{emails.[0]}}">
-          <input name="emails[1]" type="email" class="pure-input-1" placeholder="jeanne@{{organisation.domain}}" value="{{emails.[1]}}">
-          <input name="emails[2]" type="email" class="pure-input-1" placeholder="martine@{{organisation.domain}}" value="{{emails.[2]}}">
+          <label for="email">{{__ "Invite a coworker to join your Wingzy !"}}</label>
+          <input id="email" name="emails[0]" type="text" class="pure-input-1" placeholder="simone@{{organisation.domain}}, michel@{{organisation.domain}}" value="{{emails.[0]}}">
+          <label for="email">{{__ "(Optional) Personalise your email."}}</label>
+          <textarea name="customMessage" class="pure-input-1" rows="8" value="{{emailsCustomMessage}}" minlength="10">{{textPlaceholder}}</textarea>
         </div>
       </div>
     </div>

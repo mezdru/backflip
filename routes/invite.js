@@ -10,6 +10,9 @@ var Record = require('../models/record.js');
 var EmailUser = require('../models/email/email_user.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
+// global const
+const CUSTOM_MESSAGE_LENGTH_MIN = 10; //min size of a custom invitation message.
+
 router.use(function(req, res, next) {
   if (res.locals.organisation.canInvite || res.locals.user.isAdminToOrganisation(res.locals.organisation._id) || res.locals.user.isSuperAdmin()) return next();
 
@@ -21,23 +24,24 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next) {
   res.locals.formAction = UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale());
   res.locals.skipUrl = UrlHelper.makeUrl(res.locals.organisation.tag, null, null, req.getLocale());
+  res.locals.textPlaceholder = res.__("Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)", 
+                        res.locals.organisation.name);
   return next();
 });
 
 router.post('/',
   sanitizeBody('emails').trim().escape().stripLow(true)
 );
+router.post('/', function(req, res, next){
+  req.body.emails = req.body.emails[0].split(',');
+  return next();
+});
 
+//@todo validate the array of emails, not only the first one.
 router.post('/',
-  body('emails.0').isEmail().withMessage((value, {req}) => {
+  body('emails').isEmail().withMessage((value, {req}) => {
     return req.__('{{email}} does not seem right, could you try again please?', {email: value});
   }),
-  body('emails.1').isEmail().optional({checkFalsy:true}).withMessage((value, {req}) => {
-    return req.__('{{email}} does not seem right, could you try again please?', {email: value});
-  }),
-  body('emails.2').isEmail().optional({checkFalsy:true}).withMessage((value, {req}) => {
-    return req.__('{{email}} does not seem right, could you try again please?', {email: value});
-  })
 );
 
 router.post('/', function(req, res, next) {
@@ -46,6 +50,7 @@ router.post('/', function(req, res, next) {
   if (errors.isEmpty()) {
     var count = 0;
     res.locals.successes = [];
+    req.body.customMessage = req.body.customMessage.replace(/\r\n|\r|\n/g, '<br/>');
     req.body.emails.forEach(email => {
       if (email) {
         User.findOneByEmail(email, function(err, user) {
@@ -58,7 +63,8 @@ router.post('/', function(req, res, next) {
           }
           user.attachOrgAndRecord(res.locals.organisation, null, function(err, user) {
             if (err) return next(err);
-            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, res, function(err, user) {
+            EmailUser.sendInviteEmail(user, res.locals.user, res.locals.organisation, 
+            req.body.customMessage.length > CUSTOM_MESSAGE_LENGTH_MIN ? req.body.customMessage : null, res, function(err, user) {
               if (err) return next(err);
               res.locals.successes.push(
                 {
