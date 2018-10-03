@@ -174,7 +174,7 @@ router.use(function(req, res, next) {
 /**
  * @description populate fields in order to make it easy to create a second (or more) profil in another org.
  */
-router.use(function(req, res, next){
+router.use('intro', function(req, res, next){
   if( (!(res.locals.record && req.query.first)) || (req.query.recordId) || res.locals.user.orgsAndRecords.length === 1) return next();
 
   res.locals.user.findLatestRecord(res.locals.record._id).then(latestRecord=>{
