@@ -208,7 +208,9 @@
 	"Hop ! It's copied !": "Hop ! It's copied !",
 	"You only need to past into your email recipients ;)": "You only need to past into your email recipients ;)",
 	"Contact us to go Premium !": "Contact us to go Premium !",
-	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile ?",
+	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.",
+	"Invite a coworker to join your Wingzy": "Invite a coworker to join your Wingzy",
+	"(Optional) Personalise your email": "(Optional) Personalise your email",
 	"Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...": "Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...",
 	"Spread your Wingzy": "Spread your Wingzy",
 	"This email will be sent to %s people": "This email will be sent to %s people",
@@ -216,9 +218,6 @@
 	"Sent": "Sent",
 	"The email was sent to {{recipientsCount}} people": "The email was sent to {{recipientsCount}} people",
 	"{{field}} Cannot be longer than {{length}} characters": "{{field}} Cannot be longer than {{length}} characters",
-	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)": "Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)",
-	"(Optional) Personalise your email.": "(Optional) Personalise your email.",
-	"Invite a coworker to join your Wingzy !": "Invite a coworker to join your Wingzy !",
 	"{{email}} does not seem right, could you try again please?": "{{email}} does not seem right, could you try again please?",
 	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile ?"
 }

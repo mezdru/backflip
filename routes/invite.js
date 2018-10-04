@@ -24,7 +24,7 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next) {
   res.locals.formAction = UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale());
   res.locals.skipUrl = UrlHelper.makeUrl(res.locals.organisation.tag, null, null, req.getLocale());
-  res.locals.textPlaceholder = res.__("Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)",
+  res.locals.textPlaceholder = res.__("Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.", 
                         res.locals.organisation.name);
   return next();
 });
