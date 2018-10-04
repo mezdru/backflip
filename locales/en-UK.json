@@ -219,5 +219,6 @@
 	"The email was sent to {{recipientsCount}} people": "The email was sent to {{recipientsCount}} people",
 	"{{field}} Cannot be longer than {{length}} characters": "{{field}} Cannot be longer than {{length}} characters",
 	"{{email}} does not seem right, could you try again please?": "{{email}} does not seem right, could you try again please?",
-	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile ?"
+	"Make featured wings family": "Make featured wings family",
+	"Remove from featured wings family": "Remove from featured wings family"
 }

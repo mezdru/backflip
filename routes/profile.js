@@ -101,6 +101,15 @@ router.get('*', function(req, res, next) {
   next();
 });
 
+router.get('*', function(req, res, next){
+  if(res.locals.record.type=== 'hashtag' && res.locals.user.isSuperAdmin){
+    let isIn =  res.locals.organisation.isInFeaturedWingsFamily(res.locals.record._id);
+    res.locals.makeFeaturedWingsFamilyUrl= isIn ?null: UrlHelper.makeUrl(req.organisationTag, 'superadmin/record/make/featuredWingsFamily/'+res.locals.record._id, null, req.getLocale());
+    res.locals.demakeFeaturedWingsFamilyUrl= isIn? UrlHelper.makeUrl(req.organisationTag, 'superadmin/record/demake/featuredWingsFamily/'+res.locals.record._id, null, req.getLocale()):null;
+  }
+  next();
+});
+
 router.get('*', function(req, res, next) {
   if (req.query.json) {
     return res.json(res.locals.record);

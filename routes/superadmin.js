@@ -344,6 +344,34 @@ router.get('/record/promote/:id', function(req, res, next) {
     });
   });
 });
+router.get('/record/make/featuredWingsFamily/:id', function(req, res, next){
+  if (!res.locals.organisation) {
+    let error = new Error('organisation required');
+    error.status = 400;
+    return next(error);
+  }
+  res.locals.organisation.addFeaturedWingsFamily(req.params.id).then((record)=>{
+    res.render('index',
+        {
+          title: 'Record made featuredWings family',
+          content: record
+        });
+  }).catch(err=> {return next(err);});
+});
+router.get('/record/demake/featuredWingsFamily/:id', function(req, res, next){
+  if (!res.locals.organisation) {
+    let error = new Error('organisation required');
+    error.status = 400;
+    return next(error);
+  }
+  res.locals.organisation.removeFeaturedWingsFamily(req.params.id).then((record)=>{
+    res.render('index',
+        {
+          title: 'Record demade featuredWings family',
+          content: record
+        });
+  }).catch(err=> {return next(err);});
+});
 
 router.get('/application/list', function(req, res, next) {
   Application.find().sort('-created').exec(function(err, applications) {

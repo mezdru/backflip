@@ -27,6 +27,12 @@
           {{#if promoteUrl}}
             <a id="promote-button" href="{{promoteUrl}}" class="pure-button scale back-button">{{{__ "Make Public"}}}</a>
           {{/if}}
+          {{#if makeFeaturedWingsFamilyUrl}}
+            <a  href="{{makeFeaturedWingsFamilyUrl}}" class="pure-button scale back-button">{{{__ "Make featured wings family"}}}</a>
+          {{/if}}
+          {{#if demakeFeaturedWingsFamilyUrl}}
+            <a  href="{{demakeFeaturedWingsFamilyUrl}}" class="pure-button scale back-button">{{{__ "Remove from featured wings family"}}}</a>
+          {{/if}}
         </p>
         {{/if}}
       </div>

@@ -170,6 +170,19 @@ organisationSchema.methods.populateFirstWings = function(){
   return this.populate('featuredWingsFamily', '_id tag name intro').execPopulate();
 }
 
+organisationSchema.methods.addFeaturedWingsFamily = function(recordId){
+  this.featuredWingsFamily.some(record=> record.equals(recordId)) ? '' : this.featuredWingsFamily.push(recordId);;
+  return this.save();
+}
+organisationSchema.methods.removeFeaturedWingsFamily = function(recordId){
+  this.featuredWingsFamily.some(record=> record.equals(recordId)) ? this.featuredWingsFamily.splice(this.featuredWingsFamily.indexOf(recordId), 1) : '';
+  return this.save();
+}
+
+organisationSchema.methods.isInFeaturedWingsFamily = function(recordId){
+  return this.featuredWingsFamily.some(record=> record.equals(recordId));
+}
+
 organisationSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
 };
