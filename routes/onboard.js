@@ -236,15 +236,41 @@ router.use(function(req, res, next) {
   next();
 });
 
-//@todo I'm pretty sure we could fetch the wings from Algolia and it would work like a charm.
-router.all('/intro', Organisation.getTheWings);
+/**
+ * @description Get all the featuredWings records add by the org admin.
+ */
+router.all('/intro', function(req, res, next){
+  res.locals.organisation.getFeaturedWingsRecords().then(records=>{
+    res.locals.featuredWings = records;
+    return next();
+  }).catch(error=>{return next(error);});
+});
 
+
+/**
+ * @description Checked the wings for which the user had chosen.
+ */
 router.all('/intro', function(req, res, next) {
   res.locals.record.hashtags.forEach(function(hashtag) {
-      var wing = res.locals.wings.find(wing => wing._id.equals(hashtag._id));
+      var wing = res.locals.featuredWings.find(wing => wing._id.equals(hashtag._id));
       if (wing) wing.checked = true;
   });
   next();
+});
+
+/**
+ * @description Order featuredWings by featuredWingsFamily and create object to display them.
+ */
+router.all('/intro', function(req, res, next){
+  res.locals.featuredWingsByFamily = [];
+  res.locals.organisation.populateFirstWings().then(()=>{
+    res.locals.organisation.featuredWingsFamily.forEach(featuredWingFamily=>{
+      let records  = res.locals.featuredWings.filter(wing => wing.hasWing(featuredWingFamily));
+      records.length>0 ? res.locals.featuredWingsByFamily.push(
+        {title: featuredWingFamily.intro? featuredWingFamily.intro : req.__("Choose your first wings"), records: records}) : '';
+    });
+    return next();
+  }).catch(error=> {return next(error);});
 });
 
 // Load the whole organisation records, we'll need those for further use
@@ -295,10 +321,10 @@ router.post('/intro', function(req, res, next) {
   res.locals.record.name = req.body.name;
   res.locals.record.intro = req.body.intro;
   req.body.wings.forEach((wingTag) => {
-    res.locals.wings.find(record => record.tagEquals(wingTag)).checked = true;
+    res.locals.featuredWings.find(record => record.tagEquals(wingTag)).checked = true;
   });
   if (!req.body.picture.url) {
-    var firstWings = res.locals.wings.filter(record => record.checked && record.picture.url);
+    var firstWings = res.locals.featuredWings.filter(record => record.checked && record.picture.url);
 
     if (firstWings.length > 0) res.locals.record.picture.url = firstWings[getRandomInt(firstWings.length-1)].picture.url;
     else res.locals.record.picture.url = null;

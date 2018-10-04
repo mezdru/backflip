@@ -352,6 +352,10 @@ recordSchema.methods.getWithinFromDescription = function(organisation) {
   return unique(tags || []);
 };
 
+recordSchema.methods.hasWing = function(wing){
+  return this.hashtags.some(hashtag=> hashtag && hashtag._id.equals(wing._id));
+}
+
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByTag = function(tag, organisationId, callback) {

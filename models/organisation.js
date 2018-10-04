@@ -39,7 +39,10 @@ var organisationSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   public: { type: Boolean, default: false },
   premium: { type: Boolean, default: false },
-  canInvite: { type: Boolean, default: true }
+  canInvite: { type: Boolean, default: true },
+  featuredWingsFamily : [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
+  ]
 });
 
 /**
@@ -147,21 +150,28 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
     }.bind(this));
 };
 
+organisationSchema.methods.getFeaturedWingsRecords = function(){
+  return Record.find({'organisation': this._id, 'hashtags' : {'$in': this.featuredWingsFamily}})
+    .populate('hashtags', '_id organisation tag name')
+    .exec().then((records)=>{
+      if(records.length === 0 ){
+        return Record.find({organisation: Organisation.getTheAllOrganisationId(), hashtags: process.env.DEFAULT_SOFTWING_ID})
+        .populate('hashtags', '_id organisation tag name')
+        .exec().then((defaultRecords)=>{
+          return defaultRecords;
+        });
+      }else{
+        return records;
+      }
+    });
+}
+organisationSchema.methods.populateFirstWings = function(){
+  this.featuredWingsFamily.length===0 ? this.featuredWingsFamily.push(process.env.DEFAULT_SOFTWING_ID):'';
+  return this.populate('featuredWingsFamily', '_id tag name intro').execPopulate();
+}
+
 organisationSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
-};
-
-organisationSchema.statics.getTheWings = function(req, res, next) {
-  Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#Wings" }, function(err, wingRecord) {
-    if (err) return next(err);
-    if (!wingRecord) return next(new Error('Cannot get the Wings'));
-    Record.find({organisation: Organisation.getTheAllOrganisationId(), hashtags: wingRecord._id }, function(err, records) {
-      if (err) return next(err);
-      records = records.filter(record => !record._id.equals(wingRecord._id));
-      res.locals.wings = records;
-      return next();
-    }.bind(this));
-  }.bind(this));
 };
 
 organisationSchema.statics.findByEmail = function(email, callback) {
