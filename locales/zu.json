@@ -208,7 +208,9 @@
 	"Hop ! It's copied !": "crwdns1414:0crwdne1414:0",
 	"You only need to past into your email recipients ;)": "crwdns1415:0crwdne1415:0",
 	"Contact us to go Premium !": "crwdns1416:0crwdne1416:0",
-	"Do you really want to delete this awesome profile ?": "crwdns1417:0crwdne1417:0",
+	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "crwdns1429:0%scrwdne1429:0",
+	"Invite a coworker to join your Wingzy": "crwdns1430:0crwdne1430:0",
+	"(Optional) Personalise your email": "crwdns1431:0crwdne1431:0",
 	"Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...": "crwdns1418:0{{recordsCount}}crwdnd1418:0{{organisationName}}crwdnd1418:0{{organisationName}}crwdne1418:0",
 	"Spread your Wingzy": "crwdns1419:0crwdne1419:0",
 	"This email will be sent to %s people": "crwdns1420:0%scrwdne1420:0",
@@ -216,8 +218,8 @@
 	"Sent": "crwdns1422:0crwdne1422:0",
 	"The email was sent to {{recipientsCount}} people": "crwdns1423:0{{recipientsCount}}crwdne1423:0",
 	"{{field}} Cannot be longer than {{length}} characters": "crwdns1424:0{{field}}crwdnd1424:0{{length}}crwdne1424:0",
-	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.\r\n \r\n \r\n (10 characters min)": "crwdns1425:0%scrwdne1425:0",
-	"(Optional) Personalise your email.": "crwdns1426:0crwdne1426:0",
-	"Invite a coworker to join your Wingzy !": "crwdns1427:0crwdne1427:0",
-	"{{email}} does not seem right, could you try again please?": "crwdns1428:0{{email}}crwdne1428:0"
+	"{{email}} does not seem right, could you try again please?": "crwdns1428:0{{email}}crwdne1428:0",
+	"Make featured wings family": "crwdns1432:0crwdne1432:0",
+	"Remove from featured wings family": "crwdns1433:0crwdne1433:0",
+	"Do you really want to delete this awesome profile ?": "crwdns1434:0crwdne1434:0"
 }
