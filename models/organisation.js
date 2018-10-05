@@ -171,15 +171,15 @@ organisationSchema.methods.populateFirstWings = function(){
 }
 
 organisationSchema.methods.addFeaturedWingsFamily = function(recordId){
-  this.featuredWingsFamily.some(record=> record.equals(recordId)) ? '' : this.featuredWingsFamily.push(recordId);;
+  this.isInFeaturedWingsFamilyArray(recordId) ? '' : this.featuredWingsFamily.push(recordId);
   return this.save();
 }
 organisationSchema.methods.removeFeaturedWingsFamily = function(recordId){
-  this.featuredWingsFamily.some(record=> record.equals(recordId)) ? this.featuredWingsFamily.splice(this.featuredWingsFamily.indexOf(recordId), 1) : '';
+  this.isInFeaturedWingsFamilyArray(recordId) ? this.featuredWingsFamily.splice(this.featuredWingsFamily.indexOf(recordId), 1) : '';
   return this.save();
 }
 
-organisationSchema.methods.isInFeaturedWingsFamily = function(recordId){
+organisationSchema.methods.isInFeaturedWingsFamilyArray = function(recordId){
   return this.featuredWingsFamily.some(record=> record.equals(recordId));
 }
 
