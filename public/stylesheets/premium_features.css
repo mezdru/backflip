@@ -1,62 +1,116 @@
 #premium{
-    position: absolute;
-    top:133px;
-    right:5%;
-    
-}
-.premium-btn{
-    position: relative;
-    padding: 15px 30px;
-    border-radius: 20px;
-    background: #FFD700;
-    font-size: 22.5px;
-    font-weight: 600;
-    text-decoration: none;
-    z-index: 20;
-    cursor: pointer;
-    color:white;
-    border:2px solid white;
-}
-.premium-btn-children{
-    position: absolute;
-    top:30px; right:30px; /* decalage relatif au premium-btn */
-    list-style-type: none;
-    padding:0;
     display: none;
-    border:2px solid #FFD700;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 0 10px 1px rgb(220,220,220);
 }
-
-
-.premium-btn:hover{
-    background: #E6BE00;
-    text-decoration: none;
+.premium-mobile{
+    position: fixed;
+    bottom: 2%;
+    right:2%;
+    z-index: 100;
+    margin: 1em;
 }
-.premium-btn:hover ~ .premium-btn-children{
+.buttons {
+    box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.18), 
+                0px 4px 12px -7px rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
     display: block;
-}
-.premium-btn-children:hover{
-    display: block;
-}
-.premium-btn-children-item{
+    width: 56px;
+    height: 56px;
+    margin: 20px auto 0;
     position: relative;
-    background:white;
-    font-weight: 600;
+  
+    -webkit-transition: all .1s ease-out;
+            transition: all .1s ease-out;  
     cursor: pointer;
-    position: relative;
-    padding: 15px 30px;
-    color:#E6BE00;
-    font-size:20px;
-    border-bottom: 1px solid rgb(220,220,220);
-}
-.premium-btn-children-item:hover{
-    background: #FFD700;
-    color:white;
-}
+  }
+  
+  .buttons:active, 
+  .buttons:focus, 
+  .buttons:hover {
+    box-shadow: 0 0 4px rgba(0,0,0,.14),
+      0 4px 8px rgba(0,0,0,.28);
+  }
+  
+  /* small feature buttons */
+  .buttons:not(:last-child) {
+    width: 40px;
+    height: 40px;
+    margin: 20px auto 0;
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+        -ms-transform: translateY(50px);
+            transform: translateY(50px);
+  }
+  
+  .premium-mobile:hover 
+  .buttons:not(:last-child) {
+    opacity: 1;
+    -webkit-transform: none;
+        -ms-transform: none;
+            transform: none;
+    margin: 15px auto 0;
+  }
+  
+  /* Open buttons with different speed */
+  
+  .buttons:nth-last-child(1) {
+    -webkit-transition-delay: 25ms;
+            transition-delay: 25ms;
+    background-image: url('../wingzy.png');
+    background-size: 40px 40px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-color: #FFD700;
+  }
+  
+  .buttons:not(:last-child):nth-last-child(2) {
+    -webkit-transition-delay: 50ms;
+            transition-delay: 20ms;
+    text-align: center;
+    line-height: 40px;
+    background-color: #E6BE00;
+  }
 
-.message-popup-blackBack{
+  /* For more premium features ...
+  .buttons:not(:last-child):nth-last-child(3) {
+    -webkit-transition-delay: 75ms;
+            transition-delay: 40ms;
+    background-image: url('');
+    background-size: contain;
+  }
+  
+  .buttons:not(:last-child):nth-last-child(4) {
+    -webkit-transition-delay: 100ms;
+            transition-delay: 60ms;
+    background-image: url('');
+    background-size: contain;
+  }
+  */
+  
+  /* Show tooltip content on hover */
+  [tooltip]:before {
+    font-family: arial;
+    font-weight: 600;
+    border-radius: 2px;
+    background: #585858;
+    color: #fff;
+    content: attr(tooltip);
+    font-size: 12px;
+    visibility: visible;
+    opacity: 1;
+    padding: 5px 7px;
+    margin-right: 12px;
+    margin-top: 5px;
+    position: absolute;
+    height:20px;
+    line-height:20px;
+    right: 100%;
+    white-space: nowrap;
+    border-radius: 30px;
+  }
+
+  /* EMAIL COPY FEATURE POPUP */
+  .message-popup-blackBack{
     position: fixed;
     left:0;
     top:0;
@@ -69,7 +123,7 @@
 .message-popup{
     display:none;
     position: fixed;
-    min-width:350px;
+    min-width:250px;
     width:30%;
     background: white;
     border-radius: 30px;
@@ -78,7 +132,7 @@
     margin:auto;
     top:50%;
     transform: translateY(-50%);
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     text-align: center;
 }
 .message-popup-text{
@@ -89,12 +143,12 @@
     resize: none;
 }
 .message-popup-title{
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     margin-top:-20px;
     background: #dd362e;
     color:white;
     font-weight: 600;
-    padding:50px;
+    padding:20px;
     border-radius: 30px 30px 0 0;
 }
 .message-popup-title h3{
@@ -109,18 +163,83 @@
     right:0;
     margin:auto;
 }
-.disabled{
-    background: rgb(230,230,230);
-    border: none;
-    cursor: initial;
-}
-.disabled:hover{
-    background: rgb(230,230,230);
-    color:#E6BE00;
-}
 
-@media screen and (max-width: 1280px){
+@media screen and (min-width: 1280px){
+    /* PREMIUM DESKTOP DISPLAY */
+    .premium-mobile{
+        display: none;
+    }
     #premium{
-        display:none;
+        position: fixed;
+        top:133px;
+        right:5%;
+        display: block;
+    }
+    .premium-btn{
+        position: relative;
+        padding: 15px 30px;
+        border-radius: 20px;
+        background: #FFD700;
+        font-size: 22.5px;
+        font-weight: 600;
+        text-decoration: none;
+        z-index: 20;
+        cursor: pointer;
+        color:white;
+        border:2px solid white;
+    }
+    .premium-btn-children{
+        position: absolute;
+        top:30px; right:30px; /* decalage relatif au premium-btn */
+        list-style-type: none;
+        padding:0;
+        display: none;
+        border:2px solid #FFD700;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 10px 1px rgb(220,220,220);
+    }
+    .premium-btn:hover{
+        background: #E6BE00;
+        text-decoration: none;
+    }
+    .premium-btn:hover ~ .premium-btn-children{
+        display: block;
+    }
+    .premium-btn-children:hover{
+        display: block;
+    }
+    .premium-btn-children-item{
+        position: relative;
+        background:white;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        padding: 15px 30px;
+        color:#E6BE00;
+        font-size:20px;
+        border-bottom: 1px solid rgb(220,220,220);
+    }
+    .premium-btn-children-item:hover{
+        background: #FFD700;
+        color:white;
+    }
+    .disabled{
+        background: rgb(230,230,230);
+        border: none;
+        cursor: initial;
+    }
+    .disabled:hover{
+        background: rgb(230,230,230);
+        color:#E6BE00;
+    }
+
+    /* EMAIL COPY FEATURE POPUP */
+    .message-popup{
+        padding-bottom: 50px;
+    }
+    .message-popup-title{
+        margin-bottom: 50px;
+        padding:50px;
     }
 }

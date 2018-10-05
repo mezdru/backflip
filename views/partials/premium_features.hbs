@@ -6,6 +6,7 @@
 
           {{#if usePremiumFeatures}}
             <a title="{{{__ "Premium"}}}" class="premium-btn">{{{__ "Premium"}}}</a>
+            <div class="premium-btn-mobile"></div>
             <ul class="premium-btn-children">
               <li class="premium-btn-children-item" id="copy-emails-feature-action">
                 {{{__ "Send an email to all !"}}}
@@ -26,6 +27,13 @@
   </div>
 
   {{#if usePremiumFeatures}}
+  <!-- mobile display FAP -->
+    <nav class="premium-mobile"  >   
+      <a class="buttons" id="copy-emails-feature-action" tooltip="{{{__ "Send an email to all !"}}}"><i class="fa fa-envelope"></i></a>
+      <a class="buttons"></a>
+    </nav>
+
+  <!-- feature copy emails -->
     <div id="copy-emails-feature">
         <div class="message-popup">
             <div class="message-popup-logo"><img src="/wingzy.png" alt="Wingzy"/></div>
