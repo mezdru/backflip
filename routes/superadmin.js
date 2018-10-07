@@ -387,6 +387,8 @@ router.get('/application/list', function(req, res, next) {
 
 var normalizeEmail = require('express-validator/node_modules/validator/lib/normalizeEmail.js');
 
+// Should not be used as all email are normalized when saved
+// But I'm keeping it a while longer in case of need
 router.get('/normalizeEmails', function(req, res, next) {
   User.find({}, function(err, users) {
     if (err) return next(err);
@@ -406,95 +408,6 @@ router.get('/normalizeEmails', function(req, res, next) {
         details: `${users.length} users email normalized`,
         content: users
       });
-    });
-  });
-});
-
-
-// I've overwritten all the emails like Clement.Dietschy@gmail.com with the normalized version clementdietschy@gmail.com
-// This is good to fix typos when users do CLEMENT.DIETSCHY@gmail.com
-// BUT Gmail displays "alias" like clementdietschy@gmail.com weirdly.
-// So, I loaded yesterday's backup of users into users_old, and we're retreiving the original emails.
-var Olduser = require('../models/olduser.js');
-
-router.get('/fixBigMistake', function(req, res, next) {
-  var usersToBeUpdated = [];
-  var usersToBeUpdatedCounter = 0;
-  User.find({}, function(err, users) {
-    if(err) return next(err);
-    usersLength = users.length;
-    users.forEach(user => {
-      Olduser.findById(user._id, function(err, olduser) {
-        if (err) return console.error(err);
-        if (!olduser) {
-          console.log(`Not Found ${user._id}`);
-        } else if (!undefsafe(user, 'email.value')) {
-          //console.log(`No Email Auth for ${olduser._id}`);
-        } else if (user.email.value === olduser.email.value) {
-          //console.log(`Same value for ${olduser._id}`);
-        } else {
-          usersToBeUpdated.push({
-            _id: user._id,
-            value: user.email.value,
-            oldvalue: olduser.email.value
-          });
-          if (req.query.write) {
-            user.email.value = olduser.email.value;
-            user.save(function(err, user) {
-                if(err) return console.error(err);
-                console.log(`SAVED ${user._id}`);
-            });
-          }
-        }
-        usersLength--;
-        if (usersLength === 0) {
-          res.render('index',
-          {
-            title: 'Users list',
-            details: `${usersToBeUpdated.length} users to rewrite`,
-            content: usersToBeUpdated
-          });
-        }
-      });
-    });
-  });
-});
-
-//@todo this should be a DB command
-router.get('/updateLocationsForLabRH', function(req, res, next) {
-  if (res.locals.organisation.tag !== 'vivalabrh') {
-    let error = new Error('Only works for vivalabrh');
-    error.status = 400;
-    return next(error);
-  }
-  res.locals.organisation.populateRecords(function(err, organisation) {
-    var length = res.locals.organisation.records.length;
-    var linksUpdated = 0;
-    var recordsUpdated = 0;
-    res.locals.organisation.records.forEach(record => {
-      var recordUpdated = 0;
-      record.links.forEach(link => {
-        if (link.type === 'location') {
-          link.url = 'https://aralifi.fr/lelabrh/salonvivatech.html';
-          linksUpdated ++;
-          recordUpdated = 1;
-        }
-      });
-      recordsUpdated += recordUpdated;
-      if (recordUpdated) {
-        record.save(function(err, record) {
-          length --;
-          if (length === 0) {
-            res.render('index',
-              {
-                title: 'Updated Records Links Locations Urls',
-                details: `Updated ${linksUpdated} links in ${recordsUpdated} records from a total of ${res.locals.organisation.records.length} records`,
-                content: res.locals.organisation.records
-              }
-            );
-          }
-        });
-      } else length --;
     });
   });
 });
