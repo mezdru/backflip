@@ -1,9 +1,9 @@
 const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
-const defaultReciepient = 'hear-me@wingzy.io';
+const defaultReciepient = 'hear-me@wingzy.com';
 const defaultReciepientName = 'Hear me';
-const defaultEmitter = 'bonjour@wingzy.io';
+const defaultEmitter = 'bonjour@wingzy.com';
 const defaultEmitterName = 'Wingzy';
-const defaultLink = 'https://wingzy.io';
+const defaultLink = 'https://wingzy.com';
 
 /**
  *

@@ -54,7 +54,7 @@ function makeUrl(subdomains, path, query, locale) {
   query = query || '';
   locale = locale || getLocale();
   if (isProduction) {
-    url =  'https://' + ( subdomains ? subdomains + '.' : '' ) + 'wingzy.io/' + ( locale ? locale + '/' : '') + path + query;
+    url =  'https://' + ( subdomains ? subdomains + '.' : '' ) + 'wingzy.com/' + ( locale ? locale + '/' : '') + path + query;
   } else {
 		if (subdomains) {
 	    if (query) query += '&subdomains='+subdomains;
