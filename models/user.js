@@ -110,7 +110,7 @@ userSchema.methods.touchLogin = function (callback) {
     this.notifyNew();
     //@todo modify logic to respect microservice pattern : this part should be listen modification on user
     HubspotHelper.createOrUpdateContactStatus(this, "signin");
-  } 
+  }
   this.last_login = Date.now();
   this.save(callback);
 };
@@ -178,7 +178,7 @@ userSchema.methods.getOrgAndRecord = function(organisationId) {
 
 userSchema.methods.getOrgAndRecordByRecord = function(recordId){
   return this.orgsAndRecords.find(orgAndRecord => recordId.equals(getId(orgAndRecord.record)));
-}
+};
 
 userSchema.methods.getFirstOrgTag = function() {
   return undefsafe(this, 'orgsAndRecords.0.organisation.tag');
@@ -258,7 +258,7 @@ userSchema.methods.findLatestRecord = function(exeptRecordId = ''){
   if(exeptRecordId !== '') exeptRecordId = mongoose.Types.ObjectId(exeptRecordId);
   return new Promise((resolve, reject)=>{
     this.populateRecords().then(user=>{
-      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId)  
+      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId)
                       && (currentRecord.record.updated.getTime() > minRecord.record.updated.getTime())) ? currentRecord : minRecord;
       resolve(user.orgsAndRecords.reduce(reducer).record);
     }).catch(error=>reject(error));
