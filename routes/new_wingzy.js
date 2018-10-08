@@ -103,10 +103,21 @@ router.all('/', function(req, res, next) {
   next();
 });
 
-router.all('/', function(req, res, next) {
+router.all('/', function(req, res, next){
   res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
+  next();
+});
+
+router.all('/create', function(req, res, next){
   res.render('new_wingzy', {
-    bodyClass: 'new-wingzy'
+      bodyClass: 'new-wingzy'
+  });
+});
+
+router.all('/', function(req, res, next) {
+  res.locals.createNewWingzyUrl = UrlHelper.makeUrl(null, 'new/create', null, req.getLocale());
+  res.render('presentation_new', {
+    bodyClass: 'presentation-new'
   });
 });
 
