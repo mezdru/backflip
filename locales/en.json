@@ -103,7 +103,7 @@
 	"Default Cover": "Default Cover",
 	"People can invite others": "People can invite others",
 	"Custom CSS": "Custom CSS",
-	"Create your Wingzy": "Create a Wingzy for your workplace",
+	"Create your Wingzy": "Create the Wingzy of your company",
 	"for you and your coworkers": "for you and your coworkers",
 	"What is the name of your organisation?": "What is the name of your organisation?",
 	"Where should we host your Wingzy?": "Where should we put your Wingzy?",
@@ -222,6 +222,9 @@
 	"Make featured wings family": "Make featured Wings family",
 	"Remove from featured wings family": "Remove from featured Wings family",
 	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile?",
+	"How can I deploy Wingzy in my company ?": "How to create the Wingzy of your company ?",
+	"(In 5 minutes)": "(within 5 minutes)",
+	"I create my company's Wingzy": "Create your Wingzy",
 	"Statistic": "Statistics",
 	"Import/Export": "Import"
 }
