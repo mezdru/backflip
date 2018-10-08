@@ -18,7 +18,7 @@
 	"Invite Coworker": "Invite Coworker",
 	"There is nobody here yet": "There is nobody here yet",
 	"If you know or find coworkers who could be here, why not invite them on Wingzy?": "If you know or find coworkers who could be here, why not invite them on Wingzy?",
-	"Search": "Search: Excel, Jazz, French...",
+	"Search": "Search",
 	"Spread your&nbsp;Wings at&nbsp;work": "Spread your&nbsp;Wings at&nbsp;work",
 	"Deploy Wingzy": "Deploy Wingzy",
 	"in your company within 2 minutes": "in your company within 3 minutes",
@@ -219,7 +219,9 @@
 	"The email was sent to {{recipientsCount}} people": "The email was sent to {{recipientsCount}} people",
 	"{{field}} Cannot be longer than {{length}} characters": "{{field}} Cannot be longer than {{length}} characters",
 	"{{email}} does not seem right, could you try again please?": "{{email}} does not seem right, could you try again please?",
-	"Make featured wings family": "Make featured wings family",
-	"Remove from featured wings family": "Remove from featured wings family",
-	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile ?"
+	"Make featured wings family": "Make featured Wings family",
+	"Remove from featured wings family": "Remove from featured Wings family",
+	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile?",
+	"Statistic": "Statistics",
+	"Import/Export": "Import"
 }

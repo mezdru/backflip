@@ -221,5 +221,7 @@
 	"{{email}} does not seem right, could you try again please?": "crwdns1428:0{{email}}crwdne1428:0",
 	"Make featured wings family": "crwdns1432:0crwdne1432:0",
 	"Remove from featured wings family": "crwdns1433:0crwdne1433:0",
-	"Do you really want to delete this awesome profile ?": "crwdns1434:0crwdne1434:0"
+	"Do you really want to delete this awesome profile ?": "crwdns1434:0crwdne1434:0",
+	"Statistic": "crwdns1436:0crwdne1436:0",
+	"Import/Export": "crwdns1438:0crwdne1438:0"
 }

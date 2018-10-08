@@ -18,7 +18,7 @@
 	"Invite Coworker": "Invitez vos collègues",
 	"There is nobody here yet": "Il n'y a personne ici pour le moment",
 	"If you know or find coworkers who could be here, why not invite them on Wingzy?": "Si vous connaissez, ou trouvez, un.e collègue qui pourrait être ici, ça vous dit de l'inviter sur Wingzy ?",
-	"Search": "Rechercher: Excel, Jazz, Anglais...",
+	"Search": "Rechercher",
 	"Spread your&nbsp;Wings at&nbsp;work": "Déployons nos&nbsp;ailes au&nbsp;boulot",
 	"Deploy Wingzy": "Déployez Wingzy",
 	"in your company within 2 minutes": "dans votre boite en 3 minutes",
@@ -208,7 +208,7 @@
 	"Hop ! It's copied !": "Hop ! Emails copiés !",
 	"You only need to past into your email recipients ;)": "Les emails de vos collègues sont dans votre presse-papier, collez les adresses dans votre messagerie pour les contacter.",
 	"Contact us to go Premium !": "Contactez-nous pour passer Premium !",
-	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "Bonjour ! \n\nJe suis sur le Wingzy de %s, l'app pour se trouver à travers nos Wings : nos talents, compétences et passions.\n\nC'est simple et rapide, si tu as 3 minutes, viens déployer tes ailes !",
+	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "Bonjour ! \n\nJe suis sur le Wingzy de %s, l'app pour se trouver à travers nos Wings : nos talents, compétences et passions.\n\nC'est simple et rapide, si tu as 3 minutes, viens déployer tes ailes&nbsp;!",
 	"Invite a coworker to join your Wingzy": "Inviter à rejoindre votre Wingzy",
 	"(Optional) Personalise your email": "Votre invitation",
 	"Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...": "Chèr·e Ambassadeur·drice,\n\nVous êtes déjà {{recordsCount}} sur le Wingzy de {{organisationName}}.\n\nPourquoi ne pas inviter plus de membres de {{organisationName}} à déployer leurs ailes ? Plus vous êtes sur Wingzy, le plus utile elle devient... ",
@@ -219,7 +219,9 @@
 	"The email was sent to {{recipientsCount}} people": "Cet email a été envoyé à {{recipientsCount}} personnes",
 	"{{field}} Cannot be longer than {{length}} characters": "{{field}} ne peut pas être plus long que {{length}} caractères",
 	"{{email}} does not seem right, could you try again please?": "L'adresse {{email}} n'a pas l'air juste, pouvez-vous réessayer ?",
-	"Make featured wings family": "Make featured wings family",
-	"Remove from featured wings family": "Remove from featured wings family",
-	"Do you really want to delete this awesome profile ?": "Do you really want to delete this awesome profile ?"
+	"Make featured wings family": "Mettre en avant comme famille de Wings",
+	"Remove from featured wings family": "Ne plus mettre en avant comme famille de Wings",
+	"Do you really want to delete this awesome profile ?": "Voulez-vous vraiment supprimer ce superbe profil ?",
+	"Statistic": "Statistiques",
+	"Import/Export": "Import"
 }
