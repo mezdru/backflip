@@ -103,7 +103,7 @@
 	"Default Cover": "Couverture par défaut",
 	"People can invite others": "Vos collègues peuvent s’inviter",
 	"Custom CSS": "CSS Personnalisé",
-	"Create your Wingzy": "Créez le Wingzy de votre boite",
+	"Create your Wingzy": "Créer le Wingzy de votre boite",
 	"for you and your coworkers": "pour vous et vos collègues",
 	"What is the name of your organisation?": "Quel est le nom de votre organisation ?",
 	"Where should we host your Wingzy?": "Où met-on votre Wingzy ?",
@@ -205,7 +205,7 @@
 	"Start now !": "C'est parti !",
 	"Send an email to all !": "Envoyer un email à tou·tes",
 	"Premium": "Premium",
-	"Hop ! It's copied !": "Hop ! Emails copiés !",
+	"Hop ! It's copied !": "Hop&nbsp;! Emails&nbsp;copiés&nbsp;!",
 	"You only need to past into your email recipients ;)": "Les emails de vos collègues sont dans votre presse-papier, collez les adresses dans votre messagerie pour les contacter.",
 	"Contact us to go Premium !": "Contactez-nous pour passer Premium !",
 	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "Bonjour ! \n\nJe suis sur le Wingzy de %s, l'app pour se trouver à travers nos Wings : nos talents, compétences et passions.\n\nC'est simple et rapide, si tu as 3 minutes, viens déployer tes ailes&nbsp;!",
@@ -222,6 +222,9 @@
 	"Make featured wings family": "Mettre en avant comme famille de Wings",
 	"Remove from featured wings family": "Ne plus mettre en avant comme famille de Wings",
 	"Do you really want to delete this awesome profile ?": "Voulez-vous vraiment supprimer ce superbe profil ?",
+	"How can I deploy Wingzy in my company ?": "Comment créer le Wingzy de sa boite&nbsp?",
+	"(In 5 minutes)": "(en 5 minutes)",
+	"I create my company's Wingzy": "Créer votre Wingzy",
 	"Statistic": "Statistiques",
 	"Import/Export": "Import"
 }
