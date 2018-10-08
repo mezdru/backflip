@@ -85,7 +85,7 @@ router.get('/login/callback', function(req, res, next) {
         //@todo error is thrown before auth is finished
         let err = new Error('Invitation expired');
         err.status = 402;
-        next(err);
+        return next(err);
       }
     });
   } else next();
