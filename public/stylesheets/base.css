@@ -259,7 +259,7 @@ a.cloud-element,
     position: relative;
     left:0; right:0;
     margin:auto;
-    width:40%;
+    width:60%;
     bottom: initial;
   }
   .presentation-new h1, .new-wingzy-title h1{
@@ -306,7 +306,7 @@ a.cloud-element,
 /* Call to action invite other */
 .invite-button-container{
   position: relative;
-  top:50%; 
+  top:50%;
   transform: translateY(-50%);
 }
 .invite-button:hover{
