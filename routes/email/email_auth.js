@@ -59,7 +59,7 @@ router.post('/login', function(req, res, next) {
           //@todo error is thrown while login email is sent
           let err = new Error('Invitation expired');
           err.status = 402;
-          next(err);
+          return next(err);
         }
       }
 
