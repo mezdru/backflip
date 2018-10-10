@@ -1,6 +1,5 @@
 
 /* GENERIC */
-
 .home header {
   position: relative;
   background: #ffffff;
@@ -27,15 +26,21 @@
 .home h1 {
   text-align: center;
   font-weight: 600;
-  font-size: 44px;
+  font-size: 3em;
+  font-family: 'Paper Daisy';
 }
 .home h2 {
   margin: auto;
   color: #1d1f1a;
-  font-size: 24px;
+  font-size: 1.5em;
   padding: 0;
   font-weight: 300;
   text-align: center;
+  font-family: 'Paper Daisy';
+}
+.home p{
+  font-family: 'Paper Daisy';
+  font-size: 1.5em;
 }
 .home h2 strong {
   font-weight: 500;
@@ -46,6 +51,7 @@
   font-size: 22.5px;
   padding: 0;
   text-align: center;
+  font-family: 'Paper Daisy';
 }
 
 /* LANDING */
@@ -80,7 +86,7 @@
 .home .tagline {
   color: #dd362e;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2em;
   letter-spacing: 3px;
   text-align: left;
@@ -113,6 +119,7 @@
   max-width: 854px;
   text-align: center;
   font-weight: 500;
+  font-size: 2em;
   margin: auto;
 }
 
@@ -138,10 +145,11 @@
   margin-top: 60px;
 }
 
-.home .epic p {
-  font-size: 24px;
+.home  p {
+  font-size: 2em;
   text-align: center;
   padding: 15px;
+  color:white;
 }
 
 img.wingzy-full {
@@ -232,6 +240,55 @@ img.wingzy-full {
 .social .grid-box {
   padding: 30px;
 }
+/* SOUTIENS */
+.soutien-container{
+  position: relative;
+  width:95%;
+  left:0; right:0;
+  margin:auto;
+  height:360px;;
+  max-width:400px;
+  max-height:400px;
+  background-image: url("/images/home/soutien_container.PNG");
+  background-size: 100% 100%;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.soutien-container p{
+  color:white;
+  position: absolute;
+  left:0; right:0;
+  margin:auto;
+  width:90%;
+  top:35%;
+  font-weight: 600;
+  font-size: 0.8em;
+  font-family: unset;
+}
+.soutien-container img{
+  width:80px;
+  height:80px;
+}
+.soutien-container .soutien-author{
+  position: absolute;
+  bottom:0;
+  padding-bottom:15px;
+}
+.soutien-container .soutien-author h3{
+  font-family: unset;
+  text-align: left;
+  color:white;
+  font-size: 0.9em;
+}
+.soutien-container .soutien-author h4{
+  font-family: unset;
+  text-align: left;
+  padding:0;
+  margin:0;
+  font-size: 0.5em;
+  color:white; 
+}
+
 
 /** PRIVACY **/
 .privacy .main img {
@@ -361,7 +418,6 @@ img.wingzy-full {
     height: 270px;
     width: 480px;
   }
-
   .home .coffee {
     position: absolute;
     bottom: -90px;
@@ -369,15 +425,30 @@ img.wingzy-full {
     height: 180px;
     width: 320px;
   }
+   /* SOUTIENS */
+  .soutien-container p{
+    top:25%;
+  }
+  .soutien-container img{
+    width:70px;
+    height:70px;
+  }
+  .soutien-container .soutien-author h4{
+    font-size: 0.4em;
+  }
 }
 
 @media screen and (min-width: 1279px) {
   .home h1 {
     margin-top: 30px;
-    font-size: 48px;
+    font-size: 5.5em;
+    font-weight: 600;
   }
   .home h2 {
-    font-size: 30px;
+    font-size: 3.5em;
+  }
+  .home p {
+    font-size: 3.5em;
   }
   .home .epic {
     min-height: 80vh;
@@ -395,7 +466,7 @@ img.wingzy-full {
     width: inherit;
   }
   .home .tagline {
-    font-size: 48px;
+    font-size: 4em;
     text-align: center;
   }
 
@@ -425,4 +496,23 @@ img.wingzy-full {
     height: 240px;
     width: 427px;
   }
+  /* SOUTIENS */
+.soutien-container{
+  width:95%;
+  height:400px;
+  margin-bottom: 50px;
+}
+.soutien-container p{
+  font-size: 0.9em;
+  top:35%;
+}
+.soutien-container .soutien-author{
+  padding-bottom:15px;
+}
+.soutien-container .soutien-author h4{
+  font-size: 0.7em;
+}
+}
+.black{
+  color:black !important;
 }

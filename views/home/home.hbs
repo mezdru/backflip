@@ -7,11 +7,13 @@
         <div class="grid-box">
           <h1 class="tagline">{{{__ 'Spread your&nbsp;Wings at&nbsp;work'}}}</span></h1>
         </div>
+        {{#unless user}}
         <div class="button-header">
             <a class="google-signin pure-button scale" href="#signin-anchor">
                   <i class="fa fa-sign-in" aria-hidden="true"></i> {{{__ "Start now !"}}}
             </a>
         </div>
+        {{/unless}}
       </div>
     </div>
   </div>
@@ -36,8 +38,8 @@
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
-          <h3>{{__ 'Deploy Wingzy'}}</h3>
-          <p>{{__ 'in your company within 2 minutes'}}</p>
+          <h1>{{__ 'Deploy Wingzy'}}</h1>
+          <p class="black">{{__ 'in your company within 2 minutes'}}</p>
         </div>
         {{#unless user}}
         <div class="grid-box grid-box-signin">
@@ -54,7 +56,8 @@
       <div class="pure-u-1 pure-u-md-1-2" id="why_wingzy">
         <div class="grid-box">
           <h1>{{__ 'Reveal'}}</h1>
-          <h2>{{{__ '<strong>Your skills and passions</strong><br>powered by artificial intelligence'}}}</h2>
+          <p>{{{__ '<strong>Your skills and passions</strong><br>powered by artificial intelligence'}}}</p>
+          <img src="/images/home/wings_line.PNG" alt="wings" width="100%"/>
         </div>
       </div>
     </div>
@@ -64,7 +67,7 @@
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
           <h1>{{__ 'Find'}}</h1>
-          <h2>{{{__ '<strong>The coworker you need</strong><br>with a clever search engine'}}}</h2>
+          <p class="black">{{{__ '<strong>The coworker you need</strong><br>with a clever search engine'}}}</p>
         </div>
       </div>
       <div class="pure-u-1 pure-u-md-1-2 search-placeholder">
@@ -82,12 +85,12 @@
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
-          <h2>{{{__ '<strong>Your account</strong><br>through Email or Google domain integration'}}}</h2>
+          <p>{{{__ '<strong>Your account</strong><br>through Email or Google domain integration'}}}</p>
         </div>
       </div>
       <div class="pure-u-1 pure-u-md-1-2">
         <div class="grid-box">
-          <h2>{{{__ '<strong>Your data</strong><br>thanks to our model <a href="/protectingYourData">privacy policy</a>'}}}</h2>
+          <p>{{{__ '<strong>Your data</strong><br>thanks to our model <a href="/protectingYourData">privacy policy</a>'}}}</p>
         </div>
       </div>
     </div>
@@ -118,6 +121,57 @@
           <h2><strong>{{{__ 'On Twitter'}}}</strong></h2>
           <img src="/images/home/twitter.jpg" class="pure-img">
         </a>
+      </div>
+    </div>
+  </div>
+  <div class="soutiens" id="soutiens">
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          <h1>Nos soutiens</h1>
+        </div>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <div class="grid-box soutien-container">
+          <img src="/images/home/genevieve_garrigos.PNG" alt="Picture of a person"/>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            J'ai été impressionnée par l'attention apportée à la protection de nos données
+            personnelles sur Wingzy. Un exemple à suivre !
+          </p>
+          <div class="soutien-author">
+            <h3>Geneviève Gerrigos</h3>
+          <h4>ex présidente d'Amnesty International</h4>
+          </div>
+        </div>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <div class="grid-box soutien-container">
+          <img src="/images/home/jerome_giusti.PNG" alt="Picture of a person"/>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Sur Wingzy, seul-es les employé-es peuvent avoir le contrôle des informations qui les concernent, via des outils et
+            des liens hyper accessibles.
+          </p>
+          <div class="soutien-author">
+            <h3>Jérôme Giusti</h3>
+          <h4>Avocat au Barreau de Paris</h4>
+          </div>
+        </div>
+      </div>
+      <div class="pure-u-1 pure-u-md-1-3">
+        <div class="grid-box soutien-container">
+          <img src="/images/home/philippe_caquet.PNG" alt="Picture of a person"/>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Wingzy est une application fort intéressante qui permet de mettre enfin du lien entre les salarié-es.
+            Elle reflète une nouvelle génération de façon de faire.
+          </p>
+          <div class="soutien-author">
+            <h3>Philippe Caquet</h3>
+            <h4>Président de Boost'rh Groupe</h4>
+          </div>
+        </div>
       </div>
     </div>
   </div>
