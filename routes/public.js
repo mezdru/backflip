@@ -4,7 +4,6 @@ var router = express.Router();
 var undefsafe = require('undefsafe');
 
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
-var Application = require('../models/application.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
 router.get('/', function(req, res, next) {

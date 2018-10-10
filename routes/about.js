@@ -81,7 +81,7 @@ router.post('/id/:id',
 );
 
 // Load the whole organisation records, we'll need those for further use
-// Duplicate in google_admin && fullcontact_admin && record_admin
+// Duplicate in google_admin  && record_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.post('/id/:id', function(req, res, next) {
   if (res.locals.organisation.records) return next();

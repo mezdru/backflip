@@ -119,7 +119,7 @@ router.get('/domain/list', function(req, res, next) {
 });
 
 // Load the whole organisation records with DELETED, we'll need those for further use
-// Duplicate in record_admin && fullcontact_admin
+// Duplicate in record_admin && record_admin
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();
   Record.findWithDeleted({organisation: res.locals.organisation._id}, function(err, records) {

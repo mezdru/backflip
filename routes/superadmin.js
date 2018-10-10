@@ -8,7 +8,6 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var Organisation = require('../models/organisation.js');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
-var Application = require('../models/application.js');
 var EmailUser = require('../models/email/email_user.js');
 
 var UrlHelper = require('../helpers/url_helper.js');
@@ -371,18 +370,6 @@ router.get('/record/demake/featuredWingsFamily/:id', function(req, res, next){
           content: record
         });
   }).catch(err=> {return next(err);});
-});
-
-router.get('/application/list', function(req, res, next) {
-  Application.find().sort('-created').exec(function(err, applications) {
-    if (err) return next(err);
-    res.render('index',
-      {
-        title: 'Application list',
-        details: `${applications.length} applications`,
-        content: applications
-      });
-  });
 });
 
 var normalizeEmail = require('express-validator/node_modules/validator/lib/normalizeEmail.js');

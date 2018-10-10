@@ -61,7 +61,6 @@ var recordSchema = mongoose.Schema({
   email: {
     value: {type: String, index: true}
   },
-  fullcontact_updated: Date,
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now }
 });

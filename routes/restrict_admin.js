@@ -19,8 +19,4 @@ router.use(function(req, res, next) {
   return next(err);
 });
 
-router.get('/advanced', function(req, res, next) {
-  res.render('admin/admin', {bodyClass: 'admin'});
-});
-
 module.exports = router;

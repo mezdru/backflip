@@ -14,7 +14,7 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next) {
   if (res.locals.organisation && res.locals.organisation.public === true) return next();
   if (!res.locals.user.hasOrganisation()) {
-    return res.redirect(new UrlHelper(null, 'cheers', null, req.session.locale).getUrl());
+    return res.redirect(new UrlHelper(null, 'new', null, req.session.locale).getUrl());
   } else return next();
 });
 

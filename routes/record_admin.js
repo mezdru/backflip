@@ -14,7 +14,7 @@ var UrlHelper = require('../helpers/url_helper.js');
 
 
 // Load the whole organisation records, we'll need those for further use
-// Duplicate in google_admin && fullcontact_admin
+// Duplicate in google_admin && record_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.use(function(req, res, next) {
   if (res.locals.organisation.records) return next();

@@ -11,7 +11,6 @@ var Record = require('../models/record.js');
 var Organisation = require('../models/organisation.js');
 var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
-var FullContact = require('../models/fullcontact/fullcontact.js');
 var LinkHelper = require('../helpers/link_helper.js');
 var ErrorsMonitoringHelper = require('../helpers/errors_monitoring_helper');
 
@@ -187,9 +186,9 @@ router.use('intro', function(req, res, next){
 
       // Inform user that record is prepopulate from older one.
       Organisation.findById(sourceRecord.organisation).then(sourceOrganisation=>{
-        res.locals.errors = [{msg: 
-          req.__("Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!", 
-                                        {targetOrg: res.locals.organisation.name, sourceOrg:sourceOrganisation.name})}]; 
+        res.locals.errors = [{msg:
+          req.__("Hello , to help you create your Profile in {{targetOrg}}, we just copied some info from your Profile in {{sourceOrg}}. Of course you should change those as you wish!",
+                                        {targetOrg: res.locals.organisation.name, sourceOrg:sourceOrganisation.name})}];
         return next();
       });
     });
@@ -210,18 +209,6 @@ router.use(function(req, res, next){
 router.use(function(req, res, next) {
   res.locals.onboard.returnUrl = UrlHelper.makeUrl(req.organisationTag, `profile/${res.locals.record.tag}`, null, req.getLocale());
   next();
-});
-
-// We try our luck with fullcontact to help user fill her profile.
-// That can be done after rendering the page ;)
-router.post('/welcome', function(req, res, next) {
-  var fullcontact = new FullContact(res.locals.record);
-  fullcontact.enrich(function(err, record) {
-    if (err && err.status !== 418) return console.error(err);
-    if (err && err.status === 418) console.log(err.message);
-    else console.log(`FullContact lookup for record ${res.locals.record._id}`);
-    next();
-  });
 });
 
 router.post('/welcome', function(req, res, next) {
@@ -274,15 +261,21 @@ router.all('/intro', function(req, res, next){
   res.locals.organisation.populateFirstWings().then(()=>{
     res.locals.organisation.featuredWingsFamily.forEach(featuredWingFamily=>{
       let records  = res.locals.featuredWings.filter(wing => wing.hasWing(featuredWingFamily));
-      records.length>0 ? res.locals.featuredWingsByFamily.push(
-        {title: featuredWingFamily.intro? featuredWingFamily.intro : req.__("Choose your first wings"), records: records}) : '';
+      if (records.length > 0) {
+        res.locals.featuredWingsByFamily.push(
+          {
+            title: featuredWingFamily.intro? featuredWingFamily.intro : req.__("Choose your first wings"),
+            records: records
+          }
+        );
+      }
     });
     return next();
   }).catch(error=> {return next(error);});
 });
 
 // Load the whole organisation records, we'll need those for further use
-// Duplicate in google_admin && fullcontact_admin && record_admin
+// Duplicate in google_admin && record_admin
 // @todo this is such a bad idea. But makeWithin and makeIncludes require that at the moment
 router.post('/intro', function(req, res, next) {
   if (res.locals.organisation.records) return next();

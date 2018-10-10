@@ -37,7 +37,6 @@
     "express-session": "^1.15.1",
     "express-validator": "^5.0.1",
     "forest-express-mongoose": "^2.10.1",
-    "fullcontact": "^1.0.0",
     "google-libphonenumber": "^2.0.15",
     "googleapis": "^17.1.0",
     "handlebars-intl": "^1.1.2",

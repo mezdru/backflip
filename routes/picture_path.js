@@ -8,6 +8,10 @@ var undefsafe = require('undefsafe');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
+// This router is used by superadmin to set the picture src we want on a record
+// It's a way to bypass uploadcare and use files hosted by us instead
+// Saves money on frequently used files
+
 // First we check there is an organisation.
 // If there is an org, we now the user belongs there from restrict.js
 router.use(function(req, res, next) {
