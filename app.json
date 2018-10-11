@@ -1,0 +1,78 @@
+{
+  "name": "backflip",
+  "scripts": {
+  },
+  "env": {
+    "ALGOLIA_APPLICATION_ID": {
+      "required": true
+    },
+    "ALGOLIA_READ_KEY": {
+      "required": true
+    },
+    "ALGOLIA_WRITE_KEY": {
+      "required": true
+    },
+    "DEFAULT_SOFTWING_ID": {
+      "required": true
+    },
+    "FULLCONTACT_APIKEY": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_ID": {
+      "required": true
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "required": true
+    },
+    "GOOGLE_REDIRECT_URI": {
+      "required": true
+    },
+    "HOST": {
+      "required": true
+    },
+    "HUBSPOT_HAPIKEY": {
+      "required": true
+    },
+    "MJ_APIKEY_PRIVATE": {
+      "required": true
+    },
+    "MJ_APIKEY_PUBLIC": {
+      "required": true
+    },
+    "MONGODB_URI": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "PAPERTRAIL_API_TOKEN": {
+      "required": true
+    },
+    "SESSION_SECRET": {
+      "required": true
+    },
+    "THE_ALL_ORGANISATION_ID": {
+      "required": true
+    },
+    "UPLOADCARE_PRIVATE_KEY": {
+      "required": true
+    },
+    "UPLOADCARE_PUBLIC_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "mongolab",
+    "papertrail"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
