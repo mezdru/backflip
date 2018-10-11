@@ -285,6 +285,7 @@ a.cloud-element,
   width: calc(100% - 60px);
   margin-top:50px;
   text-align: center;
+  padding-right:60px;
 }
 .button-header a{
   max-width: 300px;
@@ -292,9 +293,16 @@ a.cloud-element,
 
 @media screen and (max-width: 1280px){
   .button-header{
-    width: 100%;
-    top:50%;
+    top:0;
     transform: translateY(-50%);
+  }
+}
+@media screen and (max-width: 639px){
+  .button-header{
+    left:0; right:0; margin:auto;
+    width: 75%;
+    top:50%;
+    padding-right: 0;
   }
 }
 
@@ -2118,8 +2126,8 @@ color: #e6e6e6;
 }
 
 @media screen and (max-width: 1024px) {
-  #hubspot-messages-iframe-container iframe {
-    visibility: hidden !important;
+  div[id=hubspot-messages-iframe-container]{
+    z-index: -999 !important;
   }
 }
 
