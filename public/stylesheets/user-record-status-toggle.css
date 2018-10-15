@@ -1,0 +1,43 @@
+/* TOGGLE USER STATUS */
+#userStatusToggle{
+    text-align: center;
+}
+.pure-menu-link[id=userStatusToggleLabel]:hover{
+    background:white !important;
+    color:#5c4d51 !important;
+}
+#userStatusToggle a{
+    position: relative;
+    padding: 5px;
+    box-shadow: 0 0 5px grey;
+    z-index: 2;
+    padding:0 12px;
+    border-radius: 30px;
+}
+#userStatusToggle div{
+    position: absolute;
+    left:0; 
+    right:0; 
+    margin:auto;
+    top:50%;
+    transform: translateY(-50%);
+    background: grey;
+    width:30%;
+    border-radius: 30px;
+    height:20px;
+  }
+.menu-status-available .u, .menu-status-available .n,
+.menu-status-unavailable .a, .menu-status-unavailable .n,
+.menu-status-unspecified .a, .menu-status-unspecified .u,
+.menu-status- .a, .menu-status- .u{
+  opacity: 0;
+}
+.menu-status-available .a{
+  background: #32cd32;
+}
+.menu-status-unavailable .u{  
+  background: #dd362e;
+}
+.menu-status-unspecified .n, .menu-status- .n{
+  background: white;
+}

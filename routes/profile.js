@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var undefsafe = require('undefsafe');
-
 var Record = require('../models/record.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
@@ -14,6 +13,29 @@ router.use(function(req, res, next) {
     return next(err);
   }
   return next();
+});
+
+/**
+ * @description Update the status of a record.
+ */
+router.get('/personAvailability/:status/recordId/:recordId', function(req, res, next){
+  if(req.organisationTag && res.locals.user && req.params.status && req.params.recordId){
+    Record.findById(req.params.recordId, res.locals.organisation._id, function(err, record) {
+      if (err) return res.redirect(UrlHelper.makeUrl(req.organisationTag,'search/',  null, req.getLocale()));;
+      if (!record) {
+        var error = new Error('Profile not found');
+        error.status = 404;
+        return next(error);
+      }
+      record.personAvailability = req.params.status;
+      record.save().then((data)=>{
+      }).catch(error=>{
+      });
+      return res.redirect(UrlHelper.makeUrl(req.organisationTag,'search/',  null, req.getLocale()));
+    });
+  }else{
+    return res.redirect(UrlHelper.makeUrl(req.organisationTag,'search/',  null, req.getLocale()));
+  }
 });
 
 // Get the record

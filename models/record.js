@@ -6,7 +6,6 @@ var unique = require('array-unique');
 var randomstring = require('randomstring');
 var LinkHelper = require('../helpers/link_helper.js');
 
-
 var recordSchema = mongoose.Schema({
   organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
   tag: {type: String, required: true},
@@ -62,7 +61,8 @@ var recordSchema = mongoose.Schema({
     value: {type: String, index: true}
   },
   created: { type: Date, default: Date.now },
-  updated: { type: Date, default: Date.now }
+  updated: { type: Date, default: Date.now },
+  personAvailability: {type: String, enum: ['available','unspecified','unavailable']}
 });
 
 //@todo deal with consequences of "unique: true" condition on organisation/tag
@@ -583,7 +583,8 @@ recordSchema.methods.algoliaSync = function(doc) {
       picture: this.picture,
       links: this.links,
       includes_count: this.includes_count,
-      hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within))
+      hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
+      personAvailability: this.personAvailability
     }, function(err, doc) {
       if (err) return console.error(err);
       console.log(`Synced ${doc.objectID} with Algolia`);

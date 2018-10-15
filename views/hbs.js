@@ -320,6 +320,23 @@ hbs.registerHelper('homeUrl', function(organisation, locale) {
   else return new UrlHelper(null, null, null, locale).getUrl();
 });
 
+hbs.registerHelper('currentPersonAvailability', function(user, organisation){
+  let record = user.getOrgAndRecord(organisation._id).record;
+  return record.personAvailability;
+});
+hbs.registerHelper('makePersonAvailable', function(user, organisation){
+  let recordId = user.getOrgAndRecord(organisation._id).record._id;
+  return new UrlHelper(organisation.tag, 'profile/personAvailability/available/recordId/'+recordId, null, this.getLocale()).getUrl();
+});
+hbs.registerHelper('makePersonUnavailable', function(user, organisation){
+  let recordId = user.getOrgAndRecord(organisation._id).record._id;
+  return new UrlHelper(organisation.tag, 'profile/personAvailability/unavailable/recordId/'+recordId,null,  this.getLocale()).getUrl();
+});
+hbs.registerHelper('makePersonUnspecified', function(user, organisation){
+  let recordId = user.getOrgAndRecord(organisation._id).record._id;
+  return new UrlHelper(organisation.tag, 'profile/personAvailability/unspecified/recordId/'+recordId,null,  this.getLocale()).getUrl();
+});
+
 hbs.registerHelper('nl2br', function(string) {
   if (string)
     return string.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');

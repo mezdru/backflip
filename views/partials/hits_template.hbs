@@ -9,6 +9,7 @@
         </a>
         {{#links.length}}
         <div class="contacts">
+          <div class="{{type}}-{{personAvailability}} {{type}}-status" title="{{personAvailability}}"></div>
           {{#links}}
           <a href="{{url}}" class="{{class}} fa fa-{{icon}}" title="{{display}}" aria-hidden="true" target="_blank"></a>
           {{/links}}

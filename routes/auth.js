@@ -38,7 +38,7 @@ router.use(function(req, res, next) {
   if (req.session.user) {
     // @todo move to user model
     User.findByIdAndUpdate(req.session.user._id, {last_action: Date.now()})
-    .populate('orgsAndRecords.record', 'name picture tag')
+    .populate('orgsAndRecords.record', 'name picture tag personAvailability')
     .populate('orgsAndRecords.organisation', 'name picture tag')
     .exec(function(err, user) {
       if (err) return next(err);
