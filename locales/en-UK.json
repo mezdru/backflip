@@ -227,5 +227,7 @@
 	"I create my company's Wingzy": "I create my company's Wingzy",
 	"Statistic": "Statistic",
 	"Import/Export": "Import/Export",
-	"This is a public Wingzy, your info will be publicly available on internet": "This is a public Wingzy, your info will be publicly available on internet"
+	"This is a public Wingzy, your info will be publicly available on internet": "This is a public Wingzy, your info will be publicly available on internet",
+	"Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.": "Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.",
+	"Resend emails invitations": "Resend emails invitations"
 }

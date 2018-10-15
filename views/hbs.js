@@ -302,6 +302,11 @@ hbs.registerHelper('banUrl', function(userId, organisationTag) {
   if (this.getLocale) locale = this.getLocale();
   return UrlHelper.makeUrl(organisationTag, 'admin/user/'+userId+'/ban', null, locale);
 });
+hbs.registerHelper('resendInvitationsUrl', function(organisationTag){
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return UrlHelper.makeUrl(organisationTag, 'admin/user/email/resend', null, locale);
+});
 
 hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
   page = 'admin/record/delete/'+recordId;

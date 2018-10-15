@@ -284,6 +284,12 @@ userSchema.methods.toggleMonthly = function(organisationId, callback) {
   orgAndRecord.monthly = !orgAndRecord.monthly;
   if(callback) return this.save(callback);
 };
+userSchema.methods.findLastInvitation = function(organisationId){
+  let invitationsInOrg = this.invitations.filter(invitation => invitation.organisation.equals(organisationId));
+  if(invitationsInOrg.length === 0) return null;
+  const reducer = (lastInvitation, currentInvitation) => currentInvitation.created.getTime() > lastInvitation.created.getTime() ? currentInvitation : lastInvitation;
+  return invitationsInOrg.reduce(reducer);
+}
 
 userSchema.pre('save', function (next) {
     this.wasNew = this.isNew;

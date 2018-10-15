@@ -187,5 +187,53 @@ router.get('/email/spread', function(req, res, next) {
     );
 });
 
+router.get('/email/resend', function(req, res, next){
+  User.find({
+    'orgsAndRecords.organisation': res.locals.organisation._id
+    }).then((users)=>{
+      res.locals.recipientUsers = users;
+      return next();
+    }).catch(error=>{
+      return next(error);
+    });
+});
+
+router.get('/email/resend', function(req, res, next){
+  let counterSendEmail = 0;
+  let emailsSended = [];
+  res.locals.recipientUsers.forEach(user => {
+    let userLastInvitation = user.findLastInvitation(res.locals.organisation._id);
+    if(!user.last_login && userLastInvitation && daysBetween(userLastInvitation.created, new Date()) >= 7){
+      EmailUser.sendInviteEmail(
+        user,
+        res.locals.user,
+        res.locals.organisation,
+        null,
+        res, function(err, result){
+          if(err) console.log(err);
+        });
+        counterSendEmail++;
+        emailsSended.push(user.loginEmail);
+    }  
+  });
+  return res.render('index',
+      {
+        title: req.__('Sent'),
+        details: req.__('The email was sent to {{recipientsCount}} people', {recipientsCount: counterSendEmail}),
+        content: emailsSended
+      }
+    );
+});
+
+//@todo create utils helper
+let daysBetween = function(date1, date2){
+  var one_day=1000*60*60*24;
+  var date1_ms = date1.getTime();   
+  var date2_ms = date2.getTime(); 
+  var difference_ms = date2_ms - date1_ms;        
+  // Convert back to days and return   
+  return Math.round(difference_ms/one_day); 
+}
+
 
 module.exports = router;
