@@ -77,29 +77,6 @@ a.step.active span {
   padding-bottom: 180px;
   background-color: #f2f2f2;
 }
-
-/** WELCOME **/
-.onboard-welcome .main {
-  background-color: #ffffff;
-}
-
-.onboard.onboard-welcome h2 {
-  font-size: 18px;
-  background: #ffffff;
-  padding: 0;
-}
-
-.onboard-welcome h1 {
-  padding: 0;
-  font-size: 36px;
-}
-
-.onboard-welcome h3 {
-  font-size: 24px;
-  text-align: center;
-}
-
-
 .onboard-welcome .video-box {
   width: 80vw;
   height: 45vw;
@@ -109,7 +86,61 @@ a.step.active span {
   margin: auto;
 }
 
-.onboard-welcome .bottom-buttons .grid-box {
+/** WELCOME CONGRATS **/
+.onboard-congratulations .main .pure-g{
+  max-width: 1280px;
+  justify-content: center;
+}
+.onboard-congratulations .main, .onboard-welcome .main{
+  padding-bottom: 0;
+}
+.onboard-congratulations .main {
+  background-color: #ffffff;
+}
+.onboard-congratulations h2, .onboard-welcome h2{
+  font-size: 2em;
+  font-family: 'Paper Daisy';
+  padding: 0;
+}
+.onboard-congratulations h1 , .onboard-welcome h1{
+  padding: 0;
+  font-size: 4em;
+  font-family: 'Paper Daisy';
+  color: #dd362e;
+}
+.onboard-congratulations h3 {
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+  font-family: 'Paper Daisy';
+  font-size: 3em;
+  color: #dd362e;
+  text-align: center;
+}
+.onboard-congratulations p{
+  font-family: 'Paper Daisy';
+  text-align: center;
+  margin-top:10px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.onboard-congratulations .organisation-link{
+  color:blueviolet;
+  font-weight: 500;
+  font-size: 1.3em;
+}
+.onboard-congratulations .profil-wings{
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
+  float:left;
+  max-height: 250px;
+  height:12vw;
+}
+.onboard-congratulations .notSoSmall{
+  min-width: 270px;
+}
+.onboard-congratulations .bottom-buttons .grid-box {
   padding-bottom: 0;
 }
 
@@ -432,44 +463,50 @@ li#facebook-selector.selected {
   #type-selector li span {
     display: inline;
   }
-
   #type-selector li {
     width: auto;
     min-width: 60px;
     max-width: none;
     padding: 5px 20px;
   }
-
   .onboard h1 {
     font-size: 36px;
   }
-
-  .onboard-welcome h1 {
-    font-size: 48px;
-  }
-
   .onboard h2 {
     font-size: 22.5px;
   }
+  /* WELCOME */
+  .onboard-congratulations h1 , .onboard-welcome h1{
+    font-size: 6.5em;
+  }
+  .onboard-congratulations h2 , .onboard-welcome h2{
+    font-size: 5em;
+  }
+  .onboard-congratulations h3 {
+    font-size: 6em;
+  }
+  .onboard-congratulations p{
+    font-size: 3em;
+  }
+  .onboard-congratulations .organisation-link{
+    font-size: 1.3em;
+  }
+  /* END WELCOME */
 
   .onboard .pure-u-menu > div {
     padding: 30px 15px 0;
     text-align: right;
   }
-
   a.step {
     margin-left: 20px;
   }
-
   a.step span {
     display: block;
   }
-
   a.step img {
     height: 50px;
     width: 50px;
   }
-
   a.step span > strong {
     display: none;
   }

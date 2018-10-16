@@ -1,4 +1,8 @@
 /* GENERIC ELEMENTS */
+@font-face {
+  font-family: 'Paper Daisy';
+  src: url('fonts/Paper-Daisy-Font/PaperDaisy.ttf'); /* IE9 Compat Modes */
+}
 
 html, button, input, select, textarea, .pure-g,
 .pure-g [class *= "pure-u"] {
@@ -189,10 +193,6 @@ a.cloud-element,
 }
 
 /* .presentation-new */
-@font-face {
-  font-family: 'Paper Daisy';
-  src: url('fonts/Paper-Daisy-Font/PaperDaisy.ttf'); /* IE9 Compat Modes */
-}
 .presentation-new h1, .new-wingzy-title h1{
   font-family: 'Paper Daisy';
   color: #dd362e;
@@ -242,7 +242,7 @@ a.cloud-element,
   }
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1279px){
   .presentation-new-img-list{
     flex-direction: column;
     margin-top:50px;
