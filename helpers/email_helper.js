@@ -5,6 +5,8 @@ const defaultEmitter = 'bonjour@wingzy.com';
 const defaultEmitterName = 'Wingzy';
 const defaultLink = 'https://wingzy.com';
 
+let SlackHelper = require('./slack_helper');
+
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
@@ -97,7 +99,9 @@ var EmailHelper = {
           }
         });
       request
-        .then()
+        .then(()=>{
+          SlackHelper.notify('#alerts-invitation', 'New invitation by ' + senderName + ' ('+senderEmail+') to ' + email + '.');
+        })
         .catch(err => {
           console.log(err);
         });
