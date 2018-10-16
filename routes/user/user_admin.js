@@ -203,7 +203,7 @@ router.get('/email/resend', function(req, res, next){
   let emailsSended = [];
   res.locals.recipientUsers.forEach(user => {
     let userLastInvitation = user.findLastInvitation(res.locals.organisation._id);
-    if(!user.last_login && userLastInvitation && daysBetween(userLastInvitation.created, new Date()) >= 7){
+    if(!user.last_login && userLastInvitation && daysBetween(userLastInvitation.created, new Date()) >= 0){
       EmailUser.sendInviteEmail(
         user,
         res.locals.user,
