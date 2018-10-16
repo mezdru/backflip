@@ -34,7 +34,7 @@
               </li>
               {{#user.orgsAndRecords}}
               <li class="pure-menu-item pure-menu-item-org {{#ifEqual organisation.tag ../organisation.tag}}hidden{{/ifEqual}}">
-                <a title="{{organisation.name}}" class="pure-menu-link" href="{{homeUrl organisation ../locale}}">{{organisation.name}}</a>
+                <a title="{{{organisation.name}}}" class="pure-menu-link" href="{{homeUrl organisation ../locale}}">{{{organisation.name}}}</a>
               </li>
               {{/user.orgsAndRecords}}
             </ul>
