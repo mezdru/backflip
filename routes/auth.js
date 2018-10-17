@@ -44,7 +44,11 @@ router.use(function(req, res, next) {
       if (err) return next(err);
       req.session.user = user;
       res.locals.user = req.session.user;
-      res.locals.track = !res.locals.user.isSuperAdmin();
+      if(res.locals.user){
+        res.locals.track = !res.locals.user.isSuperAdmin();
+      }else{
+        res.locals.track = true;
+      }
       return next();
     });
   } else {
