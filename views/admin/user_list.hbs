@@ -32,7 +32,7 @@
                 <td>{{loginEmail}}</td>
                 <td>{{formatDate created day="numeric" month="long" year="numeric"}}</td>
                 <td>{{#if last_action}}{{formatDate last_action day="numeric" month="long" year="numeric"}}{{/if}}</td>
-                <td><a href="{{profileUrl ../organisation this}}"><i class="fa fa-user-circle" aria-hidden="true"></i> PROFILE</a></td>
+                <td>{{#if last_login}}<a href="{{profileUrl ../organisation this}}"><i class="fa fa-user-circle" aria-hidden="true"></i> PROFILE</a>{{/if}}</td>
                 <td><a href="{{banUrl _id ../organisation.tag}}"><i class="fa fa-times-circle-o" aria-hidden="true"></i> BAN</a></td>
             </tr>
           {{/users}}
