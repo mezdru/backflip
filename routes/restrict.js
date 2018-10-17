@@ -23,8 +23,7 @@ router.use(function(req, res, next) {
   res.locals.showPremiumButton = ((res.locals.organisation && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id)) 
                             || (res.locals.user && res.locals.user.isSuperAdmin()));
   res.locals.usePremiumFeatures = (res.locals.showPremiumButton && (res.locals.user.isSuperAdmin() || res.locals.organisation.premium));
-  res.locals.showFreeBanner = (res.locals.organisation && (!res.locals.organisation.public) && (!res.locals.organisation.premium));
-  console.log(res.locals.showFreeBanner);
+  res.locals.showFreeBanner = (res.locals.organisation && (!res.locals.organisation.public) && (!res.locals.organisation.premium) && (!res.locals.user.isSuperAdmin()));
 
   if (res.locals.organisation && res.locals.organisation.public === true) return next();
   if (res.locals.user.isSuperAdmin()) return next();

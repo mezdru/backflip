@@ -1,0 +1,43 @@
+<div class="main">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="grid-box">
+        <h2>{{{__ "Congratulations ! 🎉 You just have created the Wingzy of"}}}</h2>
+        <h1>
+          {{{organisation.name}}}
+        </h1>
+        <p>
+          {{{__ "Available on"}}} <a class="organisation-link" href="{{{onboard.organisationUrl}}}">{{{organisation.tag}}}.wingzy.com</a>
+        </p>
+        <p>
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pure-g">
+          <div class="pure-u-1-2 notSoSmall">
+            <img src="../../images/onboard/logo_profile.PNG" class="profil-wings"/>
+            <h3>{{{__ "I set up my profile"}}}</h3>
+          </div>
+  </div>
+
+  <div class="pure-g">
+      <div class="pure-u-1-2 notSoSmall">
+        <div class="grid-box">
+          <form action="{{onboard.welcomeAction}}" method="post">
+            <button type="submit" class="pure-button scale">{{{__ "Create your profile"}}}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  <div class="bottom-buttons">
+    <div class="pure-g">
+      <a class="pure-u-1-2" target="_blank" title="{{__ "Terms of Service"}}" href="{{url "terms" null}}">{{__ "Terms of Service"}}</a>
+      <a class="pure-u-1-2" target="_blank" title="{{__ "Protecting your Data"}}" href="{{url "protectingYourData" organisation.tag}}">{{__ "Protecting your Data"}}</a>
+    </div>
+  </div>
+
+  
+</div>

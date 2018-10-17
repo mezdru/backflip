@@ -15,7 +15,6 @@ router.use(function(req, res, next) {
   if (!res.locals.user) {
     return res.redirect(UrlHelper.makeUrl(req.organisationTag, 'login', null, req.getLocale()));
   } else return next();
-  return next();
 });
 
 router.use(function(req, res, next) {
@@ -42,6 +41,9 @@ router.post('/',
   })
 );
 
+/**
+ * @description Save new organisation
+ */
 router.post('/', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
@@ -69,7 +71,8 @@ router.post('/', function(req, res, next) {
       } else {
         res.locals.user.makeAdminToOrganisation(organisation, function(err, user) {
           if(err) return next(err);
-          res.redirect(UrlHelper.makeUrl(organisation.tag, null, null, req.getLocale()));
+          // redirect to the congratulations page
+          res.redirect(UrlHelper.makeUrl(organisation.tag, 'onboard/congratulations', '?first=true', req.getLocale()));
         });
       }
     });
@@ -108,15 +111,15 @@ router.all('/', function(req, res, next){
   next();
 });
 
-router.all('/create', function(req, res, next){
+router.all('/', function(req, res, next){
   res.render('new_wingzy', {
       bodyClass: 'new-wingzy'
   });
 });
 
-router.all('/', function(req, res, next) {
-  res.locals.createNewWingzyUrl = UrlHelper.makeUrl(null, 'new/create', null, req.getLocale());
-  res.render('presentation_new', {
+router.all('/presentation', function(req, res, next) {
+  res.locals.createNewWingzyUrl = UrlHelper.makeUrl(null, 'new', null, req.getLocale());
+  res.render('new_wingzy_presentation', {
     bodyClass: 'presentation-new'
   });
 });

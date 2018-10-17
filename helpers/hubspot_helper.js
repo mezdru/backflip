@@ -3,6 +3,7 @@ let Hubspot = require('hubspot');
 let hubspot = new Hubspot({ apiKey: process.env.HUBSPOT_HAPIKEY});
 let slack = require('slack-notify')('https://hooks.slack.com/services/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');
 let Organisation = require('../models/organisation');
+let SlackHelper = require('./slack_helper');
 
 const FILENAME = 'hubspot_helper.js';
 
@@ -11,30 +12,26 @@ class HubspotHelper {
     // @Description Update status_wingzy_com in Hubspot Contact.
     static createOrUpdateContactStatus(user, action){
         if(process.env.NODE_ENV !== "production") return;
-        this.userEmail = HubspotHelper.getUserEmail(user);
+        this.userEmail = user.loginEmail;
         HubspotHelper.getContactByEmail(this.userEmail)
         .then((results) => {
-            if(results === null || results.properties.status_wingzy_com.value !== 'signinAndAdmin'){
+            if(results === null || results.properties.status_wingzy_com && (results.properties.status_wingzy_com.value !== 'signinAndAdmin')){
                 hubspot.contacts.createOrUpdate(
                     this.userEmail,
                     {properties: [{property: "email", value: this.userEmail}, {property: "status_wingzy_com",value: action}]},
                     function(err, results) {
-                        if (err) { 
-                            HubspotHelper.printError(err, 22);
-                        }
+                        if (err) { SlackHelper.notifyError(err, 23, 'quentin', FILENAME);}
                 });    
             }
         }).catch((err)=>{
-            if (err) { 
-                HubspotHelper.printError(err, 28);
-            }
+            SlackHelper.notifyError(err, 28, 'quentin', FILENAME);
         });        
     }
 
     // @Description Update Wingzy Org List for which the user is linked.
     static updateContactWingzyList(user, organisationId, admin){
         if(process.env.NODE_ENV !== "production") return;
-        this.userEmail = HubspotHelper.getUserEmail(user);
+        this.userEmail = user.loginEmail;
         this.orgListParam = admin?'admin_wingzy_com':'org_wingzy_com';
         Organisation.findById(organisationId).exec()
         .then((currentOrg) => {
@@ -49,15 +46,13 @@ class HubspotHelper {
                                       {property: 'lastname', value: HubspotHelper.getUserRecordName(user)}]},
                         function(err, results) {
                             if (err) { 
-                                HubspotHelper.printError(err, 48);
+                                SlackHelper.notifyError(err, 51, 'quentin', FILENAME);
                             }
                     });    
                 }
-            });
+            }).catch(error=>{});
         }).catch((err)=>{
-            if (err) { 
-                HubspotHelper.printError(err, 54);
-            }
+            SlackHelper.notifyError(err, 58, 'quentin', FILENAME);
         });
     }
 
@@ -72,10 +67,6 @@ class HubspotHelper {
         });
     }
 
-    static getUserEmail(user){
-        return user.google.email || user.email.value;
-    }
-
     //@todo correct this method, not working, return false when it's true.
     static isDuplicate(fieldValue, newValue){
         let arrayValue = fieldValue.split('\r\n');
@@ -84,12 +75,6 @@ class HubspotHelper {
         });
         return false;
     }
-
-    static printError(err, line){
-        console.error(FILENAME + ' - line:'+ line +' - '+ err);
-        slack.send({channel : "#errors-quentin", text : FILENAME + 'line:'+line+ ' - ' + err});
-    }
-
     static getUserRecordName(user){
          for(let orgAndRecord of user.orgsAndRecords){
              if(orgAndRecord.record !== null){

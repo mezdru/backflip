@@ -25,7 +25,8 @@ router.use(function(req, res, next) {
     welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', query, req.getLocale()).getUrl(),
     introAction: new UrlHelper(req.organisationTag, 'onboard/intro', query, req.getLocale()).getUrl(),
     hashtagsAction: new UrlHelper(req.organisationTag, 'onboard/hashtags', query, req.getLocale()).getUrl(),
-    linksAction: new UrlHelper(req.organisationTag, 'onboard/links', query, req.getLocale()).getUrl()
+    linksAction: new UrlHelper(req.organisationTag, 'onboard/links', query, req.getLocale()).getUrl(),
+    organisationUrl: new UrlHelper(res.locals.organisation.tag, null, null, req.getLocale()).getUrl()
   };
   return next();
 });
@@ -46,6 +47,11 @@ router.use(function(req, res, next) {
 router.get('/welcome', function(req, res, next) {
   res.render('onboard/welcome', {
     bodyClass: 'onboard onboard-welcome'
+  });
+});
+router.get('/congratulations', function(req, res, next){
+  res.render('onboard/congratulations', {
+    bodyClass: 'onboard onboard-congratulations'
   });
 });
 

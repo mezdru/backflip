@@ -16,10 +16,10 @@
                 <a class="pure-menu-link" id="userStatusToggleLabel">Ma disponniblité :</a>
               </li>
               <li id="userStatusToggle" class="pure-menu-item menu-status-{{{currentPersonAvailability user organisation}}}">
-                  <a href="{{{makePersonAvailable user organisation}}}" title="{{__ 'available'}}" class="a">
+                  <a href="{{{makePersonUnavailable user organisation}}}" title="{{__ 'unavailable'}}" class="u">
                   </a><!--
                   --><a href="{{{makePersonUnspecified user organisation}}}" title="{{__ 'unspecified'}}" class="n"></a><!--
-                  --><a href="{{{makePersonUnavailable user organisation}}}" title="{{__ 'unavailable'}}" class="u">
+                  --><a href="{{{makePersonAvailable user organisation}}}" title="{{__ 'available'}}" class="a">
                   </a>
                   <div></div>
               </li>

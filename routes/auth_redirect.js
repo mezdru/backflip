@@ -34,7 +34,7 @@ router.get('*/login/callback', function(req, res, next) {
     return res.redirect(UrlHelper.makeUrl(req.session.user.getFirstOrgTag(), 'search', null, req.session.locale || req.getLocale()));
   }
 
-  return res.redirect(UrlHelper.makeUrl(null, 'new', null, req.session.locale || req.getLocale()));
+  return res.redirect(UrlHelper.makeUrl(null, 'new/presentation', null, req.session.locale || req.getLocale()));
 });
 
 module.exports = router;

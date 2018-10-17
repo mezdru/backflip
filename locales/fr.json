@@ -208,7 +208,7 @@
 	"Hop ! It's copied !": "Hop&nbsp;! Emails&nbsp;copiés&nbsp;!",
 	"You only need to past into your email recipients ;)": "Les emails de vos collègues sont dans votre presse-papier, collez les adresses dans votre messagerie pour les contacter.",
 	"Contact us to go Premium !": "Contactez-nous pour passer Premium !",
-	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "Bonjour ! \n\nJe suis sur le Wingzy de %s, l'app pour se trouver à travers nos Wings : nos talents, compétences et passions.\n\nC'est simple et rapide, si tu as 3 minutes, viens déployer tes ailes !",
+	"Hello!\r\n \r\nI am on the Wingzy for %s, an intuitive app to find each other according to what we love and know.": "Bonjour ! \n\nJe suis sur le Wingzy de %s, l'app pour se trouver grâce à nos Wings : nos talents, compétences et passions.\n\nC'est simple et rapide, si tu as 3 minutes, viens déployer tes ailes !",
 	"Invite a coworker to join your Wingzy": "Inviter à rejoindre votre Wingzy",
 	"(Optional) Personalise your email": "Votre invitation",
 	"Dear Ambassador,\n\nYou are already {{recordsCount}} on the Wingzy of {{organisationName}}.\n\nNow, what about inviting more people of {{organisationName}} to spread their Wings? The more on Wingzy, the more relevant it becomes...": "Chèr·e Ambassadeur·drice,\n\nVous êtes déjà {{recordsCount}} sur le Wingzy de {{organisationName}}.\n\nPourquoi ne pas inviter plus de membres de {{organisationName}} à déployer leurs ailes ? Plus vous êtes sur Wingzy, le plus utile elle devient... ",
@@ -227,5 +227,14 @@
 	"I create my company's Wingzy": "Créer votre Wingzy",
 	"Statistic": "Statistiques",
 	"Import/Export": "Import",
-	"This is a public Wingzy, your info will be publicly available on internet": "Vous êtes sur un Wingzy public, votre profil sera disponible publiquement sur internet."
+	"Congratulations ! 🎉 You just have created the Wingzy of": "Congratulations ! 🎉 You just have created the Wingzy of",
+	"Available on": "Available on",
+	"I set up my profile": "I set up my profile",
+	"Create your profile": "Create your profile",
+	"available": "Disponible",
+	"unavailable": "Indisponible",
+	"This is a public Wingzy, your info will be publicly available on internet": "Vous êtes sur un Wingzy public, votre profil sera disponible publiquement sur internet.",
+	"unspecified": "Neutre",
+	"Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.": "Renvoyer les invitations non suivies",
+	"Resend emails invitations": "Renvoyer les invitations"
 }
