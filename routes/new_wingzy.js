@@ -30,7 +30,7 @@ router.post('/',
 );
 
 router.post('/',
-  body('tag').matches(/^[a-zA-Z0-9\-]{3,}$/).withMessage((value, {req}) => {
+  body('tag').matches(/^[a-zA-Z0-9\-]{2,}$/).withMessage((value, {req}) => {
     return req.__('Please provide a valid tag.');
   }),
   body('name').isLength({ min: 3 }).withMessage((value, {req}) => {
