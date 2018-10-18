@@ -59,6 +59,9 @@
     },
     "UPLOADCARE_PUBLIC_KEY": {
       "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
     }
   },
   "formation": {

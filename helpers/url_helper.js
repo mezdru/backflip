@@ -28,7 +28,7 @@ var UrlHelper = class UrlHelper {
       }
       //@todo read the protocol, host & port from the request instead of hardcoding this shit
       if (this.isStaging()) {
-        this.url = `https://wingzy-staging.herokuapp.com/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
+        this.url = `https://${process.env.HOST}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
       } else {
         this.url = `http://${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
       }
