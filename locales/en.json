@@ -227,7 +227,7 @@
 	"I create my company's Wingzy": "Create your Wingzy",
 	"Statistic": "Statistics",
 	"Import/Export": "Import",
-	"Congratulations ! 🎉 You just have created the Wingzy of": "Congratulations ! 🎉 You just have created the Wingzy of",
+	"Congratulations ! 🎉 You just have created the Wingzy of": "Congratulations! 🎉 You  created the Wingzy of",
 	"Available on": "Available on",
 	"I set up my profile": "I set up my profile",
 	"Create your profile": "Create your profile",
@@ -236,5 +236,9 @@
 	"This is a public Wingzy, your info will be publicly available on internet": "This is a public Wingzy, your info will be publicly available on the internet",
 	"unspecified": "Neutral",
 	"Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.": "Resend unused invitations ",
-	"Resend emails invitations": "Resend invitations"
+	"Resend emails invitations": "Resend invitations",
+	"Change Picture Path": "Change Picture Path",
+	"Input a picture path for %s": "Input a picture path for %s",
+	"You and your coworkers can now find your Wingzy at <strong>%s.wingzy.com</strong>": "You and your coworkers can now find your Wingzy at <strong>%s</strong>",
+	"Next step (the most fun)": "Next step (the most fun)"
 }

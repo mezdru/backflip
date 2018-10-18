@@ -227,14 +227,18 @@
 	"I create my company's Wingzy": "Créer votre Wingzy",
 	"Statistic": "Statistiques",
 	"Import/Export": "Import",
-	"Congratulations ! 🎉 You just have created the Wingzy of": "Congratulations ! 🎉 You just have created the Wingzy of",
-	"Available on": "Available on",
-	"I set up my profile": "I set up my profile",
-	"Create your profile": "Create your profile",
+	"Congratulations ! 🎉 You just have created the Wingzy of": "Superbe ! 🎉 Vous avez créé le Wingzy de",
+	"Available on": "Disponible à l'adresse",
+	"I set up my profile": "Déployez vos ailes...",
+	"Create your profile": "Créez votre profil",
 	"available": "Disponible",
 	"unavailable": "Indisponible",
 	"This is a public Wingzy, your info will be publicly available on internet": "Vous êtes sur un Wingzy public, votre profil sera disponible publiquement sur internet.",
 	"unspecified": "Neutre",
 	"Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.": "Renvoyer les invitations non suivies",
-	"Resend emails invitations": "Renvoyer les invitations"
+	"Resend emails invitations": "Renvoyer les invitations",
+	"Change Picture Path": "Modifiez l'illustration",
+	"Input a picture path for %s": "Saisissez le chemin d'illustration pour %s",
+	"You and your coworkers can now find your Wingzy at <strong>%s.wingzy.com</strong>": "Vous et vos collègues pouvez maintenant accéder à votre Wingzy sur <strong>%s</strong>",
+	"Next step (the most fun)": "Prochaine étape (la plus marrante)"
 }

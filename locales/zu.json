@@ -236,5 +236,9 @@
 	"This is a public Wingzy, your info will be publicly available on internet": "crwdns1446:0crwdne1446:0",
 	"unspecified": "crwdns1456:0crwdne1456:0",
 	"Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.": "crwdns1448:0crwdne1448:0",
-	"Resend emails invitations": "crwdns1450:0crwdne1450:0"
+	"Resend emails invitations": "crwdns1450:0crwdne1450:0",
+	"Change Picture Path": "crwdns1466:0crwdne1466:0",
+	"Input a picture path for %s": "crwdns1468:0%scrwdne1468:0",
+	"You and your coworkers can now find your Wingzy at <strong>%s.wingzy.com</strong>": "crwdns1470:0%scrwdne1470:0",
+	"Next step (the most fun)": "crwdns1472:0crwdne1472:0"
 }
