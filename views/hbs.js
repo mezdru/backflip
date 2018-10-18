@@ -79,10 +79,10 @@ hbs.registerHelper('linkUrl', function(link) {
 });
 
 hbs.registerHelper('pictureUrl', function(picture, type) {
-  if (picture && picture.url) {
-			return picture.url;
-	} else if (picture && picture.path) {
+  if (picture && picture.path) {
 		return "/images" + picture.path;
+  } else if (picture && picture.url) {
+  	return picture.url;
 		//@todo remove this last if once the refacto URI > URL is done
 	} else if (picture && picture.uri) {
 		return picture.uri;

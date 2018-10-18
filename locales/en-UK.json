@@ -236,5 +236,7 @@
 	"This is a public Wingzy, your info will be publicly available on internet": "This is a public Wingzy, your info will be publicly available on internet",
 	"unspecified": "unspecified",
 	"Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.": "Resend emails invitations to each person who has been invite one week ago or more, and who doesn't sign-in yet.",
-	"Resend emails invitations": "Resend emails invitations"
+	"Resend emails invitations": "Resend emails invitations",
+	"Change Picture Path": "Change Picture Path",
+	"Input a picture path for %s": "Input a picture path for %s"
 }

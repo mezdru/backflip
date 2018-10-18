@@ -21,7 +21,7 @@ router.use(function(req, res, next) {
 router.get('/personAvailability/:status/recordId/:recordId', function(req, res, next){
   if(req.organisationTag && res.locals.user && req.params.status && req.params.recordId){
     Record.findById(req.params.recordId, res.locals.organisation._id, function(err, record) {
-      if (err) return res.redirect(UrlHelper.makeUrl(req.organisationTag,'search/',  null, req.getLocale()));;
+      if (err) return res.redirect(UrlHelper.makeUrl(req.organisationTag,'search/',  null, req.getLocale()));
       if (!record) {
         var error = new Error('Profile not found');
         error.status = 404;
@@ -117,7 +117,9 @@ router.get('*', function(req, res, next) {
 });
 
 router.get('*', function(req, res, next) {
-  if (res.locals.user.isSuperAdmin && !res.locals.record.isInTheAllOrganisation() && res.locals.record.type === 'hashtag') {
+  if (res.locals.user.isSuperAdmin && res.locals.record.type === 'hashtag') {
+    res.locals.editPicturePathUrl =  UrlHelper.makeUrl(req.organisationTag, 'picturePath/id/'+res.locals.record._id, null, req.getLocale());
+    if (!res.locals.record.isInTheAllOrganisation())
     res.locals.promoteUrl =  UrlHelper.makeUrl(req.organisationTag, 'superadmin/record/promote/'+res.locals.record._id, null, req.getLocale());
   }
   next();

@@ -1151,7 +1151,9 @@ a.cloud-element:hover,
 .profile #cover-button,
 .profile #about-button,
 .profile #promote-button,
-.profile #emoji-button {
+.profile #emoji-button,
+.profile #feature-button,
+.profile #picture-path-button {
   display: block;
   margin: 0;
   font-size: 18px;

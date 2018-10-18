@@ -39,18 +39,10 @@ if (app.get('env') === 'production') {
     return next();
   });
 
-  // Forest admin
-  app.use(require('forest-express-mongoose').init({
-    modelsDir: __dirname + '/models',
-    envSecret: process.env.FOREST_ENV_SECRET,
-    authSecret: process.env.FOREST_AUTH_SECRET,
-    mongoose: require('mongoose')
-  }));
-
 } else if (app.get('env') === 'staging') {
   // Setup URL for Pull Request apps.
   process.env.HOST = process.env.HEROKU_APP_NAME + ".herokuapp.com";
-  
+
   // Setup organisationTag
   app.use(function(req, res, next) {
     if (req.query.subdomains) req.organisationTag = req.query.subdomains.split('.')[0];
@@ -65,6 +57,14 @@ if (app.get('env') === 'production') {
   });
 
 }
+
+// Forest admin
+app.use(require('forest-express-mongoose').init({
+  modelsDir: __dirname + '/models',
+  envSecret: process.env.FOREST_ENV_SECRET,
+  authSecret: process.env.FOREST_AUTH_SECRET,
+  mongoose: require('mongoose')
+}));
 
 // www is not an organisation, it's an 1990 artifact.
 app.use(function(req, res, next) {
