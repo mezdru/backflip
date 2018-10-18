@@ -110,9 +110,9 @@ organisationSchema.methods.makeCanInvite = function(callback) {
   if (callback) this.save(callback);
 };
 
-organisationSchema.methods.addCode = function(starts, ends, creator, callback) {
+organisationSchema.methods.addCode = function(starts, ends, creator, customCode, callback) {
   var code = {
-    value: randomstring.generate(16),
+    value: customCode || randomstring.generate(16),
     creator: creator,
     starts: starts || Date.now(),
     ends: ends || Date.now() + 30*24*60*60*1000,

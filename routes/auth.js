@@ -17,6 +17,11 @@ router.use(function(req, res, next) {
   res.locals.emailSigninUrl = new UrlHelper(req.organisationTag, 'email/login/', req.query.code ? '?code='+req.query.code : null, req.getLocale()).getUrl();
   next();
 });
+router.get('/code/:code', function(req, res, next){
+  if(req.params.code)
+    return res.redirect(UrlHelper.makeUrl(req.organisationTag, 'login', '?code='+req.params.code, req.getLocale()));
+  return next();
+});
 
 router.get('/login', function(req, res, next) {
   var googleSignin, emailSignin;

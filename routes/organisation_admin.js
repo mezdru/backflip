@@ -15,8 +15,8 @@ router.get('/makePublic', function(req, res, next) {
   });
 });
 
-router.get('/createLink', function(req, res, next) {
-  res.locals.organisation.addCode(null, null, res.locals.user, function(err, organisation) {
+router.get('/createLink/:code?', function(req, res, next) {
+  res.locals.organisation.addCode(null, null, res.locals.user, (req.params.code ? req.params.code : null), function(err, organisation) {
     if (err) return next(err);
     var code = organisation.codes[0].value;
     var endDate = organisation.codes[0].ends;
@@ -27,7 +27,7 @@ router.get('/createLink', function(req, res, next) {
         details:  req.__('Anyone can now join {{{organisation}}} with link<br/><strong>{{link}}</strong><br/>It is valid until {{endDate}}.',
           {
             organisation: res.locals.organisation.name,
-            link: UrlHelper.makeUrl(organisation.tag, 'login', '?code='+code, req.getLocale()),
+            link: UrlHelper.makeUrl(organisation.tag, 'code/'+code, null, req.getLocale()),
             endDate: new Intl.DateTimeFormat(req.getLocale(), options).format(endDate)
           }
         ),
@@ -99,7 +99,10 @@ router.post('/', function(req, res, next) {
 router.all('/', function(req, res, next) {
   res.locals.uploadcarePublicKey = process.env.UPLOADCARE_PUBLIC_KEY;
   res.locals.activeCodes = res.locals.organisation.codes.filter(code => res.locals.organisation.validateCode(code.value));
-  res.locals.activeCodes.forEach(activeCode => activeCode.link = UrlHelper.makeUrl(res.locals.organisation.tag, 'login', '?code='+activeCode.value, req.getLocale()));
+  res.locals.activeCodes.forEach(activeCode => {
+    activeCode.link = UrlHelper.makeUrl(res.locals.organisation.tag, 'code/'+activeCode.value, null, req.getLocale());
+  });
+                    
   res.render('admin/organisation', { bodyClass: 'admin'});
 });
 
