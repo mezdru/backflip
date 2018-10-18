@@ -6,16 +6,24 @@
         <h1>
           {{{organisation.name}}}
         </h1>
-        <form action="{{onboard.welcomeAction}}" method="post">
-            <button type="submit" class="pure-u-1 pure-button scale">{{{__ "Spread your wings"}}}</button>
-          </form>
+        <p>{{{__ 'Wingzy is an intuitive app to find the coworkers you need according to what they love and know'}}}</p>
       </div>
     </div>
   </div>
   <div class="pure-g">
-    <div class="pure-u-1">
-      <div class="video-box shadow-box">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/kOCg8575_E0?rel=0&showinfo=0&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div class="pure-u-1 pure-u-md-1-2">
+      <div class="grid-box">
+        <h2>{{{__ "Next step (the most fun)"}}}</h2>
+      </div>
+      <div class="grid-box">
+        <form action="{{onboard.welcomeAction}}" method="post">
+            <button type="submit" class="pure-button scale">{{{__ "Create your profile"}}}</button>
+        </form>
+      </div>
+    </div>
+    <div class="pure-u-1 pure-u-md-1-2">
+      <div class="grid-box">
+        <img src="../../images/onboard/logo_profile.PNG" class="pure-img"/>
       </div>
     </div>
   </div>
