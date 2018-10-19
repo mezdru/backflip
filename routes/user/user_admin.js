@@ -128,7 +128,8 @@ router.all('/email/spread', function(req, res, next) {
   .populate('orgsAndRecords.record')
   .exec(function(err, users) {
     if (err) return next(err);
-    res.locals.recipientUsers = users;
+    // it's ok when user hasn't any org yet.
+    res.locals.recipientUsers = users.filter(user => typeof(user.last_login) !== 'undefined');  
     res.locals.recipientsUsersRecords = res.locals.recipientUsers
       .map(user => user.getRecord(res.locals.organisation._id))
       .filter(record => record && record != {});
@@ -152,16 +153,18 @@ router.post('/email/spread', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {
-    res.locals.recipientUsers.forEach(user => EmailHelper.public.emailSpread(
-      user.getName(res.locals.organisation._id).split(' ')[0],
-      user.loginEmail,
-      res.locals.user.getName(res.locals.organisation._id),
-      res.locals.user.loginEmail,
-      res.locals.organisation.name,
-      UrlHelper.makeUrl(res.locals.organisation.tag, 'invite'),
-      req.body.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2'),
-      res
-    ));
+    res.locals.recipientUsers.forEach(user => {
+        EmailHelper.public.emailSpread(
+          user.getName(res.locals.organisation._id).split(' ')[0],
+          user.loginEmail,
+          res.locals.user.getName(res.locals.organisation._id),
+          res.locals.user.loginEmail,
+          res.locals.organisation.name,
+          UrlHelper.makeUrl(res.locals.organisation.tag, 'invite'),
+          req.body.text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2'),
+          res
+        );
+  });
     return res.render('index',
       {
         title: req.__('Sent'),
