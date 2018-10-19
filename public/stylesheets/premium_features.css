@@ -227,12 +227,12 @@
         background: #FFD700;
         color:white;
     }
-    .disabled{
+    .premium-btn-children-item-disabled{
         background: rgb(230,230,230);
         border: none;
         cursor: initial;
     }
-    .disabled:hover{
+    .premium-btn-children-item-disabled:hover{
         background: rgb(230,230,230);
         color:#E6BE00;
     }

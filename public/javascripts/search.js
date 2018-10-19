@@ -314,14 +314,20 @@ $(document).ready(function () {
 
   // Display user's email on click after a search
   $(document).on('click', '#copy-emails-feature-action', function(e){
-    $('#copy-emails-feature div').css('display', 'block');
+    $('.copy-emails-feature div').css('display', 'block');
     let emails = $('#copy-emails-feature-popup-text');
     emails.val(createEmailsList(currentEmailList));
     emails.select();
     document.execCommand('copy');
   });
   $(document).on('click','#copy-emails-feature-blackBack', function(e){
-    $('#copy-emails-feature div').css('display', 'none');
+    $('.copy-emails-feature div').css('display', 'none');
+  });
+  $(document).on('click','.premium-btn-children-item-disabled', function(e){
+    $('.copy-emails-feature div').css('display', 'block');
+  });
+  $(document).on('click','#copy-emails-feature-blackBack', function(e){
+    $('.copy-emails-feature div').css('display', 'none');
   });
 
   // HELPERS
