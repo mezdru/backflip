@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Database
 var mongoose = require('mongoose');
 mongoose.plugin(schema => { schema.options.usePushEach = true; });
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true});
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console));
