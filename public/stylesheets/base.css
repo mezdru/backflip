@@ -1829,18 +1829,21 @@ color: #e6e6e6;
   width:12px;
   height:12px;
   border-radius: 20px;
-  border: 1px solid rgb(214, 184, 187);
+  border: 2px solid rgb(213, 198, 203);
   margin-bottom: 10px;
+  margin-top: 10px;
   background:white;
 }
 .person-available{
   background: #32cd32;
+  border:none;
 }
 .person-unspecified{
   background:white;
 }
 .person-unavailable{
   background: #dd362e;
+  border:none;
 }
 
 @media screen and (min-width: 639px) {

@@ -4,7 +4,7 @@ var introSnippetLength = 7;
 var extraLinkLimit = 3;
 if (window.matchMedia('(min-width: 720px)').matches) {
 		introSnippetLength = 15;
-		extraLinkLimit = 4;
+		extraLinkLimit = 3;
 }
 
 function getPictureUrl(item, iconOnly) {
