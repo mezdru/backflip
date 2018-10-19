@@ -204,6 +204,10 @@ hbs.registerHelper('url', function(path, organisationTag, query) {
   if (typeof query !== 'string') query = null;
   return new UrlHelper(organisationTag, path, query, locale).getUrl();
 });
+hbs.registerHelper('whyWingzyUrl', function(locale){
+  locale = locale ||this.getLocale();
+  return '/' +  locale + '/' + '#whyWingzy';
+});
 
 hbs.registerHelper('dataRightLink', function(type, organisation, user) {
   var locale = null;
