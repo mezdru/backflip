@@ -13,6 +13,8 @@ var AlgoliaOrganisation = require('../models/algolia/algolia_organisation.js');
 var UrlHelper = require('../helpers/url_helper.js');
 var LinkHelper = require('../helpers/link_helper.js');
 var ErrorsMonitoringHelper = require('../helpers/errors_monitoring_helper');
+let EmailHelper = require('../helpers/email_helper');
+let User = require('../models/user');
 
 router.use(function(req, res, next) {
   var query = null;
@@ -341,20 +343,25 @@ router.post('/intro', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {
+
     res.locals.record.makeWithin(res.locals.organisation, function(err, records) {
       if (err) return next(err);
+
       res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
         if (err) return next(err);
         if (res.locals.record.picture.url) {
+
           res.locals.record.addPictureByUrl(res.locals.record.picture.url, function(err, record) {
             if (err) return next(err);
+
             res.locals.record.save(function(err, record) {
               if(err) return next(err);
-              if (req.query.first) return res.redirect(res.locals.onboard.hashtagsAction);
+              if (req.query.first)  return res.redirect(res.locals.onboard.hashtagsAction);
               else return res.redirect(res.locals.onboard.returnUrl);
             });
           });
         } else {
+
           res.locals.record.save(function(err, record) {
             if (err) return next(err);
             if (req.query.first) return res.redirect(res.locals.onboard.hashtagsAction);
@@ -416,6 +423,7 @@ router.post('/links', function(req, res, next) {
     if (req.query.first) {
       res.locals.user.welcomeToOrganisation(res.locals.organisation._id, function(err, user) {
         if (err) console.error(err);
+        if(req.query.first) notifyInvitationAccepter(res);
         if (res.locals.organisation.canInvite || res.locals.user.isAdminToOrganisation(res.locals.organisation)) return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'invite', null, req.getLocale()));
         else return res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, null, null, req.getLocale()));
       });
@@ -455,5 +463,21 @@ router.all('/links', function(req, res, next) {
     bodyClass: 'onboard onboard-links'
   });
 });
+
+let notifyInvitationAccepter = function(res){
+  // user is invited ?
+  let invitation = res.locals.user.findInvitationOfOrganisation(res.locals.organisation._id);
+  if(invitation){
+    User.findOne({'_id' : invitation.user})
+    .then(userInviter=>{
+      Record.findOne({ '_id' :userInviter.getRecordIdByOrgId(res.locals.organisation._id)})
+      .then(recordInviter=>{
+        let profileUrl = new UrlHelper(res.locals.organisation.tag, `profile/${res.locals.record.tag}`, null, res.getLocale()).getUrl();
+        EmailHelper.public.emailInvitationAccepted(recordInviter.name, userInviter.loginEmail, res.locals.record.name,
+                                                    null, res.locals.organisation.name, profileUrl,res);
+      });
+    });
+  }  
+}
 
 module.exports = router;

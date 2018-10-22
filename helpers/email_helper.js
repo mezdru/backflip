@@ -158,6 +158,33 @@ var EmailHelper = {
         .catch(err => {
           console.log(err);
         });
+      },
+      emailInvitationAccepted: function(recipientName, recipientEmail, senderName, senderEmail, organisationName, url, res) {
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": senderEmail || defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__("Discover the Wings of %s !", senderName),
+            "MJ-TemplateID": "571332",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "intro": res.__("Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.",
+                              recipientName, senderName, organisationName, senderName),
+              "button": res.__("See his profile"),
+              "url": url || defaultLink,
+              "orgLogoUrl": 'https://wingzy.io/wingzy.png',
+              "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+            }
+          });
+        request
+          .then()
+          .catch(err => {
+            console.log(err);
+          });
       }
   }
 };

@@ -291,6 +291,10 @@ userSchema.methods.findLastInvitation = function(organisationId){
   return invitationsInOrg.reduce(reducer);
 }
 
+userSchema.methods.findInvitationOfOrganisation = function(organisationId){
+  return this.invitations.find(invitation=>invitation.organisation.equals(organisationId));
+}
+
 userSchema.pre('save', function (next) {
     this.wasNew = this.isNew;
     next();
