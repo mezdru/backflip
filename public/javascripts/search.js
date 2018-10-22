@@ -185,6 +185,7 @@ $(document).ready(function () {
   // SEARCH ALL
   // ==========
   var query, tags, facetFilters, hashtagsFilters, tagFilters, page;
+  let searchHistoricRequestRunning = false;
 
   function search() {
     page = 0;
@@ -210,6 +211,18 @@ $(document).ready(function () {
       }
       facetFilters = facetFilters.concat(hashtagsFilters);
     });
+    if(tags.length > 0 && !searchHistoricRequestRunning){
+      searchHistoricRequestRunning = true;
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify({tags : tags}),
+        contentType: 'application/json',
+        url: '/searchHistoric' + window.location.search,						
+        success: function(data) {
+                        searchHistoricRequestRunning = false;      
+                    }
+      });
+    }
 
     searchForHits();
     searchForSuggestions();

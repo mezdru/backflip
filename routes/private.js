@@ -7,6 +7,7 @@ var plus = google.plus('v1');
 var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var UrlHelper = require('../helpers/url_helper.js');
+let SearchLog = require('../models/search_log');
 
 router.get('/google/app', function(req, res, next) {
   plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {
@@ -88,6 +89,26 @@ router.get('/toggleMonthly', function(req, res, next) {
       }
     );
   });
+});
+
+router.post('/searchHistoric', function(req, res, next){
+  let searchedElements = req.body.tags.split(',');
+  try{
+    let newSearch = new SearchLog();
+    newSearch.organisation = res.locals.organisation._id;
+    newSearch.user = res.locals.user._id;
+    newSearch.tags = searchedElements;
+  
+    newSearch.save().then(searchSaved=>{
+      res.json(200, searchSaved);
+    }).catch(error=>{
+      console.log(error);
+      res.json(500,error);
+    });
+  }catch(error){
+    console.log(error);
+    res.json(500,error);
+  }
 });
 
 module.exports = router;
