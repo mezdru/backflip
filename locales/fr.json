@@ -147,7 +147,7 @@
 	"0€": "0€",
 	"free forever": "gratuit pour toujours",
 	"Try the service for free and help us improve it": "Profitez de Wingzy gratuitement et aidez-nous à l'améliorer.",
-	"<p>Unlimited Coworkers</p><p>Unlimited Wings</p><p>Up to 1000 Searches per month</p>": "<p>Utilisateurs illimités</p><p>Wings illimitées</p><p>Jusqu'à 1000 recherches par mois</p>",
+	"<p>Unlimited Coworkers</p><p>Unlimited Wings</p><p>Up to 1000 Searches per month</p>": "<p>Utilisateurs illimités</p><p>Wings illimitées</p><p>Jusqu'à 1000 recherches par mois</p><p>Envoi d'emails ciblés</p><p>Intégrations à vos outils</p>",
 	"unlimited searches for associations and non-profit": "recherches illimitées pour les associations et les ONG",
 	"2€": "2€",
 	"per monthly active user": "par mois par utilisateur actif",
@@ -243,5 +243,8 @@
 	"Next step (the most fun)": "Prochaine étape (la plus marrante)",
 	"My availability:": "Ma disponibilité :",
 	"premium@wingzy.com": "premium@wingzy.com",
-	"and discover a world of new possibilities 😉": "et découvrez un monde de possibilités 😉"
+	"and discover a world of new possibilities 😉": "Profitez de Wingzy illimité et des fonctionnalités premium",
+	"Discover the Wings of %s !": "Découvrez les Wings de %s",
+	"Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Bonjour %s,<br/>Vous avez invité %s à rejoindre %s sur Wingzy.<br/> %s vient d'accepter votre invitation et à déployé ses ailes sur Wingzy grâce à vous. Bravo !",
+	"See his profile": "Découvrez son profil"
 }
