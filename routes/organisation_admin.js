@@ -102,7 +102,7 @@ router.all('/', function(req, res, next) {
   res.locals.activeCodes.forEach(activeCode => {
     activeCode.link = UrlHelper.makeUrl(res.locals.organisation.tag, 'code/'+activeCode.value, null, req.getLocale());
   });
-                    
+
   res.render('admin/organisation', { bodyClass: 'admin'});
 });
 

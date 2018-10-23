@@ -5,6 +5,14 @@
     {{#if user}}
       <div class="pure-menu pure-menu-horizontal">
         <ul class="pure-menu-list">
+          {{#if home}}
+            <li class="pure-menu-item pure-menu-item-why">
+              <a title="{{__ "Why Wingzy?"}}" href="{{whyWingzyUrl ../locale}}" class="pure-menu-link">{{__ "Why Wingzy?"}}</a>
+            </li>
+            <li class="pure-menu-item pure-menu-item-pricing">
+              <a title="{{__ "Pricing"}}" href="{{url 'pricing' null}}" class="pure-menu-link">{{__ "Pricing"}}</a>
+            </li>
+          {{/if}}
           <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
             <a title="{{__ 'Menu'}}" class="pure-menu-link pure-menu-picture">{{{profilePicture user organisation}}}</a>
             <ul class="pure-menu-children">

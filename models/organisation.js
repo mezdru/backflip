@@ -47,7 +47,7 @@ var organisationSchema = mongoose.Schema({
 
 /**
  * @description SET tag : Replace UpperCase by LowerCase in tag value.
- * @param {string} tag 
+ * @param {string} tag
  */
 function cleanOrgTag(tag){
   if(typeof(tag) !== "undefined"){
@@ -216,7 +216,8 @@ organisationSchema.post('save', function (organisation) {
   if (this.wasNew) {
     slack.send({
       channel : (process.env.NODE_ENV === "production") ? "#alerts" : "#alerts-dev",
-      text : `We have a new organisation: *${organisation.tag}* _${organisation._id}_ created by _${organisation.creator}_`
+      text : `We have a new organisation: *${organisation.tag}* _${organisation._id}_ created by _${organisation.creator}_`,
+      icon_emoji: ':stuck_out_tongue:',
     });
   }
 });
