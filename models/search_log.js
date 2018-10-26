@@ -8,5 +8,12 @@ var searchLogSchema = mongoose.Schema({
     created: { type: Date, default: Date.now }
 });
 
+searchLogSchema.statics.getSearchCounter = function(organisationId){
+    return SearchLog.find({organisation: organisationId})
+    .then(listOfSearchLog=>{
+        return listOfSearchLog.length;
+    });
+}
+
 let SearchLog = mongoose.model('SearchLog', searchLogSchema);
 module.exports = SearchLog;

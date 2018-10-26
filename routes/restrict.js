@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var UrlHelper = require('../helpers/url_helper.js');
+let SearchLog =require('../models/search_log');
 
 // Check if there is an user
 router.use(function(req, res, next) {
@@ -20,11 +21,6 @@ router.use(function(req, res, next) {
 
 // Check if the user can access the organisation
 router.use(function(req, res, next) {
-  res.locals.showPremiumButton = ((res.locals.organisation && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id)) 
-                            || (res.locals.user && res.locals.user.isSuperAdmin()));
-  res.locals.usePremiumFeatures = (res.locals.showPremiumButton && (res.locals.user.isSuperAdmin() || res.locals.organisation.premium));
-  res.locals.showFreeBanner = (res.locals.organisation && (!res.locals.organisation.public) && (!res.locals.organisation.premium) && (!res.locals.user.isSuperAdmin()));
-
   if (res.locals.organisation && res.locals.organisation.public === true) return next();
   if (res.locals.user.isSuperAdmin()) return next();
   if (res.locals.organisation) {
@@ -38,6 +34,24 @@ router.use(function(req, res, next) {
   }
   return next();
 });
+
+/**
+ * @description Make some utils parameters for front
+ */
+router.use(function(req, res, next){
+  res.locals.showPremiumButton = ((res.locals.organisation && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id)) 
+                                  || (res.locals.user && res.locals.user.isSuperAdmin()));
+  res.locals.usePremiumFeatures = (res.locals.showPremiumButton && (res.locals.user.isSuperAdmin() || res.locals.organisation.premium));
+  res.locals.showFreeBanner = (res.locals.organisation && (!res.locals.organisation.public) && (!res.locals.organisation.premium) && (!res.locals.user.isSuperAdmin()));
+
+  if(res.locals.organisation && res.locals.user){
+    SearchLog.getSearchCounter(res.locals.organisation._id)
+    .then(searchCounter=>{
+      res.locals.searchCounterRemaining = (1000 - searchCounter >= 0) ? (1000 - searchCounter) : 0 ;
+      return next();
+    });
+  }
+})
 
 router.use(function(req, res, next) {
   if (res.locals.organisation && res.locals.user)
