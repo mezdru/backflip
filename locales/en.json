@@ -244,7 +244,8 @@
 	"My availability:": "My availability:",
 	"premium@wingzy.com": "premium@wingzy.com",
 	"and discover a world of new possibilities 😉": "Enjoy Wingzy without limit and premium features",
-	"Discover the Wings of %s !": "Discover the Wings of %s !",
-	"Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.",
-	"See his profile": "See his profile"
+	"Discover the Wings of %s !": "Discover the Wings of %s!",
+	"Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation.<br/> Thank you for spreading your Wings!",
+	"See his profile": "See the profile",
+	"You are on a free Wingzy, you can only do %s of 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "Your Wingzy is free and will forever be free up to %s of 1000 searches this month. Contact us to <a href='mailto:premium@wingzy.io'>go&nbsp;premium</a>!"
 }
