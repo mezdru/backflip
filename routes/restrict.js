@@ -41,7 +41,7 @@ router.use(function(req, res, next) {
 router.use(function(req, res, next){
   res.locals.showPremiumButton = ((res.locals.organisation && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id)) 
                                   || (res.locals.user && res.locals.user.isSuperAdmin()));
-  res.locals.usePremiumFeatures = (res.locals.showPremiumButton && (res.locals.user.isSuperAdmin() || res.locals.organisation.premium));
+  res.locals.usePremiumFeatures = (res.locals.showPremiumButton && ((res.locals.user && res.locals.user.isSuperAdmin()) || res.locals.organisation.premium));
   res.locals.showFreeBanner = (res.locals.organisation && (!res.locals.organisation.public) && (!res.locals.organisation.premium) && (!res.locals.user.isSuperAdmin()));
 
   if(res.locals.organisation && res.locals.user){
@@ -50,6 +50,8 @@ router.use(function(req, res, next){
       res.locals.searchCounterRemaining = (1000 - searchCounter >= 0) ? (1000 - searchCounter) : 0 ;
       return next();
     });
+  }else{
+    return next();
   }
 })
 
