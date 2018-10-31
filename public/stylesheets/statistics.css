@@ -78,7 +78,7 @@
     font-size: 4em;
     color:white;
     font-weight: bolder;
-    line-height: 1em;
+    line-height: 0.8em;
 }
 .medium-text{
     position: relative;
@@ -103,7 +103,7 @@
     background-image: linear-gradient(to top right, #DAA520, #E9C261);
 }
 .ask-us-link{
-    font-size: 12px;
+    font-size: 10px;
     color:white;
 }
 
@@ -134,7 +134,7 @@
         font-size: 0.95em;
     }
     .ask-us-link{
-        font-size:12px;
+        font-size:10px;
     }
 
 }
