@@ -33,6 +33,7 @@ router.post('/',
   sanitizeBody('emails').trim().escape().stripLow(true)
 );
 router.post('/', function(req, res, next){
+  req.body.emails[0] = req.body.emails[0].replace(' ', '');
   req.body.emails = req.body.emails[0].split(',');
   return next();
 });
