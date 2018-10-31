@@ -8,6 +8,17 @@ let User = require('../models/user');
  * @description Populate top 10 searched Wings of the Wingzy
  */
 router.use('/', function(req, res, next){
+    if (!Object.entries)
+        Object.entries = function( obj ){
+            var ownProps = Object.keys( obj ),
+                i = ownProps.length,
+                resArray = new Array(i); // preallocate the Array
+
+            while (i--)
+                resArray[i] = [ownProps[i], obj[ownProps[i]]];
+            return resArray;
+        };
+
     const MAX_WINGS_LIST = 10;
 
     SearchLog.find({'organisation' : res.locals.organisation._id})
