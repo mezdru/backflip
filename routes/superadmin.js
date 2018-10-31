@@ -399,4 +399,29 @@ router.get('/normalizeEmails', function(req, res, next) {
   });
 });
 
+router.get('/repareEmails', function(req, res, next){
+  User.find({ "email.value" : { $regex: /\s+/g}})
+  .then(userList=>{
+    userList.forEach(user=>{
+      user.email.value = user.email.value.trim();
+      user.email.normalized = user.email.normalized.trim();
+      console.log('User email will be repared : *'+user.email.value+'* | normalized : *' + user.email.value+'*');
+      user.save().then(userSaved=>{
+        console.log('User email repared : *'+userSaved.email.value+'* | normalized : *' + userSaved.email.value+'*');
+      });
+    });
+    res.render('index', {
+      title: 'Emails reparation',
+      details: `${userList.length} users email repared`,
+      content: userList
+    });
+  }).catch(error=>{
+    res.render('index', {
+      title: 'Emails reparation failed',
+      details: 'Error in trying to update users emails...',
+      content: error
+    });
+  })
+});
+
 module.exports = router;
