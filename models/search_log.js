@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+let Record = require('./record');
 
 var searchLogSchema = mongoose.Schema({
     organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
@@ -13,7 +14,7 @@ searchLogSchema.statics.getSearchCounter = function(organisationId){
     .then(listOfSearchLog=>{
         return listOfSearchLog.length;
     });
-}
+};
 
 let SearchLog = mongoose.model('SearchLog', searchLogSchema);
 module.exports = SearchLog;

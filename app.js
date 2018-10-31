@@ -209,6 +209,12 @@ app.use('/', privatePages);
 var profile = require('./routes/profile.js');
 app.use('/profile', profile);
 
+var searchLog = require('./routes/searchLog');
+app.use('/searchLog', searchLog);
+
+var statistics = require('./routes/statistics');
+app.use('/statistics', statistics);
+
 // restricting
 var block = require('./routes/block.js');
 app.use('/', block);

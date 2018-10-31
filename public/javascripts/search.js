@@ -89,6 +89,7 @@ $(document).ready(function () {
 
   // Global variable
   let currentEmailList = [];
+  let searchLogRequestRunning = false;
 
   // Selectize
   var selectizeHashtags = '';
@@ -185,7 +186,6 @@ $(document).ready(function () {
   // SEARCH ALL
   // ==========
   var query, tags, facetFilters, hashtagsFilters, tagFilters, page;
-  let searchHistoricRequestRunning = false;
 
   function search() {
     page = 0;
@@ -211,16 +211,23 @@ $(document).ready(function () {
       }
       facetFilters = facetFilters.concat(hashtagsFilters);
     });
-    if(tags.length > 0 && !searchHistoricRequestRunning){
-      searchHistoricRequestRunning = true;
+
+    if(!searchLogRequestRunning && (query.length === 0 || query.length > 2)){
+      searchLogRequestRunning = true;
       $.ajax({
         type: 'POST',
-        data: JSON.stringify({tags : tags}),
+        data: JSON.stringify({tags : tags, query : query}),
         contentType: 'application/json',
-        url: '/searchHistoric' + window.location.search,						
-        success: function(data) {
-                        searchHistoricRequestRunning = false;      
-                    }
+        url: '/searchLog' + window.location.search,
+        error: function(){
+            // will fire when timeout is reached
+            searchLogRequestRunning = false; 
+        },
+        success: function(){
+            //do something
+            searchLogRequestRunning = false; 
+        },
+        timeout: 3000 // sets timeout to 3 seconds
       });
     }
 
