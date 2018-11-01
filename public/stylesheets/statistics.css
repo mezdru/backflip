@@ -17,6 +17,7 @@
 }
 .statistics .main .pure-g h3{
     color:rgb(80,80,80);
+    font-size: 10px;
 }
 .statistics .main .pure-g-box{
     background-color: #a4c5cb;
@@ -26,7 +27,6 @@
 }
 #top-searched-wings{
     background-image: linear-gradient(to top right, #DAA520, #E9C261);
-    /* min-height: 510px; */
     min-height: 550px;
     margin-right:20px;
     margin-left: 20px;
@@ -151,11 +151,14 @@
     .statistics .main .pure-g h2{
         font-size: 1.2em;
     }
+    .statistics .main .pure-g h3{
+        font-size: 12px;
+    }
     .big-text{
         font-size: 4em;
     }
     .medium-text{
-        font-size: 1.2em;
+        font-size: 1.5em;
     }
     .ask-us-link{
         display: block;
