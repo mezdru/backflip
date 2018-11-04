@@ -260,7 +260,6 @@
 	"Growth of the number of searches": "Growth of the number of searches",
 	"Growth of the number of active users": "Growth of the number of active users",
 	"An idea ?": "An idea ?",
-	"Idea for the statistics dashboard": "Idea for the statistics dashboard"
 	"also available for annual fee": "also available for annual fee",
 	"Try now !": "Try now !",
 	"premium@wingzy.com": "premium@wingzy.com",
@@ -268,5 +267,10 @@
 	"Discover the Wings of %s !": "Discover the Wings of %s !",
 	"Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Hello %s,<br/> You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.",
 	"See his profile": "See his profile",
-	"You are on a free Wingzy, you can only do %s of 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "You are on a free Wingzy, you can only do %s of 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !"
+	"You are on a free Wingzy, you can only do %s of 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !": "You are on a free Wingzy, you can only do %s of 1000 searches per month. To upgrade to premium, <a href='mailto:premium@wingzy.io'>contact&nbsp;us</a> !",
+	"Number of views": "Number of views",
+	"Number of views within the last 30 days": "Number of views within the last 30 days",
+	"Number of searches": "Number of searches",
+	"Number of searches within the last 30 days": "Number of searches within the last 30 days",
+	"Idea for the statistics dashboard": "Idea for the statistics dashboard"
 }
