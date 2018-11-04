@@ -242,9 +242,6 @@
 	"You and your coworkers can now find your Wingzy at <strong>%s.wingzy.com</strong>": "You and your coworkers can now find your Wingzy at <strong>%s.wingzy.com</strong>",
 	"Next step (the most fun)": "Next step (the most fun)",
 	"My availability:": "My availability:",
-	"<p><span>&#10003;</span>Unlimited Coworkers</p><p><span>&#10003;</span>Unlimited Wings</p><p><span>&#10003;</span>Up to 1000 Searches per month</p><p><span>&#10003;</span>Unlimited Searches</p><p><span>&#10003;</span>Targeted emails</p><p><span>&#10003;</span>Statistic</p>": "<p><span>&#10003;</span>Unlimited Coworkers</p><p><span>&#10003;</span>Unlimited Wings</p><p><span>&#10003;</span>Up to 1000 Searches per month</p><p><span>&#10003;</span>Unlimited Searches</p><p><span>&#10003;</span>Targeted emails</p><p><span>&#10003;</span>Statistic</p>",
-	"<p><span>&#10003;</span>Unlimited Coworkers</p><p><span>&#10003;</span>Unlimited Wings</p><p><span>&#10003;</span>Unlimited Searches</p><p><span>&#10003;</span>Targeted emails</p><p><span>&#10003;</span>Statistic</p>": "<p><span>&#10003;</span>Unlimited Coworkers</p><p><span>&#10003;</span>Unlimited Wings</p><p><span>&#10003;</span>Unlimited Searches</p><p><span>&#10003;</span>Targeted emails</p><p><span>&#10003;</span>Statistic</p>",
-	"<p><span>&#10003;</span>Tailor-made service for high-end needs</p><p><span>&#10003;</span>Integrated with your tools</p><p><span>&#10003;</span>Contact us for a detailed quote</p>": "<p><span>&#10003;</span>Tailor-made service for high-end needs</p><p><span>&#10003;</span>Integrated with your tools</p><p><span>&#10003;</span>Contact us for a detailed quote</p>",
 	"Free": "Free",
 	"Tailored": "Tailored",
 	"Time saved with Wingzy": "Time saved with Wingzy",
@@ -272,5 +269,9 @@
 	"Number of views within the last 30 days": "Number of views within the last 30 days",
 	"Number of searches": "Number of searches",
 	"Number of searches within the last 30 days": "Number of searches within the last 30 days",
-	"Idea for the statistics dashboard": "Idea for the statistics dashboard"
+	"Idea for the statistics dashboard": "Idea for the statistics dashboard",
+	"<p>&#10003;Unlimited coworkers</p><p>&#10003;Unlimited Wings</p><p>&#10003;Up to 1000 searches per month</p>": "<p>&#10003;Unlimited coworkers</p><p>&#10003;Unlimited Wings</p><p>&#10003;Up to 1000 searches per month</p>",
+	"<p>&#10003;Unlimited coworkers</p><p>&#10003;Unlimited Wings</p><p>&#10003;Unlimited searches</p><p>&#10003;Targeted email sending</p><p>&#10003;Include statistics</p>": "<p>&#10003;Unlimited coworkers</p><p>&#10003;Unlimited Wings</p><p>&#10003;Unlimited searches</p><p>&#10003;Targeted email sending</p><p>&#10003;Include statistics</p>",
+	"10€": "10€",
+	"<p>&#10003;Tailor-made service</p><p>&#10003;Integrated with your tools</p><p>&#10003;Detailed quote</p>": "<p>&#10003;Tailor-made service</p><p>&#10003;Integrated with your tools</p><p>&#10003;Detailed quote</p>"
 }

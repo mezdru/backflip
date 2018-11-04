@@ -1,0 +1,104 @@
+.pricing .main img {
+    margin: auto;
+}
+
+.pricing h1 {
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+    color: #777;
+    font-size: 3.5rem;
+    font-weight: 500;
+}
+
+.pricing h2 {
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 600;
+    border-radius: 30px 30px 0 0;
+}
+
+.pricing h2:first-child {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.pricing h3 {
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: white;
+}
+
+.pricing .pure-button {
+    width: auto;
+    margin: -2rem auto auto auto;
+    padding: 15px 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pricing .pure-g {
+    justify-content: center;
+}
+
+.pricing .pricing-column {
+    width: 20rem;
+    margin: 0 10px 15px 10px;
+    text-align: center;
+    color: white;
+}
+
+.pricing-column .grid-box {
+    display: flex;
+    flex-direction: column;
+    min-height: 28rem;
+    padding: 1.6rem 1.4rem;
+    border-radius: 5px;
+    background-image: linear-gradient(to top right, #89b3b9, #98C4CA);
+    line-height: 1.9rem;
+    font-size: 1.1rem;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.3)
+}
+
+.pricing .pricing-column .premium {
+    min-height: 30em;
+    margin-top: -40px;
+    background-image: linear-gradient(to top right, #DAA520, #E9C261);
+}
+
+.pricing-column:hover .pure-button, .pricing-column:hover .grid-box {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.4)
+}
+
+.pricing-header {
+    line-height: 2.6rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.pricing-content {
+    text-align: left;
+    padding: 0 1rem;
+}
+
+.pricing-footer {
+    margin-top: auto;
+    margin-bottom: 2rem;
+    line-height: 1rem;
+}
+
+@media screen and (max-width: 825px) {
+    .pricing .pricing-column {
+        margin: 0 50px 15px 50px;
+    }
+
+    .pricing .pricing-column .premium {
+        margin-top: 0;
+        min-height: 28rem;
+    }
+}
