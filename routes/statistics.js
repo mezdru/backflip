@@ -50,7 +50,8 @@ router.use('/', function(req, res, next){
 
         res.locals.viewCountLast30Days = getNumberOfViewsLast30Days(arrayOfSearchLog);
         res.locals.topWings = topWings;
-        res.locals.searchCountLast30Days = getNumberOfSearchesLast30Days(arrayOfSearchLog);
+        // the real calcul should be just : getNumberOfSearchesLast30Days()
+        res.locals.searchCountLast30Days = getNumberOfSearchesLast30Days(arrayOfSearchLog) + res.locals.viewCountLast30Days;
         res.locals.searchCount = Math.max(arrayOfSearchLog.length - numberOfViewsAllTime.length, 0);
         res.locals.searchTimeSaved = timeConvert(res.locals.searchCount*10, req); // suppose you earn 10 minutes by searchs ...
         return next();
