@@ -32,17 +32,11 @@
 .home .home-page h2 {
     margin: auto;
     color: #1d1f1a;
-    font-size: 1.5em;
     padding: 0;
     font-weight: 300;
     text-align: center;
-    font-family: 'Paper Daisy';
 }
 
-.home .home-page p {
-    font-family: 'Paper Daisy';
-    font-size: 1.5em;
-}
 
 .home .home-page h2 strong {
     font-weight: 500;
@@ -53,7 +47,6 @@
     font-size: 22.5px;
     padding: 0;
     text-align: center;
-    font-family: 'Paper Daisy';
 }
 
 /* LANDING */
@@ -119,7 +112,6 @@
     max-width: 854px;
     text-align: center;
     font-weight: 500;
-    font-size: 2em;
     margin: auto;
 }
 
@@ -146,7 +138,6 @@
 }
 
 .home .home-page p {
-    font-size: 2em;
     text-align: center;
     padding: 15px;
     color: white;
@@ -349,6 +340,10 @@ img.wingzy-full {
     text-decoration: none;
 }
 
+.black {
+    color: black !important;
+}
+
 @media screen and (min-width: 639px) {
     .home .epic .epic-placeholder {
         min-height: 45vw;
@@ -422,12 +417,8 @@ img.wingzy-full {
         font-weight: 600;
     }
 
-    .home .home-page h2 {
-        font-size: 3.5em;
-    }
-
     .home .home-page p {
-        font-size: 3.5em;
+        font-size: 2em;
     }
 
     .home .epic {
@@ -455,10 +446,6 @@ img.wingzy-full {
 
     .home .fly-away .grid-box {
         padding: 15vh 60px 0 0;
-    }
-
-    .home .home-page .pitch {
-        font-size: 48px;
     }
 
     .home .wings {
@@ -503,9 +490,5 @@ img.wingzy-full {
 
     .soutien-container .soutien-author h4 {
         font-size: 0.7em;
-    }
-
-    .black {
-        color: black !important;
     }
 }
