@@ -16,7 +16,7 @@
     "url": "https://github.com/lenomio/backflip/issues"
   },
   "engines": {
-    "node": "6.11.x"
+    "node": ">=8.0.0"
   },
   "homepage": "https://wingzy.com",
   "dependencies": {
