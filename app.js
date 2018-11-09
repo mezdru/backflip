@@ -59,12 +59,15 @@ if (app.get('env') === 'production') {
 }
 
 // Forest admin
-app.use(require('forest-express-mongoose').init({
-  modelsDir: __dirname + '/models',
-  envSecret: process.env.FOREST_ENV_SECRET,
-  authSecret: process.env.FOREST_AUTH_SECRET,
-  mongoose: require('mongoose')
-}));
+if(process.env.NODE_ENV !== 'staging'){
+  app.use(require('forest-express-mongoose').init({
+    modelsDir: __dirname + '/models',
+    envSecret: process.env.FOREST_ENV_SECRET,
+    authSecret: process.env.FOREST_AUTH_SECRET,
+    mongoose: require('mongoose')
+  }));
+}
+
 
 // www is not an organisation, it's an 1990 artifact.
 app.use(function(req, res, next) {
