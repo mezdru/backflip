@@ -20,6 +20,7 @@
   },
   "homepage": "https://wingzy.com",
   "dependencies": {
+    "agenda": "^2.0.2",
     "algoliasearch": "^3.22.1",
     "array-unique": "^0.3.2",
     "body-parser": "^1.18.3",

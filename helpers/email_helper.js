@@ -106,6 +106,35 @@ var EmailHelper = {
           console.log(err);
         });
     },
+    emailReinvite: function(email, senderName, senderEmail, organisationName, url, locale, i18n) {
+      i18n.setLocale(locale);
+      const request = mailjet
+        .post("send")
+        .request({
+          "FromEmail": senderEmail || defaultEmitter,
+          "FromName": senderName || defaultEmitterName,
+          "Subject": i18n.__("Join %s on Wingzy", organisationName),
+          "MJ-TemplateID": "200696",
+          "MJ-TemplateLanguage": true,
+          "Recipients": [
+            { "Email": email }
+          ],
+          "Vars": {
+            "intro": i18n.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, an intuitive app to find each other according to what we love and know.", organisationName),
+            "inviterName": (senderName || defaultEmitterName) +' ('+organisationName+')',
+            "button": i18n.__("Spread your wings"),
+            "url": url || defaultLink,
+            "outro": i18n.__("This red button can be used to securely access Wingzy for 30 days.")
+          }
+        });
+      request
+        .then(()=>{
+          SlackHelper.notify('#alerts-invitation', 'New invitation by ' + senderName + ' ('+senderEmail+') to ' + email + '.');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     emailSpread: function(recipientName, recipientEmail, senderName, senderEmail, organisationName, url, text, res) {
       const request = mailjet
         .post("send")

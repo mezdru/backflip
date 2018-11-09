@@ -86,6 +86,9 @@ i18n.configure({
 
 app.use(i18n.init);
 
+var Agenda = require('./models/agenda_scheduler');
+Agenda.i18n = i18n;
+
 //@todo the i18n.init is quite heavy, can we avoid this logic when we read the Locale from the URL ?
 app.use(function(req, res, next) {
   var match = req.url.match(/^\/([a-z]{2}(\-[A-Z]{2})?)([\/\?].*)?$/i);
