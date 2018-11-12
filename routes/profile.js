@@ -96,7 +96,7 @@ router.get('*', function(req, res, next) {
 });
 
 router.get('*', function(req, res, next){
-  if ((!res.locals.user.ownsRecord(res.locals.record._id))){
+  if (res.locals.user && (!res.locals.user.ownsRecord(res.locals.record._id))){
     res.locals.canProposeWings = true;
   }
   next();
