@@ -129,6 +129,14 @@ EmailUser.sendMonthlyEmail = function(user, sender, organisation, userCount, ext
   });
 };
 
+EmailUser.makeEmailFromGoogle = function(user, callback) {
+  user.email = {value: user.google.email};
+  EmailUser.generateToken(user, function(err, user) {
+    if (err) return callback(err);
+    return callback(null, user);
+  });
+}
+
 EmailUser.getLoginUrl = function(user, organisation, locale) {
   var url = new UrlHelper(undefsafe(organisation, 'tag'), "email/login/callback", `?hash=${user.email.hash}&token=${user.email.token}`, locale).getUrl();
   return url;

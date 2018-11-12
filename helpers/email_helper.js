@@ -214,6 +214,70 @@ var EmailHelper = {
           .catch(err => {
             console.log(err);
           });
+      },
+      emailProposeWings: function(recipientName, recipientEmail, senderName, wingsProposed, organisationName, url, res) {
+        const request = mailjet
+        .post('send')
+        .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__(
+                "{{senderName}} thought about you !", 
+                {senderName: senderName}
+              ),
+            "MJ-TemplateID": "571332",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "intro": res.__(
+                "Hello {{recipientName}}, <br/><br/> {{senderName}} thought about you !<br/> He has proposed to you {{wingsCounter}} new Wings, click on the red button to discover them.",
+                {recipientName: recipientName, senderName: senderName, wingsCounter: wingsProposed.length}
+              ),
+              "button": res.__("Discover these Wings"),
+              "url": url,
+              "orgLogoUrl": 'https://wingzy.io/wingzy.png',
+              "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+            }
+        });
+        request
+        .then()
+        .catch(err => console.log(err));
+      },
+      emailThanksForProposedWings: function(recipientName, recipientEmail, senderName, wingsAccepted, organisationName, url, res) {
+        const wingsAcceptedString = (Array.isArray(wingsAccepted)) ? 
+                                    wingsAccepted.reduce((stack, curr)=>{
+                                        return stack? stack+', '+curr : curr;
+                                    }) : '';
+        const request = mailjet
+        .post('send')
+        .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__(
+                "Thank you ! {{senderName}} just accepted {{wingsAcceptedCounter}} Wings from you",
+                {wingsAcceptedCounter: wingsAccepted.length, senderName: senderName}
+              ),
+            "MJ-TemplateID": "571332",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "intro": res.__(
+                "Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.",
+                {recipientName: recipientName, senderName: senderName, wingsAcceptedCounter:  wingsAccepted.length, wingsList: wingsAcceptedString}
+              ),
+              "button": res.__("See his profile"),
+              "url": url,
+              "orgLogoUrl": 'https://wingzy.io/wingzy.png',
+              "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+            }
+        });
+        request
+        .then()
+        .catch(err => console.log(err));
       }
   }
 };
