@@ -31,24 +31,32 @@ router.use(function(req, res, next) {
     hashtagsActionLabel: req.__("Save"),
     linksAction: new UrlHelper(req.organisationTag, 'onboard/links', query, req.getLocale()).getUrl(),
     organisationUrl: new UrlHelper(res.locals.organisation.tag, null, null, req.getLocale()).getUrl(),
-    hashtagsIntro: req.__("What do you love? What do you know?")
+    hashtagsIntro: req.__("What do you love? What do you know?"),
+    hashtagsOutro: req.__("Drag and drop to reorder. The first three will be displayed in search results.")
   };
 
   // Wings propositions
   if(req.query.proposeToId){
-    res.locals.onboard.hashtagsAction = new UrlHelper(req.organisationTag, 'onboard/hashtags', '?proposeToId='+req.query.proposeToId, req.getLocale()).getUrl();
-    res.locals.onboard.hashtagsActionLabel = req.__("Propose these Wings");
-    res.locals.onboard.introAction = res.locals.onboard.organisationUrl;
-    res.locals.onboard.hashtagsIntro = req.__("You think that your colleague has other Wings ? Tell him !");
-  } 
-    
-  // Wings propositions management
-  if(req.query.proposedWings && req.query.proposerRecordId){
+    Record.findOne({'_id': req.query.proposeToId})
+    .then(proposeToRecord => {
+      res.locals.onboard.hashtagsAction = new UrlHelper(req.organisationTag, 'onboard/hashtags', '?proposeToId='+req.query.proposeToId, req.getLocale()).getUrl();
+      res.locals.onboard.hashtagsActionLabel = req.__("Propose these Wings");
+      res.locals.onboard.introAction = res.locals.onboard.organisationUrl;
+      res.locals.onboard.hashtagsIntro = req.__("You think that {{recipientName}} has other Wings ? Tell him !",
+                                                  {recipientName: proposeToRecord.name});
+      res.locals.onboard.hashtagsOutro = req.__("An email will be send to {{recipientName}} to propose these Wings.",
+                                                  {recipientName: proposeToRecord.name});
+      return next();
+    });
+  // Wings propositions management  
+  }else if (req.query.proposedWings && req.query.proposerRecordId) {
     res.locals.onboard.hashtagsAction = new UrlHelper(req.organisationTag, 'onboard/hashtags', '?proposedWings='+req.query.proposedWings+'&proposerRecordId='+req.query.proposerRecordId, req.getLocale()).getUrl();
     res.locals.onboard.hashtagsActionLabel = req.__("Save");
     res.locals.onboard.introAction = res.locals.onboard.organisationUrl;
+    return next();
+  }else{
+    return next();
   }
-  return next();
 });
 
 // First we check there is an organisation.

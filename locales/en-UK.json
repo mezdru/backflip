@@ -285,5 +285,7 @@
 	"{{proposerName}} has proposed to you the <br/><span class='golden-wings'>golden Wings</span> below. You are free to reorder, remove or accept them.": "{{proposerName}} has proposed to you the <br/><span class='golden-wings'>golden Wings</span> below. You are free to reorder, remove or accept them.",
 	"Thank you ! {{senderName}} just accepted {{wingsAcceptedCounter}} Wings from you": "Thank you ! {{senderName}} just accepted {{wingsAcceptedCounter}} Wings from you",
 	"Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.": "Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.",
-	"HT": "HT"
+	"HT": "HT",
+	"An email will be send to {{recipientName}} to propose these Wings.": "An email will be send to {{recipientName}} to propose these Wings.",
+	"You think that {{recipientName}} has other Wings ? Tell him !": "You think that {{recipientName}} has other Wings ? Tell him !"
 }

@@ -129,9 +129,9 @@ EmailUser.sendMonthlyEmail = function(user, sender, organisation, userCount, ext
   });
 };
 
-EmailUser.makeEmailFromGoogle = function(user, callback) {
-  user.email = {value: user.google.email};
-  EmailUser.generateToken(user, function(err, user) {
+EmailUser.makeEmailFromGoogle = function(userP, callback) {
+  userP.email = {value: userP.google.email};
+  EmailUser.generateToken(userP, function(err, user) {
     if (err) return callback(err);
     return callback(null, user);
   });
