@@ -280,10 +280,12 @@
 	"Propose these Wings": "Propose these Wings",
 	"See my profile": "See his profile",
 	"{{senderName}} thought about you !": "{{senderName}} thought about you !",
-	"Hello {{recipientName}}, <br/><br/> {{senderName}} thought about you !<br/> He has proposed to you {{wingsCounter}} new Wings, click on the red button to discover them.": "Hello {{recipientName}}, <br/><br/> {{senderName}} thought about you !<br/> He has proposed to you {{wingsCounter}} new Wings, click on the red button to discover them.",
+	"Hello {{recipientName}}, <br/><br/> {{senderName}} thought about you !<br/> He has proposed to you {{wingsCounter}} new Wings, click on the red button to discover them.": "Hello {{recipientName}}, <br/><br/> {{senderName}} thought about you !<br/> She/he suggests {{wingsCounter}} new Wings for your profile, click on the red button to validate them.",
 	"You think that your colleague has other Wings ? Tell him !": "You think that your colleague has other Wings ? Tell him !",
-	"{{proposerName}} has proposed to you the <br/><span class='golden-wings'>golden Wings</span> below. You are free to reorder, remove or accept them.": "{{proposerName}} has proposed to you the <br/><span class='golden-wings'>golden Wings</span> below. You are free to reorder, remove or accept them.",
+	"{{proposerName}} has proposed to you the <br/><span class='golden-wings'>golden Wings</span> below. You are free to reorder, remove or accept them.": "{{proposerName}} suggests these <br/><span class='golden-wings'>new Wings</span> to you. Feel free to reorder, remove or accept them.",
 	"Thank you ! {{senderName}} just accepted {{wingsAcceptedCounter}} Wings from you": "Thank you ! {{senderName}} just accepted {{wingsAcceptedCounter}} Wings from you",
-	"Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.": "Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.",
-	"HT": "excl. taxes"
+	"Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.": "Hello {{recipientName}}, <br/><br/> {{senderName}} added {{wingsAcceptedCounter}} Wings to her/his profile thanks to you ! {{wingsList}}<br/><br/>That's awesome, thanks for spreading our Wings !",
+	"HT": "excl. taxes",
+	"An email will be send to {{recipientName}} to propose these Wings.": "An email will be send to {{recipientName}} to propose these Wings.",
+	"You think that {{recipientName}} has other Wings ? Tell him !": "You think that {{recipientName}} has other Wings ? Tell him !"
 }
