@@ -168,6 +168,9 @@ app.use(function(req, res, next) {
   return next();
 });
 
+var api = require('./api/api');
+app.use('/api', api);
+
 // Looking for the org and setup res.locals.organisation
 var org = require('./routes/org.js');
 app.use('/', org);
