@@ -87,4 +87,11 @@
     if(!$(this).children('input').is(':checked')) $(this).removeClass('checked');
   });
   $('#wings-checkboxes input:checked').parent().addClass('checked');
+  
+  $( document ).ready(function() {
+    var elt = document.getElementsByClassName('uploadcare--widget__button uploadcare--widget__button_type_open')[0];
+    elt.innerHTML = '<i class="fa fa-camera" aria-hidden="true"></i> {{{__ "Click here"}}}';
+  });
+  
+
 </script>
