@@ -77,7 +77,7 @@ recordSchema.index({'includes': 1});
 recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type !== 'hashtag') inputObject.type = 'person';
   inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
-  inputObject.name = inputObject.name || this.getNameFromTag(inputObject.tag);
+  inputObject.name = inputObject.name || (inputObject.type === 'person' ? '' : this.getNameFromTag(inputObject.tag));
   return new this(inputObject);
 };
 
@@ -387,12 +387,10 @@ recordSchema.statics.findByEmail = function(email, organisationId, callback) {
 recordSchema.statics.makeFromEmail = function(email, organisationId) {
   let type = 'person';
   let tag = this.getTagFromEmail(email);
-  let name = this.getNameFromTag(tag);
   let emailLink = new LinkHelper(email).link;
   inputObject = {
     type: type,
     tag: tag,
-    name: name,
     organisation: organisationId,
     links: [emailLink]
   };
