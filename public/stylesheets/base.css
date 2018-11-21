@@ -1967,6 +1967,17 @@ color: #e6e6e6;
     border-radius: 35px;
     font-size: 20px;
   }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color:rgb(135,135,135);
+    opacity: 1; /* Firefox */
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:rgb(135,135,135);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color:rgb(135,135,135);
+}
 
   .selectize-input > input[type="text"] {
     vertical-align: top;
