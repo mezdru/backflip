@@ -467,7 +467,7 @@ router.post('/hashtags', function(req, res, next) {
           sendWingsPropositionThanks(req.query.proposerRecordId, proposedWingsAccepted, req.getLocale(), res);
         }
       }
-      if( req.query.first && res.locals.featuredWingFamily) return res.redirect(res.locals.onboard.featuredWingsAction);
+      if( req.query.first && res.locals.featuredWingsFamily) return res.redirect(res.locals.onboard.featuredWingsAction);
       else if ( req.query.first) return res.redirect(res.locals.onboard.linksAction);
       else return res.redirect(res.locals.onboard.returnUrl);
     });
