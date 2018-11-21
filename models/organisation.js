@@ -151,7 +151,7 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
 };
 
 organisationSchema.methods.getFeaturedWingsRecords = function(){
-  return Record.find({'organisation': this._id, 'hashtags' : {'$in': this.featuredWingsFamily}})
+  return Record.find({'organisation': this._id, 'hashtags' : {'$in': this.featuredWingsFamily}, 'type': 'hashtag'})
     .populate('hashtags', '_id organisation tag name')
     .exec().then((records)=>{
       if(records.length === 0 ){
@@ -165,6 +165,21 @@ organisationSchema.methods.getFeaturedWingsRecords = function(){
       }
     });
 }
+
+// Old method to get first soft wings
+organisationSchema.statics.getTheWings = function(req, res, next) {
+  Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#Wings" }, function(err, wingRecord) {
+    if (err) return next(err);
+    if (!wingRecord) return next(new Error('Cannot get the Wings'));
+    Record.find({organisation: Organisation.getTheAllOrganisationId(), hashtags: wingRecord._id }, function(err, records) {
+      if (err) return next(err);
+      records = records.filter(record => !record._id.equals(wingRecord._id));
+      res.locals.wings = records;
+      return next();
+    }.bind(this));
+  }.bind(this));
+};
+
 organisationSchema.methods.populateFirstWings = function(){
   this.featuredWingsFamily.length===0 ? this.featuredWingsFamily.push(process.env.DEFAULT_SOFTWING_ID):'';
   return this.populate('featuredWingsFamily', '_id tag name intro').execPopulate();

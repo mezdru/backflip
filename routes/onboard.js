@@ -30,10 +30,15 @@ router.use(function(req, res, next) {
     hashtagsAction: new UrlHelper(req.organisationTag, 'onboard/hashtags', query, req.getLocale()).getUrl(),
     hashtagsActionLabel: req.__("Save"),
     linksAction: new UrlHelper(req.organisationTag, 'onboard/links', query, req.getLocale()).getUrl(),
+    featuredWingsAction: new UrlHelper(req.organisationTag, 'onboard/featured', query, req.getLocale()).getUrl(),
     organisationUrl: new UrlHelper(res.locals.organisation.tag, null, null, req.getLocale()).getUrl(),
     hashtagsIntro: req.__("What do you love? What do you know?"),
     hashtagsOutro: req.__("Drag and drop to reorder. The first three will be displayed in search results.")
   };
+
+  if(res.locals.organisation.featuredWingsFamily && typeof(res.locals.organisation.featuredWingsFamily) !== 'undefined' && res.locals.organisation.featuredWingsFamily.length !== 0) {
+    res.locals.featuredWingsFamily = true;
+  }
 
   // Wings propositions
   if(req.query.proposeToId){
@@ -265,32 +270,37 @@ router.use(function(req, res, next) {
   next();
 });
 
-/**
- * @description Get all the featuredWings records add by the org admin.
- */
-router.all('/intro', function(req, res, next){
+router.all('/intro', Organisation.getTheWings);
+
+router.all('/featured', function(req, res, next) {
   res.locals.organisation.getFeaturedWingsRecords().then(records=>{
     res.locals.featuredWings = records;
     return next();
   }).catch(error=>{return next(error);});
 });
 
-
 /**
  * @description Checked the wings for which the user had chosen.
  */
 router.all('/intro', function(req, res, next) {
   res.locals.record.hashtags.forEach(function(hashtag) {
-      var wing = res.locals.featuredWings.find(wing => wing._id.equals(hashtag._id));
+      var wing = res.locals.wings.find(wing => wing._id.equals(hashtag._id));
       if (wing) wing.checked = true;
   });
   next();
+});
+router.all('/featured', function(req, res, next) {
+  res.locals.record.hashtags.forEach(function(hashtag) {
+    var wing = res.locals.featuredWings.find(wing => wing._id.equals(hashtag._id));
+    if (wing) wing.checked = true;
+});
+next();  
 });
 
 /**
  * @description Order featuredWings by featuredWingsFamily and create object to display them.
  */
-router.all('/intro', function(req, res, next){
+router.all('/featured', function(req, res, next){
   res.locals.featuredWingsByFamily = [];
   res.locals.organisation.populateFirstWings().then(()=>{
     res.locals.organisation.featuredWingsFamily.forEach(featuredWingFamily=>{
@@ -348,18 +358,55 @@ router.post('/intro',
 })
 );
 
+router.post('/featured',
+  body('wings').custom((value, { req }) => {
+    if (!Array.isArray(value)) {
+      if (!value) value = [];
+      else value = [value];
+    }
+    req.body.wings = value;
+    return true;
+  })
+)
+
 function getRandomInt(max) {
   return Math.round(Math.random() * Math.floor(max));
 }
+
+router.post('/featured', function(req, res, next) {
+  if(req.body.wings) {
+    req.body.wings.forEach((wingTag) => {
+      res.locals.featuredWings.find(record => record.tagEquals(wingTag)).checked = true;
+    });
+    var errors = validationResult(req);
+    res.locals.errors = errors.array();
+    if (errors.isEmpty()) {
+        res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
+          if (err) return next(err);
+          res.locals.record.save(function(err, record) {
+            if (err) return next(err);
+            if (req.query.first) return res.redirect(res.locals.onboard.linksAction);
+            else return res.redirect(res.locals.onboard.returnUrl);
+          });
+        });
+    } else {
+      next();
+    }  
+  }else {
+    if (req.query.first) return res.redirect(res.locals.onboard.linksAction);
+    else return res.redirect(res.locals.onboard.returnUrl);
+  }
+});
 
 router.post('/intro', function(req, res, next) {
   res.locals.record.name = req.body.name;
   res.locals.record.intro = req.body.intro;
   req.body.wings.forEach((wingTag) => {
-    res.locals.featuredWings.find(record => record.tagEquals(wingTag)).checked = true;
+    res.locals.wings.find(record => record.tagEquals(wingTag)).checked = true;
   });
   if (!req.body.picture.url) {
-    var firstWings = res.locals.featuredWings.filter(record => record.checked && record.picture.url);
+    var firstWings = res.locals.wings.filter(record => record.checked && record.picture.url);
+
 
     if (firstWings.length > 0) res.locals.record.picture.url = firstWings[getRandomInt(firstWings.length-1)].picture.url;
     else res.locals.record.picture.url = null;
@@ -420,7 +467,8 @@ router.post('/hashtags', function(req, res, next) {
           sendWingsPropositionThanks(req.query.proposerRecordId, proposedWingsAccepted, req.getLocale(), res);
         }
       }
-      if (req.query.first) return res.redirect(res.locals.onboard.linksAction);
+      if( req.query.first && res.locals.featuredWingFamily) return res.redirect(res.locals.onboard.featuredWingsAction);
+      else if ( req.query.first) return res.redirect(res.locals.onboard.linksAction);
       else return res.redirect(res.locals.onboard.returnUrl);
     });
   });
@@ -492,6 +540,14 @@ router.all('/intro', function(req, res, next) {
   res.locals.onboard.step = "intro";
   res.locals.onboard.intro = true;
   res.render('onboard/intro', {
+    bodyClass: 'onboard onboard-intro'
+  });
+});
+
+router.all('/featured', function(req, res, next) {
+  res.locals.onboard.step = "featured";
+  res.locals.onboard.featured = true;
+  res.render('onboard/featured', {
     bodyClass: 'onboard onboard-intro'
   });
 });

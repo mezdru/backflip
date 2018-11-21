@@ -42,7 +42,12 @@
       <div class="pure-g">
         <div class="pure-u-1-2 pure-u-md-1-3">
           <div class="grid-box">
-            <a class="pure-button scale back-button" href="{{onboard.hashtagsAction}}">{{{__ "Back"}}}</a>
+            {{#if featuredWingsFamily}}
+              <a class="pure-button scale back-button" href="{{onboard.featuredWingsAction}}">{{{__ "Back"}}}</a>
+            {{else}}
+              <a class="pure-button scale back-button" href="{{onboard.hashtagsAction}}">{{{__ "Back"}}}</a>
+            {{/if}}
+            
           </div>
         </div>
         <div class="pure-u-1-2 pure-u-md-2-3">

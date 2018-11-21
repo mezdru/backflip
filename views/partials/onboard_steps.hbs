@@ -8,11 +8,25 @@
   <img src="/images/steps/hashtags_grey.png">
   <span>{{__ "Wings"}}</span>
 </a>
+{{#if featuredWingsFamily}}
+<a title="{{__ "More"}}" class="scale step hashtagsStep {{#if onboard.featured}}active{{/if}}" href="{{onboard.featuredWingsAction}}">
+  <img src="/images/steps/featured_red.png">
+  <img src="/images/steps/featured_grey.png">
+  <span>{{__ "More"}}</span>
+</a>
+<a title="{{__ "Links"}}" class="scale step linksStep {{#if onboard.links}}active{{/if}}" href="{{onboard.linksAction}}">
+  <img src="/images/steps/links_red4.png">
+  <img src="/images/steps/links_grey4.png">
+  <span>{{__ "Contacts"}}</span>
+</a>
+{{else}}
 <a title="{{__ "Links"}}" class="scale step linksStep {{#if onboard.links}}active{{/if}}" href="{{onboard.linksAction}}">
   <img src="/images/steps/links_red.png">
   <img src="/images/steps/links_grey.png">
   <span>{{__ "Contacts"}}</span>
 </a>
+{{/if}}
+
 <!--Start of HubSpot Embed Code-->
   <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4894133.js"></script>
 <!-- End of HubSpot Embed Code -->

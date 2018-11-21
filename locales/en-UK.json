@@ -289,11 +289,13 @@
 	"An email will be send to {{recipientName}} to propose these Wings.": "An email will be send to {{recipientName}} to propose these Wings.",
 	"You think that {{recipientName}} has other Wings ? Tell him !": "You think that {{recipientName}} has other Wings ? Tell him !",
 	"Click here": "Click here",
+	"Just to make sure...": "Just to make sure...",
 	"Type Wings here 🖋": "Type Wings here 🖋",
 	"my-email@domain.io 🖋": "my-email@domain.io 🖋",
 	"+33 1 12 35 81 32 🖋": "+33 1 12 35 81 32 🖋",
 	"@Wingzy_io 🖋": "@Wingzy_io 🖋",
 	"simonedebeauvoir 🖋": "simonedebeauvoir 🖋",
 	"simone.de.beauvoir 🖋": "simone.de.beauvoir 🖋",
-	"https://github.com/wingzy 🖋": "https://github.com/wingzy 🖋"
+	"https://github.com/wingzy 🖋": "https://github.com/wingzy 🖋",
+	"More": "More"
 }
