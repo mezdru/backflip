@@ -287,5 +287,15 @@
 	"Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.": "Hello {{recipientName}}, <br/><br/> {{senderName}} added {{wingsAcceptedCounter}} Wings to her/his profile thanks to you ! {{wingsList}}<br/><br/>That's awesome, thanks for spreading our Wings !",
 	"HT": "excl. taxes",
 	"An email will be send to {{recipientName}} to propose these Wings.": "An email will be send to {{recipientName}} to propose these Wings.",
-	"You think that {{recipientName}} has other Wings ? Tell him !": "You think that {{recipientName}} has other Wings ? Tell him !"
+	"You think that {{recipientName}} has other Wings ? Tell him !": "You think that {{recipientName}} has other Wings ? Tell him !",
+	"Click here": "Click here",
+	"Just to make sure...": "Just to make sure...",
+	"Type Wings here 🖋": "Type Wings here 🖋",
+	"my-email@domain.io 🖋": "my-email@domain.io 🖋",
+	"+33 1 12 35 81 32 🖋": "+33 1 12 35 81 32 🖋",
+	"@Wingzy_io 🖋": "@Wingzy_io 🖋",
+	"simonedebeauvoir 🖋": "https://www.linkedin.com/company/wingzy/",
+	"simone.de.beauvoir 🖋": "https://www.facebook.com/wingzy.io/",
+	"https://github.com/wingzy 🖋": "https://github.com/wingzy 🖋",
+	"More": "More"
 }

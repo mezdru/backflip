@@ -287,5 +287,15 @@
 	"Hello {{recipientName}}, <br/><br/> Thank you for your Wings proposition ! {{senderName}} has accepted {{wingsAcceptedCounter}} of them : {{wingsList}}<br/><br/> Feel free to return to his profile.": "crwdns1568:0{{recipientName}}crwdnd1568:0{{senderName}}crwdnd1568:0{{wingsAcceptedCounter}}crwdnd1568:0{{wingsList}}crwdne1568:0",
 	"HT": "crwdns1546:0crwdne1546:0",
 	"An email will be send to {{recipientName}} to propose these Wings.": "crwdns1570:0{{recipientName}}crwdne1570:0",
-	"You think that {{recipientName}} has other Wings ? Tell him !": "crwdns1572:0{{recipientName}}crwdne1572:0"
+	"You think that {{recipientName}} has other Wings ? Tell him !": "crwdns1572:0{{recipientName}}crwdne1572:0",
+	"Click here": "crwdns1574:0crwdne1574:0",
+	"Just to make sure...": "crwdns1590:0crwdne1590:0",
+	"Type Wings here 🖋": "crwdns1576:0crwdne1576:0",
+	"my-email@domain.io 🖋": "crwdns1578:0crwdne1578:0",
+	"+33 1 12 35 81 32 🖋": "crwdns1580:0crwdne1580:0",
+	"@Wingzy_io 🖋": "crwdns1582:0crwdne1582:0",
+	"simonedebeauvoir 🖋": "crwdns1584:0crwdne1584:0",
+	"simone.de.beauvoir 🖋": "crwdns1586:0crwdne1586:0",
+	"https://github.com/wingzy 🖋": "crwdns1588:0crwdne1588:0",
+	"More": "crwdns1592:0crwdne1592:0"
 }
