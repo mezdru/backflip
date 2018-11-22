@@ -53,8 +53,8 @@
 	"The merchant in Aladin": "The merchant in Aladin",
 	"Profile Picture": "Profile Picture",
 	"Email": "Email",
-	"Name": "Name",
-	"What do you do at %s?": "What do you do at %s?",
+	"Name": "Firstname Lastname",
+	"What do you do at %s?": "What is your role at %s?",
 	"Choose your first wings": "Choose your first Wings",
 	"Back": "Back",
 	"Save": "Save",
@@ -292,10 +292,11 @@
 	"Just to make sure...": "Just to make sure...",
 	"Type Wings here 🖋": "Type Wings here 🖋",
 	"my-email@domain.io 🖋": "my-email@domain.io 🖋",
-	"+33 1 12 35 81 32 🖋": "+33 1 12 35 81 32 🖋",
+	"+33 1 12 35 81 32 🖋": "Your phone number 🖋",
 	"@Wingzy_io 🖋": "@Wingzy_io 🖋",
 	"simonedebeauvoir 🖋": "https://www.linkedin.com/company/wingzy/ 🖋",
 	"simone.de.beauvoir 🖋": "https://www.facebook.com/wingzy.io/ 🖋",
 	"https://github.com/wingzy 🖋": "https://github.com/wingzy 🖋",
-	"More": "More"
+	"More": "More",
+	"Please provide a valid emoji.": "Please provide a valid emoji."
 }
