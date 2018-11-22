@@ -23,10 +23,9 @@
         {{#records}}
             <div class="pure-u-1-2 pure-u-md-1-3">
             <div class="grid-box">
-                <label for="{{tag}}" class="wings-label">
-                <div class="wings-label-img"><img src="{{pictureUrl picture type}}" class="wings-img"></div>
-                <div class="wings-label-name">{{name}}</div>
-                <input id="{{tag}}" type="checkbox" name="wings" value="{{tag}}" {{#checked}}checked{{/checked}}>
+                <label for="{{tag}}" class="wings-label cloud-element hashtag">
+                  <div class="wings-label-name emoji-wings">{{{icon this}}}<span>{{name}}</span></div>
+                  <input id="{{tag}}" type="checkbox" name="wings" value="{{tag}}" {{#checked}}checked{{/checked}}>
                 </label>
             </div>
             </div>
@@ -74,14 +73,14 @@
 
 </script>
 <style>
-  .onboard-intro .wings-label-img{
- display:none !important;
-}
 .onboard-intro #wings-checkboxes .pure-u-1-2, .onboard-intro #wings-checkboxes .pure-u-md-1-3{
 width:unset !important;
 }
-
+.wings-label-name {
+  padding:0 !important;
+}
 .wings-checkboxes-label{
  margin-bottom: 30px !important;
 }
+
 </style>

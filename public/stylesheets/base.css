@@ -1862,6 +1862,33 @@ color: #e6e6e6;
   border:none;
 }
 
+/* PLACEHOLDER */
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color:rgb(135,135,135);
+  opacity: 1; /* Firefox */
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:rgb(135,135,135);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color:rgb(135,135,135);
+}
+
+input:focus::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+color:rgb(185,185,185);
+opacity: 1; /* Firefox */
+}
+input:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:rgb(185,185,185);
+}
+
+input:focus::-ms-input-placeholder { /* Microsoft Edge */
+  color:rgb(185,185,185);
+}
+
+
 @media screen and (min-width: 639px) {
 
   header {
@@ -1967,17 +1994,6 @@ color: #e6e6e6;
     border-radius: 35px;
     font-size: 20px;
   }
-  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color:rgb(135,135,135);
-    opacity: 1; /* Firefox */
-  }
-  :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color:rgb(135,135,135);
-}
-
-::-ms-input-placeholder { /* Microsoft Edge */
-    color:rgb(135,135,135);
-}
 
   .selectize-input > input[type="text"] {
     vertical-align: top;
