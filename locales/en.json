@@ -291,12 +291,12 @@
 	"Click here": "Click here",
 	"Just to make sure...": "Just to make sure...",
 	"Type Wings here 🖋": "Type Wings here 🖋",
-	"my-email@domain.io 🖋": "my-email@domain.io 🖋",
-	"+33 1 12 35 81 32 🖋": "Your phone number 🖋",
-	"@Wingzy_io 🖋": "@Wingzy_io 🖋",
-	"simonedebeauvoir 🖋": "https://www.linkedin.com/company/wingzy/ 🖋",
-	"simone.de.beauvoir 🖋": "https://www.facebook.com/wingzy.io/ 🖋",
-	"https://github.com/wingzy 🖋": "https://github.com/wingzy 🖋",
+	"my-email@domain.io 🖋": "my-email@domain.io",
+	"+33 1 12 35 81 32 🖋": "Your phone number",
+	"@Wingzy_io 🖋": "@Wingzy_io",
+	"simonedebeauvoir 🖋": "https://www.linkedin.com/company/wingzy/",
+	"simone.de.beauvoir 🖋": "https://www.facebook.com/wingzy.io/",
+	"https://github.com/wingzy 🖋": "https://github.com/wingzy",
 	"More": "More",
 	"Please provide a valid emoji.": "Please provide a valid emoji."
 }
