@@ -30,11 +30,12 @@ router.get('/:orgTag', function(req, res, next) {
                                                             logo: organisation.logo.url
                                                         }
                                     });
-    }).catch(resWithError);
+    }).catch((err) => {return next(err);});
 });
 
-let resWithError = (err) => {
-    return res.status(500).json({message: 'Internal error', errors: [err]});
-};
+router.use(function(err, req, res, next){
+    if(err) return res.status(500).json({message: 'Internal error', errors: [err.message]});
+    return res.status(500).json({message: 'Unexpected error'});
+});
 
 module.exports = router;

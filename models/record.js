@@ -405,8 +405,8 @@ recordSchema.methods.belongsToOrganisation = function(organisationId) {
 
 recordSchema.statics.makeFromTag = function(tag, organisationId, callback) {
   let type = this.getTypeFromTag(tag);
-  tag = this.cleanTag(tag, type);
   let name = this.getNameFromTag(tag);
+  tag = this.cleanTag(tag, type);
   inputObject = {
     type: type,
     tag: tag,
@@ -417,6 +417,21 @@ recordSchema.statics.makeFromTag = function(tag, organisationId, callback) {
   if (callback) return record.save(callback);
   else return record;
 };
+// new
+recordSchema.statics.makeFromTagAsync = function(tag, orgId) {
+  let type = this.getTypeFromTag(tag);
+  let name = this.getNameFromTag(tag);
+  tag = this.cleanTag(tag, type);
+  inputObject = {
+    type: type,
+    tag: tag,
+    name: name,
+    organisation: orgId
+  };
+  record = this.makeFromInputObject(inputObject);
+  return record.save();
+}
+
 
 recordSchema.statics.getTagFromEmail = function(email) {
   return this.cleanTag(email.split('@')[0], 'person');

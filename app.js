@@ -10,6 +10,22 @@ app.locals.title = 'Wingzy';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  //intercepts OPTIONS method
+  if ('OPTIONS' === req.method) {
+    //respond with 200
+    res.send(200);
+  }
+  else {
+  //move on
+    next();
+  }
+});
+
+
 // Database
 var mongoose = require('mongoose');
 mongoose.plugin(schema => { schema.options.usePushEach = true; });
@@ -168,8 +184,11 @@ app.use(function(req, res, next) {
   return next();
 });
 
-var api = require('./api/api');
-app.use('/api', api);
+// API needs auth to work, this could be use to desactivate API too
+if(process.env.HOST_AUTH){
+  var api = require('./api/api');
+  app.use('/api', api);
+}
 
 // Looking for the org and setup res.locals.organisation
 var org = require('./routes/org.js');
