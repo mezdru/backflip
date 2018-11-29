@@ -28,7 +28,8 @@ router.get('/:orgTag', function(req, res, next) {
                                         organisation:   {
                                                             tag: organisation.tag, 
                                                             name: organisation.name, 
-                                                            logo: organisation.logo.url
+                                                            logo: organisation.logo.url,
+                                                            public: organisation.public
                                                         }
                                     });
     }).catch((err) => {return next(err);});
