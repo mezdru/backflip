@@ -650,6 +650,9 @@ recordSchema.pre('save', function(next) {
 recordSchema.post('save', function(doc) {
   this.algoliaSync();
 });
+recordSchema.post('findOneAndUpdate', function(doc) {
+  doc.algoliaSync();
+});
 
 recordSchema.plugin(mongooseDelete, {
   deletedAt : true,

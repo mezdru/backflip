@@ -137,7 +137,7 @@ router.get('/organisation/:orgTag/me', auth, function(req, res , next) {
     Organisation.findOne({'tag': req.params.orgTag})
     .then(organisation => {
         if(!organisation) return res.status(404).json({message: 'Organisation not found.'});
-        if(!req.user.isSuperAdmin() && !req.user.belongsToOrganisation(organisation._id)) return res.status(403).json({message: 'You haven\'t access to this Organisation.'});
+        if(!req.user.belongsToOrganisation(organisation._id)) return res.status(403).json({message: 'You haven\'t access to this Organisation.'});
 
         Record.findOne(req.user.getOrgAndRecord(organisation._id).record._id)
         .populate('hashtags', '_id tag type name picture')
@@ -171,7 +171,7 @@ router.delete('/organisation/:orgTag/me', auth, function(req, res , next) {
     Organisation.findOne({'tag': req.params.orgTag})
     .then(organisation => {
         if(!organisation) return res.status(404).json({message: 'Organisation not found.'});
-        if(!req.user.isSuperAdmin() && !req.user.belongsToOrganisation(organisation._id)) return res.status(403).json({message: 'You haven\'t access to this Organisation.'});
+        if(!req.user.belongsToOrganisation(organisation._id)) return res.status(403).json({message: 'You haven\'t access to this Organisation.'});
 
         Record.findOne(req.user.getOrgAndRecord(organisation._id).record._id)
         .then(record => {
