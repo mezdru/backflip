@@ -78,7 +78,7 @@ router.get('/algolia/private/:orgTag', auth, function(req, res, next){
     Organisation.findOne({'tag' : req.params.orgTag})
     .then(organisation => {
         if(!organisation) return res.status(404).json({message: 'Organisation public not found.'});
-        if(!req.user.belongsToOrganisation(organisation._id)) return res.status(403).json({message: 'You haven\'t access to this Organisation.'})
+        if(!req.user.isSuperAdmin() && !req.user.belongsToOrganisation(organisation._id)) return res.status(403).json({message: 'You haven\'t access to this Organisation.'})
 
         let publicKey = algoliaOrganisation.makePublicKey(organisation._id);
         return res.status(200).json({message:'Algolia public key found with success.', public_key: publicKey});
