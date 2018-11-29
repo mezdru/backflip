@@ -463,4 +463,56 @@ router.use('/statistics/activeUsers/:orgTag', function(req, res, next){
   }
 });
 
+/**
+ * @description Modify domain of users of an org
+ */
+router.use('/organisation/:orgTag/domain/:oldDomain/:newDomain', function(req, res, next) {
+  if(res.locals.user && res.locals.user.isSuperAdmin() && req.params.orgTag){
+    Organisation.findOne({'tag':req.params.orgTag})
+    .then(organisation => {
+      if(!organisation){
+        error = new Error('Organisation not found.');
+        error.status = 404;
+        return next(error);
+      }
+      User.find({'orgsAndRecords.organisation': organisation._id})
+      .then(users => {
+        let counter = 0;
+        let userModified = [];
+        users.forEach(user => {
+          let toSave = false;
+          if(user.google && user.google.hd === req.params.oldDomain){
+            user.google.email = (user.google.email.split('@'))[0] + '@' + req.params.newDomain;
+            user.google.normalized = (user.google.normalized.split('@'))[0] + '@' + req.params.newDomain;
+            user.google.hd = req.params.newDomain;
+            counter ++;
+            toSave = true;
+          }
+          if(user.email && (user.email.value.split('@')[1] === req.params.oldDomain)) {
+            user.email.value = user.email.value.split('@')[0] + '@' + req.params.newDomain;
+            user.email.normalized = user.email.normalized.split('@')[0] + '@' + req.params.newDomain;
+            counter++;
+            toSave = true;
+          }
+          if(toSave){
+            userModified.push(user);
+            user.save();
+          } 
+        });
+        res.render('index',
+              {
+                  title: 'These users have been modified in : ' + req.params.orgTag,
+                  details: 'They are '+counter+' users modified.',
+                  content: userModified
+              });
+      });
+
+    }).catch(error => {return next(error);});
+  }else{
+    error = new Error('You are not allowed to use this feature');
+    error.status = 403;
+    return next(error);
+  }
+});
+
 module.exports = router;
