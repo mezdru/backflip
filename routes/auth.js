@@ -33,6 +33,10 @@ router.get('/login', function(req, res, next) {
     googleSignin = true;
     emailSignin = true;
   }
+  if(res.locals.organisation && res.locals.organisation.loginMessages) {
+    let msg = res.locals.organisation.getLoginMessage(req.getLocale());
+    if(msg) res.locals.info = {msg: msg};
+  }
 
   res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });

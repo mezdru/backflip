@@ -42,7 +42,13 @@ var organisationSchema = mongoose.Schema({
   canInvite: { type: Boolean, default: true },
   featuredWingsFamily : [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
-  ]
+  ],
+  loginMessages: [
+    {
+      locale: {type: String, default: 'en'},
+      message: {type: String}
+    }
+  ] 
 });
 
 /**
@@ -196,6 +202,17 @@ organisationSchema.methods.removeFeaturedWingsFamily = function(recordId){
 
 organisationSchema.methods.isInFeaturedWingsFamilyArray = function(recordId){
   return this.featuredWingsFamily.some(record=> record.equals(recordId));
+}
+
+/**
+ * @description Get login message of the organisation by locale chosen. Default: english message.
+ * @param {String} locale 
+ */
+organisationSchema.methods.getLoginMessage = function(locale) {
+  let loginMessage = this.loginMessages.find(loginMessage => loginMessage.locale === locale);
+  if(!loginMessage) loginMessage = this.loginMessages.find(loginMessage => loginMessage.locale === 'en');
+  if(loginMessage) return loginMessage.message;
+  return null;
 }
 
 organisationSchema.statics.getTheAllOrganisationId = function() {

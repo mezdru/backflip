@@ -11,6 +11,15 @@
       </div>
     </div>
   </div>
+  {{#if loginMessage}}
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <div class="grid-box">
+          {{> form_errors}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
   {{else}}
   <div class="pure-g">
     <div class="pure-u-1">
