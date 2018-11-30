@@ -5,7 +5,7 @@ var User = require('../../models/user');
 var auth = require('../middleware_auth');
 
 /**
- * @api {get} /api/user/organisations Get Organisations of an User
+ * @api {get} /api/users/organisations Get Organisations of an User
  * @apiName GetUserOrganisations
  * @apiGroup User
  * @apiVersion 0.9.0
