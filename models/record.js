@@ -11,6 +11,11 @@ var recordSchema = mongoose.Schema({
   tag: {type: String, required: true},
   type: {type: String, enum: ['person', 'team', 'hashtag']},
   name: String,
+  name_translated: {
+    en: String,
+    fr: String,
+    'en-UK': String
+  },
   intro: {type: String},
   description: {type: String},
   picture: {
@@ -71,6 +76,11 @@ recordSchema.index({'organisation': 1, 'tag': 1}, {unique: true, partialFilterEx
 recordSchema.index({'organisation': 1, 'links.type': 1, 'links.value': 1});
 recordSchema.index({'within': 1});
 recordSchema.index({'includes': 1});
+
+recordSchema.methods.getName = function(locale) {
+  return undefsafe(this.name_translated, locale) || this.name || this.tag;
+};
+
 
 // This pseudo constructor takes an object that is build by RecordObjectCSVHelper or MakeFromTag
 // @todo this feels weird... why manipulate fake record object instead of just Records ?
@@ -252,6 +262,7 @@ recordSchema.statics.shallowCopy = function(record) {
   return {
     _id: record.id,
     name: record.name,
+    name_translated: record.name_translated,
     tag: record.tag,
     type: record.type,
     picture: record.picture
@@ -353,7 +364,7 @@ recordSchema.methods.getWithinFromDescription = function(organisation) {
 
 recordSchema.methods.hasWing = function(wing){
   return this.hashtags.some(hashtag=> hashtag && hashtag._id.equals(wing._id));
-}
+};
 
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
@@ -361,8 +372,8 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   tag = this.cleanTag(tag);
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
-  .populate('hashtags', '_id tag type name picture')
-  .populate('within', '_id tag type name picture')
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
 
@@ -370,8 +381,8 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findById = function(id, organisationId, callback) {
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
-  .populate('hashtags', '_id tag type name picture')
-  .populate('within', '_id tag type name picture')
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
 
@@ -379,8 +390,8 @@ recordSchema.statics.findById = function(id, organisationId, callback) {
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByEmail = function(email, organisationId, callback) {
   this.findOne({organisation: organisationId, 'links': { $elemMatch: { value: email, type: 'email' }}})
-  .populate('hashtags', '_id tag type name picture')
-  .populate('within', '_id tag type name picture')
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
 
@@ -591,6 +602,7 @@ recordSchema.methods.algoliaSync = function(doc) {
       tag: this.tag,
       type: this.type,
       name: this.name,
+      name_translated: this.name_translated,
       intro: this.intro,
       description: this.description,
       picture: this.picture,

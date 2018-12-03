@@ -83,7 +83,7 @@ function getLocale() {
   if (locale) return locale;
 
   firstPath = window.location.pathname.split('/')[1];
-  if (['en','fr'].includes(firstPath)) locale = firstPath;
+  if (['en','fr','en-UK'].includes(firstPath)) locale = firstPath;
 
   return locale;
 }
@@ -225,9 +225,16 @@ transformHashtags = function(item, facets) {
 	makeHightlighted(item, facets);
 	orderHashtags(item);
 	item.hashtags.forEach(function(item) {
+		translateName(item);
 		addPictureHtml(item, true);
 	});
 };
+
+function translateName(item) {
+	if (item.name_translated && item.name_translated[locale]) {
+		item.name = item.name_translated[locale];
+	}
+}
 
 makeHightlighted = function(item, facets) {
 	if (!item._highlightResult.hashtags) item._highlightResult.hashtags = [];

@@ -8,6 +8,11 @@ hbs.registerHelper('__', function () {
   return this.__.apply(this, arguments);
 });
 
+hbs.registerHelper('name_translated', function(record) {
+  if (this.getLocale) locale = this.getLocale();
+  return record.getName(locale);
+});
+
 hbs.registerHelper('locale', function() {
   return this.getLocale();
 });
@@ -204,6 +209,7 @@ hbs.registerHelper('url', function(path, organisationTag, query) {
   if (typeof query !== 'string') query = null;
   return new UrlHelper(organisationTag, path, query, locale).getUrl();
 });
+
 hbs.registerHelper('whyWingzyUrl', function(locale){
   locale = locale ||this.getLocale();
   return '/' +  locale + '/' + '#whyWingzy';

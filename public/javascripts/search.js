@@ -74,6 +74,8 @@ $(document).ready(function () {
   var algolia = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
   var world = algolia.initIndex('world');
 
+  var locale = getLocale();
+
   // DOM and Templates binding
   var $searchInput = $('#search input');
   var $searchInputIcon = $('#search-input-icon');
@@ -109,8 +111,8 @@ $(document).ready(function () {
     load: function(query, callback) {
         world.search({
           query: query,
-          attributesToRetrieve: ['type','name', 'tag','picture'],
-          restrictSearchableAttributes: ['name', 'tag'],
+          attributesToRetrieve: ['type','name', 'name_translated', 'tag','picture'],
+          restrictSearchableAttributes: ['name', 'name_translated', 'tag'],
           hitsPerPage: 5
         },
         function(err, content) {
@@ -126,6 +128,7 @@ $(document).ready(function () {
     render: {
         option: function(option) {
             var highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
+            if (option._highlightResult.name_translated && option._highlightResult.name_translated[locale]) highlightedName = option._highlightResult.name_translated[locale].value;
             var highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
             return '<div class="aa-suggestion ' + option.type + '">' +
             '<span class="tag">' +
@@ -221,11 +224,11 @@ $(document).ready(function () {
         url: '/searchLog' + window.location.search,
         error: function(){
             // will fire when timeout is reached
-            searchLogRequestRunning = false; 
+            searchLogRequestRunning = false;
         },
         success: function(){
             //do something
-            searchLogRequestRunning = false; 
+            searchLogRequestRunning = false;
         },
         timeout: 3000 // sets timeout to 3 seconds
       });
@@ -287,9 +290,9 @@ $(document).ready(function () {
     currentEmailList = [];
     $showMore.fadeOut(fillSpeed);
     if (content.hits.length === 0) {
-      return $hits.html(nooneTemplate.render(content)); 
+      return $hits.html(nooneTemplate.render(content));
     }
-    content.hits.forEach(function(hit) { 
+    content.hits.forEach(function(hit) {
       transformItem(hit, $selectize.items);
       currentEmailList = addHitEmailsToTab(hit, currentEmailList);
     });
