@@ -480,27 +480,32 @@ router.use('/organisation/:orgTag/domain/:oldDomain/:newDomain', function(req, r
         let counter = 0;
         let userModified = [];
         users.forEach(user => {
-          let toSave = false;
-          if(user.google && user.google.hd === req.params.oldDomain){
-            if(user.google.email)
-              user.google.email = (user.google.email.split('@'))[0] + '@' + req.params.newDomain;
-            if(user.google.normalized)
-              user.google.normalized = (user.google.normalized.split('@'))[0] + '@' + req.params.newDomain;
-            user.google.hd = req.params.newDomain;
-            counter ++;
-            toSave = true;
+          try{
+            let toSave = false;
+            if(user.google && user.google.hd === req.params.oldDomain){
+              if(user.google.email)
+                user.google.email = (user.google.email.split('@'))[0] + '@' + req.params.newDomain;
+              if(user.google.normalized)
+                user.google.normalized = (user.google.normalized.split('@'))[0] + '@' + req.params.newDomain;
+              user.google.hd = req.params.newDomain;
+              counter ++;
+              toSave = true;
+            }
+            if(user.email && user.email.value && (user.email.value.split('@')[1] === req.params.oldDomain)) {
+              user.email.value = user.email.value.split('@')[0] + '@' + req.params.newDomain;
+              if(user.email.normalized)
+                user.email.normalized = user.email.normalized.split('@')[0] + '@' + req.params.newDomain;
+              counter++;
+              toSave = true;
+            } 
+            if(toSave){
+              userModified.push(user);
+              user.save();
+            } 
+            
+          }catch (error) {
+            console.log('SUPERADMIN : Migrate domain : Error : ' + error);
           }
-          if(user.email && user.email.value && (user.email.value.split('@')[1] === req.params.oldDomain)) {
-            user.email.value = user.email.value.split('@')[0] + '@' + req.params.newDomain;
-            if(user.email.normalized)
-              user.email.normalized = user.email.normalized.split('@')[0] + '@' + req.params.newDomain;
-            counter++;
-            toSave = true;
-          }
-          if(toSave){
-            userModified.push(user);
-            user.save();
-          } 
         });
         res.render('index',
               {
