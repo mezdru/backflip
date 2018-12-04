@@ -488,7 +488,7 @@ router.use('/organisation/:orgTag/domain/:oldDomain/:newDomain', function(req, r
             counter ++;
             toSave = true;
           }
-          if(user.email && (user.email.value.split('@')[1] === req.params.oldDomain)) {
+          if(user.email && user.email.value && (user.email.value.split('@')[1] === req.params.oldDomain)) {
             user.email.value = user.email.value.split('@')[0] + '@' + req.params.newDomain;
             user.email.normalized = user.email.normalized.split('@')[0] + '@' + req.params.newDomain;
             counter++;
