@@ -5,30 +5,54 @@ var User = require('../../models/user');
 var auth = require('../middleware_auth');
 
 /**
- * @api {get} /api/users/organisations Get Organisations of an User
- * @apiName GetUserOrganisations
+ * @api {get} /api/users/me Get current user
+ * @apiName GetCurrentUser
  * @apiGroup User
  * @apiVersion 0.9.0
  * 
  * @apiHeader {String} Authorization User 'Bearer access_token'
  * 
- * @apiSuccess {String} message Organisations fetch with success.
- * @apiSuccess {[Organisation]} organisations Organisation object array
+ * @apiSuccess {String} message User fetch with success.
+ * @apiSuccess {User} user 
  * 
  * @apiError (500 Internal Server Error) InternalError Internal error
  * @apiError (400 Bad Request) BadRequest Missing parameters
  * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid.
  */
-router.get('/organisations', auth, function(req, res, next) {
-    User.findOne({'_id' : req.user._id})
-    .populate('orgsAndRecords.organisation')
-    .then(userPopulated => {
-        let arrayOfOrg = userPopulated.orgsAndRecords.reduce( (curr, entry) => {
-            curr.push(entry.organisation);
-        });
-        return res.status(200).json({message: 'Success in fetching the Organisations of the User', organisations: arrayOfOrg});
-    }).catch((err) => {return next(err);});
+router.get('/current', auth, function(req, res, next) {
+    return res.status(200).json({message: 'User fetch with success', user: req.user});
+});
+
+/**
+ * @api {put} /api/users/:userId? Update current user or other user
+ * @apiName UpdateUser
+ * @apiGroup User
+ * @apiVersion 0.9.0
+ * 
+ * @apiHeader {String} Authorization User 'Bearer access_token'
+ * 
+ * @apiSuccess {String} message User updated with success.
+ * @apiSuccess {User} user User updated
+ * 
+ * @apiError (500 Internal Server Error) InternalError Internal error
+ * @apiError (400 Bad Request) BadRequest Missing parameters
+ * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
+ * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR Your are not allowed to update this User.
+ * @apiError (422 Missing Parameters) MissingParameters Missing parameters.
+ */
+router.put('/:userId?', auth, function(req, res, next) {
+    if(!req.body.user) return res.status(422).json({message: 'Missing parameter'});
+    if(!req.user.isSuperAdmin() && req.params.userId) return res.status(403).json({message: 'Your are not allowed to update this User.'});
+
+    let userId = req.params.userId ? req.params.userId : req.user._id;
+    if(req.body.user.superadmin && !req.user.isSuperAdmin()) delete req.body.user.superadmin;
+
+    User.findOneAndUpdate({'_id' : userId}, {$set: req.body.user}, {new: true})
+    .then(userUpdated => {
+        if(!userUpdated) return res.status(404).json({message: 'User not found.'});
+        return res.status(200).json({message: 'User updated with success.', user: userUpdated});
+    }).catch((err) => {return next(err);});  
 });
 
 router.use(function(err, req, res, next){
