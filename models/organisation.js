@@ -16,6 +16,7 @@ var organisationSchema = mongoose.Schema({
     url: String,
   },
   tag: {type: String, required: true, index: true, unique: true, set: cleanOrgTag},
+  tag_redirect: {type: String, required: false, unique: true, set: cleanOrgTag},
   google: {
     hd: [String],
   },

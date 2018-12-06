@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var undefsafe = require('undefsafe');
 var UrlHelper = require('./helpers/url_helper.js');
+var Organisation = require('./models/organisation');
 
 // App
 var app = express();
@@ -55,6 +56,22 @@ if (app.get('env') === 'production') {
     return next();
   });
 
+  //  Perform redirection
+  app.use(function(req, res, next) {
+    if(req.organisationTag){
+      Organisation.findOne({'tag_redirect': req.organisationTag})
+      .then(organisation => {
+        if(organisation && organisation.tag_redirect  ) return res.redirect(302, "https://" + organisation.tag + '.' +req.headers.host + req.url);
+        return next();
+      }).catch(err => {
+        console.log('TAG REDIRECT ERROR : ' + err);
+        return next();
+      });
+    }else{
+      return next();
+    }
+  });
+
 } else if (app.get('env') === 'staging') {
   // Setup URL for Pull Request apps.
   process.env.HOST = process.env.HEROKU_APP_NAME + ".herokuapp.com";
@@ -71,7 +88,6 @@ if (app.get('env') === 'production') {
     if (req.query.subdomains) req.organisationTag = req.query.subdomains.split('.')[0];
     return next();
   });
-
 }
 
 // Forest admin
