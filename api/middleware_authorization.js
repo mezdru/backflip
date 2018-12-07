@@ -8,7 +8,7 @@ var Record = require('../models/record');
  *              The other way (for get and delete methods) is that we find orgId thanks to recordId.
  */
 router.use(function(req, res, next) {
-    let recordId = req.originalUrl.split('/api/profiles/')[1].split('/')[0].trim();
+    let recordId =req.originalUrl.split('/api/profiles/').length > 1 ? req.originalUrl.split('/api/profiles/')[1].split('/')[0].trim() : undefined;
     if(!req.body.orgId && !recordId) return res.status(422).json({message: 'Missing parameter'});
     if(req.body.orgId){
         Organisation.findOne({'_id': req.body.orgId})
