@@ -225,7 +225,7 @@ $(document).ready(function () {
     var $newHashtags = $('<div></div>');
     for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
-      if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 1 && (i < 2 || getRandomInt(3) === 0 )) {
+      if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 0 && (suggestedTags.length < 3 || getRandomInt(1) === 0 )) {
         $newHashtags.append(hashtagsTemplate.render(getHashtag(hit.value)));
         suggestedTags.push(hit.value);
         notEnough--;
@@ -268,7 +268,7 @@ $(document).ready(function () {
     }
     if(isProposedWings(hashtag)){
       hashtag.proposedClass = 'proposedWings';
-    } 
+    }
     if (!hashtag.type) hashtag.type = 'hashtag';
     if (!hashtag.name) hashtag.name = hashtag.tag.replace('#','');
     hashtag.pictureHtml = getPictureHtml(hashtag, true);
