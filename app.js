@@ -61,7 +61,7 @@ if (app.get('env') === 'production') {
     if(req.organisationTag){
       Organisation.findOne({'tag_redirect': req.organisationTag})
       .then(organisation => {
-        if(organisation && organisation.tag_redirect  ) return res.redirect(302, "https://" + organisation.tag + '.' +req.headers.host + req.url);
+        if(organisation && organisation.tag_redirect  ) return res.redirect(302, "https://" + organisation.tag + '.' +process.env.HOST + req.url);
         return next();
       }).catch(err => {
         console.log('TAG REDIRECT ERROR : ' + err);
