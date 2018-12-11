@@ -49,7 +49,7 @@ var organisationSchema = mongoose.Schema({
       locale: {type: String, default: 'en'},
       message: {type: String}
     }
-  ] 
+  ]
 });
 
 /**
@@ -138,6 +138,7 @@ organisationSchema.methods.validateCode = function(codeToValidate) {
 };
 
 // We populate ALL the records in the Organisation AND IN THE "ALL" ORGANISATION
+// @todo move the find into the record model to avoid duplication
 organisationSchema.methods.populateRecords = function(includeAll, callback) {
   if (!callback) {
     callback = includeAll;
@@ -147,7 +148,7 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
 
   if (this.records) return callback(null, this);
   Record.find({organisation: organisation})
-    .select('_id organisation tag type name intro description picture links hashtags within updated created')
+    .select('_id organisation tag type name name_translated intro description picture links hashtags within updated created')
     .populate('hashtags', '_id organisation tag type name picture')
     .populate('within', '_id organisation tag type name picture')
     .exec(function(err, records) {
@@ -207,7 +208,7 @@ organisationSchema.methods.isInFeaturedWingsFamilyArray = function(recordId){
 
 /**
  * @description Get login message of the organisation by locale chosen. Default: english message.
- * @param {String} locale 
+ * @param {String} locale
  */
 organisationSchema.methods.getLoginMessage = function(locale) {
   let loginMessage = this.loginMessages.find(loginMessage => loginMessage.locale === locale);
