@@ -81,6 +81,8 @@ $(document).ready(function () {
   var algolia = algoliasearch(ALGOLIA_APPID, ALGOLIA_SEARCH_APIKEY);
   var world = algolia.initIndex('world');
 
+  var locale = getLocale();
+
   searchForHashtags();
 
   // DOM and Templates binding
@@ -108,7 +110,7 @@ $(document).ready(function () {
     plugins: ['drag_drop', 'remove_button', 'soft_clear_options', 'has_item', 'create_on_enter', 'keep_placeholder'],
     persist: false,
     create: function(input) {
-      return getHashtag(input);
+      return getHashtag(input, locale);
     },
     openOnFocus: false,
     createOnBlur: true,
@@ -117,7 +119,7 @@ $(document).ready(function () {
     load: function(query, callback) {
         world.search({
           query: query,
-          attributesToRetrieve: ['type','name', 'tag','picture'],
+          attributesToRetrieve: ['type','name', 'name_translated', 'tag','picture'],
           facetFilters: ['type:hashtag'],
           hitsPerPage: 5
         },
@@ -135,6 +137,7 @@ $(document).ready(function () {
     render: {
         option: function(option) {
             var highlightedName = option._highlightResult ? (option._highlightResult.name.value || option._highlightResult.tag.value) : option.tag;
+            if (option._highlightResult && option._highlightResult.name_translated && option._highlightResult.name_translated[locale]) highlightedName = option._highlightResult.name_translated[locale].value;
             var highlightedTag = option._highlightResult ? option._highlightResult.tag.value : option.tag;
             return '<div class="aa-suggestion ' + option.type + '">' +
             '<span class="tag">' +
@@ -147,7 +150,7 @@ $(document).ready(function () {
             '</div>';
         },
         item: function(item, escape) {
-            return hashtagsTemplate.render(getHashtag(item));
+            return hashtagsTemplate.render(getHashtag(item, locale));
         },
         option_create: function(data) {
           if (data.input.charAt(0) !== '#') data.input = '#' + data.input;
@@ -209,7 +212,7 @@ $(document).ready(function () {
   function searchForHashtags() {
     world.search({
       facetFilters: ['type:hashtag'],
-      attributesToRetrieve: ['type','name', 'tag','picture'],
+      attributesToRetrieve: ['type','name', 'name_translated', 'tag','picture'],
       hitsPerPage: 100
     }, function(err, content) {
       if (err) throw new Error(err);
@@ -226,14 +229,14 @@ $(document).ready(function () {
     for (var i = 0; i < hits.length; ++i) {
       var hit = hits[i];
       if ($.inArray(hit.value, $selectize.items) === -1 && hit.count > 0 && (suggestedTags.length < 3 || getRandomInt(1) === 0 )) {
-        $newHashtags.append(hashtagsTemplate.render(getHashtag(hit.value)));
+        $newHashtags.append(hashtagsTemplate.render(getHashtag(hit.value, locale)));
         suggestedTags.push(hit.value);
         notEnough--;
       }
     }
     for (var prop in hashtagsBank) {
       if (notEnough > 0 && getRandomInt(3) === 0 && $.inArray(prop, $selectize.items) === -1 && $.inArray(prop, suggestedTags) === -1) {
-        $newHashtags.append(hashtagsTemplate.render(getHashtag(prop)));
+        $newHashtags.append(hashtagsTemplate.render(getHashtag(prop, locale)));
         suggestedTags.push(prop);
         notEnough--;
       }
@@ -247,6 +250,7 @@ $(document).ready(function () {
         tag: hit.tag,
         type: hit.type,
         name: hit.name,
+        name_translated: hit.name_translated,
         picture: hit.picture
       };
     });
@@ -254,11 +258,11 @@ $(document).ready(function () {
 
   function isProposedWings(hashtag) {
     if(proposedWings)
-      return proposedWings.includes(hashtag.tag.replace('#', ''))
+      return proposedWings.includes(hashtag.tag.replace('#', ''));
     return false;
   }
 
-  function getHashtag(hashtag) {
+  function getHashtag(hashtag, locale) {
     if (typeof hashtag === "string") {
       if(hashtag.charAt(0) !== '#') hashtag = '#' + hashtag;
       hashtag = {tag: hashtag};
@@ -271,6 +275,7 @@ $(document).ready(function () {
     }
     if (!hashtag.type) hashtag.type = 'hashtag';
     if (!hashtag.name) hashtag.name = hashtag.tag.replace('#','');
+    if (locale && hashtag.name_translated && hashtag.name_translated[locale]) hashtag.name = hashtag.name_translated[locale];
     hashtag.pictureHtml = getPictureHtml(hashtag, true);
     hashtag.$score = 1;
     return hashtag;
