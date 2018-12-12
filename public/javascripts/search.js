@@ -97,7 +97,7 @@ $(document).ready(function () {
   var selectizeHashtags = '';
   var $selectize = $searchInput.selectize({
     valueField: 'tag',
-    labelField: 'tag',
+    labelField: 'name',
     loadThrottle: null,
     maxOptions: 5,
     highlight: false,
@@ -146,9 +146,11 @@ $(document).ready(function () {
             case '#': item.type = 'hashtag'; break;
             default: item.type = 'unknown'; break;
           }
+          var name = item.name;
+          if (item.name_translated && item.name_translated[locale]) name = item.name_translated[locale];
           return '<div class="cloud-element ' + item.type + '">' +
               '<span>' +
-                escape(item.tag) +
+                escape(name) +
               '</span>' +
             '</div>';
         }
@@ -370,7 +372,7 @@ $(document).ready(function () {
     let text = '';
     emails.forEach(function(email){
       if(text === '')
-        text += email
+        text += email;
       else
         text += '\r\n'+email;
     });
