@@ -587,7 +587,7 @@ recordSchema.methods.setPicturePath = function(picturePath, callback) {
 var algolia = require('algoliasearch')(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_WRITE_KEY);
 var index = algolia.initIndex('world');
 
-recordSchema.methods.algoliaSync = function(doc) {
+recordSchema.methods.algoliaSync = function() {
   if (this.deleted) {
     index.deleteObject(this._id.toString(), function(err, doc) {
       if (err) return console.error(err);

@@ -105,6 +105,7 @@ function goLeft(event) {
 }
 
 transformItem = function (item, facets) {
+	translateName(item);
 	addUrl(item);
 	addPictureHtml(item);
 	transformHashtags(item, facets);
@@ -233,6 +234,9 @@ transformHashtags = function(item, facets) {
 function translateName(item) {
 	if (item.name_translated && item.name_translated[locale]) {
 		item.name = item.name_translated[locale];
+	}
+	if (item._highlightResult && item._highlightResult.name_translated && item._highlightResult.name_translated[locale]) {
+		item._highlightResult.name =item._highlightResult.name_translated[locale];
 	}
 }
 

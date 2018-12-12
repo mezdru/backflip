@@ -149,8 +149,8 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
   if (this.records) return callback(null, this);
   Record.find({organisation: organisation})
     .select('_id organisation tag type name name_translated intro description picture links hashtags within updated created')
-    .populate('hashtags', '_id organisation tag type name picture')
-    .populate('within', '_id organisation tag type name picture')
+    .populate('hashtags', '_id organisation tag type name name_translated picture')
+    .populate('within', '_id organisation tag type name name_translated picture')
     .exec(function(err, records) {
       if (err) return callback(err);
       this.records = records;
