@@ -300,5 +300,9 @@
 	"More": "More",
 	"Please provide a valid emoji.": "Please provide a valid emoji.",
 	"Please provide a profile picture": "Please provide a profile picture",
-	"Please provide a valid {{field}} URL.": "Please provide a valid {{field}} URL."
+	"Please provide a valid {{field}} URL.": "Please provide a valid {{field}} URL.",
+	"Confirm your email address": "Confirm your email address",
+	"Hello, <br/> Please validate your email address to access Wingzy, just click on the red button !": "Hello, <br/> Please validate your email address to access Wingzy, just click on the red button !",
+	"Reset your password": "Reset your password",
+	"Hello, <br/>We received a request to change your password on Wingzy.<br/>If you want to change it, just click on the red button.": "Hello, <br/>We received a request to change your password on Wingzy.<br/>If you want to change it, just click on the red button."
 }

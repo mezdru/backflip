@@ -70,6 +70,45 @@ EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   });
 };
 
+EmailUser.sendEmailConfirmation = function(user, res){
+  user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
+  user.email.hash = md5(user.email.normalized);
+  EmailUser.makeHash(user);
+  user.email.token = randomstring.generate(128);
+  user.email.generated = Date.now();
+  
+  return User.updateOne({'_id': user._id}, {$set: user})
+  .then(resp => {
+    if(resp.ok === 1){
+      return EmailHelper.public.emailConfirmation(
+        user.email.value, 
+        new UrlHelper(null, "api/emails/confirmation/callback/" + user.email.token + '/' + user.email.hash, null, null).getUrl(),
+        res);
+    }else{
+      throw new Error("Cannot update the user object.");
+    }
+  });
+}
+
+EmailUser.sendPasswordRecoveryEmail = function(user, res){
+  user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
+  user.email.hash = user.email.hash || md5(user.email.normalized);
+  user.email.token = randomstring.generate(128); // we modify token, because token is a way to authenticate
+  user.email.generated = user.email.generated || Date.now();
+  
+  return User.updateOne({'_id': user._id}, {$set: user})
+  .then(resp => {
+    if(resp.ok === 1){
+      return EmailHelper.public.emailPasswordRecovery(
+        user.email.value, 
+        "https://" + process.env.HOST_FRONTFLIP + '/password/reset/' + user.email.token + '/' + user.email.hash,
+        res);
+    }else{
+      throw new Error("Cannot update the user object.");
+    }
+  });
+}
+
 //if we generated a token less than 60 sec ago
 EmailUser.tooSoon = function (user, callback) {
   return user.email.generated > Date.now() - 60*1000;

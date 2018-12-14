@@ -278,6 +278,56 @@ var EmailHelper = {
         request
         .then()
         .catch(err => console.log(err));
+      },
+      emailConfirmation: function(email, url, res){
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__("Confirm your email address"),
+            "MJ-TemplateID": "197497",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": email }
+            ],
+            "Vars": {
+              "intro": res.__("Hello, <br/> Please validate your email address to access Wingzy, just click on the red button !"),
+              "url": url || defaultLink,
+              "button": res.__("Confirm your email address"),
+              "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+            }
+          });
+        request
+          .then()
+          .catch(err => {
+            console.log(err);
+          });
+      },
+      emailPasswordRecovery: function(email, url, res){
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__("Reset your password"),
+            "MJ-TemplateID": "197497",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": email }
+            ],
+            "Vars": {
+              "intro": res.__("Hello, <br/>We received a request to change your password on Wingzy.<br/>If you want to change it, just click on the red button."),
+              "url": url || defaultLink,
+              "button": res.__("Reset your password"),
+              "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+            }
+          });
+        request
+          .then()
+          .catch(err => {
+            console.log(err);
+          });
       }
   }
 };

@@ -35,7 +35,8 @@ var userSchema = mongoose.Schema({
     normalized: {type: String, index: true, unique: true, sparse: true},
     hash: {type: String, index: true, unique: true, sparse: true},
     token: String,
-    generated: Date
+    generated: Date,
+    validated: {type: Boolean, default: false}
   },
   last_login: { type: Date },
   last_action: {type: Date},

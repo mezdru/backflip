@@ -10,4 +10,7 @@ router.use('/profiles', api_record);
 var api_user = require('./user/api_user');
 router.use('/users', api_user);
 
+var api_email = require('./email/api_email');
+router.use('/emails', api_email);
+
 module.exports = router;
