@@ -6,7 +6,7 @@ var User = require('../models/user');
 
 router.use(function(req, res, next) {
     request.get({
-        url: 'http://' + process.env.HOST_AUTH + '/test/secure',
+        url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/isAuth',
         json: true,
         headers: {
             'Authorization': req.get('Authorization')
