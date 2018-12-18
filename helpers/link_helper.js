@@ -127,7 +127,9 @@ var LinkHelper = class LinkHelper {
       case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
       case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = (this.username ? '@' + this.username : 'Twitter');  return;
       case 'github': this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
-      case 'facebook': this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
+      case 'facebook':
+        if (domain.subdomain === 'workplace') return this.makeHyperlink();
+        this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
       default: this.makeHyperlink();
     }
   }
@@ -151,7 +153,20 @@ var LinkHelper = class LinkHelper {
       case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; return;
       case 'dribbble': this.type = 'dribbble'; this.display = 'Dribbble'; return;
       case 'dropbox': this.type = 'dropbox'; this.display = 'Dropbox'; return;
-      case 'facebook': this.type = 'facebook'; this.display = this.username || 'Facebook'; return;
+      case 'facebook':
+        if (domain.subdomain == 'workplace') {
+          if (this.username == 'chat') {
+            this.type = 'workchat';
+            this.display = 'Workchat';
+          } else {
+            this.type = 'workplace';
+            this.display = 'Workplace';
+          }
+        } else {
+          this.type = 'facebook';
+          this.display = this.username || 'Facebook';
+        }
+        return;
       case 'flickr': this.type = 'flickr'; this.display = 'Flickr'; return;
       case 'foursquare': this.type = 'foursquare'; this.display = 'Foursquare'; return;
       case 'github': this.type = 'github'; this.display = (this.username ? '@'+this.username : 'Github'); return;
