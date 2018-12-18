@@ -118,7 +118,10 @@ var LinkHelper = class LinkHelper {
       this.setUsernameFromUrl();
     }
     var domain = parseDomain(this.value);
-    if(domain.domain !== this.type) return this.makeHyperlink();
+    if(domain.domain !== this.type) {
+      this.type = 'hyperlink';
+      return this.makeHyperlink();
+    }
     if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     switch(this.type) {
       case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
