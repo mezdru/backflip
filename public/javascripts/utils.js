@@ -162,18 +162,13 @@ function transformLinks(item) {
 
 function makeLinkIcon(link) {
 	switch (link.type) {
-		case 'email':
-			link.icon = 'envelope-o';
-			break;
-		case 'address': case 'location':
-			link.icon = 'map-marker';
-			break;
-		case 'hyperlink':
-			link.icon = 'link';
-			break;
-		default:
-			link.icon = link.type;
-			break;
+		case 'email': link.icon = 'envelope-o'; break;
+		case 'address': case 'location': link.icon = 'map-marker'; break;
+		case 'hyperlink': link.icon = 'link'; break;
+		case 'location': link.icon = 'map-marker'; break;
+		case 'workplace': link.icon = 'user'; break;
+		case 'workchat': link.icon = 'comment'; break;
+		default: link.icon = link.type;	break;
 	}
 }
 

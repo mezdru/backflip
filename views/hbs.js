@@ -62,6 +62,10 @@ hbs.registerHelper('linkIcon', function(link) {
       return 'fa-link';
     case 'location':
       return 'fa-map-marker';
+    case 'workplace':
+      return 'fa-user';
+    case 'workchat':
+      return 'fa-comment';
 		default:
 			return 'fa-'+link.type;
 	}
