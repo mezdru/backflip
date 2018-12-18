@@ -100,16 +100,13 @@ var LinkHelper = class LinkHelper {
     var urlObject = urlParse(this.value, true);
     urlObject.set('protocol',  urlObject.protocol || 'https');
     urlObject.set('slashes', true);
-    urlObject.set('query', null);
     this.url = this.value = urlObject.toString();
   }
 
   //@todo too dumb to really work
-  setUsername() {
-    var url = this.url;
-    if (url.charAt(url.length-1) === '/') url = url.substring(0, url.length-1);
-    var splitUrl = url.split('/');
-    this.username = splitUrl[splitUrl.length-1];
+  setUsernameFromUrl() {
+    var urlObject = urlParse(this.url, true);
+    this.username = urlObject.pathname.split('/')[1];
   }
 
   makeProfile() {
@@ -118,8 +115,10 @@ var LinkHelper = class LinkHelper {
       this.value = undefined;
     } else {
       this.cleanUrl();
-      this.setUsername();
+      this.setUsernameFromUrl();
     }
+    var domain = parseDomain(this.value);
+    if(domain.domain !== this.type) return this.makeHyperlink();
     if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     switch(this.type) {
       case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
@@ -143,7 +142,7 @@ var LinkHelper = class LinkHelper {
     var domain = parseDomain(this.value);
     if (!domain) return this.makeLocation();
     this.cleanUrl();
-    this.setUsername();
+    this.setUsernameFromUrl();
     switch (domain.domain) {
       case 'slack': this.type = 'slack'; this.display = 'Slack'; return;
       case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; return;
