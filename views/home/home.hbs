@@ -1,183 +1,345 @@
-<div class="main home-page">
-  <div class="fly-away">
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-xl-2-3">
-      </div>
-      <div class="pure-u-1 pure-u-xl-1-3">
-        <div class="grid-box">
-          <h1 class="tagline">{{{__ 'Spread your&nbsp;Wings at&nbsp;work'}}}</span></h1>
+<div class="main home-page container">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <div class="row landing">
+    <div class="col xl4 hide-on-med-and-down main-picture">
+
+    </div>
+    <div class="col xl6 push-xl1 m10 push-m1 s10 push-s1 landing-content">
+      <div class="center-align">
+        <div class="row">
+          <h1>{{__ "Accelerate collaboration"}}</h1>
         </div>
-        {{#unless user}}
-        <div class="button-header">
-            <a class="pure-button scale" href="#signin-anchor">
-                  <i class="fa fa-sign-in" aria-hidden="true"></i> {{{__ "Start now !"}}}
-            </a>
+        <div class="row">
+          <h3>
+            {{{__ "Wingzy is finally a pertinent and efficient enterprise directory ! The app to find the coworkers you need through their Wings: their talents, skills, and energies."}}}
+          </h3>          
         </div>
-        {{/unless}}
-      </div>
+        <div class="row">
+          <a class="waves-effect waves-light btn-large cta" href="/login">
+            {{{__ "Find your Wings"}}}
+          </a>          
+        </div>
+      </div>  
     </div>
   </div>
-  <div class="pure-g video">
-    <div class="pure-u-1">
-      <div class="video-box">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/rBy5C9BmjP8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
-    </div>
-  </div>
-  <div class="pure-g">
-    <div class="pure-u-1">
-      <div class="pure-box">
-        <h3 class="pitch">{{{__ 'Wingzy is an intuitive app to find the coworkers you need according to what they love and know'}}}</h3>
-      </div>
-    </div>
-  </div>
-  <div id="signin-anchor"></div>
-  <div class="epic">
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-2 epic-placeholder">
-      </div>
-      <div class="pure-u-1 pure-u-md-1-2">
-        <div class="grid-box">
-          <h1>{{__ 'Deploy Wingzy'}}</h1>
-          <p class="black">{{__ 'in your company within 2 minutes'}}</p>
-        </div>
-        {{#unless user}}
-        <div class="grid-box grid-box-signin">
-        </div>
-        {{> signin_form}}
-        {{/unless}}
-      </div>
-    </div>
-  </div>
-  <div id="whyWingzy"></div>
-  <div class="wings" id="wings">
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-2 wings-placeholder">
-      </div>
-      <div class="pure-u-1 pure-u-md-1-2" id="why_wingzy">
-        <div class="grid-box">
-          <h1>{{__ 'Reveal'}}</h1>
-          <p>{{{__ '<strong>Your skills and passions</strong><br>powered by artificial intelligence'}}}</p>
-          <img src="/images/home/wings_line.PNG" alt="wings" width="100%"/>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="search" id="search">
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-2">
-        <div class="grid-box">
-          <h1>{{__ 'Find'}}</h1>
-          <p class="black">{{{__ '<strong>The coworker you need</strong><br>with a clever search engine'}}}</p>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-2 search-placeholder">
-      </div>
-    </div>
-    <div class="books">
-    </div>
-  </div>
-  <div class="trust" id="trust">
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box">
-          <h1>{{__ 'Protect'}}</h1>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-2">
-        <div class="grid-box">
-          <p>{{{__ '<strong>Your account</strong><br>through Email or Google domain integration'}}}</p>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-2">
-        <div class="grid-box">
-          <p>{{{__ '<strong>Your data</strong><br>thanks to our model <a href="/protectingYourData">privacy policy</a>'}}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="coffee">
-    </div>
-  </div>
-  <div class="social" id="social">
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box">
-          <h1>{{__ 'Join us'}}</h1>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <a class="grid-box" href="https://www.youtube.com/watch?v=kOCg8575_E0" target="_blank">
-          <h2><strong>{{{__ 'On Youtube'}}}</strong></h2>
-          <img src="/images/home/manu_youtube.jpg" class="pure-img">
-        </a>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <a class="grid-box" href="https://www.facebook.com/pg/wingzy.io/photos/?tab=album&album_id=630384904010951" target="_blank">
-          <h2><strong>{{{__ 'On Facebook'}}}</strong></h2>
-          <img src="/images/home/bd_facebook.jpg" class="pure-img">
-        </a>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <a class="grid-box" href="https://twitter.com/Wingzy_io/status/1009438255115309057" target="_blank">
-          <h2><strong>{{{__ 'On Twitter'}}}</strong></h2>
-          <img src="/images/home/twitter.jpg" class="pure-img">
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="soutiens" id="soutiens">
-    <div class="pure-g">
-      <div class="pure-u-1">
-        <div class="grid-box">
-          <h1>Nos soutiens</h1>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <div class="grid-box soutien-container">
-          <img src="/images/home/genevieve_garrigos.PNG" alt="Picture of a person"/>
-          <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            J'ai été impressionnée par l'attention apportée à la protection de nos données
-            personnelles sur Wingzy. Un exemple à suivre !
-          </p>
-          <div class="soutien-author">
-            <h3>Geneviève Gerrigos</h3>
-          <h4>ex présidente d'Amnesty International</h4>
+
+  <div class="row whywingzy1 flex section">
+
+    <div class="row">
+      <div class="col xl5 offset-xl2 m8 offset-m2 subheader s10 offset-s1 valign-wrapper">
+        <div>
+          <div class="row">
+            <h1>What Wingzy is</h1>
+            <p>
+              {{{__ "An intuitive app to reveal between coworkers all your Wings : your talents, skills and energies.
+              A fast search engine to find help at work within seconds.
+              A simple solution to accelerate collaboration between your teams, perfectly integrated with your existing tools.
+              "}}}
+            </p>
           </div>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <div class="grid-box soutien-container">
-          <img src="/images/home/jerome_giusti.PNG" alt="Picture of a person"/>
-          <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Sur Wingzy, seul-es les employé-es peuvent avoir le contrôle des informations qui les concernent, via des outils et
-            des liens hyper accessibles.
-          </p>
-          <div class="soutien-author">
-            <h3>Jérôme Giusti</h3>
-          <h4>Avocat au Barreau de Paris</h4>
-          </div>
-        </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1-3">
-        <div class="grid-box soutien-container">
-          <img src="/images/home/philippe_caquet.PNG" alt="Picture of a person"/>
-          <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Wingzy est une application fort intéressante qui permet de mettre enfin du lien entre les salarié-es.
-            Elle reflète une nouvelle génération de façon de faire.
-          </p>
-          <div class="soutien-author">
-            <h3>Philippe Caquet</h3>
-            <h4>Président de Boost'rh Groupe</h4>
+          <div class="row margin-me">
+            <h1>What Wingzy is not</h1>
+            <p>
+              {{{__ "Wingzy is not a social network, not a discussion tool, nor a recruitment tool. Wingzy is your enterprise directory that finds all your Wings : your talents, skills and energies!"}}}
+            </p>
           </div>
         </div>
       </div>
     </div>
+
   </div>
+
+
+
+  <div class="row whywingzy2 section">
+
+    <div class="row">
+      <div class="col xl6 offset-xl3 m10 offset-m1 subheader s10 offset-s1">
+        <h1>{{{__ "4 simple steps"}}}</h1>
+      </div>
+    </div>
+
+    <div class="col xl8 offset-xl2 s8 offset-s2 m8 offset-m2">
+      <div class="row row1">
+        <div class="row before">
+          <div class="before-before"></div>
+          <div class="arrow-before-before">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </div>
+          <div class="next-arrow">
+        </div>
+        
+      </div>
+
+        <div class="col m6 s6">
+          <div class="col xl10 center-align offset-xl1 offset-m1 content m10 s12">
+            <div class="col xl10 center-align offset-xl1 content-elt m10 s12 offset-m1">
+              <div>
+                <img src="/images/home/step2.PNG"/>
+                <p>{{{__ "Create your profile"}}}</p>
+              </div>
+            </div>
+            <a class="btn-floating btn-large waves-effect waves-light step-bulle">1</a>
+          </div>          
+        </div>
+
+        <div class="col m6 s6">
+          <div class="col xl10 center-align offset-xl1 offset-m1 content m10 s12">
+            <div class="col xl10 center-align offset-xl1 content-elt m10 s12 offset-m1">
+              <div>
+                <img src="/images/home/Picto2.png"/>
+                <p>{{{__ "Invite your coworkers"}}}</p>
+              </div>
+            </div>
+            <a class="btn-floating btn-large waves-effect waves-light step-bulle">2</a>
+          </div>          
+        </div>
+      </div>
+
+      <div class="row row2">
+        <div class="col m6 s6">
+          <div class="col xl10 center-align offset-xl1 offset-m1 content m10 s12">
+            <div class="col xl10 center-align offset-xl1 content-elt m10 s12 offset-m1">
+              <div>
+                <img src="/images/home/Picto4.png"/>
+                <p>{{{__ "Collaborate fast"}}}</p>
+              </div>
+            </div>
+            <a class="btn-floating btn-large waves-effect waves-light step-bulle">4</a>
+          </div>          
+        </div>
+        
+        <div class="col m6 s6">
+          <div class="col xl10 center-align offset-xl1 offset-m1 content m10 s12">
+            <div class="col xl10 center-align offset-xl1 content-elt m10 s12 offset-m1">
+              <div>
+                <img id="coworkers" src="/images/home/Picto3.png"/>
+                <p>{{{__ "Find the coworker you need"}}}</p>
+              </div>
+            </div>
+            <a class="btn-floating btn-large waves-effect waves-light step-bulle">3</a>
+          </div>          
+        </div>
+      </div>
+      <div class="row next">
+        <div class="next-arrow">
+        <div class="arrow-bottom">
+          <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="row tech section">
+    <div class="tech-center">
+    <div class="row">
+      <div class="col xl6 offset-xl3 m10 offset-m1 subheader s10 offset-s1">
+        <h1>{{{__ "Human centric tech"}}}</h1>
+      </div>
+    </div>
+
+    <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1 tech-details">
+      <div class="row flex">
+      <div class="col xl4 m12 s12 tech-details-col">
+          <div class="col xl12 m12 s12">
+            <h2>{{{__ "Artificial Intelligence"}}}</h2>
+            <p>
+              {{{__ "Wingzy purpose is to reveal all your Wings : your talents, skills and energies.
+Whatever your crafts, titles, expertises... Whatever your language, organization or company... Wingzy helps everyone find their  Wings thanks to machine learning."}}}
+            </p>
+          </div>
+      
+      </div>
+
+      <div class="col xl4 m12 s12 tech-details-col">
+          <div class="row">
+            <h2>{{{__ "Perfect Integration"}}}</h2>
+            <p>
+              {{{__ "Not “yet one more tool”: Wingzy adapts to your environment and guides your coworkers towards the best place to work."}}}
+            </p>
+            <div class="row integrations">
+              <div class="col xl8 offset-xl2 m8 offset-m2 s10 offset-s1">
+                <div class="col xl4 m4 s4 content-img">
+                  <a href="https://www.google.com/" rel="nofollow"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Logo de Google"/></a>
+                </div>
+                <div class="col xl4 m4 s4 content-img">
+                  <a href="https://slack.com" rel="nofollow"><img src="/images/home/slack.png" alt="Logo de Slack"/></a>
+                </div>
+                <div class="col xl4 m4 s4 content-img">
+                  <a href="https://www.facebook.com/workplace/" rel="nofollow"><img src="/images/home/workplace.png" alt="Logo de Workplace by Facebook"/></a>
+                </div>
+              </div>
+            </div>
+            <p>
+              {{{__ "Integration missing? <br/><a href='mailto:premium@wingzy.io'>Contact us!</a>"}}}
+            </p>
+          </div>
+      </div>
+
+      <div class="col xl4 m12 s12 notMe tech-details-col">
+          <div class="row">
+            <h2>{{{__ "Our team full of Wings"}}}</h2>
+            <p>
+              {{{__ "No matter how fast your organization is changing.
+No matter how big your collaborative vision is growing.
+Wingzy’s team helps you design and execute your strategy through employee centric design thinking.
+"}}}        <br/>
+            <a class="waves-effect waves-light btn-small cta-meet-us" href="mailto:contact@wingzy.com">{{{__ "Meet our team"}}}</a>
+            </p>
+          </div>      
+          
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <div class="row supports section">
+
+    <div class="row">
+      <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1">
+        <h1>{{{__ "They support us"}}}</h1>
+        <h3>
+        </h3>
+      </div>
+    </div>
+
+    <div class="carousel">
+
+      <a class="carousel-item card-panel" href="#one!">
+        <img src="/images/home/supports/henri_lachmann.jpg" alt="Picture of a person" class="soutien-author-picture">
+        <img src="/images/home/supports/schneider_electric.png" alt="Logo of organisation" class="soutien-author-organisation"/>
+        <p>
+          {{{__ "\"Wingzy allows us to know the skills and experiences of everyone, and to spread or access them quickly.\""}}}
+            <br/><br/>
+            <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video" onclick="goTo('{{{__ "https://www.youtube.com/watch?v=hzoN5oVQTHc"}}}')">Voir l'interview</button>
+        </p>
+        <div class="soutien-author">
+          <h3>{{{__ "Henri Lachmann"}}}</h3>
+          <span>{{{__ "Former President of Schneider Electric"}}}</span>
+        </div>
+      </a>
+
+      <a class="carousel-item card-panel" href="#two!">
+        <img src="/images/home/genevieve_garrigos.jpeg" alt="Picture of a person" class="soutien-author-picture">
+        <img src="/images/home/supports/amnesty_international_logo.PNG" alt="Logo of organisation" class="soutien-author-organisation"/>
+        <p>
+          {{{__ "\"I have been impressed by the attention given to the protection of personal data on Wingzy. An example to follow !\""}}}
+        </p>
+        <div class="soutien-author">
+          <h3>{{{__ "Geneviève Garrigos"}}}</h3>
+          <span>{{{__ "Former president of Amnesty International"}}}</span>
+        </div>
+      </a>
+
+      <a class="carousel-item card-panel" href="#three!">
+        <img src="/images/home/jerome_giusti.jpeg" alt="Picture of a person" class="soutien-author-picture">
+        <p>
+          {{{__ "\"On Wingzy, anyone has the control on its personal data. This is thanks to accessible tools and links.\""}}}
+        </p>
+        <div class="soutien-author">
+          <h3>{{{__ "Jérôme Giusti"}}}</h3>
+          <span>{{{__ "Lawyer at 'Barreau de Paris'"}}}</span>
+        </div>
+      </a>
+
+      <a class="carousel-item card-panel" href="#four!">
+        <img src="/images/home/philippe_caquet.jpeg" alt="Picture of a person" class="soutien-author-picture">
+        <img src="/images/home/supports/boostrh_logo.png" alt="Logo of organisation" class="soutien-author-organisation"/>
+
+        <p>
+          {{{__ "\"Wingzy is an app which create social links between coworkers. It reveal a new way of working.\""}}}
+        </p>
+        <div class="soutien-author">
+          <h3>{{{__ "Philippe Caquet"}}}</h3>
+          <span>{{{__ "President of Boost'rh group"}}}</span>
+        </div>
+      </a>
+
+      <a class="carousel-item card-panel" href="#five!">
+        <img src="/images/home/adeline.png" alt="Picture of a person" class="soutien-author-picture">
+        <img src="/images/home/supports/article1-logo.png" alt="Logo of organisation" class="soutien-author-organisation"/>
+        <p>
+          {{{__ "\"The principe is great. Especially in the growing context in which I work. When I see an email with a name I don't know, I have the Wingzy reflex.\""}}}
+        </p>
+        <div class="soutien-author">
+          <h3>{{{__ "Adeline"}}}</h3>
+          <span>{{{__ "User of the Wingzy of Article 1"}}}</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="row partners section">
+    <div class="row">
+      <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1">
+        <h1>{{{__ "They already trust us"}}}</h1>
+        
+      </div>
+    </div> 
+    
+    <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1 partners-details">
+      <div class="row">
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/logo-Schoolab.png"/>
+        </div>
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/Logo_LabRH.png"/>
+        </div>
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/logomeridiam_0.jpg"/>
+        </div>
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/jarvis.png"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/article1.png"/>
+        </div>
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/diffleaders.jpeg"/>
+        </div>
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/engagement.png"/>
+        </div>
+        <div class="col xl3 m3 s6">
+          <img src="/images/home/partners/happytech.jpeg" />
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row login">
+    
+  </div>
+
 </div>
+
 {{> jquery}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 <script>
 $(function() {
   var header = $("header");
@@ -190,6 +352,24 @@ $(function() {
       }
   });
 });
+</script>
+<script>
+$(document).ready(function(){
+ 
+      $('.carousel').carousel(
+        {
+
+        }
+      ); 
+});
+function goTo(url) {
+        var link = document.createElement("a");
+        link.id = 'newLinkToClick';
+        link.href = url;
+        link.target = "_blank";
+        document.body.appendChild(link);
+        document.getElementById('newLinkToClick').click();
+}
 </script>
 <!--Start of HubSpot Embed Code-->
   <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4894133.js"></script>
