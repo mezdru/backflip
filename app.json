@@ -30,6 +30,12 @@
     "HOST": {
       "required": true
     },
+    "HOST_AUTH": {
+      "required": true
+    },
+    "HOST_FRONTFLIP": {
+      "required": true
+    },
     "HUBSPOT_HAPIKEY": {
       "required": true
     },
