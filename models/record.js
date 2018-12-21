@@ -441,7 +441,7 @@ recordSchema.statics.makeFromTagAsync = function(tag, orgId) {
   };
   record = this.makeFromInputObject(inputObject);
   return record.save();
-}
+};
 
 
 recordSchema.statics.getTagFromEmail = function(email) {
