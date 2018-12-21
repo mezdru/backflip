@@ -44,6 +44,7 @@ var organisationSchema = mongoose.Schema({
   featuredWingsFamily : [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
   ],
+  featuredLinksTypes: [String],
   loginMessages: [
     {
       locale: {type: String, default: 'en'},
@@ -151,6 +152,7 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
     .select('_id organisation tag type name name_translated intro description picture links hashtags within updated created')
     .populate('hashtags', '_id organisation tag type name name_translated picture')
     .populate('within', '_id organisation tag type name name_translated picture')
+    .populate('organisation')
     .exec(function(err, records) {
       if (err) return callback(err);
       this.records = records;

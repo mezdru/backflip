@@ -53,7 +53,7 @@ router.use(function(req, res, next) {
                                                   {recipientName: proposeToRecord.name});
       return next();
     });
-  // Wings propositions management  
+  // Wings propositions management
   }else if (req.query.proposedWings && req.query.proposerRecordId) {
     res.locals.onboard.hashtagsAction = new UrlHelper(req.organisationTag, 'onboard/hashtags', '?proposedWings='+req.query.proposedWings+'&proposerRecordId='+req.query.proposerRecordId, req.getLocale()).getUrl();
     res.locals.onboard.hashtagsActionLabel = req.__("Save");
@@ -201,12 +201,23 @@ router.use(function(req, res, next) {
   });
 });
 
+// We could always use the populated organization
+
 // Finally if we get here, something went wrong
 router.use(function(req, res, next) {
   if (res.locals.record) return next();
   var err = new Error('No record found');
   err.status = 400;
   return next(err);
+});
+
+
+// Why not populate record.organisation manually ? It's useful in algoliaSync for sorting the links for example
+router.use(function(req, res, next) {
+  if (res.locals.organisation._id.equals(res.locals.record.organisation)) {
+    res.locals.record.organisation = res.locals.organisation;
+  }
+  return next();
 });
 
 /**
@@ -294,7 +305,7 @@ router.all('/featured', function(req, res, next) {
     var wing = res.locals.featuredWings.find(wing => wing._id.equals(hashtag._id));
     if (wing) wing.checked = true;
 });
-next();  
+next();
 });
 
 /**
@@ -391,7 +402,7 @@ router.post('/featured', function(req, res, next) {
         });
     } else {
       next();
-    }  
+    }
   }else {
     if (req.query.first) return res.redirect(res.locals.onboard.linksAction);
     else return res.redirect(res.locals.onboard.returnUrl);
@@ -606,7 +617,7 @@ let notifyInvitationAccepter = function(res){
                                                     null, res.locals.organisation.name, profileUrl,res);
       });
     });
-  }  
+  }
 };
 
 let sendWingsProposition = function(proposeToId, hashtagsArray, locale, res) {
@@ -622,7 +633,7 @@ let sendWingsProposition = function(proposeToId, hashtagsArray, locale, res) {
       .then(userUpdated => {
         let loginUrl = EmailUser.getLoginUrl(userUpdated, res.locals.organisation, locale);
         let loginUrlWithRedirection = loginUrl + queryToSend;
-    
+
         EmailHelper.public.emailProposeWings(
             proposeToRecord.name,
             userUpdated.loginEmail,
@@ -634,7 +645,7 @@ let sendWingsProposition = function(proposeToId, hashtagsArray, locale, res) {
         );
       });
       return proposeToRecord.tag;
-    }); 
+    });
   });
 };
 
@@ -648,7 +659,7 @@ let sendWingsPropositionThanks = function(proposerRecordId, proposedWingsAccepte
         let loginUrl = EmailUser.getLoginUrl(userUpdated, res.locals.organisation, locale);
         let redirectTo = '&redirectTo=profile/'+res.locals.record.tag;
         let loginUrlWithRedirection = loginUrl + redirectTo;
-  
+
         EmailHelper.public.emailThanksForProposedWings(
           proposerRecord.name,
           userUpdated.loginEmail,
@@ -682,7 +693,7 @@ let checkEmailLoginAvailable = async function(user) {
  */
 Array.prototype.diff = function(arr2) {
   var ret = [];
-  for(var i in this) {   
+  for(var i in this) {
       if(arr2.indexOf(this[i]) > -1){
           ret.push(this[i]);
       }

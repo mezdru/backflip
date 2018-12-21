@@ -596,6 +596,7 @@ recordSchema.methods.algoliaSync = function() {
   } else {
     this.hashtags = this.hashtags || [];
     this.within = this.within || [];
+    this.sortLinks();
     index.saveObject({
       objectID: this._id.toString(),
       organisation: getId(this.organisation),
@@ -615,6 +616,19 @@ recordSchema.methods.algoliaSync = function() {
       console.log(`Synced ${doc.objectID} with Algolia`);
     });
   }
+};
+
+recordSchema.methods.sortLinks = function(featuredLinksTypes) {
+  featuredLinksTypes = featuredLinksTypes || undefsafe(this.organisation, 'featuredLinksTypes') || [];
+  var featuredLinks = [];
+  featuredLinksTypes.forEach(linkType => {
+    let movedLinkIndex = this.links.findIndex(link => link.type === linkType);
+    if (movedLinkIndex > -1) {
+      let movedLink = this.links.splice(movedLinkIndex, 1);
+      featuredLinks = featuredLinks.concat(movedLink);
+    }
+  });
+  this.links = featuredLinks.concat(this.links);
 };
 
 //@todo remove
