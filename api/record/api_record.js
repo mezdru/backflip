@@ -27,8 +27,8 @@ let validate_record  = require('../validate_record');
  */
 router.get('/:profileId', auth, authorization, function(req, res, next) {
     Record.findOne({'_id' : req.params.profileId, 'organisation': req.organisation._id})
-    .populate('hashtags', '_id tag type name picture')
-    .populate('within', '_id tag type name picture')
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
     .then(record => {
         if(!record) return res.status(404).json({message: 'Record not found.'});
         return res.status(200).json({message: 'Record fetch with success.', record: record});
@@ -61,6 +61,8 @@ router.post('/', auth, authorization, validate_record, function(req, res, next) 
     Record.makeFromTagAsync(record.tag, req.organisation._id)
     .then(recordSaved => {
         Record.findOneAndUpdate({'_id': recordSaved._id}, {$set: record}, {new: true})
+        .populate('hashtags', '_id tag type name name_translated picture')
+        .populate('within', '_id tag type name name_translated picture')
         .then(recordUpdated => {
             return res.status(200).json({message: 'Record saved.', record: recordUpdated});
         }).catch((err) => {return next(err);});
@@ -95,6 +97,8 @@ router.put('/:profileId', auth, authorization, validate_record, function(req, re
     if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
             
     Record.findOneAndUpdate({'_id' : req.params.profileId, 'organisation': req.organisation._id}, {$set: recordToUpdate}, {new: true})
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
     .then(recordUpdated => {
         if(!recordUpdated) return res.status(404).json({message: 'Record not found.'});
         return res.status(200).json({message: 'Record updated with success.', record: recordUpdated});
