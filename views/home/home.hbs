@@ -1,58 +1,44 @@
-<div class="main home-page container">
+<div class="main home-page">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
   <div class="row landing">
-    <div class="col xl4 hide-on-med-and-down main-picture">
-
-    </div>
-    <div class="col xl6 push-xl1 m10 push-m1 s10 push-s1 landing-content">
-      <div class="center-align">
-        <div class="row">
-          <h1>{{__ "Accelerate collaboration"}}</h1>
-        </div>
-        <div class="row">
-          <h3>
-            {{{__ "Wingzy is finally a pertinent and efficient enterprise directory ! The app to find the coworkers you need through their Wings: their talents, skills, and energies."}}}
-          </h3>
-        </div>
-        <div class="row">
+    <div class="container">
+      <div class="col xl6 offset-xl6 l8 offset-l4 m8 offset-m2 s12 landing-content">
+        <h1>{{__ "Accelerate collaboration"}}</h1>
+        <p>
+          {{{__ "Wingzy is finally a pertinent and efficient enterprise directory ! The app to find the coworkers you need through their Wings: their talents, skills, and energies."}}}
+        </p>
+        <p>
           <a class="waves-effect waves-light btn-large cta" href="/login">
             {{{__ "Try in your company"}}}
           </a>
-        </div>
+        </p>
       </div>
     </div>
   </div>
 
-  <div class="row whywingzy1 flex section">
-
-    <div class="row">
-      <div class="col xl5 offset-xl2 m8 offset-m2 subheader s10 offset-s1 valign-wrapper">
-        <div>
-          <div class="row">
-            <h1>{{{__ "What Wingzy is"}}}</h1>
-            <p>
-              {{{__ "An intuitive app to reveal between coworkers all your Wings : your talents, skills and energies.
-A fast search engine to find help at work within seconds.
-A simple solution to accelerate collaboration between your teams, perfectly integrated with your existing tools."}}}
-            </p>
-          </div>
-          <div class="row margin-me">
-            <h1>{{{__ "What Wingzy is not"}}}</h1>
-            <p>
-              {{{__ "Wingzy is not a social network, not a discussion tool, nor a recruitment tool. Wingzy is your enterprise directory that finds all your Wings : your talents, skills and energies!"}}}
-            </p>
-          </div>
-        </div>
+  <div class="row whywingzy1 section">
+    <div class="container">
+      <div class="col l6 s12">
+        <h2>{{{__ "What Wingzy is"}}}</h2>
+        <p>
+            {{{__ "An intuitive app to reveal between coworkers all your Wings : your talents, skills and energies.
+  A fast search engine to find help at work within seconds.
+  A simple solution to accelerate collaboration between your teams, perfectly integrated with your existing tools."}}}
+        </p>
+        <h2 class="margin-me">{{{__ "What Wingzy is not"}}}</h2>
+        <p>
+          {{{__ "Wingzy is not a social network, not a discussion tool, nor a recruitment tool. Wingzy is your enterprise directory that finds all your Wings : your talents, skills and energies!"}}}
+        </p>
       </div>
     </div>
   </div>
 
   <div class="row whywingzy2 section">
     <div class="row">
-      <div class="col xl6 offset-xl3 m10 offset-m1 subheader s10 offset-s1">
-        <h1>{{{__ "4 simple steps"}}}</h1>
+      <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1">
+        <h2>{{{__ "4 simple steps"}}}</h2>
       </div>
     </div>
 
@@ -129,87 +115,60 @@ A simple solution to accelerate collaboration between your teams, perfectly inte
 
 
   <div class="row tech section">
-    <div class="tech-center">
-    <div class="row">
-      <div class="col xl6 offset-xl3 m10 offset-m1 subheader s10 offset-s1">
-        <h1>{{{__ "Human centric tech"}}}</h1>
+    <div class="container">
+      <div class="col s12">
+        <h2>{{{__ "Human centric tech"}}}</h2>
       </div>
-    </div>
-
-    <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1 tech-details">
-      <div class="row flex">
-      <div class="col xl4 m12 s12 tech-details-col">
-          <div class="col xl12 m12 s12">
-            <h2>{{{__ "Artificial Intelligence"}}}</h2>
-            <p>
-              {{{__ "Wingzy purpose is to reveal all your Wings : your talents, skills and energies.
-Whatever your crafts, titles, expertises... Whatever your language, organization or company... Wingzy helps everyone find their  Wings thanks to machine learning."}}}
-            </p>
-          </div>
-
+      <div class="col l4 s12">
+        <h3>{{{__ "Artificial Intelligence"}}}</h3>
+        <p>
+          {{{__ "Wingzy purpose is to reveal all your Wings : your talents, skills and energies.
+  Whatever your crafts, titles, expertises... Whatever your language, organization or company... Wingzy helps everyone find their  Wings thanks to machine learning."}}}
+        </p>
       </div>
-
-      <div class="col xl4 m12 s12 tech-details-col">
-          <div class="row">
-            <h2>{{{__ "Perfect Integration"}}}</h2>
-            <p>
-              {{{__ "Not “yet one more tool”: Wingzy adapts to your environment and guides your coworkers towards the best place to work."}}}
-            </p>
-            <div class="row integrations">
-              <div class="col xl8 offset-xl2 m8 offset-m2 s10 offset-s1">
-                <div class="col xl4 m4 s4 content-img">
-                  <a href="https://www.google.com/" rel="nofollow"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"/></a>
-                </div>
-                <div class="col xl4 m4 s4 content-img">
-                  <a href="https://slack.com" rel="nofollow"><img src="/images/home/slack.png" alt="Slack"/></a>
-                </div>
-                <div class="col xl4 m4 s4 content-img">
-                  <a href="https://www.facebook.com/workplace/" rel="nofollow"><img src="/images/home/workplace.png" alt="Facebook"/></a>
-                </div>
-              </div>
+      <div class="col l4 s12">
+        <h3>{{{__ "Perfect Integration"}}}</h3>
+        <p>
+          {{{__ "Not “yet one more tool”: Wingzy adapts to your environment and guides your coworkers towards the best place to work."}}}
+        </p>
+        <div class="row integrations">
+           <div class="col s4 content-img">
+              <a href="https://www.google.com/" rel="nofollow"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"/></a>
             </div>
-            <p>
-              {{{__ "Integration missing? <br/><a href='mailto:premium@wingzy.io'>Contact us!</a>"}}}
-            </p>
-          </div>
+            <div class="col s4 content-img">
+              <a href="https://slack.com" rel="nofollow"><img src="/images/home/slack.png" alt="Slack"/></a>
+            </div>
+            <div class="col s4 content-img">
+              <a href="https://www.facebook.com/workplace/" rel="nofollow"><img src="/images/home/workplace.png" alt="Facebook"/></a>
+            </div>
+        </div>
+        <p class="align-center">
+          {{{__ "Integration missing? <br/><a href='mailto:premium@wingzy.io'>Contact us!</a>"}}}
+        </p>
       </div>
-
-      <div class="col xl4 m12 s12 notMe tech-details-col">
-          <div class="row">
-            <h2>{{{__ "Our team full of Wings"}}}</h2>
-            <p>
-              {{{__ "No matter how fast your organization is changing.
-No matter how big your collaborative vision is growing.
-Wingzy’s team helps you design and execute your strategy through employee centric design thinking.
-"}}}        <br/>
-            <a class="waves-effect waves-light btn-small cta-meet-us" href="mailto:contact@wingzy.com">{{{__ "Meet our team"}}}</a>
-            </p>
-          </div>
-
+      <div class="col l4 s12">
+        <h3>{{{__ "Our team full of Wings"}}}</h3>
+        <p>
+          {{{__ "No matter how fast your organization is changing.
+  No matter how big your collaborative vision is growing.
+  Wingzy’s team helps you design and execute your strategy through employee centric design thinking.
+  "}}}
+        </p>
+        <p class="align-center">
+          <a class="waves-effect waves-light btn-small cta-meet-us" href="https://team.wingzy.com">{{{__ "Meet our team"}}}</a>
+        </p>
       </div>
-      </div>
-    </div>
     </div>
   </div>
-
-
-
-
-
-
-
   <div class="row supports section">
 
     <div class="row">
       <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1">
-        <h1>{{{__ "They support us"}}}</h1>
-        <h3>
-        </h3>
+        <h2>{{{__ "They support us"}}}</h2>
       </div>
     </div>
 
     <div class="carousel">
-
       <a class="carousel-item card-panel" href="#one!">
         <img src="/images/home/supports/henri_lachmann.jpg" alt="Picture of a person" class="soutien-author-picture">
         <img src="/images/home/supports/schneider_electric.png" alt="Logo of organisation" class="soutien-author-organisation"/>
@@ -277,7 +236,7 @@ Wingzy’s team helps you design and execute your strategy through employee cent
   <div class="row partners section">
     <div class="row">
       <div class="col xl8 offset-xl2 m10 offset-m1 s10 offset-s1">
-        <h1>{{{__ "They already trust us"}}}</h1>
+        <h2>{{{__ "They already trust us"}}}</h2>
       </div>
     </div>
 

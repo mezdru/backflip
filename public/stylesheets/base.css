@@ -765,9 +765,11 @@ header a:hover {
 }
 
 .pure-menu-horizontal .pure-menu-item-pricing,
-.pure-menu-horizontal .pure-menu-item-why
- {
+.pure-menu-horizontal .pure-menu-item-why {
   display: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 15px !important;
 }
 
 .pure-menu-list > .pure-menu-item > a:hover,
