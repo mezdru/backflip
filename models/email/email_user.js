@@ -70,19 +70,19 @@ EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   });
 };
 
-EmailUser.sendEmailConfirmation = function(user, res){
+EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
   user.email.hash = md5(user.email.normalized);
   EmailUser.makeHash(user);
   user.email.token = randomstring.generate(128);
   user.email.generated = Date.now();
-  
+  console.log('orgtag confirm : ' + orgTag);
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
     if(resp.ok === 1){
       return EmailHelper.public.emailConfirmation(
         user.email.value, 
-        new UrlHelper(null, "api/emails/confirmation/callback/" + user.email.token + '/' + user.email.hash, null, null).getUrl(),
+        new UrlHelper(orgTag, "api/emails/confirmation/callback/" + user.email.token + '/' + user.email.hash, null, null).getUrl(),
         res);
     }else{
       throw new Error("Cannot update the user object.");

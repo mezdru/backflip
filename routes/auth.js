@@ -8,6 +8,8 @@ var UrlHelper = require('../helpers/url_helper.js');
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if (err) return next(err);
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
     return res.redirect(UrlHelper.makeUrl(req.organisationTag, null, null, req.getLocale()));
   });
 });
@@ -37,8 +39,8 @@ router.get('/login', function(req, res, next) {
     let msg = res.locals.organisation.getLoginMessage(req.getLocale());
     if(msg) res.locals.info = {msg: msg};
   }
-
-  res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
+  res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + (req.organisationTag ? req.organisationTag : ''));
+  //res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 
 // Setup User depending on Auth
@@ -69,8 +71,8 @@ router.use(function(req, res, next) {
 // Catch all login callbacks and touch the user
 router.get('*/login/callback', function(req, res, next) {
   if (!req.session.user) {
-    err = new Error('Authentification failed');
-    err.status = 500;
+    err = new Error('Authentification failed. Please login or validate your email address.');
+    err.status = 403;
     return next(err);
   }
   req.session.user.touchLogin(function(err) {

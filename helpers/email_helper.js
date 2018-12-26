@@ -280,6 +280,7 @@ var EmailHelper = {
         .catch(err => console.log(err));
       },
       emailConfirmation: function(email, url, res){
+        console.log(url);
         const request = mailjet
           .post("send")
           .request({

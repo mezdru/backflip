@@ -4,10 +4,11 @@ var auth = require('../middleware_auth');
 var authorization = require('../middleware_authorization');
 var EmailUser = require('../../models/email/email_user');
 var User = require('../../models/user');
+var UrlHelper = require('../../helpers/url_helper');
 
 // for the moment, confirm the login email of the user
-router.post('/confirmation', auth, (req, res, next) => {
-    EmailUser.sendEmailConfirmation(req.user, res)
+router.post('/confirmation/:orgTag?', auth, (req, res, next) => {
+    EmailUser.sendEmailConfirmation(req.user, res, req.params.orgTag)
     .then((response)=>{
         return res.status(200).json({message: 'Email send with success.'});
     }).catch((err)=>{return next(err);});
@@ -23,7 +24,9 @@ router.get('/confirmation/callback/:token/:hash', (req, res, next) => {
         user.email.validated = true;
         User.updateOne({'_id': user._id}, {$set: {email : user.email}})
         .then((response) => {
-            return res.redirect( 'https://' + process.env.HOST_FRONTFLIP + '/redirect');
+            // In order to perform transition backflip -> frontflip, we redirect to backflip here.
+            // return res.redirect( 'https://' + process.env.HOST_FRONTFLIP + '/redirect');
+            return res.redirect(new UrlHelper(req.organisationTag, 'search', null, req.getLocale()).getUrl());
         }).catch((err) => {
             console.log(err.message);
             return next(err);

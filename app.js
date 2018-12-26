@@ -179,6 +179,34 @@ app.use(session({
     }
 }));
 
+/**
+ * @description When an user login : we receive a redirection from app.wingzy.com, with 2 cookies : accessToken & refreshToken
+ *              We can access them normally because app.wingzy.com is juste a subdomain of us.
+ *              If we have only the refreshToken, we should get accessToken with it automatically.
+ *              (Cf agent.js of frontflip)
+ */
+var AuthentificationHelper = require('./helpers/authentification_helper');
+app.use((req, res, next) => {
+  let authentificationHelper = new AuthentificationHelper(req.cookies.accessToken, req.cookies.refreshToken);
+  authentificationHelper.performAuth().then(currentUser => {
+    if(currentUser && ( (currentUser.email && currentUser.email.validated) || currentUser.google.email ) ){
+      res.locals.user = currentUser;
+      req.session.user = res.locals.user;
+      if(authentificationHelper.getNewTokens){
+        let expDate = new Date();
+        expDate.setMinutes(expDate.getMinutes()+55);
+        res.cookie('accessToken', authentificationHelper.accessToken, {expires: expDate, path: '/'});
+        res.cookie('refreshToken', authentificationHelper.refreshToken, {path:'/'});
+      }
+    }else{
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
+    }
+    
+    return next();
+  });
+});
+
 var flash = require('express-flash');
 app.use(flash());
 
