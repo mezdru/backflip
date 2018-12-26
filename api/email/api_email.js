@@ -19,7 +19,7 @@ router.post('/confirmation/:orgTag?', auth, (req, res, next) => {
 router.get('/confirmation/callback/:token/:hash', (req, res, next) => {
     EmailUser.login(req.params.hash, req.params.token, function(err, user){
         if(err) return next(err);
-        if(user.email.validated) return res.redirect( 'https://' + process.env.HOST_FRONTFLIP + '/redirect');
+        if(user.email.validated) return res.redirect(new UrlHelper(req.organisationTag, 'search', null, req.getLocale()).getUrl());
         
         user.email.validated = true;
         User.updateOne({'_id': user._id}, {$set: {email : user.email}})
