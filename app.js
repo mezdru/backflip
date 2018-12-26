@@ -74,7 +74,7 @@ if (app.get('env') === 'production') {
 
 } else if (app.get('env') === 'staging') {
   // Setup URL for Pull Request apps.
-  process.env.HOST = process.env.HEROKU_APP_NAME + ".herokuapp.com";
+  if(process.env.HEROKU_APP_NAME !== 'wingzy-staging') process.env.HOST = process.env.HEROKU_APP_NAME + ".herokuapp.com";
 
   // Setup organisationTag
   app.use(function(req, res, next) {
