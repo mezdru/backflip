@@ -8,8 +8,8 @@ var UrlHelper = require('../helpers/url_helper.js');
 router.get('/logout', function(req, res, next) {
   req.session.destroy(function(err) {
     if (err) return next(err);
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken", {path: '/', domain: 'wingzy.com'});
+    res.clearCookie("refreshToken", {path: '/', domain: 'wingzy.com'});
     return res.redirect(UrlHelper.makeUrl(req.organisationTag, null, null, req.getLocale()));
   });
 });
