@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Organisation = require('../../models/organisation');
 var User = require('../../models/user');
-var auth = require('../middleware_auth');
+var auth = require('../middleware_authentification');
 
 /**
  * @api {get} /api/users/me Get current user

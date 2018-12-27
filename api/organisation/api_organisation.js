@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Organisation = require('../../models/organisation');
-var auth = require('../middleware_auth');
+var auth = require('../middleware_authentification');
 var algoliaOrganisation = require('../../models/algolia/algolia_organisation');
-let authorization = require('../middleware_authorization');
+let authorization = require('../mid_authorization_organisation');
 var User = require('../../models/user');
 var validate_organisation = require('../validate_organisation');
 
