@@ -39,6 +39,7 @@ class AuthentificationHelper {
                 }
             }, (error, requestResponse, body) => {
                 if(error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
+                    res.clearCookie("accessToken", {path: '/', domain: 'wingzy.com'});
                     return resolve(false);
                 }       
                 this.user = new User(body);
@@ -61,6 +62,8 @@ class AuthentificationHelper {
                 }
             }, (error, requestResponse, body) => {
                 if(error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
+                    res.clearCookie("accessToken", {path: '/', domain: 'wingzy.com'});
+                    res.clearCookie("refreshToken", {path: '/', domain: 'wingzy.com'});
                     return resolve(false);
                 }
                 this.refreshToken = body.refresh_token;
