@@ -198,7 +198,7 @@ app.use((req, res, next) => {
         res.cookie('accessToken', authentificationHelper.accessToken, {expires: expDate, path: '/'});
         res.cookie('refreshToken', authentificationHelper.refreshToken, {path:'/'});
       }
-    }else{
+    }else if(authentificationHelper.needClearCookies){
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
