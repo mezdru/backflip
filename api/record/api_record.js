@@ -60,6 +60,8 @@ router.post('/', auth, authorization, validate_record, function(req, res, next) 
 
     Record.makeFromTagAsync(record.tag, req.organisation._id)
     .then(recordSaved => {
+        record.tag = recordSaved.tag; // tag can be modify
+        record.name = record.name || recordSaved.name;
         Record.findOneAndUpdate({'_id': recordSaved._id}, {$set: record}, {new: true})
         .populate('hashtags', '_id tag type name name_translated picture')
         .populate('within', '_id tag type name name_translated picture')

@@ -670,7 +670,15 @@ recordSchema.statics.getTheAllOrganisationId = function() {
 
 recordSchema.pre('save', function(next) {
   this.updated = Date.now();
-  next();
+  if(this.type !== 'person') next();
+
+  Record.findOne({'tag': this.tag, 'organisation': this.organisation})
+  .then(recordDup => {
+    if(recordDup){
+      this.tag = this.tag + (Math.floor(Math.random() * (99999 - 11111 + 1)) + 11111);
+    }
+    return next();
+  });
 });
 
 recordSchema.post('save', function(doc) {
