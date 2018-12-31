@@ -6,7 +6,7 @@ const { sanitizeBody } = require('express-validator/filter');
 router.use((req, res, next) => {
     if(!req.body.organisation) return res.status(422).json({message: 'Missing body parameter : organisation'});
     next();
-})
+});
 
 router.use(
     sanitizeBody('organisation.name').trim().escape().stripLow(true),

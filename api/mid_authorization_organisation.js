@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Organisation = require('../models/organisation');
-var Record = require('../models/record');
 
  /**
   * @description If an Id is in the URL, try to find the orgId with it.

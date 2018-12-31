@@ -3,7 +3,6 @@ var router = express.Router();
 var auth = require('../middleware_authentification');
 var authorization = require('../mid_authorization_profile');
 let Record = require('../../models/record');
-let Organisation = require('../../models/organisation');
 let validate_record  = require('../validate_record');
 
 /**

@@ -165,11 +165,11 @@ router.post('/', auth, validate_organisation, (req, res, next)=>{
         req.user.makeAdminToOrganisation(organisationSaved);
 
         User.findOneAndUpdate({'_id': req.user._id}, {$set: {'orgsAndRecords':req.user.orgsAndRecords}}, {new: true})
-        .then(userUpdated => {
+        .then(() => {
             return res.status(200).json({message: 'Organisation created with success.', organisation: organisationSaved});
         }).catch(err => {
             return next(err);
-        })
+        });
     });
 });
 

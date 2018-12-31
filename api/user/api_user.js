@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var Organisation = require('../../models/organisation');
 var User = require('../../models/user');
 var auth = require('../middleware_authentification');
 

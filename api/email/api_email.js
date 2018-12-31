@@ -9,7 +9,7 @@ var UrlHelper = require('../../helpers/url_helper');
 // for the moment, confirm the login email of the user
 router.post('/confirmation/:orgTag?', auth, (req, res, next) => {
     EmailUser.sendEmailConfirmation(req.user, res, req.params.orgTag)
-    .then((response)=>{
+    .then(()=>{
         return res.status(200).json({message: 'Email send with success.'});
     }).catch((err)=>{return next(err);});
 });
@@ -23,12 +23,11 @@ router.get('/confirmation/callback/:token/:hash', (req, res, next) => {
         
         user.email.validated = true;
         User.updateOne({'_id': user._id}, {$set: {email : user.email}})
-        .then((response) => {
+        .then(() => {
             // In order to perform transition backflip -> frontflip, we redirect to backflip here.
             // return res.redirect( 'https://' + process.env.HOST_FRONTFLIP + '/redirect');
             return res.redirect(new UrlHelper(req.organisationTag, 'search', null, req.getLocale()).getUrl());
         }).catch((err) => {
-            console.log(err.message);
             return next(err);
         });
     });
@@ -40,15 +39,17 @@ router.post('/password', (req, res, next) => {
     .then((user) => {
         if(!user) return res.status(404).send({message: 'User not found with this email : ' + req.body.userEmail});
         EmailUser.sendPasswordRecoveryEmail(user, res)
-        .then((response) => {
+        .then(() => {
             return res.status(200).json({message: 'Email send with success.'});
         }).catch((err)=>{return next(err);});
     }).catch((err)=>{return next(err);});
 });
 
+/*eslint-disable */
 router.post('/invite', auth, authorization, (req, res, next) => {
     return res.status(200).json({message: 'TODO'});
 });
+/*eslint-enable */
 
 router.use(function(err, req, res, next){
     if(err) return res.status(500).json({message: 'Internal error', errors: [err.message]});

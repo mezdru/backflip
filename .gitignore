@@ -39,3 +39,5 @@ npm-debug.log
 
 # package-lock, used with node_modules, list dependencies
 package-lock.json
+
+.eslintrc.json
