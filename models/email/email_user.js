@@ -90,7 +90,7 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   });
 }
 
-EmailUser.sendPasswordRecoveryEmail = function(user, res){
+EmailUser.sendPasswordRecoveryEmail = function(user, locale, res){
   user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
   user.email.hash = user.email.hash || md5(user.email.normalized);
   user.email.token = randomstring.generate(128); // we modify token, because token is a way to authenticate
@@ -101,7 +101,7 @@ EmailUser.sendPasswordRecoveryEmail = function(user, res){
     if(resp.ok === 1){
       return EmailHelper.public.emailPasswordRecovery(
         user.email.value, 
-        "https://" + process.env.HOST_FRONTFLIP + '/password/reset/' + user.email.token + '/' + user.email.hash,
+        "https://" + process.env.HOST_FRONTFLIP + '/' + locale + '/password/reset/' + user.email.token + '/' + user.email.hash,
         res);
     }else{
       throw new Error("Cannot update the user object.");

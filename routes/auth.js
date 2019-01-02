@@ -39,7 +39,9 @@ router.get('/login', function(req, res, next) {
     let msg = res.locals.organisation.getLoginMessage(req.getLocale());
     if(msg) res.locals.info = {msg: msg};
   }
-  res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + (req.organisationTag ? req.organisationTag : ''));
+  res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
+                                                                  (req.getLocale()) + '/' +
+                                                                  (req.organisationTag ? req.organisationTag : ''));
   //res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 

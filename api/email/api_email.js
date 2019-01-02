@@ -38,7 +38,7 @@ router.post('/password', (req, res, next) => {
     User.findOne({'email.normalized': User.normalizeEmail(req.body.userEmail)})
     .then((user) => {
         if(!user) return res.status(404).send({message: 'User not found with this email : ' + req.body.userEmail});
-        EmailUser.sendPasswordRecoveryEmail(user, res)
+        EmailUser.sendPasswordRecoveryEmail(user, req.getLocale(), res)
         .then(() => {
             return res.status(200).json({message: 'Email send with success.'});
         }).catch((err)=>{return next(err);});
