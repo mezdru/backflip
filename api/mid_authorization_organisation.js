@@ -5,7 +5,7 @@ var Organisation = require('../models/organisation');
  /**
   * @description If an Id is in the URL, try to find the orgId with it.
   */
-router.all('/:id', (req, res, next) => {
+router.all(['/:id/*', '/:id'], (req, res, next) => {
     req.organisationId = req.params.id;
     next();
 });

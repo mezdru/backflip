@@ -174,12 +174,12 @@ router.post('/', auth, validate_organisation, (req, res, next)=>{
 });
 
 /**
- * @api {get} /api/organisations/algolia/public Get algolia public key of a public organisation
+ * @api {get} /api/organisations/:organosationId/algolia/public Get algolia public key of a public organisation
  * @apiName GetAlgoliaPublicKeyOfPublicOrg
  * @apiGroup Organisation
  * @apiVersion 0.9.0
  *
- * @apiParam {String} orgId Id of the Organisation
+ * @apiParam {String} organisationId Id of the Organisation
  *
  * @apiSuccess {String} message Algolia public key fetch with success.
  * @apiSuccess {Object} public_key Key object
@@ -187,8 +187,8 @@ router.post('/', auth, validate_organisation, (req, res, next)=>{
  * @apiError (500 Internal Server Error) InternalError Internal error
  * @apiError (404 Not Found) OrganisationNotFound Organisation public not found.
  */
-router.get('/algolia/public', function(req, res, next){
-    Organisation.findOne({'_id' : req.body.orgId, 'public': true})
+router.get('/:organisationId/algolia/public', function(req, res, next){
+    Organisation.findOne({'_id' : req.params.organisationId, 'public': true})
     .then(organisation => {
         if(!organisation) return res.status(404).json({message: 'Organisation public not found.'});
         let publicKey = algoliaOrganisation.makePublicKey(organisation._id);
@@ -197,13 +197,13 @@ router.get('/algolia/public', function(req, res, next){
 });
 
 /**
- * @api {get} /api/organisation/algolia/private Get algolia public key of a private organisation
+ * @api {get} /api/organisation/:organisationId/algolia/private Get algolia public key of a private organisation
  * @apiName GetAlgoliaPublicKey
  * @apiGroup Organisation
  * @apiVersion 0.9.0
  *
  * @apiHeader {String} Authorization User 'Bearer access_token'
- * @apiParam {String} orgId Id of the Organisation
+ * @apiParam {String} organisationId Id of the Organisation
  *
  * @apiSuccess {String} message Algolia public key fetch with success.
  * @apiSuccess {Object} public_key Key object
@@ -213,7 +213,7 @@ router.get('/algolia/public', function(req, res, next){
  * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  */
-router.get('/algolia/private', auth, authorization, function(req, res, next){
+router.get('/:organisationId/algolia/private', auth, authorization, function(req, res, next){
     let publicKey = algoliaOrganisation.makePublicKey(req.organisation._id);
     return res.status(200).json({message:'Algolia public key found with success.', public_key: publicKey});
 });

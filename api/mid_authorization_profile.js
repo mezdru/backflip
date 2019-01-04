@@ -6,7 +6,7 @@ var Record = require('../models/record');
  /**
   * @description If an Id is in the URL, try to find the orgId with it.
   */
-router.all('/:id', (req, res, next) => {
+router.all(['/:id', '/:id/*'], (req, res, next) => {
     Record.findOne({'_id': req.params.id})
     .populate('organisation', '_id name tag logo picture cover google email public premium created canInvite')
     .then(record => {
