@@ -320,9 +320,6 @@
 	"Integration missing? <br/><a href='mailto:premium@wingzy.io'>Contact us!</a>": "crwdns1648:0crwdne1648:0",
 	"Please provide a valid {{field}} URL.": "crwdns1598:0{{field}}crwdne1598:0",
 	"Confirm your email address": "crwdns1600:0crwdne1600:0",
-	"Hello, <br/> Please validate your email address to access Wingzy, just click on the red button !": "crwdns1602:0crwdne1602:0",
-	"Reset your password": "crwdns1604:0crwdne1604:0",
-	"Hello, <br/>We received a request to change your password on Wingzy.<br/>If you want to change it, just click on the red button.": "crwdns1606:0crwdne1606:0",
 	"Wingzy is finally a pertinent and efficient enterprise directory ! The app to find the coworkers you need through their Wings: their talents, skills, and energies.": "crwdns1650:0crwdne1650:0",
 	"What Wingzy is": "crwdns1652:0crwdne1652:0",
 	"What Wingzy is not": "crwdns1654:0crwdne1654:0",
@@ -347,5 +344,10 @@
 	"Le principe est super, surtout dans le contexte de croissance dans laquelle je travaille. Quand je vois un prénom dans une boucle de mail que je ne reconnais pas, j'ai le réflexe Wingzy.": "crwdns1704:0crwdne1704:0",
 	"An intuitive app to reveal between coworkers all your Wings : your talents, skills and energies.\n  A fast search engine to find help at work within seconds.\n  A simple solution to accelerate collaboration between your teams, perfectly integrated with your existing tools.": "crwdns1706:0crwdne1706:0",
 	"Wingzy purpose is to reveal all your Wings : your talents, skills and energies.\n  Whatever your crafts, titles, expertises... Whatever your language, organization or company... Wingzy helps everyone find their  Wings thanks to machine learning.": "crwdns1708:0crwdne1708:0",
-	"No matter how fast your organization is changing.\n  No matter how big your collaborative vision is growing.\n  Wingzy’s team helps you design and execute your strategy through employee centric design thinking.\n  ": "crwdns1710:0crwdne1710:0"
+	"No matter how fast your organization is changing.\n  No matter how big your collaborative vision is growing.\n  Wingzy’s team helps you design and execute your strategy through employee centric design thinking.\n  ": "crwdns1710:0crwdne1710:0",
+	"Hello,<br/>Thank you for signing up on Wingzy, the talent directory of {{organisationName}}!<br/>Just click on this red button below to access Wingzy securely.<br/>Thanks :)": "crwdns1712:0{{organisationName}}crwdne1712:0",
+	"Confirm email": "crwdns1714:0crwdne1714:0",
+	"Create a new password": "crwdns1716:0crwdne1716:0",
+	"Hello,<br/>Click on the red button below to create your new password to secure your Wingzy account.<br/>If you don't want to change your password, all is fine, just do nothing.<br/>Thanks :)": "crwdns1718:0crwdne1718:0",
+	"Create password": "crwdns1720:0crwdne1720:0"
 }
