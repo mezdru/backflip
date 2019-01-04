@@ -280,6 +280,7 @@ var EmailHelper = {
         .catch(err => console.log(err));
       },
       emailConfirmation: function(email, url, organisationName, res){
+        const yourCompany = organisationName || res.__("your company");
         const request = mailjet
           .post("send")
           .request({
@@ -293,7 +294,7 @@ var EmailHelper = {
             ],
             "Vars": {
               "intro": res.__("Hello,<br/>Thank you for signing up on Wingzy, the talent directory of {{organisationName}}!<br/>Just click on this red button below to access Wingzy securely.<br/>Thanks :)",
-                              {organisationName: organisationName || 'your company'}),
+                              {organisationName: yourCompany}),
               "url": url || defaultLink,
               "button": res.__("Confirm email"),
               "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
