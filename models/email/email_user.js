@@ -94,7 +94,7 @@ EmailUser.sendPasswordRecoveryEmail = function(user, locale, res){
   user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
   user.email.hash = user.email.hash || md5(user.email.normalized);
   user.email.token = randomstring.generate(128); // we modify token, because token is a way to authenticate
-  user.email.generated = user.email.generated || Date.now();
+  user.email.generated = Date.now();
   
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
