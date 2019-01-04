@@ -279,8 +279,7 @@ var EmailHelper = {
         .then()
         .catch(err => console.log(err));
       },
-      emailConfirmation: function(email, url, res){
-        console.log(url);
+      emailConfirmation: function(email, url, organisationName, res){
         const request = mailjet
           .post("send")
           .request({
@@ -293,9 +292,10 @@ var EmailHelper = {
               { "Email": email }
             ],
             "Vars": {
-              "intro": res.__("Hello, <br/> Please validate your email address to access Wingzy, just click on the red button !"),
+              "intro": res.__("Hello,<br/>Thank you for signing up on Wingzy, the talent directory of {{organisationName}}!<br/>Just click on this red button below to access Wingzy securely.<br/>Thanks :)",
+                              {organisationName: organisationName || 'your company'}),
               "url": url || defaultLink,
-              "button": res.__("Confirm your email address"),
+              "button": res.__("Confirm email"),
               "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
             }
           });
@@ -311,16 +311,16 @@ var EmailHelper = {
           .request({
             "FromEmail": defaultEmitter,
             "FromName": defaultEmitterName,
-            "Subject": res.__("Reset your password"),
+            "Subject": res.__("Create a new password"),
             "MJ-TemplateID": "197497",
             "MJ-TemplateLanguage": true,
             "Recipients": [
               { "Email": email }
             ],
             "Vars": {
-              "intro": res.__("Hello, <br/>We received a request to change your password on Wingzy.<br/>If you want to change it, just click on the red button."),
+              "intro": res.__("Hello,<br/>Click on the red button below to create your new password to secure your Wingzy account.<br/>If you don't want to change your password, all is fine, just do nothing.<br/>Thanks :)"),
               "url": url || defaultLink,
-              "button": res.__("Reset your password"),
+              "button": res.__("Create password"),
               "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
             }
           });

@@ -76,13 +76,13 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   EmailUser.makeHash(user);
   user.email.token = randomstring.generate(128);
   user.email.generated = Date.now();
-  console.log('orgtag confirm : ' + orgTag);
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
     if(resp.ok === 1){
       return EmailHelper.public.emailConfirmation(
         user.email.value, 
         new UrlHelper(orgTag, "api/emails/confirmation/callback/" + user.email.token + '/' + user.email.hash, null, null).getUrl(),
+        orgTag,
         res);
     }else{
       throw new Error("Cannot update the user object.");
