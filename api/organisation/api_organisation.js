@@ -32,7 +32,8 @@ router.get('/:orgTag/forpublic', function(req, res, next) {
                                                             _id: organisation._id,
                                                             tag: organisation.tag,
                                                             name: organisation.name,
-                                                            logo: organisation.logo.url,
+                                                            logo: organisation.logo,
+                                                            cover: organisation.cover,
                                                             public: organisation.public
                                                         }
                                     });
