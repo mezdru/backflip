@@ -196,7 +196,9 @@ app.use((req, res, next) => {
         let expDate = new Date();
         expDate.setMinutes(expDate.getMinutes()+55);
         res.cookie('accessToken', authentificationHelper.accessToken, {expires: expDate, path: '/'});
-        res.cookie('refreshToken', authentificationHelper.refreshToken, {path:'/'});
+        let expDate2 = new Date();
+        expDate2.setFullYear(expDate2.getFullYear() + 1);
+        res.cookie('refreshToken', authentificationHelper.refreshToken, {expires: expDate2, path:'/'});
       }
     }else if(authentificationHelper.needClearCookies){
       res.clearCookie("accessToken");
