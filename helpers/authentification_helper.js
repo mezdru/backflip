@@ -57,8 +57,8 @@ class AuthentificationHelper {
                 url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/locale',
                 json: true,
                 body: {
-                  client_id: 'frontflip',
-                  client_secret: 'abcd1234',
+                  client_id: process.env.DEFAULT_CLIENT_ID,
+                  client_secret: process.env.DEFAULT_CLIENT_SECRET,
                   grant_type: 'refresh_token',
                   refresh_token: this.refreshToken
                 }
