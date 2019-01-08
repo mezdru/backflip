@@ -29,6 +29,13 @@ router.use(function(req, res, next) {
   return next();
 });
 
+// Clean cookies before Google auth
+router.get('/login', function(req, res, next){
+  res.clearCookie("connect.sid", {path: '/', domain: 'wingzy.com'});
+  res.clearCookie("connect.sid", {path: '/', domain: 'wingzy-staging.wingzy.com'});
+  return next();
+});
+
 // Login redirection to Google login
 // No Auth for that
 router.get('/login', function(req, res, next) {
