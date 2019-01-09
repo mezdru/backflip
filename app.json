@@ -12,6 +12,12 @@
     "ALGOLIA_WRITE_KEY": {
       "required": true
     },
+    "DEFAULT_CLIENT_ID": {
+      "required": true
+    },
+    "DEFAULT_CLIENT_SECRET": {
+      "required": true
+    },
     "DEFAULT_SOFTWING_ID": {
       "required": true
     },
@@ -27,13 +33,16 @@
     "GOOGLE_REDIRECT_URI": {
       "required": true
     },
+    "HOST_FRONTFLIP": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
     "HOST": {
       "required": true
     },
     "HOST_AUTH": {
-      "required": true
-    },
-    "HOST_FRONTFLIP": {
       "required": true
     },
     "HUBSPOT_HAPIKEY": {
@@ -64,9 +73,6 @@
       "required": true
     },
     "UPLOADCARE_PUBLIC_KEY": {
-      "required": true
-    },
-    "HEROKU_APP_NAME": {
       "required": true
     }
   },

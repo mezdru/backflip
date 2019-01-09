@@ -41,7 +41,8 @@ router.get('/login', function(req, res, next) {
   }
   res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
                                                                   (req.getLocale()) + '/' +
-                                                                  (req.organisationTag ? req.organisationTag : ''));
+                                                                  (req.organisationTag ? req.organisationTag : '') +
+                                                                  ( (req.query.code && req.organisationTag) ? '/' + req.query.code : '') );
   //res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 
