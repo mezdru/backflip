@@ -204,7 +204,7 @@ app.use((req, res, next) => {
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
-    
+
     return next();
   });
 });
@@ -286,12 +286,12 @@ app.use('/profile', profile);
 var searchLog = require('./routes/searchLog');
 app.use('/searchLog', searchLog);
 
-var statistics = require('./routes/statistics');
-app.use('/statistics', statistics);
-
 // restricting
 var block = require('./routes/block.js');
 app.use('/', block);
+
+var statistics = require('./routes/statistics');
+app.use('/statistics', statistics);
 
 // onboarding
 var onboard = require('./routes/onboard.js');
