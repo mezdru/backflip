@@ -118,7 +118,7 @@ var LinkHelper = class LinkHelper {
       this.setUsernameFromUrl();
     }
     var domain = parseDomain(this.value);
-    if(domain.domain !== this.type) {
+    if(!domain || !domain.domain || domain.domain !== this.type) {
       this.type = 'hyperlink';
       return this.makeHyperlink();
     }

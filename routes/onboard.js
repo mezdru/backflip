@@ -136,6 +136,7 @@ router.use(function(req, res, next) {
   Record.findByEmail(res.locals.user.loginEmail, res.locals.organisation._id, function(err, record) {
     if (err) return next(err);
     if (!record) return next();
+    console.log('here');
     res.locals.record = record;
     res.locals.user.attachOrgAndRecord(res.locals.organisation, record, function(err, user) {
       if (err) return next(err);
@@ -257,6 +258,7 @@ router.use(function(req, res, next){
 });
 
 router.use(function(req, res, next) {
+  console.log(res.locals.record.tag);
   res.locals.onboard.returnUrl = UrlHelper.makeUrl(req.organisationTag, `profile/${res.locals.record.tag}`, null, req.getLocale());
   next();
 });
