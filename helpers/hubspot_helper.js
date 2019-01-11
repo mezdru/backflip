@@ -1,7 +1,6 @@
 "use strict";
 let Hubspot = require('hubspot');
 let hubspot = new Hubspot({ apiKey: process.env.HUBSPOT_HAPIKEY});
-let slack = require('slack-notify')('https://hooks.slack.com/services/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');
 let Organisation = require('../models/organisation');
 let SlackHelper = require('./slack_helper');
 
@@ -60,9 +59,11 @@ class HubspotHelper {
     static getContactByEmail(email){
         if(process.env.NODE_ENV !== "production") return;
         return new Promise((resolve, reject) => {
-            hubspot.contacts.getByEmail(email, function( err, results){
-                if(err) resolve(null);
+            hubspot.contacts.getByEmail(email)
+            .then(results => {
                 resolve(results);
+            }).catch(err => {
+                resolve(null);
             });
         });
     }
