@@ -110,25 +110,26 @@ var LinkHelper = class LinkHelper {
   }
 
   makeProfile() {
-    if (!this.username && !validator.isURL(this.value, {require_protocol: true})) {
+    var domain = null;
+    if (validator.isURL(this.value, {require_protocol: true})) {
+      this.cleanUrl();
+      domain = parseDomain(this.value);
+      if(domain && domain.domain !== this.type) {
+        this.type = 'hyperlink';
+        return this.makeHyperlink();
+      }
+      this.setUsernameFromUrl();
+    } else {
       this.username = validator.escape(this.value);
       this.value = undefined;
-    } else {
-      this.cleanUrl();
-      this.setUsernameFromUrl();
+      if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     }
-    var domain = parseDomain(this.value);
-    if(!domain || !domain.domain || domain.domain !== this.type) {
-      this.type = 'hyperlink';
-      return this.makeHyperlink();
-    }
-    if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     switch(this.type) {
       case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
       case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = (this.username ? '@' + this.username : 'Twitter');  return;
       case 'github': this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
       case 'facebook':
-        if (domain.subdomain !== 'www') return this.makeHyperlink();
+        if (domain && domain.subdomain !== 'www') return this.makeHyperlink();
         this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
       default: this.makeHyperlink();
     }
@@ -143,6 +144,7 @@ var LinkHelper = class LinkHelper {
     }
   }
 
+  //@todo some redundancies (google, twitter, fb, linkedin) with makeProfile
   makeHyperlink () {
     var domain = parseDomain(this.value);
     if (!domain) return this.makeLocation();
@@ -193,7 +195,7 @@ var LinkHelper = class LinkHelper {
       case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; return;
       case 'trello': this.type = 'trello'; this.display = 'Trello'; return;
       case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; return;
-      case 'twitter': this.type = 'twitter'; this.display = this.username || 'Twitter'; return;
+      case 'twitter': this.type = 'twitter'; this.display = (this.username ? '@' + this.username : 'Twitter') || 'Twitter'; return;
       case 'vimeo': this.type = 'vimeo'; this.display = 'Vimeo'; return;
       case 'vk': this.type = 'vk'; this.display = 'VK'; return;
       case 'weibo': this.type = 'weibo'; this.display = 'Weibo'; return;
