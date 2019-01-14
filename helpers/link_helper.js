@@ -125,7 +125,7 @@ var LinkHelper = class LinkHelper {
       if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     }
     switch(this.type) {
-      case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = this.username || 'LinkedIn'; return;
+      case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = 'LinkedIn'; return;
       case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = (this.username ? '@' + this.username : 'Twitter');  return;
       case 'github': this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
       case 'facebook':
@@ -188,7 +188,7 @@ var LinkHelper = class LinkHelper {
         }
         return;
       case 'instagram': this.type = 'instagram'; this.display = 'Instagram'; return;
-      case 'linkedin': this.type = 'linkedin'; this.display = this.username || 'LinkedIn'; return;
+      case 'linkedin': this.type = 'linkedin'; this.display = 'LinkedIn'; return;
       case 'pinterest': this.type = 'pinterest'; this.display = 'Pinterest'; return;
       case 'renren': this.type = 'renren'; this.display = 'Renren'; return;
       case 'skype': this.type = 'skype'; this.display = this.value; return;
