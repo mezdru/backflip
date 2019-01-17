@@ -5,6 +5,16 @@ var authorization = require('../mid_authorization_profile');
 let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 
+
+router.get('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
+    Record.findOne({organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' }}})
+    .populate('links', '_id tag type name name_translated picture')
+    .then( record => {
+        if(!record) return res.status(404).json({message: 'Record not found.'});
+        return res.status(200).json({message: 'Record fetch with success.', record: record});
+    }).catch((err) => {return next(err);});
+});
+
 /**
  * @api {get} /api/profiles/:profileId Get Record
  * @apiName GetRecord

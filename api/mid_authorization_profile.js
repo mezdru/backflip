@@ -3,14 +3,20 @@ var router = express.Router();
 var Organisation = require('../models/organisation');
 var Record = require('../models/record');
 
+router.all('/workplace/:id', (req, res, next) => {
+    req.bypassFindById = true;
+    return next();
+});
+
  /**
   * @description If an Id is in the URL, try to find the orgId with it.
   */
 router.all(['/:id', '/:id/*'], (req, res, next) => {
+    if(req.bypassFindById) return next();
     Record.findOne({'_id': req.params.id})
     .populate('organisation', '_id name tag logo picture cover google email public premium created canInvite')
     .then(record => {
-        if(!record) return res.status(404).json({message: 'Record not found, so Organisation not found too'});
+        if(!record) return next();
         if( !req.user || (!req.user.isSuperAdmin() && !req.user.belongsToOrganisation(record.organisation._id)) ) 
             return res.status(403).json({message: 'You haven\'t access to this Organisation.'});
             req.organisation = record.organisation;
