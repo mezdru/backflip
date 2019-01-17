@@ -5,6 +5,26 @@ var authorization = require('../mid_authorization_profile');
 let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 
+// @todo Validate the new link
+router.put('/:profileId/addLink', auth, authorization, (req, res, next) => {
+    if(req.user.isSuperAdmin()){
+        Record.findOne({'_id' : req.params.profileId, 'organisation': req.organisation._id})
+        .populate('hashtags', '_id tag type name name_translated picture')
+        .populate('within', '_id tag type name name_translated picture')
+        .then(record => {
+            if(!record) return res.status(404).json({message: 'Record not found.'});
+            record.addLink(req.body.link);
+            record.save()
+            .then(()=> {
+                return res.status(200).json({message: 'Record updated with success.', record: record});
+            }).catch((err) => {return next(err);});
+    
+        }).catch((err) => {return next(err);});
+    }else{
+        return res.status(403).json({message: 'This is a restricted route.'});
+    }
+});
+
 
 router.post('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
     Record.findOne({organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' }}})
