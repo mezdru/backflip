@@ -6,7 +6,7 @@ let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 
 
-router.get('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
+router.post('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
     Record.findOne({organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' }}})
     .populate('links', '_id tag type name name_translated picture')
     .then( record => {
