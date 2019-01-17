@@ -112,6 +112,7 @@ userSchema.methods.touchLogin = function (callback) {
     //@todo modify logic to respect microservice pattern : this part should be listen modification on user
     HubspotHelper.createOrUpdateContactStatus(this, "signin");
   }
+  if(this.email && this.email.value) this.email.validated = true;
   this.last_login = Date.now();
   this.save(callback);
 };
