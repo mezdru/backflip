@@ -5,6 +5,19 @@ var authorization = require('../mid_authorization_profile');
 let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 
+
+// Get profile by his tag
+// Modify authorization to allow profileTag
+router.get('/tag/:profileTag/organisation/:organisationId', auth, authorization, (req, res, next) => {
+    Record.findOne({'tag' : req.params.profileTag, 'organisation': req.organisation._id})
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
+    .then(record => {
+        if(!record) return res.status(404).json({message: 'Record not found.'});
+        return res.status(200).json({message: 'Record fetch with success.', record: record});
+    }).catch((err) => {return next(err);});
+});
+
 // Insert or Update an array of Record.
 // @todo Write API doc
 // /api/profiles/bulk
@@ -49,7 +62,7 @@ router.post('/bulk', auth, (req, res, next) => {
 });
 
 // @todo Validate the new link
-// @todo We be deleted ?
+// @todo Will be deleted ?
 router.put('/:profileId/addLink', auth, authorization, (req, res, next) => {
     if(req.user.isSuperAdmin()){
         Record.findOne({'_id' : req.params.profileId, 'organisation': req.organisation._id})
@@ -69,7 +82,7 @@ router.put('/:profileId/addLink', auth, authorization, (req, res, next) => {
     }
 });
 
-// @todo Remove route
+// @todo Remove route and open a route /api/organisations/ => get all in org (superadmin)
 router.post('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
     Record.findOne({organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' }}})
     .populate('links', '_id tag type name name_translated picture')

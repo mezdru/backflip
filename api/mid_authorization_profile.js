@@ -8,6 +8,12 @@ router.all('/workplace/:id', (req, res, next) => {
     return next();
 });
 
+router.all('/tag/:profileTag/organisation/:organisationId', (req, res, next) => {
+    req.bypassFindById = true;
+    req.organisationId = req.params.organisationId
+    return next();
+})
+
  /**
   * @description If an Id is in the URL, try to find the orgId with it.
   */
@@ -29,9 +35,9 @@ router.all(['/:id', '/:id/*'], (req, res, next) => {
  */
 router.use('', (req, res, next) => {
     if(req.organisation) return next();
-    if(!req.body.orgId) return res.status(422).json({message: 'Missing parameter, could not retrieve organisation Id.'});
+    if(!(req.body.orgId || req.organisationId )) return res.status(422).json({message: 'Missing parameter, could not retrieve organisation Id.'});
 
-    Organisation.findOne({'_id': req.body.orgId})
+    Organisation.findOne({'_id': req.body.orgId || req.organisationId})
     .then(organisation => {
         if(!organisation) return res.status(404).json({message: 'Organisation not found'});
         if( !req.user || (!req.user.isSuperAdmin() && !req.user.belongsToOrganisation(organisation._id)) ) 
