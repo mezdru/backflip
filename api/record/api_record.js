@@ -23,7 +23,7 @@ router.get('/tag/:profileTag/organisation/:organisationId', auth, authorization,
 // /api/profiles/bulk
 router.post('/bulk', auth, (req, res, next) => {
     if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
-
+    console.log('[BULK API] - ' + JSON.stringify(req.body.records));
     req.body.records.forEach(recordObject => {
         if(recordObject._id) {
             let recordToUpdate = new Record(recordObject);
