@@ -67,7 +67,9 @@ var recordSchema = mongoose.Schema({
   },
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  personAvailability: {type: String, enum: ['available','unspecified','unavailable']}
+  personAvailability: {type: String, enum: ['available','unspecified','unavailable']},
+  // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
+  hidden: {type: Boolean, default: false}
 });
 
 //@todo deal with consequences of "unique: true" condition on organisation/tag
@@ -588,6 +590,7 @@ var algolia = require('algoliasearch')(process.env.ALGOLIA_APPLICATION_ID, proce
 var index = algolia.initIndex('world');
 
 recordSchema.methods.algoliaSync = function() {
+  if(this.hidden === true) return;
   if (this.deleted) {
     index.deleteObject(this._id.toString(), function(err, doc) {
       if (err) return console.error(err);

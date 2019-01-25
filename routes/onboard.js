@@ -433,6 +433,7 @@ router.post('/intro', function(req, res, next) {
 
       res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
         if (err) return next(err);
+        res.locals.record.hidden = false;
         if (res.locals.record.picture.url) {
 
           res.locals.record.addPictureByUrl(res.locals.record.picture.url, function(err, record) {
