@@ -85,7 +85,6 @@ router.put('/:profileId/addLink', auth, authorization, (req, res, next) => {
 // @todo Remove route and open a route /api/organisations/ => get all in org (superadmin)
 router.post('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
     Record.findOne({organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' }}})
-    .populate('links', '_id tag type name name_translated picture')
     .then( record => {
         if(!record) return res.status(404).json({message: 'Record not found.'});
         return res.status(200).json({message: 'Record fetch with success.', record: record});
