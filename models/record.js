@@ -379,6 +379,13 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   .exec(callback);
 };
 
+recordSchema.statics.findByIdAndUpdate = function(recordId, recordUpdated) {
+  return this.findOneAndUpdate({'_id': recordId}, {$set: recordUpdated}, {new: true})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
+  .exec();
+}
+
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findById = function(id, organisationId, callback) {

@@ -24,40 +24,23 @@ router.get('/tag/:profileTag/organisation/:organisationId', auth, authorization,
 router.post('/bulk', auth, (req, res, next) => {
     if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
     
+    // need parsing because Google sheet script send body as a string object
     req.body.records = JSON.parse(req.body.records);
-  
+
     req.body.records.forEach(recordObject => {
+        let recordToUpdate = new Record(recordObject);
         if(recordObject._id) {
-            let recordToUpdate = new Record(recordObject);
             delete recordToUpdate._id;
-
-            Record.findOneAndUpdate({'_id' : recordObject._id, 'organisation': recordObject.organisation}, {$set: recordToUpdate}, {new: true})
-            .populate('hashtags', '_id tag type name name_translated picture')
-            .populate('within', '_id tag type name name_translated picture')
-            .then().catch((err) => {return next(err);});
+            Record.findByIdAndUpdate(recordObject._id, recordToUpdate);
         } else {
-            newRecord = Record.makeFromEmail(recordObject.links.find(link => link.type === 'email').value, recordObject.organisation);
-            newRecord.save()
-            .then(recordSaved => {
-                recordObject.tag = recordSaved.tag; // tag can be modify
-                recordObject.name = recordObject.name || recordSaved.name;
-                if(recordObject.picture && recordObject.picture.url) {
-                    recordSaved.addPictureByUrl(recordObject.picture.url, function(err, data){
-                        if(err) return next(err);
-                        recordObject.picture = recordSaved.picture;
-                        Record.findOneAndUpdate({'_id': recordSaved._id}, {$set: recordObject}, {new: true})
-                        .populate('hashtags', '_id tag type name name_translated picture')
-                        .populate('within', '_id tag type name name_translated picture')
-                        .then().catch((err) => {return next(err);});
-                    });
-                } else {
-                    Record.findOneAndUpdate({'_id': recordSaved._id}, {$set: recordObject}, {new: true})
-                    .populate('hashtags', '_id tag type name name_translated picture')
-                    .populate('within', '_id tag type name name_translated picture')
-                    .then().catch((err) => {return next(err);});
-                }
-
-            }).catch((err) => {return next(err);});
+            recordToUpdate.tag = Record.getTagFromEmail(recordToUpdate.links.find(link => link.type === 'email').value);
+            if(recordToUpdate.picture && recordToUpdate.picture.url) {
+                recordToUpdate.addPictureByUrl(recordToUpdate.picture.url, function(err, data) {
+                    recordToUpdate.save();
+                });
+            } else {
+                recordToUpdate.save();
+            }
         }
     });
     return res.status(200).json({message: 'Request received and process has started'});
