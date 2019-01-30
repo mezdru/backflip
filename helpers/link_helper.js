@@ -50,10 +50,10 @@ var LinkHelper = class LinkHelper {
 
       case 'address' : return this.makeAddress();
 
-      case 'linkedin': case 'twitter': case 'github': case 'facebook':
+      case 'linkedin': case 'twitter': case 'github': case 'facebook': case 'workplace':
       return this.makeProfile();
 
-      case 'skype': case 'whatsapp': case 'gtalk':
+      case 'skype': case 'whatsapp': case 'gtalk': case 'workchat':
       return this.makeChat();
 
       default : return this.makeHyperlink();
@@ -104,9 +104,9 @@ var LinkHelper = class LinkHelper {
   }
 
   //@todo too dumb to really work
-  setUsernameFromUrl() {
+  getUsernameFromUrl() {
     var urlObject = urlParse(this.url, true);
-    this.username = urlObject.pathname.split('/')[1];
+    return urlObject.pathname.split('/')[1];
   }
 
   makeProfile() {
@@ -118,19 +118,17 @@ var LinkHelper = class LinkHelper {
         this.type = 'hyperlink';
         return this.makeHyperlink();
       }
-      this.setUsernameFromUrl();
     } else {
       this.username = validator.escape(this.value);
       this.value = undefined;
       if (this.username && this.username.charAt(0) === '@') this.username = this.username.slice(1);
     }
     switch(this.type) {
-      case 'linkedin': this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = 'LinkedIn'; return;
-      case 'twitter': this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = (this.username ? '@' + this.username : 'Twitter');  return;
-      case 'github': this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
-      case 'facebook':
-        if (domain && domain.subdomain !== 'www') return this.makeHyperlink();
-        this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
+      case 'linkedin': this.username = this.username || this.getUsernameFromUrl(); this.url = this.value = this.value || 'https://www.linkedin.com/in/'+this.username+'/'; this.display = 'LinkedIn'; return;
+      case 'twitter': this.username = this.username || this.getUsernameFromUrl(); this.url = this.value = this.value || 'https://twitter.com/'+this.username; this.display = (this.username ? '@' + this.username : 'Twitter');  return;
+      case 'github': this.username = this.username || this.getUsernameFromUrl(); this.url = this.value = this.value || 'https://github.com/'+this.username; this.display = this.username || 'Github';  return;
+      case 'workplace': this.value = this.username; this.url = this.url || 'https://workplace.facebook.com/profile.php?id='+this.value; this.display = 'Workplace';return;
+      case 'facebook': this.username = this.username || this.getUsernameFromUrl(); this.url = this.value = this.value || 'https://www.facebook.com/'+this.username; this.display = this.username || 'Facebook'; return;
       default: this.makeHyperlink();
     }
   }
@@ -139,7 +137,7 @@ var LinkHelper = class LinkHelper {
     switch(this.type) {
       case 'skype': this.value = this.display = this.username || 'Skype'; return;
       case 'whatsapp': this.value = this.display = this.username || 'WhatsApp'; return;
-      case 'gtalk': this.value = this.display = this.username || 'Google Talk'; this.type = 'google'; return;
+      case 'workchat': this.url = this.url || 'https://workplace.facebook.com/chat/t/'+this.value; this.display = 'Workchat'; return;
       default: return this.makeError();
     }
   }
@@ -149,13 +147,13 @@ var LinkHelper = class LinkHelper {
     var domain = parseDomain(this.value);
     if (!domain) return this.makeLocation();
     this.cleanUrl();
-    this.setUsernameFromUrl();
     switch (domain.domain) {
       case 'slack': this.type = 'slack'; this.display = 'Slack'; return;
       case 'bitbucket': this.type = 'bitbucket'; this.display = 'Bitbucket'; return;
       case 'dribbble': this.type = 'dribbble'; this.display = 'Dribbble'; return;
       case 'dropbox': this.type = 'dropbox'; this.display = 'Dropbox'; return;
       case 'facebook':
+        this.username = this.username || this.getUsernameFromUrl();
         if (domain.subdomain == 'www') {
           this.type = 'facebook';
           this.display = this.username || 'Facebook';
@@ -163,15 +161,17 @@ var LinkHelper = class LinkHelper {
           if (this.username == 'chat') {
             this.type = 'workchat';
             this.display = 'Workchat';
+            this.username = undefined;
           } else {
             this.type = 'workplace';
             this.display = 'Workplace';
+            this.username = undefined;
           }
         }
         return;
       case 'flickr': this.type = 'flickr'; this.display = 'Flickr'; return;
       case 'foursquare': this.type = 'foursquare'; this.display = 'Foursquare'; return;
-      case 'github': this.type = 'github'; this.display = (this.username ? '@'+this.username : 'Github'); return;
+      case 'github': this.username = this.username || this.getUsernameFromUrl(); this.type = 'github'; this.display = (this.username ? '@'+this.username : 'Github'); return;
       case 'google':
         if (domain.subdomain == 'drive') {
           this.type = 'folder';
@@ -195,7 +195,7 @@ var LinkHelper = class LinkHelper {
       case 'stackoverflow': this.type = 'stack-overflow'; this.display = 'Stack Overflow'; return;
       case 'trello': this.type = 'trello'; this.display = 'Trello'; return;
       case 'tumblr': this.type = 'tumblr'; this.display = 'Tumblr'; return;
-      case 'twitter': this.type = 'twitter'; this.display = (this.username ? '@' + this.username : 'Twitter') || 'Twitter'; return;
+      case 'twitter': this.username = this.username || this.getUsernameFromUrl(); this.type = 'twitter'; this.display = (this.username ? '@' + this.username : 'Twitter') || 'Twitter'; return;
       case 'vimeo': this.type = 'vimeo'; this.display = 'Vimeo'; return;
       case 'vk': this.type = 'vk'; this.display = 'VK'; return;
       case 'weibo': this.type = 'weibo'; this.display = 'Weibo'; return;
