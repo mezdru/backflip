@@ -500,14 +500,14 @@ router.post('/hashtags', function(req, res, next){
   sendWingsProposition(req.query.proposeToId, hashtagsArray, req.getLocale(), res)
   .then((recordTagRedirect) => {
     return res.redirect(new UrlHelper(req.organisationTag, 'profile/'+recordTagRedirect, null, req.getLocale()).getUrl());
-  })
+  });
 });
 
 //@todo should be in sanitizer
 router.post('/links',
   body('links').custom((links, { req }) => {
     if (!links) {
-      links = {values: [], types: []};
+      links = {values: [], types: [], urls: []};
     }
     if (!Array.isArray(links.values)) {
       if (!links.values) links.values = [];
@@ -517,6 +517,10 @@ router.post('/links',
       if (!links.types) links.types = [];
       else links.types = [links.types];
     }
+    if (!Array.isArray(links.urls)) {
+      if (!links.urls) links.urls = [];
+      else links.urls = [links.urls];
+    }
     req.body.links = links;
     return true;
   })
@@ -525,7 +529,7 @@ router.post('/links',
 router.post('/links', function(req, res, next) {
   var links = [];
   req.body.links.values.forEach(function(value, index) {
-    links.push(LinkHelper.makeLink(value, req.body.links.types[index]));
+    links.push(LinkHelper.makeLink(value, req.body.links.types[index], req.body.links.urls[index]));
   });
   res.locals.record.makeLinks(links);
   res.locals.record.save(function(err, record) {

@@ -6,17 +6,17 @@ var urlParse = require('url-parse');
 
 var LinkHelper = class LinkHelper {
 
-  static makeLink(value, type, username, country) {
-    return new LinkHelper(value, type, username, country).link;
+  static makeLink(value, type, url, username, country) {
+    return new LinkHelper(value, type, url, username, country).link;
   }
 
-  constructor(value, type, username, country) {
-    this.country = country || 'FR';
+  constructor(value, type, url, username, display, country) {
     this.value = value;
     this.type = type;
+    this.url = url;
     this.username = username;
     this.display = undefined;
-    this.url = undefined;
+    this.country = country || 'FR';
   }
 
   get link() {
