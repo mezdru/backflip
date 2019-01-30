@@ -163,7 +163,8 @@ recordSchema.methods.addLink = function(newLink) {
 recordSchema.methods.hasLink = function(newLink) {
   return this.links.some(function(link) {
     if (newLink.value &&
-      newLink.value === link.value) return true;
+      newLink.value === link.value &&
+      !(newLink.type === 'workplace' || newLink.type === 'workchat' )) return true;
     if (newLink.type &&
       newLink.username &&
       newLink.type === link.type &&
