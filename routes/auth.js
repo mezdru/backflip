@@ -40,9 +40,9 @@ router.get('/login', function(req, res, next) {
     if(msg) res.locals.info = {msg: msg};
   }
   res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
-                                                                  (req.getLocale()) + '/' +
-                                                                  (req.organisationTag ? req.organisationTag : '') +
-                                                                  ( (req.query.code && req.organisationTag) ? '/' + req.query.code : '') );
+                                                                  (req.getLocale()) +
+                                                                  (req.organisationTag ? '/' +req.organisationTag : '') +
+                                                                  ( (req.query.code && req.organisationTag) ? '/signin/' + req.query.code : '/signin') );
   //res.render('signin', {bodyClass: 'signin', googleSignin: googleSignin, emailSignin: emailSignin});
 });
 
