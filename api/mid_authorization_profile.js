@@ -36,6 +36,8 @@ router.all(['/:id', '/:id/*'], (req, res, next) => {
 router.use('', (req, res, next) => {
     if(req.organisation) return next();
     if(!(req.body.orgId || req.organisationId )) return res.status(422).json({message: 'Missing parameter, could not retrieve organisation Id.'});
+    if(!req.user || (req.user.email && req.user.email.value && !req.user.email.validated))
+      return res.status(403).json({message: 'Email not validated', email: req.user.email.value});
 
     Organisation.findOne({'_id': req.body.orgId || req.organisationId})
     .then(organisation => {

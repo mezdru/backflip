@@ -17,6 +17,8 @@ router.use(function(req, res, next) {
 
     if(!req.organisationId) req.organisationId = req.body.orgId;
     if(!req.organisationId) return res.status(422).json({message: 'Missing parameter, could not retrieve organisation Id.'});
+    if(!req.user || (req.user.email && req.user.email.value && !req.user.email.validated))
+      return res.status(403).json({message: 'Email not validated', email: req.user.email.value});
 
     Organisation.findOne({'_id': req.organisationId})
     .then(organisation => {
