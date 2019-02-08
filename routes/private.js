@@ -57,7 +57,9 @@ router.get('/search/:query?', function(req, res, next) {
   res.locals.canInvite = res.locals.organisation.canInvite && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id);
 
   if(['quecbio', 'demo'].includes(res.locals.organisation.tag)) res.locals.isPublic = true; // useless condition because organisation.public is set ??
-  
+  res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
+                                                                              (req.getLocale()) +
+                                                                              '/' + res.locals.organisation.tag );
   res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });
 
