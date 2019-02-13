@@ -83,6 +83,12 @@ router.get('/login/callback', function(req, res, next) {
     if (err) return next(err);
     // update session with user credentials
     req.session.user = user;
+
+    // redirect to frontflip to create a password
+    return res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
+                        (req.getLocale()) +
+                        (res.locals.organisation ? '/' + res.locals.organisation.tag : '') +
+                        '/password/create/' + req.query.token + '/' +req.query.hash + '/' + user.loginEmail);
     return next();
   });
 });
