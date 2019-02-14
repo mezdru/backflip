@@ -19,4 +19,9 @@ router.use(function(req, res, next) {
   } else return next();
 });
 
+router.use(function(req, res, next) {
+  if(res.locals.organisation && res.locals.organisation.tag_redirect  ) return res.redirect(302, "https://" + organisation.tag + '.' + process.env.HOST + req.url);
+  else return next();
+});
+
 module.exports = router;

@@ -56,22 +56,6 @@ if (app.get('env') === 'production') {
     return next();
   });
 
-  //  Perform redirection
-  app.use(function(req, res, next) {
-    if(req.organisationTag){
-      Organisation.findOne({'tag_redirect': req.organisationTag})
-      .then(organisation => {
-        if(organisation && organisation.tag_redirect  ) return res.redirect(302, "https://" + organisation.tag + '.' +process.env.HOST + req.url);
-        return next();
-      }).catch(err => {
-        console.log('TAG REDIRECT ERROR : ' + err);
-        return next();
-      });
-    }else{
-      return next();
-    }
-  });
-
 } else if (app.get('env') === 'staging') {
   // Setup URL for Pull Request apps.
   if(process.env.HEROKU_APP_NAME !== 'wingzy-staging') process.env.HOST = process.env.HEROKU_APP_NAME + ".herokuapp.com";
@@ -280,8 +264,22 @@ app.use('/', restrict);
 var privatePages = require('./routes/private.js');
 app.use('/', privatePages);
 
-var profile = require('./routes/profile.js');
-app.use('/profile', profile);
+// redirect profile to PWA
+app.use('/profile/:tag', function(req, res, next) {
+  return res.redirect(
+    (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
+    process.env.HOST_FRONTFLIP +
+    '/' +
+    req.getLocale() +
+    '/' +
+    res.locals.organisation.tag +
+    '/' +
+    req.params.tag
+    );
+});
+
+var oldprofile = require('./routes/profile.js');
+app.use('/oldprofile', oldprofile);
 
 var searchLog = require('./routes/searchLog');
 app.use('/searchLog', searchLog);

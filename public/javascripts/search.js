@@ -312,7 +312,7 @@ $(document).ready(function () {
   $(document).on('click', '.hashtag', function (e) {
     e.preventDefault();
     if (e.ctrlKey || e.metaKey) {
-      window.open(makeUrl(null, 'profile/'+$(this).data('tag')), '_blank');
+      window.open(makeUrl(null, 'oldprofile/'+$(this).data('tag')), '_blank');
     } else {
       $selectize.addOption({
         tag: $(this).data('tag'),

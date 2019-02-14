@@ -213,7 +213,7 @@ function getOrgId(orgTag) {
 }
 
 function addUrl(item) {
-	item.url = makeUrl(getOrgTag(item), 'profile/'+item.tag);
+	item.url = makeUrl(getOrgTag(item), 'oldprofile/'+item.tag);
 }
 
 transformHashtags = function(item, facets) {

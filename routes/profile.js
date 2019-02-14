@@ -145,13 +145,10 @@ router.get('*', function(req, res, next) {
   if (req.query.json) {
     return res.json(res.locals.record);
   } else {
-    return res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
-                                                                                  (req.getLocale()) +
-                                                                                  '/' + res.locals.organisation.tag +'/'+res.locals.record.tag );
-    // res.render('profile', {
-    //   title: res.locals.record.name,
-    //   bodyClass: 'profile'
-    // });
+    res.render('profile', {
+       title: res.locals.record.name,
+       bodyClass: 'profile'
+    });
   }
 });
 

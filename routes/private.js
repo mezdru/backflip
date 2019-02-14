@@ -8,15 +8,44 @@ var User = require('../models/user.js');
 var Record = require('../models/record.js');
 var UrlHelper = require('../helpers/url_helper.js');
 
-router.get('/google/app', function(req, res, next) {
-  plus.people.get({userId: 'me', auth: req.googleOAuth}, function (err, ans) {
-    if (err) return next(err);
-    return res.render('index', {title: 'You are', content: ans});
-  });
+// Redirect raw to PWA
+router.get('/', function(req, res, next) {
+  return res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
+  process.env.HOST_FRONTFLIP +
+  '/' +
+  req.getLocale() +
+  '/' +
+  res.locals.organisation.tag
+  );
 });
 
-router.get('/', function(req, res, next) {
-  res.redirect(UrlHelper.makeUrl(res.locals.organisation.tag, 'search', null, req.getLocale()));
+// Redirect search  to PWA (duplicate previous)
+router.get('/search/:query?', function(req, res, next) {
+  return res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
+  process.env.HOST_FRONTFLIP +
+  '/' +
+  req.getLocale() +
+  '/' +
+  res.locals.organisation.tag
+  );
+});
+
+router.use('/oldsearch/:query?', function(req, res, next) {
+  if (!res.locals.organisation) {
+    err = new Error('Subdomain required');
+    err.status = 403;
+    return next(err);
+  }
+  return next();
+});
+
+router.get('/oldsearch/:query?', function(req, res, next) {
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+  res.locals.canInvite = res.locals.organisation.canInvite && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id);
+
+  if(['quecbio', 'demo'].includes(res.locals.organisation.tag)) res.locals.isPublic = true; // useless condition because organisation.public is set ??
+
+  res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });
 
 router.get('/account', function(req, res, next) {
@@ -41,27 +70,6 @@ router.get('/cookies', function(req, res, next) {
         content: req.cookies
       }
     );
-});
-
-router.use('/search/:query?', function(req, res, next) {
-  if (!res.locals.organisation) {
-    err = new Error('Subdomain required');
-    err.status = 403;
-    return next(err);
-  }
-  return next();
-});
-
-router.get('/search/:query?', function(req, res, next) {
-  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
-  res.locals.canInvite = res.locals.organisation.canInvite && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id);
-
-  if(['quecbio', 'demo'].includes(res.locals.organisation.tag)) res.locals.isPublic = true; // useless condition because organisation.public is set ??
-  return res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
-                                                                              (req.getLocale()) +
-                                                                              '/' + res.locals.organisation.tag );
-                                                                              
-  // res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
 });
 
 router.get('/leave', function(req, res, next) {
