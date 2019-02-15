@@ -9,7 +9,8 @@ router.use(function(req, res, next) {
         url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/isAuth',
         json: true,
         headers: {
-            'Authorization': req.get('Authorization')
+            'Authorization': req.get('Authorization'),
+            'user-agent': req.headers['user-agent']
         }
     }, (error, requestResponse, body) => {
         if(error) {
