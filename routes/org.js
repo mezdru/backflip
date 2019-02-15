@@ -20,7 +20,7 @@ router.use(function(req, res, next) {
 });
 
 router.use(function(req, res, next) {
-  if(res.locals.organisation && res.locals.organisation.tag_redirect  ) return res.redirect(302, "https://" + organisation.tag + '.' + process.env.HOST + req.url);
+  if(res.locals.organisation && res.locals.organisation.tag_redirect  ) return res.redirect(302, "https://" + res.locals.organisation.tag + '.' + process.env.HOST + req.url);
   else return next();
 });
 
