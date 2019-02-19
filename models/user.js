@@ -175,6 +175,8 @@ userSchema.methods.isAdminToOrganisation = function(organisationId) {
 };
 
 userSchema.methods.getOrgAndRecord = function(organisationId) {
+  if(organisationId) organisationId = mongoose.Types.ObjectId(organisationId);
+  else return null;
   return this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
 };
 
@@ -237,6 +239,8 @@ userSchema.methods.makeAdminToOrganisation = function(organisation, callback) {
 };
 
 userSchema.methods.getRecordIdByOrgId = function(organisationId) {
+  if(organisationId) organisationId = mongoose.Types.ObjectId(organisationId);
+  else return null;
   var orgAndRecord = this.orgsAndRecords.find(orgAndRecord => organisationId.equals(getId(orgAndRecord.organisation)));
   if (!orgAndRecord || !orgAndRecord.record) return null;
   else return getId(orgAndRecord.record);

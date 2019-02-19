@@ -3,12 +3,13 @@ var router = express.Router();
 var Organisation = require('../models/organisation');
 var Record = require('../models/record');
 
+//@todo remove with route workplace
 router.all('/workplace/:id', (req, res, next) => {
     req.bypassFindById = true;
     return next();
 });
 
-router.all('/tag/:profileTag/organisation/:organisationId', (req, res, next) => {
+router.all(['/tag/:profileTag/organisation/:organisationId', '/user/:userId/organisation/:organisationId'], (req, res, next) => {
     req.bypassFindById = true;
     req.organisationId = req.params.organisationId
     return next();
