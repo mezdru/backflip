@@ -163,6 +163,11 @@ app.use(session({
     }
 }));
 
+// API needs auth to work, this could be use to desactivate API too
+// API should be declared before authentification helper check, which is usefull for server rendering only
+var api = require('./api/api');
+app.use('/api', api);
+
 /**
  * @description When an user login : we receive a redirection from app.wingzy.com, with 2 cookies : accessToken & refreshToken
  *              We can access them normally because app.wingzy.com is juste a subdomain of us.
@@ -213,12 +218,6 @@ app.use(function(req, res, next) {
   }
   return next();
 });
-
-// API needs auth to work, this could be use to desactivate API too
-if(process.env.HOST_AUTH){
-  var api = require('./api/api');
-  app.use('/api', api);
-}
 
 // Looking for the org and setup res.locals.organisation
 var org = require('./routes/org.js');
