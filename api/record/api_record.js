@@ -1,15 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var auth = require('../middleware_authentification');
 var authorization = require('../mid_authorization_profile');
 let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 var GoogleRecord = require('../../models/google/google_record.js');
 var User = require('../../models/user');
 
+var passport = require('passport');
+require('../passport/strategy');
+
 // Get profile by his tag
 // Modify authorization to allow profileTag
-router.get('/tag/:profileTag/organisation/:organisationId', auth, authorization, (req, res, next) => {
+router.get('/tag/:profileTag/organisation/:organisationId', passport.authenticate('bearer', {session: false}), authorization, (req, res, next) => {
   Record.findOne({'tag' : req.params.profileTag, 'organisation': req.organisation._id})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
@@ -22,7 +24,7 @@ router.get('/tag/:profileTag/organisation/:organisationId', auth, authorization,
 // Insert or Update an array of Record.
 // @todo Write API doc
 // /api/profiles/bulk
-router.post('/bulk', auth, (req, res, next) => {
+router.post('/bulk', passport.authenticate('bearer', {session: false}), (req, res, next) => {
   if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
   
   // need parsing because Google sheet script send body as a string object
@@ -49,7 +51,7 @@ router.post('/bulk', auth, (req, res, next) => {
 
 // @todo Validate the new link
 // @todo Will be deleted ?
-router.put('/:profileId/addLink', auth, authorization, (req, res, next) => {
+router.put('/:profileId/addLink', passport.authenticate('bearer', {session: false}), authorization, (req, res, next) => {
   if(req.user.isSuperAdmin()){
     Record.findOne({'_id' : req.params.profileId, 'organisation': req.organisation._id})
     .populate('hashtags', '_id tag type name name_translated picture')
@@ -69,7 +71,7 @@ router.put('/:profileId/addLink', auth, authorization, (req, res, next) => {
 });
 
 // @todo Remove route and open a route /api/organisations/ => get all in org (superadmin)
-router.post('/workplace/:workplaceId', auth, authorization, (req, res, next) => {
+router.post('/workplace/:workplaceId', passport.authenticate('bearer', {session: false}), authorization, (req, res, next) => {
   Record.findOne({organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' }}})
   .then( record => {
     if(!record) return res.status(404).json({message: 'Record not found.'});
@@ -78,7 +80,7 @@ router.post('/workplace/:workplaceId', auth, authorization, (req, res, next) => 
 });
 
 // Get the best record possible for an user
-router.get('/user/:userId/organisation/:orgId', auth, authorization, async (req, res, next) => {
+router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', {session: false}), authorization, async (req, res, next) => {
   try{
     let currentRecord, currentUser;
     let orgId = req.params.orgId;
@@ -142,7 +144,7 @@ router.get('/user/:userId/organisation/:orgId', auth, authorization, async (req,
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.get('/:profileId', auth, authorization, function(req, res, next) {
+router.get('/:profileId', passport.authenticate('bearer', {session: false}), authorization, function(req, res, next) {
   Record.findOne({'_id' : req.params.profileId, 'organisation': req.organisation._id})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
@@ -171,7 +173,7 @@ router.get('/:profileId', auth, authorization, function(req, res, next) {
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.post('/', auth, authorization, validate_record, function(req, res, next) {
+router.post('/', passport.authenticate('bearer', {session: false}), authorization, validate_record, function(req, res, next) {
   let record = req.body.record;
   if(!record) return res.status(422).json({message: 'Missing parameter'});
 
@@ -211,7 +213,7 @@ router.post('/', auth, authorization, validate_record, function(req, res, next) 
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.put('/:profileId', auth, authorization, validate_record, function(req, res, next) {
+router.put('/:profileId', passport.authenticate('bearer', {session: false}), authorization, validate_record, function(req, res, next) {
   let recordToUpdate = req.body.record;
   if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
       
@@ -243,7 +245,7 @@ router.put('/:profileId', auth, authorization, validate_record, function(req, re
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation. OR You can't delete this profile.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.delete('/:profileId', auth, authorization, function(req, res, next) {
+router.delete('/:profileId', passport.authenticate('bearer', {session: false}), authorization, function(req, res, next) {
   Record.findOne({'_id': req.params.profileId, 'organisation': req.organisation._id})
   .then(record => {
     if(!record) return res.status(404).json({message: 'Record not found.'});

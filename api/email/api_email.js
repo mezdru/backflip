@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var auth = require('../middleware_authentification');
 var authorization = require('../mid_authorization_organisation');
 var EmailUser = require('../../models/email/email_user');
 var User = require('../../models/user');
 var UrlHelper = require('../../helpers/url_helper');
 
+var passport = require('passport');
+require('../passport/strategy');
+
 // for the moment, confirm the login email of the user
-router.post('/confirmation/:orgTag?', auth, (req, res, next) => {
+router.post('/confirmation/:orgTag?', passport.authenticate('bearer', {session: false}), (req, res, next) => {
     EmailUser.sendEmailConfirmation(req.user, res, req.params.orgTag)
     .then(()=>{
         return res.status(200).json({message: 'Email send with success.'});
@@ -47,7 +49,7 @@ router.post('/password', (req, res, next) => {
 });
 
 /*eslint-disable */
-router.post('/invite', auth, authorization, (req, res, next) => {
+router.post('/invite', passport.authenticate('bearer', {session: false}), authorization, (req, res, next) => {
     return res.status(200).json({message: 'TODO'});
 });
 /*eslint-enable */

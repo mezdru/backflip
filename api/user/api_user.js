@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
-var auth = require('../middleware_authentification');
+
+var passport = require('passport');
+require('../passport/strategy');
 
 /**
  * @api {get} /api/users/me Get current user
@@ -19,7 +21,7 @@ var auth = require('../middleware_authentification');
  * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid.
  */
-router.get('/current', auth, function(req, res, next) {
+router.get('/current', passport.authenticate('bearer', {session: false}), function(req, res, next) {
     return res.status(200).json({message: 'User fetch with success', user: req.user});
 });
 
@@ -40,7 +42,7 @@ router.get('/current', auth, function(req, res, next) {
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR Your are not allowed to update this User.
  * @apiError (422 Missing Parameters) MissingParameters Missing parameters.
  */
-router.put('/:userId?', auth, function(req, res, next) {
+router.put('/:userId?', passport.authenticate('bearer', {session: false}), function(req, res, next) {
     if(!req.body.user) return res.status(422).json({message: 'Missing parameter'});
     if(!req.user.isSuperAdmin() && req.params.userId) return res.status(403).json({message: 'Your are not allowed to update this User.'});
 

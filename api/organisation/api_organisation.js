@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var Organisation = require('../../models/organisation');
-var auth = require('../middleware_authentification');
 var algoliaOrganisation = require('../../models/algolia/algolia_organisation');
 let authorization = require('../mid_authorization_organisation');
 var User = require('../../models/user');
 var validate_organisation = require('../validate_organisation');
+
+var passport = require('passport');
+require('../passport/strategy');
 
 /**
  * @api {get} /api/organisations/:orgTag/forpublic Get minors data of an Organisation
@@ -59,7 +61,7 @@ router.get('/:orgTag/forpublic', function(req, res, next) {
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.get('/:orgId', auth, authorization,  (req, res, next) =>{
+router.get('/:orgId', passport.authenticate('bearer', {session: false}), authorization,  (req, res, next) =>{
     return res.status(200).json({message: 'Organisation fetch with success.', organisation: req.organisation});
 });
 
@@ -83,7 +85,7 @@ router.get('/:orgId', auth, authorization,  (req, res, next) =>{
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.put('/:orgId', auth, authorization, validate_organisation, (req, res, next)=>{
+router.put('/:orgId', passport.authenticate('bearer', {session: false}), authorization, validate_organisation, (req, res, next)=>{
     if( !(req.user.isAdminToOrganisation(req.organisation._id) || req.user.isSuperAdmin()) )
         return res.status(403).json({message: 'You have not the authorization to modify this Organisation.'});
 
@@ -118,7 +120,7 @@ router.put('/:orgId', auth, authorization, validate_organisation, (req, res, nex
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You have not the authorization to delete this Organisation.
  * @apiError (422 Missing Parameter) Missing parameter
  */
-router.delete('/:orgId', auth, authorization, (req, res,next)=>{
+router.delete('/:orgId', passport.authenticate('bearer', {session: false}), authorization, (req, res,next)=>{
     if( !req.user.isSuperAdmin() )
         return res.status(403).json({message: 'You have not the authorization to delete this Organisation.'});
 
@@ -147,7 +149,7 @@ router.delete('/:orgId', auth, authorization, (req, res,next)=>{
  * @apiError (422 Missing Parameter) Missing parameter
  * @apiError (409 Already Exists) Conflict Organisation already exists.
  */
-router.post('/', auth, validate_organisation, (req, res, next)=>{
+router.post('/', passport.authenticate('bearer', {session: false}), validate_organisation, (req, res, next)=>{
     let organisation = new Organisation(req.body.organisation);
     if(!organisation) return res.status(422).json({message: 'Missing body parameter : organisation'});
     organisation.creator = req.user._id;
@@ -214,7 +216,7 @@ router.get('/:organisationId/algolia/public', function(req, res, next){
  * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
  * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
  */
-router.get('/:organisationId/algolia/private', auth, authorization, function(req, res, next){
+router.get('/:organisationId/algolia/private', passport.authenticate('bearer', {session: false}), authorization, function(req, res, next){
     let publicKey = algoliaOrganisation.makePublicKey(req.organisation._id);
     return res.status(200).json({message:'Algolia public key found with success.', public_key: publicKey});
 });
