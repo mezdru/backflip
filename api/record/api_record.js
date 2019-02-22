@@ -12,7 +12,7 @@ require('../passport/strategy');
 // Get profile by his tag
 // Modify authorization to allow profileTag
 router.get('/tag/:profileTag/organisation/:organisationId', passport.authenticate('bearer', {session: false}), authorization, (req, res, next) => {
-  Record.findOne({'tag' : req.params.profileTag, 'organisation': req.organisation._id})
+  Record.findOne({'tag' : req.params.profileTag, 'organisation': [Record.getTheAllOrganisationId(), req.organisation._id]})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
   .then(record => {
