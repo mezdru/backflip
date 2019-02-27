@@ -254,7 +254,7 @@ userSchema.methods.getRecordTagByOrgId = function(organisationId) {
 
 userSchema.methods.populateRecords = function(){
   return this.populate('orgsAndRecords.record').execPopulate();
-}
+};
 
 /**
  * @description find the latest used record of an user.

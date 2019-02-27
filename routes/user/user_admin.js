@@ -104,6 +104,9 @@ router.get('/list/:sort?', function(req, res, next) {
   .sort(sort)
   .exec(function(err, users) {
     if (err) return next(err);
+    users.forEach(user => {
+      user.recordTag = user.getRecordTagByOrgId(res.locals.organisation._id);
+    });
     res.render('admin/user_list',
       {
         title: req.__('List of users'),
@@ -129,7 +132,7 @@ router.all('/email/spread', function(req, res, next) {
   .exec(function(err, users) {
     if (err) return next(err);
     // it's ok when user hasn't any org yet.
-    res.locals.recipientUsers = users.filter(user => typeof(user.last_login) !== 'undefined');  
+    res.locals.recipientUsers = users.filter(user => typeof(user.last_login) !== 'undefined');
     res.locals.recipientsUsersRecords = res.locals.recipientUsers
       .map(user => user.getRecord(res.locals.organisation._id))
       .filter(record => record && record != {});
@@ -217,7 +220,7 @@ router.get('/email/resend', function(req, res, next){
         });
         counterSendEmail++;
         emailsSended.push(user.loginEmail);
-    }  
+    }
   });
   return res.render('index',
       {
@@ -231,11 +234,11 @@ router.get('/email/resend', function(req, res, next){
 //@todo create utils helper
 let daysBetween = function(date1, date2){
   var one_day=1000*60*60*24;
-  var date1_ms = date1.getTime();   
-  var date2_ms = date2.getTime(); 
-  var difference_ms = date2_ms - date1_ms;        
-  // Convert back to days and return   
-  return Math.round(difference_ms/one_day); 
+  var date1_ms = date1.getTime();
+  var date2_ms = date2.getTime();
+  var difference_ms = date2_ms - date1_ms;
+  // Convert back to days and return
+  return Math.round(difference_ms/one_day);
 }
 
 
