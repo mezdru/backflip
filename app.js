@@ -179,8 +179,12 @@ app.use((req, res, next) => {
   let authentificationHelper = new AuthentificationHelper(req.cookies.accessToken, req.cookies.refreshToken);
   authentificationHelper.performAuth().then(currentUser => {
     if(currentUser && ( (currentUser.email && currentUser.email.validated) || currentUser.google.email ) ){
-      res.locals.user = currentUser;
-      req.session.user = res.locals.user;
+      if (res.locals.impersonator && req.session.user) {
+        res.locals.user = req.session.user;
+      } else {
+        res.locals.user = currentUser;
+        req.session.user = res.locals.user;
+      }
       if(authentificationHelper.getNewTokens){
         let expDate = new Date();
         expDate.setMinutes(expDate.getMinutes()+55);
