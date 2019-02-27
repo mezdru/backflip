@@ -179,7 +179,7 @@ app.use((req, res, next) => {
   let authentificationHelper = new AuthentificationHelper(req.cookies.accessToken, req.cookies.refreshToken);
   authentificationHelper.performAuth().then(currentUser => {
     if(currentUser && ( (currentUser.email && currentUser.email.validated) || currentUser.google.email ) ){
-      if (res.locals.impersonator && req.session.user) {
+      if (req.session.impersonator && req.session.user) {
         res.locals.user = req.session.user;
       } else {
         res.locals.user = currentUser;
