@@ -544,6 +544,16 @@ recordSchema.methods.addPictureByUrl = function(url, callback) {
   }.bind(this));
 };
 
+recordSchema.methods.addPictureByUrlAsync = (url) => {
+  return new Promise((resolve, reject) => {
+    Record.addFileByUrl(url, function(err, file){
+      if(err) reject(err);
+      this.picture = file;
+      resolve(this);
+    }.bind(this));
+  });
+}
+
 recordSchema.methods.addCoverByUrl = function(url, callback) {
   this.model('Record').addFileByUrl(url, function(err, file) {
     if (err) return callback(err);

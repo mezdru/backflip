@@ -224,13 +224,25 @@ router.post('/', passport.authenticate('bearer', {session: false}), authorizatio
 router.put('/:profileId', passport.authenticate('bearer', {session: false}), authorization, validate_record, function(req, res, next) {
   let recordToUpdate = req.body.record;
   if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
-      
+
   Record.findOneAndUpdate({'_id' : req.params.profileId, 'organisation': req.organisation._id}, {$set: recordToUpdate}, {new: true})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
   .then(recordUpdated => {
     if(!recordUpdated) return res.status(404).json({message: 'Record not found.'});
-    return res.status(200).json({message: 'Record updated with success.', record: recordUpdated});
+
+    if(recordUpdated.picture && recordUpdated.picture.url) {
+      recordUpdated.addPictureByUrlAsync(recordToUpdate.picture.url)
+      .then( pictureField => {
+        recordUpdated.picture = pictureField.picture;
+        recordUpdated.save().then((recordUpdatedBis) => {
+          return res.status(200).json({message: 'Record updated with success.', record: recordUpdatedBis});
+        }).catch((err) => {return next(err);});    
+      })
+    } else {
+      return res.status(200).json({message: 'Record updated with success.', record: recordUpdated});
+    }
+
   }).catch((err) => {return next(err);});    
 });
 
