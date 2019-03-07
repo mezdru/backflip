@@ -5,7 +5,8 @@ let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 var GoogleRecord = require('../../models/google/google_record.js');
 var User = require('../../models/user');
-
+var uppercamelcase = require('uppercamelcase');
+var slug = require('slug');
 var passport = require('passport');
 require('../passport/strategy');
 
@@ -176,6 +177,13 @@ router.get('/:profileId', passport.authenticate('bearer', {session: false}), aut
 router.post('/', passport.authenticate('bearer', {session: false}), authorization, validate_record, function(req, res, next) {
   let record = req.body.record;
   if(!record) return res.status(422).json({message: 'Missing parameter'});
+  if(!record.tag && record.name){
+    if(record.type === 'person') {
+      record.tag = '@' + slug(uppercamelcase(record.name));
+    } else {
+      record.tag = '#' + slug(uppercamelcase(record.name));
+    }
+  }
 
   Record.makeFromTagAsync(record.tag, req.organisation._id)
   .then(recordSaved => {
