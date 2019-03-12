@@ -231,7 +231,7 @@ router.put('/:profileId', passport.authenticate('bearer', {session: false}), aut
   .then(recordUpdated => {
     if(!recordUpdated) return res.status(404).json({message: 'Record not found.'});
 
-    if(recordUpdated.picture && recordUpdated.picture.url) {
+    if(recordToUpdate.picture && recordToUpdate.picture.url) {
       recordUpdated.addPictureByUrlAsync(recordToUpdate.picture.url)
       .then( pictureField => {
         recordUpdated.picture = pictureField.picture;
@@ -283,6 +283,7 @@ router.delete('/:profileId', passport.authenticate('bearer', {session: false}), 
 });
 
 router.use(function(err, req, res, next){
+  console.error(err);
   if(err) return res.status(500).json({message: 'Internal error', errors: [err.message]});
   return res.status(500).json({message: 'Unexpected error'});
 });
