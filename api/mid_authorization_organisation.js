@@ -21,6 +21,7 @@ router.use(function(req, res, next) {
       return res.status(403).json({message: 'Email not validated', email: req.user.email.value});
 
     Organisation.findOne({'_id': req.organisationId})
+    .populate('featuredWingsFamily', '_id tag type name name_translated picture intro')
     .then(organisation => {
         if(!organisation) return res.status(404).json({message: 'Organisation not found'});
         if( !req.user || (!req.user.isSuperAdmin() && !req.user.belongsToOrganisation(organisation._id)) ) 
