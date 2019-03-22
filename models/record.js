@@ -628,6 +628,7 @@ recordSchema.methods.algoliaSync = function() {
       intro: this.intro,
       description: this.description,
       picture: this.picture,
+      cover: this.cover,
       links: this.links,
       includes_count: this.includes_count,
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
