@@ -43,7 +43,7 @@ router.get('/current', passport.authenticate('bearer', {session: false}), functi
  * @apiError (422 Missing Parameters) MissingParameters Missing parameters.
  */
 router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer', {session: false}), (req, res, next) => {
-  if( (req.user._id !== req.params.userId) && !req.user.isSuperAdmin())
+  if( (!req.user._id.equals(req.params.userId)) && !req.user.isSuperAdmin())
     return res.status(403).json({message: 'Your are not allowed to update this User.'});
 
   User.findOne({_id: req.params.userId})
