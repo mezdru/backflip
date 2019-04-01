@@ -3,10 +3,23 @@
   {{#hits}}<div class="pure-g-box">
     {{^invitation}}
     <div class="record pure-g pure-g-{{type}}">
+      {{#qrcode}}
+          <div class="mark top left horizontal"></div>
+          <div class="mark top left vertical"></div>
+          <div class="mark top right horizontal"></div>
+          <div class="mark top right vertical"></div>
+          <div class="mark bottom left horizontal"></div>
+          <div class="mark bottom left vertical"></div>
+          <div class="mark bottom right horizontal"></div>
+          <div class="mark bottom right vertical"></div>
+      {{/qrcode}}
       <div class="pure-u-1 pure-u-intro">
         <a href="{{url}}" class="picture">
           {{{pictureHtml}}}
         </a>
+        {{#qrcode}}
+          {{{qrcodeHtml}}}
+        {{/qrcode}}
         {{#links.length}}
         <div class="contacts">
           <div class="{{type}}-{{personAvailability}} {{type}}-status contacts-item" title="{{personAvailability}}"></div>
@@ -44,7 +57,7 @@
     {{/invitation}}
     {{#invitation}}
     {{{{/raw}}}}
-    <div class="pure-g noone">
+    <div class="pure-g noone invitation">
       <div class="pure-u-1 pure-u-md-1-3">
         <div class="grid-box">
           <h2>{{__ "Help others spread their Wings"}}</h2>

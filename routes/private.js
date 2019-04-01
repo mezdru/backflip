@@ -42,10 +42,19 @@ router.use('/oldsearch/:query?', function(req, res, next) {
 router.get('/oldsearch/:query?', function(req, res, next) {
   res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
   res.locals.canInvite = res.locals.organisation.canInvite && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id);
+  res.locals.qrcode = false;
 
   if(['quecbio', 'demo'].includes(res.locals.organisation.tag)) res.locals.isPublic = true; // useless condition because organisation.public is set ??
 
   res.render('search', {bodyClass: 'search', search: true, searchInput: true, searchQuery: req.params.query});
+});
+
+router.get('/stickers/:query?', function(req, res, next) {
+  res.locals.algoliaPublicKey = AlgoliaOrganisation.makePublicKey(res.locals.organisation._id);
+  res.locals.canInvite = res.locals.organisation.canInvite && res.locals.user && res.locals.user.belongsToOrganisation(res.locals.organisation._id);
+  res.locals.qrcode = true;
+
+  res.render('search', {bodyClass: 'search', layout: 'print_layout', search: true, searchInput: true, searchQuery: req.params.query});
 });
 
 router.get('/account', function(req, res, next) {

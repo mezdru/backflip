@@ -58,7 +58,7 @@ router.use(function(req, res, next) {
 
 router.use(function(req, res, next) {
   res.locals.emojiAction = UrlHelper.makeUrl(req.organisationTag, 'emoji/id/'+res.locals.record._id, null, req.getLocale());
-  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, 'profile/'+res.locals.record.tag, null, req.getLocale());
+  res.locals.backUrl = UrlHelper.makeUrl(req.organisationTag, 'oldprofile/'+res.locals.record.tag, null, req.getLocale());
   return next();
 });
 
@@ -77,7 +77,7 @@ router.post('/id/:id',
 );
 
 router.post('/id/:id',
-  body('emoji').isLength({ max: 2 }).withMessage((value, {req}) => {
+  body('emoji').isLength({ max: 3 }).withMessage((value, {req}) => {
     return req.__('Please provide a valid emoji.');
   })
 );

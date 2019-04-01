@@ -1,0 +1,172 @@
+#premium,
+.premium-mobile,
+.copy-emails-feature,
+#search-results .invitation,
+#subheader,
+.contacts,
+.name span {
+  display: none;
+}
+
+body.search {
+  background-color: #fcfcfc;
+}
+
+
+#search-results {
+  margin: 0;
+}
+
+#search-results .pure-g {
+  max-width: none;
+}
+
+#search-results .pure-g-box {
+  break-after: page;
+  page-break-after: always;
+  margin-top: 6mm;
+  padding: 0;
+}
+
+header { position:relative;}
+
+@media print {
+  header { display: none }
+}
+
+.record.pure-g-hashtag {
+  border: 1px solid #fcfcfc;
+  background: #fcfcfc;
+  box-sizing: content-box;
+  width: 18cm;
+  height: 4cm;
+  max-width: none;
+  max-height: none;
+  border-radius: 2cm;
+  margin: auto;
+  position: relative;
+}
+
+#search-results .pure-g-box:last-child .record.pure-g-hashtag {
+  border: 1px solid black;
+  background: none;
+  margin-top: 5mm;
+}
+
+#search-results .pure-g-box:last-child .record.pure-g-hashtag .picture,
+#search-results .pure-g-box:last-child .record.pure-g-hashtag .right-logos,
+#search-results .pure-g-box:last-child .record.pure-g-hashtag .name {
+  display: none;
+}
+
+.mark {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: black;
+}
+
+.mark.vertical {
+  height: 5mm;
+}
+
+.mark.horizontal {
+  width: 5mm;
+}
+
+.mark.top {
+  top: 0;
+}
+
+.mark.left {
+  left: 0;
+}
+
+.mark.right {
+  right: 0;
+}
+
+.mark.bottom {
+  bottom: 0;
+}
+
+.mark.left.horizontal {
+  left: -6mm;
+}
+
+.mark.right.horizontal {
+  right: -6mm;
+}
+
+.mark.top.vertical {
+  top: -6mm;
+}
+
+.mark.bottom.vertical {
+  bottom: -6mm;
+}
+
+.pure-g-hashtag .name {
+  height: 4cm;
+  max-height: 4cm;
+  min-height: 4cm;
+  margin-right: 4cm;
+  margin-left: 4cm;
+}
+
+.pure-g-hashtag .name h2 {
+  color: #346EA3;
+  font-size: 1.4cm;
+  bottom: auto;
+  transform: none;
+  padding-top: 1.3cm;
+}
+
+.main {
+  padding: 0;
+}
+
+.right-logos {
+  float: right;
+  overflow: hidden;
+  margin: 0.4cm 1.6cm 0.4cm 0;
+}
+
+.right-logos p {
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+  color: #346EA3;
+}
+
+.right-logos .meridiam-logo {
+  width: 2cm;
+}
+
+.right-logos .wingzy-logo {
+  width: 1.5cm;
+  position: relative;
+  top: 2px;
+}
+
+.right-logos .qrcode {
+  height: 2cm;
+  width: 2cm;
+  background: #fcfcfc;
+  border-radius: 0.1cm;
+}
+
+.record.pure-g-hashtag .picture {
+  height: 3cm;
+  width: 3cm;
+  max-height: 300px;
+  max-width: 300px;
+  margin: 0.5cm;
+}
+
+.record.pure-g-hashtag .picture img {
+  height: 3cm;
+  width: 3cm;
+  max-width: 300px;
+  max-height: 300px;
+}

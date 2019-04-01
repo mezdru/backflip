@@ -112,11 +112,30 @@ transformItem = function (item, facets) {
 	transformIntro(item);
 	transformLinks(item);
 	item[item.type] = true;
+	if (qrcode) {
+		item.qrcode = true;
+		addQRCodeHtml(item);
+	}
 	return item;
 };
 
 function addPictureHtml(item, iconOnly) {
 	item.pictureHtml = getPictureHtml(item, iconOnly);
+}
+
+function addQRCodeHtml(item) {
+	var src = "https://api.qrserver.com/v1/create-qr-code/" +
+	"?size=500x500" +
+  "&color=346EA3" +
+	"&bgcolor=fcfcfc" +
+	"&margin=10" +
+	"&data=" +
+	"https://app.wingzy.com/en/" + getOrgTag(item) + "/" + item.tag.substr(1) + "/add";
+	item.qrcodeHtml = '<div class="right-logos">' +
+		'<p><img class="meridiam-logo" src="/meridiam_retreat.png"></p>' +
+		'<p><img class="qrcode" src="'+src+'"></p>' +
+		'<p>BY <img class="wingzy-logo" src="/wingzy_line.png"></p>' +
+		'</div>';
 }
 
 function transformIntro(item) {
