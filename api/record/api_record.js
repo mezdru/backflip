@@ -5,6 +5,7 @@ let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 var GoogleRecord = require('../../models/google/google_record.js');
 var User = require('../../models/user');
+var LinkHelper = require('../../helpers/link_helper');
 var uppercamelcase = require('uppercamelcase');
 var slug = require('slug');
 var passport = require('passport');
@@ -223,6 +224,16 @@ router.post('/', passport.authenticate('bearer', {session: false}), authorizatio
  */
 router.put('/:profileId', passport.authenticate('bearer', {session: false}), authorization, validate_record, function(req, res, next) {
   let recordToUpdate = req.body.record;
+  let recordType = new Record(recordToUpdate);
+
+  var links = [];
+  recordType.links.forEach(function(link, index) {
+    if(link.value)
+      links.push(LinkHelper.makeLink(link.value, link.type));
+  });
+  recordType.makeLinks(links);
+  recordToUpdate.links = recordType.links;
+
   if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
 
   Record.findOneAndUpdate({'_id' : req.params.profileId, 'organisation': req.organisation._id}, {$set: recordToUpdate}, {new: true})
