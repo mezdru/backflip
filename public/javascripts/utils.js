@@ -130,7 +130,7 @@ function addQRCodeHtml(item) {
 	"&bgcolor=fcfcfc" +
 	"&margin=10" +
 	"&data=" +
-	"https://app.wingzy.com/en/" + getOrgTag(item) + "/" + item.tag.substr(1) + "/add";
+	"https://app.wingzy.com/en/" + getOrgTag(item) + "/" + item.tag.substr(1) + "/add/HoNw4OjKW9ShWgKj";
 	item.qrcodeHtml = '<div class="right-logos">' +
 		'<p><img class="meridiam-logo" src="/meridiam_retreat.png"></p>' +
 		'<p><img class="qrcode" src="'+src+'"></p>' +
