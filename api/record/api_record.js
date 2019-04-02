@@ -226,13 +226,16 @@ router.put('/:profileId', passport.authenticate('bearer', {session: false}), aut
   let recordToUpdate = req.body.record;
   let recordType = new Record(recordToUpdate);
 
-  var links = [];
-  recordType.links.forEach(function(link, index) {
-    if(link.value)
-      links.push(LinkHelper.makeLink(link.value, link.type));
-  });
-  recordType.makeLinks(links);
-  recordToUpdate.links = recordType.links;
+  if(recordToUpdate.links) {
+    var links = [];
+    recordType.links.forEach(function(link, index) {
+      if(link.value)
+        links.push(LinkHelper.makeLink(link.value, link.type));
+    });
+    recordType.makeLinks(links);
+    recordToUpdate.links = recordType.links;
+  }
+
 
   if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
 
