@@ -295,8 +295,8 @@ var statistics = require('./routes/statistics');
 app.use('/statistics', statistics);
 
 // onboarding
-var onboard = require('./routes/onboard.js');
-app.use('/onboard', onboard);
+// var onboard = require('./routes/onboard.js');
+// app.use('/onboard', onboard);
 app.use('/onboard', (req, res, next) => {
   return res.redirect(
     (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
