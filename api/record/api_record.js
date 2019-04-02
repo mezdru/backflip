@@ -226,6 +226,8 @@ router.put('/:profileId', passport.authenticate('bearer', {session: false}), aut
   let recordToUpdate = req.body.record;
   let recordType = new Record(recordToUpdate);
 
+  if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
+
   if(recordToUpdate.links) {
     var links = [];
     recordType.links.forEach(function(link, index) {
@@ -237,7 +239,6 @@ router.put('/:profileId', passport.authenticate('bearer', {session: false}), aut
   }
 
 
-  if(!recordToUpdate) return res.status(422).json({message: 'Missing parameter'});
 
   Record.findOneAndUpdate({'_id' : req.params.profileId, 'organisation': req.organisation._id}, {$set: recordToUpdate}, {new: true})
   .populate('hashtags', '_id tag type name name_translated picture')
