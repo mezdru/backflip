@@ -15,14 +15,19 @@ var Agenda = (function () {
             let data = job.attrs.data;
             User.findOne({'_id' : data.user._id})
             .then((userUpdated) => {
-                if(userUpdated && !userUpdated.last_login) {
-                    console.log('AGENDA:Resending an invitation');
-                    Slack.notify('#alerts-scheduler', 'AGENDA: Resend invitation email : '+(userUpdated.email.value || null)+' : '+ new Date().toLocaleString('fr-FR'));
-                    EmailUser.resendInviteEmail(userUpdated, new User(data.sender), data.organisation, data.locale, this.i18n);
-                    this.removeJob(job).then(() => {done();});
+                let userOrgAndRecord = userUpdated.getOrgAndRecord(data.organisation._id);
+                if( userUpdated && 
+                    !userUpdated.last_login &&
+                    (userOrgAndRecord && !userOrgAndRecord.welcomed)  ) {
+                      console.log('AGENDA:Resending an invitation');
+                      Slack.notify('#alerts-scheduler', 'AGENDA: Resend invitation email : '+(userUpdated.email.value || null)+' : '+ new Date().toLocaleString('fr-FR'));
+                      EmailUser.resendInviteEmail(userUpdated, new User(data.sender), data.organisation, data.locale, this.i18n);
+                      this.removeJob(job).then(() => {done();});
                 }else{
                     this.removeJob(job).then(() => {done();});
                 }
+            }).catch(e => {
+              console.log(e);
             });
         });
 
