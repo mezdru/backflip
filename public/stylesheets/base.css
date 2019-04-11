@@ -2206,11 +2206,6 @@ input:focus::-ms-input-placeholder { /* Microsoft Edge */
     .fresque {background-image: url('/images/home/epic.jpg'); width: 22vw; height: 100vw; bottom: 50px;}
 }
 
-@media screen and (max-width: 1024px) {
-  div[id=hubspot-messages-iframe-container]{
-    z-index: -999 !important;
-  }
-}
 /* BANNER ON FREE */
 
 #banner_on_free {
