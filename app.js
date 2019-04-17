@@ -198,6 +198,7 @@ app.use((req, res, next) => {
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
+
     return next();
   });
 });
@@ -293,7 +294,6 @@ app.use('/', block);
 
 var statistics = require('./routes/statistics');
 app.use('/statistics', statistics);
-
 
 // onboarding
 var onboard = require('./routes/onboard.js');
