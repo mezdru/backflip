@@ -53,7 +53,8 @@ var userSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false },
   superadmin: Boolean,
-  senderEmail: String
+  senderEmail: String,
+  linkedinUser: {type: mongoose.Schema.Types.ObjectId, ref: 'LinkedinUser', default: null}
 });
 
 userSchema.statics.findOneByEmail = function (email, callback) {
@@ -299,6 +300,10 @@ userSchema.methods.findLastInvitation = function(organisationId){
 
 userSchema.methods.findInvitationOfOrganisation = function(organisationId){
   return this.invitations.find(invitation=>invitation.organisation.equals(organisationId));
+}
+
+userSchema.methods.isValidated = function() {
+  return ( (this.email && this.email.validated) || this.google.email || this.linkedinUser );
 }
 
 userSchema.pre('save', function (next) {

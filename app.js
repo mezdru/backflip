@@ -178,7 +178,7 @@ var AuthentificationHelper = require('./helpers/authentification_helper');
 app.use((req, res, next) => {
   let authentificationHelper = new AuthentificationHelper(req.cookies.accessToken, req.cookies.refreshToken);
   authentificationHelper.performAuth().then(currentUser => {
-    if(currentUser && ( (currentUser.email && currentUser.email.validated) || currentUser.google.email ) ){
+    if(currentUser && currentUser.isValidated() ){
       if (req.session.impersonator && req.session.user) {
         res.locals.user = req.session.user;
       } else {
@@ -194,9 +194,11 @@ app.use((req, res, next) => {
         res.cookie('refreshToken', authentificationHelper.refreshToken, {expires: expDate2, path:'/'});
       }
     }else if(authentificationHelper.needClearCookies){
+      console.log('should clear cookies')
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
+    console.log('next')
 
     return next();
   });
