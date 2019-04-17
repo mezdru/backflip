@@ -294,6 +294,7 @@ app.use('/', block);
 var statistics = require('./routes/statistics');
 app.use('/statistics', statistics);
 
+
 // onboarding
 var onboard = require('./routes/onboard.js');
 app.use('/onboard', onboard);
