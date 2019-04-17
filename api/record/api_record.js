@@ -140,6 +140,17 @@ router.get('/superadmin/wings/all', passport.authenticate('bearer', {session: fa
   }).catch((err) => {return next(err);});
 });
 
+// Count Wings occurrence
+router.get('/superadmin/wings/:wingsId/count', passport.authenticate('bearer', {session: false}), authorization, function(req, res, next) {
+  if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
+  if(!req.params.wingsId) return res.status(422).json({message: 'Missing parameter.'});
+
+  Record.find({hashtags: req.params.wingsId})
+  .then(records => {
+    return res.status(200).json({message: 'Request made with success.', occurrence: records.length});
+  }).catch((err) => {return next(err);});
+});
+
 /**
  * @api {get} /api/profiles/:profileId Get Record
  * @apiName GetRecord
