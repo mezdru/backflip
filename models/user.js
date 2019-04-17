@@ -264,12 +264,12 @@ userSchema.methods.findLatestRecord = function(exeptRecordId = ''){
   if(exeptRecordId !== '') exeptRecordId = mongoose.Types.ObjectId(exeptRecordId);
   return new Promise((resolve, reject)=>{
     this.populateRecords().then(user=>{
-      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId)
-                      && (currentRecord.record.updated.getTime() > minRecord.record.updated.getTime())) ? currentRecord : minRecord;
+      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId) && 
+                      (currentRecord.record.updated.getTime() > minRecord.record.updated.getTime())) ? currentRecord : minRecord;
       resolve(user.orgsAndRecords.reduce(reducer).record);
     }).catch(error=>reject(error));
   });
-}
+};
 
 userSchema.methods.ownsRecord = function(recordId) {
   return this.orgsAndRecords.some(orgAndRecord => orgAndRecord.record && recordId.equals(getId(orgAndRecord.record)));
@@ -295,7 +295,7 @@ userSchema.methods.findLastInvitation = function(organisationId){
   if(invitationsInOrg.length === 0) return null;
   const reducer = (lastInvitation, currentInvitation) => currentInvitation.created.getTime() > lastInvitation.created.getTime() ? currentInvitation : lastInvitation;
   return invitationsInOrg.reduce(reducer);
-}
+};
 
 userSchema.methods.findInvitationOfOrganisation = function(organisationId){
   return this.invitations.find(invitation=>invitation.organisation.equals(organisationId));

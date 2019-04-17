@@ -267,7 +267,7 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
           if (recordId) url = UrlHelper.makeUrl(organisation.tag, `suspend/id/${recordId}`, null, locale);
           break;
         case 'toggleMonthly':
-          text = user.getMonthly(organisation) ? 'Désactiver' : 'Activer';
+          text = user.getMonthly(organisation._id) ? 'Désactiver' : 'Activer';
           url = UrlHelper.makeUrl(organisation.tag, 'toggleMonthly', null, locale);
           break;
       }
