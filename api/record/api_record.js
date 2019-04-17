@@ -127,6 +127,19 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
   }
 });
 
+
+// Get all Wings
+router.get('/superadmin/wings/all', passport.authenticate('bearer', {session: false}), authorization, function(req, res, next) {
+  if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
+
+  Record.find({type: 'hashtag'})
+  .populate('organisation', '_id name tag public premium')
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .then(records => {
+    return res.status(200).json({message: 'Records fetch with success.', records: records});
+  }).catch((err) => {return next(err);});
+});
+
 /**
  * @api {get} /api/profiles/:profileId Get Record
  * @apiName GetRecord

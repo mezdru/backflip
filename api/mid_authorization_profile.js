@@ -3,6 +3,12 @@ var router = express.Router();
 var Organisation = require('../models/organisation');
 var Record = require('../models/record');
 
+router.all('/superadmin/*', (req, res, next) => {
+    if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
+    req.superadminAccess = true;
+    return next();
+})
+
 //@todo remove with route workplace
 router.all('/workplace/:id', (req, res, next) => {
     req.bypassFindById = true;
@@ -19,7 +25,7 @@ router.all(['/tag/:profileTag/organisation/:organisationId', '/user/:userId/orga
   * @description If an Id is in the URL, try to find the orgId with it.
   */
 router.all(['/:id', '/:id/*'], (req, res, next) => {
-    if(req.bypassFindById) return next();
+    if(req.bypassFindById || req.superadminAccess) return next();
     Record.findOne({'_id': req.params.id})
     .populate('organisation', '_id name tag logo picture cover google email public premium created canInvite')
     .then(record => {
@@ -35,7 +41,7 @@ router.all(['/:id', '/:id/*'], (req, res, next) => {
  * @description No id in the URL, we have to use orgId post parameter.
  */
 router.use('', (req, res, next) => {
-    if(req.organisation) return next();
+    if(req.organisation || req.superadminAccess) return next();
     if(!(req.body.orgId || req.organisationId )) return res.status(422).json({message: 'Missing parameter, could not retrieve organisation Id.'});
     if(!req.user || (req.user.email && req.user.email.value && !req.user.email.validated))
       return res.status(403).json({message: 'Email not validated', email: req.user.email.value});
