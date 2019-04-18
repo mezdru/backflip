@@ -107,6 +107,10 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
     if(!currentRecord && currentUser.google && currentUser.google.id)
       currentRecord = await new Promise( (resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
   
+    // Try to get record by LinkedIn
+    if(!currentRecord && currentUser.linkedinUser)
+      //currentRecord = await new Promise( (resolve, reject) => Record.findByLinkedin().then(record => resolve(record)) );
+
     if(!currentRecord){
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
       await currentRecord.save();
