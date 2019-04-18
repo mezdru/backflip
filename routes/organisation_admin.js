@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var UrlHelper = require('../helpers/url_helper.js');
 var undefsafe = require('undefsafe');
-
+var csv = require('csv-express');
+var Record = require('../models/record');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -34,6 +35,29 @@ router.get('/createLink/:code?', function(req, res, next) {
         content: res.locals.user.isSuperAdmin() ? organisation : null
       }
     );
+  });
+});
+
+router.get('/export/csv', (req, res, next) => {
+  Record.find({organisation: res.locals.organisation._id, type: 'person'})
+  .then(records => {
+    records.map( (record, index) => {
+      record = {
+        name: record.name,
+        intro: record.intro,
+        hashtags: record.hashtags.length,
+        _id: record._id,
+        picture: record.picture ? record.picture.url : '',
+        created: record.created,
+        updated: record.updated,
+        description: record.description,
+        email: record.getLinkByType('email'),
+        phone: record.getLinkByType('phone'),
+        workplace: record.getLinkByType('workplace')
+      };
+      records[index] = record;
+    });
+    return res.csv(records, true);
   });
 });
 

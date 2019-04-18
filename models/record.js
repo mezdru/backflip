@@ -686,6 +686,13 @@ recordSchema.methods.isInTheAllOrganisation = function() {
   return this.organisation.equals(this.model('Record').getTheAllOrganisationId());
 };
 
+recordSchema.methods.getLinkByType = function(type) {
+  if(this.links.length > 0 && this.links.find(link => link.type === type)) {
+    return this.links.find(link => link.type === type).value;
+  }
+  return null;
+};
+
 recordSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
 };
