@@ -707,8 +707,15 @@ recordSchema.pre('save', function(next) {
 recordSchema.post('save', function(doc) {
   this.algoliaSync();
 });
+
 recordSchema.post('findOneAndUpdate', function(doc) {
-  doc.algoliaSync();
+  Record.findOne({'_id' : doc._id})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
+  .then(doc => {
+    console.log(doc)
+    doc.algoliaSync();
+  });
 });
 
 recordSchema.plugin(mongooseDelete, {

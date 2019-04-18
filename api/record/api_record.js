@@ -265,22 +265,25 @@ router.put('/:profileId', passport.authenticate('bearer', {session: false}), aut
 
 
   Record.findOneAndUpdate({'_id' : req.params.profileId, 'organisation': req.organisation._id}, {$set: recordToUpdate}, {new: true})
-  .populate('hashtags', '_id tag type name name_translated picture')
-  .populate('within', '_id tag type name name_translated picture')
   .then(recordUpdated => {
     if(!recordUpdated) return res.status(404).json({message: 'Record not found.'});
 
-    if(recordToUpdate.picture && recordToUpdate.picture.url) {
-      recordUpdated.addPictureByUrlAsync(recordToUpdate.picture.url)
-      .then( pictureField => {
-        recordUpdated.picture = pictureField.picture;
-        recordUpdated.save().then((recordUpdatedBis) => {
-          return res.status(200).json({message: 'Record updated with success.', record: recordUpdatedBis});
-        }).catch((err) => {return next(err);});    
-      })
-    } else {
-      return res.status(200).json({message: 'Record updated with success.', record: recordUpdated});
-    }
+    Record.findOne({'_id' : recordUpdated._id, 'organisation': req.organisation._id})
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
+    .then(recordUpdated => {
+      if(recordToUpdate.picture && recordToUpdate.picture.url) {
+        recordUpdated.addPictureByUrlAsync(recordToUpdate.picture.url)
+        .then( pictureField => {
+          recordUpdated.picture = pictureField.picture;
+          recordUpdated.save().then((recordUpdatedBis) => {
+            return res.status(200).json({message: 'Record updated with success.', record: recordUpdatedBis});
+          }).catch((err) => {return next(err);});    
+        })
+      } else {
+        return res.status(200).json({message: 'Record updated with success.', record: recordUpdated});
+      }
+    });
 
   }).catch((err) => {return next(err);});    
 });
