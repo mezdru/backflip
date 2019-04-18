@@ -25,7 +25,14 @@ router.use(function(req, res, next) {
     query = `?first=true`;
   }
   res.locals.onboard = {
-    welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', query, req.getLocale()).getUrl(),
+    //welcomeAction: new UrlHelper(req.organisationTag, 'onboard/welcome', query, req.getLocale()).getUrl(),
+    welcomeAction: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
+                    process.env.HOST_FRONTFLIP +
+                    '/' +
+                    req.getLocale() +
+                    '/' +
+                    res.locals.organisation.tag +
+                    '/onboard',
     introAction: new UrlHelper(req.organisationTag, 'onboard/intro', query, req.getLocale()).getUrl(),
     hashtagsAction: new UrlHelper(req.organisationTag, 'onboard/hashtags', query, req.getLocale()).getUrl(),
     hashtagsActionLabel: req.__("Save"),
