@@ -6,6 +6,7 @@ let validate_record  = require('../validate_record');
 var GoogleRecord = require('../../models/google/google_record.js');
 var User = require('../../models/user');
 var LinkHelper = require('../../helpers/link_helper');
+var LinkedinUserHelper = require('../../helpers/linkedinUser_helper');
 var uppercamelcase = require('uppercamelcase');
 var slug = require('slug');
 var passport = require('passport');
@@ -86,6 +87,8 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
   try{
     let currentRecord, currentUser;
     let orgId = req.params.orgId;
+    let authorizationHeader = req.headers.authorization;
+    let accessToken = (authorizationHeader.split('Bearer ').length > 1 ? authorizationHeader.split('Bearer ')[1] : null);
   
     // Init working user
     if( !req.user._id.equals(req.params.userId)) {
@@ -109,7 +112,9 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
   
     // Try to get record by LinkedIn
     if(!currentRecord && currentUser.linkedinUser)
-      //currentRecord = await new Promise( (resolve, reject) => Record.findByLinkedin().then(record => resolve(record)) );
+      currentRecord = await new Promise( (resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
+                                                              .then(record => resolve(record))
+                                                              .catch(error => console.log('error: ' + JSON.stringify(error))));
 
     if(!currentRecord){
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
