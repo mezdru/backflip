@@ -122,7 +122,7 @@ router.get(['/list/reinvite/:userIdToInvite', '/list/:sort?'], function(req, res
     }
     res.render('admin/user_list',
       {
-        title: req.__('We have sent an invitation to {{{email}}} !', {email: userToInvite.loginEmail}),
+        title: (userToInvite ? req.__('We have sent an invitation to {{{email}}} !', {email: userToInvite.loginEmail}) : req.__('List of users')),
         details: req.__('Woaw, there are {{{count}}} users in {{{organisation}}} !', {count: users.length, organisation: res.locals.organisation.name}),
         users: users,
         bodyClass: 'user-list'
