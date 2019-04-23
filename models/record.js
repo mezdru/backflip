@@ -700,10 +700,10 @@ recordSchema.statics.getWingsToString = function(recordId) {
   .populate('within', '_id tag type name name_translated picture')
   .then(record => {
     record.hashtags.forEach(wing => {
-      stringOut += (stringOut === '' ? "" : " - " ) + "\""+wing.name+"\"";
+      stringOut += (stringOut === '' ? "" : " - " ) + wing.name;
     });
     return stringOut;
-  }).catch(error => {console.log(error); return null});
+  }).catch(error => {return null});
 }
 
 recordSchema.statics.getTheAllOrganisationId = function() {
