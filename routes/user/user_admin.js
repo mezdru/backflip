@@ -107,7 +107,7 @@ router.get(['/list/reinvite/:userIdToInvite', '/list/:sort?'], function(req, res
     let userToInvite;
     users.forEach(user => {
       user.recordTag = user.getRecordTagByOrgId(res.locals.organisation._id);
-      user.shouldOnboard = user.getOrgAndRecord(res.locals.organisation._id).welcomed;
+      user.shouldOnboard = !user.getOrgAndRecord(res.locals.organisation._id).welcomed;
     });
     if(req.params.userIdToInvite) {
       userToInvite = users.find(user => user._id.equals(req.params.userIdToInvite));
