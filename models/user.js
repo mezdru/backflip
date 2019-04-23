@@ -292,6 +292,7 @@ userSchema.methods.toggleMonthly = function(organisationId, callback) {
   if(callback) return this.save(callback);
 };
 userSchema.methods.findLastInvitation = function(organisationId){
+  if(!this.invitations || this.invitations.length === 0) return null;
   let invitationsInOrg = this.invitations.filter(invitation => invitation.organisation.equals(organisationId));
   if(invitationsInOrg.length === 0) return null;
   const reducer = (lastInvitation, currentInvitation) => currentInvitation.created.getTime() > lastInvitation.created.getTime() ? currentInvitation : lastInvitation;

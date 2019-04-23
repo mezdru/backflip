@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var UrlHelper = require('../helpers/url_helper.js');
 var undefsafe = require('undefsafe');
-
+var csv = require('csv-express');
+var Record = require('../models/record');
+var User = require('../models/user');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -34,6 +36,36 @@ router.get('/createLink/:code?', function(req, res, next) {
         content: res.locals.user.isSuperAdmin() ? organisation : null
       }
     );
+  });
+});
+
+router.get('/export/csv', (req, res, next) => {
+  User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
+  .populate('orgsAndRecords.record')
+  .then((users) => {
+    const results = users.map( async (user, index) => {
+      user.record = user.getRecord(res.locals.organisation._id);
+      var lastUserInvitation = user.findLastInvitation(res.locals.organisation._id);
+      userFormatted = {
+        'Picture': user.record.picture ? user.record.picture.url : '',
+        'Name': user.record.name,
+        'Intro': user.record.intro,
+        'Contacts count': user.record.links.length,
+        'Wings count': user.record.hashtags.length,
+        'Wings': await Record.getWingsToString(user.record._id),
+        'Email': user.loginEmail,
+        'First invited': user.created,
+        'Last invited': lastUserInvitation ? lastUserInvitation.created : null,
+        'Last action': user.last_action
+      };
+      users[index] = userFormatted;
+    });
+
+    Promise.all(results).then((completed) => {
+      return res.csv(users, true, {
+        "Content-Disposition": "attachment; filename=export_wingzy_"+(new Date()).toISOString()+".csv"
+      });
+    });
   });
 });
 
