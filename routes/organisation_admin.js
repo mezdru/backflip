@@ -46,8 +46,6 @@ router.get('/export/csv', (req, res, next) => {
     const results = users.map( async (user, index) => {
       user.record = user.getRecord(res.locals.organisation._id);
       var lastUserInvitation = user.findLastInvitation(res.locals.organisation._id);
-      console.log(JSON.stringify(user.invitations))
-      console.log(lastUserInvitation)
       userFormatted = {
         'Picture': user.record.picture ? user.record.picture.url : '',
         'Name': user.record.name,
@@ -64,7 +62,6 @@ router.get('/export/csv', (req, res, next) => {
     });
 
     Promise.all(results).then((completed) => {
-      console.log(JSON.stringify(users))
       return res.csv(users, true, {
         "Content-Disposition": "attachment; filename=export_wingzy_"+(new Date()).toISOString()+".csv"
       });
