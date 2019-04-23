@@ -703,7 +703,7 @@ recordSchema.statics.getWingsToString = function(recordId) {
       stringOut += (stringOut === '' ? "" : " - " ) + "\""+wing.name+"\"";
     });
     return stringOut;
-  }).catch(error => {console.log(error); return null});
+  }).catch(error => {return null});
 }
 
 recordSchema.statics.getTheAllOrganisationId = function() {
