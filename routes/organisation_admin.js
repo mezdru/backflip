@@ -39,6 +39,9 @@ router.get('/createLink/:code?', function(req, res, next) {
   });
 });
 
+/**
+ * @description Export organisation users and people records to CSV
+ */
 router.get('/export/csv', (req, res, next) => {
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
   .populate('orgsAndRecords.record')
@@ -46,17 +49,21 @@ router.get('/export/csv', (req, res, next) => {
     const results = users.map( async (user, index) => {
       user.record = user.getRecord(res.locals.organisation._id);
       var lastUserInvitation = user.findLastInvitation(res.locals.organisation._id);
+      var currentOrgAndRecord = user.getOrgAndRecord(res.locals.organisation._id);
       userFormatted = {
+        'Email': user.loginEmail,
+        'First invited': user.created,
+        'Last invited': lastUserInvitation ? lastUserInvitation.created : null,
+        'Last action': user.last_action,
+        'Onboarded': currentOrgAndRecord ? currentOrgAndRecord.welcomed : false,
         'Picture': user.record.picture ? user.record.picture.url : '',
         'Name': user.record.name,
         'Intro': user.record.intro,
         'Contacts count': ( user.record.links ? user.record.links.length : 0),
         'Wings count': ( user.record.hashtags ? user.record.hashtags.length : 0),
         'Wings': await Record.getWingsToString(user.record._id),
-        'Email': user.loginEmail,
-        'First invited': user.created,
-        'Last invited': lastUserInvitation ? lastUserInvitation.created : null,
-        'Last action': user.last_action
+        
+
       };
       users[index] = userFormatted;
     });

@@ -72,6 +72,10 @@ a:hover {
   color: #FF002D;
 }
 
+.pure-button.soft-button {
+  background: #a4c5cb;
+}
+
 .ais-infinite-hits--showmore button {
   width: auto;
   margin: auto;
