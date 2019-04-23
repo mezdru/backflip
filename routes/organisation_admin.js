@@ -62,8 +62,6 @@ router.get('/export/csv', (req, res, next) => {
         'Contacts count': ( user.record.links ? user.record.links.length : 0),
         'Wings count': ( user.record.hashtags ? user.record.hashtags.length : 0),
         'Wings': await Record.getWingsToString(user.record._id),
-        
-
       };
       users[index] = userFormatted;
     });
