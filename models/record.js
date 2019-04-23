@@ -700,7 +700,6 @@ recordSchema.statics.getWingsToString = function(recordId) {
   .populate('within', '_id tag type name name_translated picture')
   .then(record => {
     record.hashtags.forEach(wing => {
-      console.log(stringOut)
       stringOut += (stringOut === '' ? "" : " - " ) + "\""+wing.name+"\"";
     });
     return stringOut;
