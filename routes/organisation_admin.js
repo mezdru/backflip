@@ -4,6 +4,7 @@ var UrlHelper = require('../helpers/url_helper.js');
 var undefsafe = require('undefsafe');
 var csv = require('csv-express');
 var Record = require('../models/record');
+var User = require('../models/user');
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -39,25 +40,35 @@ router.get('/createLink/:code?', function(req, res, next) {
 });
 
 router.get('/export/csv', (req, res, next) => {
-  Record.find({organisation: res.locals.organisation._id, type: 'person'})
-  .then(records => {
-    records.map( (record, index) => {
-      record = {
-        name: record.name,
-        intro: record.intro,
-        hashtags: record.hashtags.length,
-        _id: record._id,
-        picture: record.picture ? record.picture.url : '',
-        created: record.created,
-        updated: record.updated,
-        description: record.description,
-        email: record.getLinkByType('email'),
-        phone: record.getLinkByType('phone'),
-        workplace: record.getLinkByType('workplace')
+  User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
+  .populate('orgsAndRecords.record')
+  .then((users) => {
+    const results = users.map( async (user, index) => {
+      user.record = user.getRecord(res.locals.organisation._id);
+      var lastUserInvitation = user.findLastInvitation(res.locals.organisation._id);
+      console.log(JSON.stringify(user.invitations))
+      console.log(lastUserInvitation)
+      userFormatted = {
+        'Picture': user.record.picture ? user.record.picture.url : '',
+        'Name': user.record.name,
+        'Intro': user.record.intro,
+        'Contacts count': user.record.links.length,
+        'Wings count': user.record.hashtags.length,
+        'Wings': await Record.getWingsToString(user.record._id),
+        'Email': user.loginEmail,
+        'First invited': user.created,
+        'Last invited': lastUserInvitation ? lastUserInvitation.created : null,
+        'Last action': user.last_action
       };
-      records[index] = record;
+      users[index] = userFormatted;
     });
-    return res.csv(records, true);
+
+    Promise.all(results).then((completed) => {
+      console.log(JSON.stringify(users))
+      return res.csv(users, true, {
+        "Content-Disposition": "attachment; filename=export_wingzy_"+(new Date()).toISOString()+".csv"
+      });
+    });
   });
 });
 

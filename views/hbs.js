@@ -326,6 +326,12 @@ hbs.registerHelper('resendInvitationsUrl', function(organisationTag){
   return UrlHelper.makeUrl(organisationTag, 'admin/user/email/resend', null, locale);
 });
 
+hbs.registerHelper('exportCsvUrl', function(organisationTag) {
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return UrlHelper.makeUrl(organisationTag, 'admin/organisation/export/csv', null, locale);
+});
+
 hbs.registerHelper('deleteUrl', function(recordId, organisationTag) {
   page = 'admin/record/delete/'+recordId;
   return new UrlHelper(organisationTag, page, null, this.getLocale()).getUrl();

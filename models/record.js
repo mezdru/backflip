@@ -693,6 +693,20 @@ recordSchema.methods.getLinkByType = function(type) {
   return null;
 };
 
+recordSchema.statics.getWingsToString = function(recordId) {
+  var stringOut = '';
+  return Record.findOne({_id: recordId})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
+  .then(record => {
+    record.hashtags.forEach(wing => {
+      console.log(stringOut)
+      stringOut += (stringOut === '' ? "" : " - " ) + "\""+wing.name+"\"";
+    });
+    return stringOut;
+  }).catch(error => {console.log(error); return null});
+}
+
 recordSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
 };
