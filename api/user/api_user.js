@@ -51,10 +51,7 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
     user.welcomeToOrganisation(req.params.orgId, (err, userUpdated) => {
       if(err) return res.status(404).json({message: 'User is not linked to this organisation.'});
       let orgAndRecord = user.getOrgAndRecord(req.params.orgId);
-      if(orgAndRecord.record) Record.findOneAndUpdate({_id: orgAndRecord.record}, {$set: {hidden: false}} )
-      .populate('hashtags', '_id tag type name name_translated picture')
-      .populate('within', '_id tag type name name_translated picture')
-      .exec();
+      if(orgAndRecord.record) Record.findOneAndUpdate({_id: orgAndRecord.record}, {$set: {hidden: false}} ).exec();
       return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});
     });
   });
