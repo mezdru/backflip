@@ -320,6 +320,13 @@ hbs.registerHelper('banUrl', function(userId, organisationTag) {
   if (this.getLocale) locale = this.getLocale();
   return UrlHelper.makeUrl(organisationTag, 'admin/user/'+userId+'/ban', null, locale);
 });
+
+hbs.registerHelper('reinviteUrl', function(userId, organisationTag) {
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return UrlHelper.makeUrl(organisationTag, 'admin/user/list/reinvite/'+userId, null, locale);
+});
+
 hbs.registerHelper('resendInvitationsUrl', function(organisationTag){
   var locale = null;
   if (this.getLocale) locale = this.getLocale();

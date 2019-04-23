@@ -38,6 +38,7 @@
               <th>{{__ 'Last Action'}}</th>
               <th>{{__ 'Profile'}}</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
 
@@ -48,6 +49,7 @@
                 <td>{{formatDate created day="numeric" month="long" year="numeric"}}</td>
                 <td>{{#if last_action}}{{formatDate last_action day="numeric" month="long" year="numeric"}}{{/if}}</td>
                 <td>{{#if recordTag}}<a href="{{profileUrl ../organisation this}}"><i class="fa fa-user-circle" aria-hidden="true"></i> PROFILE</a>{{/if}}</td>
+                <td>{{#if shouldOnboard}}<a href="{{reinviteUrl _id ../organisation.tag}}">Resend invitation</a>{{/if}}</td>
                 <td><a href="{{banUrl _id ../organisation.tag}}"><i class="fa fa-times-circle-o" aria-hidden="true"></i> BAN</a></td>
             </tr>
           {{/users}}

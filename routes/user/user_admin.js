@@ -96,20 +96,33 @@ router.get('/unwelcomeAll', function(req, res, next) {
 });
 
 
-router.get('/list/:sort?', function(req, res, next) {
+router.get(['/list/reinvite/:userIdToInvite', '/list/:sort?'], function(req, res, next) {
   var sort = req.params.sort || '-created';
   User.find({'orgsAndRecords.organisation': res.locals.organisation._id})
-  .select('created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords')
+  .select('_id created updated last_login last_action email.value google.id google.email google.hd orgsAndRecords invitations')
   .populate('orgsAndRecords.record')
   .sort(sort)
   .exec(function(err, users) {
     if (err) return next(err);
+    let userToInvite;
     users.forEach(user => {
       user.recordTag = user.getRecordTagByOrgId(res.locals.organisation._id);
+      user.shouldOnboard = user.getOrgAndRecord(res.locals.organisation._id).welcomed;
     });
+    if(req.params.userIdToInvite) {
+      userToInvite = users.find(user => user._id.equals(req.params.userIdToInvite));
+      EmailUser.sendInviteEmail(
+        userToInvite,
+        res.locals.user,
+        res.locals.organisation,
+        null,
+        res, function(err, result){
+          if(err) console.log(err);
+        });
+    }
     res.render('admin/user_list',
       {
-        title: req.__('List of users'),
+        title: req.__('We have sent an invitation to {{{email}}} !', {email: userToInvite.loginEmail}),
         details: req.__('Woaw, there are {{{count}}} users in {{{organisation}}} !', {count: users.length, organisation: res.locals.organisation.name}),
         users: users,
         bodyClass: 'user-list'
