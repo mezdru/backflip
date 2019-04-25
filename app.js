@@ -174,7 +174,6 @@ app.use('/api', api);
  *              If we have only the refreshToken, we should get accessToken with it automatically.
  *              (Cf agent.js of frontflip)
  */
-var User = require('./models/user');
 var AuthentificationHelper = require('./helpers/authentification_helper');
 app.use((req, res, next) => {
   let authentificationHelper = new AuthentificationHelper(req.cookies.accessToken, req.cookies.refreshToken);
@@ -183,7 +182,7 @@ app.use((req, res, next) => {
       if (req.session.impersonator && req.session.user) {
         res.locals.user = req.session.user;
       } else {
-        res.locals.user = new User(currentUser);
+        res.locals.user = currentUser;
         req.session.user = res.locals.user;
       }
       if(authentificationHelper.getNewTokens){
@@ -198,6 +197,7 @@ app.use((req, res, next) => {
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
+
     return next();
   });
 });

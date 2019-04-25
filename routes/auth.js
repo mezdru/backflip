@@ -66,7 +66,7 @@ router.use(function(req, res, next) {
       return next();
     });
   } else {
-    res.locals.user = false;
+    //res.locals.user = false;
     return next();
   }
 });
