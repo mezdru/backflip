@@ -198,7 +198,6 @@ app.use((req, res, next) => {
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
-
     return next();
   });
 });
