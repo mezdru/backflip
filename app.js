@@ -197,7 +197,7 @@ app.use((req, res, next) => {
       res.clearCookie("accessToken");
       res.clearCookie("refreshToken");
     }
-
+    console.log(res.locals.user);
     return next();
   });
 });
