@@ -46,7 +46,7 @@
     "i18n": "^0.8.3",
     "md5": "^2.2.1",
     "merge": "^1.2.0",
-    "mongodb": "^2.2.24",
+    "mongodb": "^3.2.3",
     "mongoose": "^5.3.4",
     "mongoose-delete": "^0.4.0",
     "morgan": "^1.9.1",
