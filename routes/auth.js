@@ -58,7 +58,7 @@ router.use(function(req, res, next) {
       if (err) return next(err);
       req.session.user = user;
       res.locals.user = req.session.user;
-      if(process.env.NODE_ENV !== 'production' || (res.locals.user && res.locals.user.isSuperAdmin())){
+      if(process.env.NODE_ENV !== 'production' || (res.locals.user && res.locals.user.superadmin)){
         res.locals.track = false;
       }else{
         res.locals.track = true;
