@@ -53,6 +53,8 @@ var userSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false },
   superadmin: Boolean,
+  hashedPassword: {type: String, select: false},
+  salt: {type: String, select: false},
   senderEmail: String,
   linkedinUser: {type: String, default: null}
 });
