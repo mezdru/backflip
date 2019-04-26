@@ -56,9 +56,9 @@ router.use(function(req, res, next) {
     .populate('orgsAndRecords.organisation', 'name picture tag')
     .exec(function(err, user) {
       if (err) return next(err);
-      req.session.user = user;
-      res.locals.user = req.session.user;
-      console.log(user)
+      req.session.user = new User(user);
+      res.locals.user = new User(req.session.user);
+      console.log(res.locals.user)
       console.log('user is an instance of User object ? ' + (res.locals.user instanceof User));
       if(process.env.NODE_ENV !== 'production' || (res.locals.user && res.locals.user.isSuperAdmin())){
         res.locals.track = false;
