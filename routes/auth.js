@@ -58,7 +58,9 @@ router.use(function(req, res, next) {
       if (err) return next(err);
       req.session.user = user;
       res.locals.user = req.session.user;
-      if(process.env.NODE_ENV !== 'production' || (res.locals.user && res.locals.user.superadmin)){
+      console.log(user)
+      console.log('user is an instance of User object ? ' + (res.locals.user instanceof User));
+      if(process.env.NODE_ENV !== 'production' || (res.locals.user && res.locals.user.isSuperAdmin())){
         res.locals.track = false;
       }else{
         res.locals.track = true;

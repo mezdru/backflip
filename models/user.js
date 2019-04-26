@@ -54,7 +54,7 @@ var userSchema = mongoose.Schema({
   welcomed: { type: Boolean, default: false },
   superadmin: Boolean,
   senderEmail: String,
-  linkedinUser: {type: mongoose.Schema.Types.ObjectId, ref: 'LinkedinUser', default: null}
+  linkedinUser: {type: String, default: null}
 });
 
 userSchema.statics.findOneByEmail = function (email, callback) {
