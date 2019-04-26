@@ -267,7 +267,7 @@ userSchema.methods.findLatestRecord = function(exeptRecordId = ''){
   if(exeptRecordId !== '') exeptRecordId = mongoose.Types.ObjectId(exeptRecordId);
   return new Promise((resolve, reject)=>{
     this.populateRecords().then(user=>{
-      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId) && 
+      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId) &&
                       (currentRecord.record.updated.getTime() > minRecord.record.updated.getTime())) ? currentRecord : minRecord;
       resolve(user.orgsAndRecords.reduce(reducer).record);
     }).catch(error=>reject(error));
@@ -303,11 +303,11 @@ userSchema.methods.findLastInvitation = function(organisationId){
 
 userSchema.methods.findInvitationOfOrganisation = function(organisationId){
   return this.invitations.find(invitation=>invitation.organisation.equals(organisationId));
-}
+};
 
 userSchema.methods.isValidated = function() {
   return ( (this.email && this.email.validated) || this.google.email || this.linkedinUser );
-}
+};
 
 userSchema.pre('save', function (next) {
     this.wasNew = this.isNew;
