@@ -53,8 +53,10 @@ var userSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   welcomed: { type: Boolean, default: false },
   superadmin: Boolean,
+  hashedPassword: {type: String, select: false},
+  salt: {type: String, select: false},
   senderEmail: String,
-  linkedinUser: {type: mongoose.Schema.Types.ObjectId, ref: 'LinkedinUser', default: null}
+  linkedinUser: {type: String, default: null}
 });
 
 userSchema.statics.findOneByEmail = function (email, callback) {
@@ -265,7 +267,7 @@ userSchema.methods.findLatestRecord = function(exeptRecordId = ''){
   if(exeptRecordId !== '') exeptRecordId = mongoose.Types.ObjectId(exeptRecordId);
   return new Promise((resolve, reject)=>{
     this.populateRecords().then(user=>{
-      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId) && 
+      const reducer = (minRecord, currentRecord) => (minRecord && !currentRecord.record._id.equals(exeptRecordId) &&
                       (currentRecord.record.updated.getTime() > minRecord.record.updated.getTime())) ? currentRecord : minRecord;
       resolve(user.orgsAndRecords.reduce(reducer).record);
     }).catch(error=>reject(error));
@@ -292,6 +294,7 @@ userSchema.methods.toggleMonthly = function(organisationId, callback) {
   if(callback) return this.save(callback);
 };
 userSchema.methods.findLastInvitation = function(organisationId){
+  if(!this.invitations || this.invitations.length === 0) return null;
   let invitationsInOrg = this.invitations.filter(invitation => invitation.organisation.equals(organisationId));
   if(invitationsInOrg.length === 0) return null;
   const reducer = (lastInvitation, currentInvitation) => currentInvitation.created.getTime() > lastInvitation.created.getTime() ? currentInvitation : lastInvitation;
@@ -300,11 +303,11 @@ userSchema.methods.findLastInvitation = function(organisationId){
 
 userSchema.methods.findInvitationOfOrganisation = function(organisationId){
   return this.invitations.find(invitation=>invitation.organisation.equals(organisationId));
-}
+};
 
 userSchema.methods.isValidated = function() {
   return ( (this.email && this.email.validated) || this.google.email || this.linkedinUser );
-}
+};
 
 userSchema.pre('save', function (next) {
     this.wasNew = this.isNew;

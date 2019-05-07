@@ -39,7 +39,7 @@ router.get('/login', function(req, res, next) {
     let msg = res.locals.organisation.getLoginMessage(req.getLocale());
     if(msg) res.locals.info = {msg: msg};
   }
-  res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' + 
+  res.redirect((process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_FRONTFLIP + '/' +
                                                                   (req.getLocale()) +
                                                                   (req.organisationTag ? '/' +req.organisationTag : '') +
                                                                   ( (req.query.code && req.organisationTag) ? '/signin/' + req.query.code : '/signin') );
@@ -66,7 +66,7 @@ router.use(function(req, res, next) {
       return next();
     });
   } else {
-    res.locals.user = false;
+    //res.locals.user = false;
     return next();
   }
 });

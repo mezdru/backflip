@@ -211,7 +211,6 @@ app.use(function(req, res, next) {
   return next();
 });
 
-
 // Production only settings
 app.use(function(req, res, next) {
   res.locals.track = false;

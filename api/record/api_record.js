@@ -224,10 +224,13 @@ router.post('/', passport.authenticate('bearer', {session: false}), authorizatio
     record.tag = recordSaved.tag; // tag can be modify
     record.name = record.name || recordSaved.name;
     Record.findOneAndUpdate({'_id': recordSaved._id}, {$set: record}, {new: true})
-    .populate('hashtags', '_id tag type name name_translated picture')
-    .populate('within', '_id tag type name name_translated picture')
     .then(recordUpdated => {
-      return res.status(200).json({message: 'Record saved.', record: recordUpdated});
+      Record.findOne({_id: recordUpdated._id})
+      .populate('hashtags', '_id tag type name name_translated picture')
+      .populate('within', '_id tag type name name_translated picture')
+      .then(recordPopulated => {
+        return res.status(200).json({message: 'Record saved.', record: recordPopulated});
+      });
     }).catch((err) => {return next(err);});
     
   }).catch(err => {
