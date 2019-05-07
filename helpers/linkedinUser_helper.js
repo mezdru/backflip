@@ -10,19 +10,13 @@ class LinkedinUserHelper {
 		return new Promise( (resolve, reject) => { 
 			this.fetchLinkedinUser(accessToken)
 			.then(linkedinUser => {
-				console.log('link user')
-				console.log(linkedinUser)
 				return this.createRecord(linkedinUser, organisationId)
 				.then(linkedinRecord => {
-					console.log('linkedin record:  ')
-					console.log(linkedinRecord)
 					return resolve(linkedinRecord);
 				}).catch(err => {
-					console.log(err);
 					return reject(err);
 				});
 			}).catch(err => {
-				console.log(err);
 				return reject(err);
 			});
 		});
@@ -38,7 +32,6 @@ class LinkedinUserHelper {
 		}, (error, requestResponse, body) => {
 
 			if(error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
-				console.log('return error');
 				return reject(error);
 			}
 			return resolve(body.linkedinUser);
@@ -49,6 +42,7 @@ class LinkedinUserHelper {
 		return (new Record({
 			organisation: organisationId,
 			tag: Record.cleanTag(linkedinUser.email.split('@')[0], 'person'),
+			type:'person',
 			name: linkedinUser.name,
 			links: this.createLinks(linkedinUser)
 		})).save();
