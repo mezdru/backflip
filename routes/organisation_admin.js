@@ -71,7 +71,7 @@ router.get('/export/excel', (req, res, next) => {
     'Onboarded': {displayName: 'Onboarded', width: 120, headerStyle: styles.headerDark},
     'Picture': {displayName: 'Picture', width: 120, headerStyle: styles.headerDark},
     'Name': {displayName: 'Name', width: 200, headerStyle: styles.headerDark},
-    'Title': {displayName: 'Title', width: 120, headerStyle: styles.headerDark },
+    'Title': {displayName: 'Job title', width: 120, headerStyle: styles.headerDark },
     'Contacts count': {displayName: 'Contacts count', width: 120, headerStyle: styles.headerDark },
     'Wings count': {displayName: 'Wings count', width: 120, headerStyle: styles.headerDark},
     'Wings': {displayName:'Wings', width: 120, headerStyle: styles.headerDark}
@@ -92,7 +92,7 @@ router.get('/export/excel', (req, res, next) => {
         'Onboarded': currentOrgAndRecord ? currentOrgAndRecord.welcomed : false,
         'Picture': user.record.picture ? user.record.picture.url : '',
         'Name': user.record.name,
-        'Intro': user.record.intro,
+        'Title': user.record.intro,
         'Contacts count': (user.record.links ? user.record.links.length : 0),
         'Wings count': (user.record.hashtags ? user.record.hashtags.length : 0),
         'Wings': await Record.getWingsToString(user.record._id),
