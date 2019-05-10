@@ -1,0 +1,29 @@
+.carousel-item {
+  width: 350px !important;
+  height: 250px !important;
+  text-align: center;
+  border: 1px solid rgb(220,220,220);
+  background-color: white;
+  border-radius: 5px;
+}
+.carousel-item img{
+  width: 95% !important;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+} 
+
+.carousel {
+  height: 300px !important;
+  margin-bottom: 128px;
+}
+
+@media screen and (max-width: 600px)  {
+  .carousel-item {
+    width: 250px !important;
+    height: 200px !important;
+  }
+  .carousel {
+    height: 250px !important;
+  }
+}

@@ -1,0 +1,21 @@
+.backline {
+  position: absolute;
+  width: 60%;
+  height:0;
+  border-bottom: 1px solid #2b2d3c;
+  top: 50px;
+  left:0;
+  right:0;
+  margin:auto;
+  z-index: -1;
+}
+
+#methodo img {
+  height: 100px;
+}
+
+
+.margin16 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}

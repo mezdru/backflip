@@ -1,0 +1,76 @@
+#pricing {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 90px) !important;
+}
+
+
+.pricing-white-background {
+  left:0;
+  width: 50%;
+  min-height: calc(100vh - 90px) !important;
+  background-color: white;
+}
+
+.pricing-blue-background {
+  left:50%;
+  width: 50%;
+  min-height: calc(100vh - 90px) !important;
+  flex-grow:1;
+  background-color: #2b2d3c;
+}
+
+.pricing-head{
+  margin-top: 64px;
+  margin-bottom: 32px;
+}
+
+.pricing-head-main {
+  font-size: 3rem;
+  letter-spacing: 10px;
+  font-weight: 600;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  color: #2b2d3c;
+}
+
+.pricing-head-secondary {
+  font-weight: 500;
+  font-size: 2rem;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  color: #2b2d3c;
+}
+
+.pricing-head-option {
+  font-size: 1.2rem;
+  font-style: italic;
+  opacity: .8;
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+.bold-separator {
+  height:0;
+  position: relative;
+  left:0;
+  right:0;
+  margin: auto;
+  width: 100px;
+  border-bottom: 10px solid #2b2d3c;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+#pricing ul {
+  padding-left: 20px;
+
+}
+#pricing ul li {
+  list-style-type: disc;
+}
+
+.white-color {
+  color: white !important;
+  border-color: white;
+}

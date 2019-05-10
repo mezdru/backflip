@@ -1,0 +1,82 @@
+#landing{
+  position: relative;
+  top:0;
+  /* margin-top: -32px; */
+  width: 100%;
+  height: calc(100vh - 90px);
+  background-color: #2b2d3c;
+}
+
+
+#tagline {
+  color: white;
+  text-align: center;
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 3.5rem;
+}
+
+#subtagline {
+  color:rgb(220,220,220);
+  text-align: center;
+  font-size: 1.3rem;
+}
+#subtagline strong{
+  color: #FF0018;
+}
+
+#wings-description {
+  position: relative;
+  background-color: white;
+  padding: 24px 40px;
+  border-radius: 64px;
+}
+#wings-description p {
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 8px;
+  color: #2b2d3c;
+}
+
+#wings-description h6 {
+  color: grey;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 8px;
+}
+
+#wings-container {
+  position: relative;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  margin-bottom: -16px;
+}
+
+#wings-container li{
+  display:inline-block;
+  height: 65px;
+}
+#wings-container li img{
+  height: 100%;
+  left:5%;
+}
+
+@media screen and (max-width: 600px) {
+
+  #landing {
+    height: initial;
+  }
+
+  #tagline {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+
+  #wings-description {
+    padding: 8px 16px;
+    border-radius: 32px;
+  }
+
+}

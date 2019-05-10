@@ -1,4 +1,8 @@
+<link rel="stylesheet" href="/stylesheets/base.css" />
+{{> header}}
+
 <div class="main">
+
   <div class="pure-g">
     <div class="pure-u-1-1">
       <div class="grid-box">
@@ -14,9 +18,12 @@
     </div>
     <div class="pure-u-1-1 pure-u-md-1-2">
       <div class="grid-box">
-        <p>Les <strong>Dodos</strong> ce sont vos <strong>Données à caractère personnel</strong> (mais Dodos c'est plus mignon).</p>
-        <p>Wingzy s'engage à vous donner le plein pouvoir sur vos Dodos. Voici donc notre <strong>Charte de protection des Données à caractère personnel</strong>, que nous avons voulu précise ET accessible&nbsp;:</p>
-        <p>Pour que vous comprenniez simplement comment nous traitons vos Dodos et les Droits fondamentaux que vous avez dessus.</p>
+        <p>Les <strong>Dodos</strong> ce sont vos <strong>Données à caractère personnel</strong> (mais Dodos c'est plus
+          mignon).</p>
+        <p>Wingzy s'engage à vous donner le plein pouvoir sur vos Dodos. Voici donc notre <strong>Charte de protection
+            des Données à caractère personnel</strong>, que nous avons voulu précise ET accessible&nbsp;:</p>
+        <p>Pour que vous comprenniez simplement comment nous traitons vos Dodos et les Droits fondamentaux que vous avez
+          dessus.</p>
       </div>
     </div>
   </div>
@@ -30,18 +37,20 @@
     <div class="pure-u-1 pure-u-xl-1-2">
       <div class="grid-box">
         <h2>Plusieurs Wingzy ?</h2>
-        <p>Pour chaque Organisation, nous fabriquons un Wingzy indépendant et imperméable. Vous avez donc peut-être 3 Wingzy&nbsp;: celui de votre boulot, celui de votre club de sport et celui de votre AMAP. Entre chacun, vos Dodos de Profil sont complètement dissociées.</p>
+        <p>Pour chaque Organisation, nous fabriquons un Wingzy indépendant et imperméable. Vous avez donc peut-être 3
+          Wingzy&nbsp;: celui de votre boulot, celui de votre club de sport et celui de votre AMAP. Entre chacun, vos
+          Dodos de Profil sont complètement dissociées.</p>
         {{#if organisation}}
-          <p>Pour simplifier cette Charte, nous ne parlons ici que du Wingzy de <strong>{{organisation.name}}</strong></p>
+        <p>Pour simplifier cette Charte, nous ne parlons ici que du Wingzy de <strong>{{organisation.name}}</strong></p>
         {{else}}
-          <p>Pour simplifier cette Charte, nous ne parlons ici que d'un seul Wingzy.</p>
+        <p>Pour simplifier cette Charte, nous ne parlons ici que d'un seul Wingzy.</p>
         {{/if}}
         {{#if user.orgsAndRecords.length}}
-          <p>Sélectionner un Wingzy
+        <p>Sélectionner un Wingzy
           {{#user.orgsAndRecords}}
-            {{{dataRightLink 'policy' organisation}}}
+          {{{dataRightLink 'policy' organisation}}}
           {{/user.orgsAndRecords}}
-          </p>
+        </p>
         {{/if}}
       </div>
     </div>
@@ -58,14 +67,16 @@
       <div class="grid-box">
         <img src="/images/home/identite.jpg" class="pure-img">
         <h2>Vos Dodos d'identité et de contact</h2>
-        <p>Vos photos, votre nom complet, votre rôle dans l'Organisation et vos information de contact&nbsp;: emails, téléphones, adresses, réseaux sociaux...</p>
+        <p>Vos photos, votre nom complet, votre rôle dans l'Organisation et vos information de contact&nbsp;: emails,
+          téléphones, adresses, réseaux sociaux...</p>
       </div>
     </div>
     <div class="pure-u-1-1 pure-u-md-1-2">
       <div class="grid-box">
         <img src="/images/home/caracteristiques.jpg" class="pure-img">
         <h2>Vos Dodos caractéristiques</h2>
-        <p>Vos Wings&nbsp;: compétences, passions, engagements, intérêts... et tout autre information que vous partagez, comme dans la zone "à propos".</p>
+        <p>Vos Wings&nbsp;: compétences, passions, engagements, intérêts... et tout autre information que vous partagez,
+          comme dans la zone "à propos".</p>
       </div>
     </div>
   </div>
@@ -74,33 +85,56 @@
       <div class="grid-box">
         <h2>D'où viennent vos Dodos de Profil&nbsp;?</h2>
         <p>
-          <strong>Vous</strong> saisissez, modifiez ou supprimez ces Dodos librement et à tout moment, c'est juste essentiel&nbsp;!
+          <strong>Vous</strong> saisissez, modifiez ou supprimez ces Dodos librement et à tout moment, c'est juste
+          essentiel&nbsp;!
           {{{dataRightLink 'changeProfile' organisation user}}}
         </p>
         <p><strong>Vos Collègues</strong> et <strong>votre Organisation</strong> peuvent vous suggérer ces Dodos.</p>
-        <p><strong>Nous</strong> utilisons certains Services Tiers comme, <a target="_blank" href="https://www.linkedin.com/">LinkedIn</a>, <a target="_blank" href="https://twitter.com/">Twitter</a>, <a target="_blank" href="https://www.facebook.com/">Facebook</a> ou <a href="https://plus.google.com/" target="_blank">Google Plus</a> pour vous suggérer ces Dodos.</p>
+        <p><strong>Nous</strong> utilisons certains Services Tiers comme, <a target="_blank"
+            href="https://www.linkedin.com/">LinkedIn</a>, <a target="_blank" href="https://twitter.com/">Twitter</a>,
+          <a target="_blank" href="https://www.facebook.com/">Facebook</a> ou <a href="https://plus.google.com/"
+            target="_blank">Google Plus</a> pour vous suggérer ces Dodos.</p>
       </div>
       <div class="grid-box">
         <h2>Où vont vos Dodos de Profil&nbsp;?</h2>
         <p>
-          <strong>Vous</strong> accédez à TOUTES ces Dodos à tout moment sur nos <a target="_blank" href="https://fr.wikipedia.org/wiki/Application_(informatique)">Apps</a> et nos <a  target="_blank" href="https://fr.wikipedia.org/wiki/Interface_de_programmation">APIs</a>.
+          <strong>Vous</strong> accédez à TOUTES ces Dodos à tout moment sur nos <a target="_blank"
+            href="https://fr.wikipedia.org/wiki/Application_(informatique)">Apps</a> et nos <a target="_blank"
+            href="https://fr.wikipedia.org/wiki/Interface_de_programmation">APIs</a>.
           {{{dataRightLink 'accessProfile' organisation user}}}
           {{{dataRightLink 'exportProfile' organisation user}}}</p>
-        <p><strong>Vos Collègues</strong> et <strong>votre Organisation </strong> accèdent à ces Dodos de la même manière.</p>
-        <p><strong>Nous</strong> utilisons ces Dodos pour identifier les nouveautés qui peuvent vous intéresser à propos de vos Collègues, votre Organisation et Wingzy. Nous vous envoyons ainsi un email sur mesure par mois. {{{dataRightLink 'toggleMonthly' organisation user}}}</p>
-        <p><strong>Nous</strong> accédons aussi à ces Dodos pour répondre à vos demandes de support et pour modérer, protéger et améliorer Wingzy.</p>
-        <p><strong>De rares Organisations</strong> créent des Wingzy Public, dans ce cas vous voyez l'icone <i class="fa fa-globe" aria-hidden="true"></i> lorsque vous éditez votre profil car le monde entier peut accéder à ces Dodos. Pas d'inquiétude si vous êtes dans un Wingzy classique, il est impossible de le transformer en Wingzy public.</p>
+        <p><strong>Vos Collègues</strong> et <strong>votre Organisation </strong> accèdent à ces Dodos de la même
+          manière.</p>
+        <p><strong>Nous</strong> utilisons ces Dodos pour identifier les nouveautés qui peuvent vous intéresser à propos
+          de vos Collègues, votre Organisation et Wingzy. Nous vous envoyons ainsi un email sur mesure par mois.
+          {{{dataRightLink 'toggleMonthly' organisation user}}}</p>
+        <p><strong>Nous</strong> accédons aussi à ces Dodos pour répondre à vos demandes de support et pour modérer,
+          protéger et améliorer Wingzy.</p>
+        <p><strong>De rares Organisations</strong> créent des Wingzy Public, dans ce cas vous voyez l'icone <i
+            class="fa fa-globe" aria-hidden="true"></i> lorsque vous éditez votre profil car le monde entier peut
+          accéder à ces Dodos. Pas d'inquiétude si vous êtes dans un Wingzy classique, il est impossible de le
+          transformer en Wingzy public.</p>
       </div>
       <div class="grid-box">
         <h2>Comment y vont-elles&nbsp;?</h2>
-        <p><strong>Nous</strong> sécurisons vos Dodos grâce au <a target="_blank" href="https://fr.wikipedia.org/wiki/Secure_Sockets_Layer">cryptage SSL</a> lorsqu'elles voyagent sur Internet.</p>
-        <p><strong>Nous</strong> utilisons plusieurs services tiers qui hébergent vos Dodos dans l'Union Européene&nbsp;: <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank" href="https://www.algolia.com/">Algolia</a>, <a target="_blank" href="https://www.mailjet.com/">Mailjet</a>, <a target="_blank" href="https://www.mlab.com/">mLab</a> et <a target="_blank" href="https://uploadcare.com/">UploadCare</a>.</p>
-        <p>Sur nos Serveurs, comme sur les appareils des utilisateurs ayant accès à votre Wingzy, vos Dodos de Profil ne sont pas cryptées. Ça veut dire par exemple que si l'un de vos Collègues se fait voler son téléphone, vos Dodos de Profil peuvent être accessibles.</p>
-        <p><strong>Nous</strong> vous demandons donc ne pas partager sur Wingzy des Dodos sensibles, privées, menaçantes ou dangereuses pour vous ou qui que ce soit.</p>
+        <p><strong>Nous</strong> sécurisons vos Dodos grâce au <a target="_blank"
+            href="https://fr.wikipedia.org/wiki/Secure_Sockets_Layer">cryptage SSL</a> lorsqu'elles voyagent sur
+          Internet.</p>
+        <p><strong>Nous</strong> utilisons plusieurs services tiers qui hébergent vos Dodos dans l'Union
+          Européene&nbsp;: <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank"
+            href="https://www.algolia.com/">Algolia</a>, <a target="_blank" href="https://www.mailjet.com/">Mailjet</a>,
+          <a target="_blank" href="https://www.mlab.com/">mLab</a> et <a target="_blank"
+            href="https://uploadcare.com/">UploadCare</a>.</p>
+        <p>Sur nos Serveurs, comme sur les appareils des utilisateurs ayant accès à votre Wingzy, vos Dodos de Profil ne
+          sont pas cryptées. Ça veut dire par exemple que si l'un de vos Collègues se fait voler son téléphone, vos
+          Dodos de Profil peuvent être accessibles.</p>
+        <p><strong>Nous</strong> vous demandons donc ne pas partager sur Wingzy des Dodos sensibles, privées, menaçantes
+          ou dangereuses pour vous ou qui que ce soit.</p>
       </div>
       <div class="grid-box">
         <h2>Important&nbsp;!</h2>
-        <p><strong>Nous</strong> traitons vos Dodos de Profil comme décrit ci-dessus car cela est nécéssaire pour exécuter le contrat auquel vous êtes partie&nbsp;: <a href="/terms">nos conditions d'utilisation</a>.</p>
+        <p><strong>Nous</strong> traitons vos Dodos de Profil comme décrit ci-dessus car cela est nécéssaire pour
+          exécuter le contrat auquel vous êtes partie&nbsp;: <a href="/terms">nos conditions d'utilisation</a>.</p>
         <p><strong>Nous</strong> conservons vos Dodos de Profil tant que vous restez utilisateur-trice de Wingzy.</p>
         <p>Sur Wingzy, comme PARTOUT, vous avez les droits suivants sur vos Dodos de Profil&nbsp;:</p>
         <p>
@@ -125,9 +159,12 @@
       <div class="grid-box">
         <img src="/images/home/identification.jpg" class="pure-img">
         <h2>Vos Dodos d'Authentification</h2>
-        <p>Vos identifiants de comptes pour vos services connectés à Wingzy (email, google, linkedin, facebook...), votre IP, votre ville, vos navigateurs, systèmes d'exploitation et appareils.</p>
+        <p>Vos identifiants de comptes pour vos services connectés à Wingzy (email, google, linkedin, facebook...),
+          votre IP, votre ville, vos navigateurs, systèmes d'exploitation et appareils.</p>
         <p>
-          <strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi authentifier votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie d'authentification</a>.
+          <strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi authentifier
+          votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie
+            d'authentification</a>.
           {{{dataRightLink 'accessCookies' organisation user}}}
         </p>
       </div>
@@ -136,9 +173,12 @@
       <div class="grid-box">
         <img src="/images/home/suivi.jpg" class="pure-img">
         <h2>Vos Dodos de Suivi</h2>
-        <p>Nous enregistrons de façon <strong>anonyme</strong> les actions que vous faites sur Wingzy&nbsp;: par exemple les clics ou les recherches que vous faites.</p>
+        <p>Nous enregistrons de façon <strong>anonyme</strong> les actions que vous faites sur Wingzy&nbsp;: par exemple
+          les clics ou les recherches que vous faites.</p>
         <p>
-          <strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi suivre votre utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie de suivi</a>.
+          <strong>Nous</strong> plaçons dans vos appareils un petit code pour vous reconnaitre et ainsi suivre votre
+          utilisation, on appelle ça un <a href="https://fr.wikipedia.org/wiki/Cookie_(informatique)">cookie de
+            suivi</a>.
           {{{dataRightLink 'accessCookies' organisation user}}}
         </p>
       </div>
@@ -148,30 +188,44 @@
     <div class="pure-u-1-1">
       <div class="grid-box">
         <h2>D'où viennent vos Dodos Techniques&nbsp;?</h2>
-        <p><strong>Nous</strong> demandons ces Dodos à vos appareils, ou à vos services connectés si nous en avons l'autorisation.</p>
+        <p><strong>Nous</strong> demandons ces Dodos à vos appareils, ou à vos services connectés si nous en avons
+          l'autorisation.</p>
       </div>
       <div class="grid-box">
         <h2>Où vont vos Dodos Techniques&nbsp;?</h2>
-        <p><strong>Nous</strong> accédons uniquement à ces Dodos pour répondre à vos demandes de support et pour modérer, protéger et améliorer Wingzy.</p>
+        <p><strong>Nous</strong> accédons uniquement à ces Dodos pour répondre à vos demandes de support et pour
+          modérer, protéger et améliorer Wingzy.</p>
         <p>
-          Quelques exemples&nbsp;:<br/>
-          - Nous utilisons des statistiques des recherches pour créer de nouvelles Wings.<br/>
-          - Nous utilisons l'adresse IP pour bloquer les attaques sur nos serveurs.<br/>
-          - Nous utilisons des statistiques d'utilisation pour vérifier si Wingzy fonctionne bien sur tous les appareils.<br/>
+          Quelques exemples&nbsp;:<br />
+          - Nous utilisons des statistiques des recherches pour créer de nouvelles Wings.<br />
+          - Nous utilisons l'adresse IP pour bloquer les attaques sur nos serveurs.<br />
+          - Nous utilisons des statistiques d'utilisation pour vérifier si Wingzy fonctionne bien sur tous les
+          appareils.<br />
         </p>
-        <p><strong>Nous</strong> utilisons aussi <a href="https://plus.google.com/" target="_blank">l'authentification Google Suite</a> pour inviter vos collègues de manière sécurisée sur Wingzy.</p>
+        <p><strong>Nous</strong> utilisons aussi <a href="https://plus.google.com/" target="_blank">l'authentification
+            Google Suite</a> pour inviter vos collègues de manière sécurisée sur Wingzy.</p>
       </div>
       <div class="grid-box">
         <h2>Comment y vont-elles&nbsp;?</h2>
-        <p><strong>Nous</strong> sécurisons vos Dodos grâce au <a target="_blank" href="https://fr.wikipedia.org/wiki/Secure_Sockets_Layer">cryptage SSL</a> lorsqu'elles voyagent sur Internet.</p>
-        <p><strong>Nous</strong> utilisons plusieurs services tiers qui hébergent vos Dodos dans l'Union Européene&nbsp;:  <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank" href="https://www.mlab.com/">mLab</a>, <a target="_blank" href="https://papertrailapp.com/">PaperTrail</a>, <a target="_blank" href="https://www.algolia.com/">Algolia</a>, <a target="_blank" href="https://www.forestadmin.com/">Forest</a> et <a target="_blank" href="https://analytics.google.com/">Google Analytics</a>.</p>
-        <p>Sur nos Serveurs vos Dodos Techniques ne sont pas cryptées. Ça veut dire par exemple que si nos Serveurs sont piratés, vos Dodos Techniques peuvent être accessibles.</p>
+        <p><strong>Nous</strong> sécurisons vos Dodos grâce au <a target="_blank"
+            href="https://fr.wikipedia.org/wiki/Secure_Sockets_Layer">cryptage SSL</a> lorsqu'elles voyagent sur
+          Internet.</p>
+        <p><strong>Nous</strong> utilisons plusieurs services tiers qui hébergent vos Dodos dans l'Union
+          Européene&nbsp;: <a target="_blank" href="https://www.heroku.com/">Heroku</a>, <a target="_blank"
+            href="https://www.mlab.com/">mLab</a>, <a target="_blank" href="https://papertrailapp.com/">PaperTrail</a>,
+          <a target="_blank" href="https://www.algolia.com/">Algolia</a>, <a target="_blank"
+            href="https://www.forestadmin.com/">Forest</a> et <a target="_blank"
+            href="https://analytics.google.com/">Google Analytics</a>.</p>
+        <p>Sur nos Serveurs vos Dodos Techniques ne sont pas cryptées. Ça veut dire par exemple que si nos Serveurs sont
+          piratés, vos Dodos Techniques peuvent être accessibles.</p>
       </div>
       <div class="grid-box">
         <h2>Important&nbsp;!</h2>
-        <p><strong>Nous</strong> traitons vos Dodos Techniques comme décrit ci-dessus car cela est dans notre intérêt légitime.</p>
+        <p><strong>Nous</strong> traitons vos Dodos Techniques comme décrit ci-dessus car cela est dans notre intérêt
+          légitime.</p>
         <p><strong>Nous</strong> conservons vos Dodos de Suivi pendant 1 an au maximum.</p>
-        <p><strong>Nous</strong> conservons vos Dodos d'Authentification' tant que vous restez utilisateur-trice de Wingzy.</p>
+        <p><strong>Nous</strong> conservons vos Dodos d'Authentification' tant que vous restez utilisateur-trice de
+          Wingzy.</p>
         <p>Sur Wingzy, comme PARTOUT, vous avez les droits suivants sur vos Dodos Techniques&nbsp;:</p>
         <p>
           {{{dataRightLink 'accessAccount' organisation user}}}
@@ -191,8 +245,12 @@
     </div>
     <div class="pure-u-1-1 pure-u-md-1-2">
       <div class="grid-box">
-        <p>Merci d'avoir pris le temps de lire notre charte de protection des Dodos. <a href="mailto:support@wingzy.com">Contactez-nous</a> si vous avez des questions, demandes ou critiques, on est là pour ça !</p>
-        <p>Cette page est <a target="_blank" title="CC BY-SA 4.0" href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">open source</a> ! N'hésitez pas à partager et réutiliser notre travail pour protéger les Dodos bien au-delà de Wingzy...</p>
+        <p>Merci d'avoir pris le temps de lire notre charte de protection des Dodos. <a
+            href="mailto:support@wingzy.com">Contactez-nous</a> si vous avez des questions, demandes ou critiques, on
+          est là pour ça !</p>
+        <p>Cette page est <a target="_blank" title="CC BY-SA 4.0"
+            href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">open source</a> ! N'hésitez pas à partager et
+          réutiliser notre travail pour protéger les Dodos bien au-delà de Wingzy...</p>
       </div>
     </div>
   </div>

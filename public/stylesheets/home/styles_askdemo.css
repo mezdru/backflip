@@ -1,0 +1,27 @@
+#askdemo {
+  position: relative;
+  background-color: #2b2d3c;
+}
+
+.hubspot-form-container {
+  position: relative;
+  max-width: 500px;
+  left: 0; 
+  right:0;
+  margin: auto;
+  background-color: white;
+  padding: 32px;
+  border-radius: 4px; 
+  margin-bottom: 64px;
+}
+
+.hubspot-form-container span {
+  color: white !important;
+}
+
+.white-separator {
+  position: relative;
+  width: 100%;
+  /* left: 10%; */
+  border: 1px solid white;
+}
