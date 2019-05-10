@@ -110,15 +110,10 @@ router.get('/export/excel', (req, res, next) => {
         }
       ]);
 
-      
-
       res.setHeader("Content-Disposition", "attachment; filename=export_wingzy_" + (new Date()).toISOString() + ".xlsx");
       return res.send(report);
-
     });
   });
-
-
 });
 
 /**
