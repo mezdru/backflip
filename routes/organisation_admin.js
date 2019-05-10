@@ -70,8 +70,8 @@ router.get('/export/excel', (req, res, next) => {
     'Last action': {displayName: 'Last action', width: 120, headerStyle: styles.headerDark},
     'Onboarded': {displayName: 'Onboarded', width: 120, headerStyle: styles.headerDark},
     'Picture': {displayName: 'Picture', width: 120, headerStyle: styles.headerDark},
-    'Name': {displayName: 'Name', width: 250, headerStyle: styles.headerDark},
-    'Title': {displayName: 'Title', width: 250, headerStyle: styles.headerDark },
+    'Name': {displayName: 'Name', width: 200, headerStyle: styles.headerDark},
+    'Title': {displayName: 'Title', width: 120, headerStyle: styles.headerDark },
     'Contacts count': {displayName: 'Contacts count', width: 120, headerStyle: styles.headerDark },
     'Wings count': {displayName: 'Wings count', width: 120, headerStyle: styles.headerDark},
     'Wings': {displayName:'Wings', width: 120, headerStyle: styles.headerDark}
