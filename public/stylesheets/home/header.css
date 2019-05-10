@@ -2,6 +2,7 @@ nav, .navbar-fixed{
   height: 90px !important;
   line-height: 90px !important;
   background-color: white !important;
+  max-width: 100vw;
 }
 
 nav a {
