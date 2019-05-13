@@ -1,0 +1,53 @@
+#whywingzy {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 90px);
+  overflow: hidden;
+}
+
+#epic-img{
+  position: absolute;
+  top:0;
+  height: 100%;
+  width: 550px;
+  left: -150px;
+}
+#epic-img img {
+  position: absolute;
+  max-height: 95%;
+  bottom:0;
+}
+
+#whywingzy-content {
+  position: absolute;
+  right:0;
+  height: 100%;
+  max-width: 600px;
+}
+#whywingzy-content ul li {
+  margin-bottom: 32px;
+}
+
+.why-head .important-title {
+  position: relative;
+  width: 100%;
+  padding: 8px 0px;
+  text-align: center;
+}
+
+.why-head .description {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px)  {
+  .why-head .subtitle {
+    margin-top: 8px;
+  }
+}
