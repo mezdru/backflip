@@ -56,6 +56,10 @@ passport.use(new BearerStrategy({ passReqToCallback: true }, function(req, acces
       User.findById(userSession.user, function(err, user){
         if(err) return done(err);
         if(!user) return done(null, false, {message: 'Unknown user'});
+
+        user.last_action = Date.now();
+        user.save();
+        
         var info = {scope: '*'};
         done(null, user, info);
       });
