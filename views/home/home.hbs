@@ -16,11 +16,12 @@
     <nav>
       <div class="nav-wrapper">
         <a href="#" class="brand-logo"><img src="https://wingzy.com/wingzy_line.png" alt="Wingzy" /></a>
+        <a href="https://app.wingzy.com" class="hide-on-large-only signin-small" >{{ __ "Sign in"}}</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down" style='margin-right: 16px'>
           <li><a href="#whywingzy-a">{{ __ "Why Wingzy?"}}</a></li>
           <li><a href="#howitworks-a">{{ __ "How it works?"}}</a></li>
           <li><a href="#references-a">{{ __ "References"}}</a></li>
-          <li><a href="app.wingzy.com">{{ __ "Sign in"}}</a></li>
+          <li><a href="https://app.wingzy.com">{{ __ "Sign in"}}</a></li>
           <li><a href="#pricing-a">{{ __ "Pricing"}}</a></li>
         </ul>
       </div>
@@ -81,9 +82,8 @@
 
     <div class="container">
 
-
-
       <div class="row">
+
         <div class="col s12 l8 offset-l4">
           <div class="row row-big-margin-x2">
             <div class="col s12 m-center">
@@ -91,59 +91,34 @@
             </div>
           </div>
 
-          <ul>
+          <div class="row" style="padding-left: 12px; padding-right: 12px">
+            {{{__ "Les humains et leurs talents font la performance de l’entreprise.
+            Dans les startups en hypercroissance jusqu’aux grands groupe en transformation, pouvoir les trouver et les
+            valoriser c’est donc stratégique, mais c’est très difficile.<br /><br />
+            Chez Wingzy, on sait que la solution c’est la simplicité : vous avez déjà bien assez d’outils et de process
+            qui entravent vos talents.
+            Alors, on s’est concentré sur l’essentiel : permettre à tous les collaborateurs de se trouver pour partager
+            leurs compétences, expertises et énergies. Rien de plus.<br /><br />
+            Wingzy, c’est donc une app minimaliste pour :<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;• Orienter et rassurer, surtout les nouveaux,<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;• Accélérer la collaboration et l’apprentissage,<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;• Valoriser et engager grâce au partage de compétences.<br /><br />
+            Et comme Wingzy se diffuse viralement dans votre boite, c’est un quick win !"}}}
+          </div>
 
-            <li>
-              <div class="row why-head">
-                <div class="col s7 m4 l5">
-                  <h3 class="important-title">{{__ "Integration"}}</h3>
-                </div>
-                <div class="col s12 m8 l7 subtitle">
-                  <span>
-                    {{__ "Your new comers feel at home."}}
-                  </span>
-                </div>
-                <div class="col s12 description">
-                  {{__ "Welcome and reassure your new comers with an approachable directory. Wingzy supports your talents from the first day through a simple interface."}}
-                </div>
+          <div class="row">
+            <div class="col s12">
+              <div class="col s12 m7 offset-m5 author">
+                <img src="/images/home/clement.jpg" alt="Clément Dietschy" class="picture-clement" />
+                <div class="name-clement">
+                  Clément Dietschy<br />
+                  {{__ "Cofondateur et PDG"}}<br/>
+                  <a href="https://www.linkedin.com/in/clementdietschy/" target="_blank" ><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                  <a href="https://twitter.com/Wingzy_com" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                  </div>
               </div>
-
-            </li>
-
-            <li>
-              <div class="row why-head">
-                <div class="col s7 m4 l5">
-                  <h3 class="important-title">{{__ "Engagement"}}</h3>
-                </div>
-                <div class="col s12 m8 l7 subtitle">
-                  <span>
-                    {{__ "Your employees are increased through their Wings."}}
-                  </span>
-                </div>
-
-                <div class="col s12 description">
-                  {{__ "Increase your company's experts and learn collectively. Wingzy increase the skill improvement of your talents thanks to evolutionaries and exhaustive profiles."}}
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div class="row why-head">
-                <div class="col s7 m4 l5">
-                  <h3 class="important-title">{{__ "Loyalty"}}</h3>
-                </div>
-                <div class="col s12 m8 l7 subtitle">
-                  <span>
-                    {{__ "Your employees collectively improve themself and stay with you!"}}
-                  </span>
-                </div>
-                <div class="col s12 description">
-                  {{__ "Anticipate your employees needs thanks to their Wingzy profiles. Wingzy increase the knowledge level of your Talents."}}
-                </div>
-              </div>
-            </li>
-
-          </ul>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -195,13 +170,10 @@
         </div>
 
         <div class="col s12 l6 relative">
-          <img
-            src="/images/home/app/iphone.webp"
-            alt="iPhone" class="mobile-screen rotate-right" />
+          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-right" />
 
-          <img
-            src="{{__ "Screenshot - app - auth"}}"
-            alt="Wingzy app" class="mobile-screen-view-right rotate-right absolute" />
+          <img src="{{__ "Screenshot - app - auth"}}" alt="Wingzy app"
+            class="mobile-screen-view-right rotate-right absolute" />
 
         </div>
       </div>
@@ -210,9 +182,7 @@
       <div class="row row-big-margin-x4">
 
         <div class="col s12 l6 hide-on-med-and-down relative">
-          <img
-            src="/images/home/app/iphone.webp"
-            alt="iPhone" class="mobile-screen rotate-left" />
+          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" />
 
           <img src="https://static.wixstatic.com/media/4ce50b_1dde14a3c1f847e0a293cf5b223d8acd~mv2.gif" alt="Wingzy app"
             class="mobile-screen-view-left rotate-left absolute" />
@@ -252,9 +222,7 @@
         </div>
 
         <div class="col s12 l6 hide-on-large-only relative">
-          <img
-            src="/images/home/app/iphone.webp"
-            alt="iPhone" class="mobile-screen rotate-left" />
+          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" />
 
           <img src="https://static.wixstatic.com/media/4ce50b_1dde14a3c1f847e0a293cf5b223d8acd~mv2.gif" alt="Wingzy app"
             class="mobile-screen-view-left rotate-left absolute" />
@@ -297,9 +265,7 @@
         </div>
 
         <div class="col s12 l6 relative">
-          <img
-            src="/images/home/app/iphone.webp"
-            alt="iPhone" class="mobile-screen rotate-right" />
+          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-right" />
 
           <img src="https://static.wixstatic.com/media/4ce50b_1be63fe4f06d45df91874cdbf14eda5d~mv2.gif" alt="Wingzy app"
             class="mobile-screen-view-right rotate-right absolute" />
@@ -326,10 +292,10 @@
 
       <div class="row relative">
 
-        <div class="backline"></div>
+        <div class="backline hide-on-small-only"></div>
 
 
-        <div class="col s4">
+        <div class="col s12 m4">
           <div class="row">
             <div class="col s12 center">
               <img src="https://twemoji.maxcdn.com/2/svg/1f528.svg" alt="Pick" />
@@ -344,7 +310,7 @@
         </div>
 
 
-        <div class="col s4">
+        <div class="col s12 m4">
           <div class="row">
             <div class="col s12 center">
               <img src="https://twemoji.maxcdn.com/2/svg/1f4e2.svg" alt="Loudspeaker" />
@@ -359,7 +325,7 @@
         </div>
 
 
-        <div class="col s4">
+        <div class="col s12 m4">
           <div class="row">
             <div class="col s12 center">
               <img src="https://twemoji.maxcdn.com/2/svg/1f680.svg" alt="Rocket" />
@@ -542,7 +508,7 @@
 <section id="pricing" class="relative">
   <div id="pricing-a" style="position: absolute; margin-top:-90px"></div>
 
-  <div class="row no-margin">
+  <div class="row no-margin" style="margin: 0 !important">
 
     <div class="col s12 m6 pricing-white-background">
       <div class="row center pricing-head">

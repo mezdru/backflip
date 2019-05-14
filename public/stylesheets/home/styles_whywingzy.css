@@ -46,6 +46,23 @@
   text-transform: uppercase;
 }
 
+#whywingzy .picture-clement {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  display: inline-block;
+}
+#whywingzy .name-clement {
+  display: inline-block;
+  height: 100px;
+  margin-left: 16px;
+  vertical-align: top;
+}
+#whywingzy .name-clement i {
+  font-size: 2rem;
+}
+
+
 @media screen and (max-width: 600px)  {
   .why-head .subtitle {
     margin-top: 8px;

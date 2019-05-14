@@ -79,4 +79,8 @@
     border-radius: 32px;
   }
 
+  #wings-container {
+    margin-bottom: 0;
+  }
+
 }

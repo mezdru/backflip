@@ -17,3 +17,17 @@ nav .brand-logo img {
 .brand-logo {
   max-height: 90px;
 }
+
+.signin-small {
+  float: right;
+  margin-right: 16px;
+
+}
+
+@media only screen and (max-width: 992px) {
+  nav .brand-logo {
+      left: 0;
+      -webkit-transform: none;
+      transform: none;
+  }
+}
