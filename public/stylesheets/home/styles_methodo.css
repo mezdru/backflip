@@ -1,8 +1,8 @@
 .backline {
   position: absolute;
-  width: 60%;
+  width: 65%;
   height:0;
-  border-bottom: 1px solid #2b2d3c;
+  border-bottom: 1px solid rgba(43,45,60, .2) ;
   top: 50px;
   left:0;
   right:0;
