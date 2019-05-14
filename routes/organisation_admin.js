@@ -40,8 +40,14 @@ router.get('/createLink/:code?', function (req, res, next) {
   });
 });
 
+// Styles - Export Excel 
 const styles = {headerDark: {fill: {fgColor: {rgb: 'FF000000'}},font: {color: {rgb: 'FFFFFFFF'},sz: 14,bold: true,underline: true}}};
 
+// @todo Create an Export class
+
+/**
+ * @description Export organisation Wings to Excel file
+ */
 router.get('/export/excel/wings', async (req, res, next) => {
   const specification = {
     tag: {displayName: 'Wings Tag', width: 100, headerStyle: styles.headerDark},
