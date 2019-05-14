@@ -40,28 +40,67 @@ router.get('/createLink/:code?', function (req, res, next) {
   });
 });
 
+const styles = {headerDark: {fill: {fgColor: {rgb: 'FF000000'}},font: {color: {rgb: 'FFFFFFFF'},sz: 14,bold: true,underline: true}}};
+
+router.get('/export/excel/wings', async (req, res, next) => {
+  const specification = {
+    tag: {displayName: 'Wings Tag', width: 100, headerStyle: styles.headerDark},
+    'name_fr': {displayName: 'Name (FR)', width: 120, headerStyle: styles.headerDark},
+    'name_en': {displayName: 'Name (EN)', width: 120, headerStyle: styles.headerDark},
+    'family_name': {displayName: 'Family Tag', width: 120, headerStyle: styles.headerDark},
+    occurence: {displayName: 'Occurence', width: 80, headerStyle: styles.headerDark},
+    created: {displayName: 'Created', width: 120, headerStyle: styles.headerDark}
+  };
+
+  var wings = await Record.find({type: 'hashtag', organisation: res.locals.organisation._id})
+  .populate('organisation', '_id name tag public premium')
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .then(wings => {
+    return wings;
+  }).catch(e => {return [];});
+
+  var wingsFormatted = [];
+
+  await asyncForEach(wings, async (wing) => {
+    var occurence = await Record.find({hashtags: wing._id, type: 'person'})
+                          .then(rec => {return rec.length;})
+                          .catch(()=> {return 0;});
+
+    wing.occurence = occurence;
+    wing.name_fr = (wing.name_translated ? wing.name_translated.fr || wing.name : wing.name);
+    wing.name_en = (wing.name_translated ? wing.name_translated.en || wing.name : wing.name);
+
+    try {
+      wing.family_name = wing.hashtags[0].tag;
+    }catch (error) {}
+
+    wingsFormatted.push(wing);
+  });
+
+  const report = excel.buildExport([
+    {
+      name: 'Export - Wings',
+      specification: specification,
+      data: wingsFormatted
+    }
+  ]);
+
+  res.setHeader("Content-Disposition", "attachment; filename=export_wingzy_wings_" + (new Date()).toISOString() + ".xlsx");
+  return res.send(report);
+
+});
+
+let asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+
 /**
  * @description Export organisation users and people records to Excel
  */
 router.get('/export/excel', (req, res, next) => {
-
-  const styles = {
-    headerDark: {
-      fill: {
-        fgColor: {
-          rgb: 'FF000000'
-        }
-      },
-      font: {
-        color: {
-          rgb: 'FFFFFFFF'
-        },
-        sz: 14,
-        bold: true,
-        underline: true
-      }
-    }
-  };
 
   const specification = {
     Email: {displayName: 'Email', width: 250, headerStyle: styles.headerDark},
@@ -115,6 +154,7 @@ router.get('/export/excel', (req, res, next) => {
     });
   });
 });
+
 
 /**
  * @description Export organisation users and people records to CSV
