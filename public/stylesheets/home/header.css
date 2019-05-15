@@ -30,4 +30,8 @@ nav .brand-logo img {
       -webkit-transform: none;
       transform: none;
   }
+  nav .brand-logo img {
+    height: 50px;
+    margin-top: 20px;
+  }
 }
