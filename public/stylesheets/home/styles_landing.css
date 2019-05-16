@@ -1,12 +1,8 @@
 #landing{
-  position: relative;
   top:0;
-  /* margin-top: -32px; */
   width: 100%;
-  height: calc(100vh - 90px);
   background-color: #2b2d3c;
 }
-
 
 #tagline {
   color: white;
@@ -30,6 +26,9 @@
   background-color: white;
   padding: 24px 40px;
   border-radius: 64px;
+  max-width: 900px;
+  left:0; right:0;
+  margin: auto;
 }
 #wings-description p {
   font-weight: 500;
