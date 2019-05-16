@@ -27,6 +27,8 @@ router.get('/superadmin/sync/algolia/all', passport.authenticate('bearer', { ses
   var recordsUpdated = 0;
 
   Record.find()
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
   .then(async records => {
 
     await asyncForEach(records, async (record) => {
@@ -35,7 +37,7 @@ router.get('/superadmin/sync/algolia/all', passport.authenticate('bearer', { ses
     });
 
     return res.status(200).json({ message: 'Records sync with Algolia.', recordsUpdated: recordsUpdated });
-    
+
   }).catch((e) => { return next(e); });
 
 });
