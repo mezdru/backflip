@@ -5,12 +5,44 @@ let Record = require('../../models/record');
 let validate_record  = require('../validate_record');
 var GoogleRecord = require('../../models/google/google_record.js');
 var User = require('../../models/user');
+var Organisation = require('../../models/organisation');
 var LinkHelper = require('../../helpers/link_helper');
 var LinkedinUserHelper = require('../../helpers/linkedinUser_helper');
 var uppercamelcase = require('uppercamelcase');
 var slug = require('slug');
 var passport = require('passport');
 require('../passport/strategy');
+
+let asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+/**
+ * @description Sync all records of Wingzy to Algolia
+ */
+router.get('/superadmin/sync/algolia/all', passport.authenticate('bearer', {session: false}), (req, res, next) => {
+  if(!req.user.isSuperAdmin()) return res.status(403).json({message: 'This is a restricted route.'});
+
+  Organisation.find()
+  .then(async organisations => {
+    var orgsUpdated = 0;
+    var recordsUpdated = 0;
+
+    await asyncForEach(organisations, async (organisation) => {
+      orgsUpdated ++;
+      await Record.find()
+      .then(async records => {
+        await asyncForEach(records, async (record) => {
+          recordsUpdated ++;
+          record.save();
+        });
+      });
+    });
+    return res.status(200).json({message: 'Records sync with Algolia.', organisationsUpdate: orgsUpdated, recordsUpdated: recordsUpdated});
+  }).catch((e) => { return next(e); });
+});
 
 // Get profile by his tag
 // Modify authorization to allow profileTag
