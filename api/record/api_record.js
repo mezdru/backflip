@@ -19,6 +19,50 @@ let asyncForEach = async (array, callback) => {
   }
 }
 
+router.put('/superadmin/:recordIdFrom/merge/:recordIdTo', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
+  if (!req.user.isSuperAdmin()) return res.status(403).json({ message: 'This is a restricted route.' });
+  if(!req.body.orgId) return res.status(422).json({message: 'The body param : <orgId> is required.'});
+
+  var fromRecord = await Record.findByIdAsync(req.params.recordIdFrom, req.body.orgId);
+  var toRecord = await Record.findByIdAsync(req.params.recordIdTo, req.body.orgId);
+
+  if(!fromRecord || !toRecord) return res.status(404).json({message: "We cant't find these records. Please, check the ids provided."})
+
+  var recordsUsingFromRecord = await Record.find({hashtags: fromRecord._id})  
+                              .populate('hashtags', '_id tag type name name_translated picture')
+                              .populate('within', '_id tag type name name_translated picture')
+                              .then(recs => {return recs});
+
+  await asyncForEach(recordsUsingFromRecord, async (record) => {
+
+    // find index of from record in current record hashtags
+    var indexOfFromRecord = record.hashtags.findIndex(hashtag => hashtag.tag === fromRecord.tag);
+
+    // Update record hashtags if it doesn't already contains toRecord
+    if(record.hashtags.findIndex(hashtag => hashtag.tag === toRecord.tag) === -1) {
+      record.hashtags[indexOfFromRecord] = toRecord;
+    } else {
+      record.hashtags.splice(indexOfFromRecord, 1);
+    }
+    await Record.updateOne({_id: record._id}, {$set: {hashtags: record.hashtags}}, { new: true });
+  });
+
+  // Remove "from record"
+  fromRecord.delete(req.user._id, function(err) {
+    if(err) console.log(err);
+    return res.status(200).json(
+      {
+        message: 'Records merge with success.', 
+        fromRecord: fromRecord, 
+        toRecord: toRecord, 
+        recordsUpdatedCount: recordsUsingFromRecord.length, 
+        recordsUpdated: recordsUsingFromRecord
+      }
+    );
+  });
+
+});
+
 /**
  * @description Sync all records of Wingzy to Algolia
  */
@@ -50,6 +94,7 @@ router.get('/tag/:profileTag/organisation/:organisationId', passport.authenticat
     .populate('within', '_id tag type name name_translated picture')
     .then(record => {
       if (!record) return res.status(404).json({ message: 'Record not found.' });
+
       return res.status(200).json({ message: 'Record fetch with success.', record: record });
     }).catch((err) => { return next(err); });
 });
