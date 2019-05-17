@@ -396,6 +396,12 @@ recordSchema.statics.findById = function(id, organisationId, callback) {
   .exec(callback);
 };
 
+recordSchema.statics.findByIdAsync = function(id, organisationId) {
+  return this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture');
+};
+
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByEmail = function(email, organisationId, callback) {
@@ -728,12 +734,20 @@ recordSchema.post('save', function(doc) {
   this.algoliaSync();
 });
 
+recordSchema.post('updateOne', function(doc) {
+  Record.findOne({_id: this.getQuery()._id})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
+  .then(docPopulated => {
+    docPopulated.algoliaSync();
+  });
+});
+
 recordSchema.post('findOneAndUpdate', function(doc) {
   Record.findOne({'_id' : doc._id})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
   .then(doc => {
-    console.log(doc)
     doc.algoliaSync();
   });
 });
