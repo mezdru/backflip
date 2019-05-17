@@ -94,8 +94,6 @@ router.get('/tag/:profileTag/organisation/:organisationId', passport.authenticat
     .populate('within', '_id tag type name name_translated picture')
     .then(record => {
       if (!record) return res.status(404).json({ message: 'Record not found.' });
-      Record.findOne({_id: record._id})
-      .then(rec => {console.log(rec)})
 
       return res.status(200).json({ message: 'Record fetch with success.', record: record });
     }).catch((err) => { return next(err); });
