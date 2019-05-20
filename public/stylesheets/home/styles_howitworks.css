@@ -33,24 +33,23 @@
 }
 
 .mobile-screen {
-  height: 500px;
-  width: 500px;
+  height: 600px;
+  width: 600px;
 }
 
 .mobile-screen-view-left, .mobile-screen-view-right {
-  height: 370px;
-  width: 213px;
+  height: 447px;
+  width: 251px;
 }
 
 .mobile-screen-view-right {
-  left: 155px;
-  top: 63px;
-
+  left: 187px;
+  top: 77px;
 }
 
 .mobile-screen-view-left {
-  top: 65px;
-  right: 156px;
+  top: 75px;
+  right: 187px;
 }
 
 @media screen and (max-width: 600px)  {

@@ -20,7 +20,8 @@
 }
 
 .white-separator {
-  position: relative;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   /* left: 10%; */
   border: 1px solid white;

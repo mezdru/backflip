@@ -26,6 +26,10 @@ body {
 .homepage .row-big-margin {
   margin-bottom: 32px;
 }
+.homepage .row-title-margin {
+  margin-bottom:64px;
+  margin-top: 64px;
+}
 .homepage .row-big-margin-x2 {
   margin-bottom: 64px;
 }
@@ -40,7 +44,7 @@ body {
 .homepage h2 {
   font-size: 2.5rem;
   font-weight: 500;
-  margin-top: 128px;
+  margin-top: 32px;
   margin-bottom: 32px;
   color: #2b2d3c;
 }
@@ -73,14 +77,26 @@ body {
   text-align: center;
 }
 
+.homepage .vertical-align-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
 .homepage section {
   max-width: 100vw;
   overflow-x: hidden;
 }
 
+.homepage .height-full {
+  position: relative;
+  height: calc(100vh - 90px);
+}
+
 .homepage h1 {
   font-size: 2.5rem;
-  margin-top: 64px;
+  margin-top: 32px;
   margin-bottom: 32px;
 }
 .homepage p{
@@ -116,10 +132,22 @@ body {
   .s-center {
     text-align: center;
   }
+
+  .homepage .height-full {
+    height: unset;
+  }
+  .homepage .vertical-align-wrapper {
+    position: relative;
+    top: initial;
+    transform: none;
+  }
 }
 
 @media screen and (max-width: 992px) {
   .m-center {
     text-align: center;
+  }
+  .homepage .no-margin {
+    margin-bottom: 64px !important;
   }
 }

@@ -1,5 +1,5 @@
 <div class="homepage">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="/stylesheets/materialize.min.css">
   <link rel="stylesheet" href="/stylesheets/home/styles_general.css">
   <link rel="stylesheet" href="/stylesheets/home/styles_whywingzy.css">
   <link rel="stylesheet" href="/stylesheets/home/header.css">
@@ -16,13 +16,12 @@
     <nav>
       <div class="nav-wrapper">
         <a href="#" class="brand-logo"><img src="https://wingzy.com/wingzy_line.png" alt="Wingzy" /></a>
-        <a href="https://app.wingzy.com" class="hide-on-large-only signin-small" >{{ __ "Sign in"}}</a>
+        <a href="https://app.wingzy.com" class="hide-on-large-only signin-small">{{ __ "Sign in"}}</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down" style='margin-right: 16px'>
-          <li><a href="#whywingzy-a">{{ __ "Why Wingzy?"}}</a></li>
-          <li><a href="#howitworks-a">{{ __ "How it works?"}}</a></li>
           <li><a href="#references-a">{{ __ "References"}}</a></li>
-          <li><a href="https://app.wingzy.com">{{ __ "Sign in"}}</a></li>
           <li><a href="#pricing-a">{{ __ "Pricing"}}</a></li>
+          <li><a href="#askdemo-a">{{ __ "Ask for a demo"}}</a></li>
+          <li><a href="https://app.wingzy.com">{{ __ "Sign in"}}</a></li>
         </ul>
       </div>
     </nav>
@@ -30,45 +29,49 @@
 
 
 
-  <section id="landing">
+  <section id="landing" class="height-full">
     <div class="container">
-      <div style="color:#2b2d3c; height:0;">.</div>
+      <div class="vertical-align-wrapper">
+        <div style="color:#2b2d3c; height:0;">.</div>
 
-      <div class="row">
-        <div class="col s12">
-          <h1 id="tagline">{{ __ "The smart directory which reveals your company's talents."}}</h1>
-        </div>
-        <div class="col s12">
-          <p id="subtagline">
-            {{{ __ "The richness of your company is the addition of your employees <strong>Wings</strong>. Wingzy identifies and shares them to promoting the collective intelligence."}}}
-          </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col s12">
-          <div id="wings-description">
-            <h3 class="important-title">{{__ "Wings"}}</h3>
-            <h6>{{ __ "Feminine noun"}}</h6>
-            <p>
-              {{__ "Set of people skills, business expertise, individuals talents, energies and hobbies shared by your employees."}}
+        <div class="row">
+          <div class="col s12">
+            <h1 id="tagline">{{ __ "The smart directory which reveals your company's talents."}}</h1>
+          </div>
+          <div class="col s12">
+            <p id="subtagline">
+              {{{ __ "The richness of your company is the addition of your employees <strong>Wings</strong>. Wingzy identifies and shares them to promoting the collective intelligence."}}}
             </p>
-            <ul id="wings-container">
-              <li><img src="{{__ "wings.description.picture1 (Width X 65px)"}}" alt="Wings" /></li>
-              <li><img src="{{__ "wings.description.picture2 (Width X 65px)"}}" alt="Wings" /></li>
-              <li><img src="{{__ "wings.description.picture3 (Width X 65px)"}}" alt="Wings" /></li>
-              <li><img src="{{__ "wings.description.picture4 (Width X 65px)"}}" alt="Wings" /></li>
-            </ul>
           </div>
         </div>
-      </div>
 
-
-
-      <div class="row">
-        <div class="col s12 center">
-          <a class="waves-effect waves-light btn-large reverse-primary" href="#whywingzy-a" >{{__ "Discover Wingzy"}}</a>
+        <div class="row">
+          <div class="col s12">
+            <div id="wings-description">
+              <h3 class="important-title">{{__ "Wings"}}</h3>
+              <h6>{{ __ "Feminine noun"}}</h6>
+              <p>
+                {{__ "Set of people skills, business expertise, individuals talents, energies and hobbies shared by your employees."}}
+              </p>
+              <ul id="wings-container">
+                <li><img src="{{__ "wings.description.picture1 (Width X 65px)"}}" alt="Wings" /></li>
+                <li><img src="{{__ "wings.description.picture2 (Width X 65px)"}}" alt="Wings" /></li>
+                <li><img src="{{__ "wings.description.picture3 (Width X 65px)"}}" alt="Wings" /></li>
+                <li><img src="{{__ "wings.description.picture4 (Width X 65px)"}}" alt="Wings" /></li>
+              </ul>
+            </div>
+          </div>
         </div>
+
+
+
+        <div class="row">
+          <div class="col s12 center">
+            <a class="waves-effect waves-light btn-large reverse-primary"
+              href="#whywingzy-a">{{__ "Discover Wingzy"}}</a>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -81,13 +84,14 @@
     </div>
 
     <div class="container">
+      {{!-- <div class="vertical-align-wrapper"> --}}
 
       <div class="row">
 
         <div class="col s12 l8 offset-l4">
-          <div class="row row-big-margin-x2">
+          <div class="row row-title-margin">
             <div class="col s12 m-center">
-              <h2>{{__ "Why Wingzy in your organisation?"}}</h2>
+              <h2>{{{__ "Why Wingzy in your organisation?"}}}</h2>
             </div>
           </div>
 
@@ -112,10 +116,12 @@
                 <img src="/images/home/clement.jpg" alt="Clément Dietschy" class="picture-clement" />
                 <div class="name-clement">
                   Clément Dietschy<br />
-                  {{__ "Cofondateur et PDG"}}<br/>
-                  <a href="https://www.linkedin.com/in/clementdietschy/" target="_blank" ><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
-                  <a href="https://twitter.com/Wingzy_com" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-                  </div>
+                  {{__ "Cofondateur et PDG"}}<br />
+                  <a href="https://www.linkedin.com/in/clementdietschy/" target="_blank"><i
+                      class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                  <a href="https://twitter.com/Wingzy_com" target="_blank"><i class="fa fa-twitter-square"
+                      aria-hidden="true"></i></a>
+                </div>
               </div>
             </div>
           </div>
@@ -123,14 +129,13 @@
         </div>
       </div>
 
-
     </div>
   </section>
 
   <section id="howitworks">
     <div id="howitworks-a" style="position: absolute; margin-top:-90px"></div>
     <div class="container">
-      <div class="row row-big-margin-x2">
+                <div class="row row-title-margin">
         <div class="col s12">
           <h2 class="center">{{__ "How it works?"}}</h2>
           <h4>
@@ -139,7 +144,10 @@
         </div>
       </div>
 
-      <div class="row row-big-margin-x4">
+      <div class="height-full">
+        <div class="vertical-align-wrapper">
+
+      <div class="row no-margin">
         <div class="col s12 l6">
           <div class="row row-big-margin howitworks-subheader">
 
@@ -157,14 +165,8 @@
 
           <div class="row row-big-margin">
             <ul>
-              <li>{{__ "A simple authentification (Gmail, LinkedIn, ...)"}}</li>
-              <li>{{__ "An integration of your coworkers contacts (Phone number, email, LinkedIn, Slack, ...)"}}</li>
-              <li>{{__ "A set of professionnals Wings, suggested automatically."}}</li>
+              {{{__ "<li>A simple authentification (Gmail, LinkedIn, ...)</li><li>An integration of your coworkers contacts (Phone number, email, LinkedIn, Slack, ...)</li><li>A set of professionnals Wings, suggested automatically.</li>"}}}
             </ul>
-          </div>
-
-          <div class="row s-center">
-            <a class="waves-effect waves-light btn-large reverse-primary" href="https://app.wingzy.com" >{{__ "Create your profile"}}</a>
           </div>
 
         </div>
@@ -177,9 +179,14 @@
 
         </div>
       </div>
+        </div>
+      </div>
 
 
-      <div class="row row-big-margin-x4">
+
+      <div class="height-full">
+        <div class="vertical-align-wrapper">
+                <div class="row no-margin">
 
         <div class="col s12 l6 hide-on-med-and-down relative">
           <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
@@ -205,18 +212,8 @@
 
           <div class="row row-big-margin">
             <ul>
-              <li>
-                {{__ "An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ..."}}
-              </li>
-              <li>{{__ "Upgrade your searchs thanks to our IA"}} </li>
-              <li>
-                {{__ "A machine learning system which identify your Wings"}}
-              </li>
+              {{{__ "<li>An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ...</li><li>Upgrade your searchs thanks to our IA</li><li>A machine learning system which identify your Wings</li>"}}}
             </ul>
-          </div>
-
-          <div class="row s-center">
-            <a class="waves-effect waves-light btn-large reverse-primary" href="https://app.wingzy.com" >{{__ "Sign in"}}</a>
           </div>
 
         </div>
@@ -230,8 +227,14 @@
 
       </div>
 
+          </div>
+      </div>
 
-      <div class="row row-big-margin-x4">
+
+
+      <div class="height-full">
+        <div class="vertical-align-wrapper">
+                <div class="row no-margin">
         <div class="col s12 l6">
           <div class="row row-big-margin howitworks-subheader">
 
@@ -249,17 +252,8 @@
 
           <div class="row row-big-margin">
             <ul>
-              <li>
-                {{__ "Each employee can contact his peers and benefits from their professionnal expertises."}}
-              </li>
-              <li>
-                {{__ "Your employees can find themself by hobbies or projects."}}
-              </li>
+              {{{__ "<li>Each employee can contact his peers and benefits from their professionnal expertises.</li><li>Your employees can find themself by hobbies or projects.</li>"}}}
             </ul>
-          </div>
-
-          <div class="row s-center">
-            <a class="waves-effect waves-light btn-large reverse-primary" href="https://app.wingzy.com" >{{__ "Sign in"}}</a>
           </div>
 
         </div>
@@ -273,322 +267,317 @@
       </div>
 
 
+</div>
+      </div>
+
+
 
     </div>
   </section>
 
-  <section id="methodo">
-
+  <section id="methodo" class="height-full">
     <div class="container">
+      <div class="vertical-align-wrapper">
 
-      <div class="row row-big-margin-x2">
-        <div class="col s12">
-          <h2 class="center">{{__ "Our Quick Win method"}}</h2>
-          <h4>
-            {{__ "Offer quickly and simply a great working experience to your employees."}}
-          </h4>
+        <div class="row row-big-margin-x2">
+          <div class="col s12">
+            <h2 class="center">{{__ "Our Quick Win method"}}</h2>
+            <h4>
+              {{__ "Offer quickly and simply a great working experience to your employees."}}
+            </h4>
+          </div>
         </div>
+
+        <div class="row relative">
+
+          <div class="backline hide-on-small-only"></div>
+
+
+          <div class="col s12 m4">
+            <div class="row">
+              <div class="col s12 center">
+                <img src="https://twemoji.maxcdn.com/2/svg/1f528.svg" alt="Pick" />
+              </div>
+              <div class="col s12 subtitle center margin16">
+                {{__ "Installation"}}
+              </div>
+              <div class="col s12 center">
+                {{{__ "Identification of keys professionnals Wings<br/>A white label solution<br/>Wingzy integrates your environment"}}}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col s12 m4">
+            <div class="row">
+              <div class="col s12 center">
+                <img src="https://twemoji.maxcdn.com/2/svg/1f4e2.svg" alt="Loudspeaker" />
+              </div>
+              <div class="col s12 subtitle center margin16">
+                {{__ "Launching"}}
+              </div>
+              <div class="col s12 center">
+                {{{__ "Identification of your ambassadors<br/>Define your roles and missions<br/>Animate your ambassadors community"}}}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col s12 m4">
+            <div class="row">
+              <div class="col s12 center">
+                <img src="https://twemoji.maxcdn.com/2/svg/1f680.svg" alt="Rocket" />
+              </div>
+
+              <div class="col s12 subtitle center margin16">
+                {{__ "Deployment"}}
+              </div>
+              <div class="col s12 center">
+                {{{__ "Wingzy is shared from peer to peer within your organisation thanks to our awesome UX"}}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
-
-      <div class="row relative">
-
-        <div class="backline hide-on-small-only"></div>
-
-
-        <div class="col s12 m4">
-          <div class="row">
-            <div class="col s12 center">
-              <img src="https://twemoji.maxcdn.com/2/svg/1f528.svg" alt="Pick" />
-            </div>
-            <div class="col s12 subtitle center margin16">
-              {{__ "Installation"}}
-            </div>
-            <div class="col s12 center">
-              {{{__ "Identification of keys professionnals Wings<br/>A white label solution<br/>Wingzy integrates your environment"}}}
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col s12 m4">
-          <div class="row">
-            <div class="col s12 center">
-              <img src="https://twemoji.maxcdn.com/2/svg/1f4e2.svg" alt="Loudspeaker" />
-            </div>
-            <div class="col s12 subtitle center margin16">
-              {{__ "Launching"}}
-            </div>
-            <div class="col s12 center">
-              {{{__ "Identification of your ambassadors<br/>Define your roles and missions<br/>Animate your ambassadors community"}}}
-            </div>
-          </div>
-        </div>
-
-
-        <div class="col s12 m4">
-          <div class="row">
-            <div class="col s12 center">
-              <img src="https://twemoji.maxcdn.com/2/svg/1f680.svg" alt="Rocket" />
-            </div>
-
-            <div class="col s12 subtitle center margin16">
-              {{__ "Deployment"}}
-            </div>
-            <div class="col s12 center">
-              {{{__ "Wingzy is shared from peer to peer within your organisation thanks to our awesome UX"}}}
-            </div>
-          </div>
-        </div>
-
-      </div>
-
     </div>
   </section>
 
-  <section id="references">
+  <section id="references" class="height-full">
     <div id="references-a" style="position: absolute; margin-top:-90px"></div>
 
     <div class="container">
-      <div class="row row-big-margin-x2">
-        <div class="col s12">
-          <h2 class="center">{{__ "References"}}</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="carousel">
+      <div class="vertical-align-wrapper">
 
-
-          <a class="carousel-item card-panel" href="#one!">
-            <img src="/images/home/supports/henri_lachmann.jpg" alt="Picture of a person"
-              class="soutien-author-organisation">
-            <img src="/images/home/supports/schneider_electric.png" alt="Logo of organisation"
-              class="soutien-author-picture" />
-            <p>
-              {{{__ "Wingzy permet de connaître les compétences et expériences et de la diffuser ou d'avoir un accès rapide"}}}
-              <br /><br />
-              <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video"
-                onclick="goTo('https://www.youtube.com/watch?v=hzoN5oVQTHc')">Voir l'interview</button>
-            </p>
-            <div class="soutien-author">
-              <h3>{{{__ "Henri Lachmann"}}}</h3>
-              <div>{{{__ "Former President of Schneider Electric"}}}</div>
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#one!">
-            <img src="/images/home/supports/coo_meridiam.jpg" alt="Picture of a person"
-              class="soutien-author-organisation">
-            <img src="/images/home/partners/logomeridiam_0.jpg" alt="Logo of organisation"
-              class="soutien-author-picture" />
-            <p>
-              {{{__ "Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !"}}}
-            </p>
-            <div class="soutien-author">
-              <h3>Sandra Lagumina</h3>
-              <div>{{{__ "COO - Meridiam"}}}</div>
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#one!">
-            <img src="/images/home/supports/dge_adp.jpg" alt="Picture of a person" class="soutien-author-organisation">
-            <img src="/images/home/partners/adp.png" alt="Logo of organisation" style="border-radius:0"
-              class="soutien-author-picture" />
-            <p>
-              {{{__ "Avec Wingzy, la ville aéroportuaire de demain à Paris-CDG sera + innovante, mieux connectée et + collaborative."}}}
-              <br /><br />
-              <i class="fa fa-trophy" aria-hidden="true"></i>
-              <button class="supports-button-video"
-                onclick="goTo('{{{__ "https://twitter.com/ArkwrightEdward/status/1113116945921032192"}}}')">
-                {{{__ "1ere place Play Your Airport"}}}
-              </button>
-            </p>
-
-            <div class="soutien-author">
-              <h3>Edward Arkwright</h3>
-              <div>{{{__ "DGE ADP"}}}</div>
-            </div>
-          </a>
-
-
-
-
-
-          <a class="carousel-item card-panel" href="#two!">
-            <img src="/images/home/genevieve_garrigos.jpeg" alt="Picture of a person"
-              class="soutien-author-organisation">
-            <img src="/images/home/supports/amnesty_international_logo.PNG" alt="Logo of organisation"
-              class="soutien-author-picture" />
-            <p>
-              {{{__ "J'ai été impressionnée par l'attention apportée à la protection de nos données personnelles sur Wingzy. Un exemple à suivre !"}}}
-            </p>
-            <div class="soutien-author">
-              <h3>{{{__ "Geneviève Garrigos"}}}</h3>
-              <div>{{{__ "Former president of Amnesty International"}}}</div>
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#three!">
-            <img src="/images/home/jerome_giusti.jpeg" alt="Picture of a person" class="soutien-author-organisation">
-            <p>
-              {{{__ "Sur Wingzy, seul-es les employé-es peuvent avoir le contrôle des informations qui les concernent, via des outils et des liens hyper accessibles."}}}
-            </p>
-            <div class="soutien-author">
-              <h3>{{{__ "Jérôme Giusti"}}}</h3>
-              <div>{{{__ "Lawyer at 'Barreau de Paris'"}}}</div>
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#four!">
-            <img src="/images/home/philippe_caquet.jpeg" alt="Picture of a person" class="soutien-author-organisation">
-            <img src="/images/home/supports/boostrh_logo.png" alt="Logo of organisation"
-              class="soutien-author-picture" />
-
-            <p>
-              {{{__ "Wingzy est une application fort intéressante qui permet de mettre enfin du lien entre les salarié-es. Elle reflète une nouvelle génération de façon de faire."}}}
-            </p>
-            <div class="soutien-author">
-              <h3>{{{__ "Philippe Caquet"}}}</h3>
-              <div>{{{__ "President of Boost'rh group"}}}</div>
-
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#five!">
-            <img src="/images/home/adeline.png" alt="Picture of a person" class="soutien-author-organisation">
-            <img src="/images/home/supports/article1-logo.png" alt="Logo of organisation"
-              class="soutien-author-picture" />
-            <p>
-              {{{__ "Le principe est super, surtout dans le contexte de croissance dans laquelle je travaille. Quand je vois un prénom dans une boucle de mail que je ne reconnais pas, j'ai le réflexe Wingzy."}}}
-            </p>
-            <div class="soutien-author">
-              <h3>{{{__ "Adeline"}}}</h3>
-              <div>{{{__ "User of the Wingzy of Article 1"}}}</div>
-
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#one!">
-            <img src="/images/home/supports/exdrh_sncf.jpg" alt="Picture of a person"
-              class="soutien-author-organisation">
-            <img src="/images/home/partners/logo-Schoolab.png" alt="Logo of organisation"
-              class="soutien-author-picture" />
-            <p>
-              {{{__ "Wingzy, c'est l'app toute simple mais super puissante dont j'ai toujours rêvé quand j'étais DRH de la SNCF : un outil qui révèle tous les talents de tous mes collaborateurs."}}}
-              <br /><br />
-              <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video"
-                onclick="goTo('https://www.youtube.com/watch?v=4pLyGZAvzVo')">Voir l'interview</button>
-            </p>
-
-            <div class="soutien-author">
-              <h3>Bénédicte Tilloy</h3>
-              <div>{{{__ "Partner Schoolab"}}}</div>
-            </div>
-          </a>
-
-          <a class="carousel-item card-panel" href="#one!">
-            <img src="/images/home/supports/ceo_viseeon.jpg" alt="Picture of a person"
-              class="soutien-author-organisation">
-            <img src="/images/home/partners/viseeon.png" alt="Logo of organisation" class="soutien-author-picture" />
-            <p>
-              {{{__ "Viseeon est un réseau national d'expert comptables indépendants, Wingzy qui nous permet de nous trouver selon nos expertises est donc un outil essentiel."}}}
-            </p>
-            <div class="soutien-author">
-              <h3>Joël Pereira</h3>
-              <div>{{{__ "CEO - Co-founder of Viseeon"}}}</div>
-            </div>
-          </a>
-
-        </div>
-      </div>
-
-    </div>
-</div>
-</section>
-
-<section id="pricing" class="relative">
-  <div id="pricing-a" style="position: absolute; margin-top:-90px"></div>
-
-  <div class="row no-margin" style="margin: 0 !important">
-
-    <div class="col s12 m6 pricing-white-background">
-      <div class="row center pricing-head">
-        <p class="pricing-head-main">{{__ "PREMIUM"}}</p>
-        <p class="pricing-head-secondary">{{__ "3€ excluding tax /month"}}</p>
-        <p class="pricing-head-option">{{{__ "or 30€/year<br/> by user"}}}</p>
-      </div>
-      <div class="bold-separator"></div>
-      <div class="row">
-        <div class="col s10 m8 offset-m2 offset-s1">
-          <ul>
-            <li>{{__ "Wingzy dedicated to your company"}}</li>
-            <li>{{__ "Unlimited Wings"}}</li>
-            <li>{{__ "Unlimited searchs"}}</li>
-            <li>{{__ "Send targeted emails from our app"}}</li>
-            <li>{{__ "Monthly statistics"}}</li>
-            <li>{{__ "Wingzy support (email, phone)"}}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-    <div class="col s12 m6 pricing-blue-background">
-      <div class="row center pricing-head">
-        <p class="pricing-head-main white-color">{{__ "PRO"}}</p>
-        <p class="pricing-head-secondary white-color">{{__ "6€ excluding tax / month"}}</p>
-        <p class="pricing-head-option white-color">{{{__ "or 60€/year<br/>by user"}}}</p>
-      </div>
-      <div class="bold-separator white-color"></div>
-      <div class="row">
-        <div class="col s10 m8 offset-m2 offset-s1">
-
-          <div class="subtitle white-color center">{{__ "Wingzy PREMIUM"}}</div>
-          <div class="subtitle white-color center">
-            +
+        <div class="row row-big-margin-x2">
+          <div class="col s12">
+            <h2 class="center">{{__ "References"}}</h2>
           </div>
-          <ul class="white-color">
-            <li>{{__ "Tailor-made setup"}}</li>
-            <li>{{__ "Integration to your tools (SIRH, Slack, Google Suite,  Workplace, ...)"}}</li>
-            <li>{{__ "Audit of your needs & strategicals suggestions"}}</li>
-            <li>{{__ "Launching support"}}</li>
-            <li>{{__ "Monthly reporting with a Wingzy project manager"}}</li>
-            <li>{{__ "Animation of your community"}}</li>
-          </ul>
+        </div>
+        <div class="row">
+          <div class="carousel">
+
+
+            <a class="carousel-item card-panel" href="#one!">
+              <img src="/images/home/supports/henri_lachmann.jpg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/images/home/supports/schneider_electric.png" alt="Logo of organisation"
+                class="soutien-author-picture" />
+              <p>
+                {{{__ "Wingzy permet de connaître les compétences et expériences et de la diffuser ou d'avoir un accès rapide"}}}
+                <br /><br />
+                <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video"
+                  onclick="goTo('https://www.youtube.com/watch?v=hzoN5oVQTHc')">Voir l'interview</button>
+              </p>
+              <div class="soutien-author">
+                <h3>{{{__ "Henri Lachmann"}}}</h3>
+                <div>{{{__ "Former President of Schneider Electric"}}}</div>
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#one!">
+              <img src="/images/home/supports/coo_meridiam.jpg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/images/home/partners/logomeridiam_0.jpg" alt="Logo of organisation"
+                class="soutien-author-picture" />
+              <p>
+                {{{__ "Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !"}}}
+              </p>
+              <div class="soutien-author">
+                <h3>Sandra Lagumina</h3>
+                <div>{{{__ "COO - Meridiam"}}}</div>
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#one!">
+              <img src="/images/home/supports/dge_adp.jpg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/images/home/partners/adp.png" alt="Logo of organisation" style="border-radius:0"
+                class="soutien-author-picture" />
+              <p>
+                {{{__ "Avec Wingzy, la ville aéroportuaire de demain à Paris-CDG sera + innovante, mieux connectée et + collaborative."}}}
+                <br /><br />
+                <i class="fa fa-trophy" aria-hidden="true"></i>
+                <button class="supports-button-video"
+                  onclick="goTo('{{{__ "https://twitter.com/ArkwrightEdward/status/1113116945921032192"}}}')">
+                  {{{__ "1ere place Play Your Airport"}}}
+                </button>
+              </p>
+
+              <div class="soutien-author">
+                <h3>Edward Arkwright</h3>
+                <div>{{{__ "DGE ADP"}}}</div>
+              </div>
+            </a>
+
+
+
+
+
+            <a class="carousel-item card-panel" href="#two!">
+              <img src="/images/home/genevieve_garrigos.jpeg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/images/home/supports/amnesty_international_logo.PNG" alt="Logo of organisation"
+                class="soutien-author-picture" />
+              <p>
+                {{{__ "J'ai été impressionnée par l'attention apportée à la protection de nos données personnelles sur Wingzy. Un exemple à suivre !"}}}
+              </p>
+              <div class="soutien-author">
+                <h3>{{{__ "Geneviève Garrigos"}}}</h3>
+                <div>{{{__ "Former president of Amnesty International"}}}</div>
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#three!">
+              <img src="/images/home/jerome_giusti.jpeg" alt="Picture of a person" class="soutien-author-organisation">
+              <p>
+                {{{__ "Sur Wingzy, seul-es les employé-es peuvent avoir le contrôle des informations qui les concernent, via des outils et des liens hyper accessibles."}}}
+              </p>
+              <div class="soutien-author">
+                <h3>{{{__ "Jérôme Giusti"}}}</h3>
+                <div>{{{__ "Lawyer at 'Barreau de Paris'"}}}</div>
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#four!">
+              <img src="/images/home/philippe_caquet.jpeg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/images/home/supports/boostrh_logo.png" alt="Logo of organisation"
+                class="soutien-author-picture" />
+
+              <p>
+                {{{__ "Wingzy est une application fort intéressante qui permet de mettre enfin du lien entre les salarié-es. Elle reflète une nouvelle génération de façon de faire."}}}
+              </p>
+              <div class="soutien-author">
+                <h3>{{{__ "Philippe Caquet"}}}</h3>
+                <div>{{{__ "President of Boost'rh group"}}}</div>
+
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#five!">
+              <img src="/images/home/adeline.png" alt="Picture of a person" class="soutien-author-organisation">
+              <img src="/images/home/supports/article1-logo.png" alt="Logo of organisation"
+                class="soutien-author-picture" />
+              <p>
+                {{{__ "Le principe est super, surtout dans le contexte de croissance dans laquelle je travaille. Quand je vois un prénom dans une boucle de mail que je ne reconnais pas, j'ai le réflexe Wingzy."}}}
+              </p>
+              <div class="soutien-author">
+                <h3>{{{__ "Adeline"}}}</h3>
+                <div>{{{__ "User of the Wingzy of Article 1"}}}</div>
+
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#one!">
+              <img src="/images/home/supports/exdrh_sncf.jpg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/images/home/partners/logo-Schoolab.png" alt="Logo of organisation"
+                class="soutien-author-picture" />
+              <p>
+                {{{__ "Wingzy, c'est l'app toute simple mais super puissante dont j'ai toujours rêvé quand j'étais DRH de la SNCF : un outil qui révèle tous les talents de tous mes collaborateurs."}}}
+                <br /><br />
+                <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video"
+                  onclick="goTo('https://www.youtube.com/watch?v=4pLyGZAvzVo')">Voir l'interview</button>
+              </p>
+
+              <div class="soutien-author">
+                <h3>Bénédicte Tilloy</h3>
+                <div>{{{__ "Partner Schoolab"}}}</div>
+              </div>
+            </a>
+
+            <a class="carousel-item card-panel" href="#one!">
+              <img src="/images/home/supports/ceo_viseeon.jpg" alt="Picture of a person"
+                class="soutien-author-organisation">
+              <img src="/ images/home/partners/viseeon.png" alt="Logo of organisation" class="soutien-author-picture" />
+              <p>
+                {{{__ "Viseeon est un réseau national d'expert comptables indépendants, Wingzy qui nous permet de nous trouver selon nos expertises est donc un outil essentiel."}}}
+              </p>
+              <div class="soutien-author">
+                <h3>Joël Pereira</h3>
+                <div>{{{__ "CEO - Co-founder of Viseeon"}}}</div>
+              </div>
+            </a>
+
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
+  <section id="pricing" class="relative height-full">
+    <div id="pricing-a" style="position: absolute; margin-top:-90px"></div>
 
-  </div>
+    <div class="row no-margin" style="margin: 0 !important">
 
-
-</section>
-
-<section id="askdemo">
-
-  <div class="container">
-
-    <div class="row">
-      <div class="col s12">
-        <h2 class="center white-color">{{__ "Ask for a demo"}}</h2>
+      <div class="col s12 m6 pricing-white-background">
+        <div class="row center pricing-head">
+          <p class="pricing-head-main">{{__ "PREMIUM"}}</p>
+          <p class="pricing-head-secondary">{{__ "3€ excluding tax /month"}}</p>
+          <p class="pricing-head-option">{{{__ "or 30€/year<br/> by user"}}}</p>
+        </div>
+        <div class="bold-separator"></div>
+        <div class="row">
+          <div class="col s10 m8 offset-m2 offset-s1">
+            <ul>
+              {{{__ "<li>Wingzy dedicated to your company</li><li>Unlimited Wings</li><li>Unlimited searchs</li><li>Send targeted emails from our app</li><li>Monthly statistics</li><li>Wingzy support (email, phone)</li>"}}}
+            </ul>
+          </div>
+        </div>
       </div>
+
+      <div class="col s12 m6 pricing-blue-background">
+        <div class="row center pricing-head">
+          <p class="pricing-head-main white-color">{{__ "PRO"}}</p>
+          <p class="pricing-head-secondary white-color">{{__ "6€ excluding tax / month"}}</p>
+          <p class="pricing-head-option white-color">{{{__ "or 60€/year<br/>by user"}}}</p>
+        </div>
+        <div class="bold-separator white-color"></div>
+        <div class="row">
+          <div class="col s10 m8 offset-m2 offset-s1">
+
+            <div class="subtitle white-color center">{{__ "Wingzy PREMIUM"}}</div>
+            <div class="subtitle white-color center">
+              +
+            </div>
+            <ul class="white-color">
+              {{{__ "<li>Tailor-made setup</li><li>Integration to your tools (SIRH, Slack, Google Suite,  Workplace, ...)</li><li>Audit of your needs & strategicals suggestions</li><li>Launching support</li><li>Monthly reporting with a Wingzy project manager</li><li>Animation of your community</li>"}}}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
     </div>
-    <div class="hubspot-form-container">
-      <!-- HUBSPOT FORM -->
-      <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/shell.js"></script>
-      <script>
-        hbspt.forms.create({
-          portalId: "4894133",
-          formId: "e8124caa-4549-4a79-bfdb-990818d15aa1"
-        });
-      </script>
+
+
+  </section>
+
+  <section id="askdemo">
+    <div id="askdemo-a" style="position: absolute; margin-top:-90px"></div>
+
+    <div class="container">
+        <div class="row row-title-margin">
+          <div class="col s12">
+            <h2 class="center white-color">{{__ "Ask for a demo"}}</h2>
+          </div>
+        </div>
+        <div class="hubspot-form-container">
+          <!-- HUBSPOT FORM -->
+          <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/shell.js"></script>
+          <script>
+            hbspt.forms.create({
+              portalId: "4894133",
+              formId: "e8124caa-4549-4a79-bfdb-990818d15aa1"
+            });
+          </script>
+        </div>
+              <div class="white-separator"></div>
+
     </div>
-    <div class="white-separator"></div>
-  </div>
-</section>
+  </section>
 </div>
 
 <script>
