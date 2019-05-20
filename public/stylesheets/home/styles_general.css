@@ -147,4 +147,7 @@ body {
   .m-center {
     text-align: center;
   }
+  .homepage .no-margin {
+    margin-bottom: 64px !important;
+  }
 }

@@ -55,11 +55,11 @@
 
 #wings-container li{
   display:inline-block;
-  height: 65px;
+  height: 48px;
+  margin: 8px;
 }
 #wings-container li img{
   height: 100%;
-  left:5%;
 }
 
 @media screen and (max-width: 600px) {
