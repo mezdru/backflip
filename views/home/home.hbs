@@ -77,21 +77,21 @@
     </div>
   </section>
 
-  <section id="whywingzy" class="height-full">
+  <section id="whywingzy">
     <div id="whywingzy-a" style="position: absolute; margin-top:-90px"></div>
     <div id="epic-img" class="hide-on-med-and-down">
       <img src="https://wingzy.com/images/home/epic.jpg" width="100%" />
     </div>
 
     <div class="container">
-      <div class="vertical-align-wrapper">
+      {{!-- <div class="vertical-align-wrapper"> --}}
 
       <div class="row">
 
         <div class="col s12 l8 offset-l4">
-          <div class="row row-big-margin-x2">
+          <div class="row row-title-margin">
             <div class="col s12 m-center">
-              <h2>{{__ "Why Wingzy in your organisation?"}}</h2>
+              <h2>{{{__ "Why Wingzy in your organisation?"}}}</h2>
             </div>
           </div>
 
@@ -129,18 +129,13 @@
         </div>
       </div>
 
-  </div>
     </div>
   </section>
 
   <section id="howitworks">
     <div id="howitworks-a" style="position: absolute; margin-top:-90px"></div>
     <div class="container">
-
-
-      <div class="height-full">
-        <div class="vertical-align-wrapper">
-                <div class="row row-big-margin-x2">
+                <div class="row row-title-margin">
         <div class="col s12">
           <h2 class="center">{{__ "How it works?"}}</h2>
           <h4>
@@ -148,7 +143,11 @@
           </h4>
         </div>
       </div>
-      <div class="row row-big-margin-x4">
+
+      <div class="height-full">
+        <div class="vertical-align-wrapper">
+
+      <div class="row no-margin">
         <div class="col s12 l6">
           <div class="row row-big-margin howitworks-subheader">
 
@@ -166,9 +165,7 @@
 
           <div class="row row-big-margin">
             <ul>
-              <li>{{__ "A simple authentification (Gmail, LinkedIn, ...)"}}</li>
-              <li>{{__ "An integration of your coworkers contacts (Phone number, email, LinkedIn, Slack, ...)"}}</li>
-              <li>{{__ "A set of professionnals Wings, suggested automatically."}}</li>
+              {{{__ "<li>A simple authentification (Gmail, LinkedIn, ...)</li><li>An integration of your coworkers contacts (Phone number, email, LinkedIn, Slack, ...)</li><li>A set of professionnals Wings, suggested automatically.</li>"}}}
             </ul>
           </div>
 
@@ -189,7 +186,7 @@
 
       <div class="height-full">
         <div class="vertical-align-wrapper">
-                <div class="row row-big-margin-x4">
+                <div class="row no-margin">
 
         <div class="col s12 l6 hide-on-med-and-down relative">
           <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
@@ -215,13 +212,7 @@
 
           <div class="row row-big-margin">
             <ul>
-              <li>
-                {{__ "An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ..."}}
-              </li>
-              <li>{{__ "Upgrade your searchs thanks to our IA"}} </li>
-              <li>
-                {{__ "A machine learning system which identify your Wings"}}
-              </li>
+              {{{__ "<li>An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ...</li><li>Upgrade your searchs thanks to our IA</li><li>A machine learning system which identify your Wings</li>"}}}
             </ul>
           </div>
 
@@ -243,7 +234,7 @@
 
       <div class="height-full">
         <div class="vertical-align-wrapper">
-                <div class="row row-big-margin-x4">
+                <div class="row no-margin">
         <div class="col s12 l6">
           <div class="row row-big-margin howitworks-subheader">
 
@@ -261,12 +252,7 @@
 
           <div class="row row-big-margin">
             <ul>
-              <li>
-                {{__ "Each employee can contact his peers and benefits from their professionnal expertises."}}
-              </li>
-              <li>
-                {{__ "Your employees can find themself by hobbies or projects."}}
-              </li>
+              {{{__ "<li>Each employee can contact his peers and benefits from their professionnal expertises.</li><li>Your employees can find themself by hobbies or projects.</li>"}}}
             </ul>
           </div>
 
@@ -536,20 +522,11 @@
         <div class="row">
           <div class="col s10 m8 offset-m2 offset-s1">
             <ul>
-              <li>{{__ "Wingzy dedicated to your company"}}</li>
-              <li>{{__ "Unlimited Wings"}}</li>
-              <li>{{__ "Unlimited searchs"}}</li>
-              <li>{{__ "Send targeted emails from our app"}}</li>
-              <li>{{__ "Monthly statistics"}}</li>
-              <li>{{__ "Wingzy support (email, phone)"}}</li>
+              {{{__ "<li>Wingzy dedicated to your company</li><li>Unlimited Wings</li><li>Unlimited searchs</li><li>Send targeted emails from our app</li><li>Monthly statistics</li><li>Wingzy support (email, phone)</li>"}}}
             </ul>
           </div>
         </div>
       </div>
-
-
-
-
 
       <div class="col s12 m6 pricing-blue-background">
         <div class="row center pricing-head">
@@ -566,12 +543,7 @@
               +
             </div>
             <ul class="white-color">
-              <li>{{__ "Tailor-made setup"}}</li>
-              <li>{{__ "Integration to your tools (SIRH, Slack, Google Suite,  Workplace, ...)"}}</li>
-              <li>{{__ "Audit of your needs & strategicals suggestions"}}</li>
-              <li>{{__ "Launching support"}}</li>
-              <li>{{__ "Monthly reporting with a Wingzy project manager"}}</li>
-              <li>{{__ "Animation of your community"}}</li>
+              {{{__ "<li>Tailor-made setup</li><li>Integration to your tools (SIRH, Slack, Google Suite,  Workplace, ...)</li><li>Audit of your needs & strategicals suggestions</li><li>Launching support</li><li>Monthly reporting with a Wingzy project manager</li><li>Animation of your community</li>"}}}
             </ul>
           </div>
         </div>
