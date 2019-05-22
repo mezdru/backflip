@@ -13,6 +13,8 @@
 }
 #tagline strong {
   color: #FF0018;
+  font-weight: 800;
+  font-size: 3rem;
 }
 
 #wings-description {
