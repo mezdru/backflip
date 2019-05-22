@@ -22,6 +22,10 @@
   border-radius: 5px;
 }
 
+.carousel .carousel-item .large-picture {
+  height: 70px;
+}
+
 .carousel .carousel-item>p {
   position: absolute;
   top:50%;
@@ -36,10 +40,13 @@
 .carousel .carousel-item p i {
   color: rgb(221, 54, 46);
 }
+.carousel .card-panel {
+  padding: 16px;
+}
 
 .carousel .soutien-author-organisation{
   position: absolute;
-  right:16px;
+  left:16px;
   bottom: 16px;
   width: 50px !important;
   height: 50px;
@@ -50,7 +57,7 @@
   position: absolute;
   padding-top: 16px;
   padding-bottom: 16px;
-  left:16px;
+  padding-left: 66px;
   bottom: 0;
   width: calc(100% - 32px);
   color:black;
@@ -62,7 +69,7 @@
   font-size: 1.5rem;
   margin: 0;
   text-align: left;
-  width: 75%;
+  width: 100%;
 }
 
 .soutien-author div {
@@ -75,7 +82,7 @@
   overflow: hidden;
   display: inline-block;
   width:100%;
-  padding-right: 66px;
+  padding-right: 0px;
 }
 
 .carousel .carousel-item .supports-button-video {
@@ -93,5 +100,8 @@
   }
   .carousel {
     height: 400px !important;
+  }
+  .carousel .carousel-item .large-picture  {
+    height: 55px;
   }
 }

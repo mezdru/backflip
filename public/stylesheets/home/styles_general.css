@@ -27,7 +27,7 @@ body {
   margin-bottom: 32px;
 }
 .homepage .row-title-margin {
-  margin-bottom:64px;
+  margin-bottom:32px;
   margin-top: 64px;
 }
 .homepage .row-big-margin-x2 {
@@ -42,7 +42,7 @@ body {
 }
 
 .homepage h2 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 500;
   margin-top: 32px;
   margin-bottom: 32px;
@@ -102,6 +102,21 @@ body {
 .homepage p{
   margin-block-end: 0;
   margin-block-start: 0;
+}
+
+.homepage .scroll-arrow-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right:0;
+  margin: auto;
+  font-size: 4rem;
+  width: 80px;
+  text-align: center;
+}
+
+.homepage .scroll-arrow-button i {
+  cursor: pointer;
 }
 
 .primary {
