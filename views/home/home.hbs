@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/stylesheets/home/styles_landing.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,800,900" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
 
   <div class="navbar-fixed">
     <nav>
@@ -18,16 +19,14 @@
         <a href="#" class="brand-logo"><img src="https://wingzy.com/wingzy_line.png" alt="Wingzy" /></a>
         <a href="https://app.wingzy.com" class="hide-on-large-only signin-small">{{ __ "Sign in"}}</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down" style='margin-right: 16px'>
-          <li><a href="#references-a">{{ __ "References"}}</a></li>
-          <li><a href="#pricing-a">{{ __ "Pricing"}}</a></li>
-          <li><a href="#askdemo-a">{{ __ "Ask for a demo"}}</a></li>
+          <li><a onclick="scrollToAnchor('references-a')">{{ __ "References"}}</a></li>
+          <li><a onclick="scrollToAnchor('pricing-a')">{{ __ "Pricing"}}</a></li>
+          <li><a onclick="scrollToAnchor('askdemo-a')">{{ __ "Ask for a demo"}}</a></li>
           <li><a href="https://app.wingzy.com">{{ __ "Sign in"}}</a></li>
         </ul>
       </div>
     </nav>
   </div>
-
-
 
   <section id="landing" class="height-full">
     <div class="container">
@@ -37,11 +36,6 @@
         <div class="row">
           <div class="col s12">
             <h1 id="tagline">{{ __ "The smart directory which reveals your company's talents."}}</h1>
-          </div>
-          <div class="col s12">
-            <p id="subtagline">
-              {{{ __ "The richness of your company is the addition of your employees <strong>Wings</strong>. Wingzy identifies and shares them to promoting the collective intelligence."}}}
-            </p>
           </div>
         </div>
 
@@ -63,17 +57,12 @@
           </div>
         </div>
 
-
-
-        <div class="row">
-          <div class="col s12 center">
-            <a class="waves-effect waves-light btn-large reverse-primary"
-              href="#whywingzy-a">{{__ "Discover Wingzy"}}</a>
-          </div>
-        </div>
-
       </div>
 
+    </div>
+
+    <div class="scroll-arrow-button white-color hide-on-small-only" onclick="scrollToAnchor('whywingzy-a')">
+      <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
     </div>
   </section>
 
@@ -121,6 +110,8 @@
                       class="fa fa-linkedin-square" aria-hidden="true"></i></a>
                   <a href="https://twitter.com/Wingzy_com" target="_blank"><i class="fa fa-twitter-square"
                       aria-hidden="true"></i></a>
+                  <a href="mailto:clement@wingzy.com" target="_blank"><i class="fa fa-envelope logo-email"
+                      aria-hidden="true"></i></a>
                 </div>
               </div>
             </div>
@@ -135,50 +126,47 @@
   <section id="howitworks">
     <div id="howitworks-a" style="position: absolute; margin-top:-90px"></div>
     <div class="container">
-                <div class="row row-title-margin">
+      <div class="row row-title-margin">
         <div class="col s12">
           <h2 class="center">{{__ "How it works?"}}</h2>
-          <h4>
-            {{__ "An intuitif and integrated app which increases the knowledge sharing and creates links between your peers."}}
-          </h4>
         </div>
       </div>
 
       <div class="height-full">
         <div class="vertical-align-wrapper">
 
-      <div class="row no-margin">
-        <div class="col s12 l6">
-          <div class="row row-big-margin howitworks-subheader">
+          <div class="row no-margin">
+            <div class="col s12 l6">
+              <div class="row row-big-margin howitworks-subheader">
 
-            <div class="col s5 m3">
-              <div class="big-number">01</div>
+                <div class="col s5 m3">
+                  <div class="big-number">01</div>
+                </div>
+
+                <div class="col s7 l8 subtitle">
+                  <span>
+                    {{__ "Each employee fills himself his profile in 30 seconds."}}
+                  </span>
+                </div>
+
+              </div>
+
+              <div class="row row-big-margin">
+                <ul>
+                  {{{__ "<li>A simple authentification (Gmail, LinkedIn, ...)</li><li>An integration of your coworkers contacts (Phone number, email, LinkedIn, Slack, ...)</li><li>A set of professionnals Wings, suggested automatically.</li>"}}}
+                </ul>
+              </div>
+
             </div>
 
-            <div class="col s7 l8 subtitle">
-              <span>
-                {{__ "Each employee fills himself his profile in 30 seconds."}}
-              </span>
+            <div class="col s12 l6 relative">
+              <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-right" loading="lazy" />
+
+              <img src="{{__ "Screenshot - app - auth"}}" alt="Wingzy app"
+                class="mobile-screen-view-right rotate-right absolute" loading="lazy" />
+
             </div>
-
           </div>
-
-          <div class="row row-big-margin">
-            <ul>
-              {{{__ "<li>A simple authentification (Gmail, LinkedIn, ...)</li><li>An integration of your coworkers contacts (Phone number, email, LinkedIn, Slack, ...)</li><li>A set of professionnals Wings, suggested automatically.</li>"}}}
-            </ul>
-          </div>
-
-        </div>
-
-        <div class="col s12 l6 relative">
-          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-right" loading="lazy" />
-
-          <img src="{{__ "Screenshot - app - auth"}}" alt="Wingzy app"
-            class="mobile-screen-view-right rotate-right absolute" loading="lazy" />
-
-        </div>
-      </div>
         </div>
       </div>
 
@@ -186,88 +174,88 @@
 
       <div class="height-full">
         <div class="vertical-align-wrapper">
-                <div class="row no-margin">
+          <div class="row no-margin">
 
-        <div class="col s12 l6 hide-on-med-and-down relative">
-          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
+            <div class="col s12 l6 hide-on-med-and-down relative">
+              <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
 
-          <img src="https://static.wixstatic.com/media/4ce50b_1dde14a3c1f847e0a293cf5b223d8acd~mv2.gif" alt="Wingzy app"
-            class="mobile-screen-view-left rotate-left absolute" loading="lazy" />
-        </div>
-
-        <div class="col s12 l6">
-          <div class="row row-big-margin howitworks-subheader">
-
-            <div class="col s5 m3">
-              <div class="big-number">02</div>
+              <img src="https://static.wixstatic.com/media/4ce50b_1dde14a3c1f847e0a293cf5b223d8acd~mv2.gif"
+                alt="Wingzy app" class="mobile-screen-view-left rotate-left absolute" loading="lazy" />
             </div>
 
-            <div class="col s7 l8 subtitle">
-              <span>
-                {{__ "All your organisation profiles and talents are available in 2 clics."}}
-              </span>
+            <div class="col s12 l6">
+              <div class="row row-big-margin howitworks-subheader">
+
+                <div class="col s5 m3">
+                  <div class="big-number">02</div>
+                </div>
+
+                <div class="col s7 l8 subtitle">
+                  <span>
+                    {{__ "All your organisation profiles and talents are available in 2 clics."}}
+                  </span>
+                </div>
+
+              </div>
+
+              <div class="row row-big-margin">
+                <ul>
+                  {{{__ "<li>An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ...</li><li>Upgrade your searchs thanks to our IA</li><li>A machine learning system which identify your Wings</li>"}}}
+                </ul>
+              </div>
+
+            </div>
+
+            <div class="col s12 l6 hide-on-large-only relative">
+              <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
+
+              <img src="https://static.wixstatic.com/media/4ce50b_1dde14a3c1f847e0a293cf5b223d8acd~mv2.gif"
+                alt="Wingzy app" class="mobile-screen-view-left rotate-left absolute" loading="lazy" />
             </div>
 
           </div>
 
-          <div class="row row-big-margin">
-            <ul>
-              {{{__ "<li>An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ...</li><li>Upgrade your searchs thanks to our IA</li><li>A machine learning system which identify your Wings</li>"}}}
-            </ul>
-          </div>
-
         </div>
-
-        <div class="col s12 l6 hide-on-large-only relative">
-          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
-
-          <img src="https://static.wixstatic.com/media/4ce50b_1dde14a3c1f847e0a293cf5b223d8acd~mv2.gif" alt="Wingzy app"
-            class="mobile-screen-view-left rotate-left absolute" loading="lazy" />
-        </div>
-
-      </div>
-
-          </div>
       </div>
 
 
 
       <div class="height-full">
         <div class="vertical-align-wrapper">
-                <div class="row no-margin">
-        <div class="col s12 l6">
-          <div class="row row-big-margin howitworks-subheader">
+          <div class="row no-margin">
+            <div class="col s12 l6">
+              <div class="row row-big-margin howitworks-subheader">
 
-            <div class="col s5 m3">
-              <div class="big-number">03</div>
+                <div class="col s5 m3">
+                  <div class="big-number">03</div>
+                </div>
+
+                <div class="col s7 l8 subtitle">
+                  <span>
+                    {{__ "Your employees collectively learn thanks to the Wings sharing."}}
+                  </span>
+                </div>
+
+              </div>
+
+              <div class="row row-big-margin">
+                <ul>
+                  {{{__ "<li>Each employee can contact his peers and benefits from their professionnal expertises.</li><li>Your employees can find themself by hobbies or projects.</li>"}}}
+                </ul>
+              </div>
+
             </div>
 
-            <div class="col s7 l8 subtitle">
-              <span>
-                {{__ "Your employees collectively learn thanks to the Wings sharing."}}
-              </span>
+            <div class="col s12 l6 relative">
+              <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-right" loading="lazy" />
+
+              <img src="https://static.wixstatic.com/media/4ce50b_1be63fe4f06d45df91874cdbf14eda5d~mv2.gif"
+                alt="Wingzy app" class="mobile-screen-view-right rotate-right absolute" loading="lazy" />
             </div>
-
           </div>
 
-          <div class="row row-big-margin">
-            <ul>
-              {{{__ "<li>Each employee can contact his peers and benefits from their professionnal expertises.</li><li>Your employees can find themself by hobbies or projects.</li>"}}}
-            </ul>
-          </div>
 
         </div>
-
-        <div class="col s12 l6 relative">
-          <img src="/images/home/app/iphone.webp" alt="iPhone" class="mobile-screen rotate-right" loading="lazy" />
-
-          <img src="https://static.wixstatic.com/media/4ce50b_1be63fe4f06d45df91874cdbf14eda5d~mv2.gif" alt="Wingzy app"
-            class="mobile-screen-view-right rotate-right absolute" loading="lazy" />
-        </div>
-      </div>
-
-
-</div>
       </div>
 
 
@@ -368,7 +356,7 @@
                 {{{__ "Wingzy permet de connaître les compétences et expériences et de la diffuser ou d'avoir un accès rapide"}}}
                 <br /><br />
                 <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video"
-                  onclick="goTo('https://www.youtube.com/watch?v=hzoN5oVQTHc')">Voir l'interview</button>
+                  onclick="goTo('https://www.youtube.com/watch?v=hzoN5oVQTHc')">{{{__ "Voir l'interview"}}}</button>
               </p>
               <div class="soutien-author">
                 <h3>{{{__ "Henri Lachmann"}}}</h3>
@@ -380,7 +368,7 @@
               <img src="/images/home/supports/coo_meridiam.jpg" alt="Picture of a person"
                 class="soutien-author-organisation">
               <img src="/images/home/partners/logomeridiam_0.jpg" alt="Logo of organisation"
-                class="soutien-author-picture" />
+                class="soutien-author-picture large-picture" />
               <p>
                 {{{__ "Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !"}}}
               </p>
@@ -474,12 +462,12 @@
               <img src="/images/home/supports/exdrh_sncf.jpg" alt="Picture of a person"
                 class="soutien-author-organisation">
               <img src="/images/home/partners/logo-Schoolab.png" alt="Logo of organisation"
-                class="soutien-author-picture" />
+                class="soutien-author-picture large-picture" />
               <p>
                 {{{__ "Wingzy, c'est l'app toute simple mais super puissante dont j'ai toujours rêvé quand j'étais DRH de la SNCF : un outil qui révèle tous les talents de tous mes collaborateurs."}}}
                 <br /><br />
                 <i class="fa fa-play" aria-hidden="true"></i><button class="supports-button-video"
-                  onclick="goTo('https://www.youtube.com/watch?v=4pLyGZAvzVo')">Voir l'interview</button>
+                  onclick="goTo('https://www.youtube.com/watch?v=4pLyGZAvzVo')">{{{__ "Voir l'interview"}}}</button>
               </p>
 
               <div class="soutien-author">
@@ -491,7 +479,8 @@
             <a class="carousel-item card-panel" href="#one!">
               <img src="/images/home/supports/ceo_viseeon.jpg" alt="Picture of a person"
                 class="soutien-author-organisation">
-              <img src="/ images/home/partners/viseeon.png" alt="Logo of organisation" class="soutien-author-picture" />
+              <img src="/images/home/partners/viseeon.png" alt="Logo of organisation"
+                class="soutien-author-picture large-picture" />
               <p>
                 {{{__ "Viseeon est un réseau national d'expert comptables indépendants, Wingzy qui nous permet de nous trouver selon nos expertises est donc un outil essentiel."}}}
               </p>
@@ -559,22 +548,22 @@
     <div id="askdemo-a" style="position: absolute; margin-top:-90px"></div>
 
     <div class="container">
-        <div class="row row-title-margin">
-          <div class="col s12">
-            <h2 class="center white-color">{{__ "Ask for a demo"}}</h2>
-          </div>
+      <div class="row row-title-margin">
+        <div class="col s12">
+          <h2 class="center white-color">{{__ "Ask for a demo"}}</h2>
         </div>
-        <div class="hubspot-form-container">
-          <!-- HUBSPOT FORM -->
-          <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/shell.js"></script>
-          <script>
-            hbspt.forms.create({
-              portalId: "4894133",
-              formId: "e8124caa-4549-4a79-bfdb-990818d15aa1"
-            });
-          </script>
-        </div>
-              <div class="white-separator"></div>
+      </div>
+      <div class="hubspot-form-container">
+        <!-- HUBSPOT FORM -->
+        <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/shell.js"></script>
+        <script>
+          hbspt.forms.create({
+            portalId: "4894133",
+            formId: "e8124caa-4549-4a79-bfdb-990818d15aa1"
+          });
+        </script>
+      </div>
+      <div class="white-separator"></div>
 
     </div>
   </section>
@@ -594,5 +583,11 @@
     document.body.appendChild(link);
     document.getElementById('newLinkToClick').click();
     document.getElementById("newLinkToClick").remove();
+  }
+
+  function scrollToAnchor(anchor) {
+    $('html, body').animate({
+      scrollTop:$('#' + anchor).offset().top
+    }, 'slow');
   }
 </script>

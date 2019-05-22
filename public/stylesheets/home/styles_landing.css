@@ -11,20 +11,14 @@
   font-size: 3rem;
   line-height: 3.5rem;
 }
-
-#subtagline {
-  color:rgb(220,220,220);
-  text-align: center;
-  font-size: 1.3rem;
-}
-#subtagline strong{
+#tagline strong {
   color: #FF0018;
 }
 
 #wings-description {
   position: relative;
   background-color: white;
-  padding: 24px 40px;
+  padding: 48px;
   border-radius: 64px;
   max-width: 900px;
   left:0; right:0;
