@@ -11,9 +11,18 @@ app.locals.title = 'Wingzy';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
+const FOREST_ADMIN_URL = "http://app.forestadmin.com";
+
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+
+  if(req.get('origin') === FOREST_ADMIN_URL) {
+    res.header("Access-Control-Allow-Origin", FOREST_ADMIN_URL);
+  } else {
+    res.header("Access-Control-Allow-Origin", "*");
+  }
+
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   //intercepts OPTIONS method
   if ('OPTIONS' === req.method) {
