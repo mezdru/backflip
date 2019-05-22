@@ -46,6 +46,14 @@
   text-transform: uppercase;
 }
 
+#whywingzy ul {
+  padding-left: 40px;
+}
+
+#whywingzy ul li {
+  list-style-type: disc;
+}
+
 #whywingzy .picture-clement {
   width: 100px;
   height: 100px;
