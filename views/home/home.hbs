@@ -110,6 +110,9 @@
       </div>
 
     </div>
+    <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('howitworks-a')">
+      <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+    </div>
   </section>
 
   <section id="howitworks">
@@ -157,11 +160,16 @@
             </div>
           </div>
         </div>
+        <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('howitworks2-a')">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+        </div>
       </div>
 
 
 
       <div class="height-full">
+        <div id="howitworks2-a" style="position: absolute; margin-top:-90px"></div>
+
         <div class="vertical-align-wrapper">
           <div class="row no-margin">
 
@@ -205,11 +213,16 @@
           </div>
 
         </div>
+        <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('howitworks3-a')">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+        </div>
       </div>
 
 
 
       <div class="height-full">
+        <div id="howitworks3-a" style="position: absolute; margin-top:-90px"></div>
+
         <div class="vertical-align-wrapper">
           <div class="row no-margin">
             <div class="col s12 l6">
@@ -245,6 +258,9 @@
 
 
         </div>
+        <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('methodo-a')">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+        </div>
       </div>
 
 
@@ -253,6 +269,8 @@
   </section>
 
   <section id="methodo" class="height-full">
+    <div id="methodo-a" style="position: absolute; margin-top:-90px"></div>
+
     <div class="container">
       <div class="vertical-align-wrapper">
 
@@ -318,6 +336,9 @@
         </div>
 
       </div>
+    </div>
+    <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('references-a')">
+      <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
     </div>
   </section>
 
@@ -483,6 +504,9 @@
         </div>
       </div>
     </div>
+    <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('pricing-a')">
+      <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+    </div>
   </section>
 
   <section id="pricing" class="relative height-full">
@@ -576,7 +600,7 @@
 
   function scrollToAnchor(anchor) {
     $('html, body').animate({
-      scrollTop:$('#' + anchor).offset().top
+      scrollTop: $('#' + anchor).offset().top
     }, 'slow');
   }
 </script>
