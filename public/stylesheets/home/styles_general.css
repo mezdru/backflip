@@ -118,10 +118,28 @@ body {
 .homepage .scroll-arrow-button i {
   cursor: pointer;
   transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  position: relative;
 }
 
 .homepage .scroll-arrow-button i:hover {
   opacity: .78;
+}
+
+.homepage .blue-color {
+  color: #2b2d3c;
+}
+
+.homepage .white-background-logo{
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background: white;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 50%;
 }
 
 .primary {
