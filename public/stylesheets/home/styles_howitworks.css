@@ -25,41 +25,55 @@
 
 .rotate-right {
   transform: rotateZ(10deg);
-  float: left;
+  float: right;
 }
 .rotate-left {
   transform: rotateZ(-10deg);
-  float: right;
+  float: left;
 }
 
 .mobile-screen {
   height: 500px;
+  /* width: 500px; */
+}
+
+.desktop-screen {
   width: 500px;
 }
 
+.desktop-screen-view-right {
+  width: 463px;
+  height: 259px;
+  left: 30px;
+  top: 19px;
+}
+
 .mobile-screen-view-left, .mobile-screen-view-right {
-  height: 368px;
+  height: 360px;
   width: 208px;
 }
 
 .mobile-screen-view-right {
-  left: 157px;
-  top: 69px;
+  right: 37px;
+  top: 76px;
 }
 
 .mobile-screen-view-left {
-  right: 157px;
-  top: 69px;
+  left: 37px;
+  top: 76px;
 }
 
 @media screen and (max-width: 600px)  {
   .howitworks-subheader, .howitworks-subheader .subtitle {
     height: 84px;
   }
+  .desktop-screen, .desktop-screen-view-right {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 992px)  {
-  .rotate-left, .rotate-right{
+  .rotate-left, .rotate-right, .desktop-screen, .desktop-screen-view-right{
     transform: translateX(-50%);
     float: initial;
     position: relative;
