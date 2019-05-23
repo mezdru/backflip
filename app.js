@@ -11,7 +11,7 @@ app.locals.title = 'Wingzy';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
-const FOREST_ADMIN_URL = "http://app.forestadmin.com";
+const FOREST_ADMIN_URL = "https://app.forestadmin.com";
 
 app.use(function(req, res, next) {
 
