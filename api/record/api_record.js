@@ -8,6 +8,7 @@ var User = require('../../models/user');
 var Organisation = require('../../models/organisation');
 var LinkHelper = require('../../helpers/link_helper');
 var LinkedinUserHelper = require('../../helpers/linkedinUser_helper');
+var GoogleUserHelper = require('../../helpers/googleUser_helper');
 var uppercamelcase = require('uppercamelcase');
 var slug = require('slug');
 var passport = require('passport');
@@ -172,29 +173,43 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
     } else {
       currentUser = req.user;
     }
+      console.log(currentUser)
+    console.log(currentRecord)
+
 
     // Try to get record by user
     if (req.user.getRecordIdByOrgId(orgId))
       currentRecord = await new Promise((resolve, reject) => Record.findById(currentUser.getRecordIdByOrgId(orgId), orgId, (err, record) => resolve(record)));
+      console.log(currentRecord)
 
     // Try to get record by email
     if (!currentRecord)
       currentRecord = await new Promise((resolve, reject) => Record.findByEmail(currentUser.loginEmail, orgId, (err, record) => resolve(record)));
+      console.log(currentRecord)
 
     // Try to get record by Google id
     if (!currentRecord && currentUser.google && currentUser.google.id)
       currentRecord = await new Promise((resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
+      console.log(currentRecord)
+
+    if(!currentRecord && currentUser.googleUser)
+      currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId)
+      .then(record => resolve(record))
+      .catch(error => console.log('error: ' + JSON.stringify(error))));
+      console.log(currentRecord)
 
     // Try to get record by LinkedIn
     if (!currentRecord && currentUser.linkedinUser)
       currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
         .then(record => resolve(record))
         .catch(error => console.log('error: ' + JSON.stringify(error))));
+        console.log(currentRecord)
 
     if (!currentRecord) {
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
       await currentRecord.save();
     }
+    console.log(currentRecord)
 
     // Attach record to user
     if (currentRecord) {

@@ -569,7 +569,9 @@ recordSchema.methods.addCoverByUrl = function(url, callback) {
 };
 
 recordSchema.statics.addFileByUrl = function(url, callback) {
+  console.log('url before parse : ' + url)
   url = urlParse(url, true);
+  console.log('url after parse : ' + JSON.stringify(url))
   fileObject = {};
   if (!url.hostname) return callback(new Error('Picture url invalid'));
   if (url.hostname === 'ucarecdn.com') {
