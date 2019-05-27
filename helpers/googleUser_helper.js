@@ -7,11 +7,9 @@ let LinkHelper = require('../helpers/link_helper');
 class GoogleUserHelper {
 
 	getGoogleRecord(accessToken, organisationId) {
-    console.log('here')
 		return new Promise( (resolve, reject) => { 
 			this.fetchGoogleUser(accessToken)
 			.then(googleUser => {
-        console.log(googleUser)
 				return this.createRecord(googleUser, organisationId)
 				.then(googleRecord => {
 					return resolve(googleRecord);
@@ -54,7 +52,6 @@ class GoogleUserHelper {
 					let defaultPicture = googleUser.pictures.filter(picture => picture.type !== 'default');
           record.addPictureByUrlAsync((defaultPicture.length > 0 ? (defaultPicture[0].value).replace('/s50', '') : null))
           .then((pictureField) => {
-						console.log(pictureField)
             record.picture = pictureField.picture;
             record.save().then(() => {resolve(record)});
           })
@@ -69,8 +66,6 @@ class GoogleUserHelper {
 	createLinks(googleUser) {
 		var links = [];
 		if(googleUser.email) links.push(LinkHelper.makeLink(googleUser.email, 'email'));
-		//@todo How to create Linkedin URL with linkedin id ?
-		//if(linkedinUser.linkedinId) links.push(LinkHelper.makeLink('', 'linkedin'));
 		return links;
 	}
 
