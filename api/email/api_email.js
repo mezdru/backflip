@@ -8,11 +8,21 @@ var UrlHelper = require('../../helpers/url_helper');
 var passport = require('passport');
 require('../passport/strategy');
 
+/**
+ * @description Send an email to inform the User that his account is link to an Integration.
+ */
+router.post('/security/integration/:integrationName', passport.authenticate('bearer', {session: false}), (req, res, next) => {
+    EmailUser.sendNewIntegrationEmail(req.user, req.params.integrationName, res)
+    .then(() => {
+        return res.status(200).json({message: 'Email sent with success.'});
+    }).catch(err => next(err));
+});
+
 // for the moment, confirm the login email of the user
 router.post('/confirmation/:orgTag?', passport.authenticate('bearer', {session: false}), (req, res, next) => {
     EmailUser.sendEmailConfirmation(req.user, res, req.params.orgTag)
     .then(()=>{
-        return res.status(200).json({message: 'Email send with success.'});
+        return res.status(200).json({message: 'Email sent with success.'});
     }).catch((err)=>{return next(err);});
 });
 

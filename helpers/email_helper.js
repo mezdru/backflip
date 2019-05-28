@@ -330,7 +330,30 @@ var EmailHelper = {
           .catch(err => {
             console.log(err);
           });
-      }
+      },
+      emailSecurityIntegration: function(recipientEmail, integrationName, url, res) {
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__("Your {{integrationName}} account is linked to Wingzy", {integrationName: integrationName}),
+            "MJ-TemplateID": "853256",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "intro": res.__("Hello,<br/> Your account is now linked with {{integrationName}}. Next time, you will be able to sign in with {{integrationName}}!",
+                              {integrationName: integrationName}),
+              "button": res.__("Go to Wingzy"),
+              "url": url || defaultLink,
+              "orgLogoUrl": 'https://wingzy.com/wingzy.png',
+              "outro": res.__("")
+            }
+          });
+        return request;
+      },
   }
 };
 

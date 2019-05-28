@@ -90,6 +90,10 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   });
 }
 
+EmailUser.sendNewIntegrationEmail = function(user, integrationName, res) {
+  return EmailHelper.public.emailSecurityIntegration(user.loginEmail, integrationName, (process.env.NODE_ENV === 'production' ? 'https://' : 'http://') + process.env.HOST_FRONTFLIP, res);
+}
+
 EmailUser.sendPasswordRecoveryEmail = function(user, locale, res){
   user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
   user.email.hash = user.email.hash || md5(user.email.normalized);
