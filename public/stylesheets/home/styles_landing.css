@@ -32,6 +32,9 @@
   margin: 8px;
   color: #2b2d3c;
 }
+#wings-description p strong {
+  color: #FF0018;
+}
 
 #wings-description h6 {
   color: grey;
