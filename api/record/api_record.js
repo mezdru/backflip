@@ -189,13 +189,13 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
     if(!currentRecord && currentUser.googleUser)
       currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId)
       .then(record => resolve(record))
-      .catch(error => console.log('error: ' + JSON.stringify(error))));
+      .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  }));
 
     // Try to get record by LinkedIn
     if (!currentRecord && currentUser.linkedinUser)
       currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
         .then(record => resolve(record))
-        .catch(error => console.log('error: ' + JSON.stringify(error))));
+        .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  } ));
 
     if (!currentRecord) {
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
