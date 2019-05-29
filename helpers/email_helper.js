@@ -365,7 +365,7 @@ var EmailHelper = {
           .request({
             "FromEmail": defaultEmitter,
             "FromName": defaultEmitterName,
-            "Subject": i18n.__("Hello {{name}}", {name: name}),
+            "Subject": i18n.__("Hello {{name}}", {name: name || ''}),
             "MJ-TemplateID": "854412",
             "MJ-TemplateLanguage": true,
             "Recipients": [

@@ -166,7 +166,7 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
   return EmailHelper.public.emailReactivateUser(
     user.loginEmail, 
     organisation, 
-    (record ? record.name : ''), 
+    (record ? record.name : null), 
     (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + user.locale + '/' +(organisation ? organisation.tag : ''),
     user.locale, 
     i18n);
