@@ -89,19 +89,6 @@ var Agenda = (function () {
     });
 
     /**
-     * @description Schedule reactive inactive users (no action since 7 days) after 7 days.
-     */
-    this.scheduleReactiveUsersBatch = function() {
-      agenda.jobs({name: 'reactiveUsersBatch'})
-      .then(jobs => {
-        if(jobs.length === 0 ) {
-          let job = this.agenda.every('10 seconds', 'reactiveUsersBatch');
-          job.save();
-        }
-      });
-    };
-
-    /**
      * @description Schedule resend invitation after 3 days
      */
     this.scheduleResendInvitation = function(user, sender, organisation, locale) {
