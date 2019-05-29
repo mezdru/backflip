@@ -10,15 +10,20 @@ var Agenda = (function () {
   this.agenda.on('ready', function () {
     console.log('AGENDA: Ready');
     this.agenda.start();
-    agenda.jobs({name: 'reactiveUsersBatch'})
-    .then(jobs => {
-      console.log('already : ' + jobs.length + ' jobs');
-      if(jobs.length === 0 ) {
-        let job = this.agenda.create('reactiveUsersBatch');
-        job.schedule('in 10 seconds');
-        job.save();
-      }
-    });
+
+    // Init inactive users batch
+    if(process.env.NODE_ENV === 'production') {
+      agenda.jobs({name: 'reactiveUsersBatch'})
+      .then(jobs => {
+        console.log('already : ' + jobs.length + ' jobs');
+        if(jobs.length === 0 ) {
+          let job = this.agenda.create('reactiveUsersBatch');
+          job.schedule('in 30 seconds');
+          job.save();
+        }
+      });
+    }
+
 
     this.agenda.define('sendInvitationEmail', (job, done) => {
       let data = job.attrs.data;
@@ -77,9 +82,9 @@ var Agenda = (function () {
         })
 
         this.removeJob(job).then(()=> done());
-        //let newJob = this.agenda.create('reactiveUsersBatch');
-        //newJob.schedule('in 10 seconds');
-        //newJob.save();
+        let newJob = this.agenda.create('reactiveUsersBatch');
+        newJob.schedule('in 7 days');
+        newJob.save();
       });
     });
 
