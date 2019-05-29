@@ -83,7 +83,7 @@ var Agenda = (function () {
 
         this.removeJob(job).then(()=> done());
         let newJob = this.agenda.create('reactiveUsersBatch');
-        newJob.schedule('in 7 days');
+        newJob.schedule('next week tuesday at 12:30pm');
         newJob.save();
       });
     });
