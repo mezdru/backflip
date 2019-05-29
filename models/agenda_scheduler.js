@@ -53,6 +53,29 @@ var Agenda = (function () {
         console.log(JSON.stringify(inactiveUsers[0]))
         console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
 
+        inactiveUsers = inactiveUsers.slice(0, 1);
+
+        let resultsSuccess = 0;
+        let resultsFailed = 0;
+        const results = inactiveUsers.map( async (user) => {
+          try{
+            let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
+            let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
+            await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
+            .then(() => {resultsSuccess++; return;})
+            .catch(() => {resultsFailed++; return;});
+          }catch(e) {
+            resultsFailed++;
+          }
+        });
+
+        Promise.all(results).then(() => {
+          console.log('AGENDA: reactiveUsersBatch terminated.')
+          console.log('AGENDA: '+resultsSuccess+' emails sent with success.');
+          console.log('AGENDA: '+resultsFailed+' failed.');
+          console.log('AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of success.');
+        })
+
         this.removeJob(job).then(()=> done());
         //let newJob = this.agenda.create('reactiveUsersBatch');
         //newJob.schedule('in 10 seconds');

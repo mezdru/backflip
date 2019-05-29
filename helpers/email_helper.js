@@ -4,6 +4,8 @@ const defaultReciepientName = 'Hear me';
 const defaultEmitter = 'bonjour@wingzy.com';
 const defaultEmitterName = 'Wingzy';
 const defaultLink = 'https://wingzy.com';
+const defaultBannerUrl = 'https://wingzy.com/images/home/fly_away.jpg';
+const defaultLogoUrl = 'https://wingzy.com/wingzy.png';
 
 let SlackHelper = require('./slack_helper');
 
@@ -352,6 +354,33 @@ var EmailHelper = {
               "squareIcon": "https://ucarecdn.com/8684900c-d4a6-4464-9121-0c6d9668108c/",
               "ctaUrl": url || defaultLink,
               "outro": res.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+            }
+          });
+        return request;
+      },
+      emailReactivateUser: function(recipientEmail, organisation, name, url, locale, i18n) {
+        i18n.setLocale(locale);
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": i18n.__("Hello {{name}}", {name: name}),
+            "MJ-TemplateID": "854412",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "title": (name ? i18n.__("{{name}}, we miss you.", {name: name}) : i18n.__("We miss you.")),
+              "text": i18n.__("We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.",
+                              {organisationName: (organisation && organisation.name ? organisation.name : 'Wingzy')}),
+              "ctaText": i18n.__("Go to Wingzy"),
+              "squareIcon": "https://ucarecdn.com/430361da-ad20-4101-829d-4ca5de85eec2/",
+              "ctaUrl": url || defaultLink,
+              "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
+              "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
+              "outro": i18n.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
             }
           });
         return request;
