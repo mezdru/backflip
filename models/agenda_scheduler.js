@@ -55,10 +55,7 @@ var Agenda = (function () {
       .populate('orgsAndRecords.record', '_id name tag')
       .populate('orgsAndRecords.organisation', '_id name tag logo cover')
       .then(inactiveUsers => {
-        console.log(JSON.stringify(inactiveUsers[0]))
         console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
-
-        inactiveUsers = inactiveUsers.slice(0, 1);
 
         let resultsSuccess = 0;
         let resultsFailed = 0;
