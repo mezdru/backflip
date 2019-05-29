@@ -47,12 +47,16 @@ var Agenda = (function () {
       console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus7Days.toLocaleString('fr-FR'));
 
       User.find( {$or: [{last_action: {$lt: nowMinus7Days}}, {last_action: null}]})
+      .populate('orgsAndRecords.record', '_id name tag')
+      .populate('orgsAndRecords.organisation', '_id name tag logo cover')
       .then(inactiveUsers => {
+        console.log(JSON.stringify(inactiveUsers[0]))
         console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
+
         this.removeJob(job).then(()=> done());
-        let newJob = this.agenda.create('reactiveUsersBatch');
-        newJob.schedule('in 10 seconds');
-        newJob.save();
+        //let newJob = this.agenda.create('reactiveUsersBatch');
+        //newJob.schedule('in 10 seconds');
+        //newJob.save();
       });
     });
 
