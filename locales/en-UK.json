@@ -442,5 +442,8 @@
 	"Hello,<br/> Your account is now linked with {{integrationName}}. Next time, you will be able to sign in with {{integrationName}}!": "Hello,<br/> Your account is now linked with {{integrationName}}. Next time, you will be able to sign in with {{integrationName}}!",
 	"Go to Wingzy": "Go to Wingzy",
 	"": "",
-	"Your {{integrationName}} account is linked to Wingzy": "Your {{integrationName}} account is linked to Wingzy"
+	"Your {{integrationName}} account is linked to Wingzy": "Your {{integrationName}} account is linked to Wingzy",
+	"{{integrationName}} has been linked to your account!": "{{integrationName}} has been linked to your account!",
+	"We have linked your Wingzy account to your {{integrationName}} account.": "We have linked your Wingzy account to your {{integrationName}} account.",
+	"We have linked your Wingzy account to your {{integrationName}} account. Next time, you will be able to sign in with {{integrationName}}": "We have linked your Wingzy account to your {{integrationName}} account. Next time, you will be able to sign in with {{integrationName}}"
 }

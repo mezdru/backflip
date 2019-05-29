@@ -338,18 +338,20 @@ var EmailHelper = {
             "FromEmail": defaultEmitter,
             "FromName": defaultEmitterName,
             "Subject": res.__("Your {{integrationName}} account is linked to Wingzy", {integrationName: integrationName}),
-            "MJ-TemplateID": "853256",
+            "MJ-TemplateID": "853386",
             "MJ-TemplateLanguage": true,
             "Recipients": [
               { "Email": recipientEmail }
             ],
             "Vars": {
-              "intro": res.__("Hello,<br/> Your account is now linked with {{integrationName}}. Next time, you will be able to sign in with {{integrationName}}!",
+              "title": res.__("{{integrationName}} has been linked to your account!",
                               {integrationName: integrationName}),
-              "button": res.__("Go to Wingzy"),
-              "url": url || defaultLink,
-              "orgLogoUrl": 'https://wingzy.com/wingzy.png',
-              "outro": res.__("")
+              "text": res.__("We have linked your Wingzy account to your {{integrationName}} account. Next time, you will be able to sign in with {{integrationName}}",
+                              {integrationName: integrationName}),
+              "ctaText": res.__("Go to Wingzy"),
+              "squareIcon": "https://ucarecdn.com/8684900c-d4a6-4464-9121-0c6d9668108c/",
+              "ctaUrl": url || defaultLink,
+              "outro":""
             }
           });
         return request;
