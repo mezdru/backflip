@@ -330,7 +330,32 @@ var EmailHelper = {
           .catch(err => {
             console.log(err);
           });
-      }
+      },
+      emailSecurityIntegration: function(recipientEmail, integrationName, integrationUserEmail, url, res) {
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__("Your {{integrationName}} account is linked to Wingzy", {integrationName: integrationName}),
+            "MJ-TemplateID": "853386",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "title": res.__("{{integrationName}} has been linked to your account!",
+                              {integrationName: integrationName}),
+              "text": res.__("Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).",
+                              {integrationName: integrationName, integrationUserEmail: integrationUserEmail, recipientEmail: recipientEmail}),
+              "ctaText": res.__("Go to Wingzy"),
+              "squareIcon": "https://ucarecdn.com/8684900c-d4a6-4464-9121-0c6d9668108c/",
+              "ctaUrl": url || defaultLink,
+              "outro": res.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+            }
+          });
+        return request;
+      },
   }
 };
 
