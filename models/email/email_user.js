@@ -163,10 +163,11 @@ EmailUser.resendInviteEmail = function(user, sender, organisation, locale, i18n)
 };
 
 EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
+  let firstName = (record ? record.name.split(' ')[0] : null);
   return EmailHelper.public.emailReactivateUser(
     user.loginEmail, 
     organisation, 
-    (record ? record.name : null), 
+    firstName,
     (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + user.locale + '/' +(organisation ? organisation.tag : ''),
     user.locale, 
     i18n);

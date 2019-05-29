@@ -358,25 +358,25 @@ var EmailHelper = {
           });
         return request;
       },
-      emailReactivateUser: function(recipientEmail, organisation, name, url, locale, i18n) {
+      emailReactivateUser: function(recipientEmail, organisation, firstName, url, locale, i18n) {
         i18n.setLocale(locale);
         const request = mailjet
           .post("send")
           .request({
             "FromEmail": defaultEmitter,
             "FromName": defaultEmitterName,
-            "Subject": i18n.__("Hello {{name}}", {name: name || ''}),
+            "Subject": (firstName ? i18n.__("{{firstName}}, we miss you!", {firstName: firstName || ''}) : i18n.__("We miss you.")),
             "MJ-TemplateID": "854412",
             "MJ-TemplateLanguage": true,
             "Recipients": [
               { "Email": recipientEmail }
             ],
             "Vars": {
-              "title": (name ? i18n.__("{{name}}, we miss you.", {name: name}) : i18n.__("We miss you.")),
-              "text": i18n.__("We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.",
-                              {organisationName: (organisation && organisation.name ? organisation.name : 'Wingzy')}),
-              "ctaText": i18n.__("Go to Wingzy"),
-              "squareIcon": "https://ucarecdn.com/430361da-ad20-4101-829d-4ca5de85eec2/",
+              "title": (firstName ? i18n.__("{{firstName}}, we miss you!", {firstName: firstName || ''}) : i18n.__("We miss you.")),
+              "text": i18n.__("We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
+                              {organisationName: (organisation && organisation.name ? organisation.name : 'your company')}),
+              "ctaText": i18n.__("Search {{organisationName}}", {organisationName: (organisation && organisation.name ? organisation.name : 'your company')}),
+              "squareIcon": "https://ucarecdn.com/6b54b57e-5725-46a5-8d6d-f4222833062f/",
               "ctaUrl": url || defaultLink,
               "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
               "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
