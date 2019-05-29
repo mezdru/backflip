@@ -7,6 +7,7 @@ var Record = require('../record.js');
 var Organisation = require('../organisation.js');
 var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper.js');
+var LinkedinUserHelper = require('../../helpers/linkedinUser_helper');
 var EmailUser = {};
 
 //@todo look for user with a google email too
@@ -90,8 +91,16 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   });
 }
 
-EmailUser.sendNewIntegrationEmail = function(user, integrationName, res) {
-  return EmailHelper.public.emailSecurityIntegration(user.loginEmail, integrationName, (process.env.NODE_ENV === 'production' ? 'https://' : 'http://') + process.env.HOST_FRONTFLIP, res);
+EmailUser.sendNewIntegrationEmail = function(user, integrationName, accessToken, res) {
+  let ctaUrl = (process.env.NODE_ENV === 'production' ? 'https://' : 'http://') + process.env.HOST_FRONTFLIP;
+  return LinkedinUserHelper.fetchLinkedinUser(accessToken)
+  .then(linkedinUser => {
+    return EmailHelper.public.emailSecurityIntegration(user.loginEmail, integrationName, (linkedinUser ? linkedinUser.email : ' '), ctaUrl, res);
+  }).catch(e => {
+    console.error(e);
+    return Promise.reject(e);
+  });
+  
 }
 
 EmailUser.sendPasswordRecoveryEmail = function(user, locale, res){

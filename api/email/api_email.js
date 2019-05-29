@@ -12,7 +12,9 @@ require('../passport/strategy');
  * @description Send an email to inform the User that his account is link to an Integration.
  */
 router.post('/security/integration/:integrationName', passport.authenticate('bearer', {session: false}), (req, res, next) => {
-    EmailUser.sendNewIntegrationEmail(req.user, req.params.integrationName, res)
+    let accessToken = (req.headers.authorization.split('Bearer ').length > 1 ? req.headers.authorization.split('Bearer ')[1] : null);
+
+    EmailUser.sendNewIntegrationEmail(req.user, req.params.integrationName, accessToken,  res)
     .then(() => {
         return res.status(200).json({message: 'Email sent with success.'});
     }).catch(err => next(err));
