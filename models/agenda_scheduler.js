@@ -46,8 +46,8 @@ var Agenda = (function () {
     });
 
     this.agenda.define('reactiveUsersBatch', {concurrency: 1},(job, done) => {
-      var nowMinus7Days = new Date();
-      nowMinus14Days.setDate(nowMinus7Days.getDate() - 14);
+      var nowMinus14Days = new Date();
+      nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
       console.log('AGENDA: Will run reactiveUsersBatch');
       console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
 
