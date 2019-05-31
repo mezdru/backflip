@@ -56,7 +56,8 @@ var userSchema = mongoose.Schema({
   hashedPassword: {type: String, select: false},
   salt: {type: String, select: false},
   senderEmail: String,
-  linkedinUser: {type: String, default: null}
+  linkedinUser: {type: String, default: null},
+  googleUser: {type: String, default: null}
 });
 
 userSchema.statics.findOneByEmail = function (email, callback) {
