@@ -15,10 +15,10 @@ var Agenda = (function () {
     if(process.env.NODE_ENV === 'production') {
       agenda.jobs({name: 'reactiveUsersBatch'})
       .then(jobs => {
-        console.log('already : ' + jobs.length + ' jobs');
+        console.log('AGENDA: already : ' + jobs.length + ' jobs (reactiveUsersBatch)');
         if(jobs.length === 0 ) {
           let job = this.agenda.create('reactiveUsersBatch');
-          job.schedule('in 30 seconds');
+          job.schedule('in 5 minutes');
           job.save();
         }
       });
@@ -47,11 +47,11 @@ var Agenda = (function () {
 
     this.agenda.define('reactiveUsersBatch', {concurrency: 1},(job, done) => {
       var nowMinus7Days = new Date();
-      nowMinus7Days.setDate(nowMinus7Days.getDate() - 7);
+      nowMinus14Days.setDate(nowMinus7Days.getDate() - 14);
       console.log('AGENDA: Will run reactiveUsersBatch');
-      console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus7Days.toLocaleString('fr-FR'));
+      console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
 
-      User.find( {$or: [{last_action: {$lt: nowMinus7Days}}, {last_action: null}]})
+      User.find( {$or: [{last_action: {$lt: nowMinus14Days}}, {last_action: null}]})
       .populate('orgsAndRecords.record', '_id name tag')
       .populate('orgsAndRecords.organisation', '_id name tag logo cover')
       .then(inactiveUsers => {
@@ -61,6 +61,7 @@ var Agenda = (function () {
         let resultsFailed = 0;
         const results = inactiveUsers.map( async (user) => {
           try{
+            if(user.superadmin) return;
             let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
             let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
             await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
