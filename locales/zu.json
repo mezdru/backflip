@@ -437,5 +437,17 @@
 	"Voir l'interview": "crwdns1910:0crwdne1910:0",
 	"Les humains et leurs talents font la performance de l’entreprise. Dans les startups en hypercroissance jusqu’aux grands groupe en transformation, pouvoir les trouver et les valoriser c’est donc stratégique, mais c’est très difficile.<br /><br />Chez Wingzy, on sait que la solution c’est la simplicité : vous avez déjà bien assez d’outils et de process qui entravent vos talents. Alors, on s’est concentré sur l’essentiel : permettre à tous les collaborateurs de se trouver pour partager leurs compétences, expertises et énergies. Rien de plus.<br /><br />Wingzy, c’est donc une app minimaliste pour :<br /><ul><li>Orienter et rassurer, surtout les nouveaux,</li><li>Accélérer la collaboration et l’apprentissage,</li><li>Valoriser et engager grâce au partage de compétences.</li></ul>Et comme Wingzy se diffuse viralement dans votre boite, c’est un quick win !": "crwdns1912:0crwdne1912:0",
 	"howitworks part 3 picture": "crwdns1916:0crwdne1916:0",
-	"gif search 02": "crwdns1918:0crwdne1918:0"
+	"gif search 02": "crwdns1918:0crwdne1918:0",
+	"Your {{integrationName}} account is linked to Wingzy": "crwdns1920:0{{integrationName}}crwdne1920:0",
+	"{{integrationName}} has been linked to your account!": "crwdns1922:0{{integrationName}}crwdne1922:0",
+	"Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).": "crwdns1924:0{{integrationName}}crwdnd1924:0{{integrationUserEmail}}crwdnd1924:0{{recipientEmail}}crwdne1924:0",
+	"Go to Wingzy": "crwdns1926:0crwdne1926:0",
+	"For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>": "crwdns1928:0crwdne1928:0",
+	"Hello {{name}}": "crwdns1930:0{{name}}crwdne1930:0",
+	"{{name}}, we miss you.": "crwdns1932:0{{name}}crwdne1932:0",
+	"We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.": "crwdns1934:0{{organisationName}}crwdne1934:0",
+	"We miss you.": "crwdns1936:0crwdne1936:0",
+	"We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}": "crwdns1938:0{{organisationName}}crwdne1938:0",
+	"Search {{organisationName}}": "crwdns1940:0{{organisationName}}crwdne1940:0",
+	"{{firstName}}, we miss you!": "crwdns1942:0{{firstName}}crwdne1942:0"
 }
