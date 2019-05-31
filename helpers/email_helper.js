@@ -4,6 +4,8 @@ const defaultReciepientName = 'Hear me';
 const defaultEmitter = 'bonjour@wingzy.com';
 const defaultEmitterName = 'Wingzy';
 const defaultLink = 'https://wingzy.com';
+const defaultBannerUrl = 'https://wingzy.com/images/home/fly_away.jpg';
+const defaultLogoUrl = 'https://wingzy.com/wingzy.png';
 
 let SlackHelper = require('./slack_helper');
 
@@ -352,6 +354,33 @@ var EmailHelper = {
               "squareIcon": "https://ucarecdn.com/8684900c-d4a6-4464-9121-0c6d9668108c/",
               "ctaUrl": url || defaultLink,
               "outro": res.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+            }
+          });
+        return request;
+      },
+      emailReactivateUser: function(recipientEmail, organisation, firstName, url, locale, i18n) {
+        i18n.setLocale(locale);
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": (firstName ? i18n.__("{{firstName}}, we miss you!", {firstName: firstName || ''}) : i18n.__("We miss you.")),
+            "MJ-TemplateID": "854412",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "title": (firstName ? i18n.__("{{firstName}}, we miss you!", {firstName: firstName || ''}) : i18n.__("We miss you.")),
+              "text": i18n.__("We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
+                              {organisationName: (organisation && organisation.name ? organisation.name : 'your company')}),
+              "ctaText": i18n.__("Search {{organisationName}}", {organisationName: (organisation && organisation.name ? organisation.name : 'your company')}),
+              "squareIcon": "https://ucarecdn.com/6b54b57e-5725-46a5-8d6d-f4222833062f/",
+              "ctaUrl": url || defaultLink,
+              "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
+              "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
+              "outro": i18n.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
             }
           });
         return request;

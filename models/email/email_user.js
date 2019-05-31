@@ -162,6 +162,17 @@ EmailUser.resendInviteEmail = function(user, sender, organisation, locale, i18n)
 });
 };
 
+EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
+  let firstName = (record ? record.name.split(' ')[0] : null);
+  return EmailHelper.public.emailReactivateUser(
+    user.loginEmail, 
+    organisation, 
+    firstName,
+    (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + user.locale + '/' +(organisation ? organisation.tag : ''),
+    user.locale, 
+    i18n);
+}
+
 //@todo this should not be here as the logic is shared with other login strategies.
 //@todo rewrite to allow all login strategies
 EmailUser.sendMonthlyEmail = function(user, sender, organisation, userCount, extract, res, callback) {

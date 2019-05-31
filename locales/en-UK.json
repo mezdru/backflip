@@ -442,5 +442,12 @@
 	"{{integrationName}} has been linked to your account!": "{{integrationName}} has been linked to your account!",
 	"Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).": "Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).",
 	"Go to Wingzy": "Go to Wingzy",
-	"For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>": "For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>"
+	"For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>": "For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>",
+	"Hello {{name}}": "Hello {{name}}",
+	"{{name}}, we miss you.": "{{name}}, we miss you.",
+	"We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.": "We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.",
+	"We miss you.": "We miss you.",
+	"We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}": "We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
+	"Search {{organisationName}}": "Search {{organisationName}}",
+	"{{firstName}}, we miss you!": "{{firstName}}, we miss you!"
 }
