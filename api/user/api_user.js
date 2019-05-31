@@ -57,6 +57,7 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
   });
 });
 
+// @todo Create validation middleware to allow the update of all the User fields.
 router.put('/:userId', passport.authenticate('bearer', {session: false}), (req, res, next) => {
   if(!req.body.user) return res.status(422).json({ message: 'Missing parameter' });
 
