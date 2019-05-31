@@ -49,6 +49,16 @@ EmailUser.addStrategy = function(email, user, callback) {
   else return user;
 };
 
+EmailUser.populateUserToken = function(user) {
+  if( (user.email.generated && (user.email.generated > Date.now() - 24*30*3600*1000)) && user.email.token ) {
+    user.email.token = user.email.token;
+  } else {
+    user.email.token = randomstring.generate(128); // we modify token, because token is a way to authenticate
+    user.email.generated = Date.now();
+  }
+  return user;
+}
+
 EmailUser.generateToken = function (user, callback) {
   if (!user.email.value) {
     err = new Error('Email authentification not activated for user');
@@ -56,8 +66,9 @@ EmailUser.generateToken = function (user, callback) {
     return callback(err);
   }
   EmailUser.makeHash(user);
-  user.email.token = randomstring.generate(128);
-  user.email.generated = Date.now();
+
+  user = EmailUser.populateUserToken(user);
+
   user.save(callback);
 };
 
@@ -75,8 +86,9 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
   user.email.hash = md5(user.email.normalized);
   EmailUser.makeHash(user);
-  user.email.token = randomstring.generate(128);
-  user.email.generated = Date.now();
+
+  user = EmailUser.populateUserToken(user);
+
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
     if(resp.ok === 1){
@@ -106,8 +118,8 @@ EmailUser.sendNewIntegrationEmail = function(user, integrationName, accessToken,
 EmailUser.sendPasswordRecoveryEmail = function(user, locale, res){
   user.email.normalized = user.email.normalized || User.normalizeEmail(user.email.value);
   user.email.hash = user.email.hash || md5(user.email.normalized);
-  user.email.token = randomstring.generate(128); // we modify token, because token is a way to authenticate
-  user.email.generated = Date.now();
+
+  user = EmailUser.populateUserToken(user);
   
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
