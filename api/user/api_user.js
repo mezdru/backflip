@@ -57,6 +57,22 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
   });
 });
 
+// @todo Create validation middleware to allow the update of all the User fields.
+router.put('/:userId', passport.authenticate('bearer', {session: false}), (req, res, next) => {
+  if(!req.body.user) return res.status(422).json({ message: 'Missing parameter' });
+
+  if( (!req.user._id.equals(req.params.userId)) && !req.user.isSuperAdmin())
+    return res.status(403).json({message: 'Your are not allowed to update this User.'});
+
+  let updatedFields = {locale: (req.body.user.locale || 'en')};
+  User.findOneAndUpdate({_id: req.params.userId}, {$set: updatedFields}, {new: true})
+  .then(userUpdated => {
+    return res.status(200).json({message: 'User updated with success.', user: userUpdated});
+  }).catch(e => {
+    return next(e);
+  });
+});
+
 /**
  * @api {put} /api/users/:userId? Update current user or other user
  * @apiName UpdateUser
