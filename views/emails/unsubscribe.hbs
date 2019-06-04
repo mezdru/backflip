@@ -1,0 +1,37 @@
+<div class="main">
+  {{#if success}}
+
+  {{/if}}
+  <div class="unsubscribe-box">
+    {{#if success}}
+      <p>{{__ "You have been successfully unsubscribed with this email address:"}}</p>
+      <br/>
+      {{userEmail}}
+    {{else}}
+      <p>{{__ "There was an error:"}}</p>
+      <br/>
+      {{{errorMessage}}}
+    {{/if}}
+  </div>
+</div>
+
+<style>
+  .unsubscribe-box{
+    position: absolute;
+    left:0;
+    right:0;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width:300px;
+    background-color: #EEEEEE;
+    padding: 16px;
+    border-radius: 5px;
+  }
+  .unsubscribe-box p{
+    font-weight: 600;
+  }
+  .unsubscribe-box a{
+    text-decoration: underline;
+  }
+</style>
