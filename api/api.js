@@ -13,4 +13,7 @@ router.use('/users', api_user);
 var api_email = require('./email/api_email');
 router.use('/emails', api_email);
 
+var api_search = require('./statistics/api_search');
+router.use('/statistics/search', api_search);
+
 module.exports = router;
