@@ -57,20 +57,26 @@ var Agenda = (function () {
       .populate('orgsAndRecords.record', '_id name tag')
       .populate('orgsAndRecords.organisation', '_id name tag logo cover')
       .then(inactiveUsers => {
+        inactiveUsers = inactiveUsers.slice(0, 5);
         console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
         Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
 
         let resultsSuccess = 0;
         let resultsFailed = 0;
+        let userBypassed = 0;
         const results = inactiveUsers.map( async (user) => {
           try{
-            if(user.superadmin || user.isUnsubscribe) return;
+            if(user.superadmin || user.isUnsubscribe) {
+              userBypassed++;
+              return;
+            }
             let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
             let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
             await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
             .then(() => {resultsSuccess++; return;})
             .catch(() => {resultsFailed++; return;});
           }catch(e) {
+            console.log(e);
             resultsFailed++;
           }
         });
@@ -79,11 +85,13 @@ var Agenda = (function () {
           console.log('AGENDA: reactiveUsersBatch terminated.')
           console.log('AGENDA: '+resultsSuccess+' emails sent with success.');
           console.log('AGENDA: '+resultsFailed+' failed.');
-          console.log('AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of success.');
+          console.log('AGENDA: '+userBypassed+ ' bypassed.');
+          console.log('AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of emails sended.');
           Slack.notify('#alerts-scheduler', 'AGENDA: reactiveUsersBatch terminated.');
           Slack.notify('#alerts-scheduler', 'AGENDA: '+resultsSuccess+' emails sent with success.');
           Slack.notify('#alerts-scheduler', 'AGENDA: '+resultsFailed+' failed.');
-          Slack.notify('#alerts-scheduler', 'AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of success.');
+          Slack.notify('#alerts-scheduler', 'AGENDA: '+userBypassed+ ' bypassed.');
+          Slack.notify('#alerts-scheduler', 'AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of emails sended.');
         })
 
         this.removeJob(job).then(()=> done());
