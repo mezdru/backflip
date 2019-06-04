@@ -103,6 +103,12 @@ hbs.registerHelper('pictureUrl', function(picture, type) {
 	}
 });
 
+hbs.registerHelper('signinUrl', function() {
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  return new UrlHelper(null, 'login/', null, locale).getUrl();
+});
+
 hbs.registerHelper('profilePicture', function(user, organisation) {
   if(!user || !organisation || !organisation._id) return hbs.handlebars.helpers.picture.apply(this, {type: 'person', picture: {}});
   return hbs.handlebars.helpers.picture.apply(this, [user.getRecord(organisation._id)]);

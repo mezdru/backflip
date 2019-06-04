@@ -18,7 +18,7 @@ var userSchema = mongoose.Schema({
   ],
   locale: {type: String, default: 'en' },
   name: String,
-  google: {
+  google: { // Google subdocument will be deprecated. We are now using GoogleUser object.
     id: {type: String, index: true, unique: true, sparse: true},
     //@todo rename to primaryEmail
     email: {type: String, index: true, unique: true, sparse: true},
@@ -56,6 +56,7 @@ var userSchema = mongoose.Schema({
   hashedPassword: {type: String, select: false},
   salt: {type: String, select: false},
   senderEmail: String,
+  isUnsubscribe: {type: Boolean, default: false}, // User unsubscribe to auto transactionnal mails.
   linkedinUser: {type: mongoose.Schema.Types.ObjectId, ref: 'LinkedinUser', default: null},
   googleUser: {type: mongoose.Schema.Types.ObjectId, ref: 'GoogleUser', default: null}
 });
