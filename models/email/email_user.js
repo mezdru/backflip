@@ -176,13 +176,25 @@ EmailUser.resendInviteEmail = function(user, sender, organisation, locale, i18n)
 
 EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
   let firstName = (record ? record.name.split(' ')[0] : null);
-  return EmailHelper.public.emailReactivateUser(
-    user.loginEmail, 
-    organisation, 
-    firstName,
-    (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + user.locale + '/' +(organisation ? organisation.tag : ''),
-    user.locale, 
-    i18n);
+  if(!user.email || !user.email.value) {
+    user.email = {
+      value: user.loginEmail,
+    };
+    this.makeNormalized(user);
+  }
+  return new Promise((resolve, reject) => {
+    EmailUser.generateToken(user, function(err, userUpdated) {
+      if(err) return reject(err);
+      EmailHelper.public.emailReactivateUser(
+        userUpdated.loginEmail, 
+        organisation, 
+        firstName,
+        (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + userUpdated.locale + '/' +(organisation ? organisation.tag : ''),
+        (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
+        userUpdated.locale,
+        i18n).then(resolve()).catch(reject());
+    });
+  })
 }
 
 //@todo this should not be here as the logic is shared with other login strategies.

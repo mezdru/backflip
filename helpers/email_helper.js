@@ -358,7 +358,7 @@ var EmailHelper = {
           });
         return request;
       },
-      emailReactivateUser: function(recipientEmail, organisation, firstName, url, locale, i18n) {
+      emailReactivateUser: function(recipientEmail, organisation, firstName, url, urlUnsubscribe, locale, i18n) {
         i18n.setLocale(locale);
         const request = mailjet
           .post("send")
@@ -380,7 +380,8 @@ var EmailHelper = {
               "ctaUrl": url || defaultLink,
               "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
               "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
-              "outro": i18n.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+              "outro": i18n.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
+                        {unsubLink: urlUnsubscribe})
             }
           });
         return request;
