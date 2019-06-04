@@ -449,5 +449,9 @@
 	"We miss you.": "We miss you.",
 	"We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}": "We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
 	"Search {{organisationName}}": "Search {{organisationName}}",
-	"{{firstName}}, we miss you!": "{{firstName}}, we miss you!"
+	"{{firstName}}, we miss you!": "{{firstName}}, we miss you!",
+	"You have been successfully unsubscribed with this email address:": "You have been successfully unsubscribed with this email address:",
+	"User not found. Please <a href='mailto:contact@wingzy.com'>contact us</a>": "User not found. Please <a href='mailto:contact@wingzy.com'>contact us</a>",
+	"There was an error:": "There was an error:",
+	"An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>": "An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>"
 }
