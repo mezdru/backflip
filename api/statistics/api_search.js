@@ -8,16 +8,13 @@ var SearchLog = require('../../models/search_log');
 require('../passport/strategy');
 
 
-router.post('/:orgId', passport.authenticate('bearer', { session: false }), (req, res, next) => {
-  User.findOne({'orgsAndRecords.organisation': req.params.orgId})
-  .then(user => {
-    if(!user) return res.status(403).json({message: "User hasn't access to the organisation."});
+router.post('/:orgId', passport.authenticate('bearer', { session: false }), authorization, (req, res, next) => {
     if(!req.body.tags) return res.status(422).json({message: "Missing body parameter: tags [Array]"});
 
     (new SearchLog({
       organisation: req.params.orgId,
-      user: user._id,
-      tag: req.body.tags,
+      user: req.user._id,
+      tags: req.body.tags,
       query: req.body.query
     })).save()
     .then(searchLogSaved => {
@@ -26,8 +23,6 @@ router.post('/:orgId', passport.authenticate('bearer', { session: false }), (req
       console.log(e);
       return next(e);
     });
-  });
-
 });
 
 router.use(function (err, req, res, next) {
