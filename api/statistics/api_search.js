@@ -15,7 +15,8 @@ router.post('/:orgId', passport.authenticate('bearer', { session: false }), auth
       organisation: req.params.orgId,
       user: req.user._id,
       tags: req.body.tags,
-      query: req.body.query
+      query: req.body.query,
+      results: req.body.results
     })).save()
     .then(searchLogSaved => {
       return res.status(200).json({message: 'Search log saved with success.', searchLog: searchLogSaved});
