@@ -313,6 +313,7 @@ userSchema.methods.isValidated = function() {
 
 userSchema.pre('save', function (next) {
     this.wasNew = this.isNew;
+    this.updated = Date.now();
     next();
 });
 
