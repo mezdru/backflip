@@ -1,0 +1,32 @@
+footer {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  padding-top: 32px;
+  z-index: 99;
+  background-color: #2b2d3c;
+}
+
+footer .col {
+  text-align: center;
+  padding: 16px;
+  color: white;
+}
+
+footer .wingzy-description img{
+  position: relative;
+  height: 1.64rem;
+  width: auto;
+}
+
+footer .wingzy-contact a{
+  color: #DDDDDD;
+  font-weight: 600;
+}
+
+footer .wingzy-follow i {
+  font-size: 2rem;
+  color: white;
+  margin-right: 8px;
+  margin-top: 5px;
+}
