@@ -449,5 +449,13 @@
 	"We miss you.": "crwdns1936:0crwdne1936:0",
 	"We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}": "crwdns1938:0{{organisationName}}crwdne1938:0",
 	"Search {{organisationName}}": "crwdns1940:0{{organisationName}}crwdne1940:0",
-	"{{firstName}}, we miss you!": "crwdns1942:0{{firstName}}crwdne1942:0"
+	"{{firstName}}, we miss you!": "crwdns1942:0{{firstName}}crwdne1942:0",
+	"You have been successfully unsubscribed with this email address:": "crwdns1944:0crwdne1944:0",
+	"User not found. Please <a href='mailto:contact@wingzy.com'>contact us</a>": "crwdns1946:0crwdne1946:0",
+	"There was an error:": "crwdns1948:0crwdne1948:0",
+	"An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>": "crwdns1950:0crwdne1950:0",
+	"For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "crwdns1952:0{{unsubLink}}crwdne1952:0",
+	"WINGZY SAS<br/>8 rue du faubourg poissonière<br/>75010 PARIS": "crwdns1954:0crwdne1954:0",
+	"contact@wingzy.com": "crwdns1956:0crwdne1956:0",
+	"FOLLOW US": "crwdns1958:0crwdne1958:0"
 }
