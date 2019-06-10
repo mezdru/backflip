@@ -17,8 +17,10 @@ var UrlHelper = class UrlHelper {
   }
 
   makeUrl() {
+    //@todo This was made to create links with Wings tag in URL. Useless now?
     this.query = this.query.replace('#', '%23');
     this.path = this.path.replace('#', '%23');
+
     if (this.isProd()) {
       this.url =  `https://${this.subdomains ? this.subdomains + '.' : ''}${this.getHost()}/${this.locale ? this.locale + '/' : ''}${this.path}${this.query}`;
     } else {
