@@ -46,8 +46,12 @@ var Agenda = (function () {
     });
 
     this.agenda.define('reactiveUsersBatch', {concurrency: 1},(job, done) => {
+
+      if(process.env.DISABLE_BATCH) return this.removeJob(job).then(()=> done());
+
       var nowMinus14Days = new Date();
       nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
+
       console.log('AGENDA: Will run reactiveUsersBatch');
       console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
@@ -57,13 +61,14 @@ var Agenda = (function () {
       .populate('orgsAndRecords.record', '_id name tag')
       .populate('orgsAndRecords.organisation', '_id name tag logo cover')
       .then(inactiveUsers => {
-        inactiveUsers = inactiveUsers.slice(0, 5);
+
         console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
         Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
 
         let resultsSuccess = 0;
         let resultsFailed = 0;
         let userBypassed = 0;
+
         const results = inactiveUsers.map( async (user) => {
           try{
             if(user.superadmin || user.isUnsubscribe) {
@@ -92,7 +97,7 @@ var Agenda = (function () {
           Slack.notify('#alerts-scheduler', 'AGENDA: '+resultsFailed+' failed.');
           Slack.notify('#alerts-scheduler', 'AGENDA: '+userBypassed+ ' bypassed.');
           Slack.notify('#alerts-scheduler', 'AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of emails sended.');
-        })
+        });
 
         this.removeJob(job).then(()=> done());
         let newJob = this.agenda.create('reactiveUsersBatch');
