@@ -8,20 +8,19 @@ footer {
 }
 
 footer .col {
-  text-align: center;
+  text-align: left;
   padding: 16px;
   color: white;
 }
 
 footer .wingzy-description img{
   position: relative;
-  height: 1.64rem;
-  width: auto;
+  width: 120%;
+  height: auto;
 }
 
 footer .wingzy-contact a{
-  color: #DDDDDD;
-  font-weight: 600;
+  color: #FFFFFF;
 }
 
 footer .wingzy-follow i {

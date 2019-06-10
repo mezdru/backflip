@@ -1,15 +1,19 @@
 <footer>
   <div class="row">
 
-    <div class="col m4 s10 offset-s1 wingzy-description">
+
+    <div class="col m2 s10 offset-s1 offset-m1 wingzy-description">
       <h5>
         <img src="/wingzy_line_256.png" alt="Wingzy line" />
       </h5>
       <p>
         {{{__ "The smart directory which reveals your company's talents."}}}
       </p>
+          
     </div>
-    <div class="col m4 s10 offset-s1 wingzy-contact">
+
+
+    <div class="col m2 s10 offset-s1 offset-m2 wingzy-contact">
       <h5>CONTACT</h5>
       <p>
         {{{__ "WINGZY SAS<br/>8 rue du faubourg poissonière<br/>75010 PARIS"}}}
@@ -17,7 +21,19 @@
         <a href="mailto:{{{__ "contact@wingzy.com"}}}">{{{__ "contact@wingzy.com"}}}</a>
       </p>
     </div>
-    <div class="col m4 s10 offset-s1 wingzy-follow">
+
+    <div class="col m2 s10 offset-s1 wingzy-contact">
+      <h5>MENU</h5>
+      <p>
+        <a title="{{__ "Why Wingzy?"}}" href="{{url ""}}">{{__ "Why Wingzy?"}}</a><br/>
+        <a title="{{ __ "Ask for a demo"}}" href={{urlWithAnchor "" organisation.tag "#askdemo-a"}}>{{__ "Ask for a demo"}}</a><br/>
+        <a title="{{ __ "Sign in"}}" href="{{url "login" organisation.tag}}">{{__ "Sign in"}}</a><br/>
+        <a title="{{__ "Terms of Service"}}" href="{{url "terms" organisation.tag}}">{{__ "Terms of Service"}}</a><br/>
+        <a title="{{__ "Protecting your Data"}}" href="{{url "protectingYourData" organisation.tag}}">{{__ "Protecting your Data"}}</a>
+      </p>
+    </div>
+
+    <div class="col m2 s10 offset-s1 wingzy-follow">
       <h5>{{{__ "FOLLOW US"}}}</h5>
       <div>
         <a href="https://www.linkedin.com/company/wingzy/" target="_blank"><i class="fa fa-linkedin-square"
@@ -28,6 +44,7 @@
             aria-hidden="true"></i></a>
       </div>
     </div>
+
 
   </div>
 </footer>
