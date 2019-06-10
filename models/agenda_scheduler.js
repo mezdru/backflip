@@ -46,8 +46,8 @@ var Agenda = (function () {
     });
 
     this.agenda.define('reactiveUsersBatch', {concurrency: 1},(job, done) => {
-      
-      if(process.env.DISABLE_BATCH) return;
+
+      if(process.env.DISABLE_BATCH) return this.removeJob(job).then(()=> done());
 
       var nowMinus14Days = new Date();
       nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
