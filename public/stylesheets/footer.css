@@ -29,3 +29,9 @@ footer .wingzy-follow i {
   margin-right: 8px;
   margin-top: 5px;
 }
+
+footer .red-color {
+  color: #FF0018 !important;
+  font-weight: 600;
+  font-size: .9rem;
+}
