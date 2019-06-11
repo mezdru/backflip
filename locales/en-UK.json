@@ -457,5 +457,9 @@
 	"For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
 	"WINGZY SAS<br/>8 rue du faubourg poissonière<br/>75010 PARIS": "WINGZY SAS<br/>8 rue du faubourg poissonière<br/>75010 PARIS",
 	"contact@wingzy.com": "contact@wingzy.com",
-	"FOLLOW US": "FOLLOW US"
+	"FOLLOW US": "FOLLOW US",
+	"Welcome to {{orgName}} {{firstName}}!": "Welcome to {{orgName}} {{firstName}}!",
+	"Congratulation! You are registered to the Wingzy of {{orgName}}. Begin looking for helps now!": "Congratulation! You are registered to the Wingzy of {{orgName}}. Begin looking for helps now!",
+	"Go to {{orgName}}": "Go to {{orgName}}",
+	"Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!": "Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!"
 }
