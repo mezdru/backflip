@@ -235,6 +235,11 @@ EmailUser.sendEmailToInvitationCodeCreator = function(accessToken, organisation,
   });
 }
 
+EmailUser.sendInvitationCtaEmail = function(user, organisation) {
+  
+}
+
+
 //@todo this should not be here as the logic is shared with other login strategies.
 //@todo rewrite to allow all login strategies
 EmailUser.sendMonthlyEmail = function(user, sender, organisation, userCount, extract, res, callback) {

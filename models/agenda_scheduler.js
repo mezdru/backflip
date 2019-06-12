@@ -24,6 +24,11 @@ var Agenda = (function () {
       });
     }
 
+    this.agenda.define('sendInvitationCta', (job, done) => {
+      let data = job.attrs.data;
+      EmailUser.sendInvitationCtaEmail(data.user, data.organisation);
+    });
+
 
     this.agenda.define('sendInvitationEmail', (job, done) => {
       let data = job.attrs.data;
@@ -125,6 +130,24 @@ var Agenda = (function () {
         }
       }
     };
+
+    this.scheduleSendInvitationCta = function(user, organisation) {
+      if (process.env.NODE_ENV === 'production') {
+        try {
+          let job = this.agenda.create('sendInvitationCta',
+            { user: user, organisation: organisation });
+
+          job.schedule('in 3 days');
+          job.save();
+          let scheduledDate = new Date();
+          scheduledDate = scheduledDate.setDate(scheduledDate.getDate() + 3);
+          let scheduledDateString = new Date(scheduledDate).toLocaleString('fr-FR');
+          Slack.notify('#alerts-scheduler', 'AGENDA: Schedule send invitation code CTA : ' + ((new User(user)).email.value || null) + ' : ' + scheduledDateString);
+        } catch (error) {
+          Slack.notifyError(error, 36, 'quentin', 'agenda_scheduler');
+        }
+      }
+    }
 
     /**
      * @description Remove job from database
