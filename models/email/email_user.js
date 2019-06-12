@@ -224,11 +224,11 @@ EmailUser.sendEmailToInvitationCodeCreator = function(accessToken, organisation,
       EmailHelper.public.emailInvitationAccepted(
         currentOrgAndRecord.record.name,
         userInviter.loginEmail,
-        null,
+        record.name,
         null,
         organisation.name,
         (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + 
-          `${process.env.HOST_FRONTFLIP} / ${user.locale} /  ${organisation.tag} / ${record.tag}`,
+          `${process.env.HOST_FRONTFLIP}/${userInviter.locale}/${organisation.tag}/${record.tag}`,
         res
       );
     });

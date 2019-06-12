@@ -191,6 +191,7 @@ var EmailHelper = {
         });
       },
       emailInvitationAccepted: function(recipientName, recipientEmail, senderName, senderEmail, organisationName, url, res) {
+        console.log(url)
         const request = mailjet
           .post("send")
           .request({
