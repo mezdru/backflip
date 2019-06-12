@@ -3,6 +3,7 @@ var router = express.Router();
 var authorization = require('../mid_authorization_organisation');
 var EmailUser = require('../../models/email/email_user');
 var User = require('../../models/user');
+var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper');
 var SlackHelper = require('../../helpers/slack_helper');
 var passport = require('passport');
@@ -83,14 +84,35 @@ router.post('/password', (req, res, next) => {
 });
 
 /*eslint-disable */
-router.post('/invite', passport.authenticate('bearer', { session: false }), authorization, (req, res, next) => {
-	return res.status(200).json({ message: 'TODO' });
+
+router.post('/invitation/:orgId/confirmation', passport.authenticate('bearer', {session: false}), (req, res, next) => {
+  User.findOne({'_id': req.user._id})
+    .populate('orgsAndRecords.record', '_id name tag')
+    .populate('orgsAndRecords.organisation', '_id name tag logo cover')
+    .then(user => {
+      let orgAndRecordArray = user.orgsAndRecords.filter(orgAndRecord => orgAndRecord.organisation._id.equals(req.params.orgId));
+      let userName = orgAndRecordArray[0].record.name.split(' ')[0];
+      let organisation = orgAndRecordArray[0].organisation;
+	    EmailHelper.public.emailConfirmationInvitation(
+        req.user.loginEmail,
+        organisation,
+        userName,
+        req.user.locale,
+        req.body.invitationUrl,
+        res)
+        .then(() => {
+	        return res.status(200).json({message: 'Email send with success.'});
+        }).catch((err) => {
+        console.log('error: ' + err);
+        return next(err);
+      });
+    })
 });
 /*eslint-enable */
 
-router.use(function (err, req, res, next) {
-	if (err) return res.status(500).json({ message: 'Internal error', errors: [err.message] });
-	return res.status(500).json({ message: 'Unexpected error' });
+router.use(function(err, req, res, next){
+    if(err) return res.status(500).json({message: 'Internal error', errors: [err.message]});
+  return res.status(500).json({message: 'Unexpected error'});
 });
 
 module.exports = router;
