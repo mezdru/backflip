@@ -220,6 +220,13 @@ hbs.registerHelper('url', function(path, organisationTag, query) {
   return new UrlHelper(organisationTag, path, query, locale).getUrl();
 });
 
+hbs.registerHelper('urlWithAnchor', function(path, organisationTag, anchor) {
+  var locale = null;
+  if (this.getLocale) locale = this.getLocale();
+  if (typeof organisationTag !== 'string') organisationTag = null;
+  return new UrlHelper(organisationTag, path, null, locale).getUrl() + anchor;
+});
+
 hbs.registerHelper('whyWingzyUrl', function(locale){
   locale = locale ||this.getLocale();
   return '/' +  locale + '/' + '#whyWingzy';

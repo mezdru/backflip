@@ -319,20 +319,46 @@ var EmailHelper = {
             "MJ-TemplateLanguage": true,
             "Recipients": [
               { "Email": email }
-            ],
-            "Vars": {
-              "intro": res.__("Hello,<br/>Click on the red button below to create your new password to secure your Wingzy account.<br/>If you don't want to change your password, all is fine, just do nothing.<br/>Thanks :)"),
-              "url": url || defaultLink,
-              "button": res.__("Create password"),
-              "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
-            }
-          });
-        request
-          .then()
-          .catch(err => {
-            console.log(err);
-          });
-      },
+          ],
+          "Vars": {
+            "intro": res.__("Hello,<br/>Click on the red button below to create your new password to secure your Wingzy account.<br/>If you don't want to change your password, all is fine, just do nothing.<br/>Thanks :)"),
+            "url": url || defaultLink,
+            "button": res.__("Create password"),
+            "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+          }
+        });
+      request
+        .then()
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    emailConfirmationInvitation: function (email, organisation, firstName, locale, invitationUrl, res) {
+      res.setLocale(locale);
+      return mailjet
+        .post("send")
+        .request({
+          "FromEmail": defaultEmitter,
+          "FromName": defaultEmitterName,
+          "Subject": (res.__("Thanks for the help!")),
+          "MJ-TemplateID": "868473",
+          "MJ-TemplateLanguage": true,
+          "Recipients": [
+            {"Email": email}
+          ],
+          "Vars": {
+            "title": (firstName ? res.__("{{firstName}}, thanks for the help!", {firstName: firstName || ''}) : res.__("Thanks for the help!")),
+            "text": res.__("The more we are on Wingzy, the more we help each other. Share this secured link to invite even more people from {{orgName}} to join",
+              {orgName: (organisation && organisation.name ? organisation.name : 'your company')}),
+            "ctaText": invitationUrl,
+            "squareIcon": "https://images.emojiterra.com/twitter/v12/512px/1f60d.png",
+            "ctaUrl":  invitationUrl || defaultLink,
+            "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
+            "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
+            "outro": res.__("WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+          }
+        });
+    },
       emailSecurityIntegration: function(recipientEmail, integrationName, integrationUserEmail, url, res) {
         const request = mailjet
           .post("send")
