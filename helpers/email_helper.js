@@ -412,6 +412,32 @@ var EmailHelper = {
           });
         return request;
       },
+      emailConfirmationInscription: function(recipientEmail, firstName, organisation, url, res) {
+        const request = mailjet
+          .post("send")
+          .request({
+            "FromEmail": defaultEmitter,
+            "FromName": defaultEmitterName,
+            "Subject": res.__("Spread your Wings {{firstName}}!", {firstName: firstName}),
+            "MJ-TemplateID": "854412",
+            "MJ-TemplateLanguage": true,
+            "Recipients": [
+              { "Email": recipientEmail }
+            ],
+            "Vars": {
+              "title": res.__("Welcome to the Wingzy of {{orgName}}", {orgName: organisation.name}),
+              "text": res.__("{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!",
+                              {orgName: organisation.name, firstName: firstName}),
+              "ctaText": res.__("Search {{orgName}}", {orgName: organisation.name}),
+              "squareIcon": "https://ucarecdn.com/5a0ec475-a18d-498e-809c-9c9f2911a658/",
+              "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
+              "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
+              "ctaUrl": url || defaultLink,
+              "outro": res.__("Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>")
+            }
+          });
+        return request;
+      },
   }
 };
 

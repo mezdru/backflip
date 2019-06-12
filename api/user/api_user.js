@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
 var Record = require('../../models/record');
+let EmailUser = require('../../models/email/email_user');
 var passport = require('passport');
 require('../passport/strategy');
 
@@ -47,11 +48,17 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
     return res.status(403).json({message: 'Your are not allowed to update this User.'});
 
   User.findOne({_id: req.params.userId})
+  .populate('orgsAndRecords.record', '_id name tag')
+  .populate('orgsAndRecords.organisation', '_id name tag')
   .then((user) => {
     user.welcomeToOrganisation(req.params.orgId, (err, userUpdated) => {
       if(err) return res.status(404).json({message: 'User is not linked to this organisation.'});
       let orgAndRecord = user.getOrgAndRecord(req.params.orgId);
-      if(orgAndRecord.record) Record.findOneAndUpdate({_id: orgAndRecord.record}, {$set: {hidden: false}} );
+      if(orgAndRecord.record) {
+        Record.findOneAndUpdate({_id: orgAndRecord.record._id}, {$set: {hidden: false}} );
+        EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecord.organisation, orgAndRecord.record, res);
+      }
+
       return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});
     });
   });

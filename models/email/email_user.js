@@ -159,6 +159,17 @@ EmailUser.sendInviteEmail = function (user, sender, organisation, customMessage 
   });
 };
 
+EmailUser.sendConfirmationInscriptionEmail = function(user, organisation, record, res) {
+  let firstName = (record ? record.name.split(' ')[0] : null);
+  res.setLocale(user.locale);
+  return EmailHelper.public.emailConfirmationInscription(
+    user.loginEmail, 
+    firstName, 
+    organisation,
+    (new UrlHelper(organisation.tag, null, null, user.locale)).getUrl(),
+    res);
+}
+
 EmailUser.resendInviteEmail = function(user, sender, organisation, locale, i18n) {
   user.addInvitation(organisation, sender);
   EmailUser.generateToken(user, function(err, user) {
