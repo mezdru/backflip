@@ -8,6 +8,7 @@ var Organisation = require('../organisation.js');
 var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper.js');
 var LinkedinUserHelper = require('../../helpers/linkedinUser_helper');
+var InvitationCodeHelper = require('../../helpers/invitationCode_helper');
 var EmailUser = {};
 
 //@todo look for user with a google email too
@@ -208,8 +209,30 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
   })
 }
 
-EmailUser.sendEmailToInvitationCodeCreator = function() {
-  
+EmailUser.sendEmailToInvitationCodeCreator = function(accessToken, organisation, user, record, res) {
+  InvitationCodeHelper.fetchUsedInvitationCode(accessToken, organisation._id)
+  .then(invitationCode => {
+    if(!invitationCode) return;
+
+    User.findOne({_id: invitationCode.creator})
+    .populate('orgsAndRecords.record', '_id tag name')
+    .then(userInviter => {
+
+      let currentOrgAndRecord = userInviter.orgsAndRecords.find(oar => oar.organisation.equals(organisation._id));
+      res.setLocale(userInviter.locale);
+
+      EmailHelper.public.emailInvitationAccepted(
+        currentOrgAndRecord.record.name,
+        userInviter.loginEmail,
+        null,
+        null,
+        organisation.name,
+        (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + 
+          `${process.env.HOST_FRONTFLIP} / ${user.locale} /  ${organisation.tag} / ${record.tag}`,
+        res
+      );
+    });
+  });
 }
 
 //@todo this should not be here as the logic is shared with other login strategies.

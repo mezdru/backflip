@@ -57,6 +57,10 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
       if(orgAndRecord.record) {
         Record.findOneAndUpdate({_id: orgAndRecord.record._id}, {$set: {hidden: false}} );
         EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecord.organisation, orgAndRecord.record, res);
+
+        let authorizationHeader = req.headers.authorization;
+        let accessToken = (authorizationHeader.split('Bearer ').length > 1 ? authorizationHeader.split('Bearer ')[1] : null);
+        EmailUser.sendEmailToInvitationCodeCreator(accessToken, orgAndRecord.organisation, user, orgAndRecord.record, res);
       }
 
       return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});
