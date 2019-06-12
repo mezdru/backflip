@@ -447,7 +447,7 @@
 	"{{name}}, we miss you.": "{{name}}, we miss you.",
 	"We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.": "We haven't seen you in a while! Your colleagues are waiting for your help in {{organisationName}}.",
 	"We miss you.": "Vous nous manquez.",
-	"We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}": "We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
+	"We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}": "On ne vous a pas vu sur Wingzy depuis longtemps... Quel dommage ! C'est l'app idéale pour s'entraider chez {{organisationName}}",
 	"Search {{organisationName}}": "Recherchez dans {{organisationName}}",
 	"{{firstName}}, we miss you!": "Vous nous manquez {{firstName}} !",
 	"You have been successfully unsubscribed with this email address:": "Vous avez été désabonné avec succès.",
@@ -457,5 +457,9 @@
 	"For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "Pour toutes questions, <a href='mailto:contact@wingzy.com'>contactez nous.</a><br/><a href='{{unsubLink}}'>Cliquez ici pour vous désabonner.</a>",
 	"WINGZY SAS<br/>8 rue du faubourg poissonière<br/>75010 PARIS": "WINGZY SAS<br/>8 rue du faubourg poissonière<br/>75010 PARIS",
 	"contact@wingzy.com": "contact@wingzy.com",
-	"FOLLOW US": "SUIVEZ-NOUS"
+	"FOLLOW US": "FOLLOW US",
+	"Thanks for the help!": "Merci pour l'aide !",
+	"{{firstName}}, thanks for the help!": "{{firstName}}, merci pour l'aide !",
+	"The more we are on Wingzy, the more we help each other. Share this secured link to invite even more people from {{orgName}} to join. <br/> {{invitationUrl}}": "Plus nous sommes sur Wingzy, plus nous nous entraidons. Partagez ce lien sécurisé pour inviter d'autres personnes de {{orgName}} à vous rejoindre. <br/> {{invitationUrl}}",
+	"WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>": "WINGZY L'Annuaire Intelligent qui révèle les Wings de votre entreprise <br/> Pour toutes questions, <a href='mailto:contact@wingzy.com'>contact us.</a>"
 }

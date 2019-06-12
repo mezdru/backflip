@@ -466,5 +466,13 @@
 	"Welcome to the Wingzy of {{orgName}}": "Welcome to the Wingzy of {{orgName}}",
 	"{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!": "{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!",
 	"Search {{orgName}}": "Search {{orgName}}",
-	"Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>": "Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>"
+	"Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>": "Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>",
+	"Code d'Invitation": "Code d'Invitation",
+	"Hello {{firstName}},": "Hello {{firstName}},",
+	"After sending the invitation url to your co-workers, you'll receive an email when they'll be in {{organisationName}}. This url will stay available for 30 days, keep sharing it {{invitationUrl}}": "After sending the invitation url to your co-workers, you'll receive an email when they'll be in {{organisationName}}. This url will stay available for 30 days, keep sharing it {{invitationUrl}}",
+	"Back to {{organisationName}}": "Back to {{organisationName}}",
+	"Thanks for the help!": "Thanks for the help!",
+	"{{firstName}}, thanks for the help!": "{{firstName}}, thanks for the help!",
+	"The more we are on Wingzy, the more we help each other. Share this secured link to invite even more people from {{orgName}} to join": "The more we are on Wingzy, the more we help each other. Share this secured link to invite even more people from {{orgName}} to join",
+	"WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>": "WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>"
 }
