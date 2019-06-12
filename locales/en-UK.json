@@ -461,5 +461,10 @@
 	"Welcome to {{orgName}} {{firstName}}!": "Welcome to {{orgName}} {{firstName}}!",
 	"Congratulation! You are registered to the Wingzy of {{orgName}}. Begin looking for helps now!": "Congratulation! You are registered to the Wingzy of {{orgName}}. Begin looking for helps now!",
 	"Go to {{orgName}}": "Go to {{orgName}}",
-	"Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!": "Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!"
+	"Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!": "Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!",
+	"Spread your Wings {{firstName}}!": "Spread your Wings {{firstName}}!",
+	"Welcome to the Wingzy of {{orgName}}": "Welcome to the Wingzy of {{orgName}}",
+	"{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!": "{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!",
+	"Search {{orgName}}": "Search {{orgName}}",
+	"Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>": "Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>"
 }
