@@ -22,13 +22,19 @@ class InvitationCodeHelper {
 		});
 	}
 
-	createInvitationCode(accessToken, creatorId) {
+	createInvitationCode(accessToken, creatorId, organisationId) {
 		return new Promise((resolve, reject) => {
 			request.post({
-				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitation/code?creator=${creatorId}`,
+				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitation/code`,
 				json: true,
 				headers: {
 					'Authorization': `Bearer ${accessToken}`
+				},
+				body: {
+					invitationCode: {
+						creator: creatorId,
+						organisation: organisationId
+					}
 				}
 			}, (error, requestResponse, body) => {
 

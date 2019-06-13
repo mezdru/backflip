@@ -61,6 +61,8 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
         let authorizationHeader = req.headers.authorization;
         let accessToken = (authorizationHeader.split('Bearer ').length > 1 ? authorizationHeader.split('Bearer ')[1] : null);
         EmailUser.sendEmailToInvitationCodeCreator(accessToken, orgAndRecord.organisation, user, orgAndRecord.record, res);
+        var Agenda = require('../../models/agenda_scheduler');
+        Agenda.scheduleSendInvitationCta(user, orgAndRecord.organisation, orgAndRecord.record);
       }
 
       return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});
