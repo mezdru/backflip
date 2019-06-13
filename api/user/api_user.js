@@ -49,7 +49,7 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
 
   User.findOne({_id: req.params.userId})
   .populate('orgsAndRecords.record', '_id name tag')
-  .populate('orgsAndRecords.organisation', '_id name tag cover logo')
+  .populate('orgsAndRecords.organisation', '_id name tag cover logo canInvite')
   .then((user) => {
     user.welcomeToOrganisation(req.params.orgId, (err, userUpdated) => {
       if(err) return res.status(404).json({message: 'User is not linked to this organisation.'});
@@ -61,6 +61,11 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
         let authorizationHeader = req.headers.authorization;
         let accessToken = (authorizationHeader.split('Bearer ').length > 1 ? authorizationHeader.split('Bearer ')[1] : null);
         EmailUser.sendEmailToInvitationCodeCreator(accessToken, orgAndRecord.organisation, user, orgAndRecord.record, res);
+
+        if(orgAndRecord.organisation.canInvite) {
+          var Agenda = require('../../models/agenda_scheduler');
+          Agenda.scheduleSendInvitationCta(user, orgAndRecord.organisation, orgAndRecord.record);
+        }
       }
 
       return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});

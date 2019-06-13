@@ -9,6 +9,7 @@ var EmailHelper = require('../../helpers/email_helper.js');
 var UrlHelper = require('../../helpers/url_helper.js');
 var LinkedinUserHelper = require('../../helpers/linkedinUser_helper');
 var InvitationCodeHelper = require('../../helpers/invitationCode_helper');
+var ClientAuthHelper = require('../../helpers/client_auth_helper');
 var EmailUser = {};
 
 //@todo look for user with a google email too
@@ -234,6 +235,25 @@ EmailUser.sendEmailToInvitationCodeCreator = function(accessToken, organisation,
     });
   });
 }
+
+EmailUser.sendInvitationCtaEmail = function(user, organisation, record, i18n) {
+  let firstName = (record ? record.name.split(' ')[0] : null);
+  ClientAuthHelper.fetchClientAccessToken()
+  .then(accessToken => {
+    InvitationCodeHelper.createInvitationCode(accessToken, user._id, organisation._id)
+    .then(invitationCode => {
+      EmailHelper.public.emailConfirmationInvitation(
+        user.loginEmail,
+        organisation,
+        firstName,
+        user.locale,
+        (new UrlHelper(organisation.tag, 'code/'+invitationCode.code, null, user.locale)).getUrl(),
+        i18n
+      ).then().catch(e => console.log(e));
+    });
+  });
+}
+
 
 //@todo this should not be here as the logic is shared with other login strategies.
 //@todo rewrite to allow all login strategies

@@ -22,6 +22,30 @@ class InvitationCodeHelper {
 		});
 	}
 
+	createInvitationCode(accessToken, creatorId, organisationId) {
+		return new Promise((resolve, reject) => {
+			request.post({
+				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitation/code`,
+				json: true,
+				headers: {
+					'Authorization': `Bearer ${accessToken}`
+				},
+				body: {
+					invitationCode: {
+						creator: creatorId,
+						organisation: organisationId
+					}
+				}
+			}, (error, requestResponse, body) => {
+
+				if (error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
+					return reject(error);
+				}
+				return resolve(body.invitationCode);
+			});
+		});
+	}
+
 }
 
 module.exports = new InvitationCodeHelper();
