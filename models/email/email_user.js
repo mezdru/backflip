@@ -216,18 +216,18 @@ EmailUser.sendEmailToInvitationCodeCreator = function(accessToken, organisation,
 
     User.findOne({_id: invitationCode.creator})
     .populate('orgsAndRecords.record', '_id tag name')
-    .then(userInviter => {
+      .then(userInviter => {
 
       let currentOrgAndRecord = userInviter.orgsAndRecords.find(oar => oar.organisation.equals(organisation._id));
       res.setLocale(userInviter.locale);
 
       EmailHelper.public.emailInvitationAccepted(
-        currentOrgAndRecord.record.name,
+        currentOrgAndRecord.record.name.split(' ')[0],
         userInviter.loginEmail,
         record.name,
         null,
-        organisation.name,
-        (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + 
+        organisation,
+        (process.env.NODE_ENV === 'development' ? 'http://' : 'https://') +
           `${process.env.HOST_FRONTFLIP}/${userInviter.locale}/${organisation.tag}/${record.tag}`,
         res
       );
