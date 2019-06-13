@@ -238,7 +238,6 @@ EmailUser.sendEmailToInvitationCodeCreator = function(accessToken, organisation,
 
 EmailUser.sendInvitationCtaEmail = function(user, organisation, record, i18n) {
   let firstName = (record ? record.name.split(' ')[0] : null);
-console.log('EEEEEEEEEEE')
   ClientAuthHelper.fetchClientAccessToken()
   .then(accessToken => {
     InvitationCodeHelper.createInvitationCode(accessToken, user._id, organisation._id)
@@ -250,8 +249,7 @@ console.log('EEEEEEEEEEE')
         user.locale,
         (new UrlHelper(organisation.tag, 'code/'+invitationCode.code, null, user.locale)).getUrl(),
         i18n
-      ).then(response => console.log(response))
-      .catch(e => console.log(e))
+      ).then().catch(e => console.log(e));
     });
   });
 }
