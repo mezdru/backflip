@@ -4,10 +4,10 @@ let request = require('request');
  */
 class InvitationCodeHelper {
 
-	fetchUsedInvitationCode(accessToken, organisationId) {
+	fetchUsedInvitationCode(accessToken, organisationId, accessorId) {
 		return new Promise((resolve, reject) => {
 			request.get({
-				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitation/code?organisation=${organisationId}&userAction=access`,
+				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitationCodes?organisation=${organisationId}&accessor=${accessorId}`,
 				json: true,
 				headers: {
 					'Authorization': `Bearer ${accessToken}`
@@ -17,7 +17,7 @@ class InvitationCodeHelper {
 				if (error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
 					return reject(error);
 				}
-				return resolve(body.invitationCode);
+				return resolve(body.data);
 			});
 		});
 	}
@@ -25,7 +25,7 @@ class InvitationCodeHelper {
 	createInvitationCode(accessToken, creatorId, organisationId) {
 		return new Promise((resolve, reject) => {
 			request.post({
-				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitation/code`,
+				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitationCodes`,
 				json: true,
 				headers: {
 					'Authorization': `Bearer ${accessToken}`
@@ -41,7 +41,7 @@ class InvitationCodeHelper {
 				if (error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
 					return reject(error);
 				}
-				return resolve(body.invitationCode);
+				return resolve(body.data);
 			});
 		});
 	}
