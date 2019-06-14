@@ -136,17 +136,17 @@ var Agenda = (function () {
     };
 
     this.scheduleSendInvitationCta = function(user, organisation, record) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV === 'production') {
         try {
           let job = this.agenda.create('sendInvitationCta',
             { user: user, organisation: organisation, record: record });
 
-          job.schedule('in 3 seconds'); // 3 days
+          job.schedule('in 3 days'); // 3 days
           job.save();
           let scheduledDate = new Date();
           scheduledDate = scheduledDate.setDate(scheduledDate.getDate() + 3);
           let scheduledDateString = new Date(scheduledDate).toLocaleString('fr-FR');
-          Slack.notify('#alerts-scheduler', 'AGENDA: Schedule send invitation code CTA : ' + ((new User(user)).email.value || null) + ' : ' + scheduledDateString);
+          Slack.notify('#alerts-scheduler', 'AGENDA: Schedule send invitation code call to action : ' + ((new User(user)).email.value || null) + ' : ' + scheduledDateString);
         } catch (error) {
           Slack.notifyError(error, 36, 'quentin', 'agenda_scheduler');
         }
