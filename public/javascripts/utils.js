@@ -128,7 +128,7 @@ function addPictureHtml(item, iconOnly) {
 }
 
 function addQRCodeHtml(item) {
-	item.qrCodeUrl = item.qrCodeUrl || "https://app.wingzy.com/en/" + getOrgTag(item) + "/" + item.tag.substr(1) + "/add";
+	item.qrCodeUrl = item.qrCodeUrl || "https://app.wingzy.com/en/meridiam/" + item.tag.substr(1) + "/add";
 	var src = "https://api.qrserver.com/v1/create-qr-code/" +
 	"?size=500x500" +
   "&color=3c6da3" +
@@ -161,7 +161,7 @@ function addCardNumber(item) {
 		item._highlightResult.name.value = 'Create your Wings';
 		item.picture.emoji = '❔';
 		item.class = 'makeYourOwn';
-		item.qrCodeUrl = "https://app.wingzy.com/en/" + getOrgTag(item) + "/onboard/wings/edit/";
+		item.qrCodeUrl = "https://app.wingzy.com/en/meridiam/" + "/onboard/wings/edit/";
 	}
 	switch (number) {
 		case 11: number = 'J'; break;

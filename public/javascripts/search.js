@@ -253,6 +253,7 @@ $(document).ready(function () {
       ]
     }, function(err, content) {
       if (err) throw new Error(err);
+      var counter = 0;
       renderHits(content);
     });
   }
