@@ -385,7 +385,7 @@ var EmailHelper = {
           });
         return request;
       },
-      emailReactivateUser: function(recipientEmail, organisation, firstName, url, urlUnsubscribe, locale, i18n) {
+      emailReactivateUser: function(recipientEmail, organisation, firstName, url, urlUnsubscribe, tips, locale, i18n) {
         i18n.setLocale(locale);
         const request = mailjet
           .post("send")

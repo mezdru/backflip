@@ -12,6 +12,19 @@ var InvitationCodeHelper = require('../../helpers/invitationCode_helper');
 var ClientAuthHelper = require('../../helpers/client_auth_helper');
 var EmailUser = {};
 
+const tips = [
+  "Did you know that ...",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+];
+
 //@todo look for user with a google email too
 EmailUser.getByEmail = function (email, callback) {
   User.findOne({'email.normalized': User.normalizeEmail(email)}).
@@ -73,6 +86,10 @@ EmailUser.generateToken = function (user, callback) {
 
   user.save(callback);
 };
+
+EmailUser.getRandomTips = function() {
+  return tips[Math.floor(0 + Math.random()*(tips.length))];
+}
 
 //@todo fails if user.orgsAndRecords not populated
 EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
@@ -195,6 +212,7 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
     };
     this.makeNormalized(user);
   }
+
   return new Promise((resolve, reject) => {
     EmailUser.generateToken(user, function(err, userUpdated) {
       if(err) return reject(err);
@@ -204,6 +222,7 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
         firstName,
         (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + userUpdated.locale + '/' +(organisation ? organisation.tag : ''),
         (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
+        EmailUser.getRandomTips(),
         userUpdated.locale,
         i18n).then(resolve()).catch(reject());
     });
