@@ -191,8 +191,8 @@ var EmailHelper = {
         });
       },
       emailInvitationAccepted: function(recipientName, email, senderName, senderEmail, organisation, url, res) {
-      console.log(url);
-      console.log(organisation);
+        console.log('EMAIL: Send email to inform that someone register the organisation thanks to him. (to:'+email+', locale:'+res.getLocale()+')');
+
         return mailjet
           .post("send")
           .request({
@@ -334,6 +334,7 @@ var EmailHelper = {
         });
     },
     emailConfirmationInvitation: function (email, organisation, firstName, locale, invitationUrl, res) {
+      console.log('EMAIL: Send email to confirm invitation code creation. (to:'+email+', locale:'+locale+')');
       res.setLocale(locale);
       return mailjet
         .post("send")
@@ -413,6 +414,8 @@ var EmailHelper = {
         return request;
       },
       emailConfirmationInscription: function(recipientEmail, firstName, organisation, url, res) {
+        console.log('EMAIL: Send email to confirm inscription. (to:'+recipientEmail+', locale:'+res.getLocale()+')');
+
         const request = mailjet
           .post("send")
           .request({
