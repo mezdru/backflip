@@ -17,7 +17,12 @@ class InvitationCodeHelper {
 				if (error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
 					return reject(error);
 				}
-				return resolve(body.data);
+
+				if(body && body.data && body.data.length > 0) {
+					return resolve(body.data[0]);
+				} else {
+					return resolve(null);
+				}
 			});
 		});
 	}
