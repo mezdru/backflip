@@ -36,7 +36,6 @@ header { position:relative;}
 
 .record.pure-g-hashtag {
   background: #ffffff;
-  border: 1px solid #cccccc;
   border-radius: 16px;
   box-sizing: content-box;
   width: 466px;
@@ -138,7 +137,7 @@ header { position:relative;}
   position: absolute;
   top: 0;
   left: 0;
-  width: 105px;
+  width: 110px;
   padding: 20px 0;
 }
 
