@@ -468,15 +468,15 @@
 	"Search {{orgName}}": "Rechercher dans {{orgName}}",
 	"Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>": "Une question ? Un retour ? Un conseil ? <a href='mailto:contact@wingzy.com'>Contactez-nous !</a>",
 	"Code d'Invitation": "Code d'Invitation",
-	"Hello {{firstName}},": "Hello {{firstName}},",
+	"Hello {{firstName}},": "Bonjour {{firstName}},",
 	"After sending the invitation url to your co-workers, you'll receive an email when they'll be in {{organisationName}}. This url will stay available for 30 days, keep sharing it {{invitationUrl}}": "After sending the invitation url to your co-workers, you'll receive an email when they'll be in {{organisationName}}. This url will stay available for 30 days, keep sharing it {{invitationUrl}}",
 	"Back to {{organisationName}}": "Back to {{organisationName}}",
 	"Thanks for the help!": "Merci pour l'aide !",
 	"{{firstName}}, thanks for the help!": "{{firstName}}, merci pour l'aide !",
 	"The more we are on Wingzy, the more we help each other. Share this secured link to invite even more people from {{orgName}} to join": "Plus nous sommes sur Wingzy, plus nous nous entraidons. Partagez ce lien sécurisé pour inviter d'autres personnes de {{orgName}} à vous rejoindre.",
 	"WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>": "WNGZY, L'Annuaire Intelligent qui révèle les Wings de votre entreprise <br/> Pour toutes questions,<a href='mailto:contact@wingzy.com'>contactez nous.</a>",
-	"Hello %s": "Hello %s",
-	"You have invited %s to join {{orgName}} on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "You have invited %s to join {{orgName}} on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.",
+	"Hello %s": "Bonjour %s",
+	"You have invited %s to join {{orgName}} on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Vous avez invité %s à joindre {{orgName}} sur Wingzy.<br/>%s a accepté votre invitation !<br/>Merci de déployer vos ailes.",
 	"See %s profile": "Voir le profil de %s",
-	"You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings."
+	"You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Vous avez invité %s à joindre %s sur Wingzy.<br/>%s a accepté votre invitation !<br/>Merci de déployer vos ailes."
 }
