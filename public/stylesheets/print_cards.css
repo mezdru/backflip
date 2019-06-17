@@ -1,0 +1,166 @@
+#premium,
+.premium-mobile,
+.copy-emails-feature,
+#search-results .invitation,
+#subheader,
+.contacts,
+.name span {
+  display: none;
+}
+
+body.search {
+  background-color: #ffffff;
+}
+
+
+#search-results {
+  margin: 0;
+}
+
+#search-results .pure-g {
+  max-width: none;
+}
+
+#search-results .pure-g-box {
+  break-after: page;
+  page-break-after: always;
+  margin:0;
+  padding: 0;
+}
+
+header { position:relative;}
+
+@media print {
+  header { display: none }
+}
+
+.record.pure-g-hashtag {
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+  box-sizing: content-box;
+  width: 466px;
+  height: 658px;
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  position: relative;
+}
+
+.record.pure-g-hashtag .pure-u-intro {
+  width: 466px;
+  height: 658px;
+  min-height: 658px;
+}
+
+#search-results .pure-g-box:last-child .record.pure-g-hashtag .picture,
+#search-results .pure-g-box:last-child .record.pure-g-hashtag .right-logos,
+#search-results .pure-g-box:last-child .record.pure-g-hashtag .name {
+  display: none;
+}
+
+.pure-g-hashtag .name {
+  display: block;
+  width: 466px;
+  height: auto;
+  max-height:none;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.pure-g-hashtag .name h2 {
+  color: #3c6da3;
+  font-size: 60px;
+  text-align: center;
+  display: block;
+  width: 100%;
+  bottom: auto;
+  transform: none;
+}
+
+.pure-g-hashtag.makeYourOwn .name h2 {
+  color: #CCD6DD;
+  opacity: 0.5;
+}
+
+.main {
+  padding: 0;
+}
+
+.right-logos {
+  width: 100%;
+  position: absolute;
+  bottom: 30px;
+}
+
+.right-logos p {
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+  text-align: center;
+  color: #346EA3;
+}
+
+.right-logos .wingzy-logo {
+  width: 100px;
+  position: relative;
+  top: 2px;
+}
+
+.right-logos .qrcode {
+  height: 150px;
+  width: 150px;
+}
+
+.record.pure-g-hashtag .picture {
+  display: block;
+  float: none;
+  height: 200px;
+  width: 200px;
+  max-height: 300px;
+  max-width: 300px;
+  margin: auto;
+  margin-top: 70px;
+}
+
+.record.pure-g-hashtag .picture img {
+  height: 200px;
+  width: 200px;
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.record.pure-g-hashtag.makeYourOwn .picture {
+  opacity: 0.5;
+}
+
+.card-number {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 90px;
+  padding: 20px 0;
+}
+
+.card-number p {
+  font-weight:900;
+  text-align: center;
+  font-size: 50px;
+}
+
+.card-number.red p {
+  color: red;
+}
+
+.card-number p:last-child {
+  margin-top: -20px;
+  font-size: 70px;
+}
+
+.card-number:first-child {
+  -webkit-transform: rotate(180deg);
+  top: auto;
+  left: auto;
+  bottom: 0;
+  right: 0;
+}

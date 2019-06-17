@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <title>{{{title}}}</title>
+
+    <link rel="icon" type="image/png" href="/wingzy.png"/>
+
+    <link rel="stylesheet" href="/stylesheets/pure-min.css">
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/stylesheets/grid-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="/stylesheets/grid.css">
+    <!--<![endif]-->
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800 "/>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/selectize.css" />
+
+    <link rel="stylesheet" href="/stylesheets/base.css"/>
+
+    <link rel="stylesheet" href="/stylesheets/print_cards.css"/>
+
+
+    <script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.6"></script>
+
+    <script src="/javascripts/polyfill.js"></script>
+    <script src="/javascripts/utils.js"></script>
+
+    <style>
+      {{organisation.style.css}}
+    </style>
+  </head>
+  <body class="{{bodyClass}}">
+    {{> header}}
+    {{{body}}}
+  </body>
+</html>

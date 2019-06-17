@@ -2,8 +2,8 @@
   {{{{raw}}}}
   {{#hits}}<div class="pure-g-box">
     {{^invitation}}
-    <div class="record pure-g pure-g-{{type}}">
-      {{#qrcode}}
+    <div class="record pure-g pure-g-{{type}} {{class}}">
+      {{#sticker}}
           <div class="mark top left horizontal"></div>
           <div class="mark top left vertical"></div>
           <div class="mark top right horizontal"></div>
@@ -12,7 +12,11 @@
           <div class="mark bottom left vertical"></div>
           <div class="mark bottom right horizontal"></div>
           <div class="mark bottom right vertical"></div>
-      {{/qrcode}}
+      {{/sticker}}
+      {{#cardNumber}}
+        {{{cardNumberHtml}}}
+        {{{cardNumberHtml}}}
+      {{/cardNumber}}
       <div class="pure-u-1 pure-u-intro">
         <a href="{{url}}" class="picture">
           {{{pictureHtml}}}

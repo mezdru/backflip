@@ -105,6 +105,10 @@ function goLeft(event) {
 }
 
 transformItem = function (item, facets) {
+	if (card) {
+		item.cardNumber = true;
+		addCardNumber(item);
+	}
 	translateName(item);
 	addUrl(item);
 	addPictureHtml(item);
@@ -124,17 +128,50 @@ function addPictureHtml(item, iconOnly) {
 }
 
 function addQRCodeHtml(item) {
+	item.qrCodeUrl = item.qrCodeUrl || "https://app.wingzy.com/en/" + getOrgTag(item) + "/" + item.tag.substr(1) + "/add";
 	var src = "https://api.qrserver.com/v1/create-qr-code/" +
 	"?size=500x500" +
-  "&color=346EA3" +
+  "&color=3c6da3" +
 	"&bgcolor=fcfcfc" +
 	"&margin=10" +
 	"&data=" +
-	"https://app.wingzy.com/en/meridiam/" + item.tag.substr(1) + "/add/HoNw4OjKW9ShWgKj";
+	item.qrCodeUrl;
 	item.qrcodeHtml = '<div class="right-logos">' +
-		'<p><img class="meridiam-logo" src="/meridiam_retreat.png"></p>' +
 		'<p><img class="qrcode" src="'+src+'"></p>' +
-		'<p>BY <img class="wingzy-logo" src="/wingzy_line.png"></p>' +
+		'<p>FLASH TO SHARE ON</p>' +
+		'<p><img class="wingzy-logo" src="/wingzy_line.png"></p>' +
+		'</div>';
+}
+
+var counter = 0;
+
+function addCardNumber(item) {
+	var set = getParameterByName('set');
+	var setSymbol = '♠';
+	var color = 'black';
+	switch (set) {
+		case 'heart': setSymbol = '♥';  color = 'red'; break;
+		case 'diamond': setSymbol = '♦';  color = 'red'; break;
+		case 'club': setSymbol = '♣';  color = 'black'; break;
+		case 'spade': setSymbol = '♠';  color = 'black'; break;
+	}
+	var number = counter % 13 + 1;
+	if (number > 10) {
+		item.tag = '#new';
+		item._highlightResult.name.value = 'Create your Wings';
+		item.picture.emoji = '❔';
+		item.class = 'makeYourOwn';
+		item.qrCodeUrl = "https://app.wingzy.com/en/" + getOrgTag(item) + "/onboard/wings/edit/";
+	}
+	switch (number) {
+		case 11: number = 'J'; break;
+		case 12: number = 'Q'; break;
+		case 13: number = 'K'; break;
+	}
+	counter ++;
+	item.cardNumberHtml = '<div class="card-number ' + color +'">' +
+		'<p>'+ number +'</p>' +
+		'<p>'+ setSymbol +'</p>' +
 		'</div>';
 }
 
