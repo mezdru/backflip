@@ -34,7 +34,7 @@ class GoogleUserHelper {
 			if(error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
 				return reject(error);
 			}
-			return resolve(body.data);
+			return resolve(body.googleUser);
 		});});
 	}
 
