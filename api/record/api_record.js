@@ -149,13 +149,13 @@ router.put('/:profileId/addLink', passport.authenticate('bearer', { session: fal
   }
 });
 
-// @todo Remove route and open a route /api/organisations/ => get all in org (superadmin)
-router.post('/workplace/:workplaceId', passport.authenticate('bearer', { session: false }), authorization, (req, res, next) => {
-  Record.findOne({ organisation: req.organisation._id, 'links': { $elemMatch: { value: req.params.workplaceId, type: 'workplace' } } })
-    .then(record => {
-      if (!record) return res.status(404).json({ message: 'Record not found.' });
-      return res.status(200).json({ message: 'Record fetch with success.', record: record });
-    }).catch((err) => { return next(err); });
+router.get('/', passport.authenticate('bearer', { session: false }), authorization,  (req, res, next) => {
+  if (!req.user.isSuperAdmin()) return res.status(403).json({ message: 'Unauthorized' });
+
+  Record.find({...req.query})
+  .then(records => {
+    return res.status(200).json({message: 'Records fetch with success.', results: records.length, records: records});
+  }).catch((err) => { return next(err); });
 });
 
 // Get the best record possible for an user
