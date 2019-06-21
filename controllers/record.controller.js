@@ -70,9 +70,23 @@ exports.createRecordLinks = async (req, res, next) => {
 }
 
 exports.updateSingleRecord = async (req, res, next) => {
-
+  // do not update links here ?
 }
 
 exports.deleteSingleRecord = async (req, res, next) => {
+  Record.findOne({ _id: req.params.id })
+    .then(record => {
 
+      if (!record) {
+        req.backflip = { message: 'Record not found', status: 404 };
+      } else {
+        await Record.deleteOne({ _id: record._id })
+          .then(() => {
+            req.backflip = { message: 'Record deleted with success', status: 200, data: record };
+          }).catch(err => next(err));
+      }
+
+      return next();
+
+    }).catch(err => next(err));
 }
