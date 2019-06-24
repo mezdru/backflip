@@ -405,6 +405,7 @@ var EmailHelper = {
               "ctaText": i18n.__("Search {{organisationName}}", {organisationName: (organisation && organisation.name ? organisation.name : 'your company')}),
               "squareIcon": "https://ucarecdn.com/6b54b57e-5725-46a5-8d6d-f4222833062f/",
               "ctaUrl": url || defaultLink,
+              "tips": tips ? i18n.__(tips) : '',
               "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
               "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
               "outro": i18n.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
