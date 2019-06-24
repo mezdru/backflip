@@ -478,5 +478,13 @@
 	"Hello %s": "Bonjour %s",
 	"You have invited %s to join {{orgName}} on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Vous avez invité %s à joindre {{orgName}} sur Wingzy.<br/>%s a accepté votre invitation !<br/>Merci de déployer vos ailes.",
 	"See %s profile": "Voir le profil de %s",
-	"You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Vous avez invité %s à joindre %s sur Wingzy.<br/>%s a accepté votre invitation !<br/>Merci de déployer vos ailes."
+	"You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "Vous avez invité %s à joindre %s sur Wingzy.<br/>%s a accepté votre invitation !<br/>Merci de déployer vos ailes.",
+	"Wanna learn a new skill? Find a coworker who can help on Wingzy!": "Wanna learn a new skill? Find a coworker who can help on Wingzy!",
+	"You can find the right person you need by searching for several Wings at Once.": "You can find the right person you need by searching for several Wings at Once.",
+	"At work, we spend 2h a day searching for information, we can save 2h a week just by helping each other.": "At work, we spend 2h a day searching for information, we can save 2h a week just by helping each other.",
+	"On average there are 18 Wings per profile on Wingzy, but we know you have much more!": "On average there are 18 Wings per profile on Wingzy, but we know you have much more!",
+	"Thanks to the invitation link found in the menu, you can even invite your coworkers through Whatsapp.": "Thanks to the invitation link found in the menu, you can even invite your coworkers through Whatsapp.",
+	"You can propose Wings to your coworker when visiting their profiles.": "You can propose Wings to your coworker when visiting their profiles.",
+	"Install Wingzy on your phone, just click 'Add to Home Screen'.": "Install Wingzy on your phone, just click 'Add to Home Screen'.",
+	"Got an idea, a remark, a critic ? We love it: <a href='mailto:feedback@wingzy.com'>feedback@wingzy.com</a>": "Got an idea, a remark, a critic ? We love it: <a href='mailto:feedback@wingzy.com'>feedback@wingzy.com</a>"
 }

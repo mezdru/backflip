@@ -478,5 +478,13 @@
 	"Hello %s": "crwdns1994:0%scrwdne1994:0",
 	"You have invited %s to join {{orgName}} on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "crwdns1996:0%scrwdnd1996:0{{orgName}}crwdnd1996:0%scrwdne1996:0",
 	"See %s profile": "crwdns1998:0%scrwdne1998:0",
-	"You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "crwdns2000:0%scrwdnd2000:0%scrwdnd2000:0%scrwdne2000:0"
+	"You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.": "crwdns2000:0%scrwdnd2000:0%scrwdnd2000:0%scrwdne2000:0",
+	"Wanna learn a new skill? Find a coworker who can help on Wingzy!": "crwdns2002:0crwdne2002:0",
+	"You can find the right person you need by searching for several Wings at Once.": "crwdns2004:0crwdne2004:0",
+	"At work, we spend 2h a day searching for information, we can save 2h a week just by helping each other.": "crwdns2006:0crwdne2006:0",
+	"On average there are 18 Wings per profile on Wingzy, but we know you have much more!": "crwdns2008:0crwdne2008:0",
+	"Thanks to the invitation link found in the menu, you can even invite your coworkers through Whatsapp.": "crwdns2010:0crwdne2010:0",
+	"You can propose Wings to your coworker when visiting their profiles.": "crwdns2012:0crwdne2012:0",
+	"Install Wingzy on your phone, just click 'Add to Home Screen'.": "crwdns2014:0crwdne2014:0",
+	"Got an idea, a remark, a critic ? We love it: <a href='mailto:feedback@wingzy.com'>feedback@wingzy.com</a>": "crwdns2016:0crwdne2016:0"
 }
