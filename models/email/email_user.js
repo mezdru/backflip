@@ -12,6 +12,17 @@ var InvitationCodeHelper = require('../../helpers/invitationCode_helper');
 var ClientAuthHelper = require('../../helpers/client_auth_helper');
 var EmailUser = {};
 
+const tips = [
+  "Wanna learn a new skill? Find a coworker who can help on Wingzy!",
+  "You can find the right person you need by searching for several Wings at Once.",
+  "At work, we spend 2h a day searching for information, we can save 2h a week just by helping each other.",
+  "On average there are 18 Wings per profile on Wingzy, but we know you have much more!",
+  "Thanks to the invitation link found in the menu, you can even invite your coworkers through Whatsapp.",
+  "You can propose Wings to your coworker when visiting their profiles.",
+  "Install Wingzy on your phone, just click 'Add to Home Screen'.",
+  "Got an idea, a remark, a critic ? We love it: <a href='mailto:feedback@wingzy.com'>feedback@wingzy.com</a>"
+];
+
 //@todo look for user with a google email too
 EmailUser.getByEmail = function (email, callback) {
   User.findOne({'email.normalized': User.normalizeEmail(email)}).
@@ -73,6 +84,10 @@ EmailUser.generateToken = function (user, callback) {
 
   user.save(callback);
 };
+
+EmailUser.getRandomTips = function() {
+  return tips[Math.floor(0 + Math.random()*(tips.length))];
+}
 
 //@todo fails if user.orgsAndRecords not populated
 EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
@@ -195,6 +210,7 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
     };
     this.makeNormalized(user);
   }
+
   return new Promise((resolve, reject) => {
     EmailUser.generateToken(user, function(err, userUpdated) {
       if(err) return reject(err);
@@ -204,6 +220,7 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
         firstName,
         (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + userUpdated.locale + '/' +(organisation ? organisation.tag : ''),
         (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
+        EmailUser.getRandomTips(),
         userUpdated.locale,
         i18n).then(resolve()).catch(reject());
     });
