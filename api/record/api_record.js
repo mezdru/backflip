@@ -12,12 +12,76 @@ var GoogleUserHelper = require('../../helpers/googleUser_helper');
 var uppercamelcase = require('uppercamelcase');
 var slug = require('slug');
 var passport = require('passport');
+var excel = require('node-excel-export');
 require('../passport/strategy');
 
 let asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
   }
+}
+
+router.post('/superadmin/export/all/byWings/organisation/:orgId', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
+  if(!req.user.isSuperAdmin()) return res.status(403).json({message: "You can't access that route."});
+  const styles = {headerDark: {fill: {fgColor: {rgb: 'FF000000'}},font: {color: {rgb: 'FFFFFFFF'},sz: 14,bold: true,underline: true}}};
+  const specification = {
+    familyName: {displayName: 'Wings Family', width: 100, headerStyle: styles.headerDark},
+    name: {displayName: 'Wings Name', width: 120, headerStyle: styles.headerDark},
+    occurrences: {displayName: 'Profiles count', width: 120, headerStyle: styles.headerDark},
+    profiles: {displayName: 'Profiles', width: 120, headerStyle: styles.headerDark},
+  };
+
+  var organisation = await Organisation.findOne({_id: req.params.orgId}).populate('featuredWingsFamily', '_id name tag').then((org => org)).catch();
+  var profiles = await  Record.find({organisation: organisation._id, type: 'person'})
+                        .populate('hashtags', '_id name tag hashtags').then(records => records).catch();
+                        
+  var data = [];
+
+  profiles.forEach(currentProfile => {
+    currentProfile.hashtags.forEach(currentWings => {
+      var indexOfWings = isArrayOfObjectContainingValue(data, currentWings.tag, 'tag');
+      if(indexOfWings !== -1) {
+        // add profile
+        data[indexOfWings].profiles = (data[indexOfWings].profiles ? data[indexOfWings].profiles + ', ' + currentProfile.name : currentProfile.name);
+        data[indexOfWings].occurrences += 1;
+      } else {
+        // add row and add profile
+        data.push(
+          {
+            familyName: getFamilyNameByIdAndPopulatedOrg(organisation, currentWings.hashtags),
+            name: currentWings.name,
+            tag: currentWings.tag,
+            occurrences: 1,
+            profiles: currentProfile.name
+          }
+        );
+      }
+    });
+  });
+
+  const report = excel.buildExport([
+    {
+      name: 'Export - Profiles by Wings',
+      specification: specification,
+      data: data
+    }
+  ]);
+
+  res.setHeader("Content-Disposition", "attachment; filename=export_wingzy_profiles_by_wings" + (new Date()).toISOString() + ".xlsx");
+  return res.send(report);
+});
+
+let isArrayOfObjectContainingValue = function(array, valueToTest, fieldToTest) {
+  return array.findIndex(elt => elt[fieldToTest] === valueToTest);
+}
+
+let getFamilyNameByIdAndPopulatedOrg = function(org, recordWings) {
+  let output = '';
+  recordWings.forEach(wing => {
+    let familyWings = org.featuredWingsFamily.find(wings => wings._id.equals(wing));
+    if(familyWings) output += (output ? ', ' + familyWings.name : familyWings.name);
+  })
+  return output;
 }
 
 router.put('/superadmin/:recordIdFrom/merge/:recordIdTo', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
