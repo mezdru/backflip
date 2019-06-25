@@ -14,9 +14,11 @@ class GoogleUserHelper {
 				.then(googleRecord => {
 					return resolve(googleRecord);
 				}).catch(err => {
+					console.log(err);
 					return reject(err);
 				});
 			}).catch(err => {
+				console.log(err);
 				return reject(err);
 			});
 		});
@@ -30,11 +32,6 @@ class GoogleUserHelper {
 				'Authorization': 'Bearer ' + accessToken
 			}
 		}, (error, requestResponse, body) => {
-			console.log('body :')
-			console.log(body)
-			
-			console.log('error')
-			console.log(error)
 
 			if(error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
 				return reject(error);
