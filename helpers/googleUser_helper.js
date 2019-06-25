@@ -6,25 +6,27 @@ let LinkHelper = require('../helpers/link_helper');
  */
 class GoogleUserHelper {
 
-	getGoogleRecord(accessToken, organisationId) {
+	getGoogleRecord(accessToken, organisationId, googleUserId) {
 		return new Promise( (resolve, reject) => { 
-			this.fetchGoogleUser(accessToken)
+			this.fetchGoogleUser(accessToken, googleUserId)
 			.then(googleUser => {
 				return this.createRecord(googleUser, organisationId)
 				.then(googleRecord => {
 					return resolve(googleRecord);
 				}).catch(err => {
+					console.log(err);
 					return reject(err);
 				});
 			}).catch(err => {
+				console.log(err);
 				return reject(err);
 			});
 		});
 	}
 
-	fetchGoogleUser(accessToken) {
+	fetchGoogleUser(accessToken, googleUserId) {
 		return new Promise ( (resolve, reject) => {request.get({
-			url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/api/google',
+			url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/api/googleUsers/' + googleUserId,
 			json: true,
 			headers: {
 				'Authorization': 'Bearer ' + accessToken

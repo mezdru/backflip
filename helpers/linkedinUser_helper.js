@@ -6,25 +6,27 @@ let LinkHelper = require('../helpers/link_helper');
  */
 class LinkedinUserHelper {
 
-	getLinkedinRecord(accessToken, organisationId) {
+	getLinkedinRecord(accessToken, organisationId, linkedinUserId) {
 		return new Promise( (resolve, reject) => { 
-			this.fetchLinkedinUser(accessToken)
+			this.fetchLinkedinUser(accessToken, linkedinUserId)
 			.then(linkedinUser => {
 				return this.createRecord(linkedinUser, organisationId)
 				.then(linkedinRecord => {
 					return resolve(linkedinRecord);
 				}).catch(err => {
+					console.log(err);
 					return reject(err);
 				});
 			}).catch(err => {
+				console.log(err);
 				return reject(err);
 			});
 		});
 	}
 
-	fetchLinkedinUser(accessToken) {
+	fetchLinkedinUser(accessToken, linkedinUserId) {
 		return new Promise ( (resolve, reject) => {request.get({
-			url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/api/linkedin',
+			url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + process.env.HOST_AUTH + '/api/linkedinUsers/' + linkedinUserId,
 			json: true,
 			headers: {
 				'Authorization': 'Bearer ' + accessToken
@@ -39,13 +41,28 @@ class LinkedinUserHelper {
 	}
 
 	createRecord(linkedinUser, organisationId) {
-		return (new Record({
-			organisation: organisationId,
-			tag: Record.cleanTag(linkedinUser.email.split('@')[0], 'person'),
-			type:'person',
-			name: linkedinUser.name,
-			links: this.createLinks(linkedinUser)
-		})).save();
+    return new Promise((resolve, reject) => {
+      (new Record({
+        organisation: organisationId,
+        tag: Record.cleanTag(linkedinUser.email.split('@')[0], 'person'),
+        type:'person',
+        name: linkedinUser.name,
+        links: this.createLinks(linkedinUser)
+      })).save()
+      .then(record => {
+        if(linkedinUser.pictures && linkedinUser.pictures.length > 0) {
+					let defaultPicture = linkedinUser.pictures.filter(picture => picture.type !== 'default');
+          record.addPictureByUrlAsync((defaultPicture.length > 0 ? (defaultPicture[0].value).replace('/s50', '') : null))
+          .then((pictureField) => {
+            record.picture = pictureField.picture;
+            record.save().then(() => {resolve(record)});
+          })
+          .catch(e => reject(e));
+        } else {
+          resolve(record);
+        }
+      }).catch(e => {reject(e)}); 
+    })
 	}
 
 	createLinks(linkedinUser) {
