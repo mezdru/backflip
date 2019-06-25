@@ -187,13 +187,13 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
       currentRecord = await new Promise((resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
 
     if(!currentRecord && currentUser.googleUser)
-      currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId)
+      currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId, currentUser.googleUser)
       .then(record => resolve(record))
       .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  }));
 
     // Try to get record by LinkedIn
     if (!currentRecord && currentUser.linkedinUser)
-      currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
+      currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId, currentUser.linkedinUser)
         .then(record => resolve(record))
         .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  } ));
 
@@ -341,26 +341,40 @@ router.post('/', passport.authenticate('bearer', { session: false }), authorizat
  */
 router.put('/:profileId', passport.authenticate('bearer', { session: false }), authorization, validate_record, function (req, res, next) {
   let recordToUpdate = req.body.record;
-  let recordType = new Record(recordToUpdate);
+
+  if( typeof recordToUpdate === 'string' || recordToUpdate instanceof String ) {
+    try {
+      recordToUpdate = JSON.parse(recordToUpdate);
+    }catch(err) {
+      console.log(err);
+      return res.status(422).json({message: 'Unprocessable entity'});
+    }
+  }
+
+  workingRecord = new Record(recordToUpdate);
 
   if (!recordToUpdate) return res.status(422).json({ message: 'Missing parameter' });
 
-  if (recordToUpdate.links) {
-    var links = [];
-    recordType.links.forEach(function (link, index) {
-      if (link.value)
-        links.push(LinkHelper.makeLink(link.value, link.type));
-    });
-    recordType.makeLinks(links);
-    recordToUpdate.links = recordType.links;
-  }
+  Record.findOne({ '_id': req.params.profileId })
+  .then(record => {
 
+    // Prepare links
+    if (recordToUpdate.links) {
+      var links = record.links;
+      recordToUpdate.links.forEach(function (link, index) {
+        if (link.value)
+          links.push(LinkHelper.makeLink(link.value, link.type));
+      });
+      workingRecord.makeLinks(links);
+      recordToUpdate.links = workingRecord.links;
+    }
 
-
-  Record.findOneAndUpdate({ '_id': req.params.profileId, 'organisation': req.organisation._id }, { $set: recordToUpdate }, { new: true })
+    // Update record
+    Record.findOneAndUpdate({ '_id': req.params.profileId }, { $set: recordToUpdate }, { new: true })
     .then(recordUpdated => {
       if (!recordUpdated) return res.status(404).json({ message: 'Record not found.' });
 
+      // Get new populated record
       Record.findOne({ '_id': recordUpdated._id, 'organisation': req.organisation._id })
         .populate('hashtags', '_id tag type name name_translated picture')
         .populate('within', '_id tag type name name_translated picture')
@@ -376,9 +390,9 @@ router.put('/:profileId', passport.authenticate('bearer', { session: false }), a
           } else {
             return res.status(200).json({ message: 'Record updated with success.', record: recordUpdated });
           }
-        });
-
-    }).catch((err) => { return next(err); });
+        }).catch((err) => { return next(err); });
+      }).catch((err) => { return next(err); });
+  }).catch((err) => { return next(err); });
 });
 
 /**
