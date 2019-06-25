@@ -31,9 +31,9 @@ router.post('/superadmin/export/all/byWings/organisation/:orgId', passport.authe
     profiles: {displayName: 'Profiles', width: 120, headerStyle: styles.headerDark},
   };
 
-  var organisation = await Organisation.findOne({_id: req.params.orgId}).populate('featuredWingsFamily', '_id name tag').then((org => org)).catch();
+  var organisation = await Organisation.findOne({_id: req.params.orgId}).populate('featuredWingsFamily', '_id name tag name_translated').then((org => org)).catch();
   var profiles = await  Record.find({organisation: organisation._id, type: 'person'})
-                        .populate('hashtags', '_id name tag hashtags').then(records => records).catch();
+                        .populate('hashtags', '_id name tag hashtags name_translated').then(records => records).catch();
                         
   var data = [];
 
@@ -49,7 +49,7 @@ router.post('/superadmin/export/all/byWings/organisation/:orgId', passport.authe
         data.push(
           {
             familyName: getFamilyNameByIdAndPopulatedOrg(organisation, currentWings.hashtags),
-            name: currentWings.name,
+            name: currentWings.name_translated.en || currentWings.name,
             tag: currentWings.tag,
             occurrences: 1,
             profiles: currentProfile.name
@@ -79,7 +79,7 @@ let getFamilyNameByIdAndPopulatedOrg = function(org, recordWings) {
   let output = '';
   recordWings.forEach(wing => {
     let familyWings = org.featuredWingsFamily.find(wings => wings._id.equals(wing));
-    if(familyWings) output += (output ? ', ' + familyWings.name : familyWings.name);
+    if(familyWings) output += (output ? ', ' + (familyWings.name_translated.en || familyWings.name) : (familyWings.name_translated.en || familyWings.name) );
   })
   return output;
 }
