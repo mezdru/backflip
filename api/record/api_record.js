@@ -319,27 +319,11 @@ router.post('/', passport.authenticate('bearer', { session: false }), authorizat
     });
 });
 
-/**
- * @api {put} /api/profiles/:profileId Update Record
- * @apiName PutRecord
- * @apiGroup Record
- * @apiVersion 0.9.0
- * 
- * @apiHeader {String} Authorization User 'Bearer access_token'
- * @apiParam {Record} Record to update
- * @apiParam {String} profileId Id of the Record (person or hashtag)
- * @apiParam {String} orgId Id of the Organisation (Body parameter)
- *  
- * @apiSuccess {String} message Record fetch with success.
- * @apiSuccess {Record} record Record object
- * 
- * @apiError (500 Internal Server Error) InternalError Internal error
- * @apiError (404 Not Found) RecordNotFound Record not found. OR Organisation not found.
- * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
- * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
- * @apiError (422 Missing Parameter) Missing parameter
- */
-router.put('/:profileId', passport.authenticate('bearer', { session: false }), authorization, validate_record, function (req, res, next) {
+
+
+// put for google sheet
+// @todo Will be include with classic PUT after refacto
+router.put('/:profileId/googleSheet', passport.authenticate('bearer', { session: false }), authorization, validate_record, function (req, res, next) {
   let recordToUpdate = req.body.record;
 
   if( typeof recordToUpdate === 'string' || recordToUpdate instanceof String ) {
@@ -393,6 +377,71 @@ router.put('/:profileId', passport.authenticate('bearer', { session: false }), a
         }).catch((err) => { return next(err); });
       }).catch((err) => { return next(err); });
   }).catch((err) => { return next(err); });
+});
+
+
+
+// classic put 
+/**
+ * @api {put} /api/profiles/:profileId Update Record
+ * @apiName PutRecord
+ * @apiGroup Record
+ * @apiVersion 0.9.0
+ * 
+ * @apiHeader {String} Authorization User 'Bearer access_token'
+ * @apiParam {Record} Record to update
+ * @apiParam {String} profileId Id of the Record (person or hashtag)
+ * @apiParam {String} orgId Id of the Organisation (Body parameter)
+ *  
+ * @apiSuccess {String} message Record fetch with success.
+ * @apiSuccess {Record} record Record object
+ * 
+ * @apiError (500 Internal Server Error) InternalError Internal error
+ * @apiError (404 Not Found) RecordNotFound Record not found. OR Organisation not found.
+ * @apiError (401 Unauthorized) InvalidGrant Invalid resource owner credentials.
+ * @apiError (403 Unauthorized) Unauthorized Client id or secret invalid. OR You haven't access to this Organisation.
+ * @apiError (422 Missing Parameter) Missing parameter
+ */
+router.put('/:profileId', passport.authenticate('bearer', { session: false }), authorization, validate_record, function (req, res, next) {
+  let recordToUpdate = req.body.record;
+  let recordType = new Record(recordToUpdate);
+
+  if (!recordToUpdate) return res.status(422).json({ message: 'Missing parameter' });
+
+  if (recordToUpdate.links) {
+    var links = [];
+    recordType.links.forEach(function (link, index) {
+      if (link.value)
+        links.push(LinkHelper.makeLink(link.value, link.type));
+    });
+    recordType.makeLinks(links);
+    recordToUpdate.links = recordType.links;
+  }
+
+
+
+  Record.findOneAndUpdate({ '_id': req.params.profileId, 'organisation': req.organisation._id }, { $set: recordToUpdate }, { new: true })
+    .then(recordUpdated => {
+      if (!recordUpdated) return res.status(404).json({ message: 'Record not found.' });
+
+      Record.findOne({ '_id': recordUpdated._id, 'organisation': req.organisation._id })
+        .populate('hashtags', '_id tag type name name_translated picture')
+        .populate('within', '_id tag type name name_translated picture')
+        .then(recordUpdated => {
+          if (recordToUpdate.picture && recordToUpdate.picture.url) {
+            recordUpdated.addPictureByUrlAsync(recordToUpdate.picture.url)
+              .then(pictureField => {
+                recordUpdated.picture = pictureField.picture;
+                recordUpdated.save().then((recordUpdatedBis) => {
+                  return res.status(200).json({ message: 'Record updated with success.', record: recordUpdatedBis });
+                }).catch((err) => { return next(err); });
+              })
+          } else {
+            return res.status(200).json({ message: 'Record updated with success.', record: recordUpdated });
+          }
+        });
+
+    }).catch((err) => { return next(err); });
 });
 
 /**
