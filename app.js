@@ -137,14 +137,17 @@ app.use(function(req, res, next) {
 });
 
 // Generic logging
-var morgan = require('morgan');
-morgan.token('fullurl', function getFullUrl(req) {
-  return req.hostname + req.originalUrl;
-});
-morgan.token('user', function user(req) {
-  return undefsafe(req, 'session.user._id') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-});
-app.use(morgan(':method :fullurl :status - :res[content-length] b in :response-time ms - :user'));
+if(process.env.NODE_ENV !== 'test') {
+  var morgan = require('morgan');
+  morgan.token('fullurl', function getFullUrl(req) {
+    return req.hostname + req.originalUrl;
+  });
+  morgan.token('user', function user(req) {
+    return undefsafe(req, 'session.user._id') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  });
+  app.use(morgan(':method :fullurl :status - :res[content-length] b in :response-time ms - :user'));
+}
+
 
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');

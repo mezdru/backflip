@@ -5,10 +5,12 @@ var Authorization = require('../authorization/access.authorization');
 var AuthorizationOrganisation = require('../authorization/organisation.authorization');
 var ValidateRecord = require('../validation/record.validation');
 let passport = require('passport');
+require('../passport/strategy');
 
 const RESOURCE_MODEL = 'record';
 
 router.use((req, res, next) => {
+  req.backflip = req.backflip || {};
   req.backflip.resource = {
     model: RESOURCE_MODEL
   }

@@ -52,21 +52,22 @@ exports.createSingleRecord = async (req, res, next) => {
 }
 
 exports.createRecordLinks = async (req, res, next) => {
-  Record.findOne({ _id: req.params.id })
+  let record = await Record.findOne({ _id: req.params.id })
     .populate('hashtags', '_id tag type name name_translated picture')
     .populate('within', '_id tag type name name_translated picture')
-    .then(record => {
-      if (!record) {
-        req.backflip = { message: 'Record not found', status: 404 };
-      } else {
-        if (req.body.link) record.addLink(req.body.link);
-        if (req.body.links) record.addLinks(req.body.links);
-        await record.save()
-          .then(() => { req.backflip = { message: 'Record links created with success.', status: 200, data: record } })
-          .catch(err => next(err));
-      }
-      return next();
-    }).catch(err => next(err));
+    .catch(err => next(err));
+
+  if (!record) {
+    req.backflip = { message: 'Record not found', status: 404 };
+  } else {
+    if (req.body.link) record.addLink(req.body.link);
+    if (req.body.links) record.addLinks(req.body.links);
+    await record.save()
+      .then(() => { req.backflip = { message: 'Record links created with success.', status: 200, data: record } })
+      .catch(err => next(err));
+  }
+
+  return next();
 }
 
 exports.updateSingleRecord = async (req, res, next) => {
@@ -74,19 +75,16 @@ exports.updateSingleRecord = async (req, res, next) => {
 }
 
 exports.deleteSingleRecord = async (req, res, next) => {
-  Record.findOne({ _id: req.params.id })
-    .then(record => {
+  let record = await Record.findOne({ _id: req.params.id }).catch(err => next(err));
 
-      if (!record) {
-        req.backflip = { message: 'Record not found', status: 404 };
-      } else {
-        await Record.deleteOne({ _id: record._id })
-          .then(() => {
-            req.backflip = { message: 'Record deleted with success', status: 200, data: record };
-          }).catch(err => next(err));
-      }
+  if (!record) {
+    req.backflip = { message: 'Record not found', status: 404 };
+  } else {
+    await Record.deleteOne({ _id: record._id })
+      .then(() => {
+        req.backflip = { message: 'Record deleted with success', status: 200, data: record };
+      }).catch(err => next(err));
+  }
 
-      return next();
-
-    }).catch(err => next(err));
+  return next();
 }

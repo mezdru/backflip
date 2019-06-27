@@ -27,7 +27,7 @@ router.use((req, res, next) => {
 });
 
 router.use((req, res, next) => {
-	if (!req.organisationId) return res.status(422).json({ message: 'Missing parameter, could not retrieve organisation Id.' });
+	if (!req.organisationId && !req.user.superadmin) return res.status(422).json({ message: 'Missing parameter, could not retrieve organisation Id.' });
 	next();
 });
 
@@ -41,7 +41,7 @@ router.use(function (req, res, next) {
 	Organisation.findOne({ '_id': req.organisationId })
 		.populate('featuredWingsFamily', '_id tag type name name_translated picture intro')
 		.then(organisation => {
-			if (!organisation) return res.status(404).json({ message: 'Organisation not found' });
+			if (!organisation && !req.user.superadmin) return res.status(404).json({ message: 'Organisation not found' });
 
 			// If req.user isn't authorized user && isn't a Client
 			if 	(!req.user || 
