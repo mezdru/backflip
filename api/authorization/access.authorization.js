@@ -16,7 +16,13 @@ exports.resUserOwnOnly = async (req, res, next) => {
   var resData = req.backflip;
 
   if(req.user.superadmin || (resData.owner && resData.owner.equals(req.user._id)))
-    return res.status(resData.status).json({message: resData.message, data: resData.data})
+    return res.status(resData.status).json({message: resData.message, data: resData.data});
+
+  if(resData.organisation) {
+    let orgAndRecord = req.user.orgsAndRecords.find(oar => oar.organisation.equals(resData.organisation));
+    if(orgAndRecord && orgAndRecord.admin)
+      return res.status(resData.status).json({message: resData.message, data: resData.data});
+  }
 
   return response403(res);
 }

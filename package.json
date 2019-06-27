@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www",
-    "test": "nodemon --watch . --exec mocha --timeout 10000 --exit || true"
+    "test": "nodemon --watch . --exec nyc mocha --timeout 10000 --exit || true"
   },
   "repository": {
     "type": "git",
@@ -74,6 +74,16 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "api/**"
+    ],
+    "exclude": [
+      "**/old/**"
+    ]
   }
 }

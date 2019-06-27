@@ -1,4 +1,6 @@
 var Record = require('../models/record');
+var slug = require('slug');
+var uppercamelcase = require('uppercamelcase');
 
 exports.getRecords = async (req, res, next) => {
   Record.find({ ...req.query })
@@ -18,10 +20,21 @@ exports.getSingleRecord = async (req, res, next) => {
       if (!record) {
         req.backflip = { message: 'Record not found', status: 404 };
       } else {
-        req.backflip = { message: 'Record found', status: 200, data: record };
+        req.backflip = { 
+          message: 'Record found', 
+          status: 200, 
+          data: record,
+          organisation: record.organisation,
+          owner: (req.user.orgsAndRecords.find(oar => oar.record.equals(record._id)) ? req.user._id : null ) };
       }
       return next();
-    }).catch(err => { return next(err) });
+    }).catch(err => { 
+      if(err.name = 'CastError') {
+        req.backflip = {message: 'Record id is not valid.', status: 422};
+        return next();
+      }
+      return next(err) 
+    });
 }
 
 exports.createSingleRecord = async (req, res, next) => {
@@ -34,7 +47,7 @@ exports.createSingleRecord = async (req, res, next) => {
     }
   }
 
-  Record.makeFromTagAsync(record.tag, req.organisation._id)
+  Record.makeFromTagAsync(record.tag, req.organisation._id, record.hidden)
     .then(recordSaved => {
       record.tag = recordSaved.tag; // tag can be modify
       record.name = record.name || recordSaved.name;
@@ -48,7 +61,13 @@ exports.createSingleRecord = async (req, res, next) => {
               return next();
             });
         }).catch(err => next(err));
-    }).catch(err => next(err));
+    }).catch(err => {
+      if(err.code === 11000 && record.type === 'hashtag') {
+        req.backflip = {message: 'Record already exists in this organisation.', status: 409};
+        return next();
+      }
+      return next(err);
+    });
 }
 
 exports.createRecordLinks = async (req, res, next) => {

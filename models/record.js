@@ -445,7 +445,7 @@ recordSchema.statics.makeFromTag = function(tag, organisationId, callback) {
   else return record;
 };
 // new
-recordSchema.statics.makeFromTagAsync = function(tag, orgId) {
+recordSchema.statics.makeFromTagAsync = function(tag, orgId, isHidden) {
   let type = this.getTypeFromTag(tag);
   let name = this.getNameFromTag(tag);
   tag = this.cleanTag(tag, type);
@@ -456,6 +456,7 @@ recordSchema.statics.makeFromTagAsync = function(tag, orgId) {
     organisation: orgId
   };
   record = this.makeFromInputObject(inputObject);
+  record.hidden = isHidden;
   return record.save();
 };
 
