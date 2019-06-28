@@ -308,3 +308,24 @@ describe('POST record', () => {
   });
 
 });
+
+describe('PUT link', () => {
+
+  it('it should PUT link (superadmin)', (done) => {
+    chai.request(server)
+      .put('/api/records/' + superadminRecordId + '/links/' + '5d15e37b5d8db9512441efb1')
+      .send({
+        link: {
+          value: 'quentin+2@wingzy.com'
+        }
+      })
+      .set('Authorization', 'Bearer ' + access_token_superadmin)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.data.value).to.equal('quentin+2@wingzy.com');
+        expect(res.body.data._id).to.equal('5d15e37b5d8db9512441efb1');
+        done();
+      });
+  });
+  
+});

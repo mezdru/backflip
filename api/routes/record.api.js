@@ -17,6 +17,8 @@ router.use((req, res, next) => {
   next();
 });
 
+/** GETs */
+
 router.get(
   '/:id/occurrence',
   passport.authenticate('bearer', {session: false}),
@@ -42,11 +44,13 @@ router.get(
   Authorization.resWithData
 )
 
+/** POSTs */
+
 router.post(
   '/:id/links',
   AuthorizationOrganisation,
   Authorization.userOwnsRecordOnly,
-  RecordController.createRecordLinks,
+  RecordController.createSingleLink,
   Authorization.resWithData
 )
 
@@ -59,13 +63,34 @@ router.post(
   Authorization.resWithData
 )
 
+/** PUTs */
+
+router.put(
+  '/:id/links/:subId',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  Authorization.userOwnsRecordOnly,
+  RecordController.updateSingleLink,
+  Authorization.resWithData
+)
+
 router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
   Authorization.userOwnsRecordOnly,
   ValidateRecord,
-  // ...
+  RecordController.updateSingleRecord,
+  Authorization.resWithData 
+)
+
+/** DELETEs */
+
+router.delete(
+  '/:id/links/:subId',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  RecordController.deleteSingleLink,
   Authorization.resWithData
 )
 

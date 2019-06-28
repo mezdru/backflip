@@ -1,28 +1,13 @@
 var User = require('../models/user');
 
-exports.getUsers = async (req, res, next) => {
-  User.find(req.query)
-  .then(linkedinUsers => {
-
-    if(linkedinUsers.length === 0) {
-      req.backflipAuth = {message: 'Linkedin Users not found', status: 404};
-    } else {
-      req.backflipAuth = {message: 'Linkedin Users found', status: 200, data: linkedinUsers};
-    }
-
-    return next();
-
-  }).catch(err => {return next(err)});
-}
-
 exports.getSingleUser = async (req, res, next) => {
-  User.findOne({_id: req.params.id, ... req.query})
+  User.findOne({_id: req.params.id || req.user._id})
   .then(linkedinUser => {
 
       if(!linkedinUser) {
-        req.backflipAuth = {message: 'Linkedin User not found', status: 404};
+        req.backflip = {message: 'User not found', status: 404};
       } else {
-        req.backflipAuth = {message: 'Linkedin User found', status: 200, data: linkedinUser, owner: linkedinUser.user};
+        req.backflip = {message: 'User found', status: 200, data: linkedinUser, owner: linkedinUser.user};
       }
 
       return next();
@@ -35,26 +20,38 @@ exports.getMe = async (req, res, next) => {
   return next();
 }
 
-exports.updateMeOrgsAndRecords = async (req, res, next) => {
+exports.updateOrgAndRecord = async (req, res, next) => {
+  if(!req.body.orgAndRecord || ( !req.query.organisation || !req.body.orgAndRecord.organisation)) {
+    req.backflip = {message: 'Missing parameter: orgAndRecord', status: 422};
+    return next();
+  }
 
-  if(req.body.orgAndRecord.welcomed) {
+  let organisationId = req.body.orgAndRecord.organisation || req.query.organisation;
+  let currentOrgAndRecord = req.user.getOrgAndRecord(organisationId);
+
+  if(!currentOrgAndRecord) {
+    req.backflip = {message: 'User is not linked to this organisation.', status: 404};
+    return next();
+  }
+
+  if(!currentOrgAndRecord.welcomed && req.body.orgAndRecord.welcomed) {
     User.findOne({_id: req.user._id})
     .populate('orgsAndRecords.record', '_id name tag')
     .populate('orgsAndRecords.organisation', '_id name tag cover logo canInvite')
     .then((user) => {
-      user.welcomeToOrganisation(req.query.organisation, (err, userUpdated) => {
+      user.welcomeToOrganisation(organisationId, (err, userUpdated) => {
         if(err) {
           req.backflip = {message: 'User is not linked to this organisation.', status: 404};
           return next();
         }
 
-        let orgAndRecord = user.getOrgAndRecord(req.params.orgId);
-        if(orgAndRecord.record) {
-          Record.findOneAndUpdate({_id: orgAndRecord.record._id}, {$set: {hidden: false}} );
-          EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecord.organisation, orgAndRecord.record, res);
-          EmailUser.sendEmailToInvitationCodeCreator(orgAndRecord.organisation, user, orgAndRecord.record, res);
+        let orgAndRecordPopulate = user.getOrgAndRecord(organisationId);
+        if(orgAndRecordPopulate.record) {
+          Record.findOneAndUpdate({_id: orgAndRecordPopulate.record._id}, {$set: {hidden: false}} );
+          EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record, res);
+          EmailUser.sendEmailToInvitationCodeCreator(orgAndRecordPopulate.organisation, user, orgAndRecordPopulate.record, res);
 
-          if(orgAndRecord.organisation.canInvite) {
+          if(orgAndRecordPopulate.organisation.canInvite) {
             var Agenda = require('../models/agenda_scheduler');
             Agenda.scheduleSendInvitationCta(user, orgAndRecord.organisation, orgAndRecord.record);
           }
@@ -64,9 +61,9 @@ exports.updateMeOrgsAndRecords = async (req, res, next) => {
         return next();
 
       });
-    });
-  } else {
-    req.backflip = {message: 'This API route isn\'t implemented yet.', status: 500};
-    return next();
+    }).catch(err => next(err));
   }
+
+  req.backflip = {message: 'You can not update this field.', status: 422};
+  return next();
 }

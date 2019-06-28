@@ -80,7 +80,8 @@
   "nyc": {
     "all": true,
     "include": [
-      "api/**"
+      "api/**",
+      "controllers/**"
     ],
     "exclude": [
       "**/old/**"

@@ -25,7 +25,7 @@ router.get(
   '', 
   passport.authenticate('bearer', {session: false}),
   Authorization.superadminOnly, 
-  UserController.getUsers,
+  UserController.getSingleUser,
   Authorization.resWithData
 )
 
