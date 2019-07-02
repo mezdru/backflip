@@ -20,6 +20,28 @@ exports.getMe = async (req, res, next) => {
   return next();
 }
 
+exports.updateSingleUser = async (req, res, next) => {
+  if(!req.body.user) {
+    req.backflip = {message: 'Missing body parameter: user', status: 422};
+    return next();
+  }
+
+  if(!req.body.user.locale) {
+    req.backflip = {message: 'Missing parameter property: locale. You can only update this property for now.', status: 422};
+    return next();
+  }
+
+  User.findOneAndUpdate({_id: req.params.id}, {$set: {locale: req.body.user.locale}}, {new: true})
+  .then(userUpdated => {
+    if(!userUpdated) {
+      req.backflip = {message: 'User not found', status: 404};
+    } else {
+      req.backflip = {message: 'User (locale property) updated with success', status: 200, data: userUpdated};
+    }
+    return next();
+  }).catch(err => next(err));
+}
+
 exports.updateOrgAndRecord = async (req, res, next) => {
   if(!req.body.orgAndRecord || ( !req.query.organisation || !req.body.orgAndRecord.organisation)) {
     req.backflip = {message: 'Missing parameter: orgAndRecord', status: 422};

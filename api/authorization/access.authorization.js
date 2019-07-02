@@ -43,6 +43,12 @@ exports.userOwnsRecordOnly = async (req, res, next) => {
   return response403(res);
 }
 
+exports.userOwnsOnly = async (req, res, next) => {
+  if(req.user.superadmin) return next();
+  if(req.params.id.equals(req.user._id)) return next();
+  return response403(res);
+}
+
 // Admin of the organisation only
 exports.adminOnly = async (req, res, next) => {
   if(req.user.superadmin) return next();

@@ -43,4 +43,12 @@ router.put(
   Authorization.resWithData
 )
 
+router.put(
+  '/:id',
+  passport.authenticate('bearer', {session: false}),
+  Authorization.userOwnsOnly,
+  UserController.updateSingleUser,
+  Authorization.resWithData
+)
+
 module.exports = router;
