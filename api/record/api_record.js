@@ -111,11 +111,44 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
 
   req.body.records.forEach(recordObject => {
     let recordToUpdate = new Record(recordObject);
+
     if (recordObject._id) {
+      // ---- UPDATE RECORD ----
+
       delete recordToUpdate._id;
-      Record.findByIdAndUpdate(recordObject._id, recordToUpdate);
+
+      Record.findOne({_id: recordObject._id})
+      .then(currentRecord => {
+        if(recordToUpdate.links) {
+          var links = currentRecord.links;
+          recordToUpdate.links.forEach((link, index) => {
+            if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
+          });
+          recordToUpdate.links = links;
+        }
+
+        Record.findByIdAndUpdate(recordObject._id, recordToUpdate);
+      });
+
     } else {
-      recordToUpdate.tag = Record.getTagFromEmail(recordToUpdate.links.find(link => link.type === 'email').value);
+      // ---- CREATE RECORD ----
+
+      // Create TAG if needed
+      if(recordToUpdate.type === 'person')
+        recordToUpdate.tag = Record.getTagFromEmail(recordToUpdate.links.find(link => link.type === 'email').value);
+      else if(recordToUpdate.type === 'hashtag' && recordToUpdate.name && !recordToUpdate.tag)
+        recordToUpdate.tag = '#' + slug(uppercamelcase(record.name));
+
+      // Handle links
+      if(recordToUpdate.links) {
+        var links = [];
+        recordToUpdate.links.forEach((link) => {
+          if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
+        });
+        recordToUpdate.links = links;
+      }
+
+      // Handle picture & save
       if (recordToUpdate.picture && recordToUpdate.picture.url) {
         recordToUpdate.addPictureByUrl(recordToUpdate.picture.url, function (err, data) {
           recordToUpdate.save();
