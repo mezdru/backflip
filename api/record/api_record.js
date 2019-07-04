@@ -138,7 +138,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
       if(recordToUpdate.type === 'person')
         recordToUpdate.tag = Record.getTagFromEmail(recordToUpdate.links.find(link => link.type === 'email').value);
       else if(recordToUpdate.type === 'hashtag' && recordToUpdate.name && !recordToUpdate.tag)
-        recordToUpdate.tag = '#' + slug(uppercamelcase(record.name));
+        recordToUpdate.tag = '#' + slug(uppercamelcase(recordToUpdate.name));
 
       console.log('API - PROFILES - BULK : Create record with tag : ' + recordToUpdate.tag);
 
