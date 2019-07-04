@@ -114,6 +114,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
 
     if (recordObject._id) {
       // ---- UPDATE RECORD ----
+      console.log('API - PROFILES - BULK : Update record with id : ' + recordObject._id);
 
       delete recordToUpdate._id;
 
@@ -138,6 +139,9 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
         recordToUpdate.tag = Record.getTagFromEmail(recordToUpdate.links.find(link => link.type === 'email').value);
       else if(recordToUpdate.type === 'hashtag' && recordToUpdate.name && !recordToUpdate.tag)
         recordToUpdate.tag = '#' + slug(uppercamelcase(record.name));
+
+      console.log('API - PROFILES - BULK : Create record with tag : ' + recordToUpdate.tag);
+
 
       // Handle links
       if(recordToUpdate.links) {
