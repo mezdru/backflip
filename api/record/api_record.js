@@ -124,7 +124,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
           recordToUpdate.links.forEach((link, index) => {
             if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
           });
-          recordToUpdate.links = links;
+          recordToUpdate.makeLinks(links);
         }
 
         Record.findByIdAndUpdate(recordObject._id, recordToUpdate);
@@ -145,7 +145,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
         recordToUpdate.links.forEach((link) => {
           if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
         });
-        recordToUpdate.links = links;
+        recordToUpdate.makeLinks(links);
       }
 
       // Handle picture & save
