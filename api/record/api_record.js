@@ -128,7 +128,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
           recordToUpdate.makeLinks(links);
         }
 
-        Record.findByIdAndUpdate(recordObject._id, recordToUpdate);
+        Record.findOneAndUpdate({_id: recordObject._id}, {$set: recordToUpdate}, {new: true});
       });
 
     } else {

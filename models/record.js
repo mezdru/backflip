@@ -379,7 +379,7 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
-
+// @todo Populate is not a method of findOneAndUpdate
 recordSchema.statics.findByIdAndUpdate = function(recordId, recordUpdated) {
   return this.findOneAndUpdate({'_id': recordId}, {$set: recordUpdated}, {new: true})
   .populate('hashtags', '_id tag type name name_translated picture')
