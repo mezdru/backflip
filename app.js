@@ -40,6 +40,7 @@ app.use(function(req, res, next) {
 var mongoose = require('mongoose');
 mongoose.plugin(schema => { schema.options.usePushEach = true; });
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true});
+mongoose.set('useFindAndModify', false);
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console));
