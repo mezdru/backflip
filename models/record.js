@@ -731,7 +731,12 @@ recordSchema.pre('save', function(next) {
 });
 
 recordSchema.post('save', function(doc) {
-  this.algoliaSync();
+  Record.findOne({'_id' : this._id})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
+  .then(doc => {
+    doc.algoliaSync();
+  });
 });
 
 recordSchema.post('updateOne', function(doc) {
