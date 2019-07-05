@@ -116,7 +116,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
     
     if (recordToUpdateId) {
       // ---- UPDATE RECORD ----
-      console.log('API - PROFILES - BULK : Update record with id : ' + recordObject._id);
+      console.log('API - PROFILES - BULK : Update record with id : ' + recordToUpdateId);
 
       Record.findOne({_id: recordToUpdateId})
       .then(currentRecord => {
