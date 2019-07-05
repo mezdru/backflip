@@ -749,7 +749,7 @@ recordSchema.post('updateOne', function(doc) {
 });
 
 recordSchema.post('findOneAndUpdate', function(doc) {
-  Record.findOne({'_id' : doc._id})
+  Record.findOne({'_id' : (doc ? doc._id : this._id)})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
   .then(docPopulated => {
