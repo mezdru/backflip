@@ -111,14 +111,14 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
 
   req.body.records.forEach(recordObject => {
     let recordToUpdate = new Record(recordObject);
-
-    if (recordObject._id) {
+    let recordToUpdateId = recordObject._id;
+    delete recordObject._id;
+    
+    if (recordToUpdateId) {
       // ---- UPDATE RECORD ----
       console.log('API - PROFILES - BULK : Update record with id : ' + recordObject._id);
 
-      delete recordToUpdate._id;
-
-      Record.findOne({_id: recordObject._id})
+      Record.findOne({_id: recordToUpdateId})
       .then(currentRecord => {
         if(recordToUpdate.links) {
           var links = currentRecord.links;
@@ -126,9 +126,10 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
             if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
           });
           recordToUpdate.makeLinks(links);
+          recordObject.links = recordToUpdate.links;
         }
-
-        Record.findOneAndUpdate({_id: recordObject._id}, {$set: recordToUpdate}, {new: true});
+        
+        Record.findOneAndUpdate({_id: recordToUpdateId}, {$set: recordObject}, {new: true});
       });
 
     } else {
