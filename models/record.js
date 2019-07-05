@@ -752,9 +752,14 @@ recordSchema.post('findOneAndUpdate', function(doc) {
   Record.findOne({'_id' : doc._id})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
-  .then(doc => {
-    doc.algoliaSync();
-  });
+  .then(docPopulated => {
+    if(docPopulated)
+      docPopulated.algoliaSync();
+    else
+      console.log('Error: post action of findOneAndUpdate did not find the Record with id '+doc._id);
+  }).catch(e => {
+    console.log(e);
+  })
 });
 
 recordSchema.plugin(mongooseDelete, {
