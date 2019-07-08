@@ -247,7 +247,7 @@ organisationSchema.pre('save', function (next) {
     next();
 });
 
-var slack = require('slack-notify')('https://hooks.slack.com/services/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');
+var slack = require('slack-notify')(process.env.SLACK_APP);
 organisationSchema.post('save', function (organisation) {
   if (this.wasNew) {
     slack.send({
