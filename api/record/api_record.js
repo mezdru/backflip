@@ -128,6 +128,15 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
           recordToUpdate.makeLinks(links);
           recordObject.links = recordToUpdate.links;
         }
+
+        if(recordToUpdate.hashtags && recordToUpdate.hashtags.length > 0 && currentRecord.hashtags && currentRecord.hashtags.length > 0) {
+          // we want to add wings
+          currentRecord.hashtags.forEach(hashtag => {
+            if(!recordToUpdate.hashtags.find(wing => (wing._id || wing) === hashtag )) {
+              recordToUpdate.hashtags.unshift(hashtag);
+            }
+          });
+        }
         
         Record.findOneAndUpdate({_id: recordToUpdateId}, {$set: recordObject}, {new: true});
       });
