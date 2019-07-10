@@ -129,7 +129,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, 
           recordObject.links = recordToUpdate.links;
         }
 
-        if(recordObject.hashtags && recordObject.hashtags.length > 0 && currentRecord.hashtags && currentRecord.hashtags.length > 0) {
+        if(recordObject.hashtags && recordObject.hashtags.length > 0 && currentRecord.hashtags && currentRecord.hashtags.length > 0 && currentRecord.type === 'hashtag') {
           // we want to add wings
           currentRecord.hashtags.forEach(hashtag => {
             if(!recordObject.hashtags.find(wing => JSON.stringify(wing._id || wing) === JSON.stringify(hashtag) )) {
