@@ -734,8 +734,8 @@ recordSchema.post('save', function(doc) {
   Record.findOne({'_id' : this._id})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
-  .then(doc => {
-    doc.algoliaSync();
+  .then(docPopulated => {
+    (docPopulated || this).algoliaSync();
   });
 });
 
