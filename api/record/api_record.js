@@ -12,6 +12,7 @@ var GoogleUserHelper = require('../../helpers/googleUser_helper');
 var uppercamelcase = require('uppercamelcase');
 var slug = require('slug');
 var passport = require('passport');
+let mongoose = require('mongoose');
 require('../passport/strategy');
 
 let asyncForEach = async (array, callback) => {
@@ -22,17 +23,17 @@ let asyncForEach = async (array, callback) => {
 
 router.put('/superadmin/:recordIdFrom/merge/:recordIdTo', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
   if (!req.user.isSuperAdmin()) return res.status(403).json({ message: 'This is a restricted route.' });
-  if(!req.body.orgId) return res.status(422).json({message: 'The body param : <orgId> is required.'});
+  if (!req.body.orgId) return res.status(422).json({ message: 'The body param : <orgId> is required.' });
 
   var fromRecord = await Record.findByIdAsync(req.params.recordIdFrom, req.body.orgId);
   var toRecord = await Record.findByIdAsync(req.params.recordIdTo, req.body.orgId);
 
-  if(!fromRecord || !toRecord) return res.status(404).json({message: "We cant't find these records. Please, check the ids provided."})
+  if (!fromRecord || !toRecord) return res.status(404).json({ message: "We cant't find these records. Please, check the ids provided." })
 
-  var recordsUsingFromRecord = await Record.find({hashtags: fromRecord._id})  
-                              .populate('hashtags', '_id tag type name name_translated picture')
-                              .populate('within', '_id tag type name name_translated picture')
-                              .then(recs => {return recs});
+  var recordsUsingFromRecord = await Record.find({ hashtags: fromRecord._id })
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
+    .then(recs => { return recs });
 
   await asyncForEach(recordsUsingFromRecord, async (record) => {
 
@@ -40,23 +41,23 @@ router.put('/superadmin/:recordIdFrom/merge/:recordIdTo', passport.authenticate(
     var indexOfFromRecord = record.hashtags.findIndex(hashtag => hashtag.tag === fromRecord.tag);
 
     // Update record hashtags if it doesn't already contains toRecord
-    if(record.hashtags.findIndex(hashtag => hashtag.tag === toRecord.tag) === -1) {
+    if (record.hashtags.findIndex(hashtag => hashtag.tag === toRecord.tag) === -1) {
       record.hashtags[indexOfFromRecord] = toRecord;
     } else {
       record.hashtags.splice(indexOfFromRecord, 1);
     }
-    await Record.updateOne({_id: record._id}, {$set: {hashtags: record.hashtags}}, { new: true });
+    await Record.updateOne({ _id: record._id }, { $set: { hashtags: record.hashtags } }, { new: true });
   });
 
   // Remove "from record"
-  fromRecord.delete(req.user._id, function(err) {
-    if(err) console.log(err);
+  fromRecord.delete(req.user._id, function (err) {
+    if (err) console.log(err);
     return res.status(200).json(
       {
-        message: 'Records merge with success.', 
-        fromRecord: fromRecord, 
-        toRecord: toRecord, 
-        recordsUpdatedCount: recordsUsingFromRecord.length, 
+        message: 'Records merge with success.',
+        fromRecord: fromRecord,
+        toRecord: toRecord,
+        recordsUpdatedCount: recordsUsingFromRecord.length,
         recordsUpdated: recordsUsingFromRecord
       }
     );
@@ -72,18 +73,18 @@ router.get('/superadmin/sync/algolia/all', passport.authenticate('bearer', { ses
   var recordsUpdated = 0;
 
   Record.find()
-  .populate('hashtags', '_id tag type name name_translated picture')
-  .populate('within', '_id tag type name name_translated picture')
-  .then(async records => {
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
+    .then(async records => {
 
-    await asyncForEach(records, async (record) => {
-      recordsUpdated++;
-      record.save();
-    });
+      await asyncForEach(records, async (record) => {
+        recordsUpdated++;
+        record.save();
+      });
 
-    return res.status(200).json({ message: 'Records sync with Algolia.', recordsUpdated: recordsUpdated });
+      return res.status(200).json({ message: 'Records sync with Algolia.', recordsUpdated: recordsUpdated });
 
-  }).catch((e) => { return next(e); });
+    }).catch((e) => { return next(e); });
 
 });
 
@@ -103,107 +104,42 @@ router.get('/tag/:profileTag/organisation/:organisationId', passport.authenticat
 // Insert or Update an array of Record.
 // @todo Write API doc
 // /api/profiles/bulk
-router.post('/bulk', passport.authenticate('bearer', { session: false }), (req, res, next) => {
+router.post('/bulk', passport.authenticate('bearer', { session: false }), async (req, res, next) => {
   if (!req.user.isSuperAdmin()) return res.status(403).json({ message: 'This is a restricted route.' });
+  if (!req.body.records) return res.status(422).json({ message: 'Missing body parameter : records {Array}' });
 
-  // need parsing because Google sheet script send body as a string object
-  req.body.records = JSON.parse(req.body.records);
+  let records = req.body.records
 
-  req.body.records.forEach(recordObject => {
-    let recordToUpdate = new Record(recordObject);
-    let recordToUpdateId = recordObject._id;
-    delete recordObject._id;
-    
-    if (recordToUpdateId) {
-      // ---- UPDATE RECORD ----
-      console.log('API - PROFILES - BULK : Update record with id : ' + recordToUpdateId);
+  if (typeof records === "string") records = JSON.parse(records);
 
-      Record.findOne({_id: recordToUpdateId})
-      .then(currentRecord => {
-        if(recordToUpdate.links) {
-          var links = currentRecord.links;
-          recordToUpdate.links.forEach((link, index) => {
-            if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
-          });
-          recordToUpdate.makeLinks(links);
-          recordObject.links = recordToUpdate.links;
-        }
+  let recordsUpdated = [];
+  let recordsCreated = [];
 
-        if(recordObject.hashtags && recordObject.hashtags.length > 0 && currentRecord.hashtags && currentRecord.hashtags.length > 0 && currentRecord.type === 'hashtag') {
-          // we want to add wings
-          currentRecord.hashtags.forEach(hashtag => {
-            if(!recordObject.hashtags.find(wing => JSON.stringify(wing._id || wing) === JSON.stringify(hashtag) )) {
-              recordObject.hashtags.unshift(hashtag);
-            }
-          });
-        }
-        
-        
-        Record.findOneAndUpdate({_id: recordToUpdateId}, {$set: recordObject}, {new: true});
-      });
+  await asyncForEach(records, async (incomingRecord) => {
+    let incomingRecordId = incomingRecord._id;
+    delete incomingRecord._id;
 
+    if (incomingRecordId) {
+      console.log('API - PROFILES - BULK : Update record with id : ' + incomingRecordId);
+      recordsUpdated.push(await updateRecord(incomingRecordId, incomingRecord));
     } else {
-      // ---- CREATE RECORD ----
-
-      // Create TAG if needed
-      if(recordToUpdate.type === 'person')
-        recordToUpdate.tag = Record.getTagFromEmail(recordToUpdate.links.find(link => link.type === 'email').value);
-      else if(recordToUpdate.type === 'hashtag' && recordToUpdate.name && !recordToUpdate.tag)
-        recordToUpdate.tag = '#' + slug(uppercamelcase(recordToUpdate.name));
-
-      console.log('API - PROFILES - BULK : Create record with tag : ' + recordToUpdate.tag);
-
-
-      // Handle links
-      if(recordToUpdate.links) {
-        var links = [];
-        recordToUpdate.links.forEach((link) => {
-          if(link.value) links.push(LinkHelper.makeLink(link.value, link.type));
-        });
-        recordToUpdate.makeLinks(links);
-      }
-
-      // Handle picture & save
-      if (recordToUpdate.picture && recordToUpdate.picture.url) {
-        recordToUpdate.addPictureByUrl(recordToUpdate.picture.url, function (err, data) {
-          recordToUpdate.save();
-        });
-      } else {
-        recordToUpdate.save();
-      }
+      console.log('API - PROFILES - BULK : Create record with tag : ' + incomingRecord.tag);
+      recordsCreated.push(await createRecord(incomingRecord));
     }
   });
-  return res.status(200).json({ message: 'Request received and process has started' });
+
+  return res.status(200).json({ message: 'Request done.', updated: recordsUpdated, created: recordsCreated });
 });
 
-// @todo Validate the new link
-// @todo Will be deleted ?
-router.put('/:profileId/addLink', passport.authenticate('bearer', { session: false }), authorization, (req, res, next) => {
-  if (req.user.isSuperAdmin()) {
-    Record.findOne({ '_id': req.params.profileId, 'organisation': req.organisation._id })
-      .populate('hashtags', '_id tag type name name_translated picture')
-      .populate('within', '_id tag type name name_translated picture')
-      .then(record => {
-        if (!record) return res.status(404).json({ message: 'Record not found.' });
-        record.addLink(req.body.link);
-        record.save()
-          .then(() => {
-            return res.status(200).json({ message: 'Record updated with success.', record: record });
-          }).catch((err) => { return next(err); });
-
-      }).catch((err) => { return next(err); });
-  } else {
-    return res.status(403).json({ message: 'This is a restricted route.' });
-  }
-});
-
-router.get('/', passport.authenticate('bearer', { session: false }), authorization,  (req, res, next) => {
+router.get('/', passport.authenticate('bearer', { session: false }), authorization, (req, res, next) => {
   if (!req.user.isSuperAdmin()) return res.status(403).json({ message: 'Unauthorized' });
 
-  Record.find({...req.query})
-  .then(records => {
-    return res.status(200).json({message: 'Records fetch with success.', results: records.length, records: records});
-  }).catch((err) => { return next(err); });
+  Record.find({ ...req.query })
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture')
+    .then(records => {
+      return res.status(200).json({ message: 'Records fetch with success.', results: records.length, records: records });
+    }).catch((err) => { return next(err); });
 });
 
 // Get the best record possible for an user
@@ -234,16 +170,16 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
     if (!currentRecord && currentUser.google && currentUser.google.id)
       currentRecord = await new Promise((resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
 
-    if(!currentRecord && currentUser.googleUser)
+    if (!currentRecord && currentUser.googleUser)
       currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId, currentUser.googleUser)
-      .then(record => resolve(record))
-      .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  }));
+        .then(record => resolve(record))
+        .catch(error => { console.log('error: ' + JSON.stringify(error)); resolve(null); }));
 
     // Try to get record by LinkedIn
     if (!currentRecord && currentUser.linkedinUser)
       currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId, currentUser.linkedinUser)
         .then(record => resolve(record))
-        .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  } ));
+        .catch(error => { console.log('error: ' + JSON.stringify(error)); resolve(null); }));
 
     if (!currentRecord) {
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
@@ -263,19 +199,6 @@ router.get('/user/:userId/organisation/:orgId', passport.authenticate('bearer', 
   } catch (err) {
     return next(err);
   }
-});
-
-
-// Get all Wings
-router.get('/superadmin/wings/all', passport.authenticate('bearer', { session: false }), authorization, function (req, res, next) {
-  if (!req.user.isSuperAdmin()) return res.status(403).json({ message: 'This is a restricted route.' });
-
-  Record.find({ type: 'hashtag' })
-    .populate('organisation', '_id name tag public premium')
-    .populate('hashtags', '_id tag type name name_translated picture')
-    .then(records => {
-      return res.status(200).json({ message: 'Records fetch with success.', records: records });
-    }).catch((err) => { return next(err); });
 });
 
 // Count Wings occurrence
@@ -367,69 +290,6 @@ router.post('/', passport.authenticate('bearer', { session: false }), authorizat
     });
 });
 
-
-
-// put for google sheet
-// @todo Will be include with classic PUT after refacto
-router.put('/:profileId/googleSheet', passport.authenticate('bearer', { session: false }), authorization, validate_record, function (req, res, next) {
-  let recordToUpdate = req.body.record;
-
-  if( typeof recordToUpdate === 'string' || recordToUpdate instanceof String ) {
-    try {
-      recordToUpdate = JSON.parse(recordToUpdate);
-    }catch(err) {
-      console.log(err);
-      return res.status(422).json({message: 'Unprocessable entity'});
-    }
-  }
-
-  workingRecord = new Record(recordToUpdate);
-
-  if (!recordToUpdate) return res.status(422).json({ message: 'Missing parameter' });
-
-  Record.findOne({ '_id': req.params.profileId })
-  .then(record => {
-
-    // Prepare links
-    if (recordToUpdate.links) {
-      var links = record.links;
-      recordToUpdate.links.forEach(function (link, index) {
-        if (link.value)
-          links.push(LinkHelper.makeLink(link.value, link.type));
-      });
-      workingRecord.makeLinks(links);
-      recordToUpdate.links = workingRecord.links;
-    }
-
-    // Update record
-    Record.findOneAndUpdate({ '_id': req.params.profileId }, { $set: recordToUpdate }, { new: true })
-    .then(recordUpdated => {
-      if (!recordUpdated) return res.status(404).json({ message: 'Record not found.' });
-
-      // Get new populated record
-      Record.findOne({ '_id': recordUpdated._id, 'organisation': req.organisation._id })
-        .populate('hashtags', '_id tag type name name_translated picture')
-        .populate('within', '_id tag type name name_translated picture')
-        .then(recordUpdated => {
-          if (recordToUpdate.picture && recordToUpdate.picture.url) {
-            recordUpdated.addPictureByUrlAsync(recordToUpdate.picture.url)
-              .then(pictureField => {
-                recordUpdated.picture = pictureField.picture;
-                recordUpdated.save().then((recordUpdatedBis) => {
-                  return res.status(200).json({ message: 'Record updated with success.', record: recordUpdatedBis });
-                }).catch((err) => { return next(err); });
-              })
-          } else {
-            return res.status(200).json({ message: 'Record updated with success.', record: recordUpdated });
-          }
-        }).catch((err) => { return next(err); });
-      }).catch((err) => { return next(err); });
-  }).catch((err) => { return next(err); });
-});
-
-
-
-// classic put 
 /**
  * @api {put} /api/profiles/:profileId Update Record
  * @apiName PutRecord
@@ -535,3 +395,84 @@ router.use(function (err, req, res, next) {
 });
 
 module.exports = router;
+
+
+// @todo the following methods have nothing to do here
+
+/**
+ * @description Array of TAGs or IDs or Record Object 
+ * @param {*} array 
+ */
+let cleanHashtags = async (array, organisationId) => {
+  let cleanedArray = [];
+
+  await asyncForEach(array, async (hashtag) => {
+    let toPush;
+    if (mongoose.Types.ObjectId.isValid(hashtag._id || hashtag))
+      toPush = await Record.findOne({ _id: hashtag._id || hashtag });
+    else
+      toPush = await Record.findByTagAsync(hashtag, organisationId);
+
+    if (!cleanedArray.find(elt => JSON.stringify(elt) === JSON.stringify(toPush)))
+      cleanedArray.push(toPush)
+  });
+
+  return cleanedArray;
+}
+
+/**
+ * @description Prepare links array
+ */
+let mixLinks = async (currentLinks, newLinks) => {
+  currentLinks = currentLinks || [];
+  if (!newLinks || newLinks.length === 0) return currentLinks;
+
+  newLinks.forEach(link => {
+    if (link.value && link.type) {
+      currentLinks.push(LinkHelper.makeLink(link.value, link.type));
+    }
+  });
+
+  return currentLinks;
+}
+
+let updateRecord = async (recordId, incomingRecord) => {
+  let currentRecord = Record.findOne({ _id: recordId });
+
+  // format links & mix links data
+  if (incomingRecord.links && incomingRecord.links.length > 0) {
+    let currentRecordLinks = currentRecord.links;
+    currentRecord.links = [];
+    currentRecord.makeLinks(mixLinks(currentRecordLinks, incomingRecord.links));
+    incomingRecord.links = currentRecord.links;
+  }
+
+  incomingRecord.hashtags = await cleanHashtags(incomingRecord.hashtags, currentRecord.organisation);
+  return await Record.findOneAndUpdate({ _id: recordId }, { $set: incomingRecord }, { new: true });
+}
+
+let createRecord = async (incomingRecord) => {
+  if (incomingRecord.type === 'person')
+    incomingRecord.tag = Record.getTagFromEmail(incomingRecord.links.find(link => link.type === 'email').value);
+  else if ((incomingRecord.type === 'hashtag') && incomingRecord.name && !incomingRecord.tag)
+    incomingRecord.tag = '#' + slug(uppercamelcase(incomingRecord.name));
+
+  let incomingRecordObject = new Record(incomingRecord);
+
+  // format links & mix links data
+  if (incomingRecord.links && incomingRecord.links.length > 0) {
+    incomingRecordObject.makeLinks(mixLinks([], incomingRecord.links));
+  }
+
+  // Handle picture & save
+  if (incomingRecordObject.picture && incomingRecordObject.picture.url) {
+    await new Promise((res, rej) => {
+      incomingRecordObject.addPictureByUrl(incomingRecordObject.picture.url, function (err, data) {
+        if (err) rej();
+        else res();
+      });
+    });
+  }
+
+  return await incomingRecordObject.save();
+}
