@@ -488,5 +488,6 @@
 	"Install Wingzy on your phone, just click 'Add to Home Screen'.": "crwdns2014:0crwdne2014:0",
 	"Got an idea, a remark, a critic ? We love it: <a href='mailto:feedback@wingzy.com'>feedback@wingzy.com</a>": "crwdns2016:0crwdne2016:0",
 	"Find the right person at the right time within %s at %s": "crwdns2018:0%scrwdnd2018:0%scrwdne2018:0",
-	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>": "crwdns2020:0crwdne2020:0"
+	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>": "crwdns2020:0crwdne2020:0",
+	"The more we are on Wingzy, the more we help each other. <br/> Share this secured link to invite even more people from {{orgName}} to join": "crwdns2022:0{{orgName}}crwdne2022:0"
 }
