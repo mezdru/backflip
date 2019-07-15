@@ -114,6 +114,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), async 
 
   let recordsUpdated = [];
   let recordsCreated = [];
+  let errors = [];
 
   await asyncForEach(records, async (incomingRecord) => {
     let incomingRecordId = incomingRecord._id;
@@ -121,14 +122,16 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), async 
 
     if (incomingRecordId) {
       console.log('API - PROFILES - BULK : Update record with id : ' + incomingRecordId);
-      recordsUpdated.push(await updateRecord(incomingRecordId, incomingRecord));
+      let updatedRecord = await updateRecord(incomingRecordId, incomingRecord).catch(e => { errors.push({ error: e, data: incomingRecord }); return null; });
+      if (updatedRecord) recordsUpdated.push(updatedRecord);
     } else {
       console.log('API - PROFILES - BULK : Create record with tag : ' + incomingRecord.tag);
-      recordsCreated.push(await createRecord(incomingRecord));
+      let createdRecord = await createRecord(incomingRecord).catch(e => { errors.push({ error: e, data: incomingRecord }); return null; });
+      if (createdRecord) recordsCreated.push(createdRecord);
     }
   });
 
-  return res.status(200).json({ message: 'Request done.', updated: recordsUpdated, created: recordsCreated });
+  return res.status(200).json({ message: 'Request done.', updated: recordsUpdated, created: recordsCreated, errors: errors });
 });
 
 router.get('/', passport.authenticate('bearer', { session: false }), authorization, (req, res, next) => {
@@ -405,17 +408,18 @@ module.exports = router;
  */
 let cleanHashtags = async (array, organisationId) => {
   let cleanedArray = [];
+  if (!array || array.length === 0) return Promise.resolve([]);
 
   await asyncForEach(array, async (hashtag) => {
-    let toPush;
+    let toPush = null;
     if (mongoose.Types.ObjectId.isValid(hashtag._id || hashtag))
-      toPush = await Record.findOne({ _id: hashtag._id || hashtag });
+      toPush = await Record.findOne({ _id: hashtag._id || hashtag, organisation: [Record.getTheAllOrganisationId(), organisationId] }).catch(e => console.log(e));
     else
-      toPush = await Record.findByTagAsync(hashtag, organisationId);
+      toPush = await Record.findByTagAsync(hashtag, organisationId).catch(e => console.log(e));
 
-    if (!cleanedArray.find(elt => JSON.stringify(elt) === JSON.stringify(toPush)))
+    if (toPush && !cleanedArray.find(elt => JSON.stringify(elt) === JSON.stringify(toPush)))
       cleanedArray.push(toPush)
-  });
+  }).catch(e => console.log(e));
 
   return cleanedArray;
 }
@@ -423,7 +427,7 @@ let cleanHashtags = async (array, organisationId) => {
 /**
  * @description Prepare links array
  */
-let mixLinks = async (currentLinks, newLinks) => {
+let mixLinks = (currentLinks, newLinks) => {
   currentLinks = currentLinks || [];
   if (!newLinks || newLinks.length === 0) return currentLinks;
 
@@ -437,7 +441,7 @@ let mixLinks = async (currentLinks, newLinks) => {
 }
 
 let updateRecord = async (recordId, incomingRecord) => {
-  let currentRecord = Record.findOne({ _id: recordId });
+  let currentRecord = await Record.findOne({ _id: recordId });
 
   // format links & mix links data
   if (incomingRecord.links && incomingRecord.links.length > 0) {
@@ -447,8 +451,12 @@ let updateRecord = async (recordId, incomingRecord) => {
     incomingRecord.links = currentRecord.links;
   }
 
-  incomingRecord.hashtags = await cleanHashtags(incomingRecord.hashtags, currentRecord.organisation);
-  return await Record.findOneAndUpdate({ _id: recordId }, { $set: incomingRecord }, { new: true });
+  // Handle hashtags
+  let hashtags = await cleanHashtags(incomingRecord.hashtags, currentRecord.organisation).catch(e => { console.log(e); return null; });
+  if (hashtags && hashtags.length > 0) incomingRecord.hashtags = hashtags;
+  if ((!hashtags || hashtags.length === 0) && (incomingRecord.hashtags)) await delete incomingRecord.hashtags;
+
+  return Record.findOneAndUpdate({ _id: recordId }, { $set: incomingRecord }, { new: true });
 }
 
 let createRecord = async (incomingRecord) => {
@@ -457,6 +465,8 @@ let createRecord = async (incomingRecord) => {
   else if ((incomingRecord.type === 'hashtag') && incomingRecord.name && !incomingRecord.tag)
     incomingRecord.tag = '#' + slug(uppercamelcase(incomingRecord.name));
 
+  let incomingRecordHashtags = incomingRecord.hashtags;
+  delete incomingRecord.hashtags;
   let incomingRecordObject = new Record(incomingRecord);
 
   // format links & mix links data
@@ -468,11 +478,19 @@ let createRecord = async (incomingRecord) => {
   if (incomingRecordObject.picture && incomingRecordObject.picture.url) {
     await new Promise((res, rej) => {
       incomingRecordObject.addPictureByUrl(incomingRecordObject.picture.url, function (err, data) {
-        if (err) rej();
+        if (err) {
+          console.log(err);
+          rej(err);
+        }
         else res();
       });
     });
   }
 
-  return await incomingRecordObject.save();
+  // Handle hashtags
+  let hashtags = await cleanHashtags(incomingRecordHashtags, incomingRecordObject.organisation).catch(e => { console.log(e); return null; });
+  if (hashtags && hashtags.length > 0) incomingRecordObject.hashtags = hashtags;
+  if ((!hashtags || hashtags.length === 0) && (incomingRecordObject.hashtags)) await delete incomingRecordObject.hashtags;
+
+  return incomingRecordObject.save();
 }

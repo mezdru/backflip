@@ -725,6 +725,8 @@ recordSchema.statics.getTheAllOrganisationId = function() {
 };
 
 recordSchema.pre('save', function(next) {
+  console.log('pre save : ')
+  console.log(this.hashtags)
   this.updated = Date.now();
   if(this.type !== 'person') next();
   if(this.isNew){
