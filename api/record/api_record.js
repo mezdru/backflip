@@ -463,6 +463,20 @@ let updateRecord = async (recordId, incomingRecord) => {
     incomingRecord.links = currentRecord.links;
   }
 
+  // Handle picture & save
+  if (incomingRecord.picture && incomingRecord.picture.url) {
+    await new Promise((res, rej) => {
+      currentRecord.addPictureByUrl(incomingRecord.picture.url, function (err, data) {
+        if (err) {
+          console.log(err);
+          rej(err);
+        }
+        else res();
+      });
+    });
+    incomingRecord.picture = currentRecord.picture;
+  }
+
   // Handle hashtags
   let hashtags = await cleanHashtags(incomingRecord.hashtags, currentRecord.organisation).catch(e => { console.log(e); return null; });
   if (hashtags && hashtags.length > 0) incomingRecord.hashtags = hashtags;
