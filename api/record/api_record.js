@@ -49,6 +49,16 @@ router.put('/superadmin/:recordIdFrom/merge/:recordIdTo', passport.authenticate(
     await Record.updateOne({ _id: record._id }, { $set: { hashtags: record.hashtags } }, { new: true });
   });
 
+  // merge record hashtags
+  if(fromRecord.hashtags && fromRecord.hashtags.length > 0) {
+    fromRecord.hashtags.forEach(hashtag => {
+      if(!toRecord.hashtags.find(elt => elt.tag === hashtag.tag)) {
+        toRecord.hashtags.push(hashtag);
+      }
+    });
+    await Record.updateOne({_id: toRecord._id}, {$set: {hashtags: toRecord.hashtags}}, {new: true});
+  }
+
   // Remove "from record"
   fromRecord.delete(req.user._id, function (err) {
     if (err) console.log(err);
