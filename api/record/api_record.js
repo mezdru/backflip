@@ -392,7 +392,7 @@ router.delete('/:profileId', passport.authenticate('bearer', { session: false })
       // An user only can deleted his profile.
       if (req.user.getOrgAndRecord(req.organisation._id).record._id.equals(record._id) || req.user.isSuperAdmin()) {
 
-        record.delete(res.locals.user._id, function(err) {
+        record.delete(req.user._id, function(err) {
           if (err) return next(err);
           return res.status(200).json({ message: 'Record deleted with success.', record: record });
         });
