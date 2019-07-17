@@ -632,7 +632,7 @@ recordSchema.methods.algoliaSync = function() {
     this.hashtags = this.hashtags || [];
     this.within = this.within || [];
     this.sortLinks();
-    index.saveObject({
+    index.partialUpdateObject({
       objectID: this._id.toString(),
       organisation: getId(this.organisation),
       tag: this.tag,
@@ -647,7 +647,7 @@ recordSchema.methods.algoliaSync = function() {
       includes_count: this.includes_count,
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
       personAvailability: this.personAvailability
-    }, function(err, doc) {
+    }, true, function(err, doc) {
       if (err) return console.error(err);
       console.log(`Synced ${doc.objectID} with Algolia`);
     });
