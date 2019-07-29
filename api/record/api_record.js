@@ -424,7 +424,7 @@ let cleanHashtags = async (array, organisationId) => {
 
   await asyncForEach(array, async (hashtag) => {
     let toPush = null;
-    toPush = await Record.findOne({ _id: hashtag._id || hashtag, organisation: [Record.getTheAllOrganisationId(), organisationId] }).catch(e => console.log(e));
+    toPush = await Record.findOne({ _id: hashtag._id || hashtag, organisation: [Record.getTheAllOrganisationId(), organisationId] }).catch(e => {return null;});
     if(!toPush) toPush = await Record.findByTagAsync(hashtag, organisationId).catch(e => {return null;});
 
     if (toPush && !cleanedArray.find(elt => JSON.stringify(elt) === JSON.stringify(toPush)))
