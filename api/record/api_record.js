@@ -135,7 +135,7 @@ router.post('/bulk', passport.authenticate('bearer', { session: false }), async 
       let updatedRecord = await updateRecord(incomingRecordId, incomingRecord).catch(e => { errors.push({ error: e, data: incomingRecord }); return null; });
       if (updatedRecord) recordsUpdated.push(updatedRecord);
     } else {
-      console.log('API - PROFILES - BULK : Create record with tag : ' + incomingRecord.tag);
+      console.log('API - PROFILES - BULK : Create record with tag / name : ' + incomingRecord.tag + ' / ' + incomingRecord.name);
       let createdRecord = await createRecord(incomingRecord).catch(e => { errors.push({ error: e, data: incomingRecord }); return null; });
       if (createdRecord) recordsCreated.push(createdRecord);
     }
@@ -425,7 +425,7 @@ let cleanHashtags = async (array, organisationId) => {
   await asyncForEach(array, async (hashtag) => {
     let toPush = null;
     toPush = await Record.findOne({ _id: hashtag._id || hashtag, organisation: [Record.getTheAllOrganisationId(), organisationId] }).catch(e => console.log(e));
-    if(!toPush) toPush = await Record.findByTagAsync(hashtag, organisationId).catch(e => console.log(e));
+    if(!toPush) toPush = await Record.findByTagAsync(hashtag, organisationId).catch(e => {return null;});
 
     if (toPush && !cleanedArray.find(elt => JSON.stringify(elt) === JSON.stringify(toPush)))
       cleanedArray.push(toPush)
