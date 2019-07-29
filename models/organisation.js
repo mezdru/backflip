@@ -50,6 +50,9 @@ var organisationSchema = mongoose.Schema({
       locale: {type: String, default: 'en'},
       message: {type: String}
     }
+  ],
+  onboardSteps: [
+    String
   ]
 });
 
