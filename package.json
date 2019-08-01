@@ -7,7 +7,8 @@
   "private": true,
   "scripts": {
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www",
-    "test": "nodemon --watch . --exec nyc mocha --timeout 10000 --exit || true"
+    "test": "nodemon --watch . --exec nyc mocha --timeout 10000 --exit || true",
+    "start-dev": "nodemon --watch . --exec node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www"
   },
   "repository": {
     "type": "git",

@@ -31,6 +31,7 @@ exports.resUserOwnOrAdmin = async (req, res, next) => {
 
 exports.resWithData = async (req, res, next) => {
   var resData = req.backflip;
+  console.log('resdata: ', resData)
   return res.status(resData.status || 200).json({message: resData.message, data: resData.data})
 }
 

@@ -15,8 +15,8 @@ router.get(
 );
 
 router.get(
-  '/:id/algolia/public',
-  OrganisationController.getalgoliaPublicKey,
+  '/:id/algolia/public', 
+  OrganisationController.getAlgoliaPublicKey, 
   Authorization.resWithData
 );
 

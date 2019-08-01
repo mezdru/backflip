@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var UserController = require('../controllers/user.controller');
+var UserController = require('../../controllers/user.controller');
 var Authorization = require('../authorization/access.authorization');
 let passport = require('passport');
 
@@ -12,6 +12,13 @@ router.use((req, res, next) => {
   }
   next();
 });
+
+router.get(
+  '/me',
+  passport.authenticate('bearer', {session: false}),
+  UserController.getMe,
+  Authorization.resWithData
+)
 
 router.get(
   '/:id', 
@@ -26,13 +33,6 @@ router.get(
   passport.authenticate('bearer', {session: false}),
   Authorization.superadminOnly, 
   UserController.getSingleUser,
-  Authorization.resWithData
-)
-
-router.get(
-  '/me',
-  passport.authenticate('bearer', {session: false}),
-  UserController.getMe,
   Authorization.resWithData
 )
 
