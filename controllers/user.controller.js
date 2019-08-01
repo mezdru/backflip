@@ -43,7 +43,7 @@ exports.updateSingleUser = async (req, res, next) => {
 }
 
 exports.updateOrgAndRecord = async (req, res, next) => {
-  if(!req.body.orgAndRecord || ( !req.query.organisation || !req.body.orgAndRecord.organisation)) {
+  if(!req.body.orgAndRecord || ( !req.query.organisation && !req.body.orgAndRecord.organisation)) {
     req.backflip = {message: 'Missing parameter: orgAndRecord', status: 422};
     return next();
   }

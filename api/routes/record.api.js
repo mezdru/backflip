@@ -22,7 +22,6 @@ router.use((req, res, next) => {
 router.get(
   '/:id/occurrence',
   passport.authenticate('bearer', {session: false}),
-  AuthorizationOrganisation,
   Authorization.superadminOnly,
   // ...
   Authorization.resWithData
@@ -32,14 +31,13 @@ router.get(
   '/:id', 
   passport.authenticate('bearer', {session: false}),
   RecordController.getSingleRecord,
-  Authorization.resUserOwnOnly, 
+  Authorization.resUserOwnOrAdmin, 
 )
 
 router.get(
   '/',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
-  Authorization.superadminOnly,
   RecordController.getRecords,
   Authorization.resWithData
 )
@@ -49,7 +47,7 @@ router.get(
 router.post(
   '/:id/links',
   AuthorizationOrganisation,
-  Authorization.userOwnsRecordOnly,
+  Authorization.userOwnsRecordOrAdmin,
   RecordController.createSingleLink,
   Authorization.resWithData
 )
@@ -69,7 +67,7 @@ router.put(
   '/:id/links/:subId',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
-  Authorization.userOwnsRecordOnly,
+  Authorization.userOwnsRecordOrAdmin,
   RecordController.updateSingleLink,
   Authorization.resWithData
 )
@@ -78,7 +76,7 @@ router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
-  Authorization.userOwnsRecordOnly,
+  Authorization.userOwnsRecordOrAdmin,
   ValidateRecord,
   RecordController.updateSingleRecord,
   Authorization.resWithData 
@@ -90,6 +88,7 @@ router.delete(
   '/:id/links/:subId',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
+  Authorization.userOwnsRecordOrAdmin,
   RecordController.deleteSingleLink,
   Authorization.resWithData
 )
@@ -98,7 +97,7 @@ router.delete(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
-  Authorization.userOwnsRecordOnly,
+  Authorization.userOwnsRecordOrAdmin,
   // ...
   Authorization.resWithData
 )

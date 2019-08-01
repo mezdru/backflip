@@ -46,7 +46,7 @@ router.put(
 router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
-  Authorization.userOwnsOnly,
+  Authorization.userOwns,
   UserController.updateSingleUser,
   Authorization.resWithData
 )
