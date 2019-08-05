@@ -31,7 +31,6 @@ exports.resUserOwnOrAdmin = async (req, res, next) => {
 
 exports.resWithData = async (req, res, next) => {
   var resData = req.backflip;
-  console.log('resdata: ', resData)
   return res.status(resData.status || 200).json({message: resData.message, data: resData.data})
 }
 
@@ -55,7 +54,7 @@ exports.userOwnsRecordOrAdmin = async (req, res, next) => {
 
 exports.userOwns = async (req, res, next) => {
   if(req.user.superadmin) return next();
-  if(req.params.id.equals(req.user._id)) return next();
+  if(req.params.id === (req.user._id)) return next();
   return res403(res);
 }
 

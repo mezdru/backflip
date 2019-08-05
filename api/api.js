@@ -10,4 +10,10 @@ router.use('/organisations', organisationsApi);
 var usersApi = require('./routes/user.api');
 router.use('/users', usersApi);
 
+var statisticsApi = require('./routes/statistic.api');
+router.use('/statistics', statisticsApi);
+
+var emailsApi = require('./routes/email.api');
+router.use('/emails', emailsApi);
+
 module.exports = router;

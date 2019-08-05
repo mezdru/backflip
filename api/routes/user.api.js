@@ -7,6 +7,7 @@ let passport = require('passport');
 const RESOURCE_MODEL = 'user';
 
 router.use((req, res, next) => {
+  req.backflip = req.backflip || {};
   req.backflip.resource = {
     model: RESOURCE_MODEL
   }
@@ -39,7 +40,7 @@ router.get(
 router.put(
   '/me/orgsAndRecords',
   passport.authenticate('bearer', {session: false}),
-  UserController.updateMeOrgsAndRecords,
+  UserController.updateOrgAndRecord,
   Authorization.resWithData
 )
 

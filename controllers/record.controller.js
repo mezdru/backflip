@@ -1,7 +1,9 @@
 var Record = require('../models/record');
-var Link = require('../models/link_schema');
+var User = require('../models/user');
 var slug = require('slug');
 var uppercamelcase = require('uppercamelcase');
+var LinkedinUserHelper = require('../helpers/linkedinUser_helper');
+var GoogleUserHelper = require('../helpers/googleUser_helper');
 
 exports.getRecords = async (req, res, next) => {
   Record.find({ ...req.query })
@@ -177,4 +179,72 @@ exports.updateSingleLink = async (req, res, next) => {
 
 exports.deleteSingleLink = async (req, res, next) => {
 
+}
+
+exports.getPopulatedRecord = async (req, res, next) => {
+  if(!req.query.user || !req.query.organisation) {
+    req.backflip = {message: 'Missing query parameters: user or organisation', status: 422};
+    return next();
+  }
+
+  try {
+    let currentRecord, currentUser;
+    let orgId = req.query.organisation;
+    let authorizationHeader = req.headers.authorization;
+    let accessToken = (authorizationHeader.split('Bearer ').length > 1 ? authorizationHeader.split('Bearer ')[1] : null);
+
+    // Init working user
+    if (!req.user._id.equals(req.query.user)) {
+      if (!req.user.isSuperAdmin()) {
+        req.backflip = {status: 403, message: 'Unauthorized'};
+        return next();
+      }
+      currentUser = await User.findById(req.query.user).exec();
+    } else {
+      currentUser = req.user;
+    }
+
+    // Try to get record by user
+    if (req.user.getRecordIdByOrgId(orgId))
+      currentRecord = await new Promise((resolve, reject) => Record.findById(currentUser.getRecordIdByOrgId(orgId), orgId, (err, record) => resolve(record)));
+
+    // Try to get record by email
+    if (!currentRecord)
+      currentRecord = await new Promise((resolve, reject) => Record.findByEmail(currentUser.loginEmail, orgId, (err, record) => resolve(record)));
+
+    // Try to get record by Google id
+    if (!currentRecord && currentUser.google && currentUser.google.id)
+      currentRecord = await new Promise((resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
+
+    if(!currentRecord && currentUser.googleUser)
+      currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId)
+      .then(record => resolve(record))
+      .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  }));
+
+    // Try to get record by LinkedIn
+    if (!currentRecord && currentUser.linkedinUser)
+      currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
+        .then(record => resolve(record))
+        .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  } ));
+
+    if (!currentRecord) {
+      currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
+      await currentRecord.save();
+    }
+
+    // Attach record to user
+    if (currentRecord) {
+      currentUser.attachOrgAndRecord({ _id: orgId }, currentRecord);
+      let currentUserId = currentUser._id;
+      delete currentUser._id;
+      await User.findOneAndUpdate({ _id: currentUserId }, currentUser).then().catch(err => next(err));
+      req.backflip = {status: 200, message: 'Record fetch with success.', data: currentRecord};
+      return next();
+    } else {
+      req.backflip = {status: 404, message: 'Record not found.'};
+      return next();
+    }
+  } catch (err) {
+    return next(err);
+  }
 }

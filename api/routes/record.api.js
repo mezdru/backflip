@@ -20,6 +20,14 @@ router.use((req, res, next) => {
 /** GETs */
 
 router.get(
+  '/populated',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  RecordController.getPopulatedRecord,
+  Authorization.resWithData
+)
+
+router.get(
   '/:id/occurrence',
   passport.authenticate('bearer', {session: false}),
   Authorization.superadminOnly,

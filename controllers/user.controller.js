@@ -57,7 +57,7 @@ exports.updateOrgAndRecord = async (req, res, next) => {
   }
 
   if(!currentOrgAndRecord.welcomed && req.body.orgAndRecord.welcomed) {
-    User.findOne({_id: req.user._id})
+    User.findOne({_id: req.query.id || req.user._id})
     .populate('orgsAndRecords.record', '_id name tag')
     .populate('orgsAndRecords.organisation', '_id name tag cover logo canInvite')
     .then((user) => {

@@ -42,6 +42,7 @@ exports.getAlgoliaPrivateKey = (req, res, next) => {
       let publicKey = algoliaOrganisation.makePublicKey(organisation._id);
       req.backflip = {message: 'Organisation algolia key found', status: 200, data: publicKey};
     }
+    return next();
   }).catch(err => next(err));
 }
 
