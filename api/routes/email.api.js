@@ -23,7 +23,7 @@ router.post(
 )
 
 router.post(
-  '/confirmation/:orgTag',
+  '/confirmation/:orgTag?',
   passport.authenticate('bearer', {session: false}),
   EmailController.sendAskConfirmation,
   Authorization.resWithData

@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var Record = require('../models/record');
 
 exports.getSingleUser = async (req, res, next) => {
   User.findOne({_id: req.params.id || req.user._id})
@@ -84,8 +85,11 @@ exports.updateOrgAndRecord = async (req, res, next) => {
 
       });
     }).catch(err => next(err));
+  } else if (currentOrgAndRecord.welcomed && req.body.orgAndRecord.welcomed) {
+    req.backflip = {message: 'Nothing to update.', status: 200, data: req.user};
+    return next();
+  } else {
+    req.backflip = {message: 'You can not update this field.', status: 422};
+    return next();
   }
-
-  req.backflip = {message: 'You can not update this field.', status: 422};
-  return next();
 }

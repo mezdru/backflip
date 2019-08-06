@@ -52,9 +52,9 @@ exports.userOwnsRecordOrAdmin = async (req, res, next) => {
   });
 }
 
-exports.userOwns = async (req, res, next) => {
+exports.currentUser = async (req, res, next) => {
   if(req.user.superadmin) return next();
-  if(req.params.id === (req.user._id)) return next();
+  if(req.user._id.equals(req.params.id)) return next();
   return res403(res);
 }
 

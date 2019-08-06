@@ -4,6 +4,10 @@ var router = express.Router();
 var recordsApi = require('./routes/record.api');
 router.use('/records', recordsApi);
 
+// Superadmin actions
+var recordsActionsApi = require('./routes/recordActions.api');
+router.use('/records', recordsActionsApi);
+
 var organisationsApi = require('./routes/organisation.api');
 router.use('/organisations', organisationsApi);
 
