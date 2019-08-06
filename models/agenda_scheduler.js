@@ -110,7 +110,7 @@ var Agenda = (function () {
 
         this.removeJob(job).then(()=> done());
         let newJob = this.agenda.create('reactiveUsersBatch');
-        newJob.schedule('next week tuesday at 12:30pm');
+        newJob.schedule('in 2 weeks');
         newJob.save();
       });
     });

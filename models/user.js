@@ -343,7 +343,7 @@ userSchema.pre('save', function(next) {
   } else next();
 });
 
-var slack = require('slack-notify')('https://hooks.slack.com/services/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');
+var slack = require('slack-notify')(process.env.SLACK_APP);
 userSchema.methods.notifyNew = function() {
   var wingzies = 'no Wingzy yet';
   if (this.orgsAndRecords.length > 0) wingzies = this.orgsAndRecords.map(orgAndRecord => orgAndRecord.organisation.name).join(', ');

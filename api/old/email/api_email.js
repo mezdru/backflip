@@ -56,9 +56,9 @@ router.post('/confirmation/:orgTag?', passport.authenticate('bearer', { session:
 router.get('/confirmation/callback/:token/:hash', (req, res, next) => {
 	EmailUser.login(req.params.hash, req.params.token, function (err, user) {
 		if (err) return next(err);
-		if (user.email.validated) return res.redirect(new UrlHelper(req.organisationTag, 'login/callback', null, req.getLocale()).getUrl());
 		res.locals.user = user;
 		req.session.user = user;
+		if (user.email.validated) return res.redirect(new UrlHelper(req.organisationTag, 'login/callback', null, req.getLocale()).getUrl());
 		user.email.validated = true;
 		User.updateOne({ '_id': user._id }, { $set: { email: user.email } })
 			.then(() => {
@@ -99,6 +99,7 @@ router.post('/invitation/:orgId/confirmation', passport.authenticate('bearer', {
         userName,
         req.user.locale,
         req.body.invitationUrl,
+		    (new UrlHelper(organisation.tag, null, null, user.locale)).getUrl(),
         res)
         .then(() => {
 	        return res.status(200).json({message: 'Email send with success.'});

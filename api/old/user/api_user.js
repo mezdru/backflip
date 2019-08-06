@@ -51,22 +51,29 @@ router.put('/welcome/:userId/organisation/:orgId', passport.authenticate('bearer
   .populate('orgsAndRecords.record', '_id name tag')
   .populate('orgsAndRecords.organisation', '_id name tag cover logo canInvite')
   .then((user) => {
-    user.welcomeToOrganisation(req.params.orgId, (err, userUpdated) => {
-      if(err) return res.status(404).json({message: 'User is not linked to this organisation.'});
-      let orgAndRecord = user.getOrgAndRecord(req.params.orgId);
-      if(orgAndRecord.record) {
-        Record.findOneAndUpdate({_id: orgAndRecord.record._id}, {$set: {hidden: false}} );
-        EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecord.organisation, orgAndRecord.record, res);
-        EmailUser.sendEmailToInvitationCodeCreator(orgAndRecord.organisation, user, orgAndRecord.record, res);
-
-        if(orgAndRecord.organisation.canInvite) {
-          var Agenda = require('../../models/agenda_scheduler');
-          Agenda.scheduleSendInvitationCta(user, orgAndRecord.organisation, orgAndRecord.record);
+    let initialOrgAndRecord = user.getOrgAndRecord(req.params.orgId);
+    if(!initialOrgAndRecord) {
+      return res.status(404).json({message: 'User is not linked to this organisation.'});
+    } else if(initialOrgAndRecord.welcomed) {
+      return res.status(200).json({message: 'User already welcomed in Organisation'});
+    } else {
+      user.welcomeToOrganisation(req.params.orgId, (err, userUpdated) => {
+        if(err) return res.status(404).json({message: 'User is not linked to this organisation.'});
+        let orgAndRecord = user.getOrgAndRecord(req.params.orgId);
+        if(orgAndRecord.record) {
+          Record.findOneAndUpdate({_id: orgAndRecord.record._id}, {$set: {hidden: false}} );
+          EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecord.organisation, orgAndRecord.record, res);
+          EmailUser.sendEmailToInvitationCodeCreator(orgAndRecord.organisation, user, orgAndRecord.record, res);
+  
+          if(orgAndRecord.organisation.canInvite) {
+            var Agenda = require('../../models/agenda_scheduler');
+            Agenda.scheduleSendInvitationCta(user, orgAndRecord.organisation, orgAndRecord.record);
+          }
         }
-      }
-
-      return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});
-    });
+  
+        return res.status(200).json({message: 'User welcomed to organisation.', user: userUpdated});
+      });
+    }
   });
 });
 

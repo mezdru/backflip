@@ -192,14 +192,13 @@ var EmailHelper = {
       },
       emailInvitationAccepted: function(recipientName, email, senderName, senderEmail, organisation, url, res) {
         console.log('EMAIL: Send email to inform that someone register the organisation thanks to him. (to:'+email+', locale:'+res.getLocale()+')');
-
         return mailjet
           .post("send")
           .request({
             "FromEmail": defaultEmitter,
             "FromName": defaultEmitterName,
             "Subject": res.__("Discover the Wings of %s !", senderName),
-            "MJ-TemplateID": "868473",
+            "MJ-TemplateID": "854412",
             "MJ-TemplateLanguage": true,
             "Recipients": [
               {"Email": email}
@@ -213,7 +212,8 @@ var EmailHelper = {
               "ctaUrl":  url || defaultLink,
               "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
               "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
-              "outro": res.__("WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+              "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
+              "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
             }
           });
       },
@@ -333,7 +333,7 @@ var EmailHelper = {
           console.log(err);
         });
     },
-    emailConfirmationInvitation: function (email, organisation, firstName, locale, invitationUrl, res) {
+    emailConfirmationInvitation: function (email, organisation, firstName, locale, invitationUrl, orgUrl, res) {
       console.log('EMAIL: Send email to confirm invitation code creation. (to:'+email+', locale:'+locale+')');
       res.setLocale(locale);
       return mailjet
@@ -349,14 +349,15 @@ var EmailHelper = {
           ],
           "Vars": {
             "title": (firstName ? res.__("{{firstName}}, thanks for the help!", {firstName: firstName || ''}) : res.__("Thanks for the help!")),
-            "text": res.__("The more we are on Wingzy, the more we help each other. Share this secured link to invite even more people from {{orgName}} to join",
+            "text": res.__("The more we are on Wingzy, the more we help each other. <br/> Share this secured link to invite even more people from {{orgName}} to join",
               {orgName: (organisation && organisation.name ? organisation.name : 'your company')}),
             "ctaText": invitationUrl,
             "squareIcon": "https://images.emojiterra.com/twitter/v12/512px/1f60d.png",
             "ctaUrl":  invitationUrl || defaultLink,
             "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
             "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
-            "outro": res.__("WINGZY The Smart Directory which reveals your company's Wings <br/> For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a>")
+            "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', orgUrl || defaultLink),
+            "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
           }
         });
     },
@@ -385,7 +386,7 @@ var EmailHelper = {
           });
         return request;
       },
-      emailReactivateUser: function(recipientEmail, organisation, firstName, url, urlUnsubscribe, locale, i18n) {
+      emailReactivateUser: function(recipientEmail, organisation, firstName, url, urlUnsubscribe, tips, locale, i18n) {
         i18n.setLocale(locale);
         const request = mailjet
           .post("send")
@@ -405,10 +406,11 @@ var EmailHelper = {
               "ctaText": i18n.__("Search {{organisationName}}", {organisationName: (organisation && organisation.name ? organisation.name : 'your company')}),
               "squareIcon": "https://ucarecdn.com/6b54b57e-5725-46a5-8d6d-f4222833062f/",
               "ctaUrl": url || defaultLink,
+              "tips": tips ? i18n.__(tips) : '',
               "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
               "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
-              "outro": i18n.__("For any questions, <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
-                        {unsubLink: urlUnsubscribe})
+              "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
+              "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>")
             }
           });
         return request;
@@ -436,7 +438,8 @@ var EmailHelper = {
               "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
               "orgLogoUrl": (organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl),
               "ctaUrl": url || defaultLink,
-              "outro": res.__("Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>")
+              "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
+              "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
             }
           });
         return request;

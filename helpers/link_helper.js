@@ -46,7 +46,7 @@ var LinkHelper = class LinkHelper {
     switch (this.type) {
       case 'email' : return this.makeEmail();
 
-      case 'phone' : case 'home' : return this.makePhone();
+      case 'phone' : case 'home' : case 'landline' : return this.makePhone();
 
       case 'address' : return this.makeAddress();
 

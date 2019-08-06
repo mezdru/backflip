@@ -1,75 +1,108 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <!-- Schema.org markup for Google+ -->
-    <meta itemprop="name" content="Wingzy">
-    <meta itemprop="description" content="{{{__ "Spread your wings"}}}">
-    <meta itemprop="image" content="https://wingzy.com/wingzy_full.png">
+<head>
 
-    <!-- Twitter Card data -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="https://wingzy.com/">
-    <meta name="twitter:title" content="Wingzy">
-    <meta name="twitter:description" content="{{{__ 'Wingzy is an intuitive app to find the coworkers you need according to what they love and know'}}}">
-    <!-- Twitter summary card with large image must be at least 280x150px -->
-    <meta name="twitter:image:src" content="https://wingzy.com/wingzy_full.png">
+  {{#if home}}
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134551942-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-    <!-- Open Graph data -->
-    <meta property="og:title" content="Wingzy" />
-    <meta property="og:url" content="https://wingzy.com/" />
-    <meta property="og:image" content="https://wingzy.com/wingzy_full.png" />
-    <meta property="og:description" content="{{{__ 'Wingzy is an intuitive app to find the coworkers you need according to what they love and know'}}}" />
-    <meta property="og:site_name" content="Wingzy" />
+    gtag('config', 'UA-134551942-2');
+  </script>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-WZW2KFM');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4894133.js"></script>
+  <!-- End of HubSpot Embed Code -->
+  {{/if}}
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="Wingzy">
+  <meta itemprop="description" content="{{{__ "Spread your wings"}}}">
+  <meta itemprop="image" content="https://wingzy.com/wingzy_full.png">
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="https://wingzy.com/">
+  <meta name="twitter:title" content="Wingzy">
+  <meta name="twitter:description"
+    content="{{{__ 'Wingzy is an intuitive app to find the coworkers you need according to what they love and know'}}}">
+  <!-- Twitter summary card with large image must be at least 280x150px -->
+  <meta name="twitter:image:src" content="https://wingzy.com/wingzy_full.png">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Wingzy" />
+  <meta property="og:url" content="https://wingzy.com/" />
+  <meta property="og:image" content="https://wingzy.com/wingzy_full.png" />
+  <meta property="og:description"
+    content="{{{__ 'Wingzy is an intuitive app to find the coworkers you need according to what they love and know'}}}" />
+  <meta property="og:site_name" content="Wingzy" />
 
 
-    <title>{{{title}}}</title>
+  <title>{{{title}}}</title>
 
-    <link rel="icon" type="image/png" href="/wingzy.png"/>
+  <link rel="icon" type="image/png" href="/wingzy.png" />
 
-    <link rel="stylesheet" href="/stylesheets/pure-min.css">
+  <link rel="stylesheet" href="/stylesheets/pure-min.css">
 
-    <!--[if lte IE 8]>
+  <!--[if lte IE 8]>
         <link rel="stylesheet" href="/stylesheets/grid-old-ie.css">
     <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="/stylesheets/grid.css">
-    <!--<![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/stylesheets/grid.css">
+  <!--<![endif]-->
 
-    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800 "/>
-    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet"> 
-    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800 " />
+  <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/stylesheets/selectize.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/selectize.css" />
 
-    {{#unless home}}
-    <link rel="stylesheet" href="/stylesheets/base.css"/>
-    {{/unless}}
+  {{#unless home}}
+  <link rel="stylesheet" href="/stylesheets/base.css" />
+  {{/unless}}
 
-    {{#if onboard}}
-    <link rel="stylesheet" href="/stylesheets/onboard.css"/>
-    {{/if}}
-    {{#if home}}
-    <link rel="stylesheet" href="/stylesheets/home.css" />
-    {{/if}}
-    <link rel="stylesheet" href="/stylesheets/footer.css" />
-    <link rel="stylesheet" href="/stylesheets/premium_features.css"/>
-    <link rel="stylesheet" href="/stylesheets/statistics.css" />
-    <link rel="stylesheet" href="/stylesheets/user-record-status-toggle.css"/>
+  {{#if onboard}}
+  <link rel="stylesheet" href="/stylesheets/onboard.css" />
+  {{/if}}
+  {{#if home}}
+  <link rel="stylesheet" href="/stylesheets/home.css" />
+  {{/if}}
+  <link rel="stylesheet" href="/stylesheets/footer.css" />
+  <link rel="stylesheet" href="/stylesheets/premium_features.css" />
+  <link rel="stylesheet" href="/stylesheets/statistics.css" />
+  <link rel="stylesheet" href="/stylesheets/user-record-status-toggle.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 
-    <script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.6"></script>
+  <script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.6"></script>
 
-    <script src="/javascripts/polyfill.js"></script>
-    <script src="/javascripts/utils.js"></script>
+  <script src="/javascripts/polyfill.js"></script>
+  <script src="/javascripts/utils.js"></script>
 
-    <style>
-      {{organisation.style.css}}
-    </style>
+  <style>
+    {
+        {
+        organisation.style.css
+      }
+    }
+  </style>
 
   <!-- INTERCOM INIT -->
   <script>
@@ -77,32 +110,38 @@
       app_id: "k7gprnv3"
     };
   </script>
-  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/k7gprnv3';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>
+  <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/k7gprnv3'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
 
+</head>
 
-  </head>
-  <body class="{{bodyClass}}">
-    {{> flash}}
-    {{#unless home}}
-        {{> header}}
-    {{/unless}}
-    {{{body}}}
-    {{> footer}}
-    {{> banner_on_free}}
-    {{> impersonate_footer}}
-    {{> analytics}}
-    {{> crowdin}}
+<body class="{{bodyClass}}">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZW2KFM" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Hotjar Tracking Code for https://wingzy.io -->
-    <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:1026721,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
-  </body>
+  {{> flash}}
+  {{#unless home}}
+  {{> header}}
+  {{/unless}}
+  {{{body}}}
+  {{> footer}}
+  {{> banner_on_free}}
+  {{> impersonate_footer}}
+  {{> analytics}}
+  {{> crowdin}}
+
+  <!-- Hotjar Tracking Code for https://wingzy.io -->
+  <script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1026721, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script>
+</body>
+
 </html>

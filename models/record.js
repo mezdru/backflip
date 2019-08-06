@@ -380,6 +380,14 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   .exec(callback);
 };
 
+recordSchema.statics.findByTagAsync = function(tag, organisationId) {
+  tag = this.cleanTag(tag);
+  return this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
+  .collation({ locale: 'en_US', strength: 1 })
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture');
+};
+// @todo Populate is not a method of findOneAndUpdate
 recordSchema.statics.findByIdAndUpdate = function(recordId, recordUpdated) {
   return this.findOneAndUpdate({'_id': recordId}, {$set: recordUpdated}, {new: true})
   .populate('hashtags', '_id tag type name name_translated picture')
@@ -631,7 +639,7 @@ recordSchema.methods.algoliaSync = function() {
     this.hashtags = this.hashtags || [];
     this.within = this.within || [];
     this.sortLinks();
-    index.saveObject({
+    index.partialUpdateObject({
       objectID: this._id.toString(),
       organisation: getId(this.organisation),
       tag: this.tag,
@@ -646,7 +654,7 @@ recordSchema.methods.algoliaSync = function() {
       includes_count: this.includes_count,
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
       personAvailability: this.personAvailability
-    }, function(err, doc) {
+    }, true, function(err, doc) {
       if (err) return console.error(err);
       console.log(`Synced ${doc.objectID} with Algolia`);
     });
@@ -738,7 +746,12 @@ recordSchema.pre('save', function(next) {
 });
 
 recordSchema.post('save', function(doc) {
-  this.algoliaSync();
+  Record.findOne({'_id' : this._id})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture')
+  .then(docPopulated => {
+    (docPopulated || this).algoliaSync();
+  });
 });
 
 recordSchema.post('updateOne', function(doc) {
@@ -751,12 +764,17 @@ recordSchema.post('updateOne', function(doc) {
 });
 
 recordSchema.post('findOneAndUpdate', function(doc) {
-  Record.findOne({'_id' : doc._id})
+  Record.findOne({'_id' : (doc ? doc._id : this._id)})
   .populate('hashtags', '_id tag type name name_translated picture')
   .populate('within', '_id tag type name name_translated picture')
-  .then(doc => {
-    doc.algoliaSync();
-  });
+  .then(docPopulated => {
+    if(docPopulated)
+      docPopulated.algoliaSync();
+    else
+      console.log('Error: post action of findOneAndUpdate did not find the Record with id '+doc._id);
+  }).catch(e => {
+    console.log(e);
+  })
 });
 
 recordSchema.plugin(mongooseDelete, {
