@@ -20,27 +20,27 @@ exports.getRecords = async (req, res, next) => {
 }
 
 exports.getSingleRecord = async (req, res, next) => {
-  Record.findOneById(req.params.id)
-    .then(record => {
-      if (!record) {
-        req.backflip = { message: 'Record not found', status: 404 };
-      } else {
-        req.backflip = {
-          message: 'Record found',
-          status: 200,
-          data: record,
-          organisation: record.organisation,
-          owner: (req.user.orgsAndRecords.find(oar => oar.record.equals(record._id)) ? req.user._id : null)
-        };
-      }
-      return next();
-    }).catch(err => {
-      if (err.name = 'CastError') {
-        req.backflip = { message: 'Record id is not valid.', status: 422 };
-        return next();
-      }
-      return next(err)
-    });
+
+  let record = await  Record.findOneById(req.params.id).catch(err => {
+                        if (err.name = 'CastError') {
+                          req.backflip = { message: 'Record id is not valid.', status: 422 };
+                          return next();
+                        }
+                        return next(err)
+                      });
+
+  if (!record) {
+    req.backflip = { message: 'Record not found', status: 404 };
+  } else {
+    req.backflip = {
+      message: 'Record found',
+      status: 200,
+      data: record,
+      organisation: record.organisation,
+      owner: (req.user.orgsAndRecords.find(oar => oar.record.equals(record._id)) ? req.user._id : null)
+    };
+  }
+  return next();
 }
 
 exports.createSingleRecord = async (req, res, next) => {
@@ -55,58 +55,47 @@ exports.createSingleRecord = async (req, res, next) => {
     }
   }
 
-  Record.makeFromTagAsync(record.tag, req.organisation._id, record.hidden)
-    .then(recordSaved => {
-      record.tag = recordSaved.tag; // tag can be modify
-      record.name = record.name || recordSaved.name;
-      Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true })
-        .then(recordUpdated => {
-          Record.findOneById(recordUpdated._id)
-            .then(recordPopulated => {
-              req.backflip = { message: 'Record created with success', data: recordPopulated, status: 200 };
-              return next();
-            });
-        }).catch(err => next(err));
-    }).catch(err => {
-      if (err.code === 11000 && record.type === 'hashtag') {
-        req.backflip = { message: 'Record already exists in this organisation.', status: 409 };
-        return next();
-      }
-      return next(err);
-    });
+  let recordSaved = await Record.makeFromTagAsync(record.tag, req.organisation._id, record.hidden)
+                          .catch(err => {
+                            if (err.code === 11000 && record.type === 'hashtag') {
+                              req.backflip = { message: 'Record already exists in this organisation.', status: 409 };
+                              return next();
+                            }
+                            return next(err);
+                          });
+
+  record.tag = recordSaved.tag; // tag can be modify
+  record.name = record.name || recordSaved.name;
+  let recordUpdated = await Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true });
+  let recordPopulated = await Record.findOneById(recordUpdated._id);
+  req.backflip = { message: 'Record created with success', data: recordPopulated, status: 200 };
+  return next();
 }
 
 exports.updateSingleRecord = async (req, res, next) => {
-  if(!req.body.record) {
-    req.backflip = {message: 'Missing body parameter: record', status: 422};
+  if (!req.body.record) {
+    req.backflip = { message: 'Missing body parameter: record', status: 422 };
     return next();
   }
 
-  Record.findOneAndUpdate({_id: req.params.id}, {$set: req.body.record}, {new: true})
-  .then(recordUpdated => {
-    if (!recordUpdated) {
-      req.backflip = {message: 'Record not found', status: 404};
-      return next();
-    }
+  let recordUpdated = await Record.findOneAndUpdate({ _id: req.params.id }, { $set: req.body.record }, { new: true }).catch(e => next(e));
 
-    Record.findOneById(recordUpdated._id)
-    .then(recordUpdated => {
-      if (req.body.record.picture && req.body.record.picture.url) {
-        recordUpdated.addPictureByUrlAsync(req.body.record.picture.url)
-          .then(pictureField => {
-            recordUpdated.picture = pictureField.picture;
-            recordUpdated.save().then((recordUpdatedBis) => {
-              req.backflip = {message: 'Record updated with success', status: 200, data: recordUpdatedBis};
-              return next();
-            }).catch((err) => { return next(err); });
-          })
-      } else {
-        req.backflip = {message: 'Record updated with success', status: 200, data: recordUpdated};
-        return next();
-      }
-    });
+  if (!recordUpdated) {
+    req.backflip = { message: 'Record not found', status: 404 };
+    return next();
+  }
 
-  }).catch(err => next(err));
+  recordUpdated = await Record.findOneById(recordUpdated._id);
+
+  if (req.body.record.picture && req.body.record.picture.url) {
+    recordUpdated.picture = (await recordUpdated.addPictureByUrlAsync(req.body.record.picture.url)).picture;
+    await recordUpdated.save();
+    req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
+    return next();
+  } else {
+    req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
+    return next();
+  }
 }
 
 exports.deleteSingleRecord = async (req, res, next) => {
@@ -125,8 +114,8 @@ exports.deleteSingleRecord = async (req, res, next) => {
 }
 
 exports.createSingleLink = async (req, res, next) => {
-  if(!req.body.link) {
-    req.backflip = {message: 'Missing body parameter: link', status: 422};
+  if (!req.body.link) {
+    req.backflip = { message: 'Missing body parameter: link', status: 422 };
     return next();
   }
 
@@ -145,8 +134,8 @@ exports.createSingleLink = async (req, res, next) => {
 }
 
 exports.updateSingleLink = async (req, res, next) => {
-  if(!req.body.link) {
-    req.backflip = {message: 'Missing body parameter: link', status: 422};
+  if (!req.body.link) {
+    req.backflip = { message: 'Missing body parameter: link', status: 422 };
     return next();
   }
 
@@ -155,8 +144,8 @@ exports.updateSingleLink = async (req, res, next) => {
   let linkIndexToUpdate = links.findIndex(link => link._id.equals(req.params.subId));
   let linkToUpdate = links[linkIndexToUpdate];
 
-  if(!linkToUpdate) {
-    req.backflip = {message: 'Link not found.', status: 404};
+  if (!linkToUpdate) {
+    req.backflip = { message: 'Link not found.', status: 404 };
     return next();
   }
 
@@ -164,17 +153,17 @@ exports.updateSingleLink = async (req, res, next) => {
   links[linkIndexToUpdate] = {
     _id: linkToUpdate._id,
     value: req.body.link.value || linkToUpdate.value || null,
-    username: req.body.link.username || linkToUpdate.username ||  null,
+    username: req.body.link.username || linkToUpdate.username || null,
     url: req.body.link.url || linkToUpdate.url || null,
     display: req.body.link.display || linkToUpdate.display || null,
     type: linkToUpdate.type
   };
 
-  Record.findOneAndUpdate({_id: record._id}, {$set: {links: links} }, {new: true})
-  .then(recordSaved => {
-    req.backflip = {message: 'Link updated with success.', status: 200, data: recordSaved.links[linkIndexToUpdate]};
-    return next();
-  }).catch(err => next(err));
+  Record.findOneAndUpdate({ _id: record._id }, { $set: { links: links } }, { new: true })
+    .then(recordSaved => {
+      req.backflip = { message: 'Link updated with success.', status: 200, data: recordSaved.links[linkIndexToUpdate] };
+      return next();
+    }).catch(err => next(err));
 }
 
 exports.deleteSingleLink = async (req, res, next) => {
@@ -182,8 +171,8 @@ exports.deleteSingleLink = async (req, res, next) => {
 }
 
 exports.getPopulatedRecord = async (req, res, next) => {
-  if(!req.query.user || !req.query.organisation) {
-    req.backflip = {message: 'Missing query parameters: user or organisation', status: 422};
+  if (!req.query.user || !req.query.organisation) {
+    req.backflip = { message: 'Missing query parameters: user or organisation', status: 422 };
     return next();
   }
 
@@ -196,7 +185,7 @@ exports.getPopulatedRecord = async (req, res, next) => {
     // Init working user
     if (!req.user._id.equals(req.query.user)) {
       if (!req.user.isSuperAdmin()) {
-        req.backflip = {status: 403, message: 'Unauthorized'};
+        req.backflip = { status: 403, message: 'Unauthorized' };
         return next();
       }
       currentUser = await User.findById(req.query.user).exec();
@@ -216,16 +205,16 @@ exports.getPopulatedRecord = async (req, res, next) => {
     if (!currentRecord && currentUser.google && currentUser.google.id)
       currentRecord = await new Promise((resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
 
-    if(!currentRecord && currentUser.googleUser)
+    if (!currentRecord && currentUser.googleUser)
       currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId)
-      .then(record => resolve(record))
-      .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  }));
+        .then(record => resolve(record))
+        .catch(error => { console.log('error: ' + JSON.stringify(error)); resolve(null); }));
 
     // Try to get record by LinkedIn
     if (!currentRecord && currentUser.linkedinUser)
       currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
         .then(record => resolve(record))
-        .catch(error => {console.log('error: ' + JSON.stringify(error)); resolve(null);  } ));
+        .catch(error => { console.log('error: ' + JSON.stringify(error)); resolve(null); }));
 
     if (!currentRecord) {
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
@@ -238,10 +227,10 @@ exports.getPopulatedRecord = async (req, res, next) => {
       let currentUserId = currentUser._id;
       delete currentUser._id;
       await User.findOneAndUpdate({ _id: currentUserId }, currentUser).then().catch(err => next(err));
-      req.backflip = {status: 200, message: 'Record fetch with success.', data: currentRecord};
+      req.backflip = { status: 200, message: 'Record fetch with success.', data: currentRecord };
       return next();
     } else {
-      req.backflip = {status: 404, message: 'Record not found.'};
+      req.backflip = { status: 404, message: 'Record not found.' };
       return next();
     }
   } catch (err) {
