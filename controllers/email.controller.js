@@ -5,22 +5,25 @@ var UrlHelper = require('../helpers/url_helper');
 var SlackHelper = require('../helpers/slack_helper');
 
 exports.unsubscribeCallback = async (req, res, next) => {
-  User.findOne({ 'email.hash': req.params.hash, 'email.token': req.params.token })
-    .then(userToUnsub => {
-      if (!userToUnsub) return res.render('emails/unsubscribe', { success: false, errorMessage: res.__("User not found. Please <a href='mailto:contact@wingzy.com'>contact us</a>") });
-      userToUnsub.isUnsubscribe = true;
-      userToUnsub.save()
-        .then(userUpdated => {
-          if (process.env.NODE_ENV === 'production') SlackHelper.notify('#alerts', 'An User (' + userToUnsub._id + ') unsubscribe from auto-tranctionnal emails (' + userToUnsub.loginEmail + ')');
-          return res.render('emails/unsubscribe', { success: true, userEmail: userUpdated.loginEmail });
-        }).catch(e => {
-          console.error(e);
-          return res.render('emails/unsubscribe', { success: false, errorMessage: res.__("An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>") });;
-        });
-    }).catch(e => {
-      console.error(e);
-      return res.render('emails/unsubscribe', { success: false, errorMessage: res.__("An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>") });;
-    })
+  try {
+
+    let userToUnsub = await User.findOne({ 'email.hash': req.params.hash, 'email.token': req.params.token });
+    if (!userToUnsub) return res.render('emails/unsubscribe', { success: false, errorMessage: res.__("User not found. Please <a href='mailto:contact@wingzy.com'>contact us</a>") });
+    userToUnsub.isUnsubscribe = true;
+    await userToUnsub.save();
+    if (process.env.NODE_ENV === 'production') SlackHelper.notify('#alerts', 'An User (' + userToUnsub._id + ') unsubscribe from auto-tranctionnal emails (' + userToUnsub.loginEmail + ')');
+    return res.render('emails/unsubscribe', { success: true, userEmail: userUpdated.loginEmail });
+
+  } catch(e) {
+    console.error(e);
+    return res.render(
+      'emails/unsubscribe', 
+      { 
+        success: false, 
+        errorMessage: res.__("An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>") 
+      }
+    );
+  }
 }
 
 exports.sendSecurityNotification = async (req, res, next) => {

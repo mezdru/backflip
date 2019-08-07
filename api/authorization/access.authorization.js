@@ -37,19 +37,16 @@ exports.resWithData = async (req, res, next) => {
 exports.userOwnsRecordOrAdmin = async (req, res, next) => {
   if(req.user.superadmin) return next();
 
-  Record.findOne({_id: req.params.id})
-  .then(record => {
-    if(!record) return res404(res);
+  let record = await Record.findOne({_id: req.params.id}).catch(e => next(e));
 
-    if(req.user.orgsAndRecords) {
-      var orgAndRecord = req.user.orgsAndRecords.find(orgAndRecord => orgAndRecord.organisation.equals(record.organisation));
-      if(orgAndRecord.admin || orgAndRecord.record.equals(req.params.id)) return next();
-    }
+  if(!record) return res404(res);
 
-    return res403(res);
-  }).catch(e => {
-    return next(e);
-  });
+  if(req.user.orgsAndRecords) {
+    var orgAndRecord = req.user.orgsAndRecords.find(orgAndRecord => orgAndRecord.organisation.equals(record.organisation));
+    if(orgAndRecord.admin || orgAndRecord.record.equals(req.params.id)) return next();
+  }
+
+  return res403(res);
 }
 
 exports.currentUser = async (req, res, next) => {
