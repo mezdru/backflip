@@ -9,7 +9,7 @@ let findOrganisationInBody = (body) => {
 	return null;
 }
 
-let check = (req, res, next) => {
+let check = async (req, res, next) => {
 	req.organisationId = req.body.orgId || (req.query && req.query.organisation ? req.query.organisation : null) || (req.params ? req.params.id : null);
 
 	if (!req.organisationId) req.organisationId = findOrganisationInBody(req.body);
@@ -27,7 +27,7 @@ let check = (req, res, next) => {
 													});
 	
 	if (!organisation && !req.user.superadmin) return res.status(404).json({ message: 'Organisation not found' });
-	
+
 	// If req.user isn't authorized user && isn't a Client
 	if (!req.user || ((req.user instanceof User) && !req.user.superadmin && !req.user.belongsToOrganisation(organisation._id)))
 	return res.status(403).json({ message: 'You haven\'t access to this Organisation.' });
