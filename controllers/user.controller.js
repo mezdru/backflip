@@ -1,5 +1,6 @@
 var User = require('../models/user');
 var Record = require('../models/record');
+var EmailUser = require('../models/email/email_user');
 
 exports.getSingleUser = async (req, res, next) => {
   User.findOne({_id: req.params.id || req.user._id})
@@ -76,12 +77,15 @@ exports.updateOrgAndRecord = async (req, res, next) => {
 
           if(orgAndRecordPopulate.organisation.canInvite) {
             var Agenda = require('../models/agenda_scheduler');
-            Agenda.scheduleSendInvitationCta(user, orgAndRecord.organisation, orgAndRecord.record);
+            Agenda.scheduleSendInvitationCta(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record);
           }
         }
 
-        req.backflip = {message: 'User updated with success', status: 200, data: userUpdated};
-        return next();
+        User.findOne({_id: userUpdated._id})
+        .then(userUpdateNotPopulated => {
+          req.backflip = {message: 'User updated with success', status: 200, data: userUpdateNotPopulated};
+          return next();
+        });
 
       });
     }).catch(err => next(err));
