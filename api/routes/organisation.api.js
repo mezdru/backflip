@@ -8,17 +8,6 @@ require('../passport/strategy');
 
 let router = express.Router();
 
-const RESOURCE_MODEL = 'organisation';
-
-router.use((req, res, next) => {
-  req.backflip = req.backflip || {};
-  req.backflip.resource = {
-    model: RESOURCE_MODEL
-  }
-  next();
-});
-
-
 router.get(
   '/forPublic',
   OrganisationController.getSingleOrganisationForPublic,

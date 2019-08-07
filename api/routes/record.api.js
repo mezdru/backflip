@@ -7,16 +7,6 @@ var ValidateRecord = require('../validation/record.validation');
 let passport = require('passport');
 require('../passport/strategy');
 
-const RESOURCE_MODEL = 'record';
-
-router.use((req, res, next) => {
-  req.backflip = req.backflip || {};
-  req.backflip.resource = {
-    model: RESOURCE_MODEL
-  }
-  next();
-});
-
 /** GETs */
 
 router.get(

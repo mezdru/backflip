@@ -5,16 +5,6 @@ let passport = require('passport');
 var AuthorizationOrganisation = require('../authorization/organisation.authorization');
 var SearchLogController = require('../../controllers/statistic.controller');
 
-const RESOURCE_MODEL = 'searchLogs';
-
-router.use((req, res, next) => {
-  req.backflip = req.backflip || {};
-  req.backflip.resource = {
-    model: RESOURCE_MODEL
-  }
-  next();
-});
-
 router.post(
   '/',
   passport.authenticate('bearer', {session: false}),
