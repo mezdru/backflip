@@ -4,6 +4,7 @@ var slug = require('slug');
 var uppercamelcase = require('uppercamelcase');
 var LinkedinUserHelper = require('../helpers/linkedinUser_helper');
 var GoogleUserHelper = require('../helpers/googleUser_helper');
+var LinkHelper = require('../helpers/link_helper');
 
 exports.getRecords = async (req, res, next) => {
   Record.find({ ...req.query })
@@ -83,6 +84,11 @@ exports.updateSingleRecord = async (req, res, next) => {
   if (!recordUpdated) {
     req.backflip = { message: 'Record not found', status: 404 };
     return next();
+  }
+
+  if(req.body.record.links) {
+    recordUpdated.makeLinks(mixLinks([], req.body.record.links));
+    await recordUpdated.save();
   }
 
   recordUpdated = await Record.findOneById(recordUpdated._id);
@@ -236,4 +242,22 @@ exports.getPopulatedRecord = async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
+}
+
+
+
+/**
+ * @description Prepare links array
+ */
+let mixLinks = (currentLinks, newLinks) => {
+  currentLinks = currentLinks || [];
+  if (!newLinks || newLinks.length === 0) return currentLinks;
+
+  newLinks.forEach(link => {
+    if (link.value && link.type) {
+      currentLinks.push(LinkHelper.makeLink(link.value, link.type));
+    }
+  });
+
+  return currentLinks;
 }

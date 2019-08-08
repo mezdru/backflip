@@ -145,6 +145,7 @@ recordSchema.methods.createLinks = function(formNewLinks) {
 };
 
 recordSchema.methods.makeLinks = function(newLinks) {
+  console.log('make links', newLinks);
   this.links = [];
   this.addLinks(newLinks);
 };
