@@ -41,3 +41,4 @@ npm-debug.log
 package-lock.json
 
 .eslintrc.json
+.nyc_output

@@ -6,7 +6,9 @@
   "license": "CC-BY-NC-SA-4.0",
   "private": true,
   "scripts": {
-    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www"
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www",
+    "test": "nodemon --watch . --exec nyc mocha --timeout 10000 --exit || true",
+    "start-dev": "nodemon --watch . --exec node --optimize_for_size --max_old_space_size=460 --gc_interval=100 ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -70,5 +72,20 @@
     "url-parse": "^1.2.0",
     "validator": "^7.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "api/**",
+      "controllers/**"
+    ],
+    "exclude": [
+      "**/old/**"
+    ]
+  }
 }

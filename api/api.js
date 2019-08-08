@@ -1,19 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
-var api_organisation = require('./organisation/api_organisation');
-router.use('/organisations', api_organisation);
+var recordsApi = require('./routes/record.api');
+router.use('/records', recordsApi);
 
-var api_record = require('./record/api_record');
-router.use('/profiles', api_record);
+// Superadmin actions
+var recordsActionsApi = require('./routes/recordActions.api');
+router.use('/records', recordsActionsApi);
 
-var api_user = require('./user/api_user');
-router.use('/users', api_user);
+var organisationsApi = require('./routes/organisation.api');
+router.use('/organisations', organisationsApi);
 
-var api_email = require('./email/api_email');
-router.use('/emails', api_email);
+var usersApi = require('./routes/user.api');
+router.use('/users', usersApi);
 
-var api_search = require('./statistics/api_search');
-router.use('/statistics/search', api_search);
+var statisticsApi = require('./routes/statistic.api');
+router.use('/statistics', statisticsApi);
+
+var emailsApi = require('./routes/email.api');
+router.use('/emails', emailsApi);
 
 module.exports = router;

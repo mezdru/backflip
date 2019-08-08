@@ -410,6 +410,12 @@ recordSchema.statics.findByIdAsync = function(id, organisationId) {
   .populate('within', '_id tag type name name_translated picture');
 };
 
+recordSchema.statics.findOneById = function(id) {
+  return this.findOne({ _id: id})
+  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('within', '_id tag type name name_translated picture');
+}
+
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByEmail = function(email, organisationId, callback) {
@@ -453,7 +459,7 @@ recordSchema.statics.makeFromTag = function(tag, organisationId, callback) {
   else return record;
 };
 // new
-recordSchema.statics.makeFromTagAsync = function(tag, orgId) {
+recordSchema.statics.makeFromTagAsync = function(tag, orgId, isHidden) {
   let type = this.getTypeFromTag(tag);
   let name = this.getNameFromTag(tag);
   tag = this.cleanTag(tag, type);
@@ -464,6 +470,7 @@ recordSchema.statics.makeFromTagAsync = function(tag, orgId) {
     organisation: orgId
   };
   record = this.makeFromInputObject(inputObject);
+  record.hidden = isHidden;
   return record.save();
 };
 
