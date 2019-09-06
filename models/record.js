@@ -412,7 +412,7 @@ recordSchema.statics.findByIdAsync = function(id, organisationId) {
 
 recordSchema.statics.findOneById = function(id) {
   return this.findOne({ _id: id})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture hashtags')
   .populate('within', '_id tag type name name_translated picture');
 }
 
