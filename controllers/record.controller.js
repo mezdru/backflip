@@ -8,7 +8,7 @@ var LinkHelper = require('../helpers/link_helper');
 
 exports.getRecords = async (req, res, next) => {
   Record.find({ ...req.query })
-    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('hashtags', '_id tag type name name_translated picture hashtags')
     .populate('within', '_id tag type name name_translated picture')
     .then(records => {
       if (records.length === 0) {

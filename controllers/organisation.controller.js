@@ -23,6 +23,7 @@ exports.getSingleOrganisationForPublic = (req, res, next) => {
 
 exports.getSingleOrganisation = (req, res, next) => {
   Organisation.findOne({_id: req.params.id})
+  .populate('featuredWingsFamily', '_id name name_translated picture tag intro')
   .then(organisation => {
     if(!organisation) {
       req.backflip = {message: 'Organisation not found', status: 404};

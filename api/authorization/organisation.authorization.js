@@ -3,10 +3,11 @@ var User = require('../../models/user');
 
 let findOrganisationInBody = (body) => {
 	let bodyKeys = Object.keys(body);
+	let organisation = null;
 	bodyKeys.forEach(key => {
-		if (body[key].organisation) return body[key].organisation;
+		if (body[key].organisation) organisation = body[key].organisation;
 	});
-	return null;
+	return organisation;
 }
 
 let check = async (req, res, next) => {
