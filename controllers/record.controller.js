@@ -4,6 +4,7 @@ var slug = require('slug');
 var uppercamelcase = require('uppercamelcase');
 var LinkedinUserHelper = require('../helpers/linkedinUser_helper');
 var GoogleUserHelper = require('../helpers/googleUser_helper');
+var GoogleRecord = require('../models/google/google_record');
 var LinkHelper = require('../helpers/link_helper');
 
 exports.getRecords = async (req, res, next) => {
