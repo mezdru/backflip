@@ -351,7 +351,7 @@ var EmailHelper = {
             "title": (firstName ? res.__("{{firstName}}, thanks for the help!", {firstName: firstName || ''}) : res.__("Thanks for the help!")),
             "text": res.__("The more we are on Wingzy, the more we help each other. <br/> Share this secured link to invite even more people from {{orgName}} to join",
               {orgName: (organisation && organisation.name ? organisation.name : 'your company')}),
-            "ctaText": invitationUrl,
+            "ctaText": invitationUrl || "Code",
             "squareIcon": "https://images.emojiterra.com/twitter/v12/512px/1f60d.png",
             "ctaUrl":  invitationUrl || defaultLink,
             "orgBannerUrl": (organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl),
