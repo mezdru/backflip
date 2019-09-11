@@ -20,4 +20,7 @@ router.use('/statistics', statisticsApi);
 var emailsApi = require('./routes/email.api');
 router.use('/emails', emailsApi);
 
+var helpRequestsApi = require('./routes/helpRequest.api');
+router.use('/helpRequests', helpRequestsApi);
+
 module.exports = router;
