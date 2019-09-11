@@ -94,7 +94,9 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
       let userName = orgAndRecordArray[0].record.name.split(' ')[0];
       let organisation = orgAndRecordArray[0].organisation;
       EmailHelper.public.emailConfirmationInvitation(
-        req.user.loginEmail, organisation, userName, req.user.locale, req.body.invitationUrl, res)
+        req.user.loginEmail, organisation, userName, req.user.locale, req.body.invitationUrl,
+        (new UrlHelper(organisation.tag, null, null, req.user.locale).getUrl()),
+        res)
         .then(() => {
           req.backflip = { status: 200, message: 'Email sent with success.' };
           return next();
