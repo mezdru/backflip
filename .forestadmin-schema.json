@@ -541,6 +541,9 @@
       "field": "intro",
       "type": {
         "fields": [{
+          "field": "en-UK",
+          "type": "String"
+        }, {
           "field": "en",
           "type": "String"
         }, {
