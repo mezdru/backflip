@@ -538,16 +538,16 @@
       "inverseOf": null,
       "validations": []
     }, {
-      "field": "loginMessages",
-      "type": [{
+      "field": "intro",
+      "type": {
         "fields": [{
-          "field": "locale",
+          "field": "en",
           "type": "String"
         }, {
-          "field": "message",
+          "field": "fr",
           "type": "String"
         }]
-      }],
+      },
       "defaultValue": null,
       "enums": null,
       "integration": null,

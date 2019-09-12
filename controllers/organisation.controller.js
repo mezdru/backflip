@@ -14,7 +14,8 @@ exports.getSingleOrganisationForPublic = (req, res, next) => {
         name: organisation.name,
         logo: organisation.logo,
         cover: organisation.cover,
-        public: organisation.public        
+        public: organisation.public,
+        intro: organisation.intro
       }};
     }
     return next();
