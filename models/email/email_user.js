@@ -265,6 +265,7 @@ EmailUser.sendInvitationCtaEmail = function(user, organisation, record, i18n) {
         firstName,
         user.locale,
         (new UrlHelper(organisation.tag, 'code/'+invitationCode.code, null, user.locale)).getUrl(),
+        (new UrlHelper(organisation.tag, null, null, user.locale).getUrl()),
         i18n
       ).then().catch(e => console.log(e));
     });
