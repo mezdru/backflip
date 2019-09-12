@@ -49,6 +49,7 @@ var organisationSchema = mongoose.Schema({
     String
   ],
   intro: {
+    'en-UK': String,
     en: String,
     fr: String
   }
