@@ -1,5 +1,4 @@
 var Organisation = require('../organisation.js');
-var EmailHelper = require('../../helpers/email_helper.js');
 
 var GoogleOrganisation = {};
 
@@ -22,7 +21,6 @@ GoogleOrganisation.newByDomain = function (domain, user, callback) {
       hd: domain,
     },
   });
-  EmailHelper.superadmin.newOrg(user.name, user.google.email, organisation.name, organisation.host);
   return organisation.save(callback);
 };
 
