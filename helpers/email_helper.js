@@ -22,7 +22,7 @@ let send = (recipients, subject, vars, templateId, options = {}) => {
       'Subject': subject,
       'MJ-TemplateID': templateId,
       'MJ-TemplateLanguage': true,
-      'Recipients': (recipients.length > 0 ? recipients : [{ 'Email': recipients }]),
+      'Recipients': ( Array.isArray(recipients) ? recipients : [{ 'Email': recipients }]),
       'Vars': vars
     });
 }
@@ -52,7 +52,7 @@ exports.emailReactivateUser = (recipient, organisation, firstName, url, urlUnsub
     recipient,
     (firstName ? i18n.__("{{firstName}}, we miss you!", { firstName: firstName }) : i18n.__("We miss you.")),
     {
-      "title": (firstName ? i18n.__("{{firstName}}, we miss you!", { firstName: firstName || '' }) : i18n.__("We miss you.")),
+      "title": (firstName ? i18n.__("{{firstName}}, we miss you!", { firstName: firstName}) : i18n.__("We miss you.")),
       "text": i18n.__("We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
         { organisationName: (organisation && organisation.name ? organisation.name : 'your company') }),
       "ctaText": i18n.__("Search {{organisationName}}", { organisationName: (organisation && organisation.name ? organisation.name : 'your company') }),
@@ -125,7 +125,7 @@ exports.emailConfirmation = (recipient, url, organisationName, res) => {
     res.__("Confirm your email address"),
     {
       "intro": res.__("Hello,<br/>Thank you for signing up on Wingzy, the talent directory of {{organisationName}}!<br/>Just click on this red button below to access Wingzy securely.<br/>Thanks :)",
-        { organisationName: yourCompany }),
+        { organisationName: organisationName || 'your company' }),
       "url": url || defaultLink,
       "button": res.__("Confirm email"),
       "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
