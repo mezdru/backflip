@@ -170,8 +170,7 @@ router.post('/email/spread', function(req, res, next) {
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {
     res.locals.recipientUsers.forEach(user => {
-        EmailHelper.public.emailSpread(
-          user.getName(res.locals.organisation._id).split(' ')[0],
+        EmailHelper.emailSpread(
           user.loginEmail,
           res.locals.user.getName(res.locals.organisation._id),
           res.locals.user.loginEmail,

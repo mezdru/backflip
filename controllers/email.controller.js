@@ -93,8 +93,9 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
       let orgAndRecordArray = user.orgsAndRecords.filter(orgAndRecord => orgAndRecord.organisation._id.equals(req.params.orgId));
       let userName = orgAndRecordArray[0].record.name.split(' ')[0];
       let organisation = orgAndRecordArray[0].organisation;
-      EmailHelper.public.emailConfirmationInvitation(
-        req.user.loginEmail, organisation, userName, req.user.locale, req.body.invitationUrl,
+      res.setLocale(req.user.locale);
+      EmailHelper.emailConfirmationInvitation(
+        req.user.loginEmail, organisation, userName, req.body.invitationUrl,
         (new UrlHelper(organisation.tag, null, null, req.user.locale).getUrl()),
         res)
         .then(() => {

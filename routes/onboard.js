@@ -625,65 +625,67 @@ let notifyInvitationAccepter = function(res){
       Record.findOne({ '_id' :userInviter.getRecordIdByOrgId(res.locals.organisation._id)})
       .then(recordInviter=>{
         let profileUrl = new UrlHelper(res.locals.organisation.tag, `profile/${res.locals.record.tag}`, null, res.getLocale()).getUrl();
-        EmailHelper.public.emailInvitationAccepted(recordInviter.name, userInviter.loginEmail, res.locals.record.name,
-                                                    null, res.locals.organisation.name, profileUrl,res);
+        EmailHelper.emailInvitationAccepted(recordInviter.name, userInviter.loginEmail, res.locals.record.name,
+                                                    res.locals.organisation.name, profileUrl,res);
       });
     });
   }
 };
 
 let sendWingsProposition = function(proposeToId, hashtagsArray, locale, res) {
-  return Record.findOne({'_id': proposeToId})
-  .then(proposeToRecord => {
-    return User.findOne({'orgsAndRecords' : {$elemMatch: {record: proposeToRecord._id}} })
-    .then(proposeToUser => {
-      let redirectPage = 'onboard/hashtags';
-      let queryToSend = '&proposedWings='+hashtagsArray.join(',')+'&proposerRecordId='+res.locals.record._id+'&redirectTo='+redirectPage;
+    console.log('sendWingsProposition not implemented');
+  // return Record.findOne({'_id': proposeToId})
+  // .then(proposeToRecord => {
+  //   return User.findOne({'orgsAndRecords' : {$elemMatch: {record: proposeToRecord._id}} })
+  //   .then(proposeToUser => {
+  //     let redirectPage = 'onboard/hashtags';
+  //     let queryToSend = '&proposedWings='+hashtagsArray.join(',')+'&proposerRecordId='+res.locals.record._id+'&redirectTo='+redirectPage;
 
-      // need email to login + token + hash with redirection to onboard hashtags
-      checkEmailLoginAvailable(proposeToUser)
-      .then(userUpdated => {
-        let loginUrl = EmailUser.getLoginUrl(userUpdated, res.locals.organisation, locale);
-        let loginUrlWithRedirection = loginUrl + queryToSend;
+  //     // need email to login + token + hash with redirection to onboard hashtags
+  //     checkEmailLoginAvailable(proposeToUser)
+  //     .then(userUpdated => {
+  //       let loginUrl = EmailUser.getLoginUrl(userUpdated, res.locals.organisation, locale);
+  //       let loginUrlWithRedirection = loginUrl + queryToSend;
 
-        EmailHelper.public.emailProposeWings(
-            proposeToRecord.name,
-            userUpdated.loginEmail,
-            res.locals.record.name,
-            hashtagsArray,
-            res.locals.organisation.name,
-            loginUrlWithRedirection,
-            res
-        );
-      });
-      return proposeToRecord.tag;
-    });
-  });
+  //       EmailHelper.emailProposeWings(
+  //           proposeToRecord.name,
+  //           userUpdated.loginEmail,
+  //           res.locals.record.name,
+  //           hashtagsArray,
+  //           res.locals.organisation.name,
+  //           loginUrlWithRedirection,
+  //           res
+  //       );
+  //     });
+  //     return proposeToRecord.tag;
+  //   });
+  // });
 };
 
 let sendWingsPropositionThanks = function(proposerRecordId, proposedWingsAccepted, locale, res) {
-  Record.findOne({'_id' : proposerRecordId})
-  .then(proposerRecord => {
-    User.findOne({'orgsAndRecords' : {$elemMatch: {record: proposerRecord._id}} })
-    .then(proposeToUser => {
-      checkEmailLoginAvailable(proposeToUser)
-      .then(userUpdated => {
-        let loginUrl = EmailUser.getLoginUrl(userUpdated, res.locals.organisation, locale);
-        let redirectTo = '&redirectTo=profile/'+res.locals.record.tag;
-        let loginUrlWithRedirection = loginUrl + redirectTo;
+  console.log('sendWingsPropositionThanks not implemented');
+  // Record.findOne({'_id' : proposerRecordId})
+  // .then(proposerRecord => {
+  //   User.findOne({'orgsAndRecords' : {$elemMatch: {record: proposerRecord._id}} })
+  //   .then(proposeToUser => {
+  //     checkEmailLoginAvailable(proposeToUser)
+  //     .then(userUpdated => {
+  //       let loginUrl = EmailUser.getLoginUrl(userUpdated, res.locals.organisation, locale);
+  //       let redirectTo = '&redirectTo=profile/'+res.locals.record.tag;
+  //       let loginUrlWithRedirection = loginUrl + redirectTo;
 
-        EmailHelper.public.emailThanksForProposedWings(
-          proposerRecord.name,
-          userUpdated.loginEmail,
-          res.locals.record.name,
-          proposedWingsAccepted,
-          res.locals.organisation.name,
-          loginUrlWithRedirection,
-          res
-        );
-      });
-    });
-  });
+  //       EmailHelper.emailThanksForProposedWings(
+  //         proposerRecord.name,
+  //         userUpdated.loginEmail,
+  //         res.locals.record.name,
+  //         proposedWingsAccepted,
+  //         res.locals.organisation.name,
+  //         loginUrlWithRedirection,
+  //         res
+  //       );
+  //     });
+  //   });
+  // });
 }
 
 /**
