@@ -45,15 +45,14 @@ var organisationSchema = mongoose.Schema({
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
   ],
   featuredLinksTypes: [String],
-  loginMessages: [
-    {
-      locale: {type: String, default: 'en'},
-      message: {type: String}
-    }
-  ],
   onboardSteps: [
     String
-  ]
+  ],
+  intro: {
+    'en-UK': String,
+    en: String,
+    fr: String
+  }
 });
 
 /**

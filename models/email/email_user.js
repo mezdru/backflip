@@ -94,7 +94,7 @@ EmailUser.sendLoginEmail = function (user, organisation, res, callback) {
   EmailUser.generateToken(user, function(err, user) {
     if (err) return callback(err);
     let name = organisation ? user.getName(organisation._id).split(' ')[0] : '';
-    EmailHelper.public.emailLogin(user.email.value, name, EmailUser.getLoginUrl(user, organisation, res.getLocale()), res);
+    EmailHelper.emailLogin(user.email.value, name, EmailUser.getLoginUrl(user, organisation, res.getLocale()), res);
     return callback(null, user);
   });
 };
@@ -109,7 +109,7 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
     if(resp.ok === 1){
-      return EmailHelper.public.emailConfirmation(
+      return EmailHelper.emailConfirmation(
         user.email.value, 
         new UrlHelper(orgTag, "api/emails/confirmation/callback/" + user.email.token + '/' + user.email.hash, null, null).getUrl(),
         orgTag,
@@ -124,7 +124,7 @@ EmailUser.sendNewIntegrationEmail = function(user, integrationName, accessToken,
   let ctaUrl = (process.env.NODE_ENV === 'production' ? 'https://' : 'http://') + process.env.HOST_FRONTFLIP;
   return LinkedinUserHelper.fetchLinkedinUser(accessToken)
   .then(linkedinUser => {
-    return EmailHelper.public.emailSecurityIntegration(user.loginEmail, integrationName, (linkedinUser ? linkedinUser.email : ' '), ctaUrl, res);
+    return EmailHelper.emailSecurityIntegration(user.loginEmail, integrationName, (linkedinUser ? linkedinUser.email : ' '), ctaUrl, res);
   }).catch(e => {
     console.error(e);
     return Promise.reject(e);
@@ -141,7 +141,7 @@ EmailUser.sendPasswordRecoveryEmail = function(user, locale, res){
   return User.updateOne({'_id': user._id}, {$set: user})
   .then(resp => {
     if(resp.ok === 1){
-      return EmailHelper.public.emailPasswordRecovery(
+      return EmailHelper.emailPasswordRecovery(
         user.email.value, 
         "https://" + process.env.HOST_FRONTFLIP + '/' + locale + '/password/reset/' + user.email.token + '/' + user.email.hash,
         res);
@@ -161,7 +161,7 @@ EmailUser.sendInviteEmail = function (user, sender, organisation, customMessage 
   user.addInvitation(organisation, sender);
   EmailUser.generateToken(user, function(err, user) {
       if (err) return callback(err);
-      EmailHelper.public.emailInvite(
+      EmailHelper.emailInvite(
         user.email.value,
         sender.getName(organisation._id),
         sender.senderEmail,
@@ -179,7 +179,7 @@ EmailUser.sendInviteEmail = function (user, sender, organisation, customMessage 
 EmailUser.sendConfirmationInscriptionEmail = function(user, organisation, record, res) {
   let firstName = (record ? record.name.split(' ')[0] : null);
   res.setLocale(user.locale);
-  return EmailHelper.public.emailConfirmationInscription(
+  return EmailHelper.emailConfirmationInscription(
     user.loginEmail, 
     firstName, 
     organisation,
@@ -191,13 +191,13 @@ EmailUser.resendInviteEmail = function(user, sender, organisation, locale, i18n)
   user.addInvitation(organisation, sender);
   EmailUser.generateToken(user, function(err, user) {
     if (err) return console.error(err);
-    EmailHelper.public.emailReinvite(
+    i18n.setLocale(locale);
+    EmailHelper.emailReinvite(
       user.email.value,
       sender.getName(organisation._id),
       sender.senderEmail,
       organisation.name,
       EmailUser.getLoginUrl(user, organisation, locale),
-      locale,
       i18n);    
 });
 };
@@ -214,14 +214,15 @@ EmailUser.sendReactiveUserEmail = function(user, organisation, record, i18n) {
   return new Promise((resolve, reject) => {
     EmailUser.generateToken(user, function(err, userUpdated) {
       if(err) return reject(err);
-      EmailHelper.public.emailReactivateUser(
+      i18n.setLocale(userUpdated.locale);
+
+      EmailHelper.emailReactivateUser(
         userUpdated.loginEmail,
         organisation,
         firstName,
         (process.env.NODE_ENV === 'development' ? 'http://' : 'https://' ) + process.env.HOST_FRONTFLIP  + '/' + userUpdated.locale + '/' +(organisation ? organisation.tag : ''),
         (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
         EmailUser.getRandomTips(),
-        userUpdated.locale,
         i18n).then(resolve()).catch(reject());
     });
   })
@@ -238,11 +239,10 @@ EmailUser.sendEmailToInvitationCodeCreator = function(organisation, user, record
             .then(userInviter => {
               let currentOrgAndRecord = userInviter.orgsAndRecords.find(oar => oar.organisation.equals(organisation._id));
               res.setLocale(userInviter.locale);
-              EmailHelper.public.emailInvitationAccepted(
+              EmailHelper.emailInvitationAccepted(
                 currentOrgAndRecord.record.name.split(' ')[0],
                 userInviter.loginEmail,
                 record.name,
-                null,
                 organisation,
                 (process.env.NODE_ENV === 'development' ? 'http://' : 'https://') +
                 `${process.env.HOST_FRONTFLIP}/${userInviter.locale}/${organisation.tag}/${record.tag}`,
@@ -259,36 +259,18 @@ EmailUser.sendInvitationCtaEmail = function(user, organisation, record, i18n) {
   .then(accessToken => {
     InvitationCodeHelper.createInvitationCode(accessToken, user._id, organisation._id)
     .then(invitationCode => {
-      EmailHelper.public.emailConfirmationInvitation(
+      i18n.setLocale(user.locale);
+      EmailHelper.emailConfirmationInvitation(
         user.loginEmail,
         organisation,
         firstName,
-        user.locale,
         (new UrlHelper(organisation.tag, 'code/'+invitationCode.code, null, user.locale)).getUrl(),
+        (new UrlHelper(organisation.tag, null, null, user.locale).getUrl()),
         i18n
       ).then().catch(e => console.log(e));
     });
   });
 }
-
-//@todo this should not be here as the logic is shared with other login strategies.
-//@todo rewrite to allow all login strategies
-EmailUser.sendMonthlyEmail = function(user, sender, organisation, userCount, extract, res, callback) {
-  EmailUser.generateToken(user, function(err, user) {
-    if (err) return callback(err);
-    EmailHelper.public.emailMonthly(
-      user.loginEmail,
-      user.getName(organisation._id).split(' ')[0],
-      sender.getName(organisation._id),
-      organisation.name,
-      userCount,
-      EmailUser.getLoginUrl(user, organisation, res.getLocale()),
-      extract,
-      res
-      );
-    return callback(null, user);
-  });
-};
 
 EmailUser.makeEmailFromGoogle = function(userP, callback) {
   userP.email = {value: userP.google.email};
