@@ -113,15 +113,39 @@ exports.sendHelpRequest = async (req, res, next) => {
   HelpRequest.findOne({_id: req.params.hrId})
   .populate('recipients', '_id name tag links')
   .populate('sender', '_id tag name picture links')
+  .populate('organisation', '_id name tag logo cover')
   .then(helpRequest => {
     if(!helpRequest) {
       req.backflip = {status: 404, message: 'Help Request not found.'};
       return next();
     }
 
-  
-    
+    let recipients = [helpRequest.sender.getFirstEmail()];
+    helpRequest.recipients.forEach(recipient => {
+      let currentEmail = recipient.getFirstEmail();
+      if(currentEmail) recipients.push(currentEmail);
+    });
 
+    res.setLocale(req.user.locale);
+    EmailHelper.emailHelpRequest(recipients, helpRequest.organisation, (new UrlHelper(helpRequest.organisation.tag, null, null, req.user.locale).getUrl()), res)
+    .then(mailjetRes => {
+
+      helpRequest.status = "sent";
+
+      let trackingCodes = [];
+      mailjetRes.body.Sent.forEach(mailjetMessage => {
+        trackingCodes.push(mailjetMessage.MessageID);
+      });
+
+      helpRequest.trackingCodes = trackingCodes;
+      helpRequest.save();
+
+      req.backflip = {status: 200, message: "Help Request sent with success."};
+      return next();
+    }).catch(e => {
+      console.log(e);
+      return next(e);
+    });
 
   })
 }

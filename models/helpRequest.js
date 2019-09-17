@@ -13,6 +13,7 @@ var helpRequestSchema = mongoose.Schema({
     query: String,
     results: Number,
     service: {type: String, enum: SERVICES},
+    trackingCodes: [String],
     status: {type: String, enum: ['processing','sent'], default: 'processing'},
     solved: {type: Boolean, default: false},
     created: {type: Date, default: Date.now},

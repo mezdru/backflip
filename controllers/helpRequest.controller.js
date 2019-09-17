@@ -19,8 +19,6 @@ exports.createSingleHelpRequest = async (req, res, next) => {
   HelpRequest.createOne(helpRequest)
   .then(helpRequestObject => {
 
-    // call the send email method ? 
-
     // create agenda task to request the service after X seconds / minutes to know if the request is proccesed.
 
     req.backflip = {status: 200, message: 'Help request created with success.', data: helpRequestObject};
