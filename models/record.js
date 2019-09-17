@@ -110,6 +110,12 @@ recordSchema.methods.isPerson = function() {
   return this.type === 'person';
 };
 
+// Return the first email Link entry of the array of Link
+recordSchema.methods.getFirstEmail = function() {
+  var emailLink = this.links.find(link => link.type === 'email');
+  return (emailLink ? emailLink.value : null);
+}
+
 recordSchema.methods.tagEquals = function(tag) {
   return this.tag.toLowerCase() === tag.toLowerCase();
 };

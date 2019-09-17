@@ -3,6 +3,7 @@ var User = require('../models/user');
 var EmailHelper = require('../helpers/email_helper');
 var UrlHelper = require('../helpers/url_helper');
 var SlackHelper = require('../helpers/slack_helper');
+var HelpRequest = require('../models/helpRequest');
 
 exports.unsubscribeCallback = async (req, res, next) => {
   try {
@@ -104,6 +105,22 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
           console.log('error: ' + err);
           return next(err);
         });
-
     });
+}
+
+exports.sendHelpRequest = async (req, res, next) => {
+  HelpRequest.findOne({_id: req.params.hrId})
+  .populate('recipients', '_id name tag links')
+  .populate('sender', '_id tag name picture links')
+  .then(helpRequest => {
+    if(!helpRequest) {
+      req.backflip = {status: 404, message: 'Help Request not found.'};
+      return next();
+    }
+
+  
+    
+
+
+  })
 }
