@@ -38,6 +38,13 @@ helpRequestSchema.statics.createOne = function(helpRequestObject) {
   return (new HelpRequest(helpRequest)).save();
 }
 
+helpRequestSchema.statics.findById = function(id) {
+  return this.findOne({_id: id})
+  .populate('recipients', '_id name tag links')
+  .populate('sender', '_id tag name picture links')
+  .populate('organisation', '_id name tag logo cover');
+}
+
 
 
 let HelpRequest = mongoose.model('HelpRequest', helpRequestSchema);

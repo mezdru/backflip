@@ -7,7 +7,7 @@ const defaultLogoUrl = 'https://wingzy.com/wingzy.png';
 
 /**
  * @description Send an email thanks to Mailjet
- * @param {Array || String} recipients 
+ * @param {Array || String} recipients if Array, send a group email
  * @param {String} subject 
  * @param {Object} vars 
  * @param {String} templateId 

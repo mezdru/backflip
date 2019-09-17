@@ -110,10 +110,7 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
 }
 
 exports.sendHelpRequest = async (req, res, next) => {
-  HelpRequest.findOne({_id: req.params.hrId})
-  .populate('recipients', '_id name tag links')
-  .populate('sender', '_id tag name picture links')
-  .populate('organisation', '_id name tag logo cover')
+  HelpRequest.findById(req.params.hrId)
   .then(helpRequest => {
     if(!helpRequest) {
       req.backflip = {status: 404, message: 'Help Request not found.'};
@@ -138,7 +135,7 @@ exports.sendHelpRequest = async (req, res, next) => {
       });
 
       helpRequest.trackingCodes = trackingCodes;
-      helpRequest.save();
+      helpRequest.save(); 
 
       req.backflip = {status: 200, message: "Help Request sent with success."};
       return next();
@@ -146,6 +143,5 @@ exports.sendHelpRequest = async (req, res, next) => {
       console.log(e);
       return next(e);
     });
-
-  })
+  }).catch(e => next(e));
 }
