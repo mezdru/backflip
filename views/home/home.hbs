@@ -34,18 +34,25 @@
         <div style="color:#2b2d3c; height:0;">.</div>
 
         <div class="row">
-
-          <div class="col s12 l6 hide-on-med-and-down">
-            <div class="relative mobile-box rotate-left">
-              <img src="{{__ "gif search 02"}}" alt="Wingzy app" class=" relative" loading="lazy" />
-            </div>
-          </div>
-          <div class="col s12 l6">
+          <div class="col s12">
             <h1 id="tagline">{{{__ "The smart directory which reveals your company's talents."}}}</h1>
           </div>
-          <div class="col s12 l6 hide-on-large-only">
-            <div class="relative mobile-box rotate-left">
-              <img src="{{__ "gif search 02"}}" alt="Wingzy app" class=" relative" loading="lazy" />
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <div id="wings-description">
+              <h3 class="important-title">{{__ "Wings"}}</h3>
+              <h6>{{__ "Feminine noun"}}</h6>
+              <p>
+                {{{__ "Set of people skills, business expertise, individuals talents, energies and hobbies shared by your employees."}}}
+              </p>
+              <ul id="wings-container">
+                <li><img src="{{__ "wings.description.picture1 (Width X 65px)"}}" alt="Wings" /></li>
+                <li><img src="{{__ "wings.description.picture2 (Width X 65px)"}}" alt="Wings" /></li>
+                <li><img src="{{__ "wings.description.picture3 (Width X 65px)"}}" alt="Wings" /></li>
+                <li><img src="{{__ "wings.description.picture4 (Width X 65px)"}}" alt="Wings" /></li>
+              </ul>
             </div>
           </div>
         </div>
@@ -61,28 +68,29 @@
 
   <section id="whywingzy">
     <div id="whywingzy-a" style="position: absolute; margin-top:-90px"></div>
+    <div id="epic-img" class="hide-on-med-and-down">
+      <img src="https://wingzy.com/images/home/epic.jpg" width="100%" />
+    </div>
 
     <div class="container">
       {{!-- <div class="vertical-align-wrapper"> --}}
 
-      <div class="row row-title-margin">
-        <div class="col s12 m-center">
-          <h2>{{{__ "Why Wingzy in your organisation?"}}}</h2>
-        </div>
-      </div>
-
       <div class="row">
 
-        <div class="col s12 l6">
-
+        <div class="col s12 l8 offset-l4">
+          <div class="row row-title-margin">
+            <div class="col s12 m-center">
+              <h2>{{{__ "Why Wingzy in your organisation?"}}}</h2>
+            </div>
+          </div>
 
           <div class="row" style="padding-left: 12px; padding-right: 12px">
-            {{{__ "Chez Wingzy, on sait que la solution c’est la simplicité : vous avez déjà bien assez d’outils et de process qui entravent vos talents. Alors, on s’est concentré sur l’essentiel : permettre à tous les collaborateurs de se trouver pour partager leurs compétences, expertises et énergies. Rien de plus.<br /><br />Et comme Wingzy se diffuse viralement dans votre boite, c’est un quick win !"}}}
+            {{{__ "Les humains et leurs talents font la performance de l’entreprise. Dans les startups en hypercroissance jusqu’aux grands groupe en transformation, pouvoir les trouver et les valoriser c’est donc stratégique, mais c’est très difficile.<br /><br />Chez Wingzy, on sait que la solution c’est la simplicité : vous avez déjà bien assez d’outils et de process qui entravent vos talents. Alors, on s’est concentré sur l’essentiel : permettre à tous les collaborateurs de se trouver pour partager leurs compétences, expertises et énergies. Rien de plus.<br /><br />Wingzy, c’est donc une app minimaliste pour :<br /><ul><li>Orienter et rassurer, surtout les nouveaux,</li><li>Accélérer la collaboration et l’apprentissage,</li><li>Valoriser et engager grâce au partage de compétences.</li></ul>Et comme Wingzy se diffuse viralement dans votre boite, c’est un quick win !"}}}
           </div>
 
           <div class="row">
-            <div class="col s12 m10 offset-m2 author">
-              <div class="author-container">
+            <div class="col s12">
+              <div class="col s12 m7 offset-m5 author">
                 <img src="/images/home/clement.jpg" alt="Clément Dietschy" class="picture-clement" />
                 <div class="name-clement">
                   Clément Dietschy<br />
@@ -97,12 +105,7 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col s12 m8 offset-m2 l5 offset-l1">
-          <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/hzoN5oVQTHc" frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
+
         </div>
       </div>
 
@@ -119,72 +122,17 @@
 
       <div class="height-full">
         <div class="vertical-align-wrapper">
-          {{!-- <div class="row row-title-margin">
-            <div class="col s12">
-              <h2 class="center">{{__ "How it works?"}}</h2>
-            </div>
-          </div> --}}
+      <div class="row row-title-margin">
+        <div class="col s12">
+          <h2 class="center">{{__ "How it works?"}}</h2>
+        </div>
+      </div>
           <div class="row no-margin">
             <div class="col s12 l6">
               <div class="row row-big-margin howitworks-subheader">
 
                 <div class="col s5 m3">
                   <div class="big-number">01</div>
-                </div>
-
-                <div class="col s7 l8 subtitle">
-                  <span>
-                    {{__ "All your organisation profiles and talents are available in 2 clics."}}
-                  </span>
-                </div>
-
-              </div>
-
-              <div class="row row-big-margin">
-                <ul>
-                  {{{__ "<li>An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ...</li><li>Upgrade your searchs thanks to our IA</li><li>A machine learning system which identify your Wings</li>"}}}
-                </ul>
-              </div>
-
-            </div>
-
-            <div class="col s12 l6 relative">
-
-              <div class="mobile-box relative rotate-right">
-                <img src="{{__ "gif search 02"}}" alt="Wingzy app" class="relative" loading="lazy" />
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('howitworks2-a')">
-          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-        </div>
-      </div>
-
-
-
-      <div class="height-full">
-        <div id="howitworks2-a" style="position: absolute; margin-top:-90px"></div>
-
-        <div class="vertical-align-wrapper">
-          <div class="row no-margin">
-
-
-
-            <div class="col s12 l6 hide-on-med-and-down relative">
-
-              <div class="mobile-box relative rotate-left">
-                <img src="{{__ "Screenshot - app - auth"}}" alt="Wingzy app" class="relative" loading="lazy" />
-              </div>
-
-            </div>
-
-            <div class="col s12 l6">
-              <div class="row row-big-margin howitworks-subheader">
-
-                <div class="col s5 m3">
-                  <div class="big-number">02</div>
                 </div>
 
                 <div class="col s7 l8 subtitle">
@@ -203,13 +151,66 @@
 
             </div>
 
-            <div class="col s12 l6 hide-on-large-only relative">
-              <div class="mobile-box relative rotate-left">
-                <img src="{{__ "Screenshot - app - auth"}}" alt="Wingzy app" class="relative" loading="lazy" />
-              </div>
+            <div class="col s12 l6 relative">
+              <img src="/images/home/app/iphone.png" alt="iPhone" class="mobile-screen rotate-right" loading="lazy" />
+
+              <img src="{{__ "Screenshot - app - auth"}}" alt="Wingzy app"
+                class="mobile-screen-view-right rotate-right absolute" loading="lazy" />
+
+            </div>
+          </div>
+        </div>
+        <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('howitworks2-a')">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+        </div>
+      </div>
+
+
+
+      <div class="height-full">
+        <div id="howitworks2-a" style="position: absolute; margin-top:-90px"></div>
+
+        <div class="vertical-align-wrapper">
+          <div class="row no-margin">
+
+            <div class="col s12 l6 hide-on-med-and-down relative">
+              <img src="/images/home/app/iphone.png" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
+
+              <img src="{{__ "gif search 02"}}"
+                alt="Wingzy app" class="mobile-screen-view-left rotate-left absolute" loading="lazy" />
             </div>
 
-          </div>
+            <div class="col s12 l6">
+              <div class="row row-big-margin howitworks-subheader">
+
+                <div class="col s5 m3">
+                  <div class="big-number">02</div>
+                </div>
+
+                <div class="col s7 l8 subtitle">
+                  <span>
+                    {{__ "All your organisation profiles and talents are available in 2 clics."}}
+                  </span>
+                </div>
+
+              </div>
+
+              <div class="row row-big-margin">
+                <ul>
+                  {{{__ "<li>An intuitif search engine which works by keywords, profession, title, nouns, contacts, talents, ...</li><li>Upgrade your searchs thanks to our IA</li><li>A machine learning system which identify your Wings</li>"}}}
+                </ul>
+              </div>
+
+            </div>
+
+            <div class="col s12 l6 hide-on-large-only relative">
+              <img src="/images/home/app/iphone.png" alt="iPhone" class="mobile-screen rotate-left" loading="lazy" />
+
+              <img src="{{__ "gif search 02"}}"
+                alt="Wingzy app" class="mobile-screen-view-left rotate-left absolute" loading="lazy" />
+            </div>
+
+          </div>  
 
         </div>
         <div class="scroll-arrow-button blue-color hide-on-small-only" onclick="scrollToAnchor('howitworks3-a')">
@@ -248,11 +249,8 @@
             </div>
 
             <div class="col s12 l6 relative">
-
-              <div class="mobile-box relative rotate-right">
-                <img src="{{__ "gif search 02"}}" alt="Wingzy app" class="relative" loading="lazy" />
-              </div>
-
+              <img src="{{__ "howitworks part 3 picture"}}"
+                alt="Wingzy app" class="desktop-screen" loading="lazy" />
             </div>
           </div>
 

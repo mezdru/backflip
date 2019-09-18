@@ -3,7 +3,29 @@
   width: 100%;
   min-height: calc(100vh - 90px);
   overflow: hidden;
-  margin-bottom: 96px;
+}
+
+#epic-img{
+  position: absolute;
+  top:0;
+  height: 100%;
+  width: 550px;
+  left: -150px;
+}
+#epic-img img {
+  position: absolute;
+  max-height: 95%;
+  bottom:0;
+}
+
+#whywingzy-content {
+  position: absolute;
+  right:0;
+  height: 100%;
+  max-width: 600px;
+}
+#whywingzy-content ul li {
+  margin-bottom: 32px;
 }
 
 .why-head .important-title {
@@ -22,6 +44,14 @@
   font-size: 1.3rem;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+#whywingzy ul {
+  padding-left: 40px;
+}
+
+#whywingzy ul li {
+  list-style-type: disc;
 }
 
 #whywingzy .picture-clement {
@@ -44,10 +74,6 @@
   font-size: 2.16rem;
 }
 
-.author-container {
-  width: 280px;
-  float: right;
-}
 
 @media screen and (max-width: 600px)  {
   .why-head .subtitle {

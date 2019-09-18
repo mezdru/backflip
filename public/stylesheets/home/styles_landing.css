@@ -17,6 +17,50 @@
   font-size: 3rem;
 }
 
+#wings-description {
+  position: relative;
+  background-color: white;
+  padding: 48px;
+  border-radius: 64px;
+  max-width: 900px;
+  left:0; right:0;
+  margin: auto;
+}
+#wings-description p {
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 8px;
+  color: #2b2d3c;
+}
+#wings-description p strong {
+  color: #FF0018;
+}
+
+#wings-description h6 {
+  color: grey;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 8px;
+}
+
+#wings-container {
+  position: relative;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  margin-bottom: -16px;
+}
+
+#wings-container li{
+  display:inline-block;
+  height: 48px;
+  margin: 8px;
+}
+#wings-container li img{
+  height: 100%;
+}
+
 @media screen and (max-width: 600px) {
 
   #landing {
@@ -26,6 +70,15 @@
   #tagline {
     font-size: 2rem;
     line-height: 2.5rem;
+  }
+
+  #wings-description {
+    padding: 8px 16px;
+    border-radius: 32px;
+  }
+
+  #wings-container {
+    margin-bottom: 0;
   }
 
 }
