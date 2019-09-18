@@ -21,6 +21,7 @@
 }
 #howitworks ul li{
   list-style-type: disc;
+  line-height: 32px;
 }
 
 .rotate-right {
@@ -49,8 +50,8 @@
 }
 
 .mobile-screen-view-left, .mobile-screen-view-right {
-  height: 360px;
-  width: 208px;
+  height: 360px !important;
+  width: 208px !important;
 }
 
 .mobile-screen-view-right {
