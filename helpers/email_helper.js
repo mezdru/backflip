@@ -235,12 +235,12 @@ exports.emailLogin = (recipient, name, url, res) => {
   );
 }
 
-exports.emailHelpRequest = (recipients, organisation, url, res) => {
+exports.emailHelpRequest = (recipients, message, organisation, url, res) => {
   return send(
     recipients,
     "I need help",
     {
-      "text": "Bonjour, j'ai besoin d'aide !",
+      "text": message,
       "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
       "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
     },

@@ -124,7 +124,7 @@ exports.sendHelpRequest = async (req, res, next) => {
     });
 
     res.setLocale(req.user.locale);
-    EmailHelper.emailHelpRequest(recipients, helpRequest.organisation, (new UrlHelper(helpRequest.organisation.tag, null, null, req.user.locale).getUrl()), res)
+    EmailHelper.emailHelpRequest(recipients, helpRequest.message, helpRequest.organisation, (new UrlHelper(helpRequest.organisation.tag, null, null, req.user.locale).getUrl()), res)
     .then(mailjetRes => {
 
       helpRequest.status = "sent";
