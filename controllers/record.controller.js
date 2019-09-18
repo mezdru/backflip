@@ -8,7 +8,10 @@ var GoogleRecord = require('../models/google/google_record');
 var LinkHelper = require('../helpers/link_helper');
 
 exports.getRecords = async (req, res, next) => {
-  Record.find({ ...req.query })
+  let organisation = req.query.organisation;
+  let query = req.query;
+  if(organisation) query.organisation = [organisation, Record.getTheAllOrganisationId()];
+  Record.find(query)
     .populate('hashtags', '_id tag type name name_translated picture hashtags')
     .populate('within', '_id tag type name name_translated picture')
     .then(records => {
