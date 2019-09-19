@@ -118,10 +118,6 @@ exports.deleteSingleRecord = async (req, res, next) => {
     .then(() => {
       req.backflip = { message: 'Record deleted with success', status: 200, data: record };
     }).catch(err => next(err));
-    // await Record.deleteOne({ _id: record._id })
-    //   .then(() => {
-    //     req.backflip = { message: 'Record deleted with success', status: 200, data: record };
-    //   }).catch(err => next(err));
   }
 
   return next();
