@@ -114,13 +114,12 @@ exports.deleteSingleRecord = async (req, res, next) => {
   if (!record) {
     req.backflip = { message: 'Record not found', status: 404 };
   } else {
-    await Record.deleteById(record._id)
-    .then(() => {
+    record.delete(req.user._id, function(err) {
+      if (err) return next(err);
       req.backflip = { message: 'Record deleted with success', status: 200, data: record };
-    }).catch(err => next(err));
+      return next();
+    });
   }
-
-  return next();
 }
 
 exports.createSingleLink = async (req, res, next) => {
