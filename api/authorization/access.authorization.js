@@ -22,7 +22,7 @@ exports.resUserOwnOrAdmin = async (req, res, next) => {
 
   if(resData.organisation) {
     let orgAndRecord = req.user.orgsAndRecords.find(oar => oar.organisation.equals(resData.organisation));
-    if(orgAndRecord && (orgAndRecord.admin || orgAndRecord.record === data._id) )
+    if(orgAndRecord && data && (orgAndRecord.admin || orgAndRecord.record === data._id) )
       return res.status(resData.status).json({message: resData.message, data: resData.data});
   }
 
