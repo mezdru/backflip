@@ -96,7 +96,7 @@ router.delete(
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
   Authorization.userOwnsRecordOrAdmin,
-  // ...
+  RecordController.deleteSingleRecord,
   Authorization.resWithData
 )
 
