@@ -86,7 +86,7 @@ body {
 
 .homepage section {
   max-width: 100vw;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .homepage .height-full {
@@ -113,6 +113,7 @@ body {
   font-size: 4rem;
   width: 80px;
   text-align: center;
+  z-index: 2;
 }
 
 .homepage .scroll-arrow-button i {
@@ -163,6 +164,41 @@ body {
   border-radius: 30px !important;  
 }
 
+.mobile-box {
+  width: 280px !important;
+  height: 560px !important;
+  border: 10px black solid;
+  border-top-width: 40px;
+  border-bottom-width: 40px;
+  border-radius: 36px;
+  padding: 0 !important;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.mobile-box img {
+  width: 100%;
+  height: 100%;
+}
+
+.video-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	padding-top: 0px;
+	height: 0;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.video-container iframe,  
+.video-container object,  
+.video-container embed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 @media screen and (max-width: 600px) {
   html {
     font-size: 13px;
@@ -187,5 +223,11 @@ body {
   }
   .homepage .no-margin {
     margin-bottom: 64px !important;
+  }
+  
+  .mobile-box {
+    margin-bottom: 32px;
+    width: 252px !important;
+    height: 504px !important;
   }
 }
