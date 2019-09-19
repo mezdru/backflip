@@ -114,10 +114,10 @@ exports.deleteSingleRecord = async (req, res, next) => {
   if (!record) {
     req.backflip = { message: 'Record not found', status: 404 };
   } else {
-    await Record.deleteOne({ _id: record._id })
-      .then(() => {
-        req.backflip = { message: 'Record deleted with success', status: 200, data: record };
-      }).catch(err => next(err));
+    await Record.deleteById(record._id)
+    .then(() => {
+      req.backflip = { message: 'Record deleted with success', status: 200, data: record };
+    }).catch(err => next(err));
   }
 
   return next();
