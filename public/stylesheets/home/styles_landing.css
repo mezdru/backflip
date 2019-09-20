@@ -8,19 +8,21 @@
   color: white;
   text-align: center;
   font-weight: 700;
-  font-size: 4rem;
+  font-size: 3.5rem;
   text-transform: uppercase;
 }
+
+#subtagline {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
 #tagline strong {
   color: #FF0018;
   font-weight: 800;
-  font-size: 4rem;
-}
-
-#tagline span {
-  font-weight: 500;
-  font-size: 2rem;
-  line-height: initial;
 }
 
 @media screen and (max-width: 600px) {
