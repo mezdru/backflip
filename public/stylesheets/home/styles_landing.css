@@ -7,14 +7,20 @@
 #tagline {
   color: white;
   text-align: center;
-  font-weight: 800;
-  font-size: 3rem;
-  line-height: 3.5rem;
+  font-weight: 700;
+  font-size: 4rem;
+  text-transform: uppercase;
 }
 #tagline strong {
   color: #FF0018;
   font-weight: 800;
-  font-size: 3rem;
+  font-size: 4rem;
+}
+
+#tagline span {
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: initial;
 }
 
 @media screen and (max-width: 600px) {
