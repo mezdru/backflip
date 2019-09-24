@@ -14,6 +14,11 @@ exports.createSingleHelpRequest = async (req, res, next) => {
     return next();
   }
 
+  if(helpRequest.service === HelpRequest.SERVICE_EMAIL && helpRequest.recipients && helpRequest.recipients.length > 10) {
+    req.backflip = {status: 422, message: 'The email service requires a maximum of 10 recipients'};
+    return next();
+  }
+
   helpRequest.owner = req.user._id;
 
   HelpRequest.createOne(helpRequest)
