@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 const SERVICE_EMAIL = 'email';
+const SERVICES = [SERVICE_EMAIL];
 
 var helpRequestSchema = mongoose.Schema({
     organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', required: true, index: true},
@@ -21,7 +22,7 @@ var helpRequestSchema = mongoose.Schema({
 });
 
 helpRequestSchema.statics.SERVICE_EMAIL = SERVICE_EMAIL;
-helpRequestSchema.statics.SERVICES = [SERVICE_EMAIL];
+helpRequestSchema.statics.SERVICES = SERVICES;
 
 helpRequestSchema.statics.createOne = function(helpRequestObject) {
   var helpRequest = {
