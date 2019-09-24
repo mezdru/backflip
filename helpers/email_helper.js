@@ -235,7 +235,7 @@ exports.emailLogin = (recipient, name, url, res) => {
   );
 }
 
-exports.emailHelpRequest = (recipients, message, organisation, url, res) => {
+exports.emailHelpRequest = (recipients, message, organisation, url, senderName, res) => {
   return send(
     recipients,
     "I need help",
@@ -244,6 +244,10 @@ exports.emailHelpRequest = (recipients, message, organisation, url, res) => {
       "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
       "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
     },
-    "1002714"
+    "1002714",
+    {
+      FromName: senderName,
+      FromEmail: "question@wingzy.com"
+    }
   );
 }
