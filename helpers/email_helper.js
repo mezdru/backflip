@@ -7,24 +7,34 @@ const defaultLogoUrl = 'https://wingzy.com/wingzy.png';
 
 /**
  * @description Send an email thanks to Mailjet
- * @param {Array || String} recipients 
+ * @param {Array || String} recipients if Array, send a group email
  * @param {String} subject 
  * @param {Object} vars 
  * @param {String} templateId 
  * @param {Object} options
  */
 let send = (recipients, subject, vars, templateId, options = {}) => {
-  return mailjet
-    .post('send')
-    .request({
-      'FromEmail': options.FromEmail || defaultEmitter,
-      'FromName': options.FromName || defaultEmitterName,
-      'Subject': subject,
-      'MJ-TemplateID': templateId,
-      'MJ-TemplateLanguage': true,
-      'Recipients': ( Array.isArray(recipients) ? recipients : [{ 'Email': recipients }]),
-      'Vars': vars
+
+  let request = {
+    'FromEmail': options.FromEmail || defaultEmitter,
+    'FromName': options.FromName || defaultEmitterName,
+    'Subject': subject,
+    'MJ-TemplateID': templateId,
+    'MJ-TemplateLanguage': true,
+    'Vars': vars
+  };
+
+  if(Array.isArray(recipients)) {
+    let to = "";
+    recipients.forEach(recipient => {
+      to += (to === "" ? '' : ', ') + `<${recipient}>`;
     });
+    request['To'] = to;
+  } else {
+    request['Recipients'] = [{'Email': recipients}];
+  }
+
+  return mailjet.post('send').request(request);
 }
 
 exports.emailConfirmationInscription = (recipient, firstName, organisation, url, res) => {
@@ -222,5 +232,18 @@ exports.emailLogin = (recipient, name, url, res) => {
       "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
     },
     '197497'
+  );
+}
+
+exports.emailHelpRequest = (recipients, message, organisation, url, res) => {
+  return send(
+    recipients,
+    "I need help",
+    {
+      "text": message,
+      "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
+      "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
+    },
+    "1002714"
   );
 }

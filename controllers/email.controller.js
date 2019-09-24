@@ -3,6 +3,7 @@ var User = require('../models/user');
 var EmailHelper = require('../helpers/email_helper');
 var UrlHelper = require('../helpers/url_helper');
 var SlackHelper = require('../helpers/slack_helper');
+var HelpRequest = require('../models/helpRequest');
 
 exports.unsubscribeCallback = async (req, res, next) => {
   try {
@@ -105,6 +106,42 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
           console.log('error: ' + err);
           return next(err);
         });
-
     });
+}
+
+exports.sendHelpRequest = async (req, res, next) => {
+  HelpRequest.findById(req.params.hrId)
+  .then(helpRequest => {
+    if(!helpRequest) {
+      req.backflip = {status: 404, message: 'Help Request not found.'};
+      return next();
+    }
+
+    let recipients = [helpRequest.sender.getFirstEmail()];
+    helpRequest.recipients.forEach(recipient => {
+      let currentEmail = recipient.getFirstEmail();
+      if(currentEmail) recipients.push(currentEmail);
+    });
+
+    res.setLocale(req.user.locale);
+    EmailHelper.emailHelpRequest(recipients, helpRequest.message, helpRequest.organisation, (new UrlHelper(helpRequest.organisation.tag, null, null, req.user.locale).getUrl()), res)
+    .then(mailjetRes => {
+
+      helpRequest.status = "sent";
+
+      let trackingCodes = [];
+      mailjetRes.body.Sent.forEach(mailjetMessage => {
+        trackingCodes.push(mailjetMessage.MessageID);
+      });
+
+      helpRequest.trackingCodes = trackingCodes;
+      helpRequest.save(); 
+
+      req.backflip = {status: 200, message: "Help Request sent with success."};
+      return next();
+    }).catch(e => {
+      console.log(e);
+      return next(e);
+    });
+  }).catch(e => next(e));
 }

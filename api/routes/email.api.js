@@ -43,4 +43,11 @@ router.post(
   Authorization.resWithData
 )
 
+router.post(
+  '/helpRequest/:hrId',
+  passport.authenticate('bearer', {session: false}),
+  EmailController.sendHelpRequest,
+  Authorization.resWithData
+)
+
 module.exports = router;

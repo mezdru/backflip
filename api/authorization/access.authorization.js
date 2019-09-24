@@ -34,6 +34,22 @@ exports.resWithData = async (req, res, next) => {
   return res.status(resData.status || 200).json({message: resData.message, data: resData.data})
 }
 
+exports.helpRequestUserRecordCheck = async (req, res, next) => {
+  if(req.user.superadmin) return next();
+
+  let recordId = req.body.helpRequest.sender;
+  let record = await Record.findOne({_id: recordId}).catch(e => next(e));
+
+  if(!record) return res.status(422).json({message: 'You should provide a valid sender (record id)'});
+
+  if(req.user.orgsAndRecords) {
+    var orgAndRecord = req.user.orgsAndRecords.find(orgAndRecord => orgAndRecord.organisation.equals(record.organisation));
+    if(orgAndRecord.admin || orgAndRecord.record.equals(recordId)) return next();
+  }
+
+  return res403(res);
+}
+
 exports.userOwnsRecordOrAdmin = async (req, res, next) => {
   if(req.user.superadmin) return next();
 
