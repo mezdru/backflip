@@ -238,7 +238,7 @@ exports.emailLogin = (recipient, name, url, res) => {
 exports.emailHelpRequest = (recipients, message, organisation, url, senderName, res) => {
   return send(
     recipients,
-    res.__("I need help"),
+    res.__("I have a question"),
     {
       "text": message,
       "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
