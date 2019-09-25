@@ -247,7 +247,7 @@ exports.emailHelpRequest = (recipients, message, organisation, url, senderName, 
     "1002714",
     {
       FromName: senderName,
-      FromEmail: "question@wingzy.com"
+      FromEmail: "ask@wingzy.com"
     }
   );
 }
