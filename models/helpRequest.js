@@ -10,7 +10,7 @@ var helpRequestSchema = mongoose.Schema({
     ],
     sender: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', required: true, index: true},
     message: String,
-    tags: [String],
+    tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}],
     query: String,
     results: Number,
     service: {type: String, enum: SERVICES},
@@ -44,7 +44,18 @@ helpRequestSchema.statics.findById = function(id) {
   return this.findOne({_id: id})
   .populate('recipients', '_id name tag links')
   .populate('sender', '_id tag name picture links intro')
+  .populate('tags', '_id name tag picture')
   .populate('organisation', '_id name tag logo cover');
+}
+
+helpRequestSchema.methods.tagsToString = function(locale) {
+  if(!this.tags || this.tags.length === 0) return "";
+  let tagsString = "";
+  for(let i = 0; i < this.tags.length; i++) {
+    let currentName = (this.tags[i].name_translated ? (this.tags[i].name_translated[locale] || this.tags[i].name_translated['en-UK']) || this.tags[i].name || this.tags[i].tag : this.tags[i].name || this.tags[i].tag);
+    tagsString += (tagsString !== "" ? ", " : "") + currentName;
+  }
+  return tagsString;
 }
 
 

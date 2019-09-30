@@ -235,12 +235,13 @@ exports.emailLogin = (recipient, name, url, res) => {
   );
 }
 
-exports.emailHelpRequest = (recipients, message, organisation, recordUrl, senderRecord, res) => {
+exports.emailHelpRequest = (recipients, message, organisation, recordUrl, senderRecord, search, res) => {
   return send(
     recipients,
-    res.__("I have a question"),
+    res.__("I have a question about {{search}}", {search: search}),
     {
-      "why": res.__("You got this question because you have the Wings needed on your profile in {{orgName}}", {orgName: organisation.name}),
+      "title": res.__("{{senderName}} has a question about {{search}}", {senderName: senderRecord.name, search: search}),
+      "why": res.__("You got this question because you have {{search}} on your profile in {{orgName}}", {orgName: organisation.name, search: search}),
       "senderProfileText": res.__("See my Wingzy"),
       "senderProfileLink": recordUrl,
       "senderIntro": senderRecord.intro,
