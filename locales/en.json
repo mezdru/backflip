@@ -495,5 +495,8 @@
 	"I need help": "I need help",
 	"I have a question": "I have a question",
 	"You got this question because you have the Wings needed on your profile in {{orgName}}": "You got this question because you have the Wings needed on your profile in {{orgName}}",
-	"See my Wingzy": "See my Wingzy"
+	"See my Wingzy": "See my Wingzy",
+	"I have a question about {{search}}": "I have a question about {{search}}",
+	"{{senderName}} has a question about {{search}}": "{{senderName}} has a question about {{search}}",
+	"You got this question because you have {{search}} on your profile in {{orgName}}": "You got this question because you have {{search}} on your profile in {{orgName}}"
 }
