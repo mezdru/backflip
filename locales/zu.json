@@ -491,5 +491,9 @@
 	"The more we are on Wingzy, the more we help each other. <br/> Share this secured link to invite even more people from {{orgName}} to join": "crwdns2022:0{{orgName}}crwdne2022:0",
 	"The smart directory for your smart company": "crwdns2024:0crwdne2024:0",
 	"ACCELERATE COLLABORATION BY RECOGNIZING ALL THE ROLES, SKILLS AND ENERGIES OF YOUR CO-WORKERS": "crwdns2026:0crwdne2026:0",
-	"home.whywingzy.mainText": "crwdns2028:0crwdne2028:0"
+	"home.whywingzy.mainText": "crwdns2028:0crwdne2028:0",
+	"I need help": "crwdns2030:0crwdne2030:0",
+	"I have a question": "crwdns2032:0crwdne2032:0",
+	"You got this question because you have the Wings needed on your profile in {{orgName}}": "crwdns2034:0{{orgName}}crwdne2034:0",
+	"See my Wingzy": "crwdns2036:0crwdne2036:0"
 }
