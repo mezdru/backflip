@@ -43,7 +43,7 @@ helpRequestSchema.statics.createOne = function(helpRequestObject) {
 helpRequestSchema.statics.findById = function(id) {
   return this.findOne({_id: id})
   .populate('recipients', '_id name tag links')
-  .populate('sender', '_id tag name picture links')
+  .populate('sender', '_id tag name picture links intro')
   .populate('organisation', '_id name tag logo cover');
 }
 

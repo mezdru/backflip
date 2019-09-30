@@ -128,8 +128,8 @@ exports.sendHelpRequest = async (req, res, next) => {
       recipients, 
       helpRequest.message, 
       helpRequest.organisation, 
-      (new UrlHelper(helpRequest.organisation.tag, null, null, req.user.locale).getUrl()), 
-      helpRequest.sender.name,
+      (new UrlHelper(helpRequest.organisation.tag, 'profile/' + helpRequest.sender.tag, null, req.user.locale).getUrl()), 
+      helpRequest.sender,
       res)
     .then(mailjetRes => {
 

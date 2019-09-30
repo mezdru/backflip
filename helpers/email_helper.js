@@ -235,18 +235,21 @@ exports.emailLogin = (recipient, name, url, res) => {
   );
 }
 
-exports.emailHelpRequest = (recipients, message, organisation, url, senderName, res) => {
+exports.emailHelpRequest = (recipients, message, organisation, recordUrl, senderRecord, res) => {
   return send(
     recipients,
     res.__("I have a question"),
     {
-      "text": message,
-      "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
-      "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
+      "why": res.__("You got this question because you have the Wings needed on your profile in {{orgName}}", {orgName: organisation.name}),
+      "senderProfileText": res.__("See my Wingzy"),
+      "senderProfileLink": recordUrl,
+      "senderIntro": senderRecord.intro,
+      "senderName": senderRecord.name,
+      "text": message
     },
-    "1002714",
+    "1020640",
     {
-      FromName: senderName,
+      FromName: senderRecord.name,
       FromEmail: "ask@wingzy.com"
     }
   );
