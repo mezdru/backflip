@@ -496,7 +496,7 @@
 	"I have a question": "J'ai une question",
 	"You got this question because you have the Wings needed on your profile in {{orgName}}": "Vous avez reçu cette question grâce aux Wings de votre profil sur le Wingzy de {{orgName}}",
 	"See my Wingzy": "Voir mon Wingzy",
-	"I have a question about {{search}}": "I have a question about {{search}}",
-	"{{senderName}} has a question about {{search}}": "{{senderName}} has a question about {{search}}",
-	"You got this question because you have {{search}} on your profile in {{orgName}}": "You got this question because you have {{search}} on your profile in {{orgName}}"
+	"I have a question about {{search}}": "J'ai une question sur {{search}}",
+	"{{senderName}} has a question about {{search}}": "{{senderName}} a une question sur {{search}}",
+	"You got this question because you have {{search}} on your profile in {{orgName}}": "Vous avez reçu cette question car vous avez {{search}} sur votre profil dans {{orgName}}"
 }
