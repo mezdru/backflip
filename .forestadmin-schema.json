@@ -372,7 +372,7 @@
       "isRequired": false,
       "isSortable": true,
       "isVirtual": false,
-      "reference": null,
+      "reference": "Record._id",
       "inverseOf": null,
       "validations": []
     }, {

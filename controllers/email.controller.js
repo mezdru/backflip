@@ -15,13 +15,13 @@ exports.unsubscribeCallback = async (req, res, next) => {
     if (process.env.NODE_ENV === 'production') SlackHelper.notify('#alerts', 'An User (' + userToUnsub._id + ') unsubscribe from auto-tranctionnal emails (' + userToUnsub.loginEmail + ')');
     return res.render('emails/unsubscribe', { success: true, userEmail: userUpdated.loginEmail });
 
-  } catch(e) {
+  } catch (e) {
     console.error(e);
     return res.render(
-      'emails/unsubscribe', 
-      { 
-        success: false, 
-        errorMessage: res.__("An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>") 
+      'emails/unsubscribe',
+      {
+        success: false,
+        errorMessage: res.__("An unexpected error occured. Please <a href='mailto:contact@wingzy.com'>contact us</a>")
       }
     );
   }
@@ -110,44 +110,40 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
 }
 
 exports.sendHelpRequest = async (req, res, next) => {
-  HelpRequest.findById(req.params.hrId)
-  .then(helpRequest => {
-    if(!helpRequest) {
-      req.backflip = {status: 404, message: 'Help Request not found.'};
-      return next();
-    }
+  let helpRequest = await HelpRequest.findById(req.params.hrId);
 
-    let recipients = [helpRequest.sender.getFirstEmail()];
-    helpRequest.recipients.forEach(recipient => {
-      let currentEmail = recipient.getFirstEmail();
-      if(currentEmail) recipients.push(currentEmail);
-    });
+  if (!helpRequest) {
+    req.backflip = { status: 404, message: 'Help Request not found.' };
+    return next();
+  }
 
-    res.setLocale(req.user.locale);
-    EmailHelper.emailHelpRequest(
-      recipients, 
-      helpRequest.message, 
-      helpRequest.organisation, 
-      (new UrlHelper(helpRequest.organisation.tag, 'profile/' + helpRequest.sender.tag, null, req.user.locale).getUrl()), 
-      helpRequest.sender,
-      res)
-    .then(mailjetRes => {
+  let recipients = [helpRequest.sender.getFirstEmail() || req.user.loginEmail];
+  helpRequest.recipients.forEach(recipient => {
+    let currentEmail = recipient.getFirstEmail();
+    if (currentEmail) recipients.push(currentEmail);
+  });
 
-      helpRequest.status = "sent";
+  res.setLocale(req.user.locale);
 
-      let trackingCodes = [];
-      mailjetRes.body.Sent.forEach(mailjetMessage => {
-        trackingCodes.push(mailjetMessage.MessageID);
-      });
+  let mailjetRes = await EmailHelper.emailHelpRequest(
+    recipients,
+    helpRequest.message,
+    helpRequest.organisation,
+    (new UrlHelper(helpRequest.organisation.tag, 'profile/' + helpRequest.sender.tag, null, req.user.locale).getUrl()),
+    helpRequest.sender,
+    helpRequest.tagsToString(req.user.locale),
+    res);
 
-      helpRequest.trackingCodes = trackingCodes;
-      helpRequest.save(); 
+  helpRequest.status = 'sent';
 
-      req.backflip = {status: 200, message: "Help Request sent with success."};
-      return next();
-    }).catch(e => {
-      console.log(e);
-      return next(e);
-    });
-  }).catch(e => next(e));
+  let trackingCodes = [];
+  mailjetRes.body.Sent.forEach(mailjetMessage => {
+    trackingCodes.push(mailjetMessage.MessageID);
+  });
+
+  helpRequest.trackingCodes = trackingCodes;
+  helpRequest.save();
+
+  req.backflip = { status: 200, message: "Help Request sent with success." };
+  return next();
 }

@@ -1,4 +1,5 @@
 var HelpRequest = require('../models/helpRequest');
+var Record = require('../models/record');
 
 // Check that the current User is allowed to access the org, then, that he owns the record or is admin / superadmin
 exports.createSingleHelpRequest = async (req, res, next) => {
@@ -20,6 +21,15 @@ exports.createSingleHelpRequest = async (req, res, next) => {
   }
 
   helpRequest.owner = req.user._id;
+
+  let tags = [];
+  if(helpRequest.tags && helpRequest.tags.length > 0) {
+    for(let i = 0; i < helpRequest.tags.length; i++) {
+      let tagRecord = await Record.findByTagAsync(helpRequest.tags[i], req.organisation._id);
+      if(tagRecord) tags.push(tagRecord);
+    }
+  }
+  helpRequest.tags = tags;
 
   HelpRequest.createOne(helpRequest)
   .then(helpRequestObject => {
