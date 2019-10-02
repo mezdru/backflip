@@ -2,6 +2,8 @@ var AgendaPack = require('agenda');
 var EmailUser = require('../models/email/email_user');
 var User = require('../models/user');
 var Slack = require('../helpers/slack_helper');
+var ClientAuthHelper = require('../helpers/client_auth_helper');
+var ConnectionLogHelper = require('../helpers/connectionLog_helper');
 
 var Agenda = (function () {
   this.agenda = new AgendaPack({ db: { address: process.env.MONGODB_URI, collection: 'jobs' } });
@@ -12,16 +14,16 @@ var Agenda = (function () {
     this.agenda.start();
 
     // Init inactive users batch
-    if(process.env.NODE_ENV === 'production') {
-      agenda.jobs({name: 'reactiveUsersBatch'})
-      .then(jobs => {
-        console.log('AGENDA: already : ' + jobs.length + ' jobs (reactiveUsersBatch)');
-        if(jobs.length === 0 ) {
-          let job = this.agenda.create('reactiveUsersBatch');
-          job.schedule('in 5 minutes');
-          job.save();
-        }
-      });
+    if (process.env.NODE_ENV === 'production') {
+      agenda.jobs({ name: 'reactiveUsersBatch' })
+        .then(jobs => {
+          console.log('AGENDA: already : ' + jobs.length + ' jobs (reactiveUsersBatch)');
+          if (jobs.length === 0) {
+            let job = this.agenda.create('reactiveUsersBatch');
+            job.schedule('in 5 minutes');
+            job.save();
+          }
+        });
     }
 
     this.agenda.define('sendInvitationCta', (job, done) => {
@@ -54,9 +56,9 @@ var Agenda = (function () {
         });
     });
 
-    this.agenda.define('reactiveUsersBatch', {concurrency: 1},(job, done) => {
+    this.agenda.define('reactiveUsersBatch', { concurrency: 1 }, async (job, done) => {
 
-      if(process.env.DISABLE_BATCH) return this.removeJob(job).then(()=> done());
+      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
       var nowMinus14Days = new Date();
       nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
@@ -66,59 +68,68 @@ var Agenda = (function () {
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
       Slack.notify('#alerts-scheduler', 'AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
 
-      User.find( {$or: [{last_action: {$lt: nowMinus14Days}}, {last_action: null}]})
-      .populate('orgsAndRecords.record', '_id name tag')
-      .populate('orgsAndRecords.organisation', '_id name tag logo cover')
-      .then(inactiveUsers => {
+      // get users
+      let users = await User.find()
+        .populate('orgsAndRecords.record', '_id name tag')
+        .populate('orgsAndRecords.organisation', '_id name tag logo cover');
 
-        console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
-        Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
+      // get connection logs
+      let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
+      let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
 
-        let resultsSuccess = 0;
-        let resultsFailed = 0;
-        let userBypassed = 0;
-
-        const results = inactiveUsers.map( async (user) => {
-          try{
-            if(user.superadmin || user.isUnsubscribe) {
-              userBypassed++;
-              return;
-            }
-            let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
-            let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
-            await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
-            .then(() => {resultsSuccess++; return;})
-            .catch(() => {resultsFailed++; return;});
-          }catch(e) {
-            console.log(e);
-            resultsFailed++;
-          }
-        });
-
-        Promise.all(results).then(() => {
-          console.log('AGENDA: reactiveUsersBatch terminated.')
-          console.log('AGENDA: '+resultsSuccess+' emails sent with success.');
-          console.log('AGENDA: '+resultsFailed+' failed.');
-          console.log('AGENDA: '+userBypassed+ ' bypassed.');
-          console.log('AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of emails sended.');
-          Slack.notify('#alerts-scheduler', 'AGENDA: reactiveUsersBatch terminated.');
-          Slack.notify('#alerts-scheduler', 'AGENDA: '+resultsSuccess+' emails sent with success.');
-          Slack.notify('#alerts-scheduler', 'AGENDA: '+resultsFailed+' failed.');
-          Slack.notify('#alerts-scheduler', 'AGENDA: '+userBypassed+ ' bypassed.');
-          Slack.notify('#alerts-scheduler', 'AGENDA: '+(resultsSuccess/(inactiveUsers.length))*100 +'% of emails sended.');
-        });
-
-        this.removeJob(job).then(()=> done());
-        let newJob = this.agenda.create('reactiveUsersBatch');
-        newJob.schedule('in 2 weeks');
-        newJob.save();
+      // filter to get only inactive users
+      let inactiveUsers = users.filter(user => {
+        let latestLog = getLatestConnectionLog(user._id, connectionLogs);
+        return ( (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime() );
       });
+
+      console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
+      Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
+
+      let resultsSuccess = 0;
+      let resultsFailed = 0;
+      let userBypassed = 0;
+
+      const results = inactiveUsers.map(async (user) => {
+        try {
+          if (user.superadmin || user.isUnsubscribe) {
+            userBypassed++;
+            return;
+          }
+          let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
+          let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
+          await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
+            .then(() => { resultsSuccess++; return; })
+            .catch(() => { resultsFailed++; return; });
+        } catch (e) {
+          console.log(e);
+          resultsFailed++;
+        }
+      });
+
+      Promise.all(results).then(() => {
+        console.log('AGENDA: reactiveUsersBatch terminated.')
+        console.log('AGENDA: ' + resultsSuccess + ' emails sent with success.');
+        console.log('AGENDA: ' + resultsFailed + ' failed.');
+        console.log('AGENDA: ' + userBypassed + ' bypassed.');
+        console.log('AGENDA: ' + (resultsSuccess / (inactiveUsers.length)) * 100 + '% of emails sended.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: reactiveUsersBatch terminated.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsSuccess + ' emails sent with success.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsFailed + ' failed.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + userBypassed + ' bypassed.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + (resultsSuccess / (inactiveUsers.length)) * 100 + '% of emails sended.');
+      });
+
+      this.removeJob(job).then(() => done());
+      let newJob = this.agenda.create('reactiveUsersBatch');
+      newJob.schedule('in 2 weeks');
+      newJob.save();
     });
 
     /**
      * @description Schedule resend invitation after 3 days
      */
-    this.scheduleResendInvitation = function(user, sender, organisation, locale) {
+    this.scheduleResendInvitation = function (user, sender, organisation, locale) {
       if (process.env.NODE_ENV === 'production') {
         try {
           let job = this.agenda.create('sendInvitationEmail',
@@ -135,7 +146,7 @@ var Agenda = (function () {
       }
     };
 
-    this.scheduleSendInvitationCta = function(user, organisation, record) {
+    this.scheduleSendInvitationCta = function (user, organisation, record) {
       if (process.env.NODE_ENV === 'production') {
         try {
           let job = this.agenda.create('sendInvitationCta',
@@ -170,3 +181,18 @@ var Agenda = (function () {
 })();
 
 module.exports = Agenda;
+
+function getLatestConnectionLog(userId, connectionLogs) {
+  if (!userId || !connectionLogs || connectionLogs.length === 0) return null;
+  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === log.user);
+
+  var mostRecentDate = new Date(Math.max.apply(null, userLogs.map(e => {
+    return new Date(e.created);
+  })));
+
+  return userLogs.filter(e => {
+    var d = new Date(e.created);
+    return d.getTime() == mostRecentDate.getTime();
+  })[0];
+
+}
