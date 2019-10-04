@@ -62,7 +62,7 @@ var Agenda = (function () {
       console.log('AGENDA: Will run reactiveUsersBatch');
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
 
-      let inactiveUsers = getInactiveUsers();
+      let inactiveUsers = await getInactiveUsers();
 
       console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
       Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
@@ -113,7 +113,7 @@ var Agenda = (function () {
     this.agenda.define('sendToIncompleteProfile', { concurrency: 1 }, async (job, done) => {
       if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
-      let activeUsers = getActiveUsers();
+      let activeUsers = await getActiveUsers();
 
       let resultsSuccess = 0;
       let resultsFailed = 0;
@@ -214,7 +214,7 @@ var Agenda = (function () {
 
 module.exports = Agenda;
 
-function getInactiveUsers() {
+async function getInactiveUsers() {
   var nowMinus14Days = new Date();
   nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
 
@@ -236,7 +236,7 @@ function getInactiveUsers() {
   return inactiveUsers;
 }
 
-function getActiveUsers() {
+async function getActiveUsers() {
   var nowMinus14Days = new Date();
   nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
 
