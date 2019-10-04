@@ -18,7 +18,7 @@ router.use(function(req, res, next) {
 });
 
 router.use(function(req, res, next) {
-  res.locals.formAction = UrlHelper.makeUrl(null, 'new', null, req.getLocale());
+  res.locals.formAction = UrlHelper.makeUrl(null, 'oldnew', null, req.getLocale());
   res.locals.backUrl = UrlHelper.makeUrl(null, 'cheers', null, req.getLocale());
   return next();
 });
@@ -118,7 +118,7 @@ router.all('/', function(req, res, next){
 });
 
 router.all('/presentation', function(req, res, next) {
-  res.locals.createNewWingzyUrl = UrlHelper.makeUrl(null, 'new', null, req.getLocale());
+  res.locals.createNewWingzyUrl = UrlHelper.makeUrl(null, 'oldnew', null, req.getLocale());
   res.render('new_wingzy_presentation', {
     bodyClass: 'presentation-new'
   });
