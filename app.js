@@ -264,8 +264,16 @@ var superadmin = require('./routes/superadmin.js');
 app.use('/superadmin', superadmin);
 
 // Create new Wingzy
-var newWingzy = require('./routes/new_wingzy.js');
-app.use('/new', newWingzy);
+// var newWingzy = require('./routes/new_wingzy.js');
+// app.use('/new', newWingzy);
+app.use('/new', (req, res, next) => {
+  return res.redirect(
+    (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
+    process.env.HOST_FRONTFLIP +
+    '/' +
+    req.getLocale()
+    );
+});
 
 /*
 * Restricted routes
