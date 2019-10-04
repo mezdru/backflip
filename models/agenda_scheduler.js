@@ -59,28 +59,10 @@ var Agenda = (function () {
     this.agenda.define('reactiveUsersBatch', { concurrency: 1 }, async (job, done) => {
       if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
-      var nowMinus14Days = new Date();
-      nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
-
       console.log('AGENDA: Will run reactiveUsersBatch');
-      console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
-      Slack.notify('#alerts-scheduler', 'AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
 
-      // get users
-      let users = await User.find()
-        .populate('orgsAndRecords.record', '_id name tag')
-        .populate('orgsAndRecords.organisation', '_id name tag logo cover');
-
-      // get connection logs
-      let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
-      let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
-
-      // filter to get only inactive users
-      let inactiveUsers = users.filter(user => {
-        let latestLog = getLatestConnectionLog(user._id, connectionLogs);
-        return (!latestLog || (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime() );
-      });
+      let inactiveUsers = getInactiveUsers();
 
       console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
       Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
@@ -121,6 +103,57 @@ var Agenda = (function () {
 
       this.removeJob(job).then(() => done());
       let newJob = this.agenda.create('reactiveUsersBatch');
+      newJob.schedule('in 2 weeks');
+      newJob.save();
+    });
+
+    /**
+     * @description Send an email to all active users with incomplete first profile.
+     */
+    this.agenda.define('sendToIncompleteProfile', { concurrency: 1 }, async (job, done) => {
+      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+
+      let activeUsers = getActiveUsers();
+
+      let resultsSuccess = 0;
+      let resultsFailed = 0;
+      let userBypassed = 0;
+
+      const results = activeUsers.map(async (user) => {
+        try {
+          if (user.superadmin || user.isUnsubscribe) {
+            userBypassed++;
+            return;
+          }
+          let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
+          let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
+
+          // check if profile is incomplete, if true: send email
+
+          // await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
+          //   .then(() => { resultsSuccess++; return; })
+          //   .catch(() => { resultsFailed++; return; });
+        } catch (e) {
+          console.log(e);
+          resultsFailed++;
+        }
+      });
+
+      Promise.all(results).then(() => {
+        console.log('AGENDA: sendToIncompleteProfile terminated.')
+        console.log('AGENDA: ' + resultsSuccess + ' emails sent with success.');
+        console.log('AGENDA: ' + resultsFailed + ' failed.');
+        console.log('AGENDA: ' + userBypassed + ' bypassed.');
+        console.log('AGENDA: ' + (resultsSuccess / (inactiveUsers.length)) * 100 + '% of emails sended.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: sendToIncompleteProfile terminated.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsSuccess + ' emails sent with success.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsFailed + ' failed.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + userBypassed + ' bypassed.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + (resultsSuccess / (inactiveUsers.length)) * 100 + '% of emails sended.');
+      });
+
+      this.removeJob(job).then(() => done());
+      let newJob = this.agenda.create('sendToIncompleteProfile');
       newJob.schedule('in 2 weeks');
       newJob.save();
     });
@@ -181,9 +214,53 @@ var Agenda = (function () {
 
 module.exports = Agenda;
 
+function getInactiveUsers() {
+  var nowMinus14Days = new Date();
+  nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
+
+  // get users
+  let users = await User.find()
+    .populate('orgsAndRecords.record', '_id name tag')
+    .populate('orgsAndRecords.organisation', '_id name tag logo cover');
+
+  // get connection logs
+  let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
+  let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
+
+  // filter to get only inactive users
+  let inactiveUsers = users.filter(user => {
+    let latestLog = getLatestConnectionLog(user._id, connectionLogs);
+    return (!latestLog || (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime());
+  });
+
+  return inactiveUsers;
+}
+
+function getActiveUsers() {
+  var nowMinus14Days = new Date();
+  nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
+
+  // get users
+  let users = await User.find()
+    .populate('orgsAndRecords.record', '_id name tag')
+    .populate('orgsAndRecords.organisation', '_id name tag logo cover');
+
+  // get connection logs
+  let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
+  let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
+
+  // filter to get only inactive users
+  let activeUsers = users.filter(user => {
+    let latestLog = getLatestConnectionLog(user._id, connectionLogs);
+    return (latestLog && (new Date(latestLog.created)).getTime() > nowMinus14Days.getTime());
+  });
+
+  return activeUsers;
+}
+
 function getLatestConnectionLog(userId, connectionLogs) {
   if (!userId || !connectionLogs || connectionLogs.length === 0) return null;
-  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === JSON.stringify(log.user)) ;
+  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === JSON.stringify(log.user));
 
   var mostRecentDate = new Date(Math.max.apply(null, userLogs.map(e => {
     return new Date(e.created);
