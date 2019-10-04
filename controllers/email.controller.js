@@ -13,7 +13,7 @@ exports.unsubscribeCallback = async (req, res, next) => {
     userToUnsub.isUnsubscribe = true;
     await userToUnsub.save();
     if (process.env.NODE_ENV === 'production') SlackHelper.notify('#alerts', 'An User (' + userToUnsub._id + ') unsubscribe from auto-tranctionnal emails (' + userToUnsub.loginEmail + ')');
-    return res.render('emails/unsubscribe', { success: true, userEmail: userUpdated.loginEmail });
+    return res.render('emails/unsubscribe', { success: true, userEmail: userToUnsub.loginEmail });
 
   } catch (e) {
     console.error(e);

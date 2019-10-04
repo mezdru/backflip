@@ -57,7 +57,6 @@ var Agenda = (function () {
     });
 
     this.agenda.define('reactiveUsersBatch', { concurrency: 1 }, async (job, done) => {
-
       if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
       var nowMinus14Days = new Date();
@@ -80,7 +79,7 @@ var Agenda = (function () {
       // filter to get only inactive users
       let inactiveUsers = users.filter(user => {
         let latestLog = getLatestConnectionLog(user._id, connectionLogs);
-        return ( (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime() );
+        return (!latestLog || (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime() );
       });
 
       console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
@@ -184,7 +183,7 @@ module.exports = Agenda;
 
 function getLatestConnectionLog(userId, connectionLogs) {
   if (!userId || !connectionLogs || connectionLogs.length === 0) return null;
-  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === log.user);
+  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === JSON.stringify(log.user)) ;
 
   var mostRecentDate = new Date(Math.max.apply(null, userLogs.map(e => {
     return new Date(e.created);
