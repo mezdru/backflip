@@ -498,5 +498,6 @@
 	"See my Wingzy": "crwdns2036:0crwdne2036:0",
 	"I have a question about {{search}}": "crwdns2038:0{{search}}crwdne2038:0",
 	"{{senderName}} has a question about {{search}}": "crwdns2040:0{{senderName}}crwdnd2040:0{{search}}crwdne2040:0",
-	"You got this question because you have {{search}} on your profile in {{orgName}}": "crwdns2042:0{{search}}crwdnd2042:0{{orgName}}crwdne2042:0"
+	"You got this question because you have {{search}} on your profile in {{orgName}}": "crwdns2042:0{{search}}crwdnd2042:0{{orgName}}crwdne2042:0",
+	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "crwdns2044:0{{unsubLink}}crwdne2044:0"
 }
