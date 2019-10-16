@@ -4,6 +4,7 @@ var User = require('../models/user');
 var Slack = require('../helpers/slack_helper');
 var ClientAuthHelper = require('../helpers/client_auth_helper');
 var ConnectionLogHelper = require('../helpers/connectionLog_helper');
+var Record = require('../models/record');
 
 var Agenda = (function () {
   this.agenda = new AgendaPack({ db: { address: process.env.MONGODB_URI, collection: 'jobs' } });
@@ -25,6 +26,16 @@ var Agenda = (function () {
           }
         });
     }
+    agenda.jobs({ name: 'sendToIncompleteProfile' })
+    .then(jobs => {
+      console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
+      if (jobs.length === 0) {
+        let job = this.agenda.create('sendToIncompleteProfile');
+        job.schedule('in 5 seconds');
+        job.save();
+      }
+    });
+
 
     this.agenda.define('sendInvitationCta', (job, done) => {
       let data = job.attrs.data;
@@ -57,7 +68,7 @@ var Agenda = (function () {
     });
 
     this.agenda.define('reactiveUsersBatch', { concurrency: 1 }, async (job, done) => {
-      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+      // if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
       console.log('AGENDA: Will run reactiveUsersBatch');
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
@@ -111,29 +122,30 @@ var Agenda = (function () {
      * @description Send an email to all active users with incomplete first profile.
      */
     this.agenda.define('sendToIncompleteProfile', { concurrency: 1 }, async (job, done) => {
-      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
-
-      let activeUsers = await getActiveUsers();
-
+      // if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+      let records = await Record.find({type: 'person', hidden: false}).populate('organisation', '_id name tag logo cover');
+      let users = await User.find();
       let resultsSuccess = 0;
       let resultsFailed = 0;
       let userBypassed = 0;
+      let completeProfile = 0;
 
-      const results = activeUsers.map(async (user) => {
-        try {
-          if (user.superadmin || user.isUnsubscribe) {
-            userBypassed++;
-            return;
-          }
-          let organisation = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].organisation : null);
-          let record = (user.orgsAndRecords.length > 0 ? user.orgsAndRecords[0].record : null);
+      const results = records.map(async (record) => {
+        try{
+          // find record user
+          let user = users.find(user => user.orgsAndRecords.find(oar => JSON.stringify(oar.record) === JSON.stringify(record._id)));
+          if(!user || user.superadmin || user.isUnsubscribe) {userBypassed++; return;}
 
-          // check if profile is incomplete, if true: send email
+          let incompleteFields = record.getIncompleteFields();
+          if(incompleteFields.length === 0)  {completeProfile++; return;}
 
-          // await EmailUser.sendReactiveUserEmail(user, organisation, record, this.i18n)
-          //   .then(() => { resultsSuccess++; return; })
-          //   .catch(() => { resultsFailed++; return; });
-        } catch (e) {
+          let recipientEmail = record.getLinkByType('email') || user.loginEmail;
+
+          console.log('recipient email : ' + recipientEmail + ' | user id : ' + user._id + ' | record id : ' + record._id);
+          console.log(incompleteFields);
+          // send email here
+          resultsSuccess++;
+        }catch(e) {
           console.log(e);
           resultsFailed++;
         }
@@ -141,21 +153,22 @@ var Agenda = (function () {
 
       Promise.all(results).then(() => {
         console.log('AGENDA: sendToIncompleteProfile terminated.')
+        console.log('AGENDA: ' + completeProfile + ' profile completed. ('+ (completeProfile / records.length)*100 +'%)');
         console.log('AGENDA: ' + resultsSuccess + ' emails sent with success.');
         console.log('AGENDA: ' + resultsFailed + ' failed.');
         console.log('AGENDA: ' + userBypassed + ' bypassed.');
-        console.log('AGENDA: ' + (resultsSuccess / (inactiveUsers.length)) * 100 + '% of emails sended.');
+        console.log('AGENDA: ' + (resultsSuccess / (records.length)) * 100 + '% of emails sended.');
         Slack.notify('#alerts-scheduler', 'AGENDA: sendToIncompleteProfile terminated.');
         Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsSuccess + ' emails sent with success.');
         Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsFailed + ' failed.');
         Slack.notify('#alerts-scheduler', 'AGENDA: ' + userBypassed + ' bypassed.');
-        Slack.notify('#alerts-scheduler', 'AGENDA: ' + (resultsSuccess / (inactiveUsers.length)) * 100 + '% of emails sended.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + (resultsSuccess / (records.length)) * 100 + '% of emails sended.');
       });
 
       this.removeJob(job).then(() => done());
-      let newJob = this.agenda.create('sendToIncompleteProfile');
-      newJob.schedule('in 2 weeks');
-      newJob.save();
+      // let newJob = this.agenda.create('sendToIncompleteProfile');
+      // newJob.schedule('in 1 week');
+      // newJob.save();
     });
 
     /**
