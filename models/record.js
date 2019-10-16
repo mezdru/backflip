@@ -69,7 +69,8 @@ var recordSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   personAvailability: {type: String, enum: ['available','unspecified','unavailable']},
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
-  hidden: {type: Boolean, default: false}
+  hidden: {type: Boolean, default: false},
+  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null}
 });
 
 //@todo deal with consequences of "unique: true" condition on organisation/tag
