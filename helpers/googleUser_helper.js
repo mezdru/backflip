@@ -47,7 +47,8 @@ class GoogleUserHelper {
         tag: Record.cleanTag(googleUser.email.split('@')[0], 'person'),
         type:'person',
         name: googleUser.name,
-        links: this.createLinks(googleUser)
+				links: this.createLinks(googleUser),
+				owner: googleUser.user
       })).save()
       .then(record => {
         if(googleUser.pictures && googleUser.pictures.length > 0) {

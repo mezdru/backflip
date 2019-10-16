@@ -47,7 +47,8 @@ class LinkedinUserHelper {
         tag: Record.cleanTag(linkedinUser.email.split('@')[0], 'person'),
         type:'person',
         name: linkedinUser.name,
-        links: this.createLinks(linkedinUser)
+				links: this.createLinks(linkedinUser),
+				owner: linkedinUser.user
       })).save()
       .then(record => {
         if(linkedinUser.pictures && linkedinUser.pictures.length > 0) {
