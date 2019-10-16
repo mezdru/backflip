@@ -50,6 +50,7 @@ exports.getSingleRecord = async (req, res, next) => {
 
 exports.createSingleRecord = async (req, res, next) => {
   let record = req.body.record;
+  record.owner = req.user;
 
   // Populate tag thanks to the name if no tag
   if (!record.tag && record.name) {
@@ -82,8 +83,9 @@ exports.updateSingleRecord = async (req, res, next) => {
     req.backflip = { message: 'Missing body parameter: record', status: 422 };
     return next();
   }
+  delete req.body.record.owner;
 
-  let recordUpdated = await Record.findOneAndUpdate({ _id: req.params.id }, { $set: req.body.record }, { new: true }).catch(e => next(e));
+  let recordUpdated = await Record.findOneAndUpdate({ _id: req.params.id }, { $set: req.body.record }, { new: true }).catch(e => null);
 
   if (!recordUpdated) {
     req.backflip = { message: 'Record not found', status: 404 };
@@ -227,6 +229,7 @@ exports.getPopulatedRecord = async (req, res, next) => {
 
     if (!currentRecord) {
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
+      currentRecord.owner = currentUser;
       await currentRecord.save();
     }
 
