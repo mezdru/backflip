@@ -22,8 +22,6 @@ exports.getMe = async (req, res, next) => {
   let me = await User.findOne({_id: req.user._id})
             .populate('orgsAndRecords.organisation')
             .populate('orgsAndRecords.record')
-            .populate('orgsAndRecords.record.hashtags')
-            .populate('orgsAndRecords.organisation.featuredWingsFamily')
 
   req.backflip = {message: 'User fetch with success', status: 200, data: me, owner: req.user._id};
   return next();
