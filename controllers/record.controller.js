@@ -199,7 +199,7 @@ exports.getPopulatedRecord = async (req, res, next) => {
         req.backflip = { status: 403, message: 'Unauthorized' };
         return next();
       }
-      currentUser = await User.findById(req.query.user).exec();
+      currentUser = await User.findById(req.query.user);
     } else {
       currentUser = req.user;
     }
@@ -229,7 +229,7 @@ exports.getPopulatedRecord = async (req, res, next) => {
 
     if (!currentRecord) {
       currentRecord = Record.makeFromEmail(currentUser.loginEmail, orgId);
-      currentRecord.owner = currentUser;
+      currentRecord.owner = currentUser._id;
       await currentRecord.save();
     }
 
