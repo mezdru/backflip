@@ -5,6 +5,8 @@ var Slack = require('../helpers/slack_helper');
 var ClientAuthHelper = require('../helpers/client_auth_helper');
 var ConnectionLogHelper = require('../helpers/connectionLog_helper');
 var Record = require('../models/record');
+var EmailHelper = require('../helpers/email_helper');
+var UrlHelper = require('../helpers/url_helper');
 
 var Agenda = (function () {
   this.agenda = new AgendaPack({ db: { address: process.env.MONGODB_URI, collection: 'jobs' } });
@@ -31,7 +33,7 @@ var Agenda = (function () {
       console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
       if (jobs.length === 0) {
         let job = this.agenda.create('sendToIncompleteProfile');
-        job.schedule('in 5 seconds');
+        job.schedule('in 1 seconds');
         job.save();
       }
     });
@@ -130,6 +132,8 @@ var Agenda = (function () {
       let userBypassed = 0;
       let completeProfile = 0;
 
+      records = records.slice(5, 10);
+
       const results = records.map(async (record) => {
         try{
           // find record user
@@ -140,9 +144,21 @@ var Agenda = (function () {
           if(incompleteFields.length === 0)  {completeProfile++; return;}
 
           let recipientEmail = record.getLinkByType('email') || user.loginEmail;
+          let percentage = Math.max(100 - (incompleteFields.length * 9), 50);
 
           console.log('recipient email : ' + recipientEmail + ' | user id : ' + user._id + ' | record id : ' + record._id);
           console.log(incompleteFields);
+          EmailHelper.emailIncompleteProfile(
+            recipientEmail,
+            record.organisation,
+            record.name,
+            incompleteFields,
+            percentage,
+            (new UrlHelper(record.organisation.tag, 'profile/' + record.tag, null, user.locale).getUrl()),
+            user.locale,
+            i18n
+          ).then((response) => {
+          })
           // send email here
           resultsSuccess++;
         }catch(e) {
