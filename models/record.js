@@ -91,7 +91,7 @@ recordSchema.statics.makeFromInputObject = function(inputObject) {
   if (inputObject.type !== 'hashtag') inputObject.type = 'person';
   inputObject.tag = this.cleanTag(inputObject.tag || inputObject.name, inputObject.type);
   inputObject.name = inputObject.name || (inputObject.type === 'person' ? '' : this.getNameFromTag(inputObject.tag));
-  return new this(inputObject);
+  return new Record(inputObject);
 };
 
 recordSchema.methods.dumbMerge = function(inputObject) {
