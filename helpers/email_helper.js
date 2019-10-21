@@ -256,10 +256,9 @@ exports.emailHelpRequest = (recipients, message, organisation, recordUrl, sender
   );
 }
 
-exports.emailIncompleteProfile = (recipient, organisation, recipientName, incompleteFields, completionPercentage, url, locale, res) => {
+exports.emailIncompleteProfile = (recipient, organisation, recipientName, incompleteFields, completionPercentage, url, orgUrl, unsubUrl, locale, res) => {
   res.setLocale(locale);
   let missingFields = incompleteFields.map(key => res.__("missingField:" + key, {orgName: organisation.name}));
-  console.log(missingFields);
   return send(
     recipient,
     res.__("{{recipientName}} {{orgName}} needs your help!", { recipientName: (recipientName ? recipientName + ',' : ''), orgName: organisation.name }),
@@ -272,8 +271,8 @@ exports.emailIncompleteProfile = (recipient, organisation, recipientName, incomp
       "ctaUrl": url || defaultLink,
       "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
       "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
-      "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
-      "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
+      "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', orgUrl || defaultLink),
+      "outro": i18n.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>", { unsubLink: unsubUrl })
     },
     '1047461'
   );

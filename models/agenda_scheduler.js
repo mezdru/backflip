@@ -7,6 +7,7 @@ var ConnectionLogHelper = require('../helpers/connectionLog_helper');
 var Record = require('../models/record');
 var EmailHelper = require('../helpers/email_helper');
 var UrlHelper = require('../helpers/url_helper');
+var FrontflipUrlHelper = require('../helpers/frontflipUrl.helper');
 
 var Agenda = (function () {
   this.agenda = new AgendaPack({ db: { address: process.env.MONGODB_URI, collection: 'jobs' } });
@@ -15,19 +16,8 @@ var Agenda = (function () {
   this.agenda.on('ready', function () {
     console.log('AGENDA: Ready');
     this.agenda.start();
+    
 
-    // Init inactive users batch
-    if (process.env.NODE_ENV === 'production') {
-      agenda.jobs({ name: 'reactiveUsersBatch' })
-        .then(jobs => {
-          console.log('AGENDA: already : ' + jobs.length + ' jobs (reactiveUsersBatch)');
-          if (jobs.length === 0) {
-            let job = this.agenda.create('reactiveUsersBatch');
-            job.schedule('in 5 minutes');
-            job.save();
-          }
-        });
-    }
     agenda.jobs({ name: 'sendToIncompleteProfile' })
     .then(jobs => {
       console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
@@ -70,7 +60,7 @@ var Agenda = (function () {
     });
 
     this.agenda.define('reactiveUsersBatch', { concurrency: 1 }, async (job, done) => {
-      // if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
       console.log('AGENDA: Will run reactiveUsersBatch');
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
@@ -124,7 +114,8 @@ var Agenda = (function () {
      * @description Send an email to all active users with incomplete first profile.
      */
     this.agenda.define('sendToIncompleteProfile', { concurrency: 1 }, async (job, done) => {
-      // if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+
       let records = await Record.find({type: 'person', hidden: false}).populate('organisation', '_id name tag logo cover');
       let users = await User.find();
       let resultsSuccess = 0;
@@ -146,21 +137,43 @@ var Agenda = (function () {
           let recipientEmail = record.getLinkByType('email') || user.loginEmail;
           let percentage = Math.max(100 - (incompleteFields.length * 9), 50);
 
-          console.log('recipient email : ' + recipientEmail + ' | user id : ' + user._id + ' | record id : ' + record._id);
-          console.log(incompleteFields);
-          EmailHelper.emailIncompleteProfile(
-            recipientEmail,
-            record.organisation,
-            record.name,
-            incompleteFields,
-            percentage,
-            (new UrlHelper(record.organisation.tag, 'profile/' + record.tag, null, user.locale).getUrl()),
-            user.locale,
-            i18n
-          ).then((response) => {
-          })
-          // send email here
-          resultsSuccess++;
+          if(!user.email || !user.email.value) {
+            user.email = {
+              value: user.loginEmail,
+            };
+            EmailUser.makeNormalized(user);
+          }
+
+          await new Promise((resolve, reject) => {
+            EmailUser.generateToken(user, function(err, userUpdated) {
+              if(err) {
+                resultsFailed++;
+                return resolve();
+              }
+              console.log('recipient email : ' + recipientEmail + ' | user id : ' + userUpdated._id + ' | record id : ' + record._id);
+              EmailHelper.emailIncompleteProfile(
+                recipientEmail,
+                record.organisation,
+                record.name,
+                incompleteFields,
+                percentage,
+                (new FrontflipUrlHelper(record.organisation.tag, '/onboard/intro/edit/'+record.tag, userUpdated.locale)).getUrl(),
+                (new FrontflipUrlHelper(record.organisation.tag, '', userUpdated.locale)).getUrl(),
+                (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
+                userUpdated.locale,
+                i18n
+              ).then((response) => {
+                if(response.response.status == 200) resultsSuccess++;
+                else resultsFailed++;
+                resolve();
+              }).catch((err) => {
+                resultsFailed ++;
+                resolve();
+              })
+            });
+          });
+
+
         }catch(e) {
           console.log(e);
           resultsFailed++;
