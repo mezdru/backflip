@@ -24,7 +24,7 @@ var Agenda = (function () {
         console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
         if (jobs.length === 0) {
           let job = this.agenda.create('sendToIncompleteProfile');
-          job.schedule('in 1 seconds');
+          job.schedule('in 5 minutes');
           job.save();
         }
       });
