@@ -144,6 +144,23 @@ exports.createSingleLink = async (req, res, next) => {
   return next();
 }
 
+exports.promoteSingleRecord = async (req, res, next) => {
+  let record = await Record.findOneById(req.params.id).catch(err => next(err));
+  let duplicateInAll = await Record.findByTagAsync(record.tag, process.env.THE_ALL_ORGANISATION_ID);
+
+  if(duplicateInAll) {
+    // merge
+    req.backflip = {message: 'Record tag already exists in organisation <all>: Need merge,but condition not implemented yet.', status: 422, data: null};
+    return next();
+  } else {
+    // promote
+    record.organisation = process.env.THE_ALL_ORGANISATION_ID;
+    await record.save();
+    req.backflip = {message: 'Record promoted with success.', status: 200, data: record};
+    return next();
+  }
+}
+
 exports.updateSingleLink = async (req, res, next) => {
   if (!req.body.link) {
     req.backflip = { message: 'Missing body parameter: link', status: 422 };

@@ -71,6 +71,14 @@ router.put(
 )
 
 router.put(
+  '/:id/promote',
+  passport.authenticate('bearer', {session: false}),
+  Authorization.superadminOnly,
+  RecordController.promoteSingleRecord,
+  Authorization.resWithData
+)
+
+router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
