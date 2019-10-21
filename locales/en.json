@@ -499,5 +499,15 @@
 	"I have a question about {{search}}": "I have a question about {{search}}",
 	"{{senderName}} has a question about {{search}}": "{{senderName}} has a question about {{search}}",
 	"You got this question because you have {{search}} on your profile in {{orgName}}": "You got this question because you have {{search}} on your profile in {{orgName}}",
-	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>"
+	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
+	"missingField:wings": "Your Wings (Skills, Soft Skills, hobbies, ...)",
+	"missingField:picture": "Your profile picture",
+	"missingField:phone": "Your phone number",
+	"missingField:email": "Your email address",
+	"missingField:name": "Your name",
+	"missingField:intro": "Your role at {{orgName}}",
+	"{{recipientName}} {{orgName}} needs your help!": "{{recipientName}} {{orgName}} needs your help!",
+	"{{recipientName}} your {{orgName}} profile is almost perfect": "{{recipientName}} your {{orgName}} profile is almost perfect",
+	"Could you add the following information?": "Could you add the following information?",
+	"Edit my profile": "Edit my profile"
 }

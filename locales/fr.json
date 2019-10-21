@@ -499,5 +499,15 @@
 	"I have a question about {{search}}": "J'ai une question sur {{search}}",
 	"{{senderName}} has a question about {{search}}": "{{senderName}} a une question sur {{search}}",
 	"You got this question because you have {{search}} on your profile in {{orgName}}": "Vous avez reçu cette question car vous avez {{search}} sur votre profil dans {{orgName}}",
-	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>"
+	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>": "Des questions ? Des retours ? Des conseils ? <a href='mailto:contact@wingzy.com'>Contactez-nous !</a> <br/><a href='{{unsubLink}}'>Cliquez ici pour vous désabonner.</a>",
+	"missingField:wings": "Vos Wings (Compétences, passions, centres d'intérêt, ...)",
+	"missingField:picture": "Votre photo de profil",
+	"missingField:phone": "Votre numéro de téléphone",
+	"missingField:email": "Votre adresse email",
+	"missingField:name": "Votre nom",
+	"missingField:intro": "Votre poste chez {{orgName}}",
+	"{{recipientName}} {{orgName}} needs your help!": "{{recipientName}} {{orgName}} a besoin de votre aide !",
+	"{{recipientName}} your {{orgName}} profile is almost perfect": "{{recipientName}} votre profil {{orgName}} est presque parfait",
+	"Could you add the following information?": "Pouvez-vous ajouter les informations suivantes ?",
+	"Edit my profile": "Éditer mon profil"
 }
