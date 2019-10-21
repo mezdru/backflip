@@ -265,6 +265,17 @@ recordSchema.methods.changeOrganisation = function(organisation, callback) {
   }.bind(this));
 };
 
+recordSchema.methods.getIncompleteFields = function() {
+  let incompleteFields = [];
+  if(!this.name) incompleteFields.push('name');
+  if(!this.intro) incompleteFields.push('intro');
+  if(!this.picture || !this.picture.url) incompleteFields.push('picture');
+  if(!this.getLinkByType('email')) incompleteFields.push('email');
+  if(!this.getLinkByType('phone') && !this.getLinkByType('landline')) incompleteFields.push('phone');
+  if(!this.hashtags || this.hashtags.length < 10) incompleteFields.push('wings');
+  return incompleteFields;
+}
+
 // We need this because we don't want our local Records to reference to each other
 // Otherwise there are tons of level of reference (even loops)
 // @todo not sure we need it if we already handle shallow records ;)

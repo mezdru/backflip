@@ -4,6 +4,10 @@ var User = require('../models/user');
 var Slack = require('../helpers/slack_helper');
 var ClientAuthHelper = require('../helpers/client_auth_helper');
 var ConnectionLogHelper = require('../helpers/connectionLog_helper');
+var Record = require('../models/record');
+var EmailHelper = require('../helpers/email_helper');
+var UrlHelper = require('../helpers/url_helper');
+var FrontflipUrlHelper = require('../helpers/frontflipUrl.helper');
 
 var Agenda = (function () {
   this.agenda = new AgendaPack({ db: { address: process.env.MONGODB_URI, collection: 'jobs' } });
@@ -12,18 +16,18 @@ var Agenda = (function () {
   this.agenda.on('ready', function () {
     console.log('AGENDA: Ready');
     this.agenda.start();
+    
 
-    // Init inactive users batch
-    if (process.env.NODE_ENV === 'production') {
-      agenda.jobs({ name: 'reactiveUsersBatch' })
-        .then(jobs => {
-          console.log('AGENDA: already : ' + jobs.length + ' jobs (reactiveUsersBatch)');
-          if (jobs.length === 0) {
-            let job = this.agenda.create('reactiveUsersBatch');
-            job.schedule('in 5 minutes');
-            job.save();
-          }
-        });
+    if(process.env.NODE_ENV === 'production') {
+      agenda.jobs({ name: 'sendToIncompleteProfile' })
+      .then(jobs => {
+        console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
+        if (jobs.length === 0) {
+          let job = this.agenda.create('sendToIncompleteProfile');
+          job.schedule('in 5 minutes');
+          job.save();
+        }
+      });
     }
 
     this.agenda.define('sendInvitationCta', (job, done) => {
@@ -59,28 +63,10 @@ var Agenda = (function () {
     this.agenda.define('reactiveUsersBatch', { concurrency: 1 }, async (job, done) => {
       if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
 
-      var nowMinus14Days = new Date();
-      nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
-
       console.log('AGENDA: Will run reactiveUsersBatch');
-      console.log('AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
       Slack.notify('#alerts-scheduler', 'AGENDA: Will run reactiveUsersBatch');
-      Slack.notify('#alerts-scheduler', 'AGENDA: For all users for those last_action is lower than ' + nowMinus14Days.toLocaleString('fr-FR'));
 
-      // get users
-      let users = await User.find()
-        .populate('orgsAndRecords.record', '_id name tag')
-        .populate('orgsAndRecords.organisation', '_id name tag logo cover');
-
-      // get connection logs
-      let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
-      let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
-
-      // filter to get only inactive users
-      let inactiveUsers = users.filter(user => {
-        let latestLog = getLatestConnectionLog(user._id, connectionLogs);
-        return (!latestLog || (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime() );
-      });
+      let inactiveUsers = await getInactiveUsers();
 
       console.log('AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
       Slack.notify('#alerts-scheduler', 'AGENDA: Will send an email to ' + inactiveUsers.length + ' users.');
@@ -122,6 +108,94 @@ var Agenda = (function () {
       this.removeJob(job).then(() => done());
       let newJob = this.agenda.create('reactiveUsersBatch');
       newJob.schedule('in 2 weeks');
+      newJob.save();
+    });
+
+    /**
+     * @description Send an email to all active users with incomplete first profile.
+     */
+    this.agenda.define('sendToIncompleteProfile', { concurrency: 1 }, async (job, done) => {
+      if (process.env.DISABLE_BATCH) return this.removeJob(job).then(() => done());
+
+      let records = await Record.find({type: 'person', hidden: false}).populate('organisation', '_id name tag logo cover');
+      let users = await User.find();
+      let resultsSuccess = 0;
+      let resultsFailed = 0;
+      let userBypassed = 0;
+      let completeProfile = 0;
+
+      records = records.slice(5, 10);
+
+      const results = records.map(async (record) => {
+        try{
+          // find record user
+          let user = users.find(user => user.orgsAndRecords.find(oar => JSON.stringify(oar.record) === JSON.stringify(record._id)));
+          if(!user || user.superadmin || user.isUnsubscribe) {userBypassed++; return;}
+
+          let incompleteFields = record.getIncompleteFields();
+          if(incompleteFields.length === 0)  {completeProfile++; return;}
+
+          let recipientEmail = record.getLinkByType('email') || user.loginEmail;
+          let percentage = Math.max(100 - (incompleteFields.length * 9), 50);
+
+          if(!user.email || !user.email.value) {
+            user.email = {
+              value: user.loginEmail,
+            };
+            EmailUser.makeNormalized(user);
+          }
+
+          await new Promise((resolve, reject) => {
+            EmailUser.generateToken(user, function(err, userUpdated) {
+              if(err) {
+                resultsFailed++;
+                return resolve();
+              }
+              EmailHelper.emailIncompleteProfile(
+                recipientEmail,
+                record.organisation,
+                record.name,
+                incompleteFields,
+                percentage,
+                (new FrontflipUrlHelper(record.organisation.tag, '/onboard/intro/edit/'+record.tag, userUpdated.locale)).getUrl(),
+                (new FrontflipUrlHelper(record.organisation.tag, '', userUpdated.locale)).getUrl(),
+                (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
+                userUpdated.locale,
+                i18n
+              ).then((response) => {
+                if(response.response.status == 200) resultsSuccess++;
+                else resultsFailed++;
+                resolve();
+              }).catch((err) => {
+                resultsFailed ++;
+                resolve();
+              })
+            });
+          });
+
+        }catch(e) {
+          console.log(e);
+          resultsFailed++;
+        }
+      });
+
+      Promise.all(results).then(() => {
+        console.log('AGENDA: sendToIncompleteProfile terminated.')
+        console.log('AGENDA: ' + completeProfile + ' profile completed. ('+ (completeProfile / records.length)*100 +'%)');
+        console.log('AGENDA: ' + resultsSuccess + ' emails sent with success.');
+        console.log('AGENDA: ' + resultsFailed + ' failed.');
+        console.log('AGENDA: ' + userBypassed + ' bypassed.');
+        console.log('AGENDA: ' + (resultsSuccess / (records.length)) * 100 + '% of emails sended.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: sendToIncompleteProfile terminated.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsSuccess + ' emails sent with success.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + resultsFailed + ' failed.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + userBypassed + ' bypassed.');
+        Slack.notify('#alerts-scheduler', 'AGENDA: ' + (resultsSuccess / (records.length)) * 100 + '% of emails sended.');
+      });
+
+      this.removeJob(job).then(() => done());
+      let newJob = this.agenda.create('sendToIncompleteProfile');
+      newJob.schedule('in 1 week');
       newJob.save();
     });
 
@@ -181,9 +255,53 @@ var Agenda = (function () {
 
 module.exports = Agenda;
 
+async function getInactiveUsers() {
+  var nowMinus14Days = new Date();
+  nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
+
+  // get users
+  let users = await User.find()
+    .populate('orgsAndRecords.record', '_id name tag')
+    .populate('orgsAndRecords.organisation', '_id name tag logo cover');
+
+  // get connection logs
+  let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
+  let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
+
+  // filter to get only inactive users
+  let inactiveUsers = users.filter(user => {
+    let latestLog = getLatestConnectionLog(user._id, connectionLogs);
+    return (!latestLog || (new Date(latestLog.created)).getTime() < nowMinus14Days.getTime());
+  });
+
+  return inactiveUsers;
+}
+
+async function getActiveUsers() {
+  var nowMinus14Days = new Date();
+  nowMinus14Days.setDate(nowMinus14Days.getDate() - 14);
+
+  // get users
+  let users = await User.find()
+    .populate('orgsAndRecords.record', '_id name tag')
+    .populate('orgsAndRecords.organisation', '_id name tag logo cover');
+
+  // get connection logs
+  let clientAccessToken = await ClientAuthHelper.fetchClientAccessToken();
+  let connectionLogs = await ConnectionLogHelper.getConnectionLogs(clientAccessToken);
+
+  // filter to get only inactive users
+  let activeUsers = users.filter(user => {
+    let latestLog = getLatestConnectionLog(user._id, connectionLogs);
+    return (latestLog && (new Date(latestLog.created)).getTime() > nowMinus14Days.getTime());
+  });
+
+  return activeUsers;
+}
+
 function getLatestConnectionLog(userId, connectionLogs) {
   if (!userId || !connectionLogs || connectionLogs.length === 0) return null;
-  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === JSON.stringify(log.user)) ;
+  let userLogs = connectionLogs.filter(log => JSON.stringify(userId) === JSON.stringify(log.user));
 
   var mostRecentDate = new Date(Math.max.apply(null, userLogs.map(e => {
     return new Date(e.created);

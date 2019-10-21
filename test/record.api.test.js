@@ -28,7 +28,6 @@ const superadminRecordId = "5d134105840ec525c88d6d0e";
 const adminRecordId = "5d14a94d31a40d2230837540";
 const userRecordId = "5d14a845708dd821d0565b95";
 
-
 describe('/POST auth - locale', () => {
 
   it('it should auth the Superadmin', (done) => {

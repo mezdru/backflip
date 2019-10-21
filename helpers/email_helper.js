@@ -24,14 +24,14 @@ let send = (recipients, subject, vars, templateId, options = {}) => {
     'Vars': vars
   };
 
-  if(Array.isArray(recipients)) {
+  if (Array.isArray(recipients)) {
     let to = "";
     recipients.forEach(recipient => {
       to += (to === "" ? '' : ', ') + `<${recipient}>`;
     });
     request['To'] = to;
   } else {
-    request['Recipients'] = [{'Email': recipients}];
+    request['Recipients'] = [{ 'Email': recipients }];
   }
 
   return mailjet.post('send').request(request);
@@ -62,7 +62,7 @@ exports.emailReactivateUser = (recipient, organisation, firstName, url, urlUnsub
     recipient,
     (firstName ? i18n.__("{{firstName}}, we miss you!", { firstName: firstName }) : i18n.__("We miss you.")),
     {
-      "title": (firstName ? i18n.__("{{firstName}}, we miss you!", { firstName: firstName}) : i18n.__("We miss you.")),
+      "title": (firstName ? i18n.__("{{firstName}}, we miss you!", { firstName: firstName }) : i18n.__("We miss you.")),
       "text": i18n.__("We have not seen you on Wingzy in a while. What a shame : it is a great app to find and help each other at {{organisationName}}",
         { organisationName: (organisation && organisation.name ? organisation.name : 'your company') }),
       "ctaText": i18n.__("Search {{organisationName}}", { organisationName: (organisation && organisation.name ? organisation.name : 'your company') }),
@@ -154,10 +154,10 @@ exports.emailInvitationAccepted = (recipientName, recipient, senderName, organis
         senderName, organisation && organisation.name ? organisation.name : 'your company', senderName),
       "ctaText": res.__("See %s profile", senderName),
       "squareIcon": "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
-      "ctaUrl":  url || defaultLink,
+      "ctaUrl": url || defaultLink,
       "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
       "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
-      "tagline": res.__("Find the right person at the right time within %s at %s",  organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
+      "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
       "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
     },
     '854412'
@@ -189,7 +189,7 @@ exports.emailReinvite = (recipient, senderName, senderEmail, organisationName, u
     res.__("Join %s on Wingzy", organisationName),
     {
       "intro": res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, an intuitive app to find each other according to what we love and know.", organisationName),
-      "inviterName": (senderName || defaultEmitterName) +' ('+organisationName+')',
+      "inviterName": (senderName || defaultEmitterName) + ' (' + organisationName + ')',
       "button": res.__("Spread your wings"),
       "url": url || defaultLink,
       "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
@@ -208,7 +208,7 @@ exports.emailInvite = (recipient, senderName, senderEmail, organisationName, cus
     res.__("Join %s on Wingzy", organisationName),
     {
       "intro": customMessage ? customMessage : res.__("Hello!<br>I am on the Wingzy for <strong>%s</strong>, an intuitive app to find each other according to what we love and know.", organisationName),
-      "inviterName": (senderName || defaultEmitterName) +' ('+organisationName+')',
+      "inviterName": (senderName || defaultEmitterName) + ' (' + organisationName + ')',
       "button": res.__("Spread your wings"),
       "url": url || defaultLink,
       "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
@@ -238,10 +238,10 @@ exports.emailLogin = (recipient, name, url, res) => {
 exports.emailHelpRequest = (recipients, message, organisation, recordUrl, senderRecord, search, res) => {
   return send(
     recipients,
-    res.__("I have a question about {{search}}", {search: search}),
+    res.__("I have a question about {{search}}", { search: search }),
     {
-      "title": res.__("{{senderName}} has a question about {{search}}", {senderName: senderRecord.name, search: search}),
-      "why": res.__("You got this question because you have {{search}} on your profile in {{orgName}}", {orgName: organisation.name, search: search}),
+      "title": res.__("{{senderName}} has a question about {{search}}", { senderName: senderRecord.name, search: search }),
+      "why": res.__("You got this question because you have {{search}} on your profile in {{orgName}}", { orgName: organisation.name, search: search }),
       "senderProfileText": res.__("See my Wingzy"),
       "senderProfileLink": recordUrl,
       "senderIntro": senderRecord.intro,
@@ -253,5 +253,27 @@ exports.emailHelpRequest = (recipients, message, organisation, recordUrl, sender
       FromName: senderRecord.name,
       FromEmail: "ask@wingzy.com"
     }
+  );
+}
+
+exports.emailIncompleteProfile = (recipient, organisation, recipientName, incompleteFields, completionPercentage, url, orgUrl, unsubUrl, locale, res) => {
+  res.setLocale(locale);
+  let missingFields = incompleteFields.map(key => res.__("missingField:" + key, {orgName: organisation.name}));
+  return send(
+    recipient,
+    res.__("{{recipientName}} {{orgName}} needs your help!", { recipientName: (recipientName ? recipientName + ',' : ''), orgName: organisation.name }),
+    {
+      "title": res.__("{{recipientName}} your {{orgName}} profile is almost perfect", { recipientName: (recipientName ? recipientName + ',' : ''), percentage: completionPercentage, orgName: organisation.name}),
+      "text": res.__("Could you add the following information?"),
+      "missingFields": missingFields,
+      "percentage": completionPercentage,
+      "ctaText": res.__("Edit my profile"),
+      "ctaUrl": url || defaultLink,
+      "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
+      "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
+      "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', orgUrl || defaultLink),
+      "outro": i18n.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>", { unsubLink: unsubUrl })
+    },
+    '1047461'
   );
 }
