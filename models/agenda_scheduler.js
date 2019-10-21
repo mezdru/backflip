@@ -18,16 +18,17 @@ var Agenda = (function () {
     this.agenda.start();
     
 
-    agenda.jobs({ name: 'sendToIncompleteProfile' })
-    .then(jobs => {
-      console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
-      if (jobs.length === 0) {
-        let job = this.agenda.create('sendToIncompleteProfile');
-        job.schedule('in 1 seconds');
-        job.save();
-      }
-    });
-
+    if(process.env.NODE_ENV === 'production') {
+      agenda.jobs({ name: 'sendToIncompleteProfile' })
+      .then(jobs => {
+        console.log('AGENDA: already : ' + jobs.length + ' jobs (sendToIncompleteProfile)');
+        if (jobs.length === 0) {
+          let job = this.agenda.create('sendToIncompleteProfile');
+          job.schedule('in 1 seconds');
+          job.save();
+        }
+      });
+    }
 
     this.agenda.define('sendInvitationCta', (job, done) => {
       let data = job.attrs.data;
@@ -150,7 +151,6 @@ var Agenda = (function () {
                 resultsFailed++;
                 return resolve();
               }
-              console.log('recipient email : ' + recipientEmail + ' | user id : ' + userUpdated._id + ' | record id : ' + record._id);
               EmailHelper.emailIncompleteProfile(
                 recipientEmail,
                 record.organisation,
@@ -173,7 +173,6 @@ var Agenda = (function () {
             });
           });
 
-
         }catch(e) {
           console.log(e);
           resultsFailed++;
@@ -195,9 +194,9 @@ var Agenda = (function () {
       });
 
       this.removeJob(job).then(() => done());
-      // let newJob = this.agenda.create('sendToIncompleteProfile');
-      // newJob.schedule('in 1 week');
-      // newJob.save();
+      let newJob = this.agenda.create('sendToIncompleteProfile');
+      newJob.schedule('in 1 week');
+      newJob.save();
     });
 
     /**
