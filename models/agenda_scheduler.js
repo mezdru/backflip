@@ -124,8 +124,6 @@ var Agenda = (function () {
       let userBypassed = 0;
       let completeProfile = 0;
 
-      records = records.slice(5, 10);
-
       const results = records.map(async (record) => {
         try{
           // find record user
@@ -136,6 +134,8 @@ var Agenda = (function () {
           if(incompleteFields.length === 0)  {completeProfile++; return;}
 
           let recipientEmail = record.getLinkByType('email') || user.loginEmail;
+          if(recipientEmail == 'cdoherty@i66emp.us') {userBypassed++; return;}
+          
           let percentage = Math.max(100 - (incompleteFields.length * 9), 50);
 
           if(!user.email || !user.email.value) {
