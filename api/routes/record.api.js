@@ -79,6 +79,14 @@ router.put(
 )
 
 router.put(
+  '/:idFrom/merge/:idTo',
+  passport.authenticate('bearer', {session: false}),
+  Authorization.superadminOnly,
+  RecordController.mergeRecords,
+  Authorization.resWithData
+)
+
+router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
