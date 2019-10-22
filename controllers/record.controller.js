@@ -6,11 +6,13 @@ var LinkedinUserHelper = require('../helpers/linkedinUser_helper');
 var GoogleUserHelper = require('../helpers/googleUser_helper');
 var GoogleRecord = require('../models/google/google_record');
 var LinkHelper = require('../helpers/link_helper');
+var ClientAuth = require('../helpers/client_auth_helper');
+var ClapHelper =require('../helpers/clap_helper');
 
 exports.getRecords = async (req, res, next) => {
   let organisation = req.query.organisation;
   let query = req.query;
-  if(organisation) query.organisation = [organisation, Record.getTheAllOrganisationId()];
+  if (organisation) query.organisation = [organisation, Record.getTheAllOrganisationId()];
   Record.find(query)
     .populate('hashtags', '_id tag type name name_translated picture hashtags')
     .populate('within', '_id tag type name name_translated picture')
@@ -26,13 +28,13 @@ exports.getRecords = async (req, res, next) => {
 
 exports.getSingleRecord = async (req, res, next) => {
 
-  let record = await  Record.findOneById(req.params.id).catch(err => {
-                        if (err.name = 'CastError') {
-                          req.backflip = { message: 'Record id is not valid.', status: 422 };
-                          return next();
-                        }
-                        return next(err)
-                      });
+  let record = await Record.findOneById(req.params.id).catch(err => {
+    if (err.name = 'CastError') {
+      req.backflip = { message: 'Record id is not valid.', status: 422 };
+      return next();
+    }
+    return next(err)
+  });
 
   if (!record) {
     req.backflip = { message: 'Record not found', status: 404 };
@@ -62,13 +64,13 @@ exports.createSingleRecord = async (req, res, next) => {
   }
 
   let recordSaved = await Record.makeFromTagAsync(record.tag, req.organisation._id, record.hidden)
-                          .catch(err => {
-                            if (err.code === 11000 && record.type === 'hashtag') {
-                              req.backflip = { message: 'Record already exists in this organisation.', status: 409 };
-                              return next();
-                            }
-                            return next(err);
-                          });
+    .catch(err => {
+      if (err.code === 11000 && record.type === 'hashtag') {
+        req.backflip = { message: 'Record already exists in this organisation.', status: 409 };
+        return next();
+      }
+      return next(err);
+    });
 
   record.tag = recordSaved.tag; // tag can be modify
   record.name = record.name || recordSaved.name;
@@ -92,7 +94,7 @@ exports.updateSingleRecord = async (req, res, next) => {
     return next();
   }
 
-  if(req.body.record.links) {
+  if (req.body.record.links) {
     recordUpdated.makeLinks(mixLinks([], req.body.record.links));
     await recordUpdated.save();
   }
@@ -116,7 +118,7 @@ exports.deleteSingleRecord = async (req, res, next) => {
   if (!record) {
     req.backflip = { message: 'Record not found', status: 404 };
   } else {
-    record.delete(req.user._id, function(err) {
+    record.delete(req.user._id, function (err) {
       if (err) return next(err);
       req.backflip = { message: 'Record deleted with success', status: 200, data: record };
       return next();
@@ -144,19 +146,88 @@ exports.createSingleLink = async (req, res, next) => {
   return next();
 }
 
+/**
+ * @description Merge a hashtag to another one (fix duplicate hashtags)
+ */
+exports.mergeRecords = async (req, res, next) => {
+  let recordFrom = await Record.findOneById(req.params.idFrom).catch(err => null);
+  let recordTo = await Record.findOneById(req.params.idTo).catch(err => null);
+
+  if (!recordFrom || !recordTo) {
+    req.backflip = { message: "Can't find the records", status: 404, data: null };
+    return next();
+  }
+  if(recordFrom.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) && !recordTo.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) ) {
+    req.backflip = {message: "Can't merge hashtag from 'all' to hashtag in organisation.", status: 422, data: null};
+    return next();
+  }
+
+  let linkedRecords = await Record.find({ hashtags: recordFrom._id })
+    .populate('hashtags', '_id tag type name name_translated picture')
+    .populate('within', '_id tag type name name_translated picture').catch(err => []);
+
+  // update linked records link -> to the new hashtag
+  await asyncForEach(linkedRecords, async (rec, index) => {
+    let recFromIndex = rec.hashtags.findIndex(ht => ht.tag === recordFrom.tag);
+    if(recFromIndex > -1 && rec.hashtags.findIndex(ht => ht.tag === recordTo.tag ) === -1) {
+      rec.hashtags[recFromIndex] = recordTo;
+    } else if(recFromIndex) {
+      rec.hashtags.splice(recFromIndex, 1);
+    }
+    rec = await Record.findOneAndUpdate({_id: rec._id}, {$set: {hashtags: rec.hashtags}}, {new: true});
+  });
+
+  // merge from record hashtags to "to" record hashtags
+  if(recordFrom.hashtags && recordFrom.hashtags.length > 0) {
+    for(let i = 0; i < recordFrom.hashtags.length; i++){
+      let currentHt = recordFrom.hashtags[i];
+      if(!recordTo.hashtags.find(ht => ht.tag === currentHt.tag)) recordTo.hashtags.push(currentHt);
+    }
+    await recordTo.save();
+  }
+
+  // remove from record
+  await new Promise((resolve, reject) => {
+    recordFrom.delete(req.user._id, function(err) {
+      if(err) return reject(err);
+      return resolve();
+    });
+  });
+
+  // notify Claps service to update entries
+  let clientAccessToken = await ClientAuth.fetchClientAccessToken();
+  let clapsUpdated = await ClapHelper.notifyMerge(clientAccessToken, recordFrom, recordTo).catch(e => null);
+
+  req.backflip = {
+    message: 'Record merge with success.',
+    status: 200,
+    data: {
+      recordFrom: recordFrom,
+      recordTo: recordTo,
+      recordsLinked: linkedRecords,
+      clapsLinked: clapsUpdated
+    }
+  };
+
+  return next();
+}
+
+/**
+ * @description Promote a hashtag to organisation all in order to make it available for all users.
+ */
 exports.promoteSingleRecord = async (req, res, next) => {
   let record = await Record.findOneById(req.params.id).catch(err => next(err));
   let duplicateInAll = await Record.findByTagAsync(record.tag, process.env.THE_ALL_ORGANISATION_ID);
 
-  if(duplicateInAll) {
+  if (duplicateInAll) {
     // merge
-    req.backflip = {message: 'Record tag already exists in organisation <all>: Need merge,but condition not implemented yet.', status: 422, data: null};
+    req.backflip = { message: 'Record tag already exists in organisation <all>: Need merge,but condition not implemented yet.', status: 422, data: null };
     return next();
   } else {
     // promote
     record.organisation = process.env.THE_ALL_ORGANISATION_ID;
     await record.save();
-    req.backflip = {message: 'Record promoted with success.', status: 200, data: record};
+    req.backflip = { message: 'Record promoted with success.', status: 200, data: record };
     return next();
   }
 }
@@ -195,7 +266,6 @@ exports.updateSingleLink = async (req, res, next) => {
 }
 
 exports.deleteSingleLink = async (req, res, next) => {
-
 }
 
 exports.getPopulatedRecord = async (req, res, next) => {
@@ -283,4 +353,11 @@ let mixLinks = (currentLinks, newLinks) => {
   });
 
   return currentLinks;
+}
+
+//@todo should be in a general utils helper
+let asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
 }
