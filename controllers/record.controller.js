@@ -170,7 +170,7 @@ exports.mergeRecords = async (req, res, next) => {
     } else if(recFromIndex) {
       rec.hashtags.splice(recFromIndex, 1);
     }
-    await rec.save();
+    rec = await Record.findOneAndUpdate({_id: rec._id}, {$set: {hashtags: rec.hashtags}}, {new: true});
   });
 
   // merge from record hashtags to "to" record hashtags
