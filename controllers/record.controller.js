@@ -157,6 +157,10 @@ exports.mergeRecords = async (req, res, next) => {
     req.backflip = { message: "Can't find the records", status: 404, data: null };
     return next();
   }
+  if(recordFrom.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) && !recordTo.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) ) {
+    req.backflip = {message: "Can't merge hashtag from 'all' to hashtag in organisation.", status: 422, data: null};
+    return next();
+  }
 
   let linkedRecords = await Record.find({ hashtags: recordFrom._id })
     .populate('hashtags', '_id tag type name name_translated picture')
