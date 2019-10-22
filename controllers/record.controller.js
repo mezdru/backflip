@@ -6,6 +6,8 @@ var LinkedinUserHelper = require('../helpers/linkedinUser_helper');
 var GoogleUserHelper = require('../helpers/googleUser_helper');
 var GoogleRecord = require('../models/google/google_record');
 var LinkHelper = require('../helpers/link_helper');
+var ClientAuth = require('../helpers/client_auth_helper');
+var ClapHelper =require('../helpers/clap_helper');
 
 exports.getRecords = async (req, res, next) => {
   let organisation = req.query.organisation;
@@ -188,13 +190,18 @@ exports.mergeRecords = async (req, res, next) => {
     });
   });
 
+  // notify Claps service to update entries
+  let clientAccessToken = await ClientAuth.fetchClientAccessToken();
+  let clapsUpdated = await ClapHelper.notifyMerge(clientAccessToken, recordFrom, recordTo);
+
   req.backflip = {
     message: 'Record merge with success.',
     status: 200,
     data: {
       recordFrom: recordFrom,
       recordTo: recordTo,
-      recordsLinked: linkedRecords
+      recordsLinked: linkedRecords,
+      clapsLinked: clapsUpdated
     }
   };
 
