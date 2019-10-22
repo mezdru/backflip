@@ -192,7 +192,7 @@ exports.mergeRecords = async (req, res, next) => {
 
   // notify Claps service to update entries
   let clientAccessToken = await ClientAuth.fetchClientAccessToken();
-  let clapsUpdated = await ClapHelper.notifyMerge(clientAccessToken, recordFrom, recordTo);
+  let clapsUpdated = await ClapHelper.notifyMerge(clientAccessToken, recordFrom, recordTo).catch(e => null);
 
   req.backflip = {
     message: 'Record merge with success.',
