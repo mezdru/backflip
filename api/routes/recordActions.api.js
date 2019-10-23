@@ -153,6 +153,9 @@ let createRecord = async (incomingRecord) => {
   else if ((incomingRecord.type === 'hashtag') && incomingRecord.name && !incomingRecord.tag)
     incomingRecord.tag = '#' + slug(uppercamelcase(incomingRecord.name));
 
+  let recordAlreadyexisting = await Record.findByTagAsync(incomingRecord.tag, incomingRecord.organisation).catch(e => null);
+  if(recordAlreadyexisting) throw new Error('Record already existing');
+
   let incomingRecordHashtags = incomingRecord.hashtags;
   delete incomingRecord.hashtags;
   let incomingRecordObject = new Record(incomingRecord);
