@@ -3,6 +3,7 @@ var algoliaOrganisation = require('../models/algolia/algolia_organisation');
 
 exports.getSingleOrganisationForPublic = (req, res, next) => {
   Organisation.findOne({... req.query})
+  .populate('featuredWingsFamily', '_id name name_translated picture tag intro')
   .then(organisation => {
 
     if(!organisation) {
@@ -15,6 +16,7 @@ exports.getSingleOrganisationForPublic = (req, res, next) => {
         logo: organisation.logo,
         cover: organisation.cover,
         public: organisation.public,
+        featuredWingsFamily: (organisation.public ? organisation.featuredWingsFamily : []),
         intro: organisation.intro
       }};
     }
