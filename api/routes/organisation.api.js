@@ -29,6 +29,29 @@ router.get(
 );
 
 router.get(
+  '/:id/keen/private',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  OrganisationController.getKeenPrivateKey,
+  Authorization.resWithData
+)
+
+router.get(
+  '/:id/keen/public', 
+  OrganisationController.getKeenPublicKey, 
+  Authorization.resWithData
+);
+
+router.get(
+  '/:id/keen/queries',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  Authorization.adminOnly,
+  OrganisationController.getKeenPrivateReadKey,
+  Authorization.resWithData
+  )
+
+router.get(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   AuthorizationOrganisation,
