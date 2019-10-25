@@ -71,51 +71,78 @@ const client = new KeenAnalysis({
   masterKey: process.env.KEEN_MASTER_KEY,
 });
 
+exports.getKeenPublicKey = async (req, res, next) => {
+  let org = await Organisation.findOne({ _id: req.params.id, public: true });
+  await getKeenKey(req, res, next, org, 'writes');
+}
+
 exports.getKeenPrivateKey = async (req, res, next) => {
   let org = await Organisation.findOne({ _id: req.params.id });
+  await getKeenKey(req, res, next, org, 'writes');
+}
 
-  if(!org) {
-    req. backflip = {status: 404, message: "Can't find the organisation."};
+exports.getKeenPrivateReadKey = async (req, res, next) => {
+  let org = await Organisation.findOne({ _id: req.params.id });
+  await getKeenKey(req, res, next, org, 'queries');
+}
+
+
+let getKeenKey = async (req, res, next, org, type) => {
+  if (!org) {
+    req.backflip = { status: 404, message: "Can't find the organisation." };
     return next();
   }
+
   org = JSON.parse(JSON.stringify(org));
 
   let keyObjectArray = await client
-  .get({
-    url: client.url('projectId', `keys?name=${(org._id)}`),
-    api_key: client.masterKey(),
-  }).catch(e => {console.log(e); return null;});
+    .get({
+      url: client.url('projectId', `keys?name=${(org._id+':'+type)}`),
+      api_key: client.masterKey(),
+    }).catch(e => { console.log(e); return null; });
 
   let keyObject = (keyObjectArray.length > 0 ? keyObjectArray[0] : null);
 
-  if(!keyObject) {
-    keyObject = await client
-    .post({
-      url: client.url('projectId', 'keys'),
-      api_key: client.masterKey(),
-      params: {
-        name: (org._id),
-        isActive: true,
-        permitted: ['writes'],
-        options: {
-          writes: {
-            autofill: {
-              organisation: {
-                _id: org._id,
-                tag: org.tag
-              }
-            }
-          }
+  let options = (type === 'queries' ? {
+    queries: {
+      filters: [
+        {
+          propertyName: 'organisation._id',
+          operator: 'eq',
+          propertyValue: (org._id),
+        }
+      ]
+    }
+  } : {
+    writes: {
+      autofill: {
+        organisation: {
+          _id: org._id,
+          tag: org.tag
         }
       }
-    }).catch(e => {console.log(e); return null;});
+    }
+  })
+
+  if (!keyObject) {
+    keyObject = await client
+      .post({
+        url: client.url('projectId', 'keys'),
+        api_key: client.masterKey(),
+        params: {
+          name: (org._id+':'+type),
+          isActive: true,
+          permitted: [type],
+          options: options
+        }
+      }).catch(e => { console.log(e); return null; });
   }
 
-  if(!keyObject || ! keyObject.key) {
-    req.backflip = {status: 422, message: "Can't fetch access key <Writes> for organisation."};
+  if (!keyObject || !keyObject.key) {
+    req.backflip = { status: 422, message: "Can't fetch access key <Writes> for organisation." };
     return next();
   }
 
-  req.backflip = {status: 200, message: "Keen access key <Writes> fetch with success.", data: keyObject.key};
+  req.backflip = { status: 200, message: "Keen access key <Writes> fetch with success.", data: keyObject.key };
   return next();
 }
