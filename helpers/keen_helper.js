@@ -12,9 +12,9 @@ const clientKeen = new KeenAnalysis({
 class KeenHelper {
 
   async recordEvent(eventFamily, object, orgId) {
-    let keenKeyObject = await this.findOrCreateAccessKey(orgId, 'writes', false);
+    let keenKeyObject = await this.findOrCreateAccessKey(orgId, 'writes', false).catch(e => {console.log(e); return null;});
     if(!keenKeyObject || !keenKeyObject.key) return null;
-    
+
     const clientKeenTracking = new KeenTracking({
       projectId: process.env.KEEN_PROJECT_ID,
       writeKey: keenKeyObject.key
@@ -22,7 +22,7 @@ class KeenHelper {
 
     return await clientKeenTracking.recordEvent(eventFamily, {
       item: object
-    });
+    }).catch(e => {console.log(e); return null;});
   }
 
   async findOrCreateAccessKey(orgId, type, isPublic) {
