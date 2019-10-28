@@ -104,12 +104,16 @@ exports.updateSingleRecord = async (req, res, next) => {
   if (req.body.record.picture && req.body.record.picture.url) {
     recordUpdated.picture = (await recordUpdated.addPictureByUrlAsync(req.body.record.picture.url)).picture;
     await recordUpdated.save();
-    req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
-    return next();
-  } else {
-    req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
-    return next();
   }
+
+  // is completed ?
+  if(recordUpdated.getIncompleteFields().length === 0 && !recordUpdated.completedAt) {
+    recordUpdated.completedAt = Date.now();
+    await recordUpdated.save();
+  }
+
+  req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
+  return next();
 }
 
 exports.deleteSingleRecord = async (req, res, next) => {
