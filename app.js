@@ -11,16 +11,8 @@ app.locals.title = 'Wingzy';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
-const FOREST_ADMIN_URL = "https://app.forestadmin.com";
-
 app.use(function(req, res, next) {
-
-  if(req.get('origin') === FOREST_ADMIN_URL) {
-    res.header("Access-Control-Allow-Origin", FOREST_ADMIN_URL);
-  } else {
-    res.header("Access-Control-Allow-Origin", "*");
-  }
-
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
@@ -83,17 +75,6 @@ if (app.get('env') === 'production') {
     return next();
   });
 }
-
-// Forest admin
-if(process.env.NODE_ENV !== 'staging'){
-  app.use(require('forest-express-mongoose').init({
-    modelsDir: __dirname + '/models',
-    envSecret: process.env.FOREST_ENV_SECRET,
-    authSecret: process.env.FOREST_AUTH_SECRET,
-    mongoose: require('mongoose')
-  }));
-}
-
 
 // www is not an organisation, it's an 1990 artifact.
 app.use(function(req, res, next) {
