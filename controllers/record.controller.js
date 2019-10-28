@@ -112,6 +112,7 @@ exports.updateSingleRecord = async (req, res, next) => {
     recordUpdated.completedAt = Date.now();
     await recordUpdated.save();
     KeenHelper.recordEvent('profileCompleted', {
+      userEmitter: req.user._id,
       recordEmitter: recordUpdated._id
     }, req.organisation._id);
   }
