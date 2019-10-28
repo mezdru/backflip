@@ -1987,6 +1987,12 @@
         }, {
           "field": "welcomed",
           "type": "Boolean"
+        }, {
+          "field": "created",
+          "type": "Date"
+        }, {
+          "field": "welcomed_date",
+          "type": "Date"
         }]
       }],
       "defaultValue": null,
