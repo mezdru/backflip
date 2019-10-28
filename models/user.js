@@ -144,6 +144,7 @@ userSchema.methods.welcomeToOrganisation = function(organisationId, callback) {
     orgAndRecord.welcomed_date = Date.now();
 
     KeenHelper.recordEvent('profileCreated', {
+      userEmitter: this._id,
       recordEmitter: orgAndRecord.record._id || orgAndRecord.record
     }, organisationId);
 
