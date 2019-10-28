@@ -7,7 +7,8 @@ var GoogleUserHelper = require('../helpers/googleUser_helper');
 var GoogleRecord = require('../models/google/google_record');
 var LinkHelper = require('../helpers/link_helper');
 var ClientAuth = require('../helpers/client_auth_helper');
-var ClapHelper =require('../helpers/clap_helper');
+var ClapHelper = require('../helpers/clap_helper');
+var KeenHelper = require('../helpers/keen_helper');
 
 exports.getRecords = async (req, res, next) => {
   let organisation = req.query.organisation;
@@ -110,6 +111,9 @@ exports.updateSingleRecord = async (req, res, next) => {
   if(recordUpdated.getIncompleteFields().length === 0 && !recordUpdated.completedAt) {
     recordUpdated.completedAt = Date.now();
     await recordUpdated.save();
+    KeenHelper.recordEvent('profileCompleted', {
+      recordEmitter: recordUpdated._id
+    }, req.organisation._id);
   }
 
   req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };

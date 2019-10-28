@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var undefsafe = require('undefsafe');
 var Organisation = require('./organisation.js');
 var HubspotHelper = require('../helpers/hubspot_helper');
+var KeenHelper = require('../helpers/keen_helper');
 
 var userSchema = mongoose.Schema({
   orgsAndRecords: [
@@ -141,6 +142,11 @@ userSchema.methods.welcomeToOrganisation = function(organisationId, callback) {
   if (orgAndRecord) {
     orgAndRecord.welcomed = true;
     orgAndRecord.welcomed_date = Date.now();
+
+    KeenHelper.recordEvent('profileCreated', {
+      recordEmitter: orgAndRecord.record._id || orgAndRecord.record
+    }, organisationId);
+
     if (callback) this.save(callback);
     else return this;
   } else {
