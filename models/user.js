@@ -13,8 +13,9 @@ var userSchema = mongoose.Schema({
       record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null},
       admin: Boolean,
       monthly: { type: Boolean, default: true },
-      welcomed: { type: Boolean, default: false }
-    }
+      welcomed: { type: Boolean, default: false }, // name issue : welcomed should be a date
+      created: {type: Date, default: null},
+      welcomed_date: {type: Date, default: null},    }
   ],
   locale: {type: String, default: 'en' },
   name: String,
@@ -139,6 +140,7 @@ userSchema.methods.welcomeToOrganisation = function(organisationId, callback) {
   var orgAndRecord = this.getOrgAndRecord(organisationId);
   if (orgAndRecord) {
     orgAndRecord.welcomed = true;
+    orgAndRecord.welcomed_date = Date.now();
     if (callback) this.save(callback);
     else return this;
   } else {
@@ -199,7 +201,7 @@ userSchema.methods.addToOrganisation = function(organisationId, callback) {
     err.status = 400;
     return callback(err);
   }
-  this.orgsAndRecords.push({organisation: organisationId});
+  this.orgsAndRecords.push({organisation: organisationId, created: Date.now()});
   if (callback) return this.save(callback);
   else return this;
 };
@@ -210,7 +212,7 @@ userSchema.methods.attachOrgAndRecord = function(organisation, record, callback)
   if (orgAndRecord && record) {
     orgAndRecord.record = record;
   } else if (!orgAndRecord) {
-    this.orgsAndRecords.push({organisation: organisation, record: record});
+    this.orgsAndRecords.push({organisation: organisation, record: record, created: Date.now()});
   }
   // Update Hubspot status to indicate that the user has joined an org
   //@todo modify logic to respect microservice pattern : this part should be listen modification on user
