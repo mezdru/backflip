@@ -195,6 +195,11 @@ exports.mergeRecords = async (req, res, next) => {
     await recordTo.save();
   }
 
+  // add "from" (tag, name) to "to" description
+  recordTo.description = recordTo.description || "";
+  recordTo.description += ` ${recordFrom.description || ""} ${recordFrom.tag} ${recordFrom.name} `;
+  await recordTo.save();
+
   // remove from record
   await new Promise((resolve, reject) => {
     recordFrom.delete(req.user._id, function(err) {
