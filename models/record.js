@@ -17,6 +17,11 @@ var recordSchema = mongoose.Schema({
     'en-UK': String
   },
   intro: {type: String},
+  intro_translated: {
+    en: String,
+    fr: String,
+    'en-UK': String
+  },
   description: {type: String},
   picture: {
     url: String,
@@ -666,6 +671,7 @@ recordSchema.methods.algoliaSync = function() {
       name: this.name,
       name_translated: this.name_translated,
       intro: this.intro,
+      intro_translated: this.intro_translated,
       description: this.description,
       picture: this.picture,
       cover: this.cover,
