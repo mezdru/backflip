@@ -318,13 +318,13 @@ exports.getPopulatedRecord = async (req, res, next) => {
       currentRecord = await new Promise((resolve, reject) => GoogleRecord.getByGoogleId(currentUser.google.id, orgId, (err, record) => resolve(record)));
 
     if (!currentRecord && currentUser.googleUser)
-      currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId)
+      currentRecord = await new Promise((resolve, reject) => GoogleUserHelper.getGoogleRecord(accessToken, orgId, currentUser.googleUser)
         .then(record => resolve(record))
         .catch(error => { console.log('error: ' + JSON.stringify(error)); resolve(null); }));
 
     // Try to get record by LinkedIn
     if (!currentRecord && currentUser.linkedinUser)
-      currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId)
+      currentRecord = await new Promise((resolve, reject) => LinkedinUserHelper.getLinkedinRecord(accessToken, orgId, currentUser.linkedinUser)
         .then(record => resolve(record))
         .catch(error => { console.log('error: ' + JSON.stringify(error)); resolve(null); }));
 
