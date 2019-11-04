@@ -3,6 +3,7 @@ var router = express.Router();
 var UserController = require('../../controllers/user.controller');
 var Authorization = require('../authorization/access.authorization');
 let passport = require('passport');
+var AuthorizationOrganisation = require('../authorization/organisation.authorization');
 
 router.get(
   '/me',
@@ -22,8 +23,9 @@ router.get(
 router.get(
   '', 
   passport.authenticate('bearer', {session: false}),
-  Authorization.superadminOnly, 
-  UserController.getSingleUser,
+  AuthorizationOrganisation,
+  Authorization.adminOnly,
+  UserController.getUsersInOrg,
   Authorization.resWithData
 )
 
