@@ -3,6 +3,12 @@ var Record = require('../models/record');
 var EmailUser = require('../models/email/email_user');
 
 exports.getUsersInOrg = async (req, res, next) => {
+
+  if(!req.organisation) {
+    req.backflip = {status: 422, message: "No organisation provided"};
+    return next();
+  }
+
   let users = await User.find({ 'orgsAndRecords.organisation': req.organisation._id })
     .populate('orgsAndRecords.record', '_id tag name picture created updated completedAt')
     .catch(e => []);
