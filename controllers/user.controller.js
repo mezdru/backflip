@@ -1,6 +1,7 @@
 var User = require('../models/user');
 var Record = require('../models/record');
 var EmailUser = require('../models/email/email_user');
+var mongoose = require('mongoose');
 
 exports.getUsersInOrg = async (req, res, next) => {
 
@@ -78,6 +79,28 @@ exports.updateSingleUser = async (req, res, next) => {
       }
       return next();
     }).catch(err => next(err));
+}
+
+exports.banUser = async (req, res, next) => {
+  if(!req.params.id || ! req.params.organisationId) {
+    req.backflip = {status: 422, message: 'Missing mendatory parameters.'};
+    return next();
+  }
+
+  let user = await User.findOne({_id: req.params.id, 'orgsAndRecords.organisation': req.params.organisationId}).catch(e => null);
+
+  if(!user) {
+    req.backflip = {status: 422, message: "Can find user for these parameters"};
+    return next();
+  }
+
+  let orgId = mongoose.Types.ObjectId(req.params.organisationId); // detachOrg needs ObjectID param
+  user.detachOrg(orgId, function(err, user) {
+    if(err) return next(err);
+
+    req.backflip = {status: 200, message: "User banned from the organisation."};
+    return next();
+  });
 }
 
 exports.updateOrgAndRecord = async (req, res, next) => {

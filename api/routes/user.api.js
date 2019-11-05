@@ -37,6 +37,15 @@ router.put(
 )
 
 router.put(
+  '/:id/ban/:organisationId',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  Authorization.adminOnly,
+  UserController.banUser,
+  Authorization.resWithData
+)
+
+router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
   Authorization.currentUser,
