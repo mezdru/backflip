@@ -111,10 +111,11 @@ exports.updateSingleRecord = async (req, res, next) => {
   if(recordUpdated.getIncompleteFields().length === 0 && !recordUpdated.completedAt) {
     recordUpdated.completedAt = Date.now();
     await recordUpdated.save();
-    KeenHelper.recordEvent('profileCompleted', {
-      userEmitter: req.user._id,
-      recordEmitter: recordUpdated._id
-    }, req.organisation._id);
+    if(!req.user.superadmin)
+      KeenHelper.recordEvent('profileCompleted', {
+        userEmitter: req.user._id,
+        recordEmitter: recordUpdated._id
+      }, req.organisation._id);
   }
 
   req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
