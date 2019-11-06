@@ -143,10 +143,11 @@ userSchema.methods.welcomeToOrganisation = function(organisationId, callback) {
     orgAndRecord.welcomed = true;
     orgAndRecord.welcomed_date = Date.now();
 
-    KeenHelper.recordEvent('profileCreated', {
-      userEmitter: this._id,
-      recordEmitter: orgAndRecord.record._id || orgAndRecord.record
-    }, organisationId);
+    if(!this.superadmin)
+      KeenHelper.recordEvent('profileCreated', {
+        userEmitter: this._id,
+        recordEmitter: orgAndRecord.record._id || orgAndRecord.record
+      }, organisationId);
 
     if (callback) this.save(callback);
     else return this;
