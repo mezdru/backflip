@@ -49,7 +49,7 @@ exports.updateSingleOrganisation = async (req, res, next) => {
   let newOrgValues = {};
   if(req.body.organisation.name) newOrgValues.name = req.body.organisation.name;
   if(req.body.organisation.intro) newOrgValues.intro = req.body.organisation.intro;
-  if(req.body.organisation.tag) newOrgValues.tag = req.body.organisation.tag;
+  if(req.body.organisation.tag && req.user.superadmin) newOrgValues.tag = req.body.organisation.tag; // control access to tag update
   if(req.body.organisation.logo) newOrgValues.logo = req.body.organisation.logo;
   if(req.body.organisation.cover) newOrgValues.cover = req.body.organisation.cover;
 
