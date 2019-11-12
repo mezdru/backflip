@@ -24,6 +24,7 @@ exports.getUsersInOrg = async (req, res, next) => {
       locale: user.locale,
       created: user.created,
       last_login: user.last_login,
+      last_access: user.last_access,
       linkedinUser: user.linkedinUser,
       googleUser: user.googleUser,
       _id: user._id

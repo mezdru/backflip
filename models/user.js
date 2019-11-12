@@ -42,6 +42,7 @@ var userSchema = mongoose.Schema({
   },
   last_login: { type: Date },
   last_action: {type: Date},
+  last_access: {type: Date},
   invitations: [
     {
       _id: false,
