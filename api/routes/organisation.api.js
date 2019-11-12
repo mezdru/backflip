@@ -59,5 +59,14 @@ router.get(
   Authorization.resWithData
 );
 
+router.put(
+  '/:id',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  Authorization.adminOnly,
+  OrganisationController.updateSingleOrganisation,
+  Authorization.resWithData
+)
+
 
 module.exports = router;

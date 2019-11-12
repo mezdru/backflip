@@ -40,6 +40,30 @@ exports.getSingleOrganisation = (req, res, next) => {
     }).catch(err => next(err));
 }
 
+exports.updateSingleOrganisation = async (req, res, next) => {
+  if(!req.body.organisation) {
+    req.backflip = {message: "Missing organisation object in body.", status: 422};
+    return next();
+  }
+
+  let newOrgValues = {};
+  if(req.body.organisation.name) newOrgValues.name = req.body.organisation.name;
+  if(req.body.organisation.intro) newOrgValues.intro = req.body.organisation.intro;
+  if(req.body.organisation.tag && req.user.superadmin) newOrgValues.tag = req.body.organisation.tag; // control access to tag update
+  if(req.body.organisation.logo) newOrgValues.logo = req.body.organisation.logo;
+  if(req.body.organisation.cover) newOrgValues.cover = req.body.organisation.cover;
+
+  let orgUpdated = await Organisation.findOneAndUpdate({ _id: req.organisation._id }, { $set: newOrgValues }, { new: true }).catch(e => null);
+
+  if (!orgUpdated) {
+    req.backflip = { message: 'Organisation not found', status: 404 };
+    return next();
+  }
+
+  req.backflip = {message: "Organisation updated with success", status: 200, data: orgUpdated};
+  return next();
+}
+
 exports.getAlgoliaPrivateKey = (req, res, next) => {
   Organisation.findOne({ _id: req.params.id })
     .then(organisation => {
