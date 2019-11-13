@@ -129,18 +129,23 @@ exports.emailPasswordRecovery = (recipient, url, res) => {
   );
 }
 
-exports.emailConfirmation = (recipient, url, organisationName, res) => {
+exports.emailConfirmation = (recipient, url, organisationName, res)  => {
   return send(
     recipient,
     res.__("Confirm your email address"),
     {
-      "intro": res.__("Hello,<br/>Thank you for signing up on Wingzy, the talent directory of {{organisationName}}!<br/>Just click on this red button below to access Wingzy securely.<br/>Thanks :)",
+      "title": res.__("Confirm your email address"),
+      "text": res.__("Hello,<br/>Thank you for signing up on Wingzy, the talent directory of {{organisationName}}!<br/>Just click on this red button below to access Wingzy securely.<br/>Thanks :)",
         { organisationName: organisationName || 'your company' }),
-      "url": url || defaultLink,
-      "button": res.__("Confirm email"),
-      "outro": res.__("This red button can be used to securely access Wingzy for 30 days.")
+      "ctaText": res.__("Confirm email"),
+      "squareIcon": "https://ucarecdn.com/5a0ec475-a18d-498e-809c-9c9f2911a658/",
+      "orgBannerUrl": defaultBannerUrl,
+      "orgLogoUrl": defaultLogoUrl,
+      "ctaUrl": url || defaultLink,
+      "tagline": res.__("Find the right person at the right time within %s at %s", (organisationName || 'your company'), defaultLink),
+      "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")
     },
-    '197497'
+    '854412'
   );
 }
 
