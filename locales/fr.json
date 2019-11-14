@@ -417,7 +417,7 @@
 	"Animation of your community": "Animation de votre communauté",
 	"Ask for a demo": "Demandez une démo !",
 	"Export to Excel": "Exportez sur Excel",
-	"Screenshot - app - auth": "/images/home/app/onboard_wings_en.gif",
+	"Screenshot - app - auth": "/images/home/app/02_Edit_profile_with_IA.png",
 	"Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !": "Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !",
 	"COO - Meridiam": "COO - Meridiam",
 	"Avec Wingzy, la ville aéroportuaire de demain à Paris-CDG sera + innovante, mieux connectée et + collaborative.": "Avec Wingzy, la ville aéroportuaire de demain à Paris-CDG sera + innovante, mieux connectée et + collaborative.",
@@ -436,7 +436,7 @@
 	"<li>Tailor-made setup</li><li>Integration to your tools (SIRH, Slack, Google Suite,  Workplace, ...)</li><li>Audit of your needs & strategicals suggestions</li><li>Launching support</li><li>Monthly reporting with a Wingzy project manager</li><li>Animation of your community</li>": "<li>100% marque blanche, logo de l'app inclus</li>\n<li>Questionnaire de compétences sur mesure</li>\n<li>Intégrations illimitées à vos outils SI et RH</li>\n<li>Responsable projet dédié</li>",
 	"Voir l'interview": "Voir l'interview",
 	"howitworks part 3 picture": "/images/home/app/pc_statistics_en.png",
-	"gif search 02": "/images/home/app/search_en.gif",
+	"gif search 02": "/images/home/app/01_Smart_directory.png",
 	"Your {{integrationName}} account is linked to Wingzy": "Votre compte {{integrationName}} est maintenant lié à Wingzy",
 	"{{integrationName}} has been linked to your account!": "Votre compte {{integrationName}} est maintenant lié à Wingzy !",
 	"Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).": "Votre compte {{integrationName}} ({{integrationUserEmail}}) a été lié à votre compte Wingzy ({{recipientEmail}}).",
@@ -463,7 +463,7 @@
 	"Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!": "Congratulation!<br/> You are registered to the Wingzy of {{orgName}}.<br/> Begin looking for helps now!",
 	"Spread your Wings {{firstName}}!": "Bienvenue {{firstName}} !",
 	"Welcome to the Wingzy of {{orgName}}": "Bienvenue dans l'annuaire intelligent de {{orgName}}",
-	"{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!": "{{firstName}},<br/>Merci de partager vos compétences avec {{orgName}}. Maintenant, dès que vous avez une question, allez sur l'app pour trouver les personnes de {{orgName}} qui ont la réponses.",
+	"{{firstName}},<br/>Thank for sharing your Wings with the people of {{orgName}}. <br/>Now, everytime you need help go to Wingzy to find it (and much more)!": "{{firstName}},<br/>Merci de partager vos compétences avec {{orgName}}. Maintenant, dès que vous avez des questions, allez sur l'app pour trouver les personnes de {{orgName}} qui ont les réponses.",
 	"Search {{orgName}}": "Rechercher dans {{orgName}}",
 	"Got any question? feedback? advise? <a href='mailto:contact@wingzy.com'>Contact us!</a>": "Une question ? Un retour ? Un conseil ? <a href='mailto:contact@wingzy.com'>Contactez-nous !</a>",
 	"Code d'Invitation": "Code d'Invitation",
@@ -509,5 +509,7 @@
 	"{{recipientName}} {{orgName}} needs your help!": "{{recipientName}} {{orgName}} a besoin de votre aide !",
 	"{{recipientName}} your {{orgName}} profile is almost perfect": "{{recipientName}} votre profil dans l'annuaire intelligent de {{orgName}} est presque parfait...",
 	"Could you add the following information?": "Pouvez-vous ajouter les informations suivantes ?",
-	"Edit my profile": "Éditer mon profil"
+	"Edit my profile": "Éditer mon profil",
+	"home.landing.appPicture": "/images/home/app/00_Landing.png",
+	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png"
 }

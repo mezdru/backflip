@@ -417,7 +417,7 @@
 	"Animation of your community": "Animation of your community",
 	"Ask for a demo": "Request a demo!",
 	"Export to Excel": "Export to Excel",
-	"Screenshot - app - auth": "/images/home/app/onboard_wings_en.gif",
+	"Screenshot - app - auth": "/images/home/app/02_Edit_profile_with_IA.png",
 	"Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !": "Meridiam is a goldmine of talents but they were invisible and isolated. That was before Wingzy.",
 	"COO - Meridiam": "COO - Meridiam",
 	"Avec Wingzy, la ville aéroportuaire de demain à Paris-CDG sera + innovante, mieux connectée et + collaborative.": "With Wingzy, the airport city of tomorrow at Paris-CDG will be more innovative, better connected and more collaborative.",
@@ -436,7 +436,7 @@
 	"<li>Tailor-made setup</li><li>Integration to your tools (SIRH, Slack, Google Suite,  Workplace, ...)</li><li>Audit of your needs & strategicals suggestions</li><li>Launching support</li><li>Monthly reporting with a Wingzy project manager</li><li>Animation of your community</li>": "<li>100% White label including custom app logo</li>\n<li>Tailor-made skills questionnaire</li>\n<li>Unlimited integrations to your IT & HR environment</li>\n<li>Dedicated project manager</li>",
 	"Voir l'interview": "Watch interview",
 	"howitworks part 3 picture": "/images/home/app/pc_statistics_en.png",
-	"gif search 02": "/images/home/app/search_en.gif",
+	"gif search 02": "/images/home/app/01_Smart_directory.png",
 	"Your {{integrationName}} account is linked to Wingzy": "Your {{integrationName}} account is now linked to Wingzy",
 	"{{integrationName}} has been linked to your account!": "Your {{integrationName}} account is now linked to Wingzy!",
 	"Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).": "Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).",
@@ -507,7 +507,9 @@
 	"missingField:name": "Your name",
 	"missingField:intro": "Your role at {{orgName}}",
 	"{{recipientName}} {{orgName}} needs your help!": "{{recipientName}} {{orgName}} needs your help!",
-	"{{recipientName}} your {{orgName}} profile is almost perfect": "{{recipientName}}, your profile in the smart directory of {{orgName}} is almost perfect...",
+	"{{recipientName}} your {{orgName}} profile is almost perfect": "{{recipientName}} your profile in the smart directory of {{orgName}} is almost perfect...",
 	"Could you add the following information?": "Could you add the following information?",
-	"Edit my profile": "Edit my profile"
+	"Edit my profile": "Edit my profile",
+	"home.landing.appPicture": "/images/home/app/00_Landing.png",
+	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png"
 }
