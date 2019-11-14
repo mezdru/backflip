@@ -292,7 +292,8 @@ recordSchema.statics.shallowCopy = function(record) {
     name_translated: record.name_translated,
     tag: record.tag,
     type: record.type,
-    picture: record.picture
+    picture: record.picture,
+    description: record.description
   };
 };
 
