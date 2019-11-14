@@ -32,13 +32,31 @@ router.get(
   Authorization.resUserOwnOrAdmin, 
 )
 
+// @todo : create a wingzy private package to manage api authorization ?
+let Organisation = require('../../models/organisation');
 router.get(
   '/',
-  passport.authenticate('bearer', {session: false}),
+  async (req, res, next) => {
+    req.organisation = await Organisation.findOne({_id: req.query.organisation}).catch(e => null);
+    if(req.organisation && req.organisation.public) {
+      req.user = "guest";
+      return next();
+    } else {
+      return passport.authenticate('bearer', {session: false})(req, res, next);
+    }
+  },
   AuthorizationOrganisation,
   RecordController.getRecords,
   Authorization.resWithData
 )
+
+// router.get(
+//   '/',
+//   passport.authenticate('bearer', {session: false}),
+//   AuthorizationOrganisation,
+//   RecordController.getRecords,
+//   Authorization.resWithData
+// )
 
 /** POSTs */
 
