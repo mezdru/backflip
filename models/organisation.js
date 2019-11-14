@@ -152,7 +152,7 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
   if (this.records) return callback(null, this);
   Record.find({organisation: organisation})
     .select('_id organisation tag type name name_translated intro description picture links hashtags within updated created')
-    .populate('hashtags', '_id organisation tag type name name_translated picture')
+    .populate('hashtags', '_id organisation tag type name name_translated picture description')
     .populate('within', '_id organisation tag type name name_translated picture')
     .populate('organisation')
     .exec(function(err, records) {
@@ -164,11 +164,11 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
 
 organisationSchema.methods.getFeaturedWingsRecords = function(){
   return Record.find({'organisation': this._id, 'hashtags' : {'$in': this.featuredWingsFamily}, 'type': 'hashtag'})
-    .populate('hashtags', '_id organisation tag name')
+    .populate('hashtags', '_id organisation tag name description')
     .exec().then((records)=>{
       if(records.length === 0 ){
         return Record.find({organisation: Organisation.getTheAllOrganisationId(), hashtags: process.env.DEFAULT_SOFTWING_ID})
-        .populate('hashtags', '_id organisation tag name')
+        .populate('hashtags', '_id organisation tag name description')
         .exec().then((defaultRecords)=>{
           return defaultRecords;
         });

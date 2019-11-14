@@ -399,7 +399,7 @@ recordSchema.statics.findByTag = function(tag, organisationId, callback) {
   tag = this.cleanTag(tag);
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
@@ -408,13 +408,13 @@ recordSchema.statics.findByTagAsync = function(tag, organisationId) {
   tag = this.cleanTag(tag);
   return this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], tag: tag})
   .collation({ locale: 'en_US', strength: 1 })
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture');
 };
 // @todo Populate is not a method of findOneAndUpdate
 recordSchema.statics.findByIdAndUpdate = function(recordId, recordUpdated) {
   return this.findOneAndUpdate({'_id': recordId}, {$set: recordUpdated}, {new: true})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .exec();
 }
@@ -423,20 +423,20 @@ recordSchema.statics.findByIdAndUpdate = function(recordId, recordUpdated) {
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findById = function(id, organisationId, callback) {
   this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
 
 recordSchema.statics.findByIdAsync = function(id, organisationId) {
   return this.findOne({organisation: [this.getTheAllOrganisationId(), organisationId], _id: id})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture');
 };
 
 recordSchema.statics.findOneById = function(id) {
   return this.findOne({ _id: id})
-  .populate('hashtags', '_id tag type name name_translated picture hashtags')
+  .populate('hashtags', '_id tag type name name_translated picture hashtags description')
   .populate('within', '_id tag type name name_translated picture');
 }
 
@@ -444,7 +444,7 @@ recordSchema.statics.findOneById = function(id) {
 //@Todo create the corresponding index with the right collation.
 recordSchema.statics.findByEmail = function(email, organisationId, callback) {
   this.findOne({organisation: organisationId, 'links': { $elemMatch: { value: email, type: 'email' }}})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .exec(callback);
 };
@@ -742,7 +742,7 @@ recordSchema.methods.getLinkByType = function(type) {
 recordSchema.statics.getWingsToString = function(recordId) {
   var stringOut = '';
   return Record.findOne({_id: recordId})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .then(record => {
     record.hashtags.forEach(wing => {
@@ -772,7 +772,7 @@ recordSchema.pre('save', function(next) {
 
 recordSchema.post('save', function(doc) {
   Record.findOne({'_id' : this._id})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .then(docPopulated => {
     (docPopulated || this).algoliaSync();
@@ -781,7 +781,7 @@ recordSchema.post('save', function(doc) {
 
 recordSchema.post('updateOne', function(doc) {
   Record.findOne({_id: this.getQuery()._id})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .then(docPopulated => {
     docPopulated.algoliaSync();
@@ -790,7 +790,7 @@ recordSchema.post('updateOne', function(doc) {
 
 recordSchema.post('findOneAndUpdate', function(doc) {
   Record.findOne({'_id' : (doc ? doc._id : this._id)})
-  .populate('hashtags', '_id tag type name name_translated picture')
+  .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .then(docPopulated => {
     if(docPopulated)
