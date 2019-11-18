@@ -121,7 +121,7 @@ recordSchema.methods.isPerson = function() {
 recordSchema.methods.getFirstEmail = function() {
   var emailLink = this.links.find(link => link.type === 'email');
   return (emailLink ? emailLink.value : null);
-}
+};
 
 recordSchema.methods.tagEquals = function(tag) {
   return this.tag.toLowerCase() === tag.toLowerCase();
@@ -235,42 +235,6 @@ recordSchema.methods.pushHashtag = function(newRecord) {
     this.hashtags = this.hashtags.concat([newRecord]);
 };
 
-// We parse the description to find @Teams, #hashtags & @persons and build the within array accordingly.
-// WE NEED ALL THE ORGS RECORDS TO BE THERE !
-recordSchema.methods.makeWithin = function(organisation, callback) {
-    var tags = this.getWithin(organisation);
-    var newRecords = [];
-    this.within = tags.map(
-      function(tag) {
-        var outputRecord;
-        var localRecord = organisation.records.find(record => record.tagEquals(tag));
-        if (localRecord) {
-          outputRecord = localRecord;
-        } else {
-          outputRecord = this.model('Record').makeFromTag(tag, organisation._id);
-          organisation.records.push(outputRecord);
-          newRecords.push(outputRecord);
-        }
-        return this.model('Record').shallowCopy(outputRecord);
-      }, this
-    );
-    //@todo use insertMany instead of create (implies rewriting the algolia post save synchro to use the insertMany middleware too).
-    if (callback) return this.model('Record').create(newRecords, callback);
-    else return newRecords;
-};
-
-// WE NEED ALL THE ORGS RECORDS TO BE THERE !
-recordSchema.methods.changeOrganisation = function(organisation, callback) {
-  this.organisation = organisation;
-  this.makeWithin(organisation, function(err, records) {
-    if (err) return callback(err);
-    this.makeHashtags(this.hashtags, organisation._id, function(err, records) {
-      if (err) return callback(err);
-      this.save(callback);
-    }.bind(this));
-  }.bind(this));
-};
-
 recordSchema.methods.getIncompleteFields = function() {
   let incompleteFields = [];
   if(!this.name) incompleteFields.push('name');
@@ -280,7 +244,7 @@ recordSchema.methods.getIncompleteFields = function() {
   if(!this.getLinkByType('phone') && !this.getLinkByType('landline')) incompleteFields.push('phone');
   if(!this.hashtags || this.hashtags.length < 10) incompleteFields.push('wings');
   return incompleteFields;
-}
+};
 
 // We need this because we don't want our local Records to reference to each other
 // Otherwise there are tons of level of reference (even loops)
@@ -373,23 +337,6 @@ recordSchema.statics.getTypeFromTag = function(tag) {
   else return 'hashtag';
 };
 
-recordSchema.methods.getWithin = function(organisation) {
-  return unique(this.getWithinFromIntro().concat(this.getWithinFromDescription()));
-};
-
-
-recordSchema.methods.getWithinFromIntro = function() {
-  this.cleanIntro();
-  var tags = validator.unescape(this.intro).match(tagRegex);
-  return tags || [];
-};
-
-recordSchema.methods.getWithinFromDescription = function(organisation) {
-  this.cleanDescription();
-  var tags = validator.unescape(this.description).match(tagRegex);
-  return unique(tags || []);
-};
-
 recordSchema.methods.hasWing = function(wing){
   return this.hashtags.some(hashtag=> hashtag && hashtag._id.equals(wing._id));
 };
@@ -418,7 +365,7 @@ recordSchema.statics.findByIdAndUpdate = function(recordId, recordUpdated) {
   .populate('hashtags', '_id tag type name name_translated picture description')
   .populate('within', '_id tag type name name_translated picture')
   .exec();
-}
+};
 
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
@@ -439,7 +386,7 @@ recordSchema.statics.findOneById = function(id) {
   return this.findOne({ _id: id})
   .populate('hashtags', '_id tag type name name_translated picture hashtags description')
   .populate('within', '_id tag type name name_translated picture');
-}
+};
 
 // We look for tags in the org AND IN THE "ALL" ORGANISATION !
 //@Todo create the corresponding index with the right collation.
@@ -546,25 +493,6 @@ recordSchema.methods.countPersons = function() {
   );
 };
 
-recordSchema.methods.makeIncludes = function(organisation) {
-  if (this.type === 'person') return;
-  var includes = organisation.records.filter(function(localRecord) {
-    return localRecord.within.some(withinRecordId => withinRecordId.equals(this._id), this) && !localRecord._id.equals(this._id);
-  }, this);
-  this.includes_count.person = this.includes_count.team = this.includes_count.hashtag = 0;
-  this.includes = [];
-  includes.forEach(function(record) {
-    if (record.type == 'person') {
-      this.includes_count.person ++;
-      if (this.includes.length < 8) this.includes.push(this.model('Record').shallowCopy(record));
-    }/* else if (record.type == 'team') {
-       this.includes_count.team ++;
-    }*/ else if (record.type == 'hashtag' || record.type == 'team') {
-      this.includes_count.hashtag ++;
-    }
-  }, this);
-};
-
 recordSchema.virtual('firstEmail').get(function () {
   return undefsafe(this, 'google.primaryEmail') || undefsafe(this, 'email.value') || undefsafe(this.links.find(link => link.type === 'email'), 'value');
 });
@@ -598,7 +526,7 @@ recordSchema.methods.addPictureByUrlAsync = (url) => {
       resolve(this);
     }.bind(this));
   });
-}
+};
 
 recordSchema.methods.addCoverByUrl = function(url, callback) {
   this.model('Record').addFileByUrl(url, function(err, file) {
@@ -750,8 +678,8 @@ recordSchema.statics.getWingsToString = function(recordId) {
       stringOut += (stringOut === '' ? "" : " - " ) + wing.name;
     });
     return stringOut;
-  }).catch(error => {return null});
-}
+  }).catch(error => {return null;});
+};
 
 recordSchema.statics.getTheAllOrganisationId = function() {
   return process.env.THE_ALL_ORGANISATION_ID;
@@ -800,7 +728,7 @@ recordSchema.post('findOneAndUpdate', function(doc) {
       console.log('Error: post action of findOneAndUpdate did not find the Record with id '+doc._id);
   }).catch(e => {
     console.log(e);
-  })
+  });
 });
 
 recordSchema.plugin(mongooseDelete, {

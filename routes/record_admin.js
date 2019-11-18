@@ -54,9 +54,6 @@ router.get('/recount', function(req, res, next) {
 
 //@todo Fix pyramid of death, async fail & performance issues.
 router.get('/remake', function(req, res, next) {
-  res.locals.organisation.records.forEach( function(record) {
-    record.makeWithin(res.locals.organisation);
-  });
   var countdown = res.locals.organisation.records.length;
   var countup = 0;
   res.locals.organisation.records.forEach (function (record) {

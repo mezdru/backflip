@@ -11,6 +11,7 @@ const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
 //@todo "about" is still called "description" in the record model
+//@todo trash this code
 
 // First we check there is an organisation.
 // If there is an org, we now the user belongs there from restrict.js
@@ -96,13 +97,10 @@ router.post('/id/:id', function(req, res, next) {
   var errors = validationResult(req);
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {
-    res.locals.record.makeWithin(res.locals.organisation, function(err, newRecords) {
-      if(err) return next(err);
       res.locals.record.save(function(err, record) {
         if(err) return next(err);
         res.redirect(res.locals.backUrl);
       });
-    });
   } else next();
 });
 

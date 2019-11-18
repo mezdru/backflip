@@ -435,9 +435,6 @@ router.post('/intro', function(req, res, next) {
   res.locals.errors = errors.array();
   if (errors.isEmpty()) {
 
-    res.locals.record.makeWithin(res.locals.organisation, function(err, records) {
-      if (err) return next(err);
-
       res.locals.record.addHashtags(req.body.wings, res.locals.organisation._id, function(err, records) {
         if (err) return next(err);
         res.locals.record.hidden = false;
@@ -461,7 +458,6 @@ router.post('/intro', function(req, res, next) {
           });
         }
       });
-    });
   } else {
     next();
   }
