@@ -122,7 +122,7 @@ EmailUser.sendEmailConfirmation = function(user, res, orgTag){
 
 EmailUser.sendNewIntegrationEmail = function(user, integrationName, accessToken, res) {
   let ctaUrl = (process.env.NODE_ENV === 'production' ? 'https://' : 'http://') + process.env.HOST_FRONTFLIP;
-  return LinkedinUserHelper.fetchLinkedinUser(accessToken)
+  return LinkedinUserHelper.fetchLinkedinUser(accessToken, user.linkedinUser)
   .then(linkedinUser => {
     return EmailHelper.emailSecurityIntegration(user.loginEmail, integrationName, (linkedinUser ? linkedinUser.email : ' '), ctaUrl, res);
   }).catch(e => {
