@@ -85,7 +85,7 @@ exports.emailSecurityIntegration = (recipient, integrationName, integrationUserE
     {
       "title": res.__("{{integrationName}} has been linked to your account!", { integrationName: integrationName }),
       "text": res.__("Your {{integrationName}} account ({{integrationUserEmail}}) has been linked to your Wingzy account ({{recipientEmail}}).",
-        { integrationName: integrationName, integrationUserEmail: integrationUserEmail, recipientEmail: recipientEmail }),
+        { integrationName: integrationName, integrationUserEmail: integrationUserEmail, recipientEmail: recipient }),
       "ctaText": res.__("Go to Wingzy"),
       "squareIcon": "https://ucarecdn.com/8684900c-d4a6-4464-9121-0c6d9668108c/",
       "ctaUrl": url || defaultLink,
