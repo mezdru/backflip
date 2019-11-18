@@ -4,7 +4,7 @@ const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
 router.use(
-    sanitizeBody('record.name').trim().escape().stripLow(true),
+    sanitizeBody('record.name').trim().escape().stripLow(true), // escape() encode & ' " / < >
     sanitizeBody('record.intro').trim().escape().stripLow(true),
     body('record.name').isLength({ min: 0, max: 64 }).withMessage((value, {req}) => {
         return req.__('Please write a name (no larger than 64 characters).');
@@ -18,6 +18,7 @@ router.use(
 );
 
 router.use(function(req, res, next) {
+  console.log(req.body);
     let errors = validationResult(req);
     let errorsArray = errors.array();
     if(errorsArray.length === 0 && req.body.record) return next();

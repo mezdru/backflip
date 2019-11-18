@@ -4,13 +4,14 @@ var path = require('path');
 var undefsafe = require('undefsafe');
 var UrlHelper = require('./helpers/url_helper.js');
 var Organisation = require('./models/organisation');
-
+var bodyParser = require('body-parser')
 // App
 var app = express();
 app.locals.title = 'Wingzy';
 app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(bodyParser.text({defaultCharset: 'utf-8'}));
+app.use(bodyParser.json())
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -23,6 +24,7 @@ app.use(function(req, res, next) {
   }
   else {
   //move on
+    console.log(req.body);
     next();
   }
 });
@@ -132,11 +134,11 @@ if(process.env.NODE_ENV !== 'test') {
 
 
 var favicon = require('serve-favicon');
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 
 
 app.use(favicon(path.join(__dirname, 'public', 'wingzy.png')));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sessions & Auth
@@ -156,6 +158,11 @@ app.use(session({
       maxAge: 2419200000
     }
 }));
+
+app.use((req, res, next) => {
+  console.log(req.body);
+  next();
+})
 
 // API needs auth to work, this could be use to desactivate API too
 // API should be declared before authentification helper check, which is usefull for server rendering only

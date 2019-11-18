@@ -35,6 +35,7 @@ passport.use(new ClientPasswordStrategy(
 
 // responsible of Access strategy
 passport.use(new BearerStrategy({ passReqToCallback: true }, function(req, accessToken, done) {
+  console.log(req.body);
   if(!accessToken) return done(null, false);
   AccessTokenModel.findOne({token: accessToken})
   .then(accessTokenObject => {

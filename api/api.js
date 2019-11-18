@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
+router.use((req, res, next) => {
+  console.log(req.body);
+  next();
+})
+
 var recordsApi = require('./routes/record.api');
 router.use('/records', recordsApi);
 

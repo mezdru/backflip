@@ -86,6 +86,7 @@ exports.updateSingleRecord = async (req, res, next) => {
     req.backflip = { message: 'Missing body parameter: record', status: 422 };
     return next();
   }
+  console.log(req.body.record.name);
   delete req.body.record.owner;
 
   let recordUpdated = await Record.findOneAndUpdate({ _id: req.params.id }, { $set: req.body.record }, { new: true }).catch(e => null);

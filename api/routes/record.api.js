@@ -104,6 +104,11 @@ router.put(
   Authorization.resWithData
 )
 
+router.use((req, res, next) => {
+  console.log(req.body);
+  next();
+})
+
 router.put(
   '/:id',
   passport.authenticate('bearer', {session: false}),
