@@ -687,7 +687,7 @@ recordSchema.statics.getTheAllOrganisationId = function() {
 
 recordSchema.pre('save', function(next) {
   this.updated = Date.now();
-  if(this.type !== 'person') next();
+  // if(this.type !== 'person') next();
   if(this.isNew){
     Record.findOne({'tag': this.tag, 'organisation': this.organisation})
     .then(recordDup => {
