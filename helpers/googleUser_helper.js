@@ -58,7 +58,10 @@ class GoogleUserHelper {
             record.picture = pictureField.picture;
             record.save().then(() => {resolve(record)});
           })
-          .catch(e => reject(e));
+          .catch(e => {
+						console.log(e);
+						resolve(record);
+					});
         } else {
           resolve(record);
         }
