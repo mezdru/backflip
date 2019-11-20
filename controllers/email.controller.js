@@ -54,9 +54,10 @@ exports.askConfirmationCallback = async (req, res, next) => {
     user.email.validated = true;
     User.updateOne({ '_id': user._id }, { $set: { email: user.email } })
       .then(() => {
-        // In order to perform transition backflip -> frontflip, we redirect to backflip here.
-        // return res.redirect( 'https://' + process.env.HOST_FRONTFLIP + '/redirect');
-        return res.redirect(new UrlHelper(req.organisationTag, 'login/callback', null, req.getLocale()).getUrl());
+        return res.redirect(
+          (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') +
+          process.env.HOST_FRONTFLIP
+        );
       }).catch((err) => {
         return next(err);
       });
