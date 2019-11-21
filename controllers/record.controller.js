@@ -118,12 +118,14 @@ exports.updateSingleRecord = async (req, res, next) => {
       }, req.organisation._id);
 
     // onboard workflow : send invitation CTA
-    let Agenda = require('../models/agenda_scheduler');
-    Agenda.scheduleJob(
-      'sendEmailInviteYourCoworkers',
-      { userId: req.user._id, orgId: req.organisation._id, recordId: recordUpdated._id },
-      '1 day'
-    );
+    if (req.organisation.canInvite) {
+      let Agenda = require('../models/agenda_scheduler');
+      Agenda.scheduleJob(
+        'sendEmailInviteYourCoworkers',
+        { userId: req.user._id, orgId: req.organisation._id, recordId: recordUpdated._id },
+        '1 day'
+      );
+    }
 
   }
 
