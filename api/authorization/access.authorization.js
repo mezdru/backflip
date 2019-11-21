@@ -8,9 +8,6 @@ exports.superadminOnly = async (req, res, next) => {
 
 // Superadmin OR Client with matching scope
 exports.superadminOrClient = async (req, res, next) => {
-  console.log('client2: ', req.user);
-  console.log('client2: ', req.user.scope);
-
   if(req.user.superadmin) return next();
   if(req.user.clientId && req.user.scope && req.user.scope.find(scopeElt => scopeElt === req.backflip.resource.model)) return next();
   return res403(res);
