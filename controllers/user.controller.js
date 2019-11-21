@@ -118,6 +118,7 @@ exports.updateOrgAndRecord = async (req, res, next) => {
     return next();
   }
 
+  // welcome user in organisation
   if (!currentOrgAndRecord.welcomed && req.body.orgAndRecord.welcomed) {
     User.findOne({ _id: req.query.id || req.user._id })
       .populate('orgsAndRecords.record', '_id name tag')
@@ -135,10 +136,13 @@ exports.updateOrgAndRecord = async (req, res, next) => {
             EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record, res);
             EmailUser.sendEmailToInvitationCodeCreator(orgAndRecordPopulate.organisation, user, orgAndRecordPopulate.record, res);
 
+            var Agenda = require('../models/agenda_scheduler');
             if (orgAndRecordPopulate.organisation.canInvite) {
-              var Agenda = require('../models/agenda_scheduler');
               Agenda.scheduleSendInvitationCta(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record);
             }
+
+            // onboard workflow : go to perfect profile
+            Agenda.scheduleJobWithTiming('sendEmailPerfectYourProfile', {userId: user._id, orgId: organisationId});
           }
 
           User.findOne({ _id: userUpdated._id })

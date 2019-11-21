@@ -108,14 +108,23 @@ exports.updateSingleRecord = async (req, res, next) => {
   }
 
   // is completed ?
-  if(recordUpdated.getIncompleteFields().length === 0 && !recordUpdated.completedAt) {
+  if (recordUpdated.getIncompleteFields().length === 0 && !recordUpdated.completedAt) {
     recordUpdated.completedAt = Date.now();
     await recordUpdated.save();
-    if(!req.user.superadmin)
+    if (!req.user.superadmin)
       KeenHelper.recordEvent('profileCompleted', {
         userEmitter: req.user._id,
         recordEmitter: recordUpdated._id
       }, req.organisation._id);
+
+    // onboard workflow : send invitation CTA
+    let Agenda = require('../models/agenda_scheduler');
+    Agenda.scheduleJob(
+      'sendEmailInviteYourCoworkers',
+      { userId: req.user._id, orgId: req.organisation._id, recordId: recordUpdated._id },
+      '1 day'
+    );
+
   }
 
   req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
@@ -167,8 +176,8 @@ exports.mergeRecords = async (req, res, next) => {
     req.backflip = { message: "Can't find the records", status: 404, data: null };
     return next();
   }
-  if(recordFrom.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) && !recordTo.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) ) {
-    req.backflip = {message: "Can't merge hashtag from 'all' to hashtag in organisation.", status: 422, data: null};
+  if (recordFrom.organisation.equals(process.env.THE_ALL_ORGANISATION_ID) && !recordTo.organisation.equals(process.env.THE_ALL_ORGANISATION_ID)) {
+    req.backflip = { message: "Can't merge hashtag from 'all' to hashtag in organisation.", status: 422, data: null };
     return next();
   }
 
@@ -179,19 +188,19 @@ exports.mergeRecords = async (req, res, next) => {
   // update linked records link -> to the new hashtag
   await asyncForEach(linkedRecords, async (rec, index) => {
     let recFromIndex = rec.hashtags.findIndex(ht => ht.tag === recordFrom.tag);
-    if(recFromIndex > -1 && rec.hashtags.findIndex(ht => ht.tag === recordTo.tag ) === -1) {
+    if (recFromIndex > -1 && rec.hashtags.findIndex(ht => ht.tag === recordTo.tag) === -1) {
       rec.hashtags[recFromIndex] = recordTo;
-    } else if(recFromIndex) {
+    } else if (recFromIndex) {
       rec.hashtags.splice(recFromIndex, 1);
     }
-    rec = await Record.findOneAndUpdate({_id: rec._id}, {$set: {hashtags: rec.hashtags}}, {new: true});
+    rec = await Record.findOneAndUpdate({ _id: rec._id }, { $set: { hashtags: rec.hashtags } }, { new: true });
   });
 
   // merge from record hashtags to "to" record hashtags
-  if(recordFrom.hashtags && recordFrom.hashtags.length > 0) {
-    for(let i = 0; i < recordFrom.hashtags.length; i++){
+  if (recordFrom.hashtags && recordFrom.hashtags.length > 0) {
+    for (let i = 0; i < recordFrom.hashtags.length; i++) {
       let currentHt = recordFrom.hashtags[i];
-      if(!recordTo.hashtags.find(ht => ht.tag === currentHt.tag)) recordTo.hashtags.push(currentHt);
+      if (!recordTo.hashtags.find(ht => ht.tag === currentHt.tag)) recordTo.hashtags.push(currentHt);
     }
     await recordTo.save();
   }
@@ -203,8 +212,8 @@ exports.mergeRecords = async (req, res, next) => {
 
   // remove from record
   await new Promise((resolve, reject) => {
-    recordFrom.delete(req.user._id, function(err) {
-      if(err) return reject(err);
+    recordFrom.delete(req.user._id, function (err) {
+      if (err) return reject(err);
       return resolve();
     });
   });
