@@ -15,7 +15,7 @@ router.get('/superadmin/sync/algolia/all', passport.authenticate('bearer', { ses
   var recordsUpdated = 0;
 
   Record.find()
-    .populate('hashtags', '_id tag type name name_translated picture description')
+    .populate('hashtags', '_id tag type name name_translated picture description autoAddWithChild')
     .populate('within', '_id tag type name name_translated picture')
     .then(async records => {
 
