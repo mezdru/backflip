@@ -511,5 +511,8 @@
 	"Could you add the following information?": "crwdns2062:0crwdne2062:0",
 	"Edit my profile": "crwdns2064:0crwdne2064:0",
 	"home.landing.appPicture": "crwdns2320:0crwdne2320:0",
-	"home.howitworks.step3": "crwdns2322:0crwdne2322:0"
+	"home.howitworks.step3": "crwdns2322:0crwdne2322:0",
+	"Complete your profile in {{orgName}} directory": "crwdns2324:0{{orgName}}crwdne2324:0",
+	"Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!": "crwdns2326:0{{orgName}}crwdne2326:0",
+	"Complete my profile": "crwdns2328:0crwdne2328:0"
 }
