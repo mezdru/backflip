@@ -129,7 +129,7 @@ exports.emailPasswordRecovery = (recipient, url, res) => {
   );
 }
 
-exports.emailConfirmation = (recipient, url, organisationName, res)  => {
+exports.emailConfirmation = (recipient, url, organisationName, res) => {
   return send(
     recipient,
     res.__("Confirm your email address"),
@@ -263,12 +263,12 @@ exports.emailHelpRequest = (recipients, message, organisation, recordUrl, sender
 
 exports.emailIncompleteProfile = (recipient, organisation, recipientName, incompleteFields, completionPercentage, url, orgUrl, unsubUrl, locale, res) => {
   res.setLocale(locale);
-  let missingFields = incompleteFields.map(key => res.__("missingField:" + key, {orgName: organisation.name}));
+  let missingFields = incompleteFields.map(key => res.__("missingField:" + key, { orgName: organisation.name }));
   return send(
     recipient,
     res.__("{{recipientName}} {{orgName}} needs your help!", { recipientName: (recipientName ? recipientName + ',' : ''), orgName: organisation.name }),
     {
-      "title": res.__("{{recipientName}} your {{orgName}} profile is almost perfect", { recipientName: (recipientName ? recipientName + ',' : ''), percentage: completionPercentage, orgName: organisation.name}),
+      "title": res.__("{{recipientName}} your {{orgName}} profile is almost perfect", { recipientName: (recipientName ? recipientName + ',' : ''), percentage: completionPercentage, orgName: organisation.name }),
       "text": res.__("Could you add the following information?"),
       "missingFields": missingFields,
       "percentage": completionPercentage,
@@ -283,7 +283,7 @@ exports.emailIncompleteProfile = (recipient, organisation, recipientName, incomp
   );
 }
 
-exports.emailCompleteYourProfile = (recipient, organisation, ctaUrl, res) => {
+exports.emailCompleteYourProfile = (recipient, organisation, ctaUrl, unsubUrl, res) => {
   return send(
     recipient,
     res.__("Discover the Wings of %s !", senderName),
