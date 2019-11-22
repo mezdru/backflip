@@ -282,3 +282,23 @@ exports.emailIncompleteProfile = (recipient, organisation, recipientName, incomp
     '1047461'
   );
 }
+
+exports.emailCompleteYourProfile = (recipient, organisation, ctaUrl, res) => {
+  return send(
+    recipient,
+    res.__("Discover the Wings of %s !", senderName),
+    {
+      "title": res.__("Hello %s", recipientName),
+      "text": res.__("You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.",
+        senderName, organisation && organisation.name ? organisation.name : 'your company', senderName),
+      "ctaText": res.__("See %s profile", senderName),
+      "squareIcon": "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      "ctaUrl": ctaUrl || defaultLink,
+      "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
+      "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
+      "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
+      "outro": i18n.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>", { unsubLink: unsubUrl })
+    },
+    '854412'
+  );
+}

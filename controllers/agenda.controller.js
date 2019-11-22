@@ -8,7 +8,20 @@ exports.sendEmailConfirmation = async (user, orgTag, i18n) => {
   console.log('__________ sendEmailConfirmation')
 }
 
-exports.sendEmailCompleteYourProfile = async () => {
+exports.sendEmailCompleteYourProfile = async (user, organisation, i18n) => {
+  EmailUser.generateToken(user, function (err, userUpdated) {
+    if (err) {
+      return;
+    }
+
+    i18n.setLocale(userUpdated.locale);
+
+    EmailHelper.emailCompleteYourProfile(
+      
+      userUpdated.locale,
+      i18n
+    );
+  });
   console.log('__________ sendEmailCompleteYourProfile')
 }
 
