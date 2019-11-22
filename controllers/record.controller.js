@@ -66,6 +66,7 @@ exports.createSingleRecord = async (req, res, next) => {
 
   let recordSaved = await Record.makeFromTagAsync(record.tag, req.organisation._id, record.hidden)
     .catch(err => {
+      console.log(err);
       if (err.code === 11000 && record.type === 'hashtag') {
         req.backflip = { message: 'Record already exists in this organisation.', status: 409 };
         return next();
@@ -75,8 +76,8 @@ exports.createSingleRecord = async (req, res, next) => {
 
   record.tag = recordSaved.tag; // tag can be modify
   record.name = record.name || recordSaved.name;
-  let recordUpdated = await Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true });
-  let recordPopulated = await Record.findOneById(recordUpdated._id);
+  let recordUpdated = await Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true }).catch(e => {console.log(e)});
+  let recordPopulated = await Record.findOneById(recordUpdated._id).catch(e => console.log(e));
   req.backflip = { message: 'Record created with success', data: recordPopulated, status: 200 };
   return next();
 }
