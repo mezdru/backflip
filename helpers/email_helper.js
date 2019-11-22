@@ -283,22 +283,23 @@ exports.emailIncompleteProfile = (recipient, organisation, recipientName, incomp
   );
 }
 
-exports.emailCompleteYourProfile = (recipient, organisation, ctaUrl, unsubUrl, res) => {
+exports.emailCompleteYourProfile = (recipient, organisation, ctaUrl, unsubUrl, url, res) => {
   return send(
     recipient,
-    res.__("Discover the Wings of %s !", senderName),
+    res.__("Complete your profile in {{orgName}} directory", {orgName: organisation.name}),
     {
-      "title": res.__("Hello %s", recipientName),
-      "text": res.__("You have invited %s to join %s on Wingzy.<br/> %s has accepted your invitation !<br/> Thank you for spreading your Wings.",
-        senderName, organisation && organisation.name ? organisation.name : 'your company', senderName),
-      "ctaText": res.__("See %s profile", senderName),
-      "squareIcon": "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      "title": res.__("Complete your profile in {{orgName}} directory", {orgName: organisation.name}),
+      "text": res.__("Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!", {orgName: organisation.name}),
+      "ctaText": res.__("Complete my profile"),
+      "cta2Text": res.__("I need help"),
+      "squareIcon": "https://emojis.wiki/emoji-pics/twitter/pleading-face-twitter.png",
       "ctaUrl": ctaUrl || defaultLink,
+      "cta2Url": "mailto:contact@wingzy.com",
       "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
       "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
       "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', url || defaultLink),
       "outro": i18n.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>", { unsubLink: unsubUrl })
     },
-    '854412'
+    '1101582'
   );
 }

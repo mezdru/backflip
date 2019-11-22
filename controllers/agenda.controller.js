@@ -21,7 +21,7 @@ exports.sendEmailCompleteYourProfile = async (user, organisation, i18n) => {
       organisation,
       (new FrontflipUrlHelper(organisation.tag, '', userUpdated.locale)).getUrl(),
       (new UrlHelper(null, 'api/emails/unsubscribe/' + userUpdated.email.token + '/' + userUpdated.email.hash, null, null)).getUrl(),
-      userUpdated.locale,
+      (new FrontflipUrlHelper(organisation.tag, '', userUpdated.locale)).getUrl(),
       i18n
     );
   });
