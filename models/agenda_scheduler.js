@@ -9,7 +9,7 @@ var AgendaController = require('../controllers/agenda.controller');
 var Agenda = (function () {
   this.agenda = new AgendaPack({ db: { address: process.env.MONGODB_URI, collection: 'jobs' } });
   this.i18n;
-  this.SCHEDULE_TIMING = ['1 second', '3 seconds', '7 seconds', '30 seconds']
+  this.SCHEDULE_TIMING = ['1 day', '3 days', '1 week', '1 month']
 
   this.agenda.on('ready', function () {
     console.log('AGENDA: Ready');
