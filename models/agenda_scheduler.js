@@ -45,11 +45,13 @@ var Agenda = (function () {
       let organisation = await Organisation.findOne({_id: job.attrs.data.orgId});
       let oar = user.getOrgAndRecord(job.attrs.data.orgId);
 
-      if(!oar.welcomed && user.email.validated) {
-        await AgendaController.sendEmailCompleteYourProfile(user, organisation, this.i18n);
-        this.scheduleJobWithTiming('sendEmailCompleteYourProfile', {userId: user._id, orgId: job.attrs.data.orgId}, job.attrs.data.timingIndex+1);
-      } else if(!user.email.validated) {
-        this.scheduleJobWithTiming('sendEmailCompleteYourProfile', {userId: user._id, orgId: job.attrs.data.orgId}, job.attrs.data.timingIndex);
+      if(!user.isUnsubscribe) {
+        if(!oar.welcomed && user.email.validated) {
+          await AgendaController.sendEmailCompleteYourProfile(user, organisation, this.i18n);
+          this.scheduleJobWithTiming('sendEmailCompleteYourProfile', {userId: user._id, orgId: job.attrs.data.orgId}, job.attrs.data.timingIndex+1);
+        } else if(!user.email.validated) {
+          this.scheduleJobWithTiming('sendEmailCompleteYourProfile', {userId: user._id, orgId: job.attrs.data.orgId}, job.attrs.data.timingIndex);
+        }
       }
 
       this.removeJob(job).then(() => done());
@@ -68,7 +70,7 @@ var Agenda = (function () {
       let recordId = user.getRecordIdByOrgId(job.attrs.data.orgId);
       let record = await Record.findOne({_id: recordId});
 
-      if(!record.completedAt) {
+      if(!record.completedAt && !user.isUnsubscribe) {
         await AgendaController.sendEmailPerfectYourProfile(user, organisation, record, this.i18n);
         this.scheduleJobWithTiming('sendEmailPerfectYourProfile', {userId: user._id, orgId: organisation._id}, job.attrs.data.timingIndex+1);
       }
@@ -88,7 +90,10 @@ var Agenda = (function () {
       let organisation = await Organisation.findOne({_id : job.attrs.data.orgId});
       let record = await Record.findOne({_id: job.attrs.data.recordId});
 
-      await AgendaController.sendEmailInviteYourCoworkers(user, organisation, record, this.i18n);
+      if(!user.isUnsubscribe) {
+        await AgendaController.sendEmailInviteYourCoworkers(user, organisation, record, this.i18n);
+      }
+      
       this.removeJob(job).then(() => done());
     });
 
