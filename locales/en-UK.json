@@ -511,5 +511,8 @@
 	"Could you add the following information?": "Could you add the following information?",
 	"Edit my profile": "Edit my profile",
 	"home.landing.appPicture": "/images/home/app/00_Landing.png",
-	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png"
+	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png",
+	"Complete your profile in {{orgName}} directory": "Complete your profile in {{orgName}} directory",
+	"Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!": "Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!",
+	"Complete my profile": "Complete my profile"
 }

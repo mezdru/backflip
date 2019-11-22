@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 
 exports.getUsersInOrg = async (req, res, next) => {
 
-  if(!req.organisation) {
-    req.backflip = {status: 422, message: "No organisation provided"};
+  if (!req.organisation) {
+    req.backflip = { status: 422, message: "No organisation provided" };
     return next();
   }
 
@@ -31,8 +31,8 @@ exports.getUsersInOrg = async (req, res, next) => {
     };
   });
 
-req.backflip = { message: 'Users found.', status: 200, data: data };
-return next();
+  req.backflip = { message: 'Users found.', status: 200, data: data };
+  return next();
 }
 
 exports.getSingleUser = async (req, res, next) => {
@@ -83,23 +83,23 @@ exports.updateSingleUser = async (req, res, next) => {
 }
 
 exports.banUser = async (req, res, next) => {
-  if(!req.params.id || ! req.params.organisationId) {
-    req.backflip = {status: 422, message: 'Missing mendatory parameters.'};
+  if (!req.params.id || !req.params.organisationId) {
+    req.backflip = { status: 422, message: 'Missing mendatory parameters.' };
     return next();
   }
 
-  let user = await User.findOne({_id: req.params.id, 'orgsAndRecords.organisation': req.params.organisationId}).catch(e => null);
+  let user = await User.findOne({ _id: req.params.id, 'orgsAndRecords.organisation': req.params.organisationId }).catch(e => null);
 
-  if(!user) {
-    req.backflip = {status: 422, message: "Can find user for these parameters"};
+  if (!user) {
+    req.backflip = { status: 422, message: "Can find user for these parameters" };
     return next();
   }
 
   let orgId = mongoose.Types.ObjectId(req.params.organisationId); // detachOrg needs ObjectID param
-  user.detachOrg(orgId, function(err, user) {
-    if(err) return next(err);
+  user.detachOrg(orgId, function (err, user) {
+    if (err) return next(err);
 
-    req.backflip = {status: 200, message: "User banned from the organisation."};
+    req.backflip = { status: 200, message: "User banned from the organisation." };
     return next();
   });
 }
@@ -118,6 +118,7 @@ exports.updateOrgAndRecord = async (req, res, next) => {
     return next();
   }
 
+  // welcome user in organisation
   if (!currentOrgAndRecord.welcomed && req.body.orgAndRecord.welcomed) {
     User.findOne({ _id: req.query.id || req.user._id })
       .populate('orgsAndRecords.record', '_id name tag')
@@ -135,10 +136,9 @@ exports.updateOrgAndRecord = async (req, res, next) => {
             EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record, res);
             EmailUser.sendEmailToInvitationCodeCreator(orgAndRecordPopulate.organisation, user, orgAndRecordPopulate.record, res);
 
-            if (orgAndRecordPopulate.organisation.canInvite) {
-              var Agenda = require('../models/agenda_scheduler');
-              Agenda.scheduleSendInvitationCta(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record);
-            }
+            // onboard workflow : go to perfect profile
+            var Agenda = require('../models/agenda_scheduler');
+            Agenda.scheduleJobWithTiming('sendEmailPerfectYourProfile', { userId: user._id, orgId: organisationId });
           }
 
           User.findOne({ _id: userUpdated._id })
