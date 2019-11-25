@@ -258,7 +258,8 @@ recordSchema.statics.shallowCopy = function(record) {
     tag: record.tag,
     type: record.type,
     picture: record.picture,
-    description: record.description
+    description: record.description,
+    autoAddWithChild: record.autoAddWithChild
   };
 };
 
@@ -608,7 +609,8 @@ recordSchema.methods.algoliaSync = function() {
       links: this.links,
       includes_count: this.includes_count,
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
-      personAvailability: this.personAvailability
+      personAvailability: this.personAvailability,
+      autoAddWithChild: this.autoAddWithChild
     }, true, function(err, doc) {
       if (err) return console.error(err);
       console.log(`Synced ${doc.objectID} with Algolia`);
