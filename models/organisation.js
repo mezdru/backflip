@@ -52,6 +52,11 @@ var organisationSchema = mongoose.Schema({
     'en-UK': String,
     en: String,
     fr: String
+  },
+  onboardWelcome: {
+    'en-UK': String,
+    en: String,
+    fr: String
   }
 });
 
