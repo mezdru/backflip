@@ -15,7 +15,7 @@ exports.getRecords = async (req, res, next) => {
   let query = req.query;
   if (organisation) query.organisation = [organisation, Record.getTheAllOrganisationId()];
   Record.find(query)
-    .populate('hashtags', '_id tag type name name_translated picture hashtags description')
+    .populate('hashtags', '_id tag type name name_translated picture hashtags description autoAddWithChild')
     .populate('within', '_id tag type name name_translated picture')
     .then(records => {
       if (records.length === 0) {
@@ -185,7 +185,7 @@ exports.mergeRecords = async (req, res, next) => {
   }
 
   let linkedRecords = await Record.find({ hashtags: recordFrom._id })
-    .populate('hashtags', '_id tag type name name_translated picture description')
+    .populate('hashtags', '_id tag type name name_translated picture description autoAddWithChild')
     .populate('within', '_id tag type name name_translated picture').catch(err => []);
 
   // update linked records link -> to the new hashtag
