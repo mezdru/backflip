@@ -99,6 +99,7 @@ var Agenda = (function () {
 
 
     this.scheduleJobWithTiming = async function (jobName, data, timingIndex) {
+      // @todo : sometimes ID's are mongoose ID object, sometimes String : not the same in storage
       const sameJobs = await this.agenda.jobs({name: jobName, 'data.userId': data.userId});
       if(sameJobs.length > 0) return;
 
