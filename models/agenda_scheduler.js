@@ -98,10 +98,13 @@ var Agenda = (function () {
     });
 
 
-    this.scheduleJobWithTiming = function (jobName, data, timingIndex) {
+    this.scheduleJobWithTiming = async function (jobName, data, timingIndex) {
+      const sameJobs = await this.agenda.jobs({name: jobName, 'data.userId': data.userId});
+      if(sameJobs.length > 0) return;
+
       let job = this.agenda.create(jobName, {timingIndex: timingIndex || 0,  ...data});
       job.schedule('in '+this.getScheduleTiming(timingIndex || 0));
-      console.log("__________ " + jobName + 'in ' + this.getScheduleTiming(timingIndex || 0));
+      console.log("__________ " + jobName + ' in ' + this.getScheduleTiming(timingIndex || 0));
       job.save();
     };
 
