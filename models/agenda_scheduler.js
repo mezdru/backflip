@@ -104,7 +104,7 @@ var Agenda = (function () {
 
       let job = this.agenda.create(jobName, {timingIndex: timingIndex || 0,  ...data});
       job.schedule('in '+this.getScheduleTiming(timingIndex || 0));
-      console.log("__________ " + jobName + ' in ' + this.getScheduleTiming(timingIndex || 0));
+      console.log("__________ " + jobName + ' in ' + this.getScheduleTiming(timingIndex || 0) + ' for ' + data.userId);
       job.save();
     };
 

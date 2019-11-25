@@ -5,7 +5,7 @@ let UrlHelper = require('../helpers/url_helper');
 
 exports.sendEmailConfirmation = async (user, orgTag, i18n) => {
   await EmailUser.sendEmailConfirmation(user, i18n, orgTag);
-  console.log('__________ sendEmailConfirmation')
+  console.log('__________ sendEmailConfirmation for ' + user._id);
 }
 
 exports.sendEmailCompleteYourProfile = async (user, organisation, i18n) => {
@@ -25,7 +25,7 @@ exports.sendEmailCompleteYourProfile = async (user, organisation, i18n) => {
       i18n
     );
   });
-  console.log('__________ sendEmailCompleteYourProfile')
+  console.log('__________ sendEmailCompleteYourProfile for '+ user._id);
 }
 
 exports.sendEmailPerfectYourProfile = async (user, organisation, record, i18n) => {
@@ -50,11 +50,11 @@ exports.sendEmailPerfectYourProfile = async (user, organisation, record, i18n) =
     );
   });
 
-  console.log('__________ sendEmailPerfectYourProfile')
+  console.log('__________ sendEmailPerfectYourProfile for '+ user._id)
 
 }
 
 exports.sendEmailInviteYourCoworkers = async (user, organisation, record, i18n) => {
   EmailUser.sendInvitationCtaEmail(user, organisation, record, i18n);
-  console.log('__________ sendEmailInviteYourCoworkers')
+  console.log('__________ sendEmailInviteYourCoworkers for ' + user._id)
 }
