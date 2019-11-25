@@ -76,7 +76,7 @@ exports.createSingleRecord = async (req, res, next) => {
 
   record.tag = recordSaved.tag; // tag can be modify
   record.name = record.name || recordSaved.name;
-  let recordUpdated = await Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true }).catch(e => {console.log(e)});
+  let recordUpdated = await Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true }).catch(e => { console.log(e) });
   let recordPopulated = await Record.findOneById(recordUpdated._id).catch(e => console.log(e));
   req.backflip = { message: 'Record created with success', data: recordPopulated, status: 200 };
   return next();
@@ -112,22 +112,25 @@ exports.updateSingleRecord = async (req, res, next) => {
   if (recordUpdated.getIncompleteFields().length === 0 && !recordUpdated.completedAt) {
     recordUpdated.completedAt = Date.now();
     await recordUpdated.save();
-    if (!req.user.superadmin)
-      KeenHelper.recordEvent('profileCompleted', {
-        userEmitter: req.user._id,
-        recordEmitter: recordUpdated._id
-      }, req.organisation._id);
 
-    // onboard workflow : send invitation CTA
-    if (req.organisation.canInvite) {
-      let Agenda = require('../models/agenda_scheduler');
-      Agenda.scheduleJob(
-        'sendEmailInviteYourCoworkers',
-        { userId: req.user._id, orgId: req.organisation._id, recordId: recordUpdated._id },
-        '1 day'
-      );
-    }
+    User.findOne({ 'orgsAndRecords.record': recordUpdated._id })
+      .then(userOwner => {
+        KeenHelper.recordEvent('profileCompleted', {
+          userEmitter: userOwner._id,
+          recordEmitter: recordUpdated._id
+        }, req.organisation._id);
 
+        // onboard workflow : send invitation CTA
+        if (req.organisation.canInvite) {
+          let Agenda = require('../models/agenda_scheduler');
+          Agenda.scheduleJob(
+            'sendEmailInviteYourCoworkers',
+            { userId: userOwner._id, orgId: req.organisation._id, recordId: recordUpdated._id },
+            '1 day'
+          );
+        }
+
+      }).catch(e => console.log(e));
   }
 
   req.backflip = { message: 'Record updated with success', status: 200, data: recordUpdated };
