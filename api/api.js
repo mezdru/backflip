@@ -23,4 +23,7 @@ router.use('/emails', emailsApi);
 var helpRequestsApi = require('./routes/helpRequest.api');
 router.use('/helpRequests', helpRequestsApi);
 
+var agendaApi = require('./routes/agenda.api');
+router.use('/agenda', agendaApi);
+
 module.exports = router;

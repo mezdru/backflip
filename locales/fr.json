@@ -492,7 +492,7 @@
 	"The smart directory for your smart company": "Annuaire intelligent pour entreprise intelligente",
 	"ACCELERATE COLLABORATION BY RECOGNIZING ALL THE ROLES, SKILLS AND ENERGIES OF YOUR CO-WORKERS": "L'app évidente qui accélère l'entraide en reconnaissant tous les roles, compétences et énergies de vos collaborateurs",
 	"home.whywingzy.mainText": "Wingzy c'est l'app évidente qui accélère l'entraide en reconnaissant toutes les compétences dans l'entreprise. La solution la plus rapide pour contacter le bon collègue par le bon moyen. Un moteur de recherche intelligent pour trouver de l’aide en révélant toutes les compétences, expertises et passions des collaborateurs. Un outil viral pour construire la confiance grâce à la reconnaissance de pair-à-pair.",
-	"I need help": "I need help",
+	"I need help": "J'ai besoin d'aide",
 	"I have a question": "J'ai une question",
 	"You got this question because you have the Wings needed on your profile in {{orgName}}": "Vous avez reçu cette question grâce aux Wings de votre profil sur le Wingzy de {{orgName}}",
 	"See my Wingzy": "Voir mon Wingzy",
@@ -511,5 +511,8 @@
 	"Could you add the following information?": "Pouvez-vous ajouter les informations suivantes ?",
 	"Edit my profile": "Éditer mon profil",
 	"home.landing.appPicture": "/images/home/app/00_Landing.png",
-	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png"
+	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png",
+	"Complete your profile in {{orgName}} directory": "Complétez votre profil dans l'annuaire {{orgName}}",
+	"Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!": "Merci d'avoir rejoint l'annuaire intelligent de {{orgName}}. Pour le rendre encore plus intelligent, pouvez-vous compléter votre profil ? Ça va beaucoup nous aider !",
+	"Complete my profile": "Compléter mon profil"
 }

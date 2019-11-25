@@ -38,11 +38,13 @@ exports.sendSecurityNotification = async (req, res, next) => {
 }
 
 exports.sendAskConfirmation = async (req, res, next) => {
-  EmailUser.sendEmailConfirmation(req.user, res, req.params.orgTag)
-    .then(() => {
-      req.backflip = { status: 200, message: 'Email sent with success.' };
-      return next();
-    }).catch((err) => { return next(err); });
+  await EmailUser.sendEmailConfirmation(req.user, res, req.params.orgTag).catch(err => next(err));
+
+  let Agenda = require('../models/agenda_scheduler');
+  Agenda.scheduleJobWithTiming('sendEmailConfirmation', {userId: req.user._id, orgTag: req.params.orgTag});
+
+  req.backflip = { status: 200, message: 'Email sent with success.' };
+  return next();
 }
 
 exports.askConfirmationCallback = async (req, res, next) => {

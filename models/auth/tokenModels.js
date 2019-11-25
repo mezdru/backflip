@@ -15,7 +15,10 @@ var Client = mongoose.Schema({
     clientSecret: {
         type: String,
         required: true
-    }
+    },
+    scope: [
+        String
+    ]
 });
 
 var ClientModel = mongoose.model('Client', Client);
