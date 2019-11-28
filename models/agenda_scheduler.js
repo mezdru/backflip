@@ -24,13 +24,14 @@ var Agenda = (function () {
      */
     this.agenda.define('sendEmailConfirmation', async (job, done) => {
       let user = await User.findOne({ _id: job.attrs.data.userId });
+      await this.removeJob(job);
 
       if (!user.email.validated) {
         await AgendaController.sendEmailConfirmation(user, job.attrs.data.orgTag, this.i18n);
         this.scheduleJobWithTiming('sendEmailConfirmation', {userId: user._id, orgTag: job.attrs.data.orgTag}, job.attrs.data.timingIndex+1);
       }
+      done();
 
-      this.removeJob(job).then(() => done());
     });
 
 
@@ -44,6 +45,7 @@ var Agenda = (function () {
       let user = await User.findOne({ _id: job.attrs.data.userId });
       let organisation = await Organisation.findOne({_id: job.attrs.data.orgId});
       let oar = user.getOrgAndRecord(job.attrs.data.orgId);
+      await this.removeJob(job);
 
       if(!user.isUnsubscribe) {
         if(!oar.welcomed && user.email.validated) {
@@ -53,8 +55,8 @@ var Agenda = (function () {
           this.scheduleJobWithTiming('sendEmailCompleteYourProfile', {userId: user._id, orgId: job.attrs.data.orgId}, job.attrs.data.timingIndex);
         }
       }
+      done();
 
-      this.removeJob(job).then(() => done());
     });
 
 
@@ -69,13 +71,14 @@ var Agenda = (function () {
       let organisation = await Organisation.findOne({_id : job.attrs.data.orgId});
       let recordId = user.getRecordIdByOrgId(job.attrs.data.orgId);
       let record = await Record.findOne({_id: recordId});
+      await this.removeJob(job);
 
       if(!record.completedAt && !user.isUnsubscribe) {
         await AgendaController.sendEmailPerfectYourProfile(user, organisation, record, this.i18n);
         this.scheduleJobWithTiming('sendEmailPerfectYourProfile', {userId: user._id, orgId: organisation._id}, job.attrs.data.timingIndex+1);
       }
+      done();
 
-      this.removeJob(job).then(() => done());
     });
 
 
