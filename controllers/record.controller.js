@@ -64,6 +64,13 @@ exports.createSingleRecord = async (req, res, next) => {
     }
   }
 
+  if(!record.tag) {
+    console.log("Can't get record tag from body object.");
+    console.log(record);
+    req.backflip = {status: 422, message: "Can't get record tag from body object."};
+    return next();
+  }
+
   let recordSaved = await Record.makeFromTagAsync(record.tag, req.organisation._id, record.hidden)
     .catch(err => {
       console.log(err);
