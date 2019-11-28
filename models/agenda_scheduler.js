@@ -30,6 +30,7 @@ var Agenda = (function () {
         await AgendaController.sendEmailConfirmation(user, job.attrs.data.orgTag, this.i18n);
         this.scheduleJobWithTiming('sendEmailConfirmation', {userId: user._id, orgTag: job.attrs.data.orgTag}, job.attrs.data.timingIndex+1);
       }
+      done();
 
     });
 
@@ -54,6 +55,7 @@ var Agenda = (function () {
           this.scheduleJobWithTiming('sendEmailCompleteYourProfile', {userId: user._id, orgId: job.attrs.data.orgId}, job.attrs.data.timingIndex);
         }
       }
+      done();
 
     });
 
@@ -75,6 +77,7 @@ var Agenda = (function () {
         await AgendaController.sendEmailPerfectYourProfile(user, organisation, record, this.i18n);
         this.scheduleJobWithTiming('sendEmailPerfectYourProfile', {userId: user._id, orgId: organisation._id}, job.attrs.data.timingIndex+1);
       }
+      done();
 
     });
 
