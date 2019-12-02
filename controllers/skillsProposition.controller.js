@@ -19,3 +19,20 @@ exports.createSingleSkillsProposition = async (req, res, next) => {
     return next(e);
   });
 }
+
+exports.getSingleSkillsProposition = async (req, res, next) => {
+
+  let sp = await SkillsProposition.findById(req.params.id).catch(e => null);
+
+  if (!sp) {
+    req.backflip = { message: 'Skills proposition not found', status: 404 };
+  } else {
+    req.backflip = {
+      message: 'Skills proposition found',
+      status: 200,
+      data: sp,
+      organisation: sp.organisation
+    };
+  }
+  return next();
+}

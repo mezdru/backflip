@@ -14,4 +14,12 @@ router.post(
   Authorization.resWithData
 )
 
+router.get(
+  '/:id',
+  passport.authenticate('bearer', {session: false}),
+  AuthorizationOrganisation,
+  SkillsPropositionController.getSingleSkillsProposition,
+  Authorization.resWithData
+)
+
 module.exports = router;

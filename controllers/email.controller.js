@@ -145,7 +145,7 @@ exports.sendHelpRequest = async (req, res, next) => {
     trackingCodes.push(mailjetMessage.MessageID);
   });
 
-  
+
   helpRequest.trackingCodes = trackingCodes;
   helpRequest.save();
 
@@ -154,7 +154,7 @@ exports.sendHelpRequest = async (req, res, next) => {
 }
 
 exports.sendSkillsProposition = async (req, res, next) => {
-  let sp = await SkillsProposition.findById({_id: req.params.spId}).catch(e => null);
+  let sp = await SkillsProposition.findById(req.params.spId).catch(e => null);
   let recipientUser = await User.findOne({'orgsAndRecords.record': sp.recipient._id}).catch(e => null);
 
   if (!sp) {
