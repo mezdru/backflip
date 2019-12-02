@@ -303,3 +303,21 @@ exports.emailCompleteYourProfile = (recipient, organisation, ctaUrl, unsubUrl, u
     '1101582'
   );
 }
+
+exports.emailSkillsProposition = (recipient, recipientRecord, skills, organisation, senderUrl, senderRecord, locale, res) => {
+  res.setLocale(locale);
+  return send(
+    recipient,
+    'Coucou',
+    {
+      "title": '',
+      "text": '',
+      "ctaText": res.__("See %s profile", senderRecord.name),
+      "squareIcon": "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      "ctaUrl": senderUrl,
+      "orgBannerUrl": organisation && organisation.cover ? organisation.cover.url || defaultBannerUrl : defaultBannerUrl,
+      "orgLogoUrl": organisation && organisation.logo ? organisation.logo.url || defaultLogoUrl : defaultLogoUrl,
+      "tagline": res.__("Find the right person at the right time within %s at %s", organisation && organisation.name ? organisation.name : 'your company', defaultLink),
+      "outro": res.__("Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>")    }
+  )
+}

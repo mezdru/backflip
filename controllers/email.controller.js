@@ -4,6 +4,7 @@ var EmailHelper = require('../helpers/email_helper');
 var UrlHelper = require('../helpers/url_helper');
 var SlackHelper = require('../helpers/slack_helper');
 var HelpRequest = require('../models/helpRequest');
+var SkillsProposition = require('../models/skillsProposition');
 
 exports.unsubscribeCallback = async (req, res, next) => {
   try {
@@ -150,3 +151,29 @@ exports.sendHelpRequest = async (req, res, next) => {
   req.backflip = { status: 200, message: "Help Request sent with success." };
   return next();
 }
+
+exports.sendSkillsProposition = async (req, res, next) => {
+  let sp = await SkillsProposition.findById({_id: req.params.spId}).catch(e => null);
+  let recipientUser = await User.findOne({'orgsAndRecords.record': sp.recipient._id}).catch(e => null);
+
+  if (!sp) {
+    req.backflip = { status: 404, message: 'Skills proposition not found.' };
+    return next();
+  }
+
+  let mailjetRes = await EmailHelper.emailSkillsProposition(
+    sp.recipient.getFirstEmail() || recipientUser.loginEmail,
+    sp.recipient,
+    sp.hashtags,
+    sp.organisation,
+    (new UrlHelper(sp.organisation.tag, 'profile/' + sp.sender.tag, null, recipientUser ? recipientUser.locale : req.user.locale).getUrl()),
+    sp.sender,
+    recipientUser ? recipientUser.locale : req.user.locale,
+    res).catch(e => null);
+
+    sp.mailjetTrackingCode = mailjetRes ? mailjetRes.body.Sent[0].MessageID : null;
+    sp.save();
+
+    req.backflip = { status: 200, message: "Skills proposition sent with success." };
+    return next();
+};
