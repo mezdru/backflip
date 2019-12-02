@@ -145,6 +145,7 @@ exports.sendHelpRequest = async (req, res, next) => {
     trackingCodes.push(mailjetMessage.MessageID);
   });
 
+  
   helpRequest.trackingCodes = trackingCodes;
   helpRequest.save();
 
