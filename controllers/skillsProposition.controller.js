@@ -92,6 +92,7 @@ exports.updateSingleSkillsProposition = async (req, res, next) => {
 
   req.backflip = {
     message: "Skills proposition updated with success.",
+    data: spUpdated,
     status: 200
   };
 
