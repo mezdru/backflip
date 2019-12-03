@@ -22,4 +22,12 @@ router.get(
   Authorization.resWithData
 )
 
+router.put(
+  '/:id',
+  passport.authenticate('bearer', {session: false}),
+  Authorization.userIsSkillsPropositionRecipient,
+  SkillsPropositionController.updateSingleSkillsProposition,
+  Authorization.resWithData
+)
+
 module.exports = router;
