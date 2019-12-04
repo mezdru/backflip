@@ -50,4 +50,11 @@ router.post(
   Authorization.resWithData
 )
 
+router.post(
+  '/skillsProposition/:spId',
+  passport.authenticate('bearer', {session: false}),
+  EmailController.sendSkillsProposition,
+  Authorization.resWithData
+)
+
 module.exports = router;

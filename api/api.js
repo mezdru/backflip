@@ -26,4 +26,7 @@ router.use('/helpRequests', helpRequestsApi);
 var agendaApi = require('./routes/agenda.api');
 router.use('/agenda', agendaApi);
 
+var skillsPropositionApi = require('./routes/skillsProposition.api');
+router.use('/skillsPropositions', skillsPropositionApi);
+
 module.exports = router;
