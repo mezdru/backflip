@@ -225,10 +225,23 @@ exports.sendSkillsProposition = async (req, res, next) => {
     return next();
   }
 
+  let hashtags = sp.hashtags.map(elt => {
+    return {
+      displayedName: elt.name_translated
+        ? elt.name_translated[
+            recipientUser ? recipientUser.locale : req.user.locale
+          ] ||
+          elt.name_translated["en-UK"] ||
+          elt.name ||
+          elt.tag
+        : elt.name || elt.tag
+    };
+  });
+
   let mailjetRes = await EmailHelper.emailSkillsProposition(
     sp.recipient.getFirstEmail() || recipientUser.loginEmail,
     sp.recipient,
-    sp.hashtags,
+    hashtags,
     sp.organisation,
     new UrlHelper(
       sp.organisation.tag,
@@ -239,8 +252,16 @@ exports.sendSkillsProposition = async (req, res, next) => {
     sp.sender,
     recipientUser ? recipientUser.locale : req.user.locale,
     res,
-    "http://localhost:3002/fr/" + sp.organisation.tag + '/' +sp.recipient.tag + '/skillsProposition/' + req.params.spId
-  ).catch(e => null);
+    "http://localhost:3002/fr/" +
+      sp.organisation.tag +
+      "/" +
+      sp.recipient.tag +
+      "/skillsProposition/" +
+      req.params.spId
+  ).catch(e => {
+    console.log(e);
+    return null;
+  });
 
   sp.mailjetTrackingCode = mailjetRes
     ? mailjetRes.body.Sent[0].MessageID

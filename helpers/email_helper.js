@@ -82,7 +82,7 @@ exports.emailConfirmationInscription = (
       ctaText: res.__("Search {{orgName}}", { orgName: organisation.name }),
       squareIcon: "https://ucarecdn.com/5a0ec475-a18d-498e-809c-9c9f2911a658/",
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       ctaUrl: url || defaultLink,
       tagline: getTagline(organisation, res),
       outro: res.__(
@@ -128,7 +128,7 @@ exports.emailReactivateUser = (
       ctaUrl: url || defaultLink,
       tips: tips ? i18n.__(tips) : "",
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, i18n),
       outro: i18n.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
@@ -204,7 +204,7 @@ exports.emailConfirmationInvitation = (
       squareIcon: "https://images.emojiterra.com/twitter/v12/512px/1f60d.png",
       ctaUrl: invitationUrl || defaultLink,
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),
       outro: res.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"
@@ -247,7 +247,7 @@ exports.emailConfirmation = (recipient, url, organisationName, res) => {
       orgBannerUrl: defaultBannerUrl,
       orgLogoUrl: defaultLogoUrl,
       ctaUrl: url || defaultLink,
-      tagline: getTagline({name: organisationName}, res),
+      tagline: getTagline({ name: organisationName }, res),
       outro: res.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"
       )
@@ -280,7 +280,7 @@ exports.emailInvitationAccepted = (
         "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
       ctaUrl: url || defaultLink,
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),
       outro: res.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"
@@ -477,7 +477,7 @@ exports.emailIncompleteProfile = (
       ctaText: res.__("Edit my profile"),
       ctaUrl: url || defaultLink,
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),
       outro: i18n.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
@@ -516,7 +516,7 @@ exports.emailCompleteYourProfile = (
       ctaUrl: ctaUrl || defaultLink,
       cta2Url: "mailto:contact@wingzy.com",
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),
       outro: i18n.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a><br/><a href='{{unsubLink}}'>Click here to unsubscribe.</a>",
@@ -541,22 +541,24 @@ exports.emailSkillsProposition = (
   res.setLocale(locale);
   return send(
     recipient,
-    'Coucou !',
+    res.__("{{senderName}} suggests you skills", {
+      senderName: senderRecord.name
+    }),
     {
-      title: "Title",
-      text: urlSkills,
-      ctaText: 'See the proposition',
-      squareIcon:
-        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      title: res.__("{{senderName}} suggests you skills", {
+        senderName: senderRecord.name
+      }),
+      ctaText: res.__("Add to my profile"),
+      skills: skills,
       ctaUrl: urlSkills,
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),
       outro: res.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"
       )
     },
-    "854412"
+    "1118934"
   );
 };
 
@@ -567,21 +569,31 @@ exports.emailSkillsPropositionAccepted = (
   spRecipientUrl,
   spRecipientRecord,
   locale,
-  res,
+  res
 ) => {
   res.setLocale(locale);
   return send(
     recipient,
-    'Votre proposition a été acceptée !',
+    res.__("{{spRecipientName}} has accepted your suggestion of skills", {
+      spRecipientName: spRecipientRecord.name
+    }),
     {
-      title: "Title",
-      text: 's',
-      ctaText: 'See the proposition',
+      title: res.__(
+        "{{spRecipientName}} has accepted your suggestion of skills",
+        {
+          spRecipientName: spRecipientRecord.name
+        }
+      ),
+      text: res.__(
+        "Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!",
+        { spRecipientName: spRecipientRecord.name }
+      ),
+      ctaText: "See his profile",
       squareIcon:
         "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
-      ctaUrl: 'http://localhost:3002',
+      ctaUrl: spRecipientUrl,
       orgBannerUrl: getBannerUrl(organisation),
-      orgLogoUrl:getLogoUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),
       outro: res.__(
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"

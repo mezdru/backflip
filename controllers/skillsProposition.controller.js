@@ -80,7 +80,7 @@ exports.updateSingleSkillsProposition = async (req, res, next) => {
       sp.organisation,
       new UrlHelper(
         sp.organisation.tag,
-        sp.recipient.tag,
+        "profile/" + sp.recipient.tag,
         null,
         spSenderUser.locale
       ).getUrl(),
