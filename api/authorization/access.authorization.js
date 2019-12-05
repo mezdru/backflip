@@ -58,7 +58,11 @@ exports.resWithData = async (req, res, next) => {
 exports.helpRequestUserRecordCheck = async (req, res, next) => {
   if (req.user.superadmin) return next();
 
-  let recordId = req.body.helpRequest.sender;
+  let recordId = req.body.helpRequest
+    ? req.body.helpRequest.sender
+    : req.body.skillsProposition
+    ? req.body.skillsProposition.sender
+    : null;
   let record = await Record.findOne({ _id: recordId }).catch(e => next(e));
 
   if (!record)

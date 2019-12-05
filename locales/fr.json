@@ -514,5 +514,7 @@
 	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png",
 	"Complete your profile in {{orgName}} directory": "Complétez votre profil dans l'annuaire {{orgName}}",
 	"Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!": "Merci d'avoir rejoint l'annuaire intelligent de {{orgName}}. Pour le rendre encore plus intelligent, pouvez-vous compléter votre profil ? Ça va beaucoup nous aider !",
-	"Complete my profile": "Compléter mon profil"
+	"Complete my profile": "Compléter mon profil",
+	"{{senderName}} suggests you skills": "{{senderName}} suggests you skills",
+	"Add to my profile": "Add to my profile"
 }
