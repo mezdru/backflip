@@ -255,7 +255,7 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
     case 'changeAccount': text = 'Modifier'; manual=true;  break;
     case 'suspendProfile':  text = 'Suspendre'; break;
     case 'suspendAccount': text = 'Suspendre'; manual=true; break;
-    case 'eraseProfile': case 'eraseAccount': text = 'Effacer'; manual = true; break;
+    case 'eraseProfile': case 'eraseAccount': text = 'Effacer'; break;
     case 'accessCookies': text = 'Voir'; break;
     case 'toggleMonthly': text = 'Désactiver'; break;
   }
@@ -264,6 +264,9 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
   if (organisation instanceof Organisation && user instanceof User) {
     recordId = user.getRecordIdByOrgId(organisation._id);
       switch (type)   {
+        case 'eraseProfile':
+          if(recordId) url = UrlHelper.makeUrl(organisation.tag, 'admin/record/delete/'+recordId, null, locale);
+          break;
         case 'policy':
           if (recordId) url = UrlHelper.makeUrl(organisation.tag, 'protectingYourData', null, locale);
           break;
@@ -307,7 +310,7 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
     href = `href="${url}"`;
   } else {
     if (manual) {
-      onclick = `onclick="alert('Pour faire cette action, contactez-nous, merci !')"`;
+      onclick = `onclick="alert('Pour faire cette action, contactez-nous via contact@wingzy.com, merci !')"`;
       cssClass = 'right inactive';
     } else {
       onclick = `onclick="alert('Pour faire cette action, vous devez être connecté-e, dans une Organisation, avec un profil.')"`;
