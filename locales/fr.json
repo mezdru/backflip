@@ -388,7 +388,7 @@
 	"Your employees collectively learn thanks to the Wings sharing.": "Une confiance virale",
 	"Each employee can contact his peers and benefits from their professionnal expertises.": "Une mise en relation directe de pair à pair via leurs points de contact pour bénéficier des expertises de chacun.",
 	"Your employees can find themself by hobbies or projects.": "Un système de reconnaissance et de recommandation des apports de chacun.",
-	"Our Quick Win method": "Notre méthode Quick Win",
+	"Our Quick Win method": "Déploiement de pair à pair",
 	"Offer quickly and simply a great working experience to your employees.": "Une app minimaliste avec une diffusion virale dans votre entreprise",
 	"Installation": "INSTALLATION (1 jour)",
 	"Identification of keys professionnals Wings<br/>A white label solution<br/>Wingzy integrates your environment": "Identification de vos Wings stratégiques<br/>\nAdaptation de Wingzy à votre identité<br/>\nIntégration de Wingzy à votre environnement",
@@ -415,7 +415,7 @@
 	"Launching support": "Accompagnement au lancement",
 	"Monthly reporting with a Wingzy project manager": "Point de reporting mensuel avec un Chef de projet Wingzy",
 	"Animation of your community": "Animation de votre communauté",
-	"Ask for a demo": "Demandez une démo !",
+	"Ask for a demo": "Demandez la démo !",
 	"Export to Excel": "Exportez sur Excel",
 	"Screenshot - app - auth": "/images/home/app/02_Edit_profile_with_IA.png",
 	"Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !": "Meridiam est une mine d'or de talents mais ils étaient invisibles et isolés. Mais c'était avant Wingzy !",
@@ -490,7 +490,7 @@
 	"Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>": "Une question ? Un retour ? Un conseil ? Contactez-nous !",
 	"The more we are on Wingzy, the more we help each other. <br/> Share this secured link to invite even more people from {{orgName}} to join": "Plus nous sommes sur l'annuaire intelligent de {{orgName}}, plus nous nous entraidons. Partagez ce lien sécurisé pour inviter d'autres personnes de {{orgName}} à vous rejoindre.",
 	"The smart directory for your smart company": "Annuaire intelligent pour entreprise intelligente",
-	"ACCELERATE COLLABORATION BY RECOGNIZING ALL THE ROLES, SKILLS AND ENERGIES OF YOUR CO-WORKERS": "L'app évidente qui accélère l'entraide en reconnaissant tous les roles, compétences et énergies de vos collaborateurs",
+	"ACCELERATE COLLABORATION BY RECOGNIZING ALL THE ROLES, SKILLS AND ENERGIES OF YOUR CO-WORKERS": "Accélèrez l'entraide en reconnaissant tous les roles, compétences et énergies à travers votre organisation",
 	"home.whywingzy.mainText": "Wingzy c'est l'app évidente qui accélère l'entraide en reconnaissant toutes les compétences dans l'entreprise. La solution la plus rapide pour contacter le bon collègue par le bon moyen. Un moteur de recherche intelligent pour trouver de l’aide en révélant toutes les compétences, expertises et passions des collaborateurs. Un outil viral pour construire la confiance grâce à la reconnaissance de pair-à-pair.",
 	"I need help": "J'ai besoin d'aide",
 	"I have a question": "J'ai une question",
@@ -514,5 +514,9 @@
 	"home.howitworks.step3": "/images/home/app/03_Pretty_profile_with_skills.png",
 	"Complete your profile in {{orgName}} directory": "Complétez votre profil dans l'annuaire {{orgName}}",
 	"Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!": "Merci d'avoir rejoint l'annuaire intelligent de {{orgName}}. Pour le rendre encore plus intelligent, pouvez-vous compléter votre profil ? Ça va beaucoup nous aider !",
-	"Complete my profile": "Compléter mon profil"
+	"Complete my profile": "Compléter mon profil",
+	"{{senderName}} suggests you skills": "{{senderName}} vous propose des compétences",
+	"Add to my profile": "Ajouter à mon profil",
+	"{{spRecipientName}} has accepted your suggestion of skills": "{{spRecipientName}} a accepté votre proposition de compétences",
+	"Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!": "Grâce à vous, {{spRecipientName}} a ajouté des compétences à son profil. Vos collaborateurs le trouveront maintenant plus facilement !"
 }

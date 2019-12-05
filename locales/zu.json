@@ -514,5 +514,9 @@
 	"home.howitworks.step3": "crwdns2322:0crwdne2322:0",
 	"Complete your profile in {{orgName}} directory": "crwdns2324:0{{orgName}}crwdne2324:0",
 	"Thank your for joining the smart directory of {{orgName}}. To make it smarter, can you complete your profile? It will help a lot!": "crwdns2326:0{{orgName}}crwdne2326:0",
-	"Complete my profile": "crwdns2328:0crwdne2328:0"
+	"Complete my profile": "crwdns2328:0crwdne2328:0",
+	"{{senderName}} suggests you skills": "crwdns2329:0{{senderName}}crwdne2329:0",
+	"Add to my profile": "crwdns2331:0crwdne2331:0",
+	"{{spRecipientName}} has accepted your suggestion of skills": "crwdns2333:0{{spRecipientName}}crwdne2333:0",
+	"Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!": "crwdns2335:0{{spRecipientName}}crwdne2335:0"
 }
