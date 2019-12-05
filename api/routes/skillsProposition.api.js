@@ -17,9 +17,8 @@ router.post(
 router.get(
   '/:id',
   passport.authenticate('bearer', {session: false}),
-  AuthorizationOrganisation,
   SkillsPropositionController.getSingleSkillsProposition,
-  Authorization.resWithData
+  Authorization.resUserAccessOrg
 )
 
 router.put(
