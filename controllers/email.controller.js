@@ -5,6 +5,7 @@ var UrlHelper = require("../helpers/url_helper");
 var SlackHelper = require("../helpers/slack_helper");
 var HelpRequest = require("../models/helpRequest");
 var SkillsProposition = require("../models/skillsProposition");
+var FrontflipUrlHelper = require("../helpers/frontflipUrl.helper");
 
 exports.unsubscribeCallback = async (req, res, next) => {
   try {
@@ -252,12 +253,11 @@ exports.sendSkillsProposition = async (req, res, next) => {
     sp.sender,
     recipientUser ? recipientUser.locale : req.user.locale,
     res,
-    "http://localhost:3002/fr/" +
-      sp.organisation.tag +
-      "/" +
-      sp.recipient.tag +
-      "/skillsProposition/" +
-      req.params.spId
+    new FrontflipUrlHelper(
+      sp.organisation.tag,
+      "/" + sp.recipient.tag + "/skillsProposition/" + req.params.spId,
+      recipientUser ? recipientUser.locale : req.user.locale
+    ).getUrl()
   ).catch(e => {
     console.log(e);
     return null;
