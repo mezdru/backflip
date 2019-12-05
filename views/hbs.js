@@ -255,7 +255,8 @@ hbs.registerHelper('dataRightLink', function(type, organisation, user) {
     case 'changeAccount': text = 'Modifier'; manual=true;  break;
     case 'suspendProfile':  text = 'Suspendre'; break;
     case 'suspendAccount': text = 'Suspendre'; manual=true; break;
-    case 'eraseProfile': case 'eraseAccount': text = 'Effacer'; break;
+    case 'eraseProfile': text = 'Effacer'; break;
+    case 'eraseAccount': text= 'Effacer'; manual= true; break;
     case 'accessCookies': text = 'Voir'; break;
     case 'toggleMonthly': text = 'Désactiver'; break;
   }
