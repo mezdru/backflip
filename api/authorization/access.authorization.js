@@ -19,6 +19,18 @@ exports.superadminOrClient = async (req, res, next) => {
   return res403(res);
 };
 
+exports.resUserAccessOrg = async (req, res, next) => {
+  var resData = req.backflip;
+
+  if (req.user.getOrgAndRecord(resData.organisation._id || resData.organisation)) {
+    return res
+      .status(resData.status)
+      .json({ message: resData.message, data: resData.data });
+  }
+
+  return res403(res);
+};
+
 // User who owns the resource only
 exports.resUserOwnOrAdmin = async (req, res, next) => {
   var resData = req.backflip;
