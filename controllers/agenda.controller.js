@@ -58,3 +58,13 @@ exports.sendEmailInviteYourCoworkers = async (user, organisation, record, i18n) 
   EmailUser.sendInvitationCtaEmail(user, organisation, record, i18n);
   console.log('__________ sendEmailInviteYourCoworkers for ' + user._id)
 }
+
+exports.batchOrganisationsNewsletter = async (organisation, i18n) => {
+  
+  // get all users in org with record populated
+
+  // for each user, send email to record email OR user email at his locale and with his name
+
+  // email : how many new users in org last month ? / new wings ?
+
+}

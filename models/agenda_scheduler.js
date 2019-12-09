@@ -105,14 +105,12 @@ var Agenda = (function () {
      * @description Batch : send a custom newsletter for all organisations
      * @param orgId Organisation id
      */
-    this.agenda.define('batchOrganisationsNews', async (job, done) => {
-      let user = await User.findOne({ _id: job.attrs.data.userId });
+    this.agenda.define('batchOrganisationsNewsletter', async (job, done) => {
       let organisation = await Organisation.findOne({_id : job.attrs.data.orgId});
-      let record = await Record.findOne({_id: job.attrs.data.recordId});
 
-      if(!user.isUnsubscribe) {
-        await AgendaController.sendEmailInviteYourCoworkers(user, organisation, record, this.i18n);
-      }
+      await AgendaController.batchOrganisationsNewsletter(organisation, this.i18n);
+      
+      // schedule job in 1 month
       
       this.removeJob(job).then(() => done());
     });
