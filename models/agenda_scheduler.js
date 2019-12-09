@@ -101,6 +101,23 @@ var Agenda = (function () {
     });
 
 
+    /**
+     * @description Batch : send a custom newsletter for all organisations
+     * @param orgId Organisation id
+     */
+    this.agenda.define('batchOrganisationsNews', async (job, done) => {
+      let user = await User.findOne({ _id: job.attrs.data.userId });
+      let organisation = await Organisation.findOne({_id : job.attrs.data.orgId});
+      let record = await Record.findOne({_id: job.attrs.data.recordId});
+
+      if(!user.isUnsubscribe) {
+        await AgendaController.sendEmailInviteYourCoworkers(user, organisation, record, this.i18n);
+      }
+      
+      this.removeJob(job).then(() => done());
+    });
+
+
     this.scheduleJobWithTiming = async function (jobName, data, timingIndex) {
       // @todo : sometimes ID's are mongoose ID object, sometimes String : not the same in storage
       const sameJobs = await this.agenda.jobs({name: jobName, 'data.userId': data.userId});
