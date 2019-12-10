@@ -77,6 +77,7 @@ var recordSchema = mongoose.Schema({
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
   hidden: {type: Boolean, default: false},
   welcomed: {type: Boolean, default: false},
+  welcomedAt: {type: Date, default: null},
   completedAt: {type: Date, default: null},
   owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null}
 });
@@ -612,6 +613,7 @@ recordSchema.methods.algoliaSync = function() {
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
       personAvailability: this.personAvailability,
       welcomed: this.welcomed,
+      welcomedAt: new Date(this.welcomedAt).getTime(),
       autoAddWithChild: this.autoAddWithChild
     }, true, function(err, doc) {
       if (err) return console.error(err);
