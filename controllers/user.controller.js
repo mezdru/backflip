@@ -132,7 +132,7 @@ exports.updateOrgAndRecord = async (req, res, next) => {
 
           let orgAndRecordPopulate = user.getOrgAndRecord(organisationId);
           if (orgAndRecordPopulate.record) {
-            Record.findOneAndUpdate({ _id: orgAndRecordPopulate.record._id }, { $set: { hidden: false, welcomed: true } });
+            Record.findOneAndUpdate({ _id: orgAndRecordPopulate.record._id }, { $set: { hidden: false, welcomed: true, welcomedAt: Date.now()} });
             EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record, res);
             EmailUser.sendEmailToInvitationCodeCreator(orgAndRecordPopulate.organisation, user, orgAndRecordPopulate.record, res);
 
