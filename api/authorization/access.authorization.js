@@ -64,7 +64,7 @@ exports.resWithData = async (req, res, next) => {
   var resData = req.backflip;
   return res
     .status(resData.status || 200)
-    .json({ message: resData.message, data: resData.data });
+    .json({ message: resData.message, data: resData.data, executionTime: resData.executionTime });
 };
 
 exports.helpRequestUserRecordCheck = async (req, res, next) => {
