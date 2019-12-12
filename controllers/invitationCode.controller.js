@@ -41,7 +41,7 @@ exports.getAmbassadors = async (req, res, next) => {
   const results = output.map(async elt => {
     let ambassPopulated = await User.findOne({ _id: elt.ambassador }).populate(
       "orgsAndRecords.record",
-      "_id name links picture intro"
+      "_id name links picture intro tag"
     );
 
     if(ambassPopulated) {
