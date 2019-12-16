@@ -20,9 +20,22 @@ router.use(
 router.use(function(req, res, next) {
     let errors = validationResult(req);
     let errorsArray = errors.array();
-    if(errorsArray.length === 0 && req.body.record) return next();
 
-    return res.status(422).json({message: 'Record not valid', errors: errorsArray});
+    if(!(errorsArray.length === 0 && req.body.record)) 
+        return res.status(422).json({message: 'Record not valid', errors: errorsArray});
+
+    return next();
 });
+
+router.use((req, res, next) => {
+    if(req.body.record.name) {
+        try{
+            req.body.record.name = req.body.record.name.replace(/\w+/g,function(w){return w[0].toUpperCase() + w.slice(1).toLowerCase();});
+        } catch(e) {
+        }
+    }
+
+    return next();
+})
 
 module.exports = router;
