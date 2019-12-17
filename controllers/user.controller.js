@@ -11,6 +11,7 @@ exports.getUsersInOrg = async (req, res, next) => {
   }
 
   let users = await User.find({ 'orgsAndRecords.organisation': req.organisation._id })
+    .select('hashedPassword _id email googleUser linkedinUser orgsAndRecords locale created last_login last_access')
     .populate('orgsAndRecords.record', '_id tag name picture created updated completedAt')
     .catch(e => []);
 
@@ -27,6 +28,7 @@ exports.getUsersInOrg = async (req, res, next) => {
       last_access: user.last_access,
       linkedinUser: user.linkedinUser,
       googleUser: user.googleUser,
+      emailUser: user.hashedPassword ? true : false,
       _id: user._id
     };
   });
@@ -132,7 +134,7 @@ exports.updateOrgAndRecord = async (req, res, next) => {
 
           let orgAndRecordPopulate = user.getOrgAndRecord(organisationId);
           if (orgAndRecordPopulate.record) {
-            Record.findOneAndUpdate({ _id: orgAndRecordPopulate.record._id }, { $set: { hidden: false, welcomed: true } });
+            Record.findOneAndUpdate({ _id: orgAndRecordPopulate.record._id }, { $set: { hidden: false, welcomed: true, welcomedAt: Date.now()} });
             EmailUser.sendConfirmationInscriptionEmail(user, orgAndRecordPopulate.organisation, orgAndRecordPopulate.record, res);
             EmailUser.sendEmailToInvitationCodeCreator(orgAndRecordPopulate.organisation, user, orgAndRecordPopulate.record, res);
 

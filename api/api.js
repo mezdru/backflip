@@ -29,4 +29,7 @@ router.use('/agenda', agendaApi);
 var skillsPropositionApi = require('./routes/skillsProposition.api');
 router.use('/skillsPropositions', skillsPropositionApi);
 
+var iCodeApi = require('./routes/invitationCode.api');
+router.use('/invitationCodes', iCodeApi);
+
 module.exports = router;

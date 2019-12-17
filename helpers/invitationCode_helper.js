@@ -4,6 +4,27 @@ let request = require('request');
  */
 class InvitationCodeHelper {
 
+	fetchInvitationCodes(accessToken, organisationId) {
+		return new Promise((resolve, reject) => {
+			request.get({
+				url: (process.env.NODE_ENV == 'development' ? 'http://' : 'https://') + `${process.env.HOST_AUTH}/api/invitationCodes?organisation=${organisationId}`,
+				json: true,
+				headers: {
+					'Authorization': `Bearer ${accessToken}`
+				}
+			}, (error, requestResponse, body) => {
+				if (error || (body && body.status && body.status !== 200) || (requestResponse.statusCode !== 200)) {
+					return reject(error);
+				}
+				if(body && body.data && body.data.length > 0) {
+					return resolve(body.data);
+				} else {
+					return resolve(null);
+				}
+			});
+		});
+	}
+
 	fetchUsedInvitationCode(accessToken, organisationId, accessorId) {
 		return new Promise((resolve, reject) => {
 			request.get({
