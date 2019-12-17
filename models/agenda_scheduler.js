@@ -15,6 +15,15 @@ var Agenda = (function () {
     console.log('AGENDA: Ready');
     this.agenda.start();
 
+    this.agenda.jobs({name: 'recountHashtagsIncludes'})
+    .then(jobs => {
+      console.log('AGENDA: already ' + jobs.length + ' jobs (recountHashtagsIncludes)');
+      if(jobs.length > 0) return;
+      let job = this.agenda.create('recountHashtagsIncludes');
+      job.schedule('in 30 seconds');
+      job.save();
+    }).catch();
+
 
     /**
      * @description Onboard workflow: STEP 1 : Confirm your email
@@ -98,6 +107,14 @@ var Agenda = (function () {
       }
       
       this.removeJob(job).then(() => done());
+    });
+
+    this.agenda.define('recountHashtagsIncludes', async (job, done) => {
+      console.log('AGENDA : BATCH : recountHashtagsIncludes : start');
+      await AgendaController.recountHashtagsIncludes();
+      console.log('AGENDA : BATCH : recountHashtagsIncludes : end');
+      this.removeJob(job).then(() => done());
+      this.scheduleJob('recountHashtagsIncludes', {}, '1 week');
     });
 
 

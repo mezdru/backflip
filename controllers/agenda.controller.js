@@ -2,6 +2,7 @@ let EmailUser = require('../models/email/email_user');
 let EmailHelper = require('../helpers/email_helper');
 let FrontflipUrlHelper = require('../helpers/frontflipUrl.helper');
 let UrlHelper = require('../helpers/url_helper');
+let Record = require('../models/record');
 
 exports.sendEmailConfirmation = async (user, orgTag, i18n) => {
   await EmailUser.sendEmailConfirmation(user, i18n, orgTag);
@@ -57,4 +58,26 @@ exports.sendEmailPerfectYourProfile = async (user, organisation, record, i18n) =
 exports.sendEmailInviteYourCoworkers = async (user, organisation, record, i18n) => {
   EmailUser.sendInvitationCtaEmail(user, organisation, record, i18n);
   console.log('__________ sendEmailInviteYourCoworkers for ' + user._id)
+}
+
+exports.recountHashtagsIncludes = async () => {
+  let hashtags = await Record.find({type:'hashtag'});
+
+  await asyncForEach(hashtags, async (hashtag) => {
+    let includesHashtags = await Record.find({type: 'hashtag', hashtags: hashtag._id});
+    let includesPersons = await Record.find({type: 'person', hashtags: hashtag._id});
+    hashtag.includes_count = {hashtag: includesHashtags.length, person: includesPersons.length};
+    hashtag.save();
+    await sleep(50);
+  });
+}
+
+let asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+let sleep = (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
