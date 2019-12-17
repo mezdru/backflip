@@ -61,8 +61,6 @@ exports.sendEmailInviteYourCoworkers = async (user, organisation, record, i18n) 
 }
 
 exports.recountHashtagsIncludes = async () => {
-  // all hashtags
-
   let hashtags = await Record.find({type:'hashtag'});
 
   await asyncForEach(hashtags, async (hashtag) => {
