@@ -157,6 +157,9 @@ app.use(session({
     }
 }));
 
+let c = require('./controllers/agenda.controller');
+c.batchOrganisationsNewsletter(i18n);
+
 // API needs auth to work, this could be use to desactivate API too
 // API should be declared before authentification helper check, which is usefull for server rendering only
 var api = require('./api/api');

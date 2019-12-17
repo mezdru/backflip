@@ -602,3 +602,41 @@ exports.emailSkillsPropositionAccepted = (
     "854412"
   );
 };
+
+exports.sendEmailOrgNews = (
+  recipientEmail,
+  recipientName,
+  organisation,
+  newUsers,
+  res
+) => {
+  return send(
+    recipientEmail,
+    res.__("{{spRecipientName}} has accepted your suggestion of skills", {
+      spRecipientName: recipientName
+    }),
+    {
+      title: res.__(
+        "{{spRecipientName}} has accepted your suggestion of skills",
+        {
+          spRecipientName: recipientName
+        }
+      ),
+      text: res.__(
+        "Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!",
+        { spRecipientName: recipientName }
+      ),
+      ctaText: newUsers.length + " new users !",
+      squareIcon:
+        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      ctaUrl: "r",
+      orgBannerUrl: getBannerUrl(organisation),
+      orgLogoUrl: getLogoUrl(organisation),
+      tagline: getTagline(organisation, res),
+      outro: res.__(
+        "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"
+      )
+    },
+    "854412"
+  );
+};

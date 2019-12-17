@@ -3,6 +3,8 @@ let EmailHelper = require('../helpers/email_helper');
 let FrontflipUrlHelper = require('../helpers/frontflipUrl.helper');
 let UrlHelper = require('../helpers/url_helper');
 let Record = require('../models/record');
+let Organisation = require('../models/organisation');
+let User = require('../models/user');
 
 exports.sendEmailConfirmation = async (user, orgTag, i18n) => {
   await EmailUser.sendEmailConfirmation(user, i18n, orgTag);
@@ -60,8 +62,50 @@ exports.sendEmailInviteYourCoworkers = async (user, organisation, record, i18n) 
   console.log('__________ sendEmailInviteYourCoworkers for ' + user._id)
 }
 
-exports.batchOrganisationsNewsletter = async (organisation, i18n) => {
-  
+exports.batchOrganisationsNewsletter = async (i18n) => {
+  console.log('Start batch org news');
+  let t1 = new Date();
+  let nowMinus1Month = new Date();
+  nowMinus1Month.setMonth(nowMinus1Month.getMonth() - 1);
+
+  let organisations = await Organisation.find();
+  console.log('organisations : ' + organisations.length);
+
+  let iteration = 0;
+
+  await asyncForEach(organisations, async (org) => {
+    iteration++;
+    let orgUsers = await User.find({'orgsAndRecords.organisation': org._id})
+      .populate('orgsAndRecords.record', '_id tag name links welcomed welcomedAt intro picture');
+
+    let newOrgUsers = orgUsers.filter(orgUser => {
+      let oar = orgUser.getOrgAndRecord(org._id);
+      return (oar && oar.record && oar.record.welcomedAt && new Date(oar.record.welcomedAt).getTime() > nowMinus1Month.getTime());
+    });
+
+    if(newOrgUsers.length > 0) {
+      console.log('orgUsers : ' + orgUsers.length)
+      await asyncForEach(orgUsers, async (orgUser) => {
+        iteration++;
+        let oar = orgUser.getOrgAndRecord(org._id);
+        i18n.setLocale(orgUser.locale);
+        if(orgUser.email.value === 'quentin@wingzy.io')
+          EmailHelper.sendEmailOrgNews(
+            oar.record.getLinkByType('email') || orgUser.email.value,
+            oar.record.name,
+            org,
+            newOrgUsers,
+            i18n
+          );
+      });
+    }
+  });
+  let t2 = new Date();
+
+
+  console.log('execution time : ' + (t2.getTime() - t1.getTime()) + ' ms' );
+  console.log('iterations: ' + iteration);
+
   // get all users in org with record populated
 
   // for each user, send email to record email OR user email at his locale and with his name
