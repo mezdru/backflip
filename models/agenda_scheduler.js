@@ -100,6 +100,12 @@ var Agenda = (function () {
       this.removeJob(job).then(() => done());
     });
 
+    this.agenda.define('recountHashtagsIncludes', async (job, done) => {
+      await AgendaController.recountHashtagsIncludes();
+      this.removeJob(job).then(() => done());
+      this.scheduleJob('recountHashtagsIncludes', {}, '1 week');
+    });
+
 
     this.scheduleJobWithTiming = async function (jobName, data, timingIndex) {
       // @todo : sometimes ID's are mongoose ID object, sometimes String : not the same in storage
