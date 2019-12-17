@@ -2,6 +2,7 @@ const mailjet = require("node-mailjet").connect(
   process.env.MJ_APIKEY_PUBLIC,
   process.env.MJ_APIKEY_PRIVATE
 );
+var undefsafe = require("undefsafe");
 var UrlHelper = require("../helpers/url_helper");
 
 const defaultEmitter = "bonjour@wingzy.com";
@@ -28,6 +29,29 @@ let getLogoUrl = organisation => {
   return organisation && organisation.logo
     ? organisation.logo.url || defaultLogoUrl
     : defaultLogoUrl;
+};
+
+let getUserRecordSmallPicture = (user, orgId) => {
+  try {
+    return resizePicture(
+      user.getOrgAndRecord(orgId).record.picture.url,
+      "100x100"
+    );
+  } catch (e) {
+    console.log(e);
+    return defaultLogoUrl;
+  }
+};
+
+let resizePicture = (pictureUrl, size) => {
+  if (!pictureUrl || !size) return pictureUrl;
+  let urlSplited = pictureUrl.split("/resize/");
+  if (urlSplited.length === 2) {
+    urlSplited[1] = "/" + size + "/";
+    return urlSplited.join("/resize");
+  } else {
+    return pictureUrl;
+  }
 };
 
 /**
@@ -626,6 +650,15 @@ exports.sendEmailOrgNews = (
         "Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!",
         { spRecipientName: recipientName }
       ),
+      profilePicture1:
+        getUserRecordSmallPicture(newUsers[0], organisation._id) ||
+        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      profilePicture2:
+        getUserRecordSmallPicture(newUsers[1], organisation._id) ||
+        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
+      profilePicture3:
+        getUserRecordSmallPicture(newUsers[2], organisation._id) ||
+        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
       ctaText: newUsers.length + " new users !",
       squareIcon:
         "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
@@ -637,6 +670,6 @@ exports.sendEmailOrgNews = (
         "Got any question? feedback? advise? Contact us! <a href='mailto:contact@wingzy.com'>contact us.</a>"
       )
     },
-    "854412"
+    "1141268"
   );
 };
