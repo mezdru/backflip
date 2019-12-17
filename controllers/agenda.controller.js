@@ -63,18 +63,13 @@ exports.sendEmailInviteYourCoworkers = async (user, organisation, record, i18n) 
 }
 
 exports.batchOrganisationsNewsletter = async (i18n) => {
-  console.log('Start batch org news');
   let t1 = new Date();
   let nowMinus1Month = new Date();
   nowMinus1Month.setMonth(nowMinus1Month.getMonth() - 1);
 
   let organisations = await Organisation.find();
-  console.log('organisations : ' + organisations.length);
-
-  let iteration = 0;
 
   await asyncForEach(organisations, async (org) => {
-    iteration++;
     let orgUsers = await User.find({'orgsAndRecords.organisation': org._id})
       .populate('orgsAndRecords.record', '_id tag name links welcomed welcomedAt intro picture');
 
@@ -84,9 +79,7 @@ exports.batchOrganisationsNewsletter = async (i18n) => {
     });
 
     if(newOrgUsers.length > 0) {
-      console.log('orgUsers : ' + orgUsers.length)
       await asyncForEach(orgUsers, async (orgUser) => {
-        iteration++;
         let oar = orgUser.getOrgAndRecord(org._id);
         i18n.setLocale(orgUser.locale);
         if(orgUser.email.value === 'quentin@wingzy.io')
@@ -101,17 +94,7 @@ exports.batchOrganisationsNewsletter = async (i18n) => {
     }
   });
   let t2 = new Date();
-
-
-  console.log('execution time : ' + (t2.getTime() - t1.getTime()) + ' ms' );
-  console.log('iterations: ' + iteration);
-
-  // get all users in org with record populated
-
-  // for each user, send email to record email OR user email at his locale and with his name
-
-  // email : how many new users in org last month ? / new wings ?
-
+  console.log('AGENDA : batchOrganisationsNewsletter : execution time : ' + (t2.getTime() - t1.getTime()) + ' ms' );
 }
 
 exports.recountHashtagsIncludes = async () => {
