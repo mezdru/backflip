@@ -518,5 +518,7 @@
 	"{{senderName}} suggests you skills": "{{senderName}} vous propose des compétences",
 	"Add to my profile": "Ajouter à mon profil",
 	"{{spRecipientName}} has accepted your suggestion of skills": "{{spRecipientName}} a accepté votre proposition de compétences",
-	"Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!": "Grâce à vous, {{spRecipientName}} a ajouté des compétences à son profil. Vos collaborateurs le trouveront maintenant plus facilement !"
+	"Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!": "Grâce à vous, {{spRecipientName}} a ajouté des compétences à son profil. Vos collaborateurs le trouveront maintenant plus facilement !",
+	"{{recipientName}}, there are news in {{orgName}}!": "{{recipientName}}, there are news in {{orgName}}!",
+	"Hey": "Hey"
 }

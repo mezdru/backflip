@@ -9,6 +9,8 @@ const defaultEmitter = "bonjour@wingzy.com";
 const defaultEmitterName = "Wingzy";
 const defaultLink = "https://wingzy.com";
 const defaultBannerUrl = "https://wingzy.com/images/home/fly_away.jpg";
+const defaultProfileUrl =
+  "https://wingzy.com/images/placeholder_person_100.png";
 const defaultLogoUrl = "https://wingzy.com/wingzy.png";
 
 let getTagline = (organisation, res) => {
@@ -31,28 +33,15 @@ let getLogoUrl = organisation => {
     : defaultLogoUrl;
 };
 
-let getUserRecordSmallPicture = (user, orgId) => {
-  try {
-    return resizePicture(
-      user.getOrgAndRecord(orgId).record.picture.url,
-      "100x100"
-    );
-  } catch (e) {
-    console.log(e);
-    return defaultLogoUrl;
-  }
-};
+let getFirstNamesList = (records) => {
+  let string = "";
+  records.forEach( (record, index) => {
+    string += record.name.split(' ')[0];
+    if(index < records.length-1) string += ", ";
+  });
 
-let resizePicture = (pictureUrl, size) => {
-  if (!pictureUrl || !size) return pictureUrl;
-  let urlSplited = pictureUrl.split("/resize/");
-  if (urlSplited.length === 2) {
-    urlSplited[1] = "/" + size + "/";
-    return urlSplited.join("/resize");
-  } else {
-    return pictureUrl;
-  }
-};
+  return string;
+}
 
 /**
  * @description Send an email thanks to Mailjet
@@ -631,38 +620,30 @@ exports.sendEmailOrgNews = (
   recipientEmail,
   recipientName,
   organisation,
-  newUsers,
+  previewRecords,
+  newUsersCount,
+  ctaUrl,
   res
 ) => {
+  let subject = recipientName
+    ? res.__("{{recipientName}}, there are news in {{orgName}}!", {
+        recipientName: recipientName,
+        orgName: organisation.name
+      })
+    : res.__("There are news in {{orgName}}!", {
+        orgName: organisation.name
+      });
   return send(
     recipientEmail,
-    res.__("{{spRecipientName}} has accepted your suggestion of skills", {
-      spRecipientName: recipientName
-    }),
+    subject,
     {
-      title: res.__(
-        "{{spRecipientName}} has accepted your suggestion of skills",
-        {
-          spRecipientName: recipientName
-        }
-      ),
-      text: res.__(
-        "Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!",
-        { spRecipientName: recipientName }
-      ),
-      profilePicture1:
-        getUserRecordSmallPicture(newUsers[0], organisation._id) ||
-        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
-      profilePicture2:
-        getUserRecordSmallPicture(newUsers[1], organisation._id) ||
-        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
-      profilePicture3:
-        getUserRecordSmallPicture(newUsers[2], organisation._id) ||
-        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
-      ctaText: newUsers.length + " new users !",
-      squareIcon:
-        "https://emojis.wiki/emoji-pics/twitter/hugging-face-twitter.png",
-      ctaUrl: "r",
+      title: subject,
+      text: res.__("Hey") + ctaUrl,
+      profilePicture1: previewRecords[0] && previewRecords[0].getResizedPictureUrl(100, 100) || defaultProfileUrl,
+      profilePicture2: previewRecords[1] && previewRecords[1].getResizedPictureUrl(100, 100) || defaultProfileUrl,
+      profilePicture3: previewRecords[2] && previewRecords[2].getResizedPictureUrl(100, 100) || defaultProfileUrl,
+      ctaText: newUsersCount + " new users !",
+      ctaUrl: ctaUrl,
       orgBannerUrl: getBannerUrl(organisation),
       orgLogoUrl: getLogoUrl(organisation),
       tagline: getTagline(organisation, res),

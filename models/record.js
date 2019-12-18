@@ -249,6 +249,50 @@ recordSchema.methods.getIncompleteFields = function() {
   return incompleteFields;
 };
 
+recordSchema.methods.getFirstName = function() {
+  try{
+    return this.name.split(' ')[0];
+  }catch(e) {
+    return this.name;
+  }
+}
+
+recordSchema.methods.getResizedPictureUrl = function(width, height) {
+  if (!this.picture || !this.picture.url || !width || !height) return null;
+  let urlSplited = this.picture.url.split("/resize/");
+  if (urlSplited.length === 2) {
+    urlSplited[1] = "/" + width + "x" + height + "/";
+    return urlSplited.join("/resize");
+  } else {
+    return this.picture.url;
+  }
+}
+
+/**
+ * @description Get array of records with wanted populated fields
+ * @param records Array of records to work with
+ * @param nWanted Number of records wanted in output, if impossible output array can be smaller.
+ * @param arrayOfWantedFields Array of object {field: String, required?: Boolean} field is an expression for undefsafe
+ */
+recordSchema.statics.getNiceRecords = function(records, nWanted, arrayOfWantedFields) {
+  let niceRecords = [];
+  let filterCb = function(record, wantedFields, requiredOnly) {
+    let isWanted = true;
+    wantedFields.forEach(wantedField => {
+      if(!undefsafe(record, wantedField.field) && (requiredOnly ? wantedField.required : true) ) isWanted = false;
+    });
+    return isWanted;
+  }
+
+  // add perfect records (match every requested wanted fields) to output
+  niceRecords.concat(records.filter((r) => filterCb(r, arrayOfWantedFields, false)));
+  if(niceRecords.length >= nWanted) return niceRecords.slice(0, nWanted);
+
+  // add semi perfect records (match every required fields) to output
+  niceRecords.concat(records.filter((r) => filterCb(r, arrayOfWantedFields, true)));
+  return niceRecords.slice(0, nWanted);
+}
+
 // We need this because we don't want our local Records to reference to each other
 // Otherwise there are tons of level of reference (even loops)
 // @todo not sure we need it if we already handle shallow records ;)
