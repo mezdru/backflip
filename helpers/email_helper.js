@@ -36,8 +36,10 @@ let getLogoUrl = organisation => {
 let getFirstNamesList = (records) => {
   let string = "";
   records.forEach( (record, index) => {
-    string += record.name.split(' ')[0];
-    if(index < records.length-1) string += ", ";
+    try {
+      string += record.getFirstName();
+      if(index < records.length-1) string += ", ";
+    }catch(e){}
   });
 
   return string;
@@ -638,11 +640,11 @@ exports.sendEmailOrgNews = (
     subject,
     {
       title: subject,
-      text: ctaUrl,
+      text: getFirstNamesList(previewRecords) + " et " + (newUsersCount - 3) + " others joined your org !",
       profilePicture1: previewRecords[0] && previewRecords[0].getResizedPictureUrl(100, 100) || defaultProfileUrl,
       profilePicture2: previewRecords[1] && previewRecords[1].getResizedPictureUrl(100, 100) || defaultProfileUrl,
       profilePicture3: previewRecords[2] && previewRecords[2].getResizedPictureUrl(100, 100) || defaultProfileUrl,
-      ctaText: newUsersCount + " new users !",
+      ctaText: "See there profiles!",
       ctaUrl: ctaUrl,
       orgBannerUrl: getBannerUrl(organisation),
       orgLogoUrl: getLogoUrl(organisation),

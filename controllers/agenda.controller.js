@@ -127,34 +127,36 @@ exports.batchOrganisationsNewsletter = async i18n => {
 
     if (newOrgUsers.length > 0) {
       await asyncForEach(orgUsers, async orgUser => {
-        let oar = orgUser.getOrgAndRecord(org._id);
-        let now = new Date();
-        i18n.setLocale(orgUser.locale);
-        if (orgUser.email.value === "quentin@wingzy.io")
-          EmailHelper.sendEmailOrgNews(
-            oar.record.getLinkByType("email") || orgUser.email.value,
-            oar.record.name,
-            org,
-            Record.getNiceRecords(newOrgRecords, 3, [
-              { field: "picture.url", required: true },
-              { field: "name", required: true }
-            ]),
-            newOrgUsers.length,
-            new FrontflipUrlHelper(
-              org.tag,
-              `?welcomedAt[gt]=${nowMinus1Month.getFullYear() +
-                "-" +
-                (nowMinus1Month.getMonth()+1) +
-                "-" +
-                nowMinus1Month.getDate()}&welcomedAt[lt]=${now.getFullYear() +
-                "-" +
-                (now.getMonth()+1) +
-                "-" +
-                now.getDate()}`,
-              orgUser.locale
-            ).getUrl(),
-            i18n
-          );
+        if (!orgUser.isUnsubscribe) {
+          let oar = orgUser.getOrgAndRecord(org._id);
+          let now = new Date();
+          i18n.setLocale(orgUser.locale);
+          if (orgUser.email.value === "quentin@wingzy.io")
+            EmailHelper.sendEmailOrgNews(
+              oar.record.getLinkByType("email") || orgUser.email.value,
+              oar.record.name,
+              org,
+              Record.getNiceRecords(newOrgRecords, 3, [
+                { field: "picture.url", required: true },
+                { field: "name", required: true }
+              ]),
+              newOrgUsers.length,
+              new FrontflipUrlHelper(
+                org.tag,
+                `?welcomedAt[gt]=${nowMinus1Month.getFullYear() +
+                  "-" +
+                  (nowMinus1Month.getMonth() + 1) +
+                  "-" +
+                  nowMinus1Month.getDate()}&welcomedAt[lt]=${now.getFullYear() +
+                  "-" +
+                  (now.getMonth() + 1) +
+                  "-" +
+                  now.getDate()}`,
+                orgUser.locale
+              ).getUrl(),
+              i18n
+            );
+        }
       });
     }
   });
