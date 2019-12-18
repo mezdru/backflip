@@ -638,7 +638,7 @@ exports.sendEmailOrgNews = (
     subject,
     {
       title: subject,
-      text: res.__("Hey") + ctaUrl,
+      text: ctaUrl,
       profilePicture1: previewRecords[0] && previewRecords[0].getResizedPictureUrl(100, 100) || defaultProfileUrl,
       profilePicture2: previewRecords[1] && previewRecords[1].getResizedPictureUrl(100, 100) || defaultProfileUrl,
       profilePicture3: previewRecords[2] && previewRecords[2].getResizedPictureUrl(100, 100) || defaultProfileUrl,

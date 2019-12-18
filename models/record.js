@@ -281,15 +281,19 @@ recordSchema.statics.getNiceRecords = function(records, nWanted, arrayOfWantedFi
     wantedFields.forEach(wantedField => {
       if(!undefsafe(record, wantedField.field) && (requiredOnly ? wantedField.required : true) ) isWanted = false;
     });
+    // console.log(record.tag + ' - ' + isWanted);
     return isWanted;
   }
 
   // add perfect records (match every requested wanted fields) to output
-  niceRecords.concat(records.filter((r) => filterCb(r, arrayOfWantedFields, false)));
+  let perfectRecords = records.filter((r) => filterCb(r, arrayOfWantedFields, false))
+  niceRecords = niceRecords.concat(perfectRecords);
   if(niceRecords.length >= nWanted) return niceRecords.slice(0, nWanted);
 
   // add semi perfect records (match every required fields) to output
-  niceRecords.concat(records.filter((r) => filterCb(r, arrayOfWantedFields, true)));
+  let semiPerfectRecords = records.filter((r) => filterCb(r, arrayOfWantedFields, true))
+  niceRecords = niceRecords.concat(semiPerfectRecords);
+
   return niceRecords.slice(0, nWanted);
 }
 
