@@ -84,7 +84,8 @@
     "include": [
       "api/**",
       "controllers/**",
-      "helpers/**"
+      "helpers/**",
+      "models/**"
     ],
     "exclude": [
       "**/old/**"

@@ -257,6 +257,9 @@ recordSchema.methods.getFirstName = function() {
   }
 }
 
+/**
+ * @description Return resized picture url (only for uploadcare url)
+ */
 recordSchema.methods.getResizedPictureUrl = function(width, height) {
   if (!this.picture || !this.picture.url || !width || !height) return null;
   let urlSplited = this.picture.url.split("/resize/");
@@ -277,6 +280,7 @@ recordSchema.methods.getResizedPictureUrl = function(width, height) {
 recordSchema.statics.getNiceRecords = function(records, nWanted, arrayOfWantedFields) {
   let niceRecords = [];
   let filterCb = function(record, wantedFields, requiredOnly) {
+    if(niceRecords.some(elt => elt._id === record._id || elt._id.equals(record._id))) return false;
     let isWanted = true;
     wantedFields.forEach(wantedField => {
       if(!undefsafe(record, wantedField.field) && (requiredOnly ? wantedField.required : true) ) isWanted = false;
