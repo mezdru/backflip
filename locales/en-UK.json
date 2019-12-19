@@ -518,5 +518,6 @@
 	"{{senderName}} suggests you skills": "{{senderName}} suggests you skills",
 	"Add to my profile": "Add to my profile",
 	"{{spRecipientName}} has accepted your suggestion of skills": "{{spRecipientName}} has accepted your suggestion of skills",
-	"Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!": "Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!"
+	"Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!": "Thanks to you, {{spRecipientName}} has added skills to his profile. Your coworkers will now find him more easily!",
+	"{{recipientName}}, there are news in {{orgName}}!": "{{recipientName}}, there are news in {{orgName}}!"
 }
