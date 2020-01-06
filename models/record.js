@@ -74,6 +74,10 @@ var recordSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   personAvailability: {type: String, enum: ['available','unspecified','unavailable']},
   autoAddWithChild: {type: Boolean, default: false},
+  _geoloc: {
+    lat: {type: Number, default: null},
+    lng: {type: Number, default: null}
+  },
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
   hidden: {type: Boolean, default: false},
   welcomed: {type: Boolean, default: false},
@@ -612,6 +616,7 @@ recordSchema.methods.algoliaSync = function() {
       includes_count: this.includes_count,
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
       personAvailability: this.personAvailability,
+      _geoloc: this._geoloc,
       welcomed: this.welcomed,
       welcomedAt: new Date(this.welcomedAt).getTime(),
       autoAddWithChild: this.autoAddWithChild
