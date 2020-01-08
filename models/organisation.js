@@ -40,6 +40,7 @@ var organisationSchema = mongoose.Schema({
   updated: { type: Date, default: Date.now },
   public: { type: Boolean, default: false },
   premium: { type: Boolean, default: false },
+  // @todo : Do not use canInvite, use features.canInvite instead
   canInvite: { type: Boolean, default: true },
   featuredWingsFamily : [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
@@ -57,6 +58,13 @@ var organisationSchema = mongoose.Schema({
     'en-UK': String,
     en: String,
     fr: String
+  },
+  features: {
+    claps: {type: Boolean, default: true},
+    askForHelp: {type: Boolean, default: true},
+    proposeWings: {type: Boolean, default: true},
+    map: {type: Boolean, default: true},
+    canInvite: {type: Boolean, default: true},
   }
 });
 
