@@ -75,8 +75,8 @@ var recordSchema = mongoose.Schema({
   personAvailability: {type: String, enum: ['available','unspecified','unavailable']},
   autoAddWithChild: {type: Boolean, default: false},
   _geoloc: {
-    lat: {type: Number, default: null},
-    lng: {type: Number, default: null}
+    lat: {type: Number},
+    lng: {type: Number}
   },
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
   hidden: {type: Boolean, default: false},
