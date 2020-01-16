@@ -55,13 +55,18 @@ passport.use(new BearerStrategy({ passReqToCallback: true }, function (req, acce
           // token not expired
           if (userSession.user) {
             // User try to access
-            User.findById(userSession.user, function (err, user) {
-              if (err) return done(err);
+            User.findOne({_id: userSession.user})
+            .populate('orgsAndRecords.record')
+            .populate('orgsAndRecords.organisation')
+            .populate('orgsAndRecords.secondaryRecords')
+            .then(user => {
               if (!user) return done(null, false, { message: 'Unknown user' });
               user.last_action = Date.now();
               user.save();
               var info = { scope: '*' };
               done(null, user, info);
+            }).catch(err => {
+              return done(err);
             });
           } else {
             // Client try to access
