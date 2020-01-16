@@ -85,6 +85,12 @@ exports.createSingleRecord = async (req, res, next) => {
   record.name = record.name || recordSaved.name;
   let recordUpdated = await Record.findOneAndUpdate({ '_id': recordSaved._id }, { $set: record }, { new: true }).catch(e => { console.log(e) });
   let recordPopulated = await Record.findOneById(recordUpdated._id).catch(e => console.log(e));
+
+  // add record to user secondaryRecords
+  let oar = req.user.getOrgAndRecord(req.organisation._id); // org is checked before & req.user is the current owner
+  oar.secondaryRecords.push(recordPopulated);
+  req.user.save();
+
   req.backflip = { message: 'Record created with success', data: recordPopulated, status: 200 };
   return next();
 }

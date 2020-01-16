@@ -12,6 +12,7 @@ var userSchema = mongoose.Schema({
       organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null},
       // Can be populated or not, use getId to get Id.
       record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record', default: null},
+      secondaryRecords: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}],
       admin: Boolean,
       monthly: { type: Boolean, default: true },
       welcomed: { type: Boolean, default: false }, // name issue : welcomed should be a date
