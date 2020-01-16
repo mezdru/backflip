@@ -22,7 +22,9 @@ exports.superadminOrClient = async (req, res, next) => {
 exports.resUserAccessOrg = async (req, res, next) => {
   var resData = req.backflip;
 
-  if (req.user.getOrgAndRecord(resData.organisation._id || resData.organisation)) {
+  if (
+    req.user.getOrgAndRecord(resData.organisation._id || resData.organisation)
+  ) {
     return res
       .status(resData.status)
       .json({ message: resData.message, data: resData.data });
@@ -62,9 +64,11 @@ exports.resUserOwnOrAdmin = async (req, res, next) => {
 
 exports.resWithData = async (req, res, next) => {
   var resData = req.backflip;
-  return res
-    .status(resData.status || 200)
-    .json({ message: resData.message, data: resData.data, executionTime: resData.executionTime });
+  return res.status(resData.status || 200).json({
+    message: resData.message,
+    data: resData.data,
+    executionTime: resData.executionTime
+  });
 };
 
 exports.helpRequestUserRecordCheck = async (req, res, next) => {
@@ -114,7 +118,13 @@ exports.userOwnsRecordOrAdmin = async (req, res, next) => {
     var orgAndRecord = req.user.orgsAndRecords.find(orgAndRecord =>
       orgAndRecord.organisation.equals(record.organisation)
     );
-    if (orgAndRecord.admin || orgAndRecord.record.equals(req.params.id))
+
+    if (
+      orgAndRecord.admin ||
+      orgAndRecord.record.equals(req.params.id) ||
+      (orgAndRecord.secondaryRecords &&
+        orgAndRecord.secondaryRecords.some(elt => elt.equals(req.params.id)))
+    )
       return next();
   }
 
