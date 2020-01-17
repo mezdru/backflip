@@ -202,6 +202,8 @@ var LinkHelper = class LinkHelper {
       case 'xing': this.type = 'xing'; this.display = 'Xing'; return;
       case 'youtube': this.type = 'youtube'; this.display = 'Youtube'; return;
       case 'whatsapp': this.type = 'whatsapp'; this.display = 'WhatsApp'; return;
+      case 'doctolib': this.type = 'doctolib'; this.display = 'Doctolib'; return;
+      case 'lafourchette': this.type = 'lafourchette'; this.display = 'La Fourchette'; return;
       default:  this.display = (domain.subdomain && domain.subdomain !== 'www' ? domain.subdomain + '.' : '') + domain.domain + '.' + domain.tld; return;
     }
   }
