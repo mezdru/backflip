@@ -102,7 +102,7 @@ var Agenda = (function () {
       let organisation = await Organisation.findOne({_id : job.attrs.data.orgId});
       let record = await Record.findOne({_id: job.attrs.data.recordId});
 
-      if(!user.isUnsubscribe) {
+      if(!user.isUnsubscribe && organisation.canInvite) {
         await AgendaController.sendEmailInviteYourCoworkers(user, organisation, record, this.i18n);
       }
       
