@@ -65,6 +65,7 @@ var organisationSchema = mongoose.Schema({
     proposeWings: {type: Boolean, default: true},
     map: {type: Boolean, default: true},
     canInvite: {type: Boolean, default: true},
+    secondaryProfiles: {type: Boolean, default: false}
   }
 });
 
