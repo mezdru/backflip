@@ -19,7 +19,8 @@ exports.getSingleOrganisationForPublic = (req, res, next) => {
             cover: organisation.cover,
             public: organisation.public,
             featuredWingsFamily: (organisation.public ? organisation.featuredWingsFamily : []),
-            intro: organisation.intro
+            intro: organisation.intro,
+            features: organisation.features,
           }
         };
       }
