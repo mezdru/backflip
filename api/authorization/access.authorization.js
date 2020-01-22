@@ -121,7 +121,7 @@ exports.userOwnsRecordOrAdmin = async (req, res, next) => {
 
     if (
       orgAndRecord.admin ||
-      orgAndRecord.record.equals(req.params.id) ||
+      (orgAndRecord.record && orgAndRecord.record.equals(req.params.id)) ||
       (orgAndRecord.secondaryRecords &&
         orgAndRecord.secondaryRecords.some(elt => elt.equals(req.params.id)))
     )
