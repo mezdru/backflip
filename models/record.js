@@ -309,7 +309,7 @@ recordSchema.statics.cleanTag = function(tag, type) {
   var prefix = '';
   var body = tag;
 
-  if (type !== 'hashtag' && type !== 'person') type = null;
+  if (type !== 'hashtag' && type !== 'person' && type !== 'event') type = null;
   type = type || Record.getTypeFromTag(tag);
 
   if (tag.charAt(0) === '@' || tag.charAt(0) === '#' ) {
@@ -321,10 +321,10 @@ recordSchema.statics.cleanTag = function(tag, type) {
   if (type === 'hashtag') {
     prefix = '#';
     body = slug(uppercamelcase(body));
-  } else if (type === 'person') {
+  } else if (type === 'person' || type === 'event') {
     prefix = '@';
     body = slug(uppercamelcase(body));
-  }
+  } 
   return prefix + body;
 };
 
