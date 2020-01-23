@@ -87,6 +87,8 @@ var recordSchema = mongoose.Schema({
     fullPlaceName: String,
     placeType: String
   },
+  startDate: {type: Date},
+  endDate: {type: Date},
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
   hidden: {type: Boolean, default: false},
   welcomed: {type: Boolean, default: false},
@@ -628,7 +630,9 @@ recordSchema.methods.algoliaSync = function() {
       _geoloc: this._geoloc,
       location: this.location,
       welcomed: this.welcomed,
-      welcomedAt: new Date(this.welcomedAt).getTime(),
+      welcomedAt: new Date(this.welcomedAt).getTime(), // algolia need timestamp to perform timed search
+      startDate: new Date(this.startDate).getTime(),
+      endDate: new Date(this.endDate).getTime(),
       autoAddWithChild: this.autoAddWithChild
     }, true, function(err, doc) {
       if (err) return console.error(err);
