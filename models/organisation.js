@@ -63,7 +63,7 @@ var organisationSchema = mongoose.Schema({
     claps: {type: Boolean, default: true},
     askForHelp: {type: Boolean, default: true},
     proposeWings: {type: Boolean, default: true},
-    map: {type: Boolean, default: true},
+    map: {type: Boolean, default: false},
     canInvite: {type: Boolean, default: true},
     secondaryProfiles: {type: Boolean, default: false}
   }
