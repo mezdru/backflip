@@ -78,6 +78,15 @@ var recordSchema = mongoose.Schema({
     lat: {type: Number},
     lng: {type: Number}
   },
+  location: {
+    country: String,
+    region: String,
+    postcode: String,
+    locality: String,
+    placeName: String,
+    fullPlaceName: String,
+    placeType: String
+  },
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
   hidden: {type: Boolean, default: false},
   welcomed: {type: Boolean, default: false},
