@@ -78,6 +78,15 @@ var recordSchema = mongoose.Schema({
     lat: {type: Number},
     lng: {type: Number}
   },
+  location: {
+    country: String,
+    region: String,
+    postcode: String,
+    locality: String,
+    placeName: String,
+    fullPlaceName: String,
+    placeType: String
+  },
   // Hidden is used to control the algolia sync, hidden should be passed to false when user onboard
   hidden: {type: Boolean, default: false},
   welcomed: {type: Boolean, default: false},
@@ -617,6 +626,7 @@ recordSchema.methods.algoliaSync = function() {
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
       personAvailability: this.personAvailability,
       _geoloc: this._geoloc,
+      location: this.location,
       welcomed: this.welcomed,
       welcomedAt: new Date(this.welcomedAt).getTime(),
       autoAddWithChild: this.autoAddWithChild
