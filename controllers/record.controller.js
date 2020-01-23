@@ -57,7 +57,7 @@ exports.createSingleRecord = async (req, res, next) => {
 
   // Populate tag thanks to the name if no tag
   if (!record.tag && record.name) {
-    if (record.type === 'person') {
+    if (record.type === 'person' || record.type === 'event') {
       record.tag = '@' + slug(uppercamelcase(record.name));
     } else {
       record.tag = '#' + slug(uppercamelcase(record.name));
