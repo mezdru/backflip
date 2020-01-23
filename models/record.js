@@ -9,7 +9,7 @@ var LinkHelper = require('../helpers/link_helper.js');
 var recordSchema = mongoose.Schema({
   organisation: {type: mongoose.Schema.Types.ObjectId, ref: 'Organisation', default: null, index: true, required: true},
   tag: {type: String, required: true},
-  type: {type: String, enum: ['person', 'team', 'hashtag']},
+  type: {type: String, enum: ['person', 'team', 'hashtag', 'event']},
   name: String,
   name_translated: {
     en: String,
