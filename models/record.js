@@ -626,6 +626,7 @@ recordSchema.methods.algoliaSync = function() {
       hashtags: this.model('Record').shallowCopies(this.hashtags.concat(this.within)),
       personAvailability: this.personAvailability,
       _geoloc: this._geoloc,
+      location: this.location,
       welcomed: this.welcomed,
       welcomedAt: new Date(this.welcomedAt).getTime(),
       autoAddWithChild: this.autoAddWithChild
