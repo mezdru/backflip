@@ -6,6 +6,7 @@ var SlackHelper = require("../helpers/slack_helper");
 var HelpRequest = require("../models/helpRequest");
 var SkillsProposition = require("../models/skillsProposition");
 var FrontflipUrlHelper = require("../helpers/frontflipUrl.helper");
+var undefsafe = require("undefsafe");
 
 exports.unsubscribeCallback = async (req, res, next) => {
   try {
@@ -148,7 +149,9 @@ exports.sendInvitationCodeConfirmation = async (req, res, next) => {
       let orgAndRecordArray = user.orgsAndRecords.filter(orgAndRecord =>
         orgAndRecord.organisation._id.equals(req.params.orgId)
       );
-      let userName = orgAndRecordArray[0].record.name.split(" ")[0];
+      let userName = (
+        undefsafe(orgAndRecordArray[0], "record.name") || ""
+      ).split(" ")[0];
       let organisation = orgAndRecordArray[0].organisation;
       res.setLocale(req.user.locale);
       EmailHelper.emailConfirmationInvitation(
