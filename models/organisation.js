@@ -66,7 +66,8 @@ var organisationSchema = mongoose.Schema({
     map: {type: Boolean, default: false},
     canInvite: {type: Boolean, default: true},
     secondaryProfiles: {type: Boolean, default: false}
-  }
+  },
+  searchTabs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}]
 });
 
 /**
