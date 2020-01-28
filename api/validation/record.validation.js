@@ -7,7 +7,6 @@ var ProperCase = require("proper-case");
 router.use(
   sanitizeBody("record.name")
     .trim()
-    .escape()
     .stripLow(true),
   sanitizeBody("record.intro")
     .trim()
