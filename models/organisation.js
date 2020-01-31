@@ -65,7 +65,8 @@ var organisationSchema = mongoose.Schema({
     proposeWings: {type: Boolean, default: true},
     map: {type: Boolean, default: false},
     canInvite: {type: Boolean, default: true},
-    secondaryProfiles: {type: Boolean, default: false}
+    secondaryProfiles: {type: Boolean, default: false},
+    events: {type: Boolean, default: false}
   },
   searchTabs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}]
 });
