@@ -87,9 +87,14 @@ exports.createSingleRecord = async (req, res, next) => {
   let recordPopulated = await Record.findOneById(recordUpdated._id).catch(e => console.log(e));
 
   // add record to user secondaryRecords
+  let oar = req.user.getOrgAndRecord(req.organisation._id); // org is checked before & req.user is the current owner
   if(recordPopulated.type === 'person') {
-    let oar = req.user.getOrgAndRecord(req.organisation._id); // org is checked before & req.user is the current owner
     oar.secondaryRecords.push(recordPopulated);
+    req.user.save();
+  }
+
+  if(recordPopulated.type === 'event') {
+    oar.events.push(recordPopulated);
     req.user.save();
   }
 
