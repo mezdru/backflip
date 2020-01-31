@@ -59,6 +59,7 @@ passport.use(new BearerStrategy({ passReqToCallback: true }, function (req, acce
             .populate('orgsAndRecords.record')
             .populate('orgsAndRecords.organisation')
             .populate('orgsAndRecords.secondaryRecords')
+            .populate('orgsAndRecords.events')
             .then(user => {
               if (!user) return done(null, false, { message: 'Unknown user' });
               user.last_action = Date.now();

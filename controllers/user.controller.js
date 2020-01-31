@@ -58,6 +58,7 @@ exports.getMe = async (req, res, next) => {
     .populate('orgsAndRecords.organisation')
     .populate('orgsAndRecords.record')
     .populate('orgsAndRecords.secondaryRecords')
+    .populate('orgsAndRecords.events')
 
   req.backflip = { message: 'User fetch with success', status: 200, data: me, owner: req.user._id };
   return next();
@@ -127,6 +128,7 @@ exports.updateOrgAndRecord = async (req, res, next) => {
       .populate('orgsAndRecords.record')
       .populate('orgsAndRecords.organisation')
       .populate('orgsAndRecords.secondaryRecords')
+      .populate('orgsAndRecords.events')
       .then((user) => {
         user.welcomeToOrganisation(organisationId, (err, userUpdated) => {
           if (err) {

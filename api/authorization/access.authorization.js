@@ -123,7 +123,9 @@ exports.userOwnsRecordOrAdmin = async (req, res, next) => {
       orgAndRecord.admin ||
       (orgAndRecord.record && orgAndRecord.record.equals(req.params.id)) ||
       (orgAndRecord.secondaryRecords &&
-        orgAndRecord.secondaryRecords.some(elt => elt.equals(req.params.id)))
+        orgAndRecord.secondaryRecords.some(elt => elt.equals(req.params.id))) ||
+      (orgAndRecord.events &&
+        orgAndRecord.events.some(elt => elt.equals(req.params.id)))
     )
       return next();
   }
