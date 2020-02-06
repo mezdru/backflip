@@ -1,6 +1,5 @@
 # backflip
 
-**Wingzy** removes everything that stands between coworkers.
-This is a MVP build with NodeJS+Algolia.
+**Wingzy** is the operational skill directory.
 
-(cc-by-nc-sa) 2016-2020 [Clément Dietschy](https://www.linkedin.com/in/clementdietschy)
+(copyright) 2016-2020 [Clément Dietschy](https://www.linkedin.com/in/clementdietschy)
