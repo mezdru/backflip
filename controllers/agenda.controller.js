@@ -54,27 +54,38 @@ exports.sendEmailPerfectYourProfile = async (
     if (err) {
       return;
     }
+
+    const unsubscribeUrl = new UrlHelper(
+      null,
+      "api/emails/unsubscribe/" +
+        userUpdated.email.token +
+        "/" +
+        userUpdated.email.hash,
+      null,
+      null
+    ).getUrl();
+
+    const startOnboardUrl = new FrontflipUrlHelper(
+      organisation.tag,
+      "/onboard/intro/edit/" + record.tag,
+      userUpdated.locale
+    ).getUrl();
+
+    const appOrganisationUrl = new FrontflipUrlHelper(
+      organisation.tag,
+      "",
+      userUpdated.locale
+    ).getUrl();
+
     EmailHelper.emailIncompleteProfile(
       record.getLinkByType("email") || user.loginEmail,
       organisation,
       record.name,
       incompleteFields,
       Math.max(100 - incompleteFields.length * 9, 50),
-      new FrontflipUrlHelper(
-        organisation.tag,
-        "/onboard/intro/edit/" + record.tag,
-        userUpdated.locale
-      ).getUrl(),
-      new FrontflipUrlHelper(organisation.tag, "", userUpdated.locale).getUrl(),
-      new UrlHelper(
-        null,
-        "api/emails/unsubscribe/" +
-          userUpdated.email.token +
-          "/" +
-          userUpdated.email.hash,
-        null,
-        null
-      ).getUrl(),
+      startOnboardUrl,
+      appOrganisationUrl,
+      unsubscribeUrl,
       userUpdated.locale,
       i18n
     );
@@ -94,22 +105,22 @@ exports.sendEmailInviteYourCoworkers = async (
 };
 
 exports.batchOrganisationsNewsletter = async i18n => {
-  let t1 = new Date();
+  const t1 = new Date();
   let nowMinus1Month = new Date();
   nowMinus1Month.setMonth(nowMinus1Month.getMonth() - 1);
 
-  let organisations = await Organisation.find();
+  const organisations = await Organisation.find();
 
   await asyncForEach(organisations, async org => {
-    let orgUsers = await User.find({
+    const orgUsers = await User.find({
       "orgsAndRecords.organisation": org._id
     }).populate(
       "orgsAndRecords.record",
       "_id tag name links welcomed welcomedAt intro picture"
     );
 
-    let newOrgUsers = orgUsers.filter(orgUser => {
-      let oar = orgUser.getOrgAndRecord(org._id);
+    const newOrgUsers = orgUsers.filter(orgUser => {
+      const oar = orgUser.getOrgAndRecord(org._id);
       return (
         oar &&
         oar.record &&
@@ -117,7 +128,7 @@ exports.batchOrganisationsNewsletter = async i18n => {
         new Date(oar.record.welcomedAt).getTime() > nowMinus1Month.getTime()
       );
     });
-    let newOrgRecords = newOrgUsers.map(newUser => {
+    const newOrgRecords = newOrgUsers.map(newUser => {
       try {
         return newUser.getOrgAndRecord(org._id).record;
       } catch (e) {
@@ -125,42 +136,50 @@ exports.batchOrganisationsNewsletter = async i18n => {
       }
     });
 
-    if (newOrgUsers.length > 0) {
+    const niceRecords = Record.getNiceRecords(newOrgRecords, 3, [
+      { field: "picture.url", required: true },
+      { field: "name", required: true }
+    ]);
+
+    if (
+      newOrgUsers.length > 0 &&
+      newOrgRecords.length > 0 &&
+      niceRecords.length > 0
+    ) {
       await asyncForEach(orgUsers, async orgUser => {
         if (!orgUser.isUnsubscribe) {
-          let oar = orgUser.getOrgAndRecord(org._id);
-          let now = new Date();
+          const oar = orgUser.getOrgAndRecord(org._id);
+          const now = new Date();
+          const appSearchFilteredUrl = new FrontflipUrlHelper(
+            org.tag,
+            `?welcomedAt[gt]=${nowMinus1Month.getFullYear() +
+              "-" +
+              (nowMinus1Month.getMonth() + 1) +
+              "-" +
+              nowMinus1Month.getDate()}&welcomedAt[lt]=${now.getFullYear() +
+              "-" +
+              (now.getMonth() + 1) +
+              "-" +
+              now.getDate()}`,
+            orgUser.locale
+          ).getUrl();
+
           i18n.setLocale(orgUser.locale);
           if (orgUser.email.value === "quentin@wingzy.io")
             EmailHelper.sendEmailOrgNews(
               oar.record.getLinkByType("email") || orgUser.email.value,
               oar.record.name,
               org,
-              Record.getNiceRecords(newOrgRecords, 3, [
-                { field: "picture.url", required: true },
-                { field: "name", required: true }
-              ]),
+              niceRecords,
               newOrgUsers.length,
-              new FrontflipUrlHelper(
-                org.tag,
-                `?welcomedAt[gt]=${nowMinus1Month.getFullYear() +
-                  "-" +
-                  (nowMinus1Month.getMonth() + 1) +
-                  "-" +
-                  nowMinus1Month.getDate()}&welcomedAt[lt]=${now.getFullYear() +
-                  "-" +
-                  (now.getMonth() + 1) +
-                  "-" +
-                  now.getDate()}`,
-                orgUser.locale
-              ).getUrl(),
+              appSearchFilteredUrl,
               i18n
             );
         }
       });
     }
   });
-  let t2 = new Date();
+  const t2 = new Date();
   console.log(
     "AGENDA : batchOrganisationsNewsletter : execution time : " +
       (t2.getTime() - t1.getTime()) +
