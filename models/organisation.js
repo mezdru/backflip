@@ -68,7 +68,14 @@ var organisationSchema = mongoose.Schema({
     secondaryProfiles: {type: Boolean, default: false},
     events: {type: Boolean, default: false}
   },
-  searchTabs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}]
+  searchTabs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}],
+  mapSettings: {
+    defaultZoom: Number,
+    defaultCoords: {
+      lat: Number,
+      lng: Number
+    }
+  }
 });
 
 /**
