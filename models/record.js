@@ -610,7 +610,6 @@ recordSchema.methods.algoliaSync = function() {
   } else {
     this.hashtags = this.hashtags || [];
     this.within = this.within || [];
-    this.sortLinks();
     index.partialUpdateObject({
       objectID: this._id.toString(),
       organisation: getId(this.organisation),
@@ -639,43 +638,6 @@ recordSchema.methods.algoliaSync = function() {
       console.log(`Synced ${doc.objectID} with Algolia`);
     });
   }
-};
-
-recordSchema.methods.sortLinks = function(featuredLinksTypes) {
-  featuredLinksTypes = featuredLinksTypes || undefsafe(this.organisation, 'featuredLinksTypes') || [];
-  var featuredLinks = [];
-  featuredLinksTypes.forEach(linkType => {
-    let movedLinkIndex = this.links.findIndex(link => link.type === linkType);
-    if (movedLinkIndex > -1) {
-      let movedLink = this.links.splice(movedLinkIndex, 1);
-      featuredLinks = featuredLinks.concat(movedLink);
-    }
-  });
-  this.links = featuredLinks.concat(this.links);
-};
-
-//@todo remove
-recordSchema.statics.getValidationSchema = function(res) {
-  return {
-    name: {
-      isLength: {
-        options: [{ min: 1, max: 64 }],
-        errorMessage: res.__('Please write a name (no larger than 64 characters).') // Error message for the validator, takes precedent over parameter message
-      }
-    },
-    description: {
-      isLength: {
-        options: [{max: 2048}],
-        errorMessage: res.__('Please write a description no larger than 2048 characters.') // Error message for the validator, takes precedent over parameter message
-      }
-    },
-    intro: {
-      isLength: {
-        options: [{max: 256}],
-        errorMessage: res.__('Please write an intro no larger than 256 characters.') // Error message for the validator, takes precedent over parameter message
-      }
-    }
-  };
 };
 
 recordSchema.methods.promoteToAll = function(callback) {
@@ -713,7 +675,6 @@ recordSchema.statics.getTheAllOrganisationId = function() {
 
 recordSchema.pre('save', function(next) {
   this.updated = Date.now();
-  // if(this.type !== 'person') next();
   if(this.isNew){
     Record.findOne({'tag': this.tag, 'organisation': this.organisation})
     .then(recordDup => {

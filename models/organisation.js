@@ -45,10 +45,6 @@ var organisationSchema = mongoose.Schema({
   featuredWingsFamily : [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
   ],
-  featuredLinksTypes: [String],
-  onboardSteps: [
-    String
-  ],
   intro: {
     'en-UK': String,
     en: String,
@@ -59,6 +55,12 @@ var organisationSchema = mongoose.Schema({
     en: String,
     fr: String
   },
+  onboardSteps: [
+    String
+  ],
+  onboardLinks: [
+    String
+  ],
   features: {
     claps: {type: Boolean, default: true},
     askForHelp: {type: Boolean, default: true},
