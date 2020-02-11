@@ -9,7 +9,7 @@ exports.getSingleOrganisationForPublic = (req, res, next) => {
     .populate('settings.search.tabs', '_id name name_translated picture tag intro intro_translated')
     .then(org => {
 
-      if (!organisation) {
+      if (!org) {
         req.backflip = { message: 'Organisation not found', status: 404 };
       } else {
         req.backflip = {
