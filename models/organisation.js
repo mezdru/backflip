@@ -26,15 +26,6 @@ var organisationSchema = mongoose.Schema({
   style: {
     css: String
   },
-  codes: [
-    {
-      _id: false,
-      value: String,
-      creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
-      starts: { type: Date, default: Date.now },
-      ends: { type: Date, default: Date.now }
-    }
-  ],
   creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
@@ -42,25 +33,11 @@ var organisationSchema = mongoose.Schema({
   premium: { type: Boolean, default: false },
   // @todo : Do not use canInvite, use features.canInvite instead
   canInvite: { type: Boolean, default: true },
-  featuredWingsFamily : [
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Record'}
-  ],
   intro: {
     'en-UK': String,
     en: String,
     fr: String
   },
-  onboardWelcome: {
-    'en-UK': String,
-    en: String,
-    fr: String
-  },
-  onboardSteps: [
-    String
-  ],
-  onboardLinks: [
-    String
-  ],
   features: {
     claps: {type: Boolean, default: true},
     askForHelp: {type: Boolean, default: true},
@@ -70,12 +47,31 @@ var organisationSchema = mongoose.Schema({
     secondaryProfiles: {type: Boolean, default: false},
     events: {type: Boolean, default: false}
   },
-  searchTabs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}],
-  mapSettings: {
-    defaultZoom: Number,
-    defaultCoords: {
-      lat: Number,
-      lng: Number
+  settings: {
+    auth: {
+      providers: [String]
+    },
+    map: {
+      defaultZoom: Number,
+      defaultCoords: {
+        lat: Number,
+        lng: Number
+      }
+    },
+    onboard: {
+      steps: [String],
+      links: [String],
+      welcomeMessage: {
+        'en-UK': String,
+        en: String,
+        fr: String
+      },
+    },
+    search: {
+      tabs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}]
+    },
+    wings: {
+      families: [{type: mongoose.Schema.Types.ObjectId, ref: 'Record'}]
     }
   }
 });
@@ -187,22 +183,6 @@ organisationSchema.methods.populateRecords = function(includeAll, callback) {
     }.bind(this));
 };
 
-organisationSchema.methods.getFeaturedWingsRecords = function(){
-  return Record.find({'organisation': this._id, 'hashtags' : {'$in': this.featuredWingsFamily}, 'type': 'hashtag'})
-    .populate('hashtags', '_id organisation tag name description')
-    .exec().then((records)=>{
-      if(records.length === 0 ){
-        return Record.find({organisation: Organisation.getTheAllOrganisationId(), hashtags: process.env.DEFAULT_SOFTWING_ID})
-        .populate('hashtags', '_id organisation tag name description')
-        .exec().then((defaultRecords)=>{
-          return defaultRecords;
-        });
-      }else{
-        return records;
-      }
-    });
-}
-
 // Old method to get first soft wings
 organisationSchema.statics.getTheWings = function(req, res, next) {
   Record.findOne({organisation: Organisation.getTheAllOrganisationId(), tag: "#Wings" }, function(err, wingRecord) {
@@ -216,24 +196,6 @@ organisationSchema.statics.getTheWings = function(req, res, next) {
     }.bind(this));
   }.bind(this));
 };
-
-organisationSchema.methods.populateFirstWings = function(){
-  this.featuredWingsFamily.length===0 ? this.featuredWingsFamily.push(process.env.DEFAULT_SOFTWING_ID):'';
-  return this.populate('featuredWingsFamily', '_id tag name intro').execPopulate();
-}
-
-organisationSchema.methods.addFeaturedWingsFamily = function(recordId){
-  this.isInFeaturedWingsFamilyArray(recordId) ? '' : this.featuredWingsFamily.push(recordId);
-  return this.save();
-}
-organisationSchema.methods.removeFeaturedWingsFamily = function(recordId){
-  this.isInFeaturedWingsFamilyArray(recordId) ? this.featuredWingsFamily.splice(this.featuredWingsFamily.indexOf(recordId), 1) : '';
-  return this.save();
-}
-
-organisationSchema.methods.isInFeaturedWingsFamilyArray = function(recordId){
-  return this.featuredWingsFamily.some(record=> record.equals(recordId));
-}
 
 /**
  * @description Get login message of the organisation by locale chosen. Default: english message.

@@ -1,28 +1,28 @@
 var Organisation = require('../models/organisation');
 var algoliaOrganisation = require('../models/algolia/algolia_organisation');
 var KeenHelper = require('../helpers/keen_helper');
+var undefsafe = require('undefsafe');
 
 exports.getSingleOrganisationForPublic = (req, res, next) => {
   Organisation.findOne({ ...req.query })
-    .populate('featuredWingsFamily', '_id name name_translated picture tag intro intro_translated')
-    .populate('searchTabs', '_id name name_translated picture tag intro intro_translated')
-    .then(organisation => {
+    .populate('settings.wings.families', '_id name name_translated picture tag intro intro_translated')
+    .populate('settings.search.tabs', '_id name name_translated picture tag intro intro_translated')
+    .then(org => {
 
       if (!organisation) {
         req.backflip = { message: 'Organisation not found', status: 404 };
       } else {
         req.backflip = {
           message: 'Organisation found for public', status: 200, data: {
-            _id: organisation._id,
-            tag: organisation.tag,
-            name: organisation.name,
-            logo: organisation.logo,
-            cover: organisation.cover,
-            public: organisation.public,
-            featuredWingsFamily: (organisation.public ? organisation.featuredWingsFamily : []),
-            intro: organisation.intro,
-            features: organisation.features,
-            searchTabs: organisation.searchTabs
+            _id: org._id,
+            tag: org.tag,
+            name: org.name,
+            logo: org.logo,
+            cover: org.cover,
+            public: org.public,
+            intro: org.intro,
+            features: org.features,
+            settings: (org.public ? org.settings : {auth: undefsafe(org, 'settings.auth')})
           }
         };
       }
@@ -32,8 +32,8 @@ exports.getSingleOrganisationForPublic = (req, res, next) => {
 
 exports.getSingleOrganisation = (req, res, next) => {
   Organisation.findOne({ _id: req.params.id })
-    .populate('featuredWingsFamily', '_id name name_translated picture tag intro intro_translated')
-    .populate('searchTabs', '_id name name_translated picture tag intro intro_translated')
+    .populate('settings.wings.families', '_id name name_translated picture tag intro intro_translated')
+    .populate('settings.search.tabs', '_id name name_translated picture tag intro intro_translated')
     .then(organisation => {
       if (!organisation) {
         req.backflip = { message: 'Organisation not found', status: 404 };

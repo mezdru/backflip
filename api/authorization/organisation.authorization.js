@@ -21,7 +21,9 @@ let check = async (req, res, next) => {
 	if (!req.user || (req.user.email && req.user.email.value && !req.user.email.validated))
 		return res.status(403).json({ message: 'Email not validated', email: req.user.email.value });
 
-	let organisation = await Organisation.findOne({_id: req.organisationId}).populate('featuredWingsFamily', '_id tag type name name_translated picture intro')
+	let organisation = await Organisation.findOne({_id: req.organisationId})
+		.populate('settings.wings.families', '_id tag type name name_translated picture intro')
+		.populate('settings.search.tabs', '_id tag type name name_translated picture intro')
 													.catch(err => {
 														console.log(err);
 														return res.status(500).json({ message: 'Internal error', errors: [err] });
