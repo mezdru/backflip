@@ -51,8 +51,8 @@ exports.resUserOwnOrAdmin = async (req, res, next) => {
     );
     if (
       orgAndRecord &&
-      data &&
-      (orgAndRecord.admin || orgAndRecord.record === data._id)
+      resData.data &&
+      (orgAndRecord.admin || orgAndRecord.record.equals(resData.data))
     )
       return res
         .status(resData.status)
